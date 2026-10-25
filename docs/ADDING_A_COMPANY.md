@@ -94,7 +94,7 @@ python3 tools/build.py          # 產生 <path>/index.html、首頁、dist/artif
 commit 並 push 到 `main`，GitHub Pages 會自動重新部署（根目錄、main 分支）。
 
 ### ⑪ Artifact
-Artifact 是**單一合併版**：`python3 tools/build.py` 會把新公司自動加成 `dist/artifacts/all.html` 的新分頁。用 Artifact 工具發佈 `dist/artifacts/all.html` 到 `companies.json` 的 `site.artifact`（帶同一個 `url`），不必為新公司另開 Artifact。個別的 `dist/artifacts/<代號>.html` 僅供需要單獨分享時使用。
+Artifact 是**單一合併版**：`python3 tools/build.py` 會把新公司自動加成 `dist/artifacts/all.html` 的新分頁。用 Artifact 工具發佈 `dist/artifacts/all.html` 到 `companies.json` 的 `site.artifact`（帶同一個 `url`），不必為新公司另開 Artifact。`dist/artifacts/<代號>.html` 為相容舊排程指令，內容同樣是合併版，各公司的 `artifact` 欄位也都填同一個合併版網址。
 
 ## 4. 完成後要告訴使用者
 網站網址、資料涵蓋期間、**取不到的欄位**、選了哪些預設、下一次排程什麼時候會更新這家公司。

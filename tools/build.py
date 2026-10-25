@@ -137,6 +137,10 @@ def build_combined(cfg, companies, datasets, theme, common):
              '<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>\n'
              "<script>" + SHELL_JS.replace("__VIEWS__", js_json(views)) + "</script>\n")
     write(shell, "dist", "artifacts", "all.html")
+    # 相容：舊排程指令仍會發佈 dist/artifacts/<代號>.html 到各公司的 artifact 網址；
+    # 這些網址現在都指向合併版，所以內容也一律用合併版，避免單一公司頁蓋掉合併版。
+    for c in companies:
+        write(shell, "dist", "artifacts", c["code"] + ".html")
     print("dist/artifacts/all.html（合併版 Artifact）")
 
 
