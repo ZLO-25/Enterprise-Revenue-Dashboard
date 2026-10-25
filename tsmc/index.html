@@ -1,0 +1,1106 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>台積電財報追蹤板</title><meta name="description" content="台積電（2330）2015 年以來月營收、季報、資本支出、製程結構、技術里程碑與建廠時程追蹤。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: report column (max 1180px) — sticky section nav, KPI strip, then one section per metric family; charts sit two-up on wide screens, one-up on phones. */
+:root {
+  --page: #f3f3ef;
+  --surface: #fcfcfb;
+  --ink: #121211;
+  --ink-2: #4f4e4a;
+  --muted: #6c6a64;
+  --tick: #898781;
+  --grid: #e4e3dc;
+  --axis: #c3c2b7;
+  --line: rgba(11, 11, 11, 0.10);
+  --wash: rgba(42, 120, 214, 0.08);
+  --accent: #1c5cab;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --neg: #e34948;
+  --pos-soft: #86b6ef;
+  --n7: #86b6ef; --n5: #3987e5; --n3: #1c5cab; --n2: #0d366b;
+  --good-text: #006300;
+  --bad-text: #b42f2f;
+  --chip-bg: #e8f0fb; --chip-ink: #184f95;
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "Noto Sans TC", "IBM Plex Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem; --step-4: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+    --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+    --accent: #6da7ec;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --neg: #e66767; --pos-soft: #5598e7;
+    --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+    --good-text: #3fbf3f; --bad-text: #f08080;
+    --chip-bg: #16304f; --chip-ink: #b7d3f6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+  --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+  --accent: #6da7ec;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --neg: #e66767; --pos-soft: #5598e7;
+  --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+  --good-text: #3fbf3f; --bad-text: #f08080;
+  --chip-bg: #16304f; --chip-ink: #b7d3f6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; font-family: var(--font-ui); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-top: 28px; }
+.eyebrow { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.masthead h1 .code { font-family: var(--font-data); font-weight: 500; font-size: 0.55em; color: var(--muted); letter-spacing: 0; margin-left: 0.4em; vertical-align: 0.2em; }
+.lede { color: var(--ink-2); max-width: 68ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step-0); color: var(--muted); font-family: var(--font-data); }
+.meta-row b { color: var(--ink); font-weight: 500; }
+
+/* nav */
+.secnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.secnav .scroller { max-width: 1180px; margin-inline: auto; display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.secnav .scroller::-webkit-scrollbar { display: none; }
+.secnav a { flex: none; text-decoration: none; color: var(--ink-2); font-size: var(--step-0); padding: 6px 12px; border-radius: 999px; }
+.secnav a:hover { background: var(--wash); color: var(--ink); }
+
+/* cadence strip */
+.cadence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.cadence > div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cadence > div + div { border-left: 1px solid var(--line); }
+.cadence .when { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.cadence .what { font-weight: 600; }
+.cadence .which { font-size: var(--step-0); color: var(--ink-2); }
+@media (max-width: 720px) {
+  .cadence { grid-template-columns: minmax(0, 1fr); }
+  .cadence > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi:last-child { grid-column: 1 / -1; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 0.8rem; color: var(--muted); }
+.kpi .value { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+.kpi .value small { font-size: 0.55em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.kpi .delta { font-size: 0.8rem; color: var(--ink-2); font-family: var(--font-data); }
+.up { color: var(--good-text); }
+.down { color: var(--bad-text); }
+.chip { justify-self: start; font-size: 0.7rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+
+/* sections */
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+.sec-head .sub { color: var(--ink-2); max-width: 72ch; font-size: 0.95rem; }
+.sec-tag { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.card.wide { grid-column: 1 / -1; }
+.card h3 { font-size: 1.02rem; font-weight: 600; }
+.card .how { font-size: 0.88rem; color: var(--ink-2); }
+.card .how b { color: var(--ink); font-weight: 600; }
+.chartbox { position: relative; height: 300px; width: 100%; }
+.chartbox.short { height: 190px; }
+.chartbox.tall { height: 340px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls .lab { font-size: 0.8rem; color: var(--muted); margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 0.82rem; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+
+/* waterfall */
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 7.5rem; gap: 12px; align-items: center; font-size: 0.86rem; }
+.wf-row .nm { color: var(--ink-2); min-width: 0; }
+.wf-row.total .nm { color: var(--ink); font-weight: 600; }
+.wf-track { position: relative; height: 18px; }
+.wf-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.wf-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; }
+.wf-row .v { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.8rem; }
+.wf-row .v em { font-style: normal; color: var(--muted); display: block; font-size: 0.72rem; }
+@media (max-width: 560px) {
+  .wf-row { grid-template-columns: minmax(0, 1fr) 6.5rem; }
+  .wf-row .wf-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* notes */
+.note { font-size: 0.86rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.callout { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 6px; }
+.callout b { color: var(--ink); }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+th { font-weight: 600; color: var(--ink-2); background: var(--surface); position: sticky; top: 0; font-family: var(--font-cjk); }
+td { font-family: var(--font-data); color: var(--ink); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td .y { display: block; font-size: 0.68rem; }
+td.tot { font-weight: 500; background: var(--wash); }
+.tbl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.btn { font: inherit; font-size: 0.82rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--wash); }
+.copied { font-size: 0.8rem; color: var(--good-text); }
+
+/* glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.gloss { margin: 0; }
+.gloss .item { padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.gloss dt { font-weight: 600; }
+.gloss dt code { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.gloss dd { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.gloss dd .f { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink); background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+.sources { font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 8px; }
+.sources ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+footer { font-size: 0.78rem; color: var(--muted); }
+
+/* timelines */
+.gantt-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px 12px 4px; }
+.gantt { min-width: 780px; display: grid; }
+.g-row { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; border-bottom: 1px solid var(--grid); }
+.g-row:last-child { border-bottom: 0; }
+.g-row .nm { font-size: 0.84rem; line-height: 1.3; min-width: 0; }
+.g-row .nm small { display: block; color: var(--muted); font-size: 0.7rem; }
+.g-track { position: relative; height: 28px; }
+.g-axis .g-track { height: 22px; }
+.g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--tick); }
+.g-grid { position: absolute; top: -6px; bottom: -6px; border-left: 1px solid var(--grid); }
+.g-today { position: absolute; top: -6px; bottom: -6px; border-left: 1.5px dashed var(--s8); }
+.g-line { position: absolute; top: 13px; height: 2px; background: var(--axis); }
+.g-line.plan { background: repeating-linear-gradient(90deg, var(--axis) 0 4px, transparent 4px 8px); }
+.g-mk { position: absolute; top: 7px; width: 14px; height: 14px; margin-left: -7px; background: var(--c); border: 2px solid var(--c); cursor: pointer; padding: 0; }
+.g-mk.plan { background: var(--surface); }
+.g-mk.k-a { transform: rotate(45deg) scale(0.82); }
+.g-mk.k-g { border-radius: 2px; }
+.g-mk.k-c { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: 0; }
+.g-mk.k-c.plan { opacity: 0.45; }
+.g-mk.k-m { border-radius: 50%; }
+.g-mk.unc { border-style: dashed; background: var(--surface); opacity: 0.8; }
+.g-mk.k-c.unc { opacity: 0.35; }
+.unc-chip { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0 6px; margin-left: 6px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); vertical-align: 1px; white-space: nowrap; }
+.g-mk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.g-info { font-size: 0.86rem; color: var(--ink-2); min-height: 1.6em; }
+.g-info b { color: var(--ink); }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); align-items: center; }
+.g-key span { display: inline-flex; align-items: center; gap: 6px; }
+.g-key .g-mk { position: static; margin: 0; cursor: default; }
+.st-plan { color: var(--muted); }
+td.txt, th.txt { text-align: left; white-space: normal; min-width: 16rem; font-family: var(--font-cjk); }
+td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
+
+/* shared site chrome */
+.homelink { font-weight: 600; color: var(--accent) !important; }
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+</style>
+
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="../">← 所有公司</a>
+    <a href="#overview">總覽</a>
+    <a href="#monthly">月營收</a>
+    <a href="#profit">獲利能力</a>
+    <a href="#eps">EPS 與股利</a>
+    <a href="#capex">資本支出與現金流</a>
+    <a href="#mix">營收結構</a>
+    <a href="#tech">技術里程碑</a>
+    <a href="#fabs">建廠時程</a>
+    <a href="#tables">數據表</a>
+    <a href="#glossary">指標小辭典</a>
+    <a href="#sources">資料來源</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="overview">
+    <div class="eyebrow" id="eyebrow">TWSE 2330 · NYSE TSM</div>
+    <h1>台積電財報追蹤板<span class="code">2330</span></h1>
+    <p class="lede">把 2015 年以來每個月的營收、每一季的毛利率、淨利、EPS、資本支出、現金流與產品結構放在同一頁。金額單位都是新台幣「億元」，資本支出年度總額用「億美元」，跟台積電法說會的寫法一致。</p>
+    <div class="meta-row" id="metaRow"></div>
+  </header>
+
+  <div class="cadence" aria-label="資料公布節奏">
+    <div><span class="when">每月 10 日前</span><span class="what">月營收</span><span class="which">只有營收一個數字，最快反映生意好壞</span></div>
+    <div><span class="when">每季法說會（1、4、7、10 月中）</span><span class="what">季報</span><span class="which">毛利率、營益率、淨利、EPS、資本支出、製程與平台占比</span></div>
+    <div><span class="when">每季董事會</span><span class="what">股利與資本預算</span><span class="which">核准每季現金股利、核准資本支出額度</span></div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="callout">
+    <b>接下來</b>
+    <span id="nextText"></span>
+  </div>
+
+  <section id="monthly">
+    <div class="sec-head">
+      <span class="sec-tag" id="tagMonthly">每月公布</span>
+      <h2>月營收</h2>
+      <p class="sub">月營收是唯一「每個月」都有的數字，所以市場拿它來提前猜季報。看的重點是年增率（跟去年同月比），因為不同月份本來就有季節差異。</p>
+    </div>
+    <div class="controls" role="group" aria-label="月營收期間">
+      <span class="lab">期間</span>
+      <div class="seg" id="rangeSeg">
+        <button type="button" id="r-all" data-r="all" aria-pressed="true">全部</button>
+        <button type="button" id="r-36" data-r="36" aria-pressed="false">近 36 個月</button>
+        <button type="button" id="r-12" data-r="12" aria-pressed="false">近 12 個月</button>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3>每月合併營收（億元）</h3>
+        <p class="how" id="howMonthly"></p>
+        <div class="chartbox"><canvas id="cMonthly" aria-label="每月營收長條圖"></canvas></div>
+      </div>
+      <div class="card wide">
+        <h3>月營收年增率（%）</h3>
+        <p class="how" id="howYoY"></p>
+        <div class="chartbox short"><canvas id="cYoY" aria-label="月營收年增率長條圖"></canvas></div>
+      </div>
+      <div class="card wide">
+        <div class="tbl-bar">
+          <h3>每年疊在一起看季節性</h3>
+          <div class="seg" id="ovSeg" role="group" aria-label="單月或累計">
+            <button type="button" id="ov-m" data-v="m" aria-pressed="true">單月</button>
+            <button type="button" id="ov-c" data-v="c" aria-pressed="false">累計</button>
+          </div>
+        </div>
+        <p class="how" id="howOverlay"></p>
+        <div class="legend" id="ovLegend"></div>
+        <div class="chartbox tall"><canvas id="cOverlay" aria-label="各年度月營收折線圖"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profit">
+    <div class="sec-head">
+      <span class="sec-tag" id="tagProfit">每季公布</span>
+      <h2>獲利能力</h2>
+      <p class="sub">營收說明賣了多少，利潤率說明賺得多有效率。下面先用最新一季示範一塊錢營收怎麼一路變成淨利，再看長期趨勢。</p>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3 id="wfTitle">從營收到淨利（億元）</h3>
+        <p class="how" id="howWF"></p>
+        <div class="wf" id="wf"></div>
+        <p class="note" id="wfNote"></p>
+      </div>
+      <div class="card">
+        <h3>季營收與淨利（億元）</h3>
+        <p class="how" id="howRevNi"></p>
+        <div class="legend" id="lgRevNi"></div>
+        <div class="chartbox"><canvas id="cRevNi" aria-label="季營收與淨利"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>毛利率、營益率、淨利率（%）</h3>
+        <p class="how" id="howMargin"></p>
+        <div class="legend" id="lgMargin"></div>
+        <div class="chartbox"><canvas id="cMargin" aria-label="三率折線圖"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="eps">
+    <div class="sec-head">
+      <span class="sec-tag">每季公布</span>
+      <h2>EPS 與股利</h2>
+      <p class="sub">EPS 是每一股分到的淨利；台積電每季配一次現金股利，金額由董事會在季報後核准。</p>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3>每股盈餘與每股現金股利（元）</h3>
+        <p class="how" id="howEps"></p>
+        <div class="legend" id="lgEps"></div>
+        <div class="chartbox"><canvas id="cEps" aria-label="EPS 與股利"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capex">
+    <div class="sec-head">
+      <span class="sec-tag">每季公布 · 年度預算</span>
+      <h2>資本支出與現金流</h2>
+      <p class="sub">資本支出（CapEx）是蓋廠、買機台的錢，代表公司對未來 2–3 年需求的判斷。自由現金流是「營業賺進的現金 − 資本支出」，也就是付股利的底氣。</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>年度資本支出（億美元）</h3>
+        <p class="how" id="howCapexY"></p>
+        <div class="legend" id="lgCapexY"></div>
+        <div class="chartbox"><canvas id="cCapexY" aria-label="年度資本支出"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>每季資本支出（億元）</h3>
+        <p class="how" id="howCapexQ"></p>
+        <div class="chartbox"><canvas id="cCapexQ" aria-label="每季資本支出"></canvas></div>
+        <div class="chartbox short"><canvas id="cCapexPct" aria-label="資本密集度"></canvas></div>
+      </div>
+      <div class="card wide">
+        <h3 id="cashTitle">營業現金流、資本支出、自由現金流（億元）</h3>
+        <p class="how" id="howCash"></p>
+        <div class="legend" id="lgCash"></div>
+        <div class="chartbox"><canvas id="cCash" aria-label="現金流"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mix">
+    <div class="sec-head">
+      <span class="sec-tag">每季公布</span>
+      <h2>營收結構：製程與平台</h2>
+      <p class="sub">這兩張圖回答「錢是從哪裡來的」。先進製程（7 奈米及以下）單價高；HPC（高效能運算，含 AI 加速器與資料中心晶片）是近年成長主力。</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>先進製程占晶圓營收（%）</h3>
+        <p class="how" id="howNodes"></p>
+        <div class="legend" id="lgNodes"></div>
+        <div class="chartbox"><canvas id="cNodes" aria-label="製程占比堆疊圖"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>HPC 與手機占營收（%）</h3>
+        <p class="how" id="howPlat"></p>
+        <div class="legend" id="lgPlat"></div>
+        <div class="chartbox"><canvas id="cPlat" aria-label="平台占比折線圖"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech">
+    <div class="sec-head">
+      <span class="sec-tag">不定期 · 法說會與技術論壇</span>
+      <h2>技術里程碑</h2>
+      <p class="sub">每一代新製程從發表、風險試產到量產，大約要兩到三年。量產之後通常再過一兩季，才會出現在財報的製程營收占比裡，所以兩個時間點都標出來。</p>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3>各代製程量產時間</h3>
+        <p class="how" id="howTech"></p>
+        <div class="legend" id="lgTech"></div>
+        <div class="chartbox tall"><canvas id="cTech" aria-label="各代製程量產時間圖"></canvas></div>
+        <p class="note">只標到年或季的事件，畫在該期間的中間。紅色虛線是今天，右邊空心點是公司公布的規劃。</p>
+      </div>
+      <div class="card wide">
+        <div class="tbl-bar">
+          <h3>里程碑明細</h3>
+          <div class="seg" id="msSeg" role="group" aria-label="里程碑篩選">
+            <button type="button" data-f="all" aria-pressed="true">全部</button>
+            <button type="button" data-f="node" aria-pressed="false">製程</button>
+            <button type="button" data-f="pkg" aria-pressed="false">先進封裝</button>
+            <button type="button" data-f="plan" aria-pressed="false">規劃／待確定</button>
+          </div>
+        </div>
+        <div class="tbl-wrap"><table id="tMs"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fabs">
+    <div class="sec-head">
+      <span class="sec-tag">不定期 · 新聞稿與法說會</span>
+      <h2>建廠時程</h2>
+      <p class="sub">新廠從宣布到量產通常要三到五年，海外廠更久。資本支出會在這段期間先花出去，營收要等量產後才進來，所以看資本支出時可以對照這張表。</p>
+    </div>
+    <div class="card">
+      <h3>新廠時間表</h3>
+      <p class="how" id="howFab"></p>
+      <div class="g-key" id="gKey"></div>
+      <div class="gantt-wrap"><div class="gantt" id="gantt"></div></div>
+      <p class="g-info" id="gInfo" aria-live="polite">點選或滑過圖上的標記，可以看該事件的日期與說明。</p>
+      <p class="note" id="fabNote"></p>
+    </div>
+    <div class="card">
+      <h3>建廠明細</h3>
+      <div class="tbl-wrap"><table id="tFab"></table></div>
+      <p class="note">標「媒體」的是新聞報導，其餘來自台積電新聞稿、年報或法說會。灰色字是尚未發生的規劃；標「待確定」或日期後加「？」的，是台積電尚未證實的消息。</p>
+    </div>
+  </section>
+
+  <section id="tables">
+    <div class="sec-head">
+      <span class="sec-tag">原始數字</span>
+      <h2>數據表</h2>
+      <p class="sub">圖上每一個點都在這裡。按「複製 CSV」可以直接貼到 Excel 或 Google 試算表。</p>
+    </div>
+    <div class="card">
+      <div class="tbl-bar"><h3>年度摘要</h3></div>
+      <div class="tbl-wrap"><table id="tAnnual"></table></div>
+      <p class="note" id="annualNote"></p>
+    </div>
+    <div class="card">
+      <div class="tbl-bar">
+        <h3>月營收（億元，下方小字為年增率）</h3>
+        <span><button type="button" class="btn" id="cpM">複製 CSV</button> <span class="copied" id="cpMok" hidden>已複製</span></span>
+      </div>
+      <div class="tbl-wrap"><table id="tMonthly"></table></div>
+      <p class="note" id="monthlyNote" hidden></p>
+    </div>
+    <div class="card">
+      <div class="tbl-bar">
+        <h3>季度指標</h3>
+        <span><button type="button" class="btn" id="cpQ">複製 CSV</button> <span class="copied" id="cpQok" hidden>已複製</span></span>
+      </div>
+      <div class="tbl-wrap"><table id="tQuarter"></table></div>
+      <p class="note">自由現金流＝營業現金流 − 資本支出。HPC 與手機占比從 1Q19 才開始公布，之前留空；2018 年以前每年配息一次，表中每季股利是全年股利平均分到四季。</p>
+    </div>
+  </section>
+
+  <section id="glossary">
+    <div class="sec-head">
+      <span class="sec-tag">教別人時可以直接用</span>
+      <h2>指標小辭典</h2>
+    </div>
+    <dl class="gloss" id="gloss"></dl>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head"><h2>資料來源與注意事項</h2></div>
+    <div class="sources">
+      <ul>
+        <li>月營收：<a href="https://investor.tsmc.com/english/monthly-revenue/2026" target="_blank" rel="noopener">台積電投資人關係・Monthly Revenue</a>（2015–2026 各年度頁面）與 <a href="https://pr.tsmc.com/english/latest-news" target="_blank" rel="noopener">每月營收新聞稿</a>。</li>
+        <li>季度損益、三率、EPS、製程與平台占比、資本支出（美元）：台積電各季財報新聞稿與 Quarterly Management Report（<a href="https://investor.tsmc.com/english/quarterly-results" target="_blank" rel="noopener">Quarterly Results</a>）。</li>
+        <li>3Q21 以前的季度營業現金流、資本支出（新台幣）與 2015–2018 年度股利：台積電管理報告、財務報表與股東會決議。3Q21 起的季度營業現金流與資本支出（新台幣）：<a href="https://stockanalysis.com/stocks/tsm/financials/?p=quarterly" target="_blank" rel="noopener">StockAnalysis（S&amp;P Global）</a>，並與台積電管理報告交叉核對。第四季淨利改用台積電公布值，因為該網站的第四季淨利與公司公告不一致。</li>
+        <li>技術里程碑與建廠時程：台積電新聞稿、年報、官網製程頁與法說會逐字稿；少數項目來自媒體報導，表中標為「媒體」。</li>
+        <li>資本預算、財測與股利：各季法說會逐字稿與董事會決議（<a href="https://pr.tsmc.com/chinese/news/3332" target="_blank" rel="noopener">2026/08/11 董事會決議</a>）。公布日期：<a href="https://investor.tsmc.com/english/financial-calendar" target="_blank" rel="noopener">Financial Calendar</a>。</li>
+      </ul>
+      <p>月營收為自結數、未經會計師查核。季營收以季報為準，與三個月加總最多差新台幣 1 億元以內。本頁為資料整理，不構成投資建議。每月 18 日自動更新一次。</p>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+  <p class="disclaimer">本頁為公開資料整理，不構成投資建議。</p>
+</main>
+
+<script type="application/json" id="tsmc-data">{"asOf":"2026-10-18","monthly":{"2015":[87120,62645,72269,75330,70155,59955,80953,67038,64514,81743,63428,58347],"2016":[70855,59551,73089,66843,73576,81391,76392,94311,89703,91085,93030,78112],"2017":[76616,71423,85875,56872,72796,84187,71611,91917,88579,94520,93153,89897],"2018":[79741,64641,103697,81870,80969,70438,74371,91055,94922,101550,98389,89831],"2019":[78094,60889,79722,74694,80437,85868,84758,106118,102170,106040,107884,103313],"2020":[103683,93394,113520,96002,93819,120878,105963,122878,127585,119303,124865,117365],"2021":[126749,106534,129127,111315,112360,148471,124558,137427,152685,134539,148268,155382],"2022":[172176,146933,171967,172561,185705,175874,186763,218132,208248,210266,222706,192560],"2023":[200051,163174,145408,147900,176537,156404,177616,188686,180430,243203,206026,176300],"2024":[215785,181648,195211,236021,229620,207869,256953,250866,251873,314240,276058,278163],"2025":[293288,260009,285957,349567,320516,263709,323166,335772,330980,367473,343614,335003],"2026":[401255,317657,415191,410726,416975,442680,467580,514806,511857]},"provisional":{},"yoy2020":[32.8,53.4,42.4,28.5,16.6,40.8,25.0,15.8,24.9,12.5,15.7,13.6],"yoy2020Total":25.2,"quarters":[{"q":"1Q15","rev":222034,"ni":78990,"eps":3.05,"gm":49.3,"om":39.0,"capex":48.88,"ocf":156.0,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"2Q15","rev":205440,"ni":79417,"eps":3.06,"gm":48.5,"om":37.5,"capex":53.81,"ocf":111.07,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"3Q15","rev":212505,"ni":75330,"eps":2.91,"gm":48.2,"om":36.9,"capex":70.3,"ocf":118.14,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"4Q15","rev":203518,"ni":72837,"eps":2.81,"gm":48.6,"om":38.3,"capex":84.52,"ocf":144.67,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"1Q16","rev":203495,"ni":64782,"eps":2.5,"gm":44.9,"om":34.6,"capex":38.14,"ocf":121.53,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"2Q16","rev":221810,"ni":72506,"eps":2.8,"gm":51.5,"om":41.2,"capex":73.59,"ocf":106.68,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"3Q16","rev":260406,"ni":96759,"eps":3.73,"gm":50.7,"om":40.8,"capex":103.78,"ocf":126.41,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"4Q16","rev":262227,"ni":100200,"eps":3.86,"gm":52.3,"om":41.9,"capex":112.54,"ocf":185.22,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"1Q17","rev":233914,"ni":87629,"eps":3.38,"gm":51.9,"om":40.8,"capex":102.51,"ocf":161.01,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"2Q17","rev":213856,"ni":66271,"eps":2.56,"gm":50.8,"om":38.9,"capex":105.19,"ocf":103.4,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"3Q17","rev":252107,"ni":89925,"eps":3.47,"gm":49.9,"om":38.9,"capex":61.71,"ocf":116.78,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"4Q17","rev":277570,"ni":99286,"eps":3.83,"gm":50.0,"om":39.2,"capex":61.18,"ocf":204.13,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"1Q18","rev":248079,"ni":89785,"eps":3.46,"gm":50.3,"om":39.0,"capex":71.85,"ocf":160.73,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"2Q18","rev":233276,"ni":72290,"eps":2.79,"gm":47.8,"om":36.2,"capex":59.68,"ocf":129.77,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"3Q18","rev":260348,"ni":89072,"eps":3.44,"gm":47.4,"om":36.6,"capex":69.95,"ocf":94.08,"n2":0,"n3":0,"n5":0,"n7":11,"hpc":null,"sp":null,"dps":2.0},{"q":"4Q18","rev":289771,"ni":99984,"eps":3.86,"gm":47.7,"om":37.0,"capex":114.1,"ocf":189.37,"n2":0,"n3":0,"n5":0,"n7":23,"hpc":null,"sp":null,"dps":2.0},{"q":"1Q19","rev":218704,"ni":61394,"eps":2.37,"gm":41.3,"om":29.4,"capex":75.94,"ocf":152.67,"n2":0,"n3":0,"n5":0,"n7":22,"hpc":29,"sp":47,"dps":2.0},{"q":"2Q19","rev":240999,"ni":66765,"eps":2.57,"gm":43.0,"om":31.7,"capex":116.35,"ocf":117.76,"n2":0,"n3":0,"n5":0,"n7":21,"hpc":32,"sp":45,"dps":2.5},{"q":"3Q19","rev":293045,"ni":101070,"eps":3.9,"gm":47.6,"om":36.8,"capex":98.12,"ocf":141.75,"n2":0,"n3":0,"n5":0,"n7":27,"hpc":29,"sp":49,"dps":2.5},{"q":"4Q19","rev":317237,"ni":116035,"eps":4.47,"gm":50.2,"om":39.2,"capex":170.01,"ocf":202.96,"n2":0,"n3":0,"n5":0,"n7":35,"hpc":29,"sp":53,"dps":2.5},{"q":"1Q20","rev":310597,"ni":116990,"eps":4.51,"gm":51.8,"om":41.4,"capex":192.56,"ocf":203.03,"n2":0,"n3":0,"n5":0,"n7":35,"hpc":30,"sp":49,"dps":2.5},{"q":"2Q20","rev":310699,"ni":120822,"eps":4.66,"gm":53.0,"om":42.2,"capex":126.7,"ocf":170.34,"n2":0,"n3":0,"n5":0,"n7":36,"hpc":33,"sp":47,"dps":2.5},{"q":"3Q20","rev":356426,"ni":137310,"eps":5.3,"gm":53.4,"om":42.1,"capex":99.31,"ocf":190.18,"n2":0,"n3":0,"n5":8,"n7":35,"hpc":37,"sp":46,"dps":2.5},{"q":"4Q20","rev":361533,"ni":142766,"eps":5.51,"gm":54.0,"om":43.5,"capex":88.68,"ocf":259.13,"n2":0,"n3":0,"n5":20,"n7":29,"hpc":31,"sp":51,"dps":2.5},{"q":"1Q21","rev":362410,"ni":139690,"eps":5.39,"gm":52.4,"om":41.5,"capex":248.03,"ocf":227.82,"n2":0,"n3":0,"n5":14,"n7":35,"hpc":35,"sp":45,"dps":2.75},{"q":"2Q21","rev":372145,"ni":134360,"eps":5.18,"gm":50.0,"om":39.1,"capex":166.97,"ocf":187.44,"n2":0,"n3":0,"n5":18,"n7":31,"hpc":39,"sp":42,"dps":2.75},{"q":"3Q21","rev":414670,"ni":156259,"eps":6.03,"gm":51.3,"om":41.2,"capex":188.64,"ocf":318.706,"n2":0,"n3":0,"n5":18,"n7":34,"hpc":37,"sp":44,"dps":2.75},{"q":"4Q21","rev":438189,"ni":166232,"eps":6.41,"gm":52.7,"om":41.7,"capex":235.56,"ocf":378.199,"n2":0,"n3":0,"n5":23,"n7":27,"hpc":37,"sp":44,"dps":2.75},{"q":"1Q22","rev":491076,"ni":202733,"eps":7.82,"gm":55.6,"om":45.6,"capex":262.135,"ocf":372.17,"n2":0,"n3":0,"n5":20,"n7":30,"hpc":41,"sp":40,"dps":2.75},{"q":"2Q22","rev":534141,"ni":237027,"eps":9.14,"gm":59.1,"om":49.1,"capex":217.723,"ocf":338.849,"n2":0,"n3":0,"n5":21,"n7":30,"hpc":43,"sp":38,"dps":2.75},{"q":"3Q22","rev":613143,"ni":280866,"eps":10.83,"gm":60.4,"om":50.6,"capex":265.97,"ocf":412.698,"n2":0,"n3":0,"n5":28,"n7":26,"hpc":39,"sp":41,"dps":2.75},{"q":"4Q22","rev":625532,"ni":295904,"eps":11.41,"gm":62.2,"om":52.0,"capex":336.844,"ocf":486.882,"n2":0,"n3":0,"n5":32,"n7":22,"hpc":42,"sp":38,"dps":2.75},{"q":"1Q23","rev":508633,"ni":206987,"eps":7.98,"gm":56.3,"om":45.5,"capex":302.499,"ocf":385.245,"n2":0,"n3":0,"n5":31,"n7":20,"hpc":44,"sp":34,"dps":3.0},{"q":"2Q23","rev":480841,"ni":181799,"eps":7.01,"gm":54.1,"om":42.0,"capex":250.534,"ocf":167.248,"n2":0,"n3":0,"n5":30,"n7":23,"hpc":44,"sp":33,"dps":3.0},{"q":"3Q23","rev":546733,"ni":211000,"eps":8.14,"gm":54.3,"om":41.7,"capex":226.624,"ocf":294.645,"n2":0,"n3":6,"n5":37,"n7":16,"hpc":42,"sp":39,"dps":3.5},{"q":"4Q23","rev":625529,"ni":238712,"eps":9.21,"gm":53.0,"om":41.6,"capex":170.16,"ocf":394.829,"n2":0,"n3":15,"n5":35,"n7":17,"hpc":43,"sp":43,"dps":3.5},{"q":"1Q24","rev":592644,"ni":225485,"eps":8.7,"gm":53.1,"om":42.0,"capex":181.305,"ocf":436.311,"n2":0,"n3":9,"n5":37,"n7":19,"hpc":46,"sp":38,"dps":4.0},{"q":"2Q24","rev":673510,"ni":247846,"eps":9.56,"gm":53.2,"om":42.5,"capex":205.675,"ocf":377.668,"n2":0,"n3":15,"n5":35,"n7":17,"hpc":52,"sp":33,"dps":4.0},{"q":"3Q24","rev":759692,"ni":325258,"eps":12.54,"gm":57.8,"om":47.5,"capex":207.079,"ocf":391.992,"n2":0,"n3":20,"n5":32,"n7":17,"hpc":51,"sp":34,"dps":4.5},{"q":"4Q24","rev":868461,"ni":374680,"eps":14.45,"gm":59.0,"om":49.0,"capex":361.948,"ocf":620.205,"n2":0,"n3":26,"n5":34,"n7":14,"hpc":53,"sp":35,"dps":4.5},{"q":"1Q25","rev":839254,"ni":361564,"eps":13.94,"gm":58.8,"om":48.5,"capex":330.827,"ocf":625.574,"n2":0,"n3":22,"n5":36,"n7":15,"hpc":59,"sp":28,"dps":5.0},{"q":"2Q25","rev":933792,"ni":398273,"eps":15.36,"gm":58.6,"om":49.6,"capex":297.226,"ocf":497.064,"n2":0,"n3":24,"n5":36,"n7":14,"hpc":60,"sp":27,"dps":5.0},{"q":"3Q25","rev":989918,"ni":452302,"eps":17.44,"gm":59.5,"om":50.6,"capex":287.452,"ocf":426.829,"n2":0,"n3":23,"n5":37,"n7":14,"hpc":57,"sp":30,"dps":6.0},{"q":"4Q25","rev":1046090,"ni":505744,"eps":19.5,"gm":62.3,"om":54.0,"capex":356.906,"ocf":725.509,"n2":0,"n3":28,"n5":35,"n7":14,"hpc":55,"sp":32,"dps":6.0},{"q":"1Q26","rev":1134103,"ni":572480,"eps":22.08,"gm":66.2,"om":58.1,"capex":350.763,"ocf":698.976,"n2":0,"n3":25,"n5":36,"n7":13,"hpc":61,"sp":26,"dps":7.0},{"q":"2Q26","rev":1270381,"ni":706562,"eps":27.25,"gm":67.7,"om":60.3,"capex":496.002,"ocf":783.365,"n2":3,"n3":30,"n5":33,"n7":11,"hpc":66,"sp":22,"dps":7.0},{"q":"3Q26","rev":1494243,"ni":763064,"eps":29.43,"gm":66.4,"om":58.7,"capex":443.206,"ocf":919.776,"n2":8,"n3":33,"n5":28,"n7":10,"hpc":68,"sp":21,"dps":null}],"epsOfficial":{"2015":11.82,"2016":12.89,"2017":13.23,"2018":13.54,"2019":13.32,"2020":19.97,"2021":23.01,"2022":39.2,"2023":32.34,"2024":45.25,"2025":66.25},"capexUsd":{"2015":8.12,"2016":10.19,"2017":10.86,"2018":10.46,"2019":14.9,"2020":17.24,"2021":30.04,"2022":36.29,"2023":30.45,"2024":29.76,"2025":40.9},"capexBudget":{"y":2026,"lo":60,"hi":64,"ytd":40.64,"ytdLabel":"前三季","note":"7 月上修，原 520–560 億"},"guidance":{"q":"4Q26","revUsdLo":52.3,"revUsdHi":54.3,"gmLo":65,"gmHi":67,"omLo":56.5,"omHi":58.5},"events":[{"date":"2026-11-10","t":"10 月營收"},{"date":"2026-12-10","t":"11 月營收"},{"date":"2027-01-08","t":"12 月營收"}],"waterfall":{"q":"3Q26","rows":[{"n":"營收","v":14942.4,"t":1},{"n":"營業成本","v":-5018.6},{"n":"毛利","v":9923.8,"t":1},{"n":"研發費用","v":-889.8},{"n":"管理與行銷費用","v":-274.5},{"n":"其他營業收支","v":5.0},{"n":"營業利益","v":8764.5,"t":1},{"n":"業外收支","v":345.9},{"n":"所得稅","v":-1477.0},{"n":"非控制權益","v":-2.8},{"n":"淨利（歸屬母公司）","v":7630.6,"t":1}],"note":""},"yoy2015":[69.4,33.8,44.7,21.7,15.4,-0.6,24.7,-3.2,-13.8,1.2,-12.2,-16.1],"yoy2015Total":10.6,"dpsAnnual":{"2015":6.0,"2016":7.0,"2017":8.0,"2018":8.0},"milestones":[{"d":"2015","cat":"node","node":"16FF+","t":"16 奈米 FinFET Plus（16FF+）量產","src":"https://investor.tsmc.com/static/annualReports/2015/english/e_2_2.html","st":"p","hvm":1},{"d":"2016-Q1","cat":"node","node":"16FFC","t":"16FFC 量產","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2016-H1","cat":"pkg","node":"CoWoS","t":"CoWoS XL 開始生產（搭配 HBM2）","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2016-Q2","cat":"pkg","node":"InFO","t":"InFO-PoP 首度量產（整合 16 奈米手機晶片與 DRAM）","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2016-Q4","cat":"node","node":"N10","t":"10 奈米開始量產爬坡，2017 年第一季起出貨","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p","hvm":1,"note":"年報用語為「量產爬坡」"},{"d":"2017-04","cat":"node","node":"N7","t":"7 奈米風險試產（年報預定時程）","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2018","cat":"node","node":"N7","t":"7 奈米（N7）量產，全球第一個量產的 7 奈米製程","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_7nm","st":"p","hvm":1},{"d":"2019-04","cat":"node","node":"N5","t":"5 奈米已進入風險試產","src":"https://pr.tsmc.com/english/news/1987","st":"p"},{"d":"2019-Q2","cat":"node","node":"N7+","t":"N7+ 量產，業界第一個商用 EUV 製程","src":"https://pr.tsmc.com/english/news/2010","st":"p","hvm":1},{"d":"2019-Q3","cat":"pkg","node":"CoWoS","t":"CoWoS 完成高效能運算應用認證","src":"https://investor.tsmc.com/sites/ir/annual-report/2019/e_all.pdf","st":"p"},{"d":"2020-Q1","cat":"node","node":"N6","t":"6 奈米風險試產","src":"https://investor.tsmc.com/sites/ir/annual-report/2019/e_all.pdf","st":"p"},{"d":"2020","cat":"node","node":"N5","t":"5 奈米（N5）量產","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_5nm","st":"p","hvm":1},{"d":"2020","cat":"node","node":"N6","t":"6 奈米（N6）量產","src":"https://investor.tsmc.com/static/annualReports/2021/english/pdf/2021_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2021","cat":"node","node":"N3","t":"3 奈米與 4 奈米風險試產","src":"https://investor.tsmc.com/static/annualReports/2021/english/pdf/2021_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2022-06","cat":"node","node":"N2","t":"北美技術論壇發表 2 奈米，首度採用奈米片（GAA）電晶體","src":"https://pr.tsmc.com/english/news/2939","st":"p"},{"d":"2022","cat":"node","node":"N4","t":"4 奈米（N4）量產","src":"https://investor.tsmc.com/static/annualReports/2022/english/pdf/2022_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2022","cat":"pkg","node":"SoIC","t":"SoIC 晶片堆疊（CoW）量產","src":"https://investor.tsmc.com/static/annualReports/2022/english/pdf/2022_tsmc_ar_e_ch5.pdf","st":"p","note":"2023 年報寫 2023 年量產，兩份年報說法不同"},{"d":"2022-10","cat":"pkg","node":"3DFabric","t":"成立 3DFabric 聯盟（SoIC、CoWoS、InFO 的整合平台）","src":"https://pr.tsmc.com/english/news/2968","st":"p"},{"d":"2022-12","cat":"node","node":"N3","t":"3 奈米（N3）量產，南科晶圓十八廠舉行量產典禮","src":"https://pr.tsmc.com/english/news/2986","st":"p","hvm":1},{"d":"2023-Q4","cat":"node","node":"N3E","t":"3 奈米強化版（N3E）量產","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2024-04","cat":"node","node":"A16","t":"發表 A16（1.6 奈米級），採用背面供電 Super Power Rail","src":"https://evertiq.com/news/55625","st":"p","note":"媒體報導"},{"d":"2024","cat":"pkg","node":"CoWoS-L","t":"CoWoS-L 量產（首款 3.5 倍光罩尺寸）","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2024","cat":"pkg","node":"SoW","t":"第一代晶圓上系統（SoW）量產","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2024","cat":"node","node":"N2","t":"2 奈米第一個客戶產品完成設計定案","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2024-H2","cat":"node","node":"N3P","t":"N3P 量產","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2025-04","cat":"node","node":"A14","t":"發表 A14（1.4 奈米級），預計 2028 年量產","src":"https://pr.tsmc.com/english/news/3228","st":"p"},{"d":"2025","cat":"pkg","node":"SoIC","t":"3 奈米 SoIC 堆疊量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2025-Q4","cat":"node","node":"N2","t":"2 奈米（N2）量產，台積電第一個奈米片（GAA）製程","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_2nm","st":"p","hvm":1},{"d":"2026-04","cat":"node","node":"A13","t":"發表 A13、A12 與 N2U","src":"https://pr.tsmc.com/english/news/3302","st":"p"},{"d":"2026","cat":"pkg","node":"COUPE","t":"COUPE 共同封裝光學（基板版）開始生產","src":"https://pr.tsmc.com/english/news/3302","st":"f"},{"d":"2026","cat":"node","node":"N3A","t":"車用 N3A 進入量產","src":"https://pr.tsmc.com/english/news/3302","st":"f"},{"d":"2026-H2","cat":"node","node":"N2P","t":"N2P 量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-01/51d09df96cd89ac19d65af39032b038dc2896a24/TSMC%204Q25%20Transcript.pdf","st":"f","hvm":1,"note":"2026/01 法說會時程，之後未再更新"},{"d":"2027","cat":"node","node":"A16","t":"A16 量產","src":"https://www.trendforce.com/news/2026/04/23/news-tsmc-unveils-latest-roadmap-a12-a13-set-for-2029-without-high-na-euv-a16-volume-production-delayed-to-2027/","st":"f","hvm":1,"note":"待確定：媒體報導 2026 技術論壇路線圖延到 2027；2026/01 法說會仍說 2026 下半年","unc":1},{"d":"2027","cat":"node","node":"A14","t":"A14 風險試產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"},{"d":"2027","cat":"pkg","node":"CoWoS","t":"9.5 倍光罩尺寸 CoWoS 量產","src":"https://pr.tsmc.com/english/news/3228","st":"f"},{"d":"2028","cat":"node","node":"A14","t":"A14 量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f","hvm":1},{"d":"2028","cat":"node","node":"N2U","t":"N2U 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f","hvm":1},{"d":"2028","cat":"pkg","node":"CoWoS","t":"14 倍光罩尺寸 CoWoS 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f"},{"d":"2029","cat":"node","node":"A13","t":"A13 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f","hvm":1},{"d":"2029","cat":"node","node":"A12","t":"A12 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f","hvm":1},{"d":"2029","cat":"pkg","node":"SoW-X","t":"A14 對 A14 的 SoIC、40 倍光罩 SoW-X","src":"https://pr.tsmc.com/english/news/3302","st":"f"}],"fabs":[{"id":"nj","n":"南京廠（Fab 16）","loc":"中國南京","c":"中國","tech":"16 奈米","ms":[{"k":"a","d":"2016-03-28","t":"與南京市簽署 12 吋廠投資協議，投資 30 億美元","src":"https://pr.tsmc.com/english/news/1887","st":"p"},{"k":"m","d":"2018-10-31","t":"開幕暨量產典禮","src":"https://cdnfinance.technews.tw/2018/10/31/tsmc-nanjing-openning/","st":"p"}]},{"id":"f18","n":"晶圓十八廠（Fab 18）","loc":"台南南科","c":"台灣","tech":"5、3 奈米","ms":[{"k":"g","d":"2018-01-26","t":"第一期動工","src":"https://pr.tsmc.com/english/news/1951","st":"p"},{"k":"m","d":"2020","t":"5 奈米量產","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_5nm","st":"p"},{"k":"m","d":"2022-12-29","t":"3 奈米量產典禮","src":"https://pr.tsmc.com/english/news/2986","st":"p"}]},{"id":"az1","n":"亞利桑那一廠（P1）","loc":"美國鳳凰城","c":"美國","tech":"4 奈米","ms":[{"k":"a","d":"2020-05-15","t":"宣布赴美設 5 奈米廠，投資約 120 億美元","src":"https://pr.tsmc.com/english/news/2033","st":"p"},{"k":"g","d":"2021","t":"開始建廠","src":"https://pr.tsmc.com/english/news/2033","st":"p"},{"k":"c","d":"2022-12-06","t":"首批機台移入典禮，同時宣布二廠","src":"https://pr.tsmc.com/english/news/2977","st":"p"},{"k":"m","d":"2024-Q4","t":"4 奈米量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"ap6","n":"先進封測六廠（AP6）","loc":"苗栗竹南","c":"台灣","tech":"SoIC、CoWoS 等 3DFabric","ms":[{"k":"g","d":"2020","t":"開始興建","src":"https://pr.tsmc.com/english/news/3033","st":"p"},{"k":"c","d":"2023-06-08","t":"啟用，第一座全自動化先進封測廠","src":"https://pr.tsmc.com/english/news/3033","st":"p"}]},{"id":"jasm1","n":"日本熊本一廠（JASM）","loc":"日本熊本菊陽町","c":"日本","tech":"28/22、16/12 奈米","ms":[{"k":"a","d":"2021","t":"成立 JASM（Sony 參股）","src":"https://pr.tsmc.com/english/news/3113","st":"p"},{"k":"g","d":"2022-04","t":"動工","src":"https://pr.tsmc.com/english/news/3113","st":"p"},{"k":"c","d":"2024-02-24","t":"開幕典禮","src":"https://pr.tsmc.com/english/news/3113","st":"p"},{"k":"m","d":"2024-Q4","t":"量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"f22","n":"晶圓二十二廠（Fab 22）","loc":"高雄楠梓","c":"台灣","tech":"2 奈米","ms":[{"k":"g","d":"2022-11-21","t":"動工（原規劃 28 奈米，後改 2 奈米）","src":"https://www.taipeitimes.com/News/biz/archives/2022/11/22/2003789359","st":"p","note":"媒體報導"},{"k":"c","d":"2024-11","t":"第一期開始裝機","src":"https://semiwiki.com/forum/threads/tsmc-2nm-capacity-expansion-ceremony.22436/","st":"p","note":"媒體報導"},{"k":"m","d":"2025-Q4","t":"2 奈米量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"az2","n":"亞利桑那二廠（P2）","loc":"美國鳳凰城","c":"美國","tech":"3 奈米","ms":[{"k":"a","d":"2022-12-06","t":"宣布二廠，總投資升至 400 億美元","src":"https://pr.tsmc.com/english/news/2977","st":"p"},{"k":"c","d":"2025","t":"廠房完工，進行設施安裝","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"},{"k":"m","d":"2027-Q3","t":"量產（比原訂時程略提前）","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]},{"id":"rd","n":"全球研發中心","loc":"新竹科學園區","c":"台灣","tech":"2 奈米以下研發","ms":[{"k":"c","d":"2023-07-28","t":"啟用典禮，約 7,000 名研發人員進駐","src":"https://pr.tsmc.com/english/news/3044","st":"p"}]},{"id":"esmc","n":"德國德勒斯登廠（ESMC）","loc":"德國德勒斯登","c":"德國","tech":"28/22、16/12 奈米","ms":[{"k":"a","d":"2023-08-08","t":"與博世、英飛凌、恩智浦成立合資公司","src":"https://pr.tsmc.com/english/news/3049","st":"p"},{"k":"g","d":"2024-08-20","t":"動土典禮","src":"https://pr.tsmc.com/english/news/3169","st":"p"},{"k":"c","d":"2026-09","t":"上樑典禮","src":"https://oiger.de/2026/09/13/richtfest-fuer-milliardenprojekt-von-tsmc-in-dresden/198531","st":"p","note":"媒體報導"},{"k":"m","d":"2027-Q4","t":"量產","src":"https://pr.tsmc.com/english/news/3049","st":"f","note":"2023 年新聞稿寫 2027 年底；德國媒體報導可能提前到 2027 年中"}]},{"id":"jasm2","n":"日本熊本二廠（JASM）","loc":"日本熊本菊陽町","c":"日本","tech":"原訂 6/7 奈米，改為 3 奈米","ms":[{"k":"a","d":"2024-02-06","t":"宣布興建（Sony、電裝、豐田參股）","src":"https://pr.tsmc.com/english/news/3105","st":"p"},{"k":"g","d":"2025-10","t":"開始施工（原訂 2025 年第一季）","src":"https://technode.com/2025/10/28/tsmc-begins-construction-of-kumamoto-second-fab-with-13-9-billion-investment/","st":"p","note":"媒體報導"},{"k":"m","d":"2028","t":"3 奈米量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]},{"id":"az3","n":"亞利桑那三廠（P3）","loc":"美國鳳凰城","c":"美國","tech":"2 奈米、A16","ms":[{"k":"a","d":"2024-04","t":"宣布三廠，總投資升至 650 億美元","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"},{"k":"g","d":"2025-04","t":"動土","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"},{"k":"m","d":"2029","t":"量產","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"f","note":"公司說法為「本十年底前」，圖上暫標 2029"}]},{"id":"f20","n":"晶圓二十廠（Fab 20）","loc":"新竹寶山","c":"台灣","tech":"2 奈米","ms":[{"k":"m","d":"2025-Q4","t":"2 奈米量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"az4","n":"亞利桑那四廠與先進封裝廠","loc":"美國亞利桑那","c":"美國","tech":"2 奈米以下、CoWoS／SoIC","ms":[{"k":"a","d":"2025-03-04","t":"追加 1,000 億美元：再蓋三座晶圓廠、兩座先進封裝廠與研發中心","src":"https://www.sec.gov/Archives/edgar/data/1046179/000104617925000024/tsmcexpandinvestmentintheu.htm","st":"p"},{"k":"g","d":"2026-Q1","t":"四廠與先進封裝一廠開始施工","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"},{"k":"a","d":"2026-07-16","t":"再追加 1,000 億美元，美國總投資 2,650 億美元","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"}]},{"id":"f25","n":"晶圓二十五廠（Fab 25）","loc":"台中中科","c":"台灣","tech":"A14（1.4 奈米）","ms":[{"k":"a","d":"2025-10","t":"中科管理局確認建廠申請","src":"https://www.taipeitimes.com/News/biz/archives/2025/10/30/2003846321","st":"p","note":"媒體報導"},{"k":"g","d":"2025-11","t":"動土","src":"https://anysilicon.com/tsmc-to-break-ground-on-1-4nm-a14-fab-on-november-5/","st":"p","note":"待確定：媒體報導的預定日期，未找到典禮確實舉行的消息","unc":1},{"k":"m","d":"2028","t":"A14 量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]},{"id":"ap7","n":"先進封測七廠（AP7）","loc":"嘉義","c":"台灣","tech":"CoWoS、SoIC","ms":[{"k":"c","d":"2025-12-04","t":"開幕典禮","src":"https://tw.stock.yahoo.com/news/dj%E7%8D%A8%E5%AE%B6-%E5%8F%B0%E7%A9%8D%E5%98%89%E7%BE%A9ap7%E4%BB%8A%E8%88%89%E8%BE%A6%E5%85%B8%E7%A6%AE-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E9%87%8D%E9%8E%AE%E6%88%90%E5%BD%A2-011000014.html","st":"p","note":"媒體報導"},{"k":"m","d":"2026","t":"第二期投產","src":"https://tw.stock.yahoo.com/news/dj%E7%8D%A8%E5%AE%B6-%E5%8F%B0%E7%A9%8D%E5%98%89%E7%BE%A9ap7%E4%BB%8A%E8%88%89%E8%BE%A6%E5%85%B8%E7%A6%AE-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E9%87%8D%E9%8E%AE%E6%88%90%E5%BD%A2-011000014.html","st":"f","note":"待確定：媒體報導","unc":1}]},{"id":"tn3","n":"台南 3 奈米新廠","loc":"台南南科","c":"台灣","tech":"3 奈米","ms":[{"k":"m","d":"2027-H1","t":"第一座量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"},{"k":"m","d":"2028-H1","t":"第二座量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]}],"fabNote":"台積電法說會提到未來幾年在台灣興建 13 座先進製程與先進封裝廠，這裡只列有公開時程的廠區。"}</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script>
+const D = JSON.parse(document.getElementById('tsmc-data').textContent);
+
+const $ = (s) => document.querySelector(s);
+const T = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+const nf1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const f0 = (n) => n == null ? '—' : nf0.format(n);
+const f1 = (n) => n == null ? '—' : nf1.format(n);
+const sp = (n, d = 1) => n == null ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + '%';
+const cls = (n) => n == null ? '' : (n >= 0 ? 'up' : 'down');
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const r1 = (n) => Math.round(n * 10) / 10;
+
+/* ---------- derive everything from the raw data block ---------- */
+const mget = (y, m) => (D.monthly[String(y)] || [])[m - 1];
+const months = [];
+Object.keys(D.monthly).map(Number).sort((a, b) => a - b).forEach(y => D.monthly[String(y)].forEach((v, i) => {
+  const m = i + 1, py = mget(y - 1, m), pm = m > 1 ? mget(y, m - 1) : mget(y - 1, 12);
+  months.push({
+    y, m, v, ym: `${y}-${String(m).padStart(2, '0')}`, rev: v / 100,
+    yoy: py != null ? (v / py - 1) * 100 : (D['yoy' + y] ? D['yoy' + y][i] : null),
+    mom: pm != null ? (v / pm - 1) * 100 : null,
+  });
+}));
+const Q = D.quarters.map(q => ({
+  q: q.q, yr: 2000 + Number(q.q.slice(2)), qi: Number(q.q[0]),
+  rev: q.rev / 100, ni: q.ni / 100, eps: q.eps, gm: q.gm, om: q.om, nm: q.ni / q.rev * 100,
+  capex: q.capex * 10, ocf: q.ocf == null ? null : q.ocf * 10, fcf: q.ocf == null ? null : (q.ocf - q.capex) * 10,
+  capexPct: q.capex * 1000 / q.rev * 100,
+  n2: q.n2, n3: q.n3, n5: q.n5, n7: q.n7, adv: q.n2 + q.n3 + q.n5 + q.n7, hpc: q.hpc, sp: q.sp, dps: q.dps,
+  payout: q.dps == null ? null : q.dps / q.eps * 100,
+}));
+const qLabels = Q.map(q => q.q);
+const last = months[months.length - 1], prevM = months[months.length - 2];
+const lastQ = Q[Q.length - 1], prevQ = Q[Q.length - 2];
+const yoyQ = Q.find(q => q.yr === lastQ.yr - 1 && q.qi === lastQ.qi);
+
+/* quarters complete in monthly data but not yet reported */
+const pendingQ = [];
+for (let qi = 1; qi <= 4; qi++) {
+  const y = last.y, ms = [1, 2, 3].map(k => mget(y, (qi - 1) * 3 + k));
+  const label = `${qi}Q${String(y).slice(2)}`;
+  if (ms.every(v => v != null) && !Q.find(q => q.q === label)) {
+    const sum = ms.reduce((a, b) => a + b, 0) / 100;
+    const ly = [1, 2, 3].map(k => mget(y - 1, (qi - 1) * 3 + k)).reduce((a, b) => a + b, 0) / 100;
+    const pq = Q.find(q => q.yr === y && q.qi === qi - 1);
+    pendingQ.push({ label, sum, yoy: (sum / ly - 1) * 100, qoq: pq ? (sum / pq.rev - 1) * 100 : null });
+  }
+}
+
+/* annual */
+const A = Object.keys(D.monthly).map(Number).sort((a, b) => a - b).map(y => {
+  const vals = D.monthly[String(y)], n = vals.length, rev = vals.reduce((a, b) => a + b, 0) / 100;
+  const prev = D.monthly[String(y - 1)];
+  const yoy = prev ? (rev / (prev.slice(0, n).reduce((a, b) => a + b, 0) / 100) - 1) * 100 : (D['yoy' + y + 'Total'] ?? null);
+  const qs = Q.filter(q => q.yr === y);
+  const qrev = qs.reduce((a, q) => a + q.rev, 0);
+  const epsSum = qs.reduce((a, q) => a + q.eps, 0);
+  return {
+    y, n, rev, yoy, nq: qs.length,
+    ni: qs.reduce((a, q) => a + q.ni, 0),
+    eps: qs.length === 4 && D.epsOfficial && D.epsOfficial[String(y)] != null ? D.epsOfficial[String(y)] : epsSum,
+    gm: qrev ? qs.reduce((a, q) => a + q.gm * q.rev, 0) / qrev : null,
+    dps: qs.reduce((a, q) => a + (q.dps || 0), 0),
+    capexUsd: D.capexUsd[String(y)] ?? null,
+  };
+});
+const curA = A[A.length - 1];
+const lastFullA = A.slice().reverse().find(a => a.nq === 4);
+
+/* ---------- header, KPIs, next events ---------- */
+const ymTxt = (r) => `${r.y}/${String(r.m).padStart(2, '0')}`;
+$('#eyebrow').textContent = `TWSE 2330 · NYSE TSM · ${ymTxt(months[0])} – ${ymTxt(last)}`;
+$('#metaRow').innerHTML = `<span>資料截至 <b>${D.asOf.replace(/-/g, '/')}</b></span><span>月營收最新 <b>${last.y} 年 ${last.m} 月</b></span><span>季報最新 <b>${lastQ.q}</b></span>`;
+$('#footer').textContent = `整理：${D.asOf.replace(/-/g, '/')} · 單位：新台幣億元（除另註明）`;
+
+const isRecordMonth = months.every(r => r.v <= last.v);
+const isRecord = (arr, key) => arr.slice(0, -1).every(q => q[key] < arr[arr.length - 1][key]);
+const pend = pendingQ[pendingQ.length - 1];
+const capB = D.capexBudget;
+const kpis = [
+  { label: `${last.y} 年 ${last.m} 月營收`, value: f0(last.rev), unit: '億', delta: `年增 <span class="${cls(last.yoy)}">${sp(last.yoy)}</span> · 月增 <span class="${cls(last.mom)}">${sp(last.mom)}</span>`, chip: isRecordMonth ? '單月新高' : '' },
+  { label: `${curA.y} 年 1–${curA.n} 月累計營收`, value: nf2.format(curA.rev / 10000), unit: '兆',
+    delta: `年增 <span class="${cls(curA.yoy)}">${sp(curA.yoy)}</span>` + (pend ? `<br>${pend.label}（三個月加總）${f0(pend.sum)} 億，年增 <span class="${cls(pend.yoy)}">${sp(pend.yoy)}</span>` : '') },
+  { label: `${lastQ.q} 毛利率`, value: lastQ.gm.toFixed(1), unit: '%', delta: `季增 <span class="${cls(lastQ.gm - prevQ.gm)}">${(lastQ.gm - prevQ.gm >= 0 ? '+' : '−') + Math.abs(lastQ.gm - prevQ.gm).toFixed(1)} 個百分點</span>`, chip: isRecord(Q, 'gm') ? '歷史新高' : '' },
+  { label: `${lastQ.q} 每股盈餘`, value: lastQ.eps.toFixed(2), unit: '元', delta: `年增 <span class="${cls(lastQ.eps - yoyQ.eps)}">${sp((lastQ.eps / yoyQ.eps - 1) * 100)}</span> · 淨利 ${f0(lastQ.ni)} 億`, chip: isRecord(Q, 'eps') ? '歷史新高' : '' },
+  { label: `${capB.y} 資本支出預算`, value: `${f0(capB.lo * 10)}–${f0(capB.hi * 10)}`, unit: '億美元', delta: capB.note || '' },
+];
+$('#kpis').innerHTML = kpis.map(k => `
+  <div class="kpi">
+    <span class="label">${k.label}</span>
+    <span class="value">${k.value}<small>${k.unit}</small></span>
+    <span class="delta">${k.delta}</span>
+    ${k.chip ? `<span class="chip">${k.chip}</span>` : ''}
+  </div>`).join('');
+
+const upcoming = (D.events || []).filter(e => e.date > D.asOf).slice(0, 3);
+const g = D.guidance;
+$('#nextText').innerHTML =
+  (upcoming.length ? upcoming.map(e => `${e.date.slice(5).replace('-', '/')} ${e.t}`).join('；') + '。' : '') +
+  (g ? ` 公司給的 ${g.q} 財測：營收 ${f0(g.revUsdLo * 10)}–${f0(g.revUsdHi * 10)} 億美元、毛利率 ${g.gmLo}%–${g.gmHi}%、營業利益率 ${g.omLo}%–${g.omHi}%。` : '') +
+  (pend ? ` ${pend.label} 營收依月營收加總為 ${f0(pend.sum)} 億，季增 ${sp(pend.qoq)}、年增 ${sp(pend.yoy)}；毛利率與淨利要等法說會。` : '');
+
+/* ---------- section texts (computed so monthly updates stay correct) ---------- */
+const first = months[0];
+$('#tagMonthly').textContent = `每月公布 · ${months.length} 個月`;
+$('#tagProfit').textContent = `每季公布 · ${Q[0].q} – ${lastQ.q}`;
+$('#howMonthly').innerHTML = `${first.y} 年 ${first.m} 月 <b>${f0(first.rev)} 億</b> → ${last.y} 年 ${last.m} 月 <b>${f0(last.rev)} 億</b>，約 <b>${(last.v / first.v).toFixed(1)} 倍</b>。` +
+  (isRecordMonth ? `${last.m} 月是單月歷史新高。` : `單月最高是 ${ymTxt(months.reduce((a, b) => b.v > a.v ? b : a))}。`);
+(() => {
+  const mx = months.filter(r => r.yoy != null).reduce((a, b) => b.yoy > a.yoy ? b : a);
+  let best = [], run = [];
+  months.forEach(r => { if (r.yoy != null && r.yoy < 0) { run.push(r); if (run.length > best.length) best = run.slice(); } else run = []; });
+  const runTxt = best.length ? `最長的連續衰退是 ${ymTxt(best[0])}–${ymTxt(best[best.length - 1])}（${best.length} 個月），那是半導體庫存調整期；` : '';
+  $('#howYoY').innerHTML = `藍色＝比去年同月多，紅色＝比去年同月少。${runTxt}${mx.y} 年 ${mx.m} 月 <b>${sp(mx.yoy)}</b> 是這段期間最高。`;
+})();
+(() => {
+  const ys = [...new Set(months.map(r => r.y))];
+  const febLow = ys.filter(y => { const v = D.monthly[String(y)]; return v.length >= 3 && v.indexOf(Math.min(...v)) === 1; }).length;
+  $('#howOverlay').innerHTML = `${ys.length} 年裡有 ${febLow} 年，<b>2 月是全年最低的月份</b>（天數少加上春節）。切到「累計」可以看每年跑到第幾個月已經追上前一年的全年。`;
+})();
+$('#howRevNi').innerHTML = `${lastQ.q} 淨利 <b>${f0(lastQ.ni)} 億</b>，是 ${Q[0].q}（${f0(Q[0].ni)} 億）的 ${(lastQ.ni / Q[0].ni).toFixed(1)} 倍；同期營收約 ${(lastQ.rev / Q[0].rev).toFixed(1)} 倍。淨利長得比營收快，代表利潤率在變高。`;
+(() => {
+  const lo = Q.reduce((a, b) => b.gm < a.gm ? b : a);
+  let streak = 0; for (let i = Q.length - 1; i > 0; i--) { if (Q.slice(0, i).every(q => q.gm < Q[i].gm)) streak++; else break; }
+  const rec = streak >= 2 ? `，連 ${streak} 季創新高` : streak === 1 ? '，創歷史新高' : '';
+  $('#howMargin').innerHTML = `毛利率從 ${lo.q} 低點 <b>${lo.gm.toFixed(1)}%</b> 到 ${lastQ.q} <b>${lastQ.gm.toFixed(1)}%</b>${rec}。` + (g ? `最右邊的淡色區間是公司給的 ${g.q} 財測。` : '');
+})();
+const lastD = Q.slice().reverse().find(q => q.dps != null);
+$('#howEps').innerHTML = `${lastFullA.y} 全年 EPS <b>${lastFullA.eps.toFixed(2)} 元</b>` +
+  (curA.nq && curA.nq < 4 ? `，${curA.y} 年前 ${curA.nq} 季已經 <b>${curA.eps.toFixed(2)} 元</b>` : '') +
+  `。` + (D.dpsAnnual ? `${Object.keys(D.dpsAnnual)[0]}–${Object.keys(D.dpsAnnual).slice(-1)[0]} 年台積電一年配息一次（全年 ${Object.values(D.dpsAnnual).join('、')} 元），圖上把它平均分到四季；2019 年起改成每季配息。` : '') + `每季股利從 ${Q[0].yr} 年的 ${Q[0].dps} 元調到 <b>${lastD.dps.toFixed(1)} 元</b>（${lastD.q}），但 EPS 長得更快，所以配發率（股利÷EPS）從約 ${Q[0].payout.toFixed(0)}% 降到約 ${lastD.payout.toFixed(0)}%。` + (lastD !== lastQ ? ` ${lastQ.q} 股利待董事會核准。` : '');
+(() => {
+  const yrs = Object.keys(D.capexUsd).map(Number).sort((a, b) => a - b);
+  const ly = yrs[yrs.length - 1];
+  $('#howCapexY').innerHTML = `${ly} 年全年 <b>${f0(D.capexUsd[ly] * 10)} 億美元</b>；${capB.y} 年預算 <b>${f0(capB.lo * 10)}–${f0(capB.hi * 10)} 億</b>${capB.note ? `（${capB.note}）` : ''}，${capB.ytdLabel}已花 ${f0(capB.ytd * 10)} 億。`;
+  const mx = Q.reduce((a, b) => b.capexPct > a.capexPct ? b : a);
+  $('#howCapexQ').innerHTML = `${lastQ.q} 單季 <b>${f0(lastQ.capex)} 億</b>${isRecord(Q, 'capex') ? '，創新高' : ''}。下面的小圖是資本密集度（CapEx ÷ 營收）：${mx.q} 最高約 ${mx.capexPct.toFixed(0)}%，${lastQ.q} 約 ${lastQ.capexPct.toFixed(0)}%。`;
+  const QC = Q.filter(q => q.ocf != null), neg = QC.filter(q => q.fcf < 0);
+  $('#cashTitle').textContent = `營業現金流、資本支出、自由現金流（億元，${QC[0].q} 起）`;
+  $('#howCash').innerHTML = neg.length
+    ? `自由現金流是負的季度：${neg.map(q => `<b>${q.q}</b>（${f0(q.fcf)} 億）`).join('、')}。最新一季 ${lastQ.q} 自由現金流 ${f0(lastQ.fcf)} 億。`
+    : `${QC[0].q} 以來每一季自由現金流都是正的；最新一季 ${lastQ.q} 為 ${f0(lastQ.fcf)} 億。`;
+})();
+(() => {
+  const f3 = Q.find(q => q.n3 > 0), f2 = Q.find(q => q.n2 > 0), f7 = Q.find(q => q.adv > 0) || Q[0];
+  $('#howNodes').innerHTML = `7 奈米 ${f7.q} 開始貢獻（<b>${f7.adv}%</b>），到 ${lastQ.q} 7 奈米及以下合計 <b>${lastQ.adv}%</b>。` +
+    (f3 ? `3 奈米 ${f3.q} 開始貢獻（${f3.n3}%）` : '') + (f2 ? `，2 奈米 ${f2.q} 首度出現（${f2.n2}%）` : '') + '。顏色越深＝製程越先進。';
+  const cross = Q.find(q => q.hpc != null && q.sp != null && q.hpc > q.sp), p0 = Q.find(q => q.hpc != null) || Q[0];
+  $('#howPlat').innerHTML = `台積電從 ${p0.q} 開始公布平台占比。HPC 從 <b>${p0.hpc}%</b> 到 <b>${lastQ.hpc}%</b>，手機從 <b>${p0.sp}%</b> 到 <b>${lastQ.sp}%</b>。` + (cross ? `${cross.q} HPC 第一次超過手機。` : '');
+})();
+$('#annualNote').textContent = `${curA.y} 年營收為 1–${curA.n} 月、獲利為前 ${curA.nq} 季，年增率是跟 ${curA.y - 1} 年同期比。年度毛利率由各季毛利率加權計算，可能和公司年報差 0.1 個百分點。`;
+if (D.provisional && Object.keys(D.provisional).length) {
+  $('#monthlyNote').textContent = Object.entries(D.provisional).map(([k, v]) => `${k.replace('-', '/')}：${v}`).join('；');
+  $('#monthlyNote').hidden = false;
+}
+
+/* ---------- Waterfall ---------- */
+const W = D.waterfall;
+$('#wfTitle').textContent = `從營收到淨利：${W.q} 拆解（億元）`;
+(() => { const wq = Q.find(q => q.q === W.q) || lastQ;
+  $('#howWF').innerHTML = `每 100 元營收，扣掉生產成本剩 <b>${wq.gm.toFixed(1)} 元</b>（毛利率），再扣研發與管銷剩 <b>${wq.om.toFixed(1)} 元</b>（營益率），加業外、扣稅後剩 <b>${wq.nm.toFixed(1)} 元</b>（淨利率）。`; })();
+$('#wfNote').textContent = W.note || '';
+$('#wfNote').hidden = !W.note;
+function drawWF() {
+  const R = W.rows[0].v; let run = 0; const rows = [];
+  const scale = 100 / (R * 1.03);
+  W.rows.forEach(r => {
+    let a, b;
+    if (r.t) { a = 0; b = r.v; run = r.v; } else { a = run; b = run + r.v; run = b; }
+    const lo = Math.min(a, b), hi = Math.max(a, b);
+    const color = r.t ? T('--s1') : (r.v < 0 ? T('--neg') : T('--pos-soft'));
+    const share = r.v / R * 100;
+    rows.push(`<div class="wf-row${r.t ? ' total' : ''}">
+      <span class="nm">${r.n}</span>
+      <span class="wf-track"><span class="wf-bar" style="left:${lo * scale}%;width:${Math.max((hi - lo) * scale, 0.4)}%;background:${color}"></span></span>
+      <span class="v">${r.t ? '' : (r.v > 0 ? '+' : '−')}${f1(Math.abs(r.v))}<em>${r.t ? '占營收 ' + share.toFixed(1) + '%' : (share > 0 ? '+' : '−') + Math.abs(share).toFixed(1) + '%'}</em></span>
+    </div>`);
+  });
+  $('#wf').innerHTML = rows.join('');
+}
+
+/* ---------- legends ---------- */
+function legend(el, items) {
+  $(el).innerHTML = items.map(i => `<span><i class="${i.line ? 'ln' : ''}" style="background:${i.c}"></i>${i.t}</span>`).join('');
+}
+const tint = (hex, a) => { const h = hex.replace('#', ''); const n = parseInt(h, 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+
+/* ---------- charts ---------- */
+let charts = [];
+let range = 'all', ovMode = 'm';
+try { range = localStorage.getItem('tsmc-range') || 'all'; ovMode = localStorage.getItem('tsmc-ov') || 'm'; } catch (e) {}
+
+function baseOpts(extra = {}) {
+  return Object.assign({
+    responsive: true, maintainAspectRatio: false,
+    animation: reduce ? false : { duration: 350 },
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: T('--surface'), titleColor: T('--ink'), bodyColor: T('--ink-2'),
+        borderColor: T('--axis'), borderWidth: 1, padding: 10, boxPadding: 4, cornerRadius: 8,
+        titleFont: { family: 'IBM Plex Sans, Noto Sans TC, sans-serif', weight: '600' },
+        bodyFont: { family: 'IBM Plex Mono, Noto Sans TC, monospace', size: 12 },
+        usePointStyle: true,
+      },
+    },
+    scales: {},
+  }, extra);
+}
+const tip = (o) => ({ ...baseOpts().plugins, tooltip: { ...baseOpts().plugins.tooltip, ...o } });
+function yAxis(o = {}, t = {}) {
+  return Object.assign({
+    border: { display: false },
+    grid: { color: T('--grid'), drawTicks: false },
+    ticks: Object.assign({ color: T('--tick'), padding: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 } }, t),
+  }, o);
+}
+function xAxis(o = {}, t = {}) {
+  return Object.assign({
+    border: { color: T('--axis') },
+    grid: { display: false },
+    ticks: Object.assign({ color: T('--tick'), maxRotation: 0, autoSkip: true, font: { family: 'IBM Plex Mono, monospace', size: 11 } }, t),
+  }, o);
+}
+const bar = (o) => Object.assign({ type: 'bar', borderRadius: 3, borderSkipped: 'start', categoryPercentage: 0.8, barPercentage: 0.9 }, o);
+const line = (o) => Object.assign({ type: 'line', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2 }, o);
+
+function build() {
+  charts.forEach(c => c.destroy()); charts = [];
+  Chart.defaults.font.family = 'IBM Plex Sans, Noto Sans TC, system-ui, sans-serif';
+  Chart.defaults.color = T('--tick');
+  const S = [T('--s1'), T('--s2'), T('--s3'), T('--s4'), T('--s5'), T('--s6'), T('--s7')];
+  drawWF();
+
+  /* monthly revenue + YoY share the period filter */
+  const ms = range === 'all' ? months : months.slice(-Number(range));
+  const all = range === 'all';
+  const mLab = ms.map(ymTxt);
+  const mTicks = { autoSkip: !all, maxTicksLimit: 12, callback(v) { const l = mLab[v]; return all ? (l.endsWith('/01') ? l.slice(0, 4) : '') : l; } };
+  charts.push(new Chart($('#cMonthly'), {
+    data: { labels: mLab, datasets: [bar({ label: '營收', data: ms.map(m => r1(m.rev)), backgroundColor: S[0], categoryPercentage: 0.9, barPercentage: 0.85 })] },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, mTicks) },
+      plugins: tip({ callbacks: { label: (c) => { const m = ms[c.dataIndex]; return [` 營收 ${f1(m.rev)} 億`, ` 年增 ${sp(m.yoy)}　月增 ${sp(m.mom)}`]; } } }),
+    }),
+  }));
+  charts.push(new Chart($('#cYoY'), {
+    data: { labels: mLab, datasets: [bar({ label: '年增率', data: ms.map(m => m.yoy == null ? null : r1(m.yoy)), backgroundColor: ms.map(m => (m.yoy ?? 0) >= 0 ? S[0] : T('--neg')), borderSkipped: false, categoryPercentage: 0.9, barPercentage: 0.85 })] },
+    options: baseOpts({
+      scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, mTicks) },
+      plugins: tip({ callbacks: { label: c => ` 年增 ${sp(c.raw)}` } }),
+    }),
+  }));
+
+  /* overlay by year — each year keeps a fixed color */
+  const years = [...new Set(months.map(r => r.y))].sort((a, b) => b - a);
+  const S8 = S.concat([T('--s8')]);
+  const yColor = {}, ly0 = years[0], isOld = (y) => ly0 - y >= 6; years.forEach(y => { yColor[y] = isOld(y) ? T('--axis') : S8[ly0 - y]; });
+  const oldY = years.filter(isOld);
+  legend('#ovLegend', years.filter(y => !isOld(y)).map(y => ({ t: String(y), c: yColor[y], line: 1 })).concat(oldY.length ? [{ t: `${oldY[oldY.length - 1]}–${oldY[0]}（灰線）`, c: T('--axis'), line: 1 }] : []));
+  charts.push(new Chart($('#cOverlay'), {
+    data: { labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'], datasets: years.map((y, i) => {
+      const arr = D.monthly[String(y)].map(v => v / 100); let acc = 0; const cum = arr.map(v => (acc += v));
+      return line({ label: String(y), data: (ovMode === 'c' ? cum : arr).map(r1), borderColor: yColor[y], backgroundColor: yColor[y], borderWidth: i === 0 ? 3 : (isOld(y) ? 1.25 : 2), order: isOld(y) ? 2 : 1, tension: 0.25 });
+    }) },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: ovMode === 'c' }, { callback: v => nf0.format(v) }), x: xAxis() },
+      plugins: tip({ itemSort: (a, b) => b.raw - a.raw, filter: it => !isOld(Number(it.dataset.label)), callbacks: { label: c => ` ${c.dataset.label}　${f0(c.raw)} 億` } }),
+    }),
+  }));
+
+  /* quarterly revenue & NI */
+  legend('#lgRevNi', [{ t: '營收', c: S[0] }, { t: '淨利', c: S[1] }]);
+  charts.push(new Chart($('#cRevNi'), {
+    data: { labels: qLabels, datasets: [bar({ label: '營收', data: Q.map(q => r1(q.rev)), backgroundColor: S[0] }), bar({ label: '淨利', data: Q.map(q => r1(q.ni)), backgroundColor: S[1] })] },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, { maxTicksLimit: 8 }) },
+      plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)} 億`, afterBody: it => ` 淨利率 ${Q[it[0].dataIndex].nm.toFixed(1)}%` } }),
+    }),
+  }));
+
+  /* margins + guidance */
+  const mLabels = qLabels.concat(g ? [`${g.q} 財測`] : []);
+  const pad = (arr) => g ? arr.concat([null]) : arr;
+  legend('#lgMargin', [{ t: '毛利率', c: S[0], line: 1 }, { t: '營業利益率', c: S[1], line: 1 }, { t: '淨利率', c: S[2], line: 1 }].concat(g ? [{ t: `${g.q} 財測區間`, c: tint(S[0], 0.3) }] : []));
+  const mSets = [
+    line({ label: '毛利率', data: pad(Q.map(q => q.gm)), borderColor: S[0], backgroundColor: S[0] }),
+    line({ label: '營業利益率', data: pad(Q.map(q => q.om)), borderColor: S[1], backgroundColor: S[1] }),
+    line({ label: '淨利率', data: pad(Q.map(q => r1(q.nm))), borderColor: S[2], backgroundColor: S[2] }),
+  ];
+  if (g) mSets.push(
+    bar({ label: '毛利率財測', data: Q.map(() => null).concat([[g.gmLo, g.gmHi]]), backgroundColor: tint(S[0], 0.3), borderSkipped: false, grouped: false, barPercentage: 0.7, categoryPercentage: 1 }),
+    bar({ label: '營益率財測', data: Q.map(() => null).concat([[g.omLo, g.omHi]]), backgroundColor: tint(S[1], 0.3), borderSkipped: false, grouped: false, barPercentage: 0.7, categoryPercentage: 1 }));
+  charts.push(new Chart($('#cMargin'), {
+    data: { labels: mLabels, datasets: mSets },
+    options: baseOpts({
+      scales: { y: yAxis({ min: 20, max: 75 }, { stepSize: 10, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 8 }) },
+      plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => Array.isArray(c.raw) ? ` ${c.dataset.label} ${c.raw[0]}%–${c.raw[1]}%` : ` ${c.dataset.label} ${c.raw.toFixed(1)}%` } }),
+    }),
+  }));
+
+  /* EPS & DPS */
+  legend('#lgEps', [{ t: '每股盈餘 EPS', c: S[0] }, { t: '每股現金股利', c: S[1] }]);
+  charts.push(new Chart($('#cEps'), {
+    data: { labels: qLabels, datasets: [bar({ label: 'EPS', data: Q.map(q => q.eps), backgroundColor: S[0] }), bar({ label: '股利', data: Q.map(q => q.dps), backgroundColor: S[1] })] },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: true }, { callback: v => v + ' 元' }), x: xAxis({}, { maxTicksLimit: 9 }) },
+      plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${c.raw.toFixed(2)} 元`, afterBody: it => { const p = Q[it[0].dataIndex].payout; return p == null ? ' 股利尚未公布' : ` 配發率 ${p.toFixed(0)}%`; } } }),
+    }),
+  }));
+
+  /* annual capex USD (億美元) with budget range */
+  const cyrs = Object.keys(D.capexUsd).map(Number).sort((a, b) => a - b);
+  if (!cyrs.includes(capB.y)) cyrs.push(capB.y);
+  const actual = cyrs.map(y => y === capB.y && D.capexUsd[String(y)] == null ? r1(capB.ytd * 10) : r1(D.capexUsd[String(y)] * 10));
+  const budget = cyrs.map(y => y === capB.y ? [capB.lo * 10, capB.hi * 10] : null);
+  legend('#lgCapexY', [{ t: `實際支出（${capB.y} 為${capB.ytdLabel}）`, c: S[0] }, { t: `${capB.y} 全年預算區間`, c: tint(S[0], 0.28) }]);
+  charts.push(new Chart($('#cCapexY'), {
+    data: { labels: cyrs.map(String), datasets: [
+      bar({ label: '實際支出', data: actual, backgroundColor: S[0], grouped: false, order: 1, barPercentage: 0.55 }),
+      bar({ label: '全年預算', data: budget, backgroundColor: tint(S[0], 0.28), grouped: false, order: 2, borderSkipped: false, barPercentage: 0.55 }),
+    ] },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: true, suggestedMax: capB.hi * 10 * 1.08 }, { callback: v => nf0.format(v) }), x: xAxis() },
+      plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => Array.isArray(c.raw) ? ` 全年預算 ${f0(c.raw[0])}–${f0(c.raw[1])} 億美元` : ` ${Number(c.label) === capB.y && D.capexUsd[c.label] == null ? capB.ytdLabel + '實際' : '全年實際'} ${f0(c.raw)} 億美元` } }),
+    }),
+  }));
+
+  /* quarterly capex NT$ + intensity */
+  charts.push(new Chart($('#cCapexQ'), {
+    data: { labels: qLabels, datasets: [bar({ label: '資本支出', data: Q.map(q => r1(q.capex)), backgroundColor: S[0] })] },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, { maxTicksLimit: 7 }) },
+      plugins: tip({ callbacks: { label: c => ` 資本支出 ${f0(c.raw)} 億`, afterBody: it => ` 占營收 ${Q[it[0].dataIndex].capexPct.toFixed(1)}%` } }),
+    }),
+  }));
+  charts.push(new Chart($('#cCapexPct'), {
+    data: { labels: qLabels, datasets: [line({ label: '資本密集度', data: Q.map(q => r1(q.capexPct)), borderColor: S[0], backgroundColor: tint(S[0], 0.12), fill: 'origin', tension: 0.25 })] },
+    options: baseOpts({
+      scales: { y: yAxis({ beginAtZero: true, max: 80 }, { stepSize: 20, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 7 }) },
+      plugins: tip({ callbacks: { label: c => ` 資本支出 ÷ 營收 ${c.raw.toFixed(1)}%` } }),
+    }),
+  }));
+
+  /* cash flow */
+  const QC = Q.filter(q => q.ocf != null);
+  legend('#lgCash', [{ t: '營業現金流', c: S[0] }, { t: '資本支出', c: S[1] }, { t: '自由現金流', c: S[2] }]);
+  charts.push(new Chart($('#cCash'), {
+    data: { labels: QC.map(q => q.q), datasets: [
+      bar({ label: '營業現金流', data: QC.map(q => r1(q.ocf)), backgroundColor: S[0] }),
+      bar({ label: '資本支出', data: QC.map(q => r1(q.capex)), backgroundColor: S[1] }),
+      bar({ label: '自由現金流', data: QC.map(q => r1(q.fcf)), backgroundColor: S[2] }),
+    ] },
+    options: baseOpts({
+      scales: { y: yAxis({}, { callback: v => nf0.format(v) }), x: xAxis({}, { maxTicksLimit: 10 }) },
+      plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)} 億` } }),
+    }),
+  }));
+
+  /* node mix */
+  const N = [{ k: 'n7', t: '7 奈米', c: T('--n7') }, { k: 'n5', t: '5 奈米', c: T('--n5') }, { k: 'n3', t: '3 奈米', c: T('--n3') }, { k: 'n2', t: '2 奈米', c: T('--n2') }];
+  legend('#lgNodes', N.map(n => ({ t: n.t, c: n.c })));
+  charts.push(new Chart($('#cNodes'), {
+    data: { labels: qLabels, datasets: N.map((n, i) => line({ label: n.t, data: Q.map(q => q[n.k]), borderColor: T('--surface'), borderWidth: 1, backgroundColor: n.c, fill: i === 0 ? 'origin' : '-1', pointHoverRadius: 3 })) },
+    options: baseOpts({
+      scales: { y: yAxis({ stacked: true, min: 0, max: 100 }, { stepSize: 25, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 8 }) },
+      plugins: tip({ itemSort: (a, b) => b.datasetIndex - a.datasetIndex, filter: it => it.raw > 0, callbacks: { label: c => ` ${c.dataset.label} ${c.raw}%`, afterBody: it => ` 7 奈米及以下合計 ${Q[it[0].dataIndex].adv}%` } }),
+    }),
+  }));
+
+  /* platform */
+  legend('#lgPlat', [{ t: 'HPC 高效能運算', c: S[0], line: 1 }, { t: '智慧型手機', c: S[1], line: 1 }]);
+  charts.push(new Chart($('#cPlat'), {
+    data: { labels: qLabels, datasets: [line({ label: 'HPC', data: Q.map(q => q.hpc), borderColor: S[0], backgroundColor: S[0] }), line({ label: '手機', data: Q.map(q => q.sp), borderColor: S[1], backgroundColor: S[1] })] },
+    options: baseOpts({
+      scales: { y: yAxis({ min: 0, max: 80 }, { stepSize: 20, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 8 }) },
+      plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${c.raw}%` } }),
+    }),
+  }));
+  buildTech();
+}
+
+/* ---------- controls ---------- */
+function syncSeg(id, attr, val) {
+  document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val)));
+}
+$('#rangeSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  range = b.dataset.r; syncSeg('rangeSeg', 'r', range);
+  try { localStorage.setItem('tsmc-range', range); } catch (err) {}
+  if (window.Chart) build();
+});
+$('#ovSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  ovMode = b.dataset.v; syncSeg('ovSeg', 'v', ovMode);
+  try { localStorage.setItem('tsmc-ov', ovMode); } catch (err) {}
+  if (window.Chart) build();
+});
+syncSeg('rangeSeg', 'r', range); syncSeg('ovSeg', 'v', ovMode);
+
+/* ---------- tables ---------- */
+function tables() {
+  $('#tAnnual').innerHTML = `<thead><tr><th>年度</th><th>營收（億）</th><th>年增率</th><th>毛利率</th><th>淨利（億）</th><th>EPS（元）</th><th>股利（元）</th><th>資本支出（億美元）</th></tr></thead><tbody>` +
+    A.map(a => {
+      const partial = a.n < 12 || a.nq < 4;
+      const cap = a.y === capB.y && a.capexUsd == null ? `${f0(capB.ytd * 10)}（預算 ${f0(capB.lo * 10)}–${f0(capB.hi * 10)}）` : f0(a.capexUsd == null ? null : a.capexUsd * 10);
+      return `<tr><td>${a.y}${partial ? `（1–${a.n} 月 / 前 ${a.nq} 季）` : ''}</td><td>${f0(a.rev)}</td><td class="${cls(a.yoy)}">${sp(a.yoy)}</td><td>${a.gm == null ? '—' : a.gm.toFixed(1) + '%'}</td><td>${f0(a.ni)}</td><td>${a.eps.toFixed(2)}</td><td>${a.dps.toFixed(2)}</td><td>${cap}</td></tr>`;
+    }).join('') + '</tbody>';
+  const yrs = [...new Set(months.map(m => m.y))];
+  let h = '<thead><tr><th>年度</th>' + Array.from({ length: 12 }, (_, i) => `<th>${i + 1} 月</th>`).join('') + '<th>全年</th></tr></thead><tbody>';
+  yrs.forEach(y => {
+    const ms = months.filter(m => m.y === y), a = A.find(x => x.y === y);
+    h += `<tr><td>${y}</td>` + Array.from({ length: 12 }, (_, i) => { const m = ms[i]; return m ? `<td>${f0(m.rev)}<span class="y ${cls(m.yoy)}">${sp(m.yoy)}</span></td>` : '<td>—</td>'; }).join('') +
+      `<td class="tot">${f0(a.rev)}<span class="y ${cls(a.yoy)}">${sp(a.yoy)}</span></td></tr>`;
+  });
+  $('#tMonthly').innerHTML = h + '</tbody>';
+  $('#tQuarter').innerHTML = `<thead><tr><th>季度</th><th>營收（億）</th><th>毛利率</th><th>營益率</th><th>淨利率</th><th>淨利（億）</th><th>EPS</th><th>股利</th><th>資本支出（億）</th><th>自由現金流（億）</th><th>≤7 奈米</th><th>HPC</th><th>手機</th></tr></thead><tbody>` +
+    Q.slice().reverse().map(q => `<tr><td>${q.q}</td><td>${f0(q.rev)}</td><td>${q.gm.toFixed(1)}%</td><td>${q.om.toFixed(1)}%</td><td>${q.nm.toFixed(1)}%</td><td>${f0(q.ni)}</td><td>${q.eps.toFixed(2)}</td><td>${q.dps == null ? '—' : q.dps.toFixed(2)}</td><td>${f0(q.capex)}</td><td class="${q.fcf == null ? '' : cls(q.fcf)}">${q.fcf == null ? '—' : f0(q.fcf)}</td><td>${q.adv}%</td><td>${q.hpc == null ? '—' : q.hpc + '%'}</td><td>${q.sp == null ? '—' : q.sp + '%'}</td></tr>`).join('') + '</tbody>';
+}
+const csvMonthly = () => ['年月,營收(億元),年增率(%),月增率(%)'].concat(months.map(m => `${m.ym},${r1(m.rev)},${m.yoy == null ? '' : r1(m.yoy)},${m.mom == null ? '' : r1(m.mom)}`)).join('\n');
+const csvQuarter = () => ['季度,營收(億元),毛利率(%),營業利益率(%),淨利率(%),淨利(億元),EPS(元),每股股利(元),資本支出(億元),營業現金流(億元),自由現金流(億元),資本密集度(%),2nm(%),3nm(%),5nm(%),7nm(%),7nm及以下(%),HPC(%),手機(%)']
+  .concat(Q.map(q => [q.q, r1(q.rev), q.gm, q.om, r1(q.nm), r1(q.ni), q.eps, q.dps ?? '', r1(q.capex), q.ocf == null ? '' : r1(q.ocf), q.fcf == null ? '' : r1(q.fcf), r1(q.capexPct), q.n2, q.n3, q.n5, q.n7, q.adv, q.hpc, q.sp].join(','))).join('\n');
+function copyBtn(btn, ok, fn) {
+  $(btn).addEventListener('click', async () => {
+    const text = fn();
+    try { await navigator.clipboard.writeText(text); $(ok).textContent = '已複製'; }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let done = false; try { done = document.execCommand('copy'); } catch (er) {}
+      ta.remove(); $(ok).textContent = done ? '已複製' : '瀏覽器擋下複製，請改用表格選取';
+    }
+    $(ok).hidden = false; setTimeout(() => { $(ok).hidden = true; }, 2500);
+  });
+}
+copyBtn('#cpM', '#cpMok', csvMonthly);
+copyBtn('#cpQ', '#cpQok', csvQuarter);
+
+
+/* ---------- timelines: tech milestones & fabs ---------- */
+const dy = (s) => {
+  let m;
+  if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/))) return +m[1] + (m[2] - 1) / 12 + (m[3] - 1) / 365;
+  if ((m = s.match(/^(\d{4})-(\d{2})$/))) return +m[1] + (m[2] - 0.5) / 12;
+  if ((m = s.match(/^(\d{4})-Q(\d)$/))) return +m[1] + (m[2] - 0.5) / 4;
+  if ((m = s.match(/^(\d{4})-H(\d)$/))) return +m[1] + (m[2] - 0.5) / 2;
+  return +s.slice(0, 4) + 0.5;
+};
+const dfmt = (s) => {
+  let m;
+  if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/))) return `${m[1]}/${m[2]}/${m[3]}`;
+  if ((m = s.match(/^(\d{4})-(\d{2})$/))) return `${m[1]}/${m[2]}`;
+  if ((m = s.match(/^(\d{4})-Q(\d)$/))) return `${m[1]} Q${m[2]}`;
+  if ((m = s.match(/^(\d{4})-H(\d)$/))) return `${m[1]} ${m[2] === '1' ? '上' : '下'}半年`;
+  return `${s} 年`;
+};
+const TODAY = dy(D.asOf);
+const MS = (D.milestones || []).slice().sort((a, b) => dy(a.d) - dy(b.d));
+const FABS = (D.fabs || []).slice().sort((a, b) => Math.min(...a.ms.map(e => dy(e.d))) - Math.min(...b.ms.map(e => dy(e.d))));
+const UNC = '<span class="unc-chip">待確定</span>';
+const srcLink = (o) => o.src ? `<a href="${o.src}" target="_blank" rel="noopener">${(o.unc || /^媒體報導/.test(o.note || '')) ? '媒體' : '來源'}</a>` : '';
+const NODE_KEY = { n7: 'N7', n5: 'N5', n3: 'N3', n2: 'N2' };
+const firstRev = Object.entries(NODE_KEY).map(([k, node]) => { const q = Q.find(x => x[k] > 0); return q ? { node, q: q.q, x: q.yr + (q.qi - 0.5) / 4, pct: q[k] } : null; }).filter(Boolean);
+const hvm = MS.filter(m => m.cat === 'node' && m.hvm);
+const techNodes = [...new Set(hvm.map(m => m.node))];
+
+(() => {
+  if (!hvm.length) return;
+  const done = hvm.filter(m => m.st !== 'f' && !m.unc), next = hvm.find(m => m.st === 'f');
+  const a = done[0], b = done[done.length - 1];
+  const gens = done.length;
+  $('#howTech').innerHTML = `從 ${dfmt(a.d)}的 <b>${a.node}</b> 到 ${dfmt(b.d)}的 <b>${b.node}</b>，${gens} 個製程版本陸續量產。` +
+    (firstRev.length ? `從量產到財報列出占比的時間差：${firstRev.map(f => `${f.node} 在 ${f.q} 首度出現（${f.pct}%）`).join('、')}。` : '') +
+    (next ? `下一個是 <b>${next.node}</b>，預計 ${dfmt(next.d)}。` : '');
+})();
+
+let msFilter = 'all';
+function msTable() {
+  const rows = MS.filter(m => msFilter === 'all' ? true : msFilter === 'plan' ? (m.st === 'f' || m.unc) : m.cat === msFilter);
+  const cat = { node: '製程', pkg: '先進封裝' };
+  $('#tMs').innerHTML = `<thead><tr><th>時間</th><th>類別</th><th>製程／技術</th><th class="txt">事件</th><th>狀態</th><th>來源</th></tr></thead><tbody>` +
+    rows.map(m => `<tr class="${m.st === 'f' ? 'st-plan' : ''}"><td>${dfmt(m.d)}</td><td>${cat[m.cat] || '其他'}</td><td>${m.node}</td><td class="txt">${m.t}${m.unc ? UNC : ''}${m.note ? `<br><small class="st-plan">${m.note}</small>` : ''}</td><td>${m.unc ? '待確定' : m.st === 'f' ? '規劃中' : '已達成'}</td><td class="src">${srcLink(m)}</td></tr>`).join('') + '</tbody>';
+}
+$('#msSeg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  msFilter = b.dataset.f; syncSeg('msSeg', 'f', msFilter); msTable();
+});
+
+const KIND = { a: { t: '公布', c: '--s7' }, g: { t: '動工', c: '--s4' }, c: { t: '完工／裝機／開幕', c: '--s3' }, m: { t: '量產', c: '--s1' } };
+function drawGantt() {
+  if (!FABS.length) return;
+  const all = FABS.flatMap(f => f.ms.map(e => dy(e.d)));
+  const x0 = Math.floor(Math.min(...all)), x1 = Math.max(Math.ceil(Math.max(...all)), Math.ceil(TODAY) + 1);
+  const pos = (v) => ((v - x0) / (x1 - x0) * 100).toFixed(2) + '%';
+  const yrs = []; for (let y = x0; y <= x1; y++) yrs.push(y);
+  const grid = yrs.map(y => `<span class="g-grid" style="left:${pos(y)}"></span>`).join('') + `<span class="g-today" style="left:${pos(TODAY)}" title="今天"></span>`;
+  const axis = `<div class="g-row g-axis"><span class="nm"></span><span class="g-track">${yrs.slice(0, -1).map(y => `<span class="g-tick" style="left:${pos(y + 0.5)}">${y}</span>`).join('')}</span></div>`;
+  $('#gantt').innerHTML = axis + FABS.map(f => {
+    const xs = f.ms.map(e => dy(e.d)), lo = Math.min(...xs), hi = Math.max(...xs);
+    const mid = Math.min(Math.max(TODAY, lo), hi);
+    const lines = (mid > lo ? `<span class="g-line" style="left:${pos(lo)};width:calc(${pos(mid)} - ${pos(lo)})"></span>` : '') +
+      (hi > mid ? `<span class="g-line plan" style="left:${pos(mid)};width:calc(${pos(hi)} - ${pos(mid)})"></span>` : '');
+    const mks = f.ms.map((e, i) => `<button type="button" class="g-mk k-${e.k}${e.st === 'f' ? ' plan' : ''}${e.unc ? ' unc' : ''}" style="left:${pos(dy(e.d))};--c:var(${KIND[e.k].c})" data-f="${f.id}" data-i="${i}" aria-label="${f.n} ${KIND[e.k].t} ${dfmt(e.d)}" title="${dfmt(e.d)} ${KIND[e.k].t}：${e.t}${e.unc ? '（待確定）' : ''}"></button>`).join('');
+    return `<div class="g-row"><span class="nm">${f.n}<small>${f.loc} · ${f.tech}</small></span><span class="g-track">${grid}${lines}${mks}</span></div>`;
+  }).join('');
+  $('#gKey').innerHTML = Object.entries(KIND).map(([k, v]) => `<span><i class="g-mk k-${k}" style="--c:var(${v.c})"></i>${v.t}</span>`).join('') +
+    `<span><i class="g-mk k-m plan" style="--c:var(--s1)"></i>空心＝規劃中</span><span><i class="g-mk k-m unc" style="--c:var(--s1)"></i>虛線框＝待確定</span><span><i style="display:inline-block;width:0;height:14px;border-left:1.5px dashed var(--s8)"></i>今天</span>`;
+}
+function fabInfo(btn) {
+  const f = FABS.find(x => x.id === btn.dataset.f), e = f.ms[+btn.dataset.i];
+  $('#gInfo').innerHTML = `<b>${f.n}</b>　${dfmt(e.d)}　${KIND[e.k].t}${e.st === 'f' ? '（規劃）' : ''}：${e.t}${e.unc ? UNC : ''}${e.note ? `（${e.note}）` : ''} ${srcLink(e)}`;
+}
+['mouseover', 'focusin', 'click'].forEach(ev => $('#gantt').addEventListener(ev, e => { const b = e.target.closest('.g-mk'); if (b) fabInfo(b); }));
+function fabTable() {
+  const cell = (f, k) => { const es = f.ms.filter(e => e.k === k); return es.length ? es.map(e => `<span class="${e.st === 'f' ? 'st-plan' : ''}" title="${e.t}">${dfmt(e.d)}${e.unc ? '？' : ''}</span>`).join('<br>') : '—'; };
+  $('#tFab').innerHTML = `<thead><tr><th>廠區</th><th>地點</th><th>製程</th><th>公布</th><th>動工</th><th>完工／開幕</th><th>量產</th><th class="txt">說明</th><th>來源</th></tr></thead><tbody>` +
+    FABS.map(f => `<tr><td>${f.n}</td><td>${f.loc}</td><td>${f.tech}</td><td>${cell(f, 'a')}</td><td>${cell(f, 'g')}</td><td>${cell(f, 'c')}</td><td>${cell(f, 'm')}</td>` +
+      `<td class="txt">${f.ms.map(e => `<span class="${e.st === 'f' ? 'st-plan' : ''}">${dfmt(e.d)} ${e.t}${e.unc ? UNC : ''}${e.note ? `（${e.note}）` : ''}</span>`).join('<br>')}</td>` +
+      `<td class="src">${[...new Map(f.ms.filter(e => e.src).map(e => [e.src, e])).values()].map(srcLink).join('<br>')}</td></tr>`).join('') + '</tbody>';
+  const abroad = FABS.filter(f => f.c !== '台灣').length;
+  const running = FABS.filter(f => f.ms.some(e => e.k === 'm' && e.st !== 'f') || (!f.ms.some(e => e.k === 'm') && f.ms.some(e => e.k === 'c' && e.st !== 'f'))).length;
+  const building = FABS.filter(f => !f.ms.some(e => e.k === 'm' && e.st !== 'f') && f.ms.some(e => e.k === 'm')).length;
+  $('#howFab').innerHTML = `共 <b>${FABS.length}</b> 個廠區，其中 ${abroad} 個在台灣以外。已量產或啟用的 ${running} 個，興建中、已有量產時程的 ${building} 個。依最早的事件排序，最上面是最早的專案。`;
+  $('#fabNote').textContent = D.fabNote || ''; $('#fabNote').hidden = !D.fabNote;
+}
+msTable(); drawGantt(); fabTable();
+
+function buildTech() {
+  if (!hvm.length) return;
+  const cats = techNodes.slice().reverse();
+  const done = hvm.filter(m => m.st !== 'f' && !m.unc), plan = hvm.filter(m => m.st === 'f' && !m.unc), unc = hvm.filter(m => m.unc);
+  const S1 = T('--s1'), S2 = T('--s2');
+  legend('#lgTech', [{ t: '量產（已達成）', c: S1 }, { t: '量產（規劃）', c: tint(S1, 0.25) }, { t: '財報首度列出營收占比', c: S2 }].concat(unc.length ? [{ t: '待確定（媒體報導）', c: T('--s4') }] : []));
+  const pt = (m) => ({ x: dy(m.d), y: m.node, m });
+  const todayLine = { id: 'todayLine', afterDatasetsDraw(c) {
+    const x = c.scales.x.getPixelForValue(TODAY), { top, bottom } = c.chartArea, g = c.ctx;
+    g.save(); g.strokeStyle = T('--s8'); g.lineWidth = 1.5; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(x, top); g.lineTo(x, bottom); g.stroke();
+    g.setLineDash([]); g.fillStyle = T('--s8'); g.font = '11px "IBM Plex Sans", "Noto Sans TC", sans-serif'; g.textAlign = 'right'; g.fillText('今天', x - 4, top + 10); g.restore();
+  } };
+  charts.push(new Chart($('#cTech'), {
+    type: 'scatter',
+    data: { datasets: [
+      { label: '量產', data: done.map(pt), backgroundColor: S1, borderColor: S1, pointRadius: 6, pointHoverRadius: 8 },
+      { label: '規劃量產', data: plan.map(pt), backgroundColor: T('--surface'), borderColor: S1, borderWidth: 2, pointRadius: 6, pointHoverRadius: 8 },
+      { label: '待確定', data: unc.map(pt), backgroundColor: T('--surface'), borderColor: T('--s4'), borderWidth: 2, pointStyle: 'triangle', pointRadius: 7, pointHoverRadius: 9 },
+      { label: '首度列入營收', data: firstRev.map(f => ({ x: f.x, y: f.node, f })), backgroundColor: S2, borderColor: S2, pointStyle: 'rectRot', pointRadius: 6, pointHoverRadius: 8 },
+    ] },
+    options: baseOpts({
+      interaction: { mode: 'nearest', intersect: true },
+      scales: {
+        x: xAxis({ type: 'linear', min: Math.floor(dy(hvm[0].d)), max: Math.ceil(dy(hvm[hvm.length - 1].d)) }, { stepSize: 1, autoSkip: true, autoSkipPadding: 12, callback: v => Number.isInteger(v) ? String(v) : '' }),
+        y: yAxis({ type: 'category', labels: cats, offset: true }, { font: { family: 'IBM Plex Mono, monospace', size: 11 } }),
+      },
+      plugins: tip({ callbacks: {
+        title: it => it[0].raw.m ? `${it[0].raw.m.node} · ${dfmt(it[0].raw.m.d)}` : `${it[0].raw.f.node} · ${it[0].raw.f.q}`,
+        label: c => c.raw.m ? ` ${c.raw.m.t}${c.raw.m.unc ? '（待確定）' : c.raw.m.st === 'f' ? '（規劃）' : ''}` : ` 占晶圓營收 ${c.raw.f.pct}%（財報首度列出）`,
+      } }),
+    }),
+    plugins: [todayLine],
+  }));
+}
+
+/* ---------- glossary ---------- */
+const G = [
+  ['營收', 'Net Revenue', '賣晶圓與相關服務收到的總金額。台積電每月 10 日前公布上個月的數字。', '營收'],
+  ['年增率／月增率', 'YoY / MoM', '年增率是跟去年同月比，月增率是跟上個月比。月增率受季節影響大，判斷趨勢以年增率為主。', '(本期 ÷ 比較期 − 1) × 100%'],
+  ['毛利率', 'Gross Margin', '每賣 100 元，扣掉晶圓直接生產成本（折舊、材料、人工）後剩多少。反映定價能力和產能利用率。', '毛利 ÷ 營收'],
+  ['營業利益率', 'Operating Margin', '毛利再扣掉研發、管理、行銷費用後剩多少，代表本業的獲利能力。', '營業利益 ÷ 營收'],
+  ['淨利率', 'Net Profit Margin', '再加上業外收支（利息、投資損益）並扣稅後的最終獲利比例。業外一次性收益會讓它短暫偏高。', '淨利 ÷ 營收'],
+  ['每股盈餘', 'EPS', '每一股分到多少淨利。台積電約 259 億股，淨利每增加 259 億元，EPS 大約增加 1 元。', '淨利 ÷ 流通股數'],
+  ['資本支出', 'CapEx', '蓋廠房、買機台的現金支出。它是未來產能的領先指標，公司每年 1 月公布全年預算，年中可能上修。', '購置不動產、廠房及設備的現金'],
+  ['資本密集度', 'CapEx Intensity', '營收裡有多少比例拿去再投資。比例高代表正在大舉擴產。', '資本支出 ÷ 營收'],
+  ['自由現金流', 'Free Cash Flow', '本業賺進的現金扣掉擴產支出後還剩多少，股利和還債都從這裡出。', '營業現金流 − 資本支出'],
+  ['先進製程占比', '≤7nm share', '7 奈米及更先進製程占晶圓營收的比例。越先進的製程單價越高，占比越高通常毛利率越好。', '(2+3+5+7 奈米) ÷ 晶圓營收'],
+  ['HPC 占比', 'High Performance Computing', '高效能運算平台占營收比例，包含 AI 加速器、伺服器 CPU、資料中心晶片。', 'HPC 營收 ÷ 營收'],
+  ['配發率', 'Payout Ratio', '每股盈餘裡有多少拿來發現金股利。台積電採每季配息、股利穩定調升的政策。', '每股股利 ÷ EPS'],
+];
+$('#gloss').innerHTML = G.map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join('');
+
+/* ---------- boot ---------- */
+tables();
+if (window.Chart) build(); else drawWF();
+let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(() => { if (window.Chart) build(); else drawWF(); }, 60); };
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
+new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+
+
+</body></html>

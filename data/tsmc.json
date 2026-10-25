@@ -1,0 +1,1932 @@
+{
+ "asOf": "2026-10-18",
+ "monthly": {
+  "2015": [
+   87120,
+   62645,
+   72269,
+   75330,
+   70155,
+   59955,
+   80953,
+   67038,
+   64514,
+   81743,
+   63428,
+   58347
+  ],
+  "2016": [
+   70855,
+   59551,
+   73089,
+   66843,
+   73576,
+   81391,
+   76392,
+   94311,
+   89703,
+   91085,
+   93030,
+   78112
+  ],
+  "2017": [
+   76616,
+   71423,
+   85875,
+   56872,
+   72796,
+   84187,
+   71611,
+   91917,
+   88579,
+   94520,
+   93153,
+   89897
+  ],
+  "2018": [
+   79741,
+   64641,
+   103697,
+   81870,
+   80969,
+   70438,
+   74371,
+   91055,
+   94922,
+   101550,
+   98389,
+   89831
+  ],
+  "2019": [
+   78094,
+   60889,
+   79722,
+   74694,
+   80437,
+   85868,
+   84758,
+   106118,
+   102170,
+   106040,
+   107884,
+   103313
+  ],
+  "2020": [
+   103683,
+   93394,
+   113520,
+   96002,
+   93819,
+   120878,
+   105963,
+   122878,
+   127585,
+   119303,
+   124865,
+   117365
+  ],
+  "2021": [
+   126749,
+   106534,
+   129127,
+   111315,
+   112360,
+   148471,
+   124558,
+   137427,
+   152685,
+   134539,
+   148268,
+   155382
+  ],
+  "2022": [
+   172176,
+   146933,
+   171967,
+   172561,
+   185705,
+   175874,
+   186763,
+   218132,
+   208248,
+   210266,
+   222706,
+   192560
+  ],
+  "2023": [
+   200051,
+   163174,
+   145408,
+   147900,
+   176537,
+   156404,
+   177616,
+   188686,
+   180430,
+   243203,
+   206026,
+   176300
+  ],
+  "2024": [
+   215785,
+   181648,
+   195211,
+   236021,
+   229620,
+   207869,
+   256953,
+   250866,
+   251873,
+   314240,
+   276058,
+   278163
+  ],
+  "2025": [
+   293288,
+   260009,
+   285957,
+   349567,
+   320516,
+   263709,
+   323166,
+   335772,
+   330980,
+   367473,
+   343614,
+   335003
+  ],
+  "2026": [
+   401255,
+   317657,
+   415191,
+   410726,
+   416975,
+   442680,
+   467580,
+   514806,
+   511857
+  ]
+ },
+ "provisional": {},
+ "yoy2020": [
+  32.8,
+  53.4,
+  42.4,
+  28.5,
+  16.6,
+  40.8,
+  25.0,
+  15.8,
+  24.9,
+  12.5,
+  15.7,
+  13.6
+ ],
+ "yoy2020Total": 25.2,
+ "quarters": [
+  {
+   "q": "1Q15",
+   "rev": 222034,
+   "ni": 78990,
+   "eps": 3.05,
+   "gm": 49.3,
+   "om": 39.0,
+   "capex": 48.88,
+   "ocf": 156.0,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.5
+  },
+  {
+   "q": "2Q15",
+   "rev": 205440,
+   "ni": 79417,
+   "eps": 3.06,
+   "gm": 48.5,
+   "om": 37.5,
+   "capex": 53.81,
+   "ocf": 111.07,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.5
+  },
+  {
+   "q": "3Q15",
+   "rev": 212505,
+   "ni": 75330,
+   "eps": 2.91,
+   "gm": 48.2,
+   "om": 36.9,
+   "capex": 70.3,
+   "ocf": 118.14,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.5
+  },
+  {
+   "q": "4Q15",
+   "rev": 203518,
+   "ni": 72837,
+   "eps": 2.81,
+   "gm": 48.6,
+   "om": 38.3,
+   "capex": 84.52,
+   "ocf": 144.67,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.5
+  },
+  {
+   "q": "1Q16",
+   "rev": 203495,
+   "ni": 64782,
+   "eps": 2.5,
+   "gm": 44.9,
+   "om": 34.6,
+   "capex": 38.14,
+   "ocf": 121.53,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.75
+  },
+  {
+   "q": "2Q16",
+   "rev": 221810,
+   "ni": 72506,
+   "eps": 2.8,
+   "gm": 51.5,
+   "om": 41.2,
+   "capex": 73.59,
+   "ocf": 106.68,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.75
+  },
+  {
+   "q": "3Q16",
+   "rev": 260406,
+   "ni": 96759,
+   "eps": 3.73,
+   "gm": 50.7,
+   "om": 40.8,
+   "capex": 103.78,
+   "ocf": 126.41,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.75
+  },
+  {
+   "q": "4Q16",
+   "rev": 262227,
+   "ni": 100200,
+   "eps": 3.86,
+   "gm": 52.3,
+   "om": 41.9,
+   "capex": 112.54,
+   "ocf": 185.22,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 1.75
+  },
+  {
+   "q": "1Q17",
+   "rev": 233914,
+   "ni": 87629,
+   "eps": 3.38,
+   "gm": 51.9,
+   "om": 40.8,
+   "capex": 102.51,
+   "ocf": 161.01,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "2Q17",
+   "rev": 213856,
+   "ni": 66271,
+   "eps": 2.56,
+   "gm": 50.8,
+   "om": 38.9,
+   "capex": 105.19,
+   "ocf": 103.4,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "3Q17",
+   "rev": 252107,
+   "ni": 89925,
+   "eps": 3.47,
+   "gm": 49.9,
+   "om": 38.9,
+   "capex": 61.71,
+   "ocf": 116.78,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "4Q17",
+   "rev": 277570,
+   "ni": 99286,
+   "eps": 3.83,
+   "gm": 50.0,
+   "om": 39.2,
+   "capex": 61.18,
+   "ocf": 204.13,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "1Q18",
+   "rev": 248079,
+   "ni": 89785,
+   "eps": 3.46,
+   "gm": 50.3,
+   "om": 39.0,
+   "capex": 71.85,
+   "ocf": 160.73,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "2Q18",
+   "rev": 233276,
+   "ni": 72290,
+   "eps": 2.79,
+   "gm": 47.8,
+   "om": 36.2,
+   "capex": 59.68,
+   "ocf": 129.77,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 0,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "3Q18",
+   "rev": 260348,
+   "ni": 89072,
+   "eps": 3.44,
+   "gm": 47.4,
+   "om": 36.6,
+   "capex": 69.95,
+   "ocf": 94.08,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 11,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "4Q18",
+   "rev": 289771,
+   "ni": 99984,
+   "eps": 3.86,
+   "gm": 47.7,
+   "om": 37.0,
+   "capex": 114.1,
+   "ocf": 189.37,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 23,
+   "hpc": null,
+   "sp": null,
+   "dps": 2.0
+  },
+  {
+   "q": "1Q19",
+   "rev": 218704,
+   "ni": 61394,
+   "eps": 2.37,
+   "gm": 41.3,
+   "om": 29.4,
+   "capex": 75.94,
+   "ocf": 152.67,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 22,
+   "hpc": 29,
+   "sp": 47,
+   "dps": 2.0
+  },
+  {
+   "q": "2Q19",
+   "rev": 240999,
+   "ni": 66765,
+   "eps": 2.57,
+   "gm": 43.0,
+   "om": 31.7,
+   "capex": 116.35,
+   "ocf": 117.76,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 21,
+   "hpc": 32,
+   "sp": 45,
+   "dps": 2.5
+  },
+  {
+   "q": "3Q19",
+   "rev": 293045,
+   "ni": 101070,
+   "eps": 3.9,
+   "gm": 47.6,
+   "om": 36.8,
+   "capex": 98.12,
+   "ocf": 141.75,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 27,
+   "hpc": 29,
+   "sp": 49,
+   "dps": 2.5
+  },
+  {
+   "q": "4Q19",
+   "rev": 317237,
+   "ni": 116035,
+   "eps": 4.47,
+   "gm": 50.2,
+   "om": 39.2,
+   "capex": 170.01,
+   "ocf": 202.96,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 35,
+   "hpc": 29,
+   "sp": 53,
+   "dps": 2.5
+  },
+  {
+   "q": "1Q20",
+   "rev": 310597,
+   "ni": 116990,
+   "eps": 4.51,
+   "gm": 51.8,
+   "om": 41.4,
+   "capex": 192.56,
+   "ocf": 203.03,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 35,
+   "hpc": 30,
+   "sp": 49,
+   "dps": 2.5
+  },
+  {
+   "q": "2Q20",
+   "rev": 310699,
+   "ni": 120822,
+   "eps": 4.66,
+   "gm": 53.0,
+   "om": 42.2,
+   "capex": 126.7,
+   "ocf": 170.34,
+   "n2": 0,
+   "n3": 0,
+   "n5": 0,
+   "n7": 36,
+   "hpc": 33,
+   "sp": 47,
+   "dps": 2.5
+  },
+  {
+   "q": "3Q20",
+   "rev": 356426,
+   "ni": 137310,
+   "eps": 5.3,
+   "gm": 53.4,
+   "om": 42.1,
+   "capex": 99.31,
+   "ocf": 190.18,
+   "n2": 0,
+   "n3": 0,
+   "n5": 8,
+   "n7": 35,
+   "hpc": 37,
+   "sp": 46,
+   "dps": 2.5
+  },
+  {
+   "q": "4Q20",
+   "rev": 361533,
+   "ni": 142766,
+   "eps": 5.51,
+   "gm": 54.0,
+   "om": 43.5,
+   "capex": 88.68,
+   "ocf": 259.13,
+   "n2": 0,
+   "n3": 0,
+   "n5": 20,
+   "n7": 29,
+   "hpc": 31,
+   "sp": 51,
+   "dps": 2.5
+  },
+  {
+   "q": "1Q21",
+   "rev": 362410,
+   "ni": 139690,
+   "eps": 5.39,
+   "gm": 52.4,
+   "om": 41.5,
+   "capex": 248.03,
+   "ocf": 227.82,
+   "n2": 0,
+   "n3": 0,
+   "n5": 14,
+   "n7": 35,
+   "hpc": 35,
+   "sp": 45,
+   "dps": 2.75
+  },
+  {
+   "q": "2Q21",
+   "rev": 372145,
+   "ni": 134360,
+   "eps": 5.18,
+   "gm": 50.0,
+   "om": 39.1,
+   "capex": 166.97,
+   "ocf": 187.44,
+   "n2": 0,
+   "n3": 0,
+   "n5": 18,
+   "n7": 31,
+   "hpc": 39,
+   "sp": 42,
+   "dps": 2.75
+  },
+  {
+   "q": "3Q21",
+   "rev": 414670,
+   "ni": 156259,
+   "eps": 6.03,
+   "gm": 51.3,
+   "om": 41.2,
+   "capex": 188.64,
+   "ocf": 318.706,
+   "n2": 0,
+   "n3": 0,
+   "n5": 18,
+   "n7": 34,
+   "hpc": 37,
+   "sp": 44,
+   "dps": 2.75
+  },
+  {
+   "q": "4Q21",
+   "rev": 438189,
+   "ni": 166232,
+   "eps": 6.41,
+   "gm": 52.7,
+   "om": 41.7,
+   "capex": 235.56,
+   "ocf": 378.199,
+   "n2": 0,
+   "n3": 0,
+   "n5": 23,
+   "n7": 27,
+   "hpc": 37,
+   "sp": 44,
+   "dps": 2.75
+  },
+  {
+   "q": "1Q22",
+   "rev": 491076,
+   "ni": 202733,
+   "eps": 7.82,
+   "gm": 55.6,
+   "om": 45.6,
+   "capex": 262.135,
+   "ocf": 372.17,
+   "n2": 0,
+   "n3": 0,
+   "n5": 20,
+   "n7": 30,
+   "hpc": 41,
+   "sp": 40,
+   "dps": 2.75
+  },
+  {
+   "q": "2Q22",
+   "rev": 534141,
+   "ni": 237027,
+   "eps": 9.14,
+   "gm": 59.1,
+   "om": 49.1,
+   "capex": 217.723,
+   "ocf": 338.849,
+   "n2": 0,
+   "n3": 0,
+   "n5": 21,
+   "n7": 30,
+   "hpc": 43,
+   "sp": 38,
+   "dps": 2.75
+  },
+  {
+   "q": "3Q22",
+   "rev": 613143,
+   "ni": 280866,
+   "eps": 10.83,
+   "gm": 60.4,
+   "om": 50.6,
+   "capex": 265.97,
+   "ocf": 412.698,
+   "n2": 0,
+   "n3": 0,
+   "n5": 28,
+   "n7": 26,
+   "hpc": 39,
+   "sp": 41,
+   "dps": 2.75
+  },
+  {
+   "q": "4Q22",
+   "rev": 625532,
+   "ni": 295904,
+   "eps": 11.41,
+   "gm": 62.2,
+   "om": 52.0,
+   "capex": 336.844,
+   "ocf": 486.882,
+   "n2": 0,
+   "n3": 0,
+   "n5": 32,
+   "n7": 22,
+   "hpc": 42,
+   "sp": 38,
+   "dps": 2.75
+  },
+  {
+   "q": "1Q23",
+   "rev": 508633,
+   "ni": 206987,
+   "eps": 7.98,
+   "gm": 56.3,
+   "om": 45.5,
+   "capex": 302.499,
+   "ocf": 385.245,
+   "n2": 0,
+   "n3": 0,
+   "n5": 31,
+   "n7": 20,
+   "hpc": 44,
+   "sp": 34,
+   "dps": 3.0
+  },
+  {
+   "q": "2Q23",
+   "rev": 480841,
+   "ni": 181799,
+   "eps": 7.01,
+   "gm": 54.1,
+   "om": 42.0,
+   "capex": 250.534,
+   "ocf": 167.248,
+   "n2": 0,
+   "n3": 0,
+   "n5": 30,
+   "n7": 23,
+   "hpc": 44,
+   "sp": 33,
+   "dps": 3.0
+  },
+  {
+   "q": "3Q23",
+   "rev": 546733,
+   "ni": 211000,
+   "eps": 8.14,
+   "gm": 54.3,
+   "om": 41.7,
+   "capex": 226.624,
+   "ocf": 294.645,
+   "n2": 0,
+   "n3": 6,
+   "n5": 37,
+   "n7": 16,
+   "hpc": 42,
+   "sp": 39,
+   "dps": 3.5
+  },
+  {
+   "q": "4Q23",
+   "rev": 625529,
+   "ni": 238712,
+   "eps": 9.21,
+   "gm": 53.0,
+   "om": 41.6,
+   "capex": 170.16,
+   "ocf": 394.829,
+   "n2": 0,
+   "n3": 15,
+   "n5": 35,
+   "n7": 17,
+   "hpc": 43,
+   "sp": 43,
+   "dps": 3.5
+  },
+  {
+   "q": "1Q24",
+   "rev": 592644,
+   "ni": 225485,
+   "eps": 8.7,
+   "gm": 53.1,
+   "om": 42.0,
+   "capex": 181.305,
+   "ocf": 436.311,
+   "n2": 0,
+   "n3": 9,
+   "n5": 37,
+   "n7": 19,
+   "hpc": 46,
+   "sp": 38,
+   "dps": 4.0
+  },
+  {
+   "q": "2Q24",
+   "rev": 673510,
+   "ni": 247846,
+   "eps": 9.56,
+   "gm": 53.2,
+   "om": 42.5,
+   "capex": 205.675,
+   "ocf": 377.668,
+   "n2": 0,
+   "n3": 15,
+   "n5": 35,
+   "n7": 17,
+   "hpc": 52,
+   "sp": 33,
+   "dps": 4.0
+  },
+  {
+   "q": "3Q24",
+   "rev": 759692,
+   "ni": 325258,
+   "eps": 12.54,
+   "gm": 57.8,
+   "om": 47.5,
+   "capex": 207.079,
+   "ocf": 391.992,
+   "n2": 0,
+   "n3": 20,
+   "n5": 32,
+   "n7": 17,
+   "hpc": 51,
+   "sp": 34,
+   "dps": 4.5
+  },
+  {
+   "q": "4Q24",
+   "rev": 868461,
+   "ni": 374680,
+   "eps": 14.45,
+   "gm": 59.0,
+   "om": 49.0,
+   "capex": 361.948,
+   "ocf": 620.205,
+   "n2": 0,
+   "n3": 26,
+   "n5": 34,
+   "n7": 14,
+   "hpc": 53,
+   "sp": 35,
+   "dps": 4.5
+  },
+  {
+   "q": "1Q25",
+   "rev": 839254,
+   "ni": 361564,
+   "eps": 13.94,
+   "gm": 58.8,
+   "om": 48.5,
+   "capex": 330.827,
+   "ocf": 625.574,
+   "n2": 0,
+   "n3": 22,
+   "n5": 36,
+   "n7": 15,
+   "hpc": 59,
+   "sp": 28,
+   "dps": 5.0
+  },
+  {
+   "q": "2Q25",
+   "rev": 933792,
+   "ni": 398273,
+   "eps": 15.36,
+   "gm": 58.6,
+   "om": 49.6,
+   "capex": 297.226,
+   "ocf": 497.064,
+   "n2": 0,
+   "n3": 24,
+   "n5": 36,
+   "n7": 14,
+   "hpc": 60,
+   "sp": 27,
+   "dps": 5.0
+  },
+  {
+   "q": "3Q25",
+   "rev": 989918,
+   "ni": 452302,
+   "eps": 17.44,
+   "gm": 59.5,
+   "om": 50.6,
+   "capex": 287.452,
+   "ocf": 426.829,
+   "n2": 0,
+   "n3": 23,
+   "n5": 37,
+   "n7": 14,
+   "hpc": 57,
+   "sp": 30,
+   "dps": 6.0
+  },
+  {
+   "q": "4Q25",
+   "rev": 1046090,
+   "ni": 505744,
+   "eps": 19.5,
+   "gm": 62.3,
+   "om": 54.0,
+   "capex": 356.906,
+   "ocf": 725.509,
+   "n2": 0,
+   "n3": 28,
+   "n5": 35,
+   "n7": 14,
+   "hpc": 55,
+   "sp": 32,
+   "dps": 6.0
+  },
+  {
+   "q": "1Q26",
+   "rev": 1134103,
+   "ni": 572480,
+   "eps": 22.08,
+   "gm": 66.2,
+   "om": 58.1,
+   "capex": 350.763,
+   "ocf": 698.976,
+   "n2": 0,
+   "n3": 25,
+   "n5": 36,
+   "n7": 13,
+   "hpc": 61,
+   "sp": 26,
+   "dps": 7.0
+  },
+  {
+   "q": "2Q26",
+   "rev": 1270381,
+   "ni": 706562,
+   "eps": 27.25,
+   "gm": 67.7,
+   "om": 60.3,
+   "capex": 496.002,
+   "ocf": 783.365,
+   "n2": 3,
+   "n3": 30,
+   "n5": 33,
+   "n7": 11,
+   "hpc": 66,
+   "sp": 22,
+   "dps": 7.0
+  },
+  {
+   "q": "3Q26",
+   "rev": 1494243,
+   "ni": 763064,
+   "eps": 29.43,
+   "gm": 66.4,
+   "om": 58.7,
+   "capex": 443.206,
+   "ocf": 919.776,
+   "n2": 8,
+   "n3": 33,
+   "n5": 28,
+   "n7": 10,
+   "hpc": 68,
+   "sp": 21,
+   "dps": null
+  }
+ ],
+ "epsOfficial": {
+  "2015": 11.82,
+  "2016": 12.89,
+  "2017": 13.23,
+  "2018": 13.54,
+  "2019": 13.32,
+  "2020": 19.97,
+  "2021": 23.01,
+  "2022": 39.2,
+  "2023": 32.34,
+  "2024": 45.25,
+  "2025": 66.25
+ },
+ "capexUsd": {
+  "2015": 8.12,
+  "2016": 10.19,
+  "2017": 10.86,
+  "2018": 10.46,
+  "2019": 14.9,
+  "2020": 17.24,
+  "2021": 30.04,
+  "2022": 36.29,
+  "2023": 30.45,
+  "2024": 29.76,
+  "2025": 40.9
+ },
+ "capexBudget": {
+  "y": 2026,
+  "lo": 60,
+  "hi": 64,
+  "ytd": 40.64,
+  "ytdLabel": "前三季",
+  "note": "7 月上修，原 520–560 億"
+ },
+ "guidance": {
+  "q": "4Q26",
+  "revUsdLo": 52.3,
+  "revUsdHi": 54.3,
+  "gmLo": 65,
+  "gmHi": 67,
+  "omLo": 56.5,
+  "omHi": 58.5
+ },
+ "events": [
+  {
+   "date": "2026-11-10",
+   "t": "10 月營收"
+  },
+  {
+   "date": "2026-12-10",
+   "t": "11 月營收"
+  },
+  {
+   "date": "2027-01-08",
+   "t": "12 月營收"
+  }
+ ],
+ "waterfall": {
+  "q": "3Q26",
+  "rows": [
+   {
+    "n": "營收",
+    "v": 14942.4,
+    "t": 1
+   },
+   {
+    "n": "營業成本",
+    "v": -5018.6
+   },
+   {
+    "n": "毛利",
+    "v": 9923.8,
+    "t": 1
+   },
+   {
+    "n": "研發費用",
+    "v": -889.8
+   },
+   {
+    "n": "管理與行銷費用",
+    "v": -274.5
+   },
+   {
+    "n": "其他營業收支",
+    "v": 5.0
+   },
+   {
+    "n": "營業利益",
+    "v": 8764.5,
+    "t": 1
+   },
+   {
+    "n": "業外收支",
+    "v": 345.9
+   },
+   {
+    "n": "所得稅",
+    "v": -1477.0
+   },
+   {
+    "n": "非控制權益",
+    "v": -2.8
+   },
+   {
+    "n": "淨利（歸屬母公司）",
+    "v": 7630.6,
+    "t": 1
+   }
+  ],
+  "note": ""
+ },
+ "yoy2015": [
+  69.4,
+  33.8,
+  44.7,
+  21.7,
+  15.4,
+  -0.6,
+  24.7,
+  -3.2,
+  -13.8,
+  1.2,
+  -12.2,
+  -16.1
+ ],
+ "yoy2015Total": 10.6,
+ "dpsAnnual": {
+  "2015": 6.0,
+  "2016": 7.0,
+  "2017": 8.0,
+  "2018": 8.0
+ },
+ "milestones": [
+  {
+   "d": "2015",
+   "cat": "node",
+   "node": "16FF+",
+   "t": "16 奈米 FinFET Plus（16FF+）量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2015/english/e_2_2.html",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2016-Q1",
+   "cat": "node",
+   "node": "16FFC",
+   "t": "16FFC 量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html",
+   "st": "p"
+  },
+  {
+   "d": "2016-H1",
+   "cat": "pkg",
+   "node": "CoWoS",
+   "t": "CoWoS XL 開始生產（搭配 HBM2）",
+   "src": "https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html",
+   "st": "p"
+  },
+  {
+   "d": "2016-Q2",
+   "cat": "pkg",
+   "node": "InFO",
+   "t": "InFO-PoP 首度量產（整合 16 奈米手機晶片與 DRAM）",
+   "src": "https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html",
+   "st": "p"
+  },
+  {
+   "d": "2016-Q4",
+   "cat": "node",
+   "node": "N10",
+   "t": "10 奈米開始量產爬坡，2017 年第一季起出貨",
+   "src": "https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html",
+   "st": "p",
+   "hvm": 1,
+   "note": "年報用語為「量產爬坡」"
+  },
+  {
+   "d": "2017-04",
+   "cat": "node",
+   "node": "N7",
+   "t": "7 奈米風險試產（年報預定時程）",
+   "src": "https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html",
+   "st": "p"
+  },
+  {
+   "d": "2018",
+   "cat": "node",
+   "node": "N7",
+   "t": "7 奈米（N7）量產，全球第一個量產的 7 奈米製程",
+   "src": "https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_7nm",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2019-04",
+   "cat": "node",
+   "node": "N5",
+   "t": "5 奈米已進入風險試產",
+   "src": "https://pr.tsmc.com/english/news/1987",
+   "st": "p"
+  },
+  {
+   "d": "2019-Q2",
+   "cat": "node",
+   "node": "N7+",
+   "t": "N7+ 量產，業界第一個商用 EUV 製程",
+   "src": "https://pr.tsmc.com/english/news/2010",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2019-Q3",
+   "cat": "pkg",
+   "node": "CoWoS",
+   "t": "CoWoS 完成高效能運算應用認證",
+   "src": "https://investor.tsmc.com/sites/ir/annual-report/2019/e_all.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2020-Q1",
+   "cat": "node",
+   "node": "N6",
+   "t": "6 奈米風險試產",
+   "src": "https://investor.tsmc.com/sites/ir/annual-report/2019/e_all.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2020",
+   "cat": "node",
+   "node": "N5",
+   "t": "5 奈米（N5）量產",
+   "src": "https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_5nm",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2020",
+   "cat": "node",
+   "node": "N6",
+   "t": "6 奈米（N6）量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2021/english/pdf/2021_tsmc_ar_e_ch5.pdf",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2021",
+   "cat": "node",
+   "node": "N3",
+   "t": "3 奈米與 4 奈米風險試產",
+   "src": "https://investor.tsmc.com/static/annualReports/2021/english/pdf/2021_tsmc_ar_e_ch5.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2022-06",
+   "cat": "node",
+   "node": "N2",
+   "t": "北美技術論壇發表 2 奈米，首度採用奈米片（GAA）電晶體",
+   "src": "https://pr.tsmc.com/english/news/2939",
+   "st": "p"
+  },
+  {
+   "d": "2022",
+   "cat": "node",
+   "node": "N4",
+   "t": "4 奈米（N4）量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2022/english/pdf/2022_tsmc_ar_e_ch5.pdf",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2022",
+   "cat": "pkg",
+   "node": "SoIC",
+   "t": "SoIC 晶片堆疊（CoW）量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2022/english/pdf/2022_tsmc_ar_e_ch5.pdf",
+   "st": "p",
+   "note": "2023 年報寫 2023 年量產，兩份年報說法不同"
+  },
+  {
+   "d": "2022-10",
+   "cat": "pkg",
+   "node": "3DFabric",
+   "t": "成立 3DFabric 聯盟（SoIC、CoWoS、InFO 的整合平台）",
+   "src": "https://pr.tsmc.com/english/news/2968",
+   "st": "p"
+  },
+  {
+   "d": "2022-12",
+   "cat": "node",
+   "node": "N3",
+   "t": "3 奈米（N3）量產，南科晶圓十八廠舉行量產典禮",
+   "src": "https://pr.tsmc.com/english/news/2986",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2023-Q4",
+   "cat": "node",
+   "node": "N3E",
+   "t": "3 奈米強化版（N3E）量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2024-04",
+   "cat": "node",
+   "node": "A16",
+   "t": "發表 A16（1.6 奈米級），採用背面供電 Super Power Rail",
+   "src": "https://evertiq.com/news/55625",
+   "st": "p",
+   "note": "媒體報導"
+  },
+  {
+   "d": "2024",
+   "cat": "pkg",
+   "node": "CoWoS-L",
+   "t": "CoWoS-L 量產（首款 3.5 倍光罩尺寸）",
+   "src": "https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2024",
+   "cat": "pkg",
+   "node": "SoW",
+   "t": "第一代晶圓上系統（SoW）量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2024",
+   "cat": "node",
+   "node": "N2",
+   "t": "2 奈米第一個客戶產品完成設計定案",
+   "src": "https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2024-H2",
+   "cat": "node",
+   "node": "N3P",
+   "t": "N3P 量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2025-04",
+   "cat": "node",
+   "node": "A14",
+   "t": "發表 A14（1.4 奈米級），預計 2028 年量產",
+   "src": "https://pr.tsmc.com/english/news/3228",
+   "st": "p"
+  },
+  {
+   "d": "2025",
+   "cat": "pkg",
+   "node": "SoIC",
+   "t": "3 奈米 SoIC 堆疊量產",
+   "src": "https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch5.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2025-Q4",
+   "cat": "node",
+   "node": "N2",
+   "t": "2 奈米（N2）量產，台積電第一個奈米片（GAA）製程",
+   "src": "https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_2nm",
+   "st": "p",
+   "hvm": 1
+  },
+  {
+   "d": "2026-04",
+   "cat": "node",
+   "node": "A13",
+   "t": "發表 A13、A12 與 N2U",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "p"
+  },
+  {
+   "d": "2026",
+   "cat": "pkg",
+   "node": "COUPE",
+   "t": "COUPE 共同封裝光學（基板版）開始生產",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f"
+  },
+  {
+   "d": "2026",
+   "cat": "node",
+   "node": "N3A",
+   "t": "車用 N3A 進入量產",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f"
+  },
+  {
+   "d": "2026-H2",
+   "cat": "node",
+   "node": "N2P",
+   "t": "N2P 量產",
+   "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-01/51d09df96cd89ac19d65af39032b038dc2896a24/TSMC%204Q25%20Transcript.pdf",
+   "st": "f",
+   "hvm": 1,
+   "note": "2026/01 法說會時程，之後未再更新"
+  },
+  {
+   "d": "2027",
+   "cat": "node",
+   "node": "A16",
+   "t": "A16 量產",
+   "src": "https://www.trendforce.com/news/2026/04/23/news-tsmc-unveils-latest-roadmap-a12-a13-set-for-2029-without-high-na-euv-a16-volume-production-delayed-to-2027/",
+   "st": "f",
+   "hvm": 1,
+   "note": "待確定：媒體報導 2026 技術論壇路線圖延到 2027；2026/01 法說會仍說 2026 下半年",
+   "unc": 1
+  },
+  {
+   "d": "2027",
+   "cat": "node",
+   "node": "A14",
+   "t": "A14 風險試產",
+   "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+   "st": "f"
+  },
+  {
+   "d": "2027",
+   "cat": "pkg",
+   "node": "CoWoS",
+   "t": "9.5 倍光罩尺寸 CoWoS 量產",
+   "src": "https://pr.tsmc.com/english/news/3228",
+   "st": "f"
+  },
+  {
+   "d": "2028",
+   "cat": "node",
+   "node": "A14",
+   "t": "A14 量產",
+   "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+   "st": "f",
+   "hvm": 1
+  },
+  {
+   "d": "2028",
+   "cat": "node",
+   "node": "N2U",
+   "t": "N2U 量產",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f",
+   "hvm": 1
+  },
+  {
+   "d": "2028",
+   "cat": "pkg",
+   "node": "CoWoS",
+   "t": "14 倍光罩尺寸 CoWoS 量產",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f"
+  },
+  {
+   "d": "2029",
+   "cat": "node",
+   "node": "A13",
+   "t": "A13 量產",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f",
+   "hvm": 1
+  },
+  {
+   "d": "2029",
+   "cat": "node",
+   "node": "A12",
+   "t": "A12 量產",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f",
+   "hvm": 1
+  },
+  {
+   "d": "2029",
+   "cat": "pkg",
+   "node": "SoW-X",
+   "t": "A14 對 A14 的 SoIC、40 倍光罩 SoW-X",
+   "src": "https://pr.tsmc.com/english/news/3302",
+   "st": "f"
+  }
+ ],
+ "fabs": [
+  {
+   "id": "nj",
+   "n": "南京廠（Fab 16）",
+   "loc": "中國南京",
+   "c": "中國",
+   "tech": "16 奈米",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2016-03-28",
+     "t": "與南京市簽署 12 吋廠投資協議，投資 30 億美元",
+     "src": "https://pr.tsmc.com/english/news/1887",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2018-10-31",
+     "t": "開幕暨量產典禮",
+     "src": "https://cdnfinance.technews.tw/2018/10/31/tsmc-nanjing-openning/",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "f18",
+   "n": "晶圓十八廠（Fab 18）",
+   "loc": "台南南科",
+   "c": "台灣",
+   "tech": "5、3 奈米",
+   "ms": [
+    {
+     "k": "g",
+     "d": "2018-01-26",
+     "t": "第一期動工",
+     "src": "https://pr.tsmc.com/english/news/1951",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2020",
+     "t": "5 奈米量產",
+     "src": "https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_5nm",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2022-12-29",
+     "t": "3 奈米量產典禮",
+     "src": "https://pr.tsmc.com/english/news/2986",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "az1",
+   "n": "亞利桑那一廠（P1）",
+   "loc": "美國鳳凰城",
+   "c": "美國",
+   "tech": "4 奈米",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2020-05-15",
+     "t": "宣布赴美設 5 奈米廠，投資約 120 億美元",
+     "src": "https://pr.tsmc.com/english/news/2033",
+     "st": "p"
+    },
+    {
+     "k": "g",
+     "d": "2021",
+     "t": "開始建廠",
+     "src": "https://pr.tsmc.com/english/news/2033",
+     "st": "p"
+    },
+    {
+     "k": "c",
+     "d": "2022-12-06",
+     "t": "首批機台移入典禮，同時宣布二廠",
+     "src": "https://pr.tsmc.com/english/news/2977",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2024-Q4",
+     "t": "4 奈米量產",
+     "src": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "ap6",
+   "n": "先進封測六廠（AP6）",
+   "loc": "苗栗竹南",
+   "c": "台灣",
+   "tech": "SoIC、CoWoS 等 3DFabric",
+   "ms": [
+    {
+     "k": "g",
+     "d": "2020",
+     "t": "開始興建",
+     "src": "https://pr.tsmc.com/english/news/3033",
+     "st": "p"
+    },
+    {
+     "k": "c",
+     "d": "2023-06-08",
+     "t": "啟用，第一座全自動化先進封測廠",
+     "src": "https://pr.tsmc.com/english/news/3033",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "jasm1",
+   "n": "日本熊本一廠（JASM）",
+   "loc": "日本熊本菊陽町",
+   "c": "日本",
+   "tech": "28/22、16/12 奈米",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2021",
+     "t": "成立 JASM（Sony 參股）",
+     "src": "https://pr.tsmc.com/english/news/3113",
+     "st": "p"
+    },
+    {
+     "k": "g",
+     "d": "2022-04",
+     "t": "動工",
+     "src": "https://pr.tsmc.com/english/news/3113",
+     "st": "p"
+    },
+    {
+     "k": "c",
+     "d": "2024-02-24",
+     "t": "開幕典禮",
+     "src": "https://pr.tsmc.com/english/news/3113",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2024-Q4",
+     "t": "量產",
+     "src": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "f22",
+   "n": "晶圓二十二廠（Fab 22）",
+   "loc": "高雄楠梓",
+   "c": "台灣",
+   "tech": "2 奈米",
+   "ms": [
+    {
+     "k": "g",
+     "d": "2022-11-21",
+     "t": "動工（原規劃 28 奈米，後改 2 奈米）",
+     "src": "https://www.taipeitimes.com/News/biz/archives/2022/11/22/2003789359",
+     "st": "p",
+     "note": "媒體報導"
+    },
+    {
+     "k": "c",
+     "d": "2024-11",
+     "t": "第一期開始裝機",
+     "src": "https://semiwiki.com/forum/threads/tsmc-2nm-capacity-expansion-ceremony.22436/",
+     "st": "p",
+     "note": "媒體報導"
+    },
+    {
+     "k": "m",
+     "d": "2025-Q4",
+     "t": "2 奈米量產",
+     "src": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "az2",
+   "n": "亞利桑那二廠（P2）",
+   "loc": "美國鳳凰城",
+   "c": "美國",
+   "tech": "3 奈米",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2022-12-06",
+     "t": "宣布二廠，總投資升至 400 億美元",
+     "src": "https://pr.tsmc.com/english/news/2977",
+     "st": "p"
+    },
+    {
+     "k": "c",
+     "d": "2025",
+     "t": "廠房完工，進行設施安裝",
+     "src": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2027-Q3",
+     "t": "量產（比原訂時程略提前）",
+     "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+     "st": "f"
+    }
+   ]
+  },
+  {
+   "id": "rd",
+   "n": "全球研發中心",
+   "loc": "新竹科學園區",
+   "c": "台灣",
+   "tech": "2 奈米以下研發",
+   "ms": [
+    {
+     "k": "c",
+     "d": "2023-07-28",
+     "t": "啟用典禮，約 7,000 名研發人員進駐",
+     "src": "https://pr.tsmc.com/english/news/3044",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "esmc",
+   "n": "德國德勒斯登廠（ESMC）",
+   "loc": "德國德勒斯登",
+   "c": "德國",
+   "tech": "28/22、16/12 奈米",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2023-08-08",
+     "t": "與博世、英飛凌、恩智浦成立合資公司",
+     "src": "https://pr.tsmc.com/english/news/3049",
+     "st": "p"
+    },
+    {
+     "k": "g",
+     "d": "2024-08-20",
+     "t": "動土典禮",
+     "src": "https://pr.tsmc.com/english/news/3169",
+     "st": "p"
+    },
+    {
+     "k": "c",
+     "d": "2026-09",
+     "t": "上樑典禮",
+     "src": "https://oiger.de/2026/09/13/richtfest-fuer-milliardenprojekt-von-tsmc-in-dresden/198531",
+     "st": "p",
+     "note": "媒體報導"
+    },
+    {
+     "k": "m",
+     "d": "2027-Q4",
+     "t": "量產",
+     "src": "https://pr.tsmc.com/english/news/3049",
+     "st": "f",
+     "note": "2023 年新聞稿寫 2027 年底；德國媒體報導可能提前到 2027 年中"
+    }
+   ]
+  },
+  {
+   "id": "jasm2",
+   "n": "日本熊本二廠（JASM）",
+   "loc": "日本熊本菊陽町",
+   "c": "日本",
+   "tech": "原訂 6/7 奈米，改為 3 奈米",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2024-02-06",
+     "t": "宣布興建（Sony、電裝、豐田參股）",
+     "src": "https://pr.tsmc.com/english/news/3105",
+     "st": "p"
+    },
+    {
+     "k": "g",
+     "d": "2025-10",
+     "t": "開始施工（原訂 2025 年第一季）",
+     "src": "https://technode.com/2025/10/28/tsmc-begins-construction-of-kumamoto-second-fab-with-13-9-billion-investment/",
+     "st": "p",
+     "note": "媒體報導"
+    },
+    {
+     "k": "m",
+     "d": "2028",
+     "t": "3 奈米量產",
+     "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+     "st": "f"
+    }
+   ]
+  },
+  {
+   "id": "az3",
+   "n": "亞利桑那三廠（P3）",
+   "loc": "美國鳳凰城",
+   "c": "美國",
+   "tech": "2 奈米、A16",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2024-04",
+     "t": "宣布三廠，總投資升至 650 億美元",
+     "src": "https://www.tsmc.com/static/abouttsmcaz/index.htm",
+     "st": "p"
+    },
+    {
+     "k": "g",
+     "d": "2025-04",
+     "t": "動土",
+     "src": "https://www.tsmc.com/static/abouttsmcaz/index.htm",
+     "st": "p"
+    },
+    {
+     "k": "m",
+     "d": "2029",
+     "t": "量產",
+     "src": "https://www.tsmc.com/static/abouttsmcaz/index.htm",
+     "st": "f",
+     "note": "公司說法為「本十年底前」，圖上暫標 2029"
+    }
+   ]
+  },
+  {
+   "id": "f20",
+   "n": "晶圓二十廠（Fab 20）",
+   "loc": "新竹寶山",
+   "c": "台灣",
+   "tech": "2 奈米",
+   "ms": [
+    {
+     "k": "m",
+     "d": "2025-Q4",
+     "t": "2 奈米量產",
+     "src": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "az4",
+   "n": "亞利桑那四廠與先進封裝廠",
+   "loc": "美國亞利桑那",
+   "c": "美國",
+   "tech": "2 奈米以下、CoWoS／SoIC",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2025-03-04",
+     "t": "追加 1,000 億美元：再蓋三座晶圓廠、兩座先進封裝廠與研發中心",
+     "src": "https://www.sec.gov/Archives/edgar/data/1046179/000104617925000024/tsmcexpandinvestmentintheu.htm",
+     "st": "p"
+    },
+    {
+     "k": "g",
+     "d": "2026-Q1",
+     "t": "四廠與先進封裝一廠開始施工",
+     "src": "https://www.tsmc.com/static/abouttsmcaz/index.htm",
+     "st": "p"
+    },
+    {
+     "k": "a",
+     "d": "2026-07-16",
+     "t": "再追加 1,000 億美元，美國總投資 2,650 億美元",
+     "src": "https://www.tsmc.com/static/abouttsmcaz/index.htm",
+     "st": "p"
+    }
+   ]
+  },
+  {
+   "id": "f25",
+   "n": "晶圓二十五廠（Fab 25）",
+   "loc": "台中中科",
+   "c": "台灣",
+   "tech": "A14（1.4 奈米）",
+   "ms": [
+    {
+     "k": "a",
+     "d": "2025-10",
+     "t": "中科管理局確認建廠申請",
+     "src": "https://www.taipeitimes.com/News/biz/archives/2025/10/30/2003846321",
+     "st": "p",
+     "note": "媒體報導"
+    },
+    {
+     "k": "g",
+     "d": "2025-11",
+     "t": "動土",
+     "src": "https://anysilicon.com/tsmc-to-break-ground-on-1-4nm-a14-fab-on-november-5/",
+     "st": "p",
+     "note": "待確定：媒體報導的預定日期，未找到典禮確實舉行的消息",
+     "unc": 1
+    },
+    {
+     "k": "m",
+     "d": "2028",
+     "t": "A14 量產",
+     "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+     "st": "f"
+    }
+   ]
+  },
+  {
+   "id": "ap7",
+   "n": "先進封測七廠（AP7）",
+   "loc": "嘉義",
+   "c": "台灣",
+   "tech": "CoWoS、SoIC",
+   "ms": [
+    {
+     "k": "c",
+     "d": "2025-12-04",
+     "t": "開幕典禮",
+     "src": "https://tw.stock.yahoo.com/news/dj%E7%8D%A8%E5%AE%B6-%E5%8F%B0%E7%A9%8D%E5%98%89%E7%BE%A9ap7%E4%BB%8A%E8%88%89%E8%BE%A6%E5%85%B8%E7%A6%AE-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E9%87%8D%E9%8E%AE%E6%88%90%E5%BD%A2-011000014.html",
+     "st": "p",
+     "note": "媒體報導"
+    },
+    {
+     "k": "m",
+     "d": "2026",
+     "t": "第二期投產",
+     "src": "https://tw.stock.yahoo.com/news/dj%E7%8D%A8%E5%AE%B6-%E5%8F%B0%E7%A9%8D%E5%98%89%E7%BE%A9ap7%E4%BB%8A%E8%88%89%E8%BE%A6%E5%85%B8%E7%A6%AE-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E9%87%8D%E9%8E%AE%E6%88%90%E5%BD%A2-011000014.html",
+     "st": "f",
+     "note": "待確定：媒體報導",
+     "unc": 1
+    }
+   ]
+  },
+  {
+   "id": "tn3",
+   "n": "台南 3 奈米新廠",
+   "loc": "台南南科",
+   "c": "台灣",
+   "tech": "3 奈米",
+   "ms": [
+    {
+     "k": "m",
+     "d": "2027-H1",
+     "t": "第一座量產",
+     "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+     "st": "f"
+    },
+    {
+     "k": "m",
+     "d": "2028-H1",
+     "t": "第二座量產",
+     "src": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf",
+     "st": "f"
+    }
+   ]
+  }
+ ],
+ "fabNote": "台積電法說會提到未來幾年在台灣興建 13 座先進製程與先進封裝廠，這裡只列有公開時程的廠區。"
+}

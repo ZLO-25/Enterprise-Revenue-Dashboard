@@ -1,0 +1,41 @@
+{
+  "site": {
+    "title": "企業財報追蹤板",
+    "pagesUrl": "https://zlo-25.github.io/Enterprise-Revenue-Dashboard/",
+    "repo": "ZLO-25/Enterprise-Revenue-Dashboard"
+  },
+  "companies": [
+    {
+      "code": "tsmc",
+      "name": "台積電",
+      "nameEn": "TSMC",
+      "ticker": "2330",
+      "exchange": "TWSE 2330 · NYSE TSM",
+      "currency": "TWD",
+      "frequency": "monthly+quarterly",
+      "path": "tsmc/",
+      "schema": "tsmc-legacy",
+      "template": "tsmc",
+      "title": "台積電財報追蹤板",
+      "description": "台積電（2330）2015 年以來月營收、季報、資本支出、製程結構、技術里程碑與建廠時程追蹤。",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
+    },
+    {
+      "code": "pltr",
+      "name": "Palantir",
+      "nameEn": "Palantir Technologies",
+      "ticker": "PLTR",
+      "exchange": "Nasdaq PLTR",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "pltr/",
+      "schema": "v1",
+      "template": "pltr",
+      "title": "Palantir 財報追蹤板",
+      "description": "Palantir（PLTR）上市以來每季營收、政府與商業拆分、獲利、現金流、合約與客戶指標、財測與重要事件追蹤。",
+      "artifact": null,
+      "enabled": true
+    }
+  ]
+}
