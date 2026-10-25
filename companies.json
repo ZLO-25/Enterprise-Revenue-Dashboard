@@ -2,7 +2,8 @@
   "site": {
     "title": "企業財報追蹤板",
     "pagesUrl": "https://zlo-25.github.io/Enterprise-Revenue-Dashboard/",
-    "repo": "ZLO-25/Enterprise-Revenue-Dashboard"
+    "repo": "ZLO-25/Enterprise-Revenue-Dashboard",
+    "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn"
   },
   "companies": [
     {

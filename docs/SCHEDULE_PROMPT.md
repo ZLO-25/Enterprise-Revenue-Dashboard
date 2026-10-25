@@ -19,7 +19,7 @@
 3. 核對：`python3 tools/validate.py <代號>`。**沒過的公司不發佈**：用 `git checkout -- data/<代號>.json` 還原、保留原值，回報說明哪一項、差多少。
 4. 判斷實質變動：所有公司都沒有實質變動 → 不 commit、不發佈、不通知，**安靜結束**。
 5. 有實質變動：`python3 tools/build.py`（會重產各公司頁面、首頁、`dist/artifacts/`），再 `python3 tools/validate.py` 一次。commit 訊息用繁體中文簡述（例：「PLTR 加入 3Q26 季報」「台積電更新 10 月營收」），`git push -u origin main`；GitHub Pages 會自動重新部署。
-6. Artifact：對有變動的公司，用 Artifact 工具 publish：`file_path` 用 `dist/artifacts/<代號>.html`，`url` 用 `companies.json` 該公司的 `artifact`（台積電 https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn）。若該公司 `artifact` 為 `null`：第一次發佈不帶 `url`（帶 `icon`，例如 chart），把回傳網址寫進 `companies.json` 的 `artifact` 欄位並再 commit／push 一次。`label` 寫這次變動（例：「加入 3Q26 季報」）。發佈前先用 `action:"read"` 讀該 Artifact（工具要求先讀才能更新）。不要建立重複的新 Artifact。
+6. Artifact：現在只有**一個合併版 Artifact**（總覽＋各公司分頁）。任何公司有變動時，用 Artifact 工具 publish：`file_path` 用 `dist/artifacts/all.html`，`url` 用 `companies.json` 的 `site.artifact`（https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn）。發佈前先用 `action:"read"` 讀該 Artifact（工具要求先讀才能更新）。`label` 寫這次變動（例：「PLTR 加入 3Q26 季報」）。不要建立新的 Artifact；`companies.json` 各公司的 `artifact` 欄位（舊的個別 Artifact）不用再更新。
 7. 有變動時用 PushNotification 通知使用者（內容即下面回報的精簡版）。沒有變動就不通知。
 
 ## 回報（最後一則訊息，繁體中文，簡短好懂）
