@@ -39,6 +39,10 @@ Claude 排程每週一早上 8:00（台北時間）依各公司的 `SOURCES.md` 
 
 見 [`docs/ADDING_A_COMPANY.md`](docs/ADDING_A_COMPANY.md)：新增 `companies.json` 一筆設定、`data/<代號>.json`、`companies/<代號>/SOURCES.md` 與頁面模板，共用程式不用改。
 
+## 發佈設定
+
+GitHub Pages：Settings → Pages → Deploy from a branch → `main` / `/ (root)`。頁面是 `tools/build.py` 預先產生並 commit 的，GitHub 只需原樣發佈（根目錄有 `.nojekyll`）。
+
 ## 資料來源與聲明
 
 資料來自各公司的投資人關係網站、SEC EDGAR（10-Q、10-K、8-K）與公開資訊；只有媒體報導、公司未證實的消息標為「待確定」。調整後（non-GAAP）數字是公司自訂指標。
