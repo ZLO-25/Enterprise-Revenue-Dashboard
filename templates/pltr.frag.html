@@ -9,6 +9,7 @@
   <div class="scroller">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
     <a href="#overview">總覽</a>
+    <a href="#longterm">長期觀察</a>
     <a href="#revenue">營收</a>
     <a href="#profit">獲利能力</a>
     <a href="#eps">每股盈餘</a>
@@ -42,6 +43,15 @@
     <b>接下來</b>
     <span id="nextText"></span>
   </div>
+
+  <section id="longterm">
+    <div class="sec-head">
+      <span class="sec-tag">長期投資人視角</span>
+      <h2>長期觀察</h2>
+      <p class="sub">把一年當成一個整體看：近四季加總、年化成長、利潤率走勢、自由現金流、成長穩定度。單季的起伏請看下面各章節。</p>
+    </div>
+    <div id="ltCard"></div>
+  </section>
 
   <section id="revenue">
     <div class="sec-head">
@@ -263,13 +273,14 @@
   </section>
 
   <footer id="footer"></footer>
-  <p class="disclaimer">本頁為公開資料整理，不構成投資建議。</p>
+  <p class="disclaimer-box" id="disclaimer"></p>
 </main>
 
 <script type="application/json" id="company-data">{{DATA}}</script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+{{CHARTJS}}
 <script>
 {{COMMON_JS}}
+{{LONGTERM_JS}}
 
 const D = JSON.parse(document.getElementById('company-data').textContent);
 const P = D.pltr.quarters;
@@ -300,6 +311,9 @@ const usd = (n) => n == null ? '—' : '$' + nf0.format(n);
 $('#eyebrow').textContent = `Nasdaq PLTR · ${Q[0].q} – ${L.q}`;
 $('#metaRow').innerHTML = `<span>資料截至 <b>${D.asOf.replace(/-/g, '/')}</b></span><span>最新一季 <b>${L.q}</b></span><span>單位 <b>百萬美元</b></span>`;
 $('#footer').textContent = `整理：${D.asOf.replace(/-/g, '/')} · 單位：百萬美元（每股為美元）`;
+/* 長期觀察（共用模組 assets/longterm.js） */
+(() => { const N = normalize(D, { schema: 'v1', currency: 'USD', code: 'pltr' }); const F = LT.freshness(D);
+  $('#metaRow').innerHTML += ` ${LT.badge(F)}`; LT.render($('#ltCard'), N, LT.metrics(N)); $('#disclaimer').textContent = LT.DISCLAIMER; })();
 const kpis = [
   { label: `${L.q} 營收`, value: f0(L.rev), unit: '百萬美元', delta: `年增 <span class="${cls(L.yoy)}">${sp(L.yoy)}</span> · 季增 <span class="${cls(L.qoq)}">${sp(L.qoq)}</span>`, chip: isRecord('rev') ? '單季新高' : '' },
   { label: `${L.q} 美國商業營收`, value: f0(L.usCom), unit: '百萬美元', delta: `年增 <span class="${cls(L.usComYoy)}">${sp(L.usComYoy)}</span><br>占總營收 ${pc(L.usCom / L.rev * 100, 0)}` },

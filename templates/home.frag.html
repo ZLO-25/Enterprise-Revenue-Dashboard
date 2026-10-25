@@ -13,85 +13,205 @@
 .co dd { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
 .co dd small { font-size: 0.72rem; font-weight: 500; color: var(--ink-2); margin-left: 3px; }
 .co dd.sub { font-size: 0.8rem; font-weight: 400; color: var(--ink-2); font-family: var(--font-data); }
+.co .lt-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.co .lt-row div { display: grid; gap: 2px; min-width: 0; }
+.co .lt-row dt { font-size: 0.72rem; }
+.co .lt-row dd { font-size: 0.98rem; }
 .co .foot { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: space-between; font-size: 0.82rem; color: var(--muted); font-family: var(--font-data); }
 .go { display: inline-block; text-decoration: none; background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border-radius: 8px; font-family: var(--font-ui); }
 .go:hover { filter: brightness(0.96); }
 .howto code { font-family: var(--font-data); font-size: 0.82rem; background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+.score th, .score td { text-align: right; }
+.score th:first-child, .score td:first-child { text-align: left; }
+.score td.lbl { font-family: var(--font-cjk); color: var(--ink-2); font-size: 0.78rem; white-space: normal; min-width: 11rem; }
+.score tr.exp td { font-family: var(--font-cjk); color: var(--muted); font-size: 0.74rem; white-space: normal; border-bottom: 0; padding-top: 0; }
+.guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.guide .card { gap: 6px; }
+.guide .card b { font-size: 0.95rem; }
+.guide .card p { font-size: 0.86rem; color: var(--ink-2); }
+.fresh-tbl td.txt { min-width: 10rem; }
 </style>
 
 <main class="wrap" style="padding-top:8px">
   <header class="masthead" id="top">
     <div class="eyebrow">Enterprise Revenue Dashboard</div>
     <h1>{{SITE_TITLE}}</h1>
-    <p class="lede">用同一套版型追蹤多家公司的營收與財報：最新一期的營收與年增率、獲利率、EPS、資料更新到哪一天、下一次公布是什麼時候。點進公司看完整的追蹤板。資料來自公司公告與 SEC 等公開文件，每週一早上自動更新。</p>
+    <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，每週一早上自動更新。</p>
     <div class="meta-row" id="metaRow"></div>
   </header>
 
-  <section>
-    <div class="sec-head"><h2>公司</h2></div>
+  <section id="companies">
+    <div class="sec-head"><h2>公司</h2><p class="sub">上半部是最新一期，下半部虛線以下是長期數字。右上角的小徽章是資料新鮮度。</p></div>
     <div class="cos" id="cos"></div>
   </section>
 
-  <section>
+  <section id="score">
     <div class="sec-head">
-      <h2>並排比較</h2>
-      <p class="sub">各家公司的貨幣與公布頻率不同，所以只比較「同一種單位」的比率：年增率、毛利率、營業利益率。金額請到各公司頁面看。</p>
+      <h2>長期體質記分板</h2>
+      <p class="sub">各家公司的貨幣與規模不同，所以只比「比率」與「成長率」，不比金額。全部用近四季（TTM）計算，把季節性拉平；每一列下面的小字說明怎麼讀。</p>
     </div>
-    <div class="tbl-wrap"><table id="cmp"></table></div>
+    <div class="tbl-wrap"><table id="scoreTbl" class="score"></table></div>
   </section>
 
-  <section>
+  <section id="compare">
+    <div class="sec-head">
+      <h2>跨公司比較</h2>
+      <p class="sub">把不同幣別的公司放在同一張圖，只能比「變化」：把起點都設成 100 看誰長得快；利潤率與年增率本身就是百分比，可以直接比。</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="tbl-bar">
+          <h3>營收指數化（起點 ＝ 100，近四季加總）</h3>
+          <div class="seg" id="idxSeg" role="group" aria-label="起點">
+            <button type="button" data-n="12" aria-pressed="true">近 3 年</button>
+            <button type="button" data-n="20" aria-pressed="false">近 5 年</button>
+            <button type="button" data-n="0" aria-pressed="false">全部</button>
+          </div>
+        </div>
+        <p class="how">同一條線往上越陡，代表營收成長越快；線在 200 就是起點的兩倍。</p>
+        <div class="legend" id="lgIdx"></div>
+        <div class="chartbox"><canvas id="cIdx" aria-label="營收指數化比較"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="tbl-bar">
+          <h3>利潤率走勢（近四季加權，%）</h3>
+          <div class="seg" id="mSeg" role="group" aria-label="利潤率種類">
+            <button type="button" data-m="gm" aria-pressed="true">毛利率</button>
+            <button type="button" data-m="om" aria-pressed="false">營業利益率</button>
+            <button type="button" data-m="nm" aria-pressed="false">淨利率</button>
+          </div>
+        </div>
+        <p class="how">線往上代表每 100 元營收留下更多利潤。不同產業的合理水準不同，重點看方向。</p>
+        <div class="legend" id="lgM"></div>
+        <div class="chartbox"><canvas id="cM" aria-label="利潤率比較"></canvas></div>
+      </div>
+      <div class="card wide">
+        <h3>營收年增率（單季，%）</h3>
+        <p class="how">每一季跟去年同季比。長期投資人看的不是哪一季最高，而是正值能不能持續。</p>
+        <div class="legend" id="lgY"></div>
+        <div class="chartbox"><canvas id="cY" aria-label="營收年增率比較"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="freshness">
+    <div class="sec-head">
+      <h2>資料新鮮度與來源</h2>
+      <p class="sub">每家公司的資料更新到哪一天、下一個公布日是公司公告還是我們預估、主要來源在哪裡。「待更新」代表有公布日已過但資料還沒跟上，通常下週一排程會補。</p>
+    </div>
+    <div class="tbl-wrap"><table id="freshTbl" class="fresh-tbl"></table></div>
+  </section>
+
+  <section id="howread">
+    <div class="sec-head"><h2>長期投資人怎麼用這個板</h2></div>
+    <div class="guide">
+      <div class="card"><b>1. 先看近四季，不看單季</b><p>單季會被季節、一次性損益、匯率干擾。先看每家公司頁面的「長期觀察」：近四季營收、EPS 與自由現金流。</p></div>
+      <div class="card"><b>2. 成長要配上利潤</b><p>營收長得快但毛利率往下掉，可能是用降價換成長；兩者一起往上，才是生意變強。</p></div>
+      <div class="card"><b>3. 盈餘要變成現金</b><p>自由現金流率長期接近或高於淨利率，代表帳面獲利是真的；長期差很多，就要去看應收帳款與資本支出。</p></div>
+      <div class="card"><b>4. 事件只當線索</b><p>合約、建廠、新產品的時間軸能幫你理解數字為什麼變，但「待確定」的消息不要當成已發生。</p></div>
+    </div>
+  </section>
+
+  <section id="add">
     <div class="sec-head"><h2>想追蹤其他公司？</h2></div>
     <div class="callout howto">
-      <span>新增一家公司只需要三樣東西：<code>companies.json</code> 的一筆設定、<code>data/&lt;代號&gt;.json</code> 的資料，和一份 <code>companies/&lt;代號&gt;/SOURCES.md</code> 的來源與更新步驟；共用的版型與排程不用改。流程見 <a id="howtoLink" href="#" target="_blank" rel="noopener">docs/ADDING_A_COMPANY.md</a>。</span>
+      <span>新增一家公司只需要三樣東西：<code>companies.json</code> 的一筆設定、<code>data/&lt;代號&gt;.json</code> 的資料，和一份 <code>companies/&lt;代號&gt;/SOURCES.md</code> 的來源與更新步驟。資料符合共用格式的公司會直接用通用頁面模板，首頁、比較圖與長期指標自動納入。流程見 <a id="howtoLink" href="#" target="_blank" rel="noopener">docs/ADDING_A_COMPANY.md</a>，或直接把 <a id="promptLink" href="#" target="_blank" rel="noopener">docs/NEW_COMPANY_PROMPT.md</a> 填好公司名稱交給 Claude。</span>
     </div>
   </section>
 
   <footer id="footer"></footer>
-  <p class="disclaimer">本站為公開資料整理，不構成投資建議。數字以各公司公告與 SEC 文件為準。</p>
+  <p class="disclaimer-box" id="disclaimer"></p>
 </main>
 
+{{CHARTJS}}
 <script>
 {{COMMON_JS}}
+{{LONGTERM_JS}}
 const COMPANIES = {{COMPANIES}};
 const DATA = {{DATASETS}};
+const REPO = 'https://github.com/{{REPO}}';
 
-/* ---------- 各資料格式的摘要轉接器：回傳首頁需要的共同欄位 ---------- */
-const nextEvent = (D) => (D.events || []).filter(e => e.date > D.asOf).sort((a, b) => a.date < b.date ? -1 : 1)[0] || null;
-const ADAPTERS = {
-  /* 台積電舊格式：月營收（新台幣百萬元）＋季報 */
-  'tsmc-legacy': (D) => {
-    const ys = Object.keys(D.monthly).map(Number).sort((a, b) => a - b), y = ys[ys.length - 1];
-    const arr = D.monthly[String(y)], m = arr.length, v = arr[m - 1], prev = (D.monthly[String(y - 1)] || [])[m - 1];
-    const q = D.quarters[D.quarters.length - 1];
-    return { revLabel: `${y}/${String(m).padStart(2, '0')} 月營收`, rev: f0(v / 100), revUnit: '億元新台幣', yoy: prev ? (v / prev - 1) * 100 : null,
-      qLabel: q.q, gm: q.gm, om: q.om, eps: q.eps.toFixed(2), epsUnit: '元', next: nextEvent(D) };
-  },
-  /* 共用格式 v1：quarters[] 為百萬單位 */
-  'v1': (D, c) => {
-    const Q = D.quarters, i = Q.length - 1, q = Q[i], p = Q[i - 4];
-    const cur = { USD: '百萬美元', TWD: '百萬元新台幣' }[c.currency] || ('百萬' + c.currency);
-    return { revLabel: `${q.q} 營收`, rev: f0(q.rev), revUnit: cur, yoy: p ? (q.rev / p.rev - 1) * 100 : null,
-      qLabel: q.q, gm: q.gm, om: q.om, eps: q.eps.toFixed(2), epsUnit: c.currency === 'USD' ? '美元' : '元', next: nextEvent(D) };
-  },
-};
-const S = COMPANIES.map(c => Object.assign({ c, D: DATA[c.code] }, (ADAPTERS[c.schema] || ADAPTERS.v1)(DATA[c.code], c)));
+/* 每家公司 → 標準序列 N → 長期指標 M → 新鮮度 F */
+const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c, D: DATA[c.code], N, M: LT.metrics(N), F: LT.freshness(DATA[c.code]), s: N.latest }; });
 const latest = S.map(s => s.D.asOf).sort().pop();
-$('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span>`;
+$('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>每週一 08:00（台北）自動更新</span>`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
-$('#cos').innerHTML = S.map(s => `
+$('#disclaimer').textContent = LT.DISCLAIMER;
+$('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';
+$('#promptLink').href = REPO + '/blob/main/docs/NEW_COMPANY_PROMPT.md';
+
+/* ---------- 公司卡片 ---------- */
+const nextTxt = (s) => s.s.next ? s.s.next.date.replace(/-/g, '/') + (s.s.next.est ? '（預估）' : '') : '—';
+$('#cos').innerHTML = S.map(({ c, D, N, M, F, s }) => `
   <article class="co">
-    <h2>${s.c.name}<span class="code">${s.c.exchange}</span></h2>
+    <h2>${c.name}<span class="code">${c.exchange}</span><span style="margin-left:auto">${LT.badge(F)}</span></h2>
     <dl class="stats">
-      <div><dt>${s.revLabel}</dt><dd>${s.rev}<small>${s.revUnit}</small></dd><dd class="sub"><span class="${cls(s.yoy)}">年增 ${sp(s.yoy)}</span></dd></div>
-      <div><dt>${s.qLabel} EPS</dt><dd>${s.eps}<small>${s.epsUnit}</small></dd></div>
+      <div><dt>${s.revLabel}</dt><dd>${f0(s.rev)}<small>${s.revUnit}</small></dd><dd class="sub"><span class="${cls(s.yoy)}">年增 ${sp(s.yoy)}</span></dd></div>
+      <div><dt>${s.qLabel} EPS</dt><dd>${f2(s.eps)}<small>${s.epsUnit}</small></dd><dd class="sub">近四季 ${f2(M.ttmEpsNow)}</dd></div>
       <div><dt>${s.qLabel} 毛利率</dt><dd>${pc(s.gm)}</dd></div>
       <div><dt>${s.qLabel} 營業利益率</dt><dd>${pc(s.om)}</dd></div>
     </dl>
-    <div class="foot"><span>資料截至 ${s.D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${s.next ? s.next.date.replace(/-/g, '/') + '（' + s.next.t + '）' : '—'}</span></div>
-    <div><a class="go" href="${s.c.path}">看 ${s.c.name} 追蹤板 →</a></div>
+    <dl class="stats lt-row">
+      <div><dt>近四季營收</dt><dd>${f0(M.ttmRev)}<small>${N.unitShort}</small></dd><dd class="sub"><span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span></dd></div>
+      <div><dt>3 年年化成長</dt><dd>${pc(M.cagr3)}</dd><dd class="sub">5 年 ${pc(M.cagr5)}</dd></div>
+      <div><dt>自由現金流率</dt><dd>${pc(M.ttmFcfM)}</dd><dd class="sub">淨利率 ${pc(M.ttmNm)}</dd></div>
+    </dl>
+    <div class="foot"><span>資料截至 ${D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${nextTxt({ s })}${s.next ? '（' + s.next.t.split('（')[0] + '）' : ''}</span></div>
+    <div><a class="go" href="${c.path}">看 ${c.name} 追蹤板 →</a></div>
   </article>`).join('');
-$('#cmp').innerHTML = `<thead><tr><th>公司</th><th>最新營收年增</th><th>毛利率</th><th>營業利益率</th><th>最新一季</th><th>公布頻率</th></tr></thead><tbody>` +
-  S.map(s => `<tr><td>${s.c.name}</td><td class="${cls(s.yoy)}">${sp(s.yoy)}</td><td>${pc(s.gm)}</td><td>${pc(s.om)}</td><td>${s.qLabel}</td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[s.c.frequency] || s.c.frequency}</td></tr>`).join('') + '</tbody>';
-document.getElementById('howtoLink').href = 'https://github.com/ZLO-25/Enterprise-Revenue-Dashboard/blob/main/docs/ADDING_A_COMPANY.md';
+
+/* ---------- 記分板 ---------- */
+const ROWS = [
+  ['3 年營收年化成長（CAGR）', s => pc(s.M.cagr3), '近四季營收對 3 年前近四季營收的年化成長率。回答「平均每年長多少」。'],
+  ['5 年營收年化成長（CAGR）', s => pc(s.M.cagr5), '同上，拉長到 5 年。資料不足 5 年顯示「—」。'],
+  ['近四季營收年增', s => `<span class="${cls(s.M.ttmRevYoy)}">${sp(s.M.ttmRevYoy)}</span>`, '最近四季加總對前一個四季加總。比單季年增率平滑。'],
+  ['連續營收年增季數', s => `${s.M.streak} 季`, '從最新一季往回數，連續幾季的營收年增率為正。看成長穩不穩。'],
+  ['近 20 季年增為正的比例', s => pc(s.M.posShare, 0), '最近 20 季中有幾成的季度營收年增為正。越接近 100% 越穩。'],
+  ['毛利率（近四季加權）', s => pc(s.M.gmNow), '近四季毛利 ÷ 近四季營收。看定價能力與成本結構。'],
+  ['毛利率 3 年變化', s => `<span class="${cls(s.M.gmDelta)}">${LT.pp(s.M.gmDelta)}</span>`, '今天的近四季毛利率減 3 年前的近四季毛利率。正值代表越做越好賺。'],
+  ['營業利益率（近四季加權）', s => pc(s.M.omNow), '扣掉研發、行銷、管理費用後的本業獲利率。'],
+  ['淨利率（近四季）', s => pc(s.M.ttmNm), '近四季淨利 ÷ 近四季營收。'],
+  ['自由現金流率（近四季）', s => pc(s.M.ttmFcfM), '（營業現金流 − 資本支出）÷ 營收。接近或高於淨利率，代表獲利有變成現金。'],
+  ['近四季 EPS 年增', s => `<span class="${cls(s.M.ttmEpsYoy)}">${sp(s.M.ttmEpsYoy)}</span>`, '近四季 EPS 對前一個四季 EPS。EPS 由負轉正或基期極小時會失真。'],
+  ['資料年數', s => `${s.M.years} 年`, '這個板收錄了幾年的季度資料；年數越長，長期指標越可靠。'],
+];
+$('#scoreTbl').innerHTML = `<thead><tr><th>指標</th>${S.map(s => `<th>${s.c.name}</th>`).join('')}</tr></thead><tbody>` +
+  ROWS.map(r => `<tr><td class="lbl">${r[0]}</td>${S.map(s => `<td>${r[1](s)}</td>`).join('')}</tr><tr class="exp"><td colspan="${S.length + 1}">${r[2]}</td></tr>`).join('') + '</tbody>';
+
+/* ---------- 新鮮度表 ---------- */
+$('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th></tr></thead><tbody>` +
+  S.map(({ c, D, F, s }) => `<tr><td style="font-family:var(--font-cjk)">${c.name}</td><td>${D.asOf.replace(/-/g, '/')}</td><td>${LT.badge(F)}</td><td>${s.qLabel}</td><td>${nextTxt({ s })}</td><td class="txt">${s.next ? s.next.t : '公司尚未公告'}</td><td class="txt">${c.primarySource ? `<a href="${c.primarySource.url}" target="_blank" rel="noopener">${c.primarySource.n}</a>` : '—'} · <a href="${REPO}/blob/main/companies/${c.code}/SOURCES.md" target="_blank" rel="noopener">欄位與核對規則</a></td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[c.frequency] || c.frequency}</td></tr>`).join('') + '</tbody>';
+
+/* ---------- 比較圖：對齊曆年季度 ---------- */
+const allQ = [...new Set(S.flatMap(s => s.N.Q.map(q => q.q)))].sort((a, b) => (a.slice(2) + a[0]) < (b.slice(2) + b[0]) ? -1 : 1);
+const byQ = (s, fn) => { const m = Object.fromEntries(s.N.Q.map((q, i) => [q.q, fn(q, i, s)])); return allQ.map(q => m[q] ?? null); };
+let idxN = 12, mKey = 'gm', charts = [];
+const COL = (i) => T('--s' + ((i % 8) + 1));
+function build() {
+  if (!window.Chart) return;
+  charts.forEach(c => c.destroy()); charts = [];
+  Chart.defaults.font.family = 'IBM Plex Sans, Noto Sans TC, system-ui, sans-serif';
+  Chart.defaults.color = T('--tick');
+  const xt = { maxTicksLimit: 10 };
+  const lg = S.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 }));
+  legend('#lgIdx', lg); legend('#lgM', lg); legend('#lgY', lg);
+  /* 指數化：每家公司各自以「起點季」的 TTM 為 100 */
+  const idxSeries = S.map(s => { const ttm = s.M.ttm; const n = ttm.length; const start = idxN ? Math.max(3, n - 1 - idxN) : ttm.findIndex(v => v != null); const base = ttm[start]; return byQ(s, (q, i) => i < start || base == null || ttm[i] == null ? null : Math.round(ttm[i] / base * 1000) / 10); });
+  const used = allQ.map((q, k) => idxSeries.some(a => a[k] != null));
+  const from = used.indexOf(true);
+  const labels = allQ.slice(from);
+  charts.push(new Chart($('#cIdx'), { data: { labels, datasets: S.map((s, i) => line({ label: s.c.name, data: idxSeries[i].slice(from), borderColor: COL(i), backgroundColor: COL(i), spanGaps: true })) },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${c.raw == null ? '—' : c.raw}` } }) }) }));
+  const mArr = { gm: s => s.M.ttmGm, om: s => s.M.ttmOm, nm: s => s.M.ttm.map((v, i) => v && s.M.ttmNi[i] != null ? s.M.ttmNi[i] / v * 100 : null) };
+  charts.push(new Chart($('#cM'), { data: { labels: allQ, datasets: S.map((s, i) => { const arr = mArr[mKey](s); return line({ label: s.c.name, data: byQ(s, (q, k) => arr[k] == null ? null : r1(arr[k])), borderColor: COL(i), backgroundColor: COL(i), spanGaps: true }); }) },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${pc(c.raw)}` } }) }) }));
+  charts.push(new Chart($('#cY'), { data: { labels: allQ, datasets: S.map((s, i) => line({ label: s.c.name, data: byQ(s, q => q.yoy == null ? null : r1(q.yoy)), borderColor: COL(i), backgroundColor: COL(i), spanGaps: true })) },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }) }) }));
+}
+$('#idxSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; idxN = Number(b.dataset.n); syncSeg('idxSeg', 'n', b.dataset.n); build(); });
+$('#mSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; mKey = b.dataset.m; syncSeg('mSeg', 'm', mKey); build(); });
+build();
+let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(build, 60); };
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
+new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 </script>

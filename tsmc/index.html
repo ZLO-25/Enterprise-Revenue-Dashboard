@@ -230,12 +230,28 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .homelink { font-weight: 600; color: var(--accent) !important; }
 .disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
 
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
 </style>
 
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="../">← 所有公司</a>
     <a href="#overview">總覽</a>
+    <a href="#longterm">長期觀察</a>
     <a href="#monthly">月營收</a>
     <a href="#profit">獲利能力</a>
     <a href="#eps">EPS 與股利</a>
@@ -269,6 +285,15 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <b>接下來</b>
     <span id="nextText"></span>
   </div>
+
+  <section id="longterm">
+    <div class="sec-head">
+      <span class="sec-tag">長期投資人視角</span>
+      <h2>長期觀察</h2>
+      <p class="sub">把一年當成一個整體看：近四季加總、年化成長、利潤率走勢、自由現金流、成長穩定度。單季的起伏請看下面各章節。</p>
+    </div>
+    <div id="ltCard"></div>
+  </section>
 
   <section id="monthly">
     <div class="sec-head">
@@ -506,12 +531,179 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   </section>
 
   <footer id="footer"></footer>
-  <p class="disclaimer">本頁為公開資料整理，不構成投資建議。</p>
+  <p class="disclaimer-box" id="disclaimer"></p>
 </main>
 
 <script type="application/json" id="tsmc-data">{"asOf":"2026-10-25","monthly":{"2015":[87120,62645,72269,75330,70155,59955,80953,67038,64514,81743,63428,58347],"2016":[70855,59551,73089,66843,73576,81391,76392,94311,89703,91085,93030,78112],"2017":[76616,71423,85875,56872,72796,84187,71611,91917,88579,94520,93153,89897],"2018":[79741,64641,103697,81870,80969,70438,74371,91055,94922,101550,98389,89831],"2019":[78094,60889,79722,74694,80437,85868,84758,106118,102170,106040,107884,103313],"2020":[103683,93394,113520,96002,93819,120878,105963,122878,127585,119303,124865,117365],"2021":[126749,106534,129127,111315,112360,148471,124558,137427,152685,134539,148268,155382],"2022":[172176,146933,171967,172561,185705,175874,186763,218132,208248,210266,222706,192560],"2023":[200051,163174,145408,147900,176537,156404,177616,188686,180430,243203,206026,176300],"2024":[215785,181648,195211,236021,229620,207869,256953,250866,251873,314240,276058,278163],"2025":[293288,260009,285957,349567,320516,263709,323166,335772,330980,367473,343614,335003],"2026":[401255,317657,415191,410726,416975,442680,467580,514806,511857]},"provisional":{},"yoy2020":[32.8,53.4,42.4,28.5,16.6,40.8,25.0,15.8,24.9,12.5,15.7,13.6],"yoy2020Total":25.2,"quarters":[{"q":"1Q15","rev":222034,"ni":78990,"eps":3.05,"gm":49.3,"om":39.0,"capex":48.88,"ocf":156.0,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"2Q15","rev":205440,"ni":79417,"eps":3.06,"gm":48.5,"om":37.5,"capex":53.81,"ocf":111.07,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"3Q15","rev":212505,"ni":75330,"eps":2.91,"gm":48.2,"om":36.9,"capex":70.3,"ocf":118.14,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"4Q15","rev":203518,"ni":72837,"eps":2.81,"gm":48.6,"om":38.3,"capex":84.52,"ocf":144.67,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.5},{"q":"1Q16","rev":203495,"ni":64782,"eps":2.5,"gm":44.9,"om":34.6,"capex":38.14,"ocf":121.53,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"2Q16","rev":221810,"ni":72506,"eps":2.8,"gm":51.5,"om":41.2,"capex":73.59,"ocf":106.68,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"3Q16","rev":260406,"ni":96759,"eps":3.73,"gm":50.7,"om":40.8,"capex":103.78,"ocf":126.41,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"4Q16","rev":262227,"ni":100200,"eps":3.86,"gm":52.3,"om":41.9,"capex":112.54,"ocf":185.22,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":1.75},{"q":"1Q17","rev":233914,"ni":87629,"eps":3.38,"gm":51.9,"om":40.8,"capex":102.51,"ocf":161.01,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"2Q17","rev":213856,"ni":66271,"eps":2.56,"gm":50.8,"om":38.9,"capex":105.19,"ocf":103.4,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"3Q17","rev":252107,"ni":89925,"eps":3.47,"gm":49.9,"om":38.9,"capex":61.71,"ocf":116.78,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"4Q17","rev":277570,"ni":99286,"eps":3.83,"gm":50.0,"om":39.2,"capex":61.18,"ocf":204.13,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"1Q18","rev":248079,"ni":89785,"eps":3.46,"gm":50.3,"om":39.0,"capex":71.85,"ocf":160.73,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"2Q18","rev":233276,"ni":72290,"eps":2.79,"gm":47.8,"om":36.2,"capex":59.68,"ocf":129.77,"n2":0,"n3":0,"n5":0,"n7":0,"hpc":null,"sp":null,"dps":2.0},{"q":"3Q18","rev":260348,"ni":89072,"eps":3.44,"gm":47.4,"om":36.6,"capex":69.95,"ocf":94.08,"n2":0,"n3":0,"n5":0,"n7":11,"hpc":null,"sp":null,"dps":2.0},{"q":"4Q18","rev":289771,"ni":99984,"eps":3.86,"gm":47.7,"om":37.0,"capex":114.1,"ocf":189.37,"n2":0,"n3":0,"n5":0,"n7":23,"hpc":null,"sp":null,"dps":2.0},{"q":"1Q19","rev":218704,"ni":61394,"eps":2.37,"gm":41.3,"om":29.4,"capex":75.94,"ocf":152.67,"n2":0,"n3":0,"n5":0,"n7":22,"hpc":29,"sp":47,"dps":2.0},{"q":"2Q19","rev":240999,"ni":66765,"eps":2.57,"gm":43.0,"om":31.7,"capex":116.35,"ocf":117.76,"n2":0,"n3":0,"n5":0,"n7":21,"hpc":32,"sp":45,"dps":2.5},{"q":"3Q19","rev":293045,"ni":101070,"eps":3.9,"gm":47.6,"om":36.8,"capex":98.12,"ocf":141.75,"n2":0,"n3":0,"n5":0,"n7":27,"hpc":29,"sp":49,"dps":2.5},{"q":"4Q19","rev":317237,"ni":116035,"eps":4.47,"gm":50.2,"om":39.2,"capex":170.01,"ocf":202.96,"n2":0,"n3":0,"n5":0,"n7":35,"hpc":29,"sp":53,"dps":2.5},{"q":"1Q20","rev":310597,"ni":116990,"eps":4.51,"gm":51.8,"om":41.4,"capex":192.56,"ocf":203.03,"n2":0,"n3":0,"n5":0,"n7":35,"hpc":30,"sp":49,"dps":2.5},{"q":"2Q20","rev":310699,"ni":120822,"eps":4.66,"gm":53.0,"om":42.2,"capex":126.7,"ocf":170.34,"n2":0,"n3":0,"n5":0,"n7":36,"hpc":33,"sp":47,"dps":2.5},{"q":"3Q20","rev":356426,"ni":137310,"eps":5.3,"gm":53.4,"om":42.1,"capex":99.31,"ocf":190.18,"n2":0,"n3":0,"n5":8,"n7":35,"hpc":37,"sp":46,"dps":2.5},{"q":"4Q20","rev":361533,"ni":142766,"eps":5.51,"gm":54.0,"om":43.5,"capex":88.68,"ocf":259.13,"n2":0,"n3":0,"n5":20,"n7":29,"hpc":31,"sp":51,"dps":2.5},{"q":"1Q21","rev":362410,"ni":139690,"eps":5.39,"gm":52.4,"om":41.5,"capex":248.03,"ocf":227.82,"n2":0,"n3":0,"n5":14,"n7":35,"hpc":35,"sp":45,"dps":2.75},{"q":"2Q21","rev":372145,"ni":134360,"eps":5.18,"gm":50.0,"om":39.1,"capex":166.97,"ocf":187.44,"n2":0,"n3":0,"n5":18,"n7":31,"hpc":39,"sp":42,"dps":2.75},{"q":"3Q21","rev":414670,"ni":156259,"eps":6.03,"gm":51.3,"om":41.2,"capex":188.64,"ocf":318.706,"n2":0,"n3":0,"n5":18,"n7":34,"hpc":37,"sp":44,"dps":2.75},{"q":"4Q21","rev":438189,"ni":166232,"eps":6.41,"gm":52.7,"om":41.7,"capex":235.56,"ocf":378.199,"n2":0,"n3":0,"n5":23,"n7":27,"hpc":37,"sp":44,"dps":2.75},{"q":"1Q22","rev":491076,"ni":202733,"eps":7.82,"gm":55.6,"om":45.6,"capex":262.135,"ocf":372.17,"n2":0,"n3":0,"n5":20,"n7":30,"hpc":41,"sp":40,"dps":2.75},{"q":"2Q22","rev":534141,"ni":237027,"eps":9.14,"gm":59.1,"om":49.1,"capex":217.723,"ocf":338.849,"n2":0,"n3":0,"n5":21,"n7":30,"hpc":43,"sp":38,"dps":2.75},{"q":"3Q22","rev":613143,"ni":280866,"eps":10.83,"gm":60.4,"om":50.6,"capex":265.97,"ocf":412.698,"n2":0,"n3":0,"n5":28,"n7":26,"hpc":39,"sp":41,"dps":2.75},{"q":"4Q22","rev":625532,"ni":295904,"eps":11.41,"gm":62.2,"om":52.0,"capex":336.844,"ocf":486.882,"n2":0,"n3":0,"n5":32,"n7":22,"hpc":42,"sp":38,"dps":2.75},{"q":"1Q23","rev":508633,"ni":206987,"eps":7.98,"gm":56.3,"om":45.5,"capex":302.499,"ocf":385.245,"n2":0,"n3":0,"n5":31,"n7":20,"hpc":44,"sp":34,"dps":3.0},{"q":"2Q23","rev":480841,"ni":181799,"eps":7.01,"gm":54.1,"om":42.0,"capex":250.534,"ocf":167.248,"n2":0,"n3":0,"n5":30,"n7":23,"hpc":44,"sp":33,"dps":3.0},{"q":"3Q23","rev":546733,"ni":211000,"eps":8.14,"gm":54.3,"om":41.7,"capex":226.624,"ocf":294.645,"n2":0,"n3":6,"n5":37,"n7":16,"hpc":42,"sp":39,"dps":3.5},{"q":"4Q23","rev":625529,"ni":238712,"eps":9.21,"gm":53.0,"om":41.6,"capex":170.16,"ocf":394.829,"n2":0,"n3":15,"n5":35,"n7":17,"hpc":43,"sp":43,"dps":3.5},{"q":"1Q24","rev":592644,"ni":225485,"eps":8.7,"gm":53.1,"om":42.0,"capex":181.305,"ocf":436.311,"n2":0,"n3":9,"n5":37,"n7":19,"hpc":46,"sp":38,"dps":4.0},{"q":"2Q24","rev":673510,"ni":247846,"eps":9.56,"gm":53.2,"om":42.5,"capex":205.675,"ocf":377.668,"n2":0,"n3":15,"n5":35,"n7":17,"hpc":52,"sp":33,"dps":4.0},{"q":"3Q24","rev":759692,"ni":325258,"eps":12.54,"gm":57.8,"om":47.5,"capex":207.079,"ocf":391.992,"n2":0,"n3":20,"n5":32,"n7":17,"hpc":51,"sp":34,"dps":4.5},{"q":"4Q24","rev":868461,"ni":374680,"eps":14.45,"gm":59.0,"om":49.0,"capex":361.948,"ocf":620.205,"n2":0,"n3":26,"n5":34,"n7":14,"hpc":53,"sp":35,"dps":4.5},{"q":"1Q25","rev":839254,"ni":361564,"eps":13.94,"gm":58.8,"om":48.5,"capex":330.827,"ocf":625.574,"n2":0,"n3":22,"n5":36,"n7":15,"hpc":59,"sp":28,"dps":5.0},{"q":"2Q25","rev":933792,"ni":398273,"eps":15.36,"gm":58.6,"om":49.6,"capex":297.226,"ocf":497.064,"n2":0,"n3":24,"n5":36,"n7":14,"hpc":60,"sp":27,"dps":5.0},{"q":"3Q25","rev":989918,"ni":452302,"eps":17.44,"gm":59.5,"om":50.6,"capex":287.452,"ocf":426.829,"n2":0,"n3":23,"n5":37,"n7":14,"hpc":57,"sp":30,"dps":6.0},{"q":"4Q25","rev":1046090,"ni":505744,"eps":19.5,"gm":62.3,"om":54.0,"capex":356.906,"ocf":725.509,"n2":0,"n3":28,"n5":35,"n7":14,"hpc":55,"sp":32,"dps":6.0},{"q":"1Q26","rev":1134103,"ni":572480,"eps":22.08,"gm":66.2,"om":58.1,"capex":350.763,"ocf":698.976,"n2":0,"n3":25,"n5":36,"n7":13,"hpc":61,"sp":26,"dps":7.0},{"q":"2Q26","rev":1270381,"ni":706562,"eps":27.25,"gm":67.7,"om":60.3,"capex":496.002,"ocf":783.365,"n2":3,"n3":30,"n5":33,"n7":11,"hpc":66,"sp":22,"dps":7.0},{"q":"3Q26","rev":1494243,"ni":763064,"eps":29.43,"gm":66.4,"om":58.7,"capex":443.206,"ocf":919.776,"n2":8,"n3":33,"n5":28,"n7":10,"hpc":68,"sp":21,"dps":null}],"epsOfficial":{"2015":11.82,"2016":12.89,"2017":13.23,"2018":13.54,"2019":13.32,"2020":19.97,"2021":23.01,"2022":39.2,"2023":32.34,"2024":45.25,"2025":66.25},"capexUsd":{"2015":8.12,"2016":10.19,"2017":10.86,"2018":10.46,"2019":14.9,"2020":17.24,"2021":30.04,"2022":36.29,"2023":30.45,"2024":29.76,"2025":40.9},"capexBudget":{"y":2026,"lo":60,"hi":64,"ytd":40.64,"ytdLabel":"前三季","note":"7 月上修，原 520–560 億"},"guidance":{"q":"4Q26","revUsdLo":52.3,"revUsdHi":54.3,"gmLo":65,"gmHi":67,"omLo":56.5,"omHi":58.5},"events":[{"date":"2026-11-10","t":"10 月營收"},{"date":"2026-12-10","t":"11 月營收"},{"date":"2027-01-08","t":"12 月營收"}],"waterfall":{"q":"3Q26","rows":[{"n":"營收","v":14942.4,"t":1},{"n":"營業成本","v":-5018.6},{"n":"毛利","v":9923.8,"t":1},{"n":"研發費用","v":-889.8},{"n":"管理與行銷費用","v":-274.5},{"n":"其他營業收支","v":5.0},{"n":"營業利益","v":8764.5,"t":1},{"n":"業外收支","v":345.9},{"n":"所得稅","v":-1477.0},{"n":"非控制權益","v":-2.8},{"n":"淨利（歸屬母公司）","v":7630.6,"t":1}],"note":""},"yoy2015":[69.4,33.8,44.7,21.7,15.4,-0.6,24.7,-3.2,-13.8,1.2,-12.2,-16.1],"yoy2015Total":10.6,"dpsAnnual":{"2015":6.0,"2016":7.0,"2017":8.0,"2018":8.0},"milestones":[{"d":"2015","cat":"node","node":"16FF+","t":"16 奈米 FinFET Plus（16FF+）量產","src":"https://investor.tsmc.com/static/annualReports/2015/english/e_2_2.html","st":"p","hvm":1},{"d":"2016-Q1","cat":"node","node":"16FFC","t":"16FFC 量產","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2016-H1","cat":"pkg","node":"CoWoS","t":"CoWoS XL 開始生產（搭配 HBM2）","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2016-Q2","cat":"pkg","node":"InFO","t":"InFO-PoP 首度量產（整合 16 奈米手機晶片與 DRAM）","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2016-Q4","cat":"node","node":"N10","t":"10 奈米開始量產爬坡，2017 年第一季起出貨","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p","hvm":1,"note":"年報用語為「量產爬坡」"},{"d":"2017-04","cat":"node","node":"N7","t":"7 奈米風險試產（年報預定時程）","src":"https://investor.tsmc.com/static/annualReports/2016/english/e_2_2.html","st":"p"},{"d":"2018","cat":"node","node":"N7","t":"7 奈米（N7）量產，全球第一個量產的 7 奈米製程","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_7nm","st":"p","hvm":1},{"d":"2019-04","cat":"node","node":"N5","t":"5 奈米已進入風險試產","src":"https://pr.tsmc.com/english/news/1987","st":"p"},{"d":"2019-Q2","cat":"node","node":"N7+","t":"N7+ 量產，業界第一個商用 EUV 製程","src":"https://pr.tsmc.com/english/news/2010","st":"p","hvm":1},{"d":"2019-Q3","cat":"pkg","node":"CoWoS","t":"CoWoS 完成高效能運算應用認證","src":"https://investor.tsmc.com/sites/ir/annual-report/2019/e_all.pdf","st":"p"},{"d":"2020-Q1","cat":"node","node":"N6","t":"6 奈米風險試產","src":"https://investor.tsmc.com/sites/ir/annual-report/2019/e_all.pdf","st":"p"},{"d":"2020","cat":"node","node":"N5","t":"5 奈米（N5）量產","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_5nm","st":"p","hvm":1},{"d":"2020","cat":"node","node":"N6","t":"6 奈米（N6）量產","src":"https://investor.tsmc.com/static/annualReports/2021/english/pdf/2021_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2021","cat":"node","node":"N3","t":"3 奈米與 4 奈米風險試產","src":"https://investor.tsmc.com/static/annualReports/2021/english/pdf/2021_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2022-06","cat":"node","node":"N2","t":"北美技術論壇發表 2 奈米，首度採用奈米片（GAA）電晶體","src":"https://pr.tsmc.com/english/news/2939","st":"p"},{"d":"2022","cat":"node","node":"N4","t":"4 奈米（N4）量產","src":"https://investor.tsmc.com/static/annualReports/2022/english/pdf/2022_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2022","cat":"pkg","node":"SoIC","t":"SoIC 晶片堆疊（CoW）量產","src":"https://investor.tsmc.com/static/annualReports/2022/english/pdf/2022_tsmc_ar_e_ch5.pdf","st":"p","note":"2023 年報寫 2023 年量產，兩份年報說法不同"},{"d":"2022-10","cat":"pkg","node":"3DFabric","t":"成立 3DFabric 聯盟（SoIC、CoWoS、InFO 的整合平台）","src":"https://pr.tsmc.com/english/news/2968","st":"p"},{"d":"2022-12","cat":"node","node":"N3","t":"3 奈米（N3）量產，南科晶圓十八廠舉行量產典禮","src":"https://pr.tsmc.com/english/news/2986","st":"p","hvm":1},{"d":"2023-Q4","cat":"node","node":"N3E","t":"3 奈米強化版（N3E）量產","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2024-04","cat":"node","node":"A16","t":"發表 A16（1.6 奈米級），採用背面供電 Super Power Rail","src":"https://evertiq.com/news/55625","st":"p","note":"媒體報導"},{"d":"2024","cat":"pkg","node":"CoWoS-L","t":"CoWoS-L 量產（首款 3.5 倍光罩尺寸）","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2024","cat":"pkg","node":"SoW","t":"第一代晶圓上系統（SoW）量產","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2024","cat":"node","node":"N2","t":"2 奈米第一個客戶產品完成設計定案","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2024-H2","cat":"node","node":"N3P","t":"N3P 量產","src":"https://investor.tsmc.com/static/annualReports/2024/english/pdf/2024_tsmc_ar_e_ch5.pdf","st":"p","hvm":1},{"d":"2025-04","cat":"node","node":"A14","t":"發表 A14（1.4 奈米級），預計 2028 年量產","src":"https://pr.tsmc.com/english/news/3228","st":"p"},{"d":"2025","cat":"pkg","node":"SoIC","t":"3 奈米 SoIC 堆疊量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch5.pdf","st":"p"},{"d":"2025-Q4","cat":"node","node":"N2","t":"2 奈米（N2）量產，台積電第一個奈米片（GAA）製程","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_2nm","st":"p","hvm":1},{"d":"2026-04","cat":"node","node":"A13","t":"發表 A13、A12 與 N2U","src":"https://pr.tsmc.com/english/news/3302","st":"p"},{"d":"2026","cat":"pkg","node":"COUPE","t":"COUPE 共同封裝光學（基板版）開始生產","src":"https://pr.tsmc.com/english/news/3302","st":"f"},{"d":"2026","cat":"node","node":"N3A","t":"車用 N3A 進入量產","src":"https://pr.tsmc.com/english/news/3302","st":"f"},{"d":"2026-H2","cat":"node","node":"N2P","t":"N2P 量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-01/51d09df96cd89ac19d65af39032b038dc2896a24/TSMC%204Q25%20Transcript.pdf","st":"f","hvm":1,"note":"2026/01 法說會時程，之後未再更新"},{"d":"2027","cat":"node","node":"A16","t":"A16 量產","src":"https://www.trendforce.com/news/2026/04/23/news-tsmc-unveils-latest-roadmap-a12-a13-set-for-2029-without-high-na-euv-a16-volume-production-delayed-to-2027/","st":"f","hvm":1,"note":"待確定：媒體報導 2026 技術論壇路線圖延到 2027；2026/01 法說會仍說 2026 下半年","unc":1},{"d":"2027","cat":"node","node":"A14","t":"A14 風險試產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"},{"d":"2027","cat":"pkg","node":"CoWoS","t":"9.5 倍光罩尺寸 CoWoS 量產","src":"https://pr.tsmc.com/english/news/3228","st":"f"},{"d":"2028","cat":"node","node":"A14","t":"A14 量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f","hvm":1},{"d":"2028","cat":"node","node":"N2U","t":"N2U 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f","hvm":1},{"d":"2028","cat":"pkg","node":"CoWoS","t":"14 倍光罩尺寸 CoWoS 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f"},{"d":"2029","cat":"node","node":"A13","t":"A13 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f","hvm":1},{"d":"2029","cat":"node","node":"A12","t":"A12 量產","src":"https://pr.tsmc.com/english/news/3302","st":"f","hvm":1},{"d":"2029","cat":"pkg","node":"SoW-X","t":"A14 對 A14 的 SoIC、40 倍光罩 SoW-X","src":"https://pr.tsmc.com/english/news/3302","st":"f"}],"fabs":[{"id":"nj","n":"南京廠（Fab 16）","loc":"中國南京","c":"中國","tech":"16 奈米","ms":[{"k":"a","d":"2016-03-28","t":"與南京市簽署 12 吋廠投資協議，投資 30 億美元","src":"https://pr.tsmc.com/english/news/1887","st":"p"},{"k":"m","d":"2018-10-31","t":"開幕暨量產典禮","src":"https://cdnfinance.technews.tw/2018/10/31/tsmc-nanjing-openning/","st":"p"}]},{"id":"f18","n":"晶圓十八廠（Fab 18）","loc":"台南南科","c":"台灣","tech":"5、3 奈米","ms":[{"k":"g","d":"2018-01-26","t":"第一期動工","src":"https://pr.tsmc.com/english/news/1951","st":"p"},{"k":"m","d":"2020","t":"5 奈米量產","src":"https://www.tsmc.com/english/dedicatedFoundry/technology/logic/l_5nm","st":"p"},{"k":"m","d":"2022-12-29","t":"3 奈米量產典禮","src":"https://pr.tsmc.com/english/news/2986","st":"p"}]},{"id":"az1","n":"亞利桑那一廠（P1）","loc":"美國鳳凰城","c":"美國","tech":"4 奈米","ms":[{"k":"a","d":"2020-05-15","t":"宣布赴美設 5 奈米廠，投資約 120 億美元","src":"https://pr.tsmc.com/english/news/2033","st":"p"},{"k":"g","d":"2021","t":"開始建廠","src":"https://pr.tsmc.com/english/news/2033","st":"p"},{"k":"c","d":"2022-12-06","t":"首批機台移入典禮，同時宣布二廠","src":"https://pr.tsmc.com/english/news/2977","st":"p"},{"k":"m","d":"2024-Q4","t":"4 奈米量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"ap6","n":"先進封測六廠（AP6）","loc":"苗栗竹南","c":"台灣","tech":"SoIC、CoWoS 等 3DFabric","ms":[{"k":"g","d":"2020","t":"開始興建","src":"https://pr.tsmc.com/english/news/3033","st":"p"},{"k":"c","d":"2023-06-08","t":"啟用，第一座全自動化先進封測廠","src":"https://pr.tsmc.com/english/news/3033","st":"p"}]},{"id":"jasm1","n":"日本熊本一廠（JASM）","loc":"日本熊本菊陽町","c":"日本","tech":"28/22、16/12 奈米","ms":[{"k":"a","d":"2021","t":"成立 JASM（Sony 參股）","src":"https://pr.tsmc.com/english/news/3113","st":"p"},{"k":"g","d":"2022-04","t":"動工","src":"https://pr.tsmc.com/english/news/3113","st":"p"},{"k":"c","d":"2024-02-24","t":"開幕典禮","src":"https://pr.tsmc.com/english/news/3113","st":"p"},{"k":"m","d":"2024-Q4","t":"量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"f22","n":"晶圓二十二廠（Fab 22）","loc":"高雄楠梓","c":"台灣","tech":"2 奈米","ms":[{"k":"g","d":"2022-11-21","t":"動工（原規劃 28 奈米，後改 2 奈米）","src":"https://www.taipeitimes.com/News/biz/archives/2022/11/22/2003789359","st":"p","note":"媒體報導"},{"k":"c","d":"2024-11","t":"第一期開始裝機","src":"https://semiwiki.com/forum/threads/tsmc-2nm-capacity-expansion-ceremony.22436/","st":"p","note":"媒體報導"},{"k":"m","d":"2025-Q4","t":"2 奈米量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"az2","n":"亞利桑那二廠（P2）","loc":"美國鳳凰城","c":"美國","tech":"3 奈米","ms":[{"k":"a","d":"2022-12-06","t":"宣布二廠，總投資升至 400 億美元","src":"https://pr.tsmc.com/english/news/2977","st":"p"},{"k":"c","d":"2025","t":"廠房完工，進行設施安裝","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"},{"k":"m","d":"2027-Q3","t":"量產（比原訂時程略提前）","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]},{"id":"rd","n":"全球研發中心","loc":"新竹科學園區","c":"台灣","tech":"2 奈米以下研發","ms":[{"k":"c","d":"2023-07-28","t":"啟用典禮，約 7,000 名研發人員進駐","src":"https://pr.tsmc.com/english/news/3044","st":"p"}]},{"id":"esmc","n":"德國德勒斯登廠（ESMC）","loc":"德國德勒斯登","c":"德國","tech":"28/22、16/12 奈米","ms":[{"k":"a","d":"2023-08-08","t":"與博世、英飛凌、恩智浦成立合資公司","src":"https://pr.tsmc.com/english/news/3049","st":"p"},{"k":"g","d":"2024-08-20","t":"動土典禮","src":"https://pr.tsmc.com/english/news/3169","st":"p"},{"k":"c","d":"2026-09","t":"上樑典禮","src":"https://oiger.de/2026/09/13/richtfest-fuer-milliardenprojekt-von-tsmc-in-dresden/198531","st":"p","note":"媒體報導"},{"k":"m","d":"2027-Q4","t":"量產","src":"https://pr.tsmc.com/english/news/3049","st":"f","note":"2023 年新聞稿寫 2027 年底；德國媒體報導可能提前到 2027 年中"}]},{"id":"jasm2","n":"日本熊本二廠（JASM）","loc":"日本熊本菊陽町","c":"日本","tech":"原訂 6/7 奈米，改為 3 奈米","ms":[{"k":"a","d":"2024-02-06","t":"宣布興建（Sony、電裝、豐田參股）","src":"https://pr.tsmc.com/english/news/3105","st":"p"},{"k":"g","d":"2025-10","t":"開始施工（原訂 2025 年第一季）","src":"https://technode.com/2025/10/28/tsmc-begins-construction-of-kumamoto-second-fab-with-13-9-billion-investment/","st":"p","note":"媒體報導"},{"k":"m","d":"2028","t":"3 奈米量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]},{"id":"az3","n":"亞利桑那三廠（P3）","loc":"美國鳳凰城","c":"美國","tech":"2 奈米、A16","ms":[{"k":"a","d":"2024-04","t":"宣布三廠，總投資升至 650 億美元","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"},{"k":"g","d":"2025-04","t":"動土","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"},{"k":"m","d":"2029","t":"量產","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"f","note":"公司說法為「本十年底前」，圖上暫標 2029"}]},{"id":"f20","n":"晶圓二十廠（Fab 20）","loc":"新竹寶山","c":"台灣","tech":"2 奈米","ms":[{"k":"m","d":"2025-Q4","t":"2 奈米量產","src":"https://investor.tsmc.com/static/annualReports/2025/english/index.html","st":"p"}]},{"id":"az4","n":"亞利桑那四廠與先進封裝廠","loc":"美國亞利桑那","c":"美國","tech":"2 奈米以下、CoWoS／SoIC","ms":[{"k":"a","d":"2025-03-04","t":"追加 1,000 億美元：再蓋三座晶圓廠、兩座先進封裝廠與研發中心","src":"https://www.sec.gov/Archives/edgar/data/1046179/000104617925000024/tsmcexpandinvestmentintheu.htm","st":"p"},{"k":"g","d":"2026-Q1","t":"四廠與先進封裝一廠開始施工","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"},{"k":"a","d":"2026-07-16","t":"再追加 1,000 億美元，美國總投資 2,650 億美元","src":"https://www.tsmc.com/static/abouttsmcaz/index.htm","st":"p"}]},{"id":"f25","n":"晶圓二十五廠（Fab 25）","loc":"台中中科","c":"台灣","tech":"A14（1.4 奈米）","ms":[{"k":"a","d":"2025-10","t":"中科管理局確認建廠申請","src":"https://www.taipeitimes.com/News/biz/archives/2025/10/30/2003846321","st":"p","note":"媒體報導"},{"k":"g","d":"2025-11","t":"動土","src":"https://anysilicon.com/tsmc-to-break-ground-on-1-4nm-a14-fab-on-november-5/","st":"p","note":"待確定：媒體報導的預定日期，未找到典禮確實舉行的消息","unc":1},{"k":"m","d":"2028","t":"A14 量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]},{"id":"ap7","n":"先進封測七廠（AP7）","loc":"嘉義","c":"台灣","tech":"CoWoS、SoIC","ms":[{"k":"c","d":"2025-12-04","t":"開幕典禮","src":"https://tw.stock.yahoo.com/news/dj%E7%8D%A8%E5%AE%B6-%E5%8F%B0%E7%A9%8D%E5%98%89%E7%BE%A9ap7%E4%BB%8A%E8%88%89%E8%BE%A6%E5%85%B8%E7%A6%AE-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E9%87%8D%E9%8E%AE%E6%88%90%E5%BD%A2-011000014.html","st":"p","note":"媒體報導"},{"k":"m","d":"2026","t":"第二期投產","src":"https://tw.stock.yahoo.com/news/dj%E7%8D%A8%E5%AE%B6-%E5%8F%B0%E7%A9%8D%E5%98%89%E7%BE%A9ap7%E4%BB%8A%E8%88%89%E8%BE%A6%E5%85%B8%E7%A6%AE-%E5%85%88%E9%80%B2%E5%B0%81%E8%A3%9D%E9%87%8D%E9%8E%AE%E6%88%90%E5%BD%A2-011000014.html","st":"f","note":"待確定：媒體報導","unc":1}]},{"id":"tn3","n":"台南 3 奈米新廠","loc":"台南南科","c":"台灣","tech":"3 奈米","ms":[{"k":"m","d":"2027-H1","t":"第一座量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"},{"k":"m","d":"2028-H1","t":"第二座量產","src":"https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/eba4fac72873bf546b669bd2b5d973df5c93215d/TSMC%203Q26%20Transcript.pdf","st":"f"}]}],"fabNote":"台積電法說會提到未來幾年在台灣興建 13 座先進製程與先進封裝廠，這裡只列有公開時程的廠區。"}</script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="../assets/vendor/chart.umd.js"></script>
 <script>
+/* 資料格式轉接層（normalization layer）
+   目的：不管公司資料是哪一種格式（schema），都轉成同一種「標準季度序列」，
+   讓首頁、跨公司比較、長期指標（assets/longterm.js）只需要認得一種格式。
+
+   標準序列 N：
+     N.Q[]      每季：{ q, yr, qi, rev, gp, gm, om, nm, ni, eps, ocf, capex, fcf, dps }  金額單位 = N.unit
+     N.unit     金額單位的中文（例：百萬美元、億元新台幣）
+     N.unitShort 放在數字旁的短單位（例：百萬美元、億）
+     N.epsUnit  每股單位（美元、元）
+     N.latest   首頁卡片用的「最新一期」摘要：{ revLabel, rev, revUnit, yoy, qLabel, gm, om, eps, epsUnit, next }
+     N.next     下一個公布日 {date, t, est?} 或 null
+   新增一種資料格式 → 在 ADAPTERS 加一個以 schema 名稱為鍵的函式；符合 v1 的公司什麼都不用加。 */
+const nextEvent = (D) => (D.events || []).filter(e => e.date > D.asOf).sort((a, b) => a.date < b.date ? -1 : 1)[0] || null;
+const qParts = (q) => ({ yr: 2000 + Number(q.slice(2)), qi: Number(q[0]) });
+const ADAPTERS = {
+  /* 台積電舊格式：monthly 為新台幣百萬元、quarters 的 rev/ni 為百萬元、capex/ocf 為十億元 → 一律換成「億元」 */
+  'tsmc-legacy': (D, c) => {
+    const Q = D.quarters.map(q => {
+      const rev = q.rev / 100, ocf = q.ocf == null ? null : q.ocf * 10, capex = q.capex == null ? null : q.capex * 10;
+      return Object.assign({ q: q.q, rev, gp: rev * q.gm / 100, gm: q.gm, om: q.om, ni: q.ni / 100, nm: q.ni / q.rev * 100, eps: q.eps,
+        ocf, capex, fcf: ocf == null || capex == null ? null : ocf - capex, dps: q.dps }, qParts(q.q));
+    });
+    const ys = Object.keys(D.monthly).map(Number).sort((a, b) => a - b), y = ys[ys.length - 1];
+    const arr = D.monthly[String(y)], m = arr.length, v = arr[m - 1], prev = (D.monthly[String(y - 1)] || [])[m - 1];
+    const L = Q[Q.length - 1];
+    return { Q, unit: '億元新台幣', unitShort: '億', epsUnit: '元', next: nextEvent(D),
+      latest: { revLabel: `${y}/${String(m).padStart(2, '0')} 月營收`, rev: v / 100, revUnit: '億元新台幣', yoy: prev ? (v / prev - 1) * 100 : null,
+        qLabel: L.q, gm: L.gm, om: L.om, eps: L.eps, epsUnit: '元', next: nextEvent(D) } };
+  },
+  /* 共用格式 v1：quarters[] 為「百萬」單位（幣別看 companies.json 的 currency） */
+  'v1': (D, c) => {
+    const cur = { USD: '百萬美元', TWD: '百萬元新台幣', JPY: '百萬日圓', EUR: '百萬歐元', HKD: '百萬港元', CNY: '百萬人民幣' }[c.currency] || ('百萬' + c.currency);
+    const epsUnit = { USD: '美元', TWD: '元', JPY: '日圓', EUR: '歐元', HKD: '港元', CNY: '人民幣' }[c.currency] || c.currency;
+    const Q = D.quarters.map(q => Object.assign({}, q, qParts(q.q), {
+      gp: q.gp == null ? (q.gm == null ? null : q.rev * q.gm / 100) : q.gp,
+      nm: q.ni == null ? null : q.ni / q.rev * 100,
+      fcf: q.fcf != null ? q.fcf : (q.ocf == null || q.capex == null ? null : q.ocf - q.capex),
+    }));
+    const L = Q[Q.length - 1], P = Q[Q.length - 5];
+    return { Q, unit: cur, unitShort: cur, epsUnit, next: nextEvent(D),
+      latest: { revLabel: `${L.q} 營收`, rev: L.rev, revUnit: cur, yoy: P ? (L.rev / P.rev - 1) * 100 : null,
+        qLabel: L.q, gm: L.gm, om: L.om, eps: L.eps, epsUnit, next: nextEvent(D) } };
+  },
+};
+function normalize(D, c) {
+  const N = (ADAPTERS[c.schema] || ADAPTERS.v1)(D, c);
+  N.Q.forEach((x, i) => {
+    x.yoy = i >= 4 && N.Q[i - 4].rev ? (x.rev / N.Q[i - 4].rev - 1) * 100 : null;
+    x.qoq = i >= 1 && N.Q[i - 1].rev ? (x.rev / N.Q[i - 1].rev - 1) * 100 : null;
+  });
+  N.c = c; N.D = D; N.asOf = D.asOf;
+  return N;
+}
+
+/* 長期指標（long-term view）：給「長期投資人」看的指標，全部由 assets/adapters.js 的標準序列 N 算出來。
+   不依賴頁面其他變數（台積電頁面沒有載入 common.js），所以自己帶一套小工具。
+   提供：
+     LT.metrics(N)            → 近四季（TTM）、年化成長（CAGR）、利潤率變化、連續年增季數、自由現金流率…
+     LT.freshness(D, today?)  → 資料新鮮度：fresh／aging／overdue
+     LT.render(el, N, M)      → 公司頁的「長期觀察」卡片（六格 + 怎麼看）
+     LT.badge(F)              → 新鮮度徽章 HTML
+     LT.DISCLAIMER            → 各頁共用的完整免責聲明 */
+const LT = (() => {
+  const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const f0 = (n) => n == null || !isFinite(n) ? '—' : nf0.format(n);
+  const f2 = (n) => n == null || !isFinite(n) ? '—' : nf2.format(n);
+  const pc = (n, d = 1) => n == null || !isFinite(n) ? '—' : n.toFixed(d) + '%';
+  const sp = (n, d = 1) => n == null || !isFinite(n) ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + '%';
+  const pp = (n, d = 1) => n == null || !isFinite(n) ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + ' 個百分點';
+  const cls = (n) => n == null || !isFinite(n) ? '' : (n >= 0 ? 'up' : 'down');
+  const sum = (arr) => arr.some(v => v == null) ? null : arr.reduce((a, b) => a + b, 0);
+  const win = (Q, i, key, n = 4) => i - n + 1 < 0 ? null : sum(Q.slice(i - n + 1, i + 1).map(q => q[key]));
+
+  /* ---------- 指標 ---------- */
+  function metrics(N) {
+    const Q = N.Q, n = Q.length, i = n - 1, L = Q[i];
+    const ttm = Q.map((_, k) => win(Q, k, 'rev'));
+    const ttmNi = Q.map((_, k) => win(Q, k, 'ni'));
+    const ttmEps = Q.map((_, k) => win(Q, k, 'eps'));
+    const ttmOcf = Q.map((_, k) => win(Q, k, 'ocf'));
+    const ttmCapex = Q.map((_, k) => win(Q, k, 'capex'));
+    const ttmFcf = ttmOcf.map((v, k) => v == null || ttmCapex[k] == null ? null : v - ttmCapex[k]);
+    const ttmGm = Q.map((_, k) => { if (k < 3) return null; const s = Q.slice(k - 3, k + 1); const r = sum(s.map(q => q.rev)); return r ? s.reduce((a, q) => a + q.gm * q.rev, 0) / r : null; });
+    const ttmOm = Q.map((_, k) => { if (k < 3) return null; const s = Q.slice(k - 3, k + 1); if (s.some(q => q.om == null)) return null; const r = sum(s.map(q => q.rev)); return r ? s.reduce((a, q) => a + q.om * q.rev, 0) / r : null; });
+    const g = (a, b) => a != null && b != null && b > 0 && a > 0 ? (a / b - 1) * 100 : null;
+    const cagr = (years) => { const k = i - years * 4; return k >= 3 && ttm[k] > 0 && ttm[i] > 0 ? (Math.pow(ttm[i] / ttm[k], 1 / years) - 1) * 100 : null; };
+    const firstTtm = ttm.findIndex(v => v != null);
+    const allYears = firstTtm >= 0 ? (i - firstTtm) / 4 : 0;
+    const cagrAll = allYears >= 1 && ttm[firstTtm] > 0 ? (Math.pow(ttm[i] / ttm[firstTtm], 1 / allYears) - 1) * 100 : null;
+    let streak = 0; for (let k = i; k >= 0 && Q[k].yoy != null && Q[k].yoy > 0; k--) streak++;
+    const last20 = Q.slice(Math.max(0, n - 20)).filter(q => q.yoy != null);
+    const posShare = last20.length ? last20.filter(q => q.yoy > 0).length / last20.length * 100 : null;
+    const recordTtm = ttm[i] != null && ttm.every(v => v == null || v <= ttm[i]);
+    const back = (arr, k) => i - k >= 0 ? arr[i - k] : null;
+    return {
+      L, ttm, ttmNi, ttmEps, ttmFcf, ttmGm, ttmOm,
+      ttmRev: ttm[i], ttmRevYoy: g(ttm[i], back(ttm, 4)), recordTtm,
+      ttmEpsNow: ttmEps[i], ttmEpsYoy: g(ttmEps[i], back(ttmEps, 4)),
+      ttmNm: ttm[i] && ttmNi[i] != null ? ttmNi[i] / ttm[i] * 100 : null,
+      ttmFcfNow: ttmFcf[i], ttmFcfM: ttm[i] && ttmFcf[i] != null ? ttmFcf[i] / ttm[i] * 100 : null,
+      ttmFcfM3y: back(ttm, 12) && back(ttmFcf, 12) != null ? back(ttmFcf, 12) / back(ttm, 12) * 100 : null,
+      cagr3: cagr(3), cagr5: cagr(5), cagrAll, allYears: Math.round(allYears * 10) / 10,
+      gmNow: ttmGm[i], gm3y: back(ttmGm, 12), gmDelta: ttmGm[i] != null && back(ttmGm, 12) != null ? ttmGm[i] - back(ttmGm, 12) : null,
+      omNow: ttmOm[i], om3y: back(ttmOm, 12), omDelta: ttmOm[i] != null && back(ttmOm, 12) != null ? ttmOm[i] - back(ttmOm, 12) : null,
+      streak, posShare, posN: last20.length, yoy: L.yoy, qoq: L.qoq,
+      years: Math.round((n / 4) * 10) / 10,
+    };
+  }
+
+  /* ---------- 新鮮度 ---------- */
+  function freshness(D, today) {
+    const t = today || new Date();
+    const iso = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+    const days = Math.round((Date.parse(iso) - Date.parse(D.asOf)) / 86400000);
+    const overdue = (D.events || []).filter(e => e.date < iso && e.date > D.asOf && !e.est);
+    if (overdue.length) return { status: 'overdue', days, text: `${overdue[0].date.slice(5).replace('-', '/')} 有公布日已過，資料尚未更新`, label: '待更新' };
+    if (days > 21) return { status: 'aging', days, text: `資料已 ${days} 天未更新`, label: `${days} 天前` };
+    return { status: 'fresh', days, text: days <= 0 ? '今天更新' : `${days} 天前更新`, label: days <= 0 ? '今天' : `${days} 天前` };
+  }
+  const badge = (F) => `<span class="fresh fresh-${F.status}" title="${F.text}">${F.label}</span>`;
+
+  /* ---------- 迷你走勢圖（inline SVG，不用 Chart.js） ---------- */
+  function spark(vals, opts = {}) {
+    const v = vals.map(x => x == null || !isFinite(x) ? null : x);
+    const pts = v.map((y, i) => [i, y]).filter(p => p[1] != null);
+    if (pts.length < 2) return '';
+    const W = 120, H = 34, pad = 3;
+    const ys = pts.map(p => p[1]); let lo = Math.min(...ys, opts.zero ? 0 : Infinity), hi = Math.max(...ys, opts.zero ? 0 : -Infinity);
+    if (hi === lo) { hi += 1; lo -= 1; }
+    const X = (i) => pad + i / (v.length - 1) * (W - 2 * pad), Y = (y) => H - pad - (y - lo) / (hi - lo) * (H - 2 * pad);
+    const d = pts.map((p, k) => (k ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ');
+    const last = pts[pts.length - 1];
+    const zero = opts.zero && lo < 0 && hi > 0 ? `<line x1="${pad}" x2="${W - pad}" y1="${Y(0).toFixed(1)}" y2="${Y(0).toFixed(1)}" stroke="var(--axis)" stroke-dasharray="2 3"/>` : '';
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">${zero}<path d="${d}" fill="none" stroke="var(--s1)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${X(last[0]).toFixed(1)}" cy="${Y(last[1]).toFixed(1)}" r="2.4" fill="var(--s1)"/></svg>`;
+  }
+
+  /* ---------- 公司頁的「長期觀察」卡片 ---------- */
+  function render(el, N, M) {
+    const u = N.unitShort, K = 20, tail = (arr) => arr.slice(-K);
+    const tiles = [
+      { label: '近四季營收（TTM）', value: f0(M.ttmRev), unit: u, delta: `年增 <span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span>`, chip: M.recordTtm ? '歷史新高' : '', sp: spark(tail(M.ttm)) },
+      { label: '營收年化成長（CAGR）', value: M.cagr3 == null ? '—' : M.cagr3.toFixed(1), unit: '% / 3 年', delta: `5 年 ${pc(M.cagr5)} · 全期間 ${pc(M.cagrAll)}（${M.allYears} 年）`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
+      { label: '近四季 EPS', value: f2(M.ttmEpsNow), unit: N.epsUnit, delta: `年增 <span class="${cls(M.ttmEpsYoy)}">${sp(M.ttmEpsYoy)}</span> · 近四季淨利率 ${pc(M.ttmNm)}`, sp: spark(tail(M.ttmEps), { zero: true }) },
+      { label: '毛利率（近四季加權）', value: pc(M.gmNow), unit: '', delta: `3 年前 ${pc(M.gm3y)} → <span class="${cls(M.gmDelta)}">${pp(M.gmDelta)}</span>`, sp: spark(tail(M.ttmGm)) },
+      { label: '自由現金流率（近四季）', value: pc(M.ttmFcfM), unit: '', delta: M.ttmFcfNow == null ? '現金流資料不足四季' : `自由現金流 ${f0(M.ttmFcfNow)} ${u} · 3 年前 ${pc(M.ttmFcfM3y)}`, sp: spark(tail(M.ttmFcf), { zero: true }) },
+      { label: '連續營收年增季數', value: String(M.streak), unit: '季', delta: `近 ${M.posN} 季有 ${pc(M.posShare, 0)} 的季度年增為正`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
+    ];
+    el.innerHTML = `<div class="lt-grid">${tiles.map(t => `
+      <div class="kpi lt">
+        <span class="label">${t.label}</span>
+        <span class="value">${t.value}${t.unit ? `<small>${t.unit}</small>` : ''}</span>
+        <span class="delta">${t.delta}</span>
+        ${t.sp}
+        ${t.chip ? `<span class="chip">${t.chip}</span>` : ''}
+      </div>`).join('')}</div>
+      <p class="how lt-how"><b>怎麼看：</b>單季數字會被季節與一次性因素干擾，所以這裡全部用「近四季加總（TTM）」把一年看成一個整體；
+      年化成長（CAGR）回答「平均每年長多少」，比單季年增率更能看出長期速度；毛利率與自由現金流率回答「生意有沒有越做越好賺、賺到的是不是真現金」；
+      連續年增季數回答「成長穩不穩」。每一格的小折線是最近 ${K} 季的走勢。這些都是公開財報的整理與計算，不是預測，也不構成投資建議。</p>`;
+  }
+
+  const DISCLAIMER = '本站為公開資料的整理與計算，不構成任何投資建議、推薦或要約；數字以各公司公告與主管機關申報文件為準，整理過程可能有誤或延遲，使用前請自行核對。' +
+    '「調整後」（non-GAAP）指標為各公司自訂口徑，不同公司間不可直接比較；標「待確定」的事件只是媒體報導、公司尚未證實。過去的財務表現不代表未來結果。';
+
+  return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };
+})();
+
 const D = JSON.parse(document.getElementById('tsmc-data').textContent);
 
 const $ = (s) => document.querySelector(s);
@@ -588,6 +780,9 @@ const ymTxt = (r) => `${r.y}/${String(r.m).padStart(2, '0')}`;
 $('#eyebrow').textContent = `TWSE 2330 · NYSE TSM · ${ymTxt(months[0])} – ${ymTxt(last)}`;
 $('#metaRow').innerHTML = `<span>資料截至 <b>${D.asOf.replace(/-/g, '/')}</b></span><span>月營收最新 <b>${last.y} 年 ${last.m} 月</b></span><span>季報最新 <b>${lastQ.q}</b></span>`;
 $('#footer').textContent = `整理：${D.asOf.replace(/-/g, '/')} · 單位：新台幣億元（除另註明）`;
+/* 長期觀察（共用模組 assets/longterm.js） */
+(() => { const N = normalize(D, { schema: 'tsmc-legacy', currency: 'TWD', code: 'tsmc' }); const F = LT.freshness(D);
+  $('#metaRow').innerHTML += ` ${LT.badge(F)}`; LT.render($('#ltCard'), N, LT.metrics(N)); $('#disclaimer').textContent = LT.DISCLAIMER; })();
 
 const isRecordMonth = months.every(r => r.v <= last.v);
 const isRecord = (arr, key) => arr.slice(0, -1).every(q => q[key] < arr[arr.length - 1][key]);

@@ -1,0 +1,61 @@
+{
+  "asOf": "{{ASOF}}",
+  "company": {
+    "code": "{{CODE}}",
+    "name": "{{NAME}}",
+    "nameEn": "{{NAME_EN}}",
+    "ticker": "{{TICKER}}",
+    "exchange": "{{EXCHANGE}}",
+    "currency": "{{CURRENCY}}",
+    "unit": "{{UNIT}}",
+    "epsUnit": "{{EPS_UNIT}}",
+    "fiscalYearEnd": "12-31",
+    "frequency": "quarterly",
+    "lede": "",
+    "cadence": [
+      { "when": "每季", "what": "財報新聞稿", "which": "營收、獲利、現金流、財測" },
+      { "when": "財報後", "what": "10-Q／10-K 或季報", "which": "分部拆分與完整附註" },
+      { "when": "不定期", "what": "新聞稿與媒體", "which": "重大合約、產品、併購" }
+    ]
+  },
+  "quarters": [
+    { "q": "1Q24", "rev": null, "gp": null, "gm": null, "opInc": null, "om": null, "ni": null, "eps": null, "ocf": null, "capex": null, "fcf": null, "dps": null }
+  ],
+  "annual": {
+    "2024": { "rev": null, "gp": null, "opInc": null, "ni": null, "eps": null, "ocf": null, "capex": null }
+  },
+  "guidance": {
+    "issued": "{{ASOF}}",
+    "items": [
+      { "label": "下一季營收", "period": "", "lo": null, "hi": null, "unit": "{{UNIT}}", "note": "" }
+    ],
+    "note": ""
+  },
+  "events": [
+    { "date": "{{NEXT_EVENT}}", "t": "下一季財報（預估日期，公司尚未公告）", "est": 1 }
+  ],
+  "waterfall": {
+    "q": "1Q24",
+    "rows": [
+      { "n": "營收", "v": null, "t": 1 },
+      { "n": "營業成本", "v": null },
+      { "n": "毛利", "v": null, "t": 1 },
+      { "n": "營業費用", "v": null },
+      { "n": "營業利益", "v": null, "t": 1 },
+      { "n": "業外收支", "v": null },
+      { "n": "所得稅", "v": null },
+      { "n": "淨利（歸屬母公司）", "v": null, "t": 1 }
+    ],
+    "note": ""
+  },
+  "segments": null,
+  "extra": null,
+  "milestones": [],
+  "sources": [
+    { "n": "{{SOURCE_NAME}}", "url": "{{SOURCE_URL}}", "note": "損益、現金流、EPS" }
+  ],
+  "notes": {
+    "unavailable": [],
+    "general": "重要事件的來源列在事件明細的最後一欄；只有媒體報導、公司沒證實的標「待確定」。"
+  }
+}

@@ -1,4 +1,4 @@
-/* 共用前端函式（新公司的模板用；以 {{COMMON_JS}} 內嵌進頁面）。
+/* 共用前端函式（新公司的模板用；以 COMMON_JS 占位符內嵌進頁面）。
    依賴頁面已載入 Chart.js，且 assets/theme.css 的 CSS 變數存在。 */
 const $ = (s) => document.querySelector(s);
 const T = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();

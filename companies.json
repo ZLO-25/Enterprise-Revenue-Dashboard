@@ -20,7 +20,11 @@
       "title": "台積電財報追蹤板",
       "description": "台積電（2330）2015 年以來月營收、季報、資本支出、製程結構、技術里程碑與建廠時程追蹤。",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "primarySource": {
+        "n": "台積電投資人關係（月營收、季報）",
+        "url": "https://investor.tsmc.com/english/quarterly-results"
+      }
     },
     {
       "code": "pltr",
@@ -36,7 +40,11 @@
       "title": "Palantir 財報追蹤板",
       "description": "Palantir（PLTR）上市以來每季營收、政府與商業拆分、獲利、現金流、合約與客戶指標、財測與重要事件追蹤。",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1321655"
+      }
     }
   ]
 }

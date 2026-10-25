@@ -230,12 +230,28 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .homelink { font-weight: 600; color: var(--accent) !important; }
 .disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
 
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
 </style>
 
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="../">← 所有公司</a>
     <a href="#overview">總覽</a>
+    <a href="#longterm">長期觀察</a>
     <a href="#revenue">營收</a>
     <a href="#profit">獲利能力</a>
     <a href="#eps">每股盈餘</a>
@@ -269,6 +285,15 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <b>接下來</b>
     <span id="nextText"></span>
   </div>
+
+  <section id="longterm">
+    <div class="sec-head">
+      <span class="sec-tag">長期投資人視角</span>
+      <h2>長期觀察</h2>
+      <p class="sub">把一年當成一個整體看：近四季加總、年化成長、利潤率走勢、自由現金流、成長穩定度。單季的起伏請看下面各章節。</p>
+    </div>
+    <div id="ltCard"></div>
+  </section>
 
   <section id="revenue">
     <div class="sec-head">
@@ -490,13 +515,13 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   </section>
 
   <footer id="footer"></footer>
-  <p class="disclaimer">本頁為公開資料整理，不構成投資建議。</p>
+  <p class="disclaimer-box" id="disclaimer"></p>
 </main>
 
 <script type="application/json" id="company-data">{"asOf":"2026-10-25","company":{"code":"pltr","name":"Palantir Technologies","ticker":"PLTR","exchange":"Nasdaq","currency":"USD","unit":"美元百萬元（每股為美元）","fiscalYearEnd":"12-31","frequency":"quarterly"},"quarters":[{"q":"3Q19","rev":190.5,"gp":125.5,"gm":65.8,"opInc":-144.1,"om":-75.6,"ni":-139.9,"eps":-0.24,"ocf":null,"capex":null,"fcf":null,"dps":null},{"q":"4Q19","rev":229.4,"gp":153.5,"gm":66.9,"opInc":-147.5,"om":-64.3,"ni":-159.3,"eps":-0.29,"ocf":null,"capex":null,"fcf":null,"dps":null},{"q":"1Q20","rev":229.3,"gp":165.0,"gm":72.0,"opInc":-70.2,"om":-30.6,"ni":-54.3,"eps":-0.1,"ocf":-287.2,"capex":3.0,"fcf":-290.2,"dps":null},{"q":"2Q20","rev":251.9,"gp":183.5,"gm":72.8,"opInc":-99.1,"om":-39.4,"ni":-110.5,"eps":-0.17,"ocf":60.9,"capex":2.9,"fcf":57.9,"dps":null},{"q":"3Q20","rev":289.4,"gp":140.0,"gm":48.4,"opInc":-847.8,"om":-293.0,"ni":-853.3,"eps":-0.94,"ocf":-52.0,"capex":1.5,"fcf":-53.5,"dps":null},{"q":"4Q20","rev":322.1,"gp":251.6,"gm":78.1,"opInc":-156.6,"om":-48.6,"ni":-148.3,"eps":-0.08,"ocf":-18.3,"capex":4.8,"fcf":-23.0,"dps":null},{"q":"1Q21","rev":341.2,"gp":267.1,"gm":78.3,"opInc":-114.0,"om":-33.4,"ni":-123.5,"eps":-0.07,"ocf":116.9,"capex":0.7,"fcf":116.2,"dps":null},{"q":"2Q21","rev":375.6,"gp":284.7,"gm":75.8,"opInc":-146.1,"om":-38.9,"ni":-138.6,"eps":-0.07,"ocf":22.8,"capex":0.7,"fcf":22.1,"dps":null},{"q":"3Q21","rev":392.1,"gp":305.3,"gm":77.9,"opInc":-91.9,"om":-23.4,"ni":-102.1,"eps":-0.05,"ocf":100.8,"capex":5.4,"fcf":95.4,"dps":null},{"q":"4Q21","rev":432.9,"gp":345.3,"gm":79.8,"opInc":-58.9,"om":-13.6,"ni":-156.2,"eps":-0.08,"ocf":93.4,"capex":5.8,"fcf":87.6,"dps":null},{"q":"1Q22","rev":446.4,"gp":352.0,"gm":78.9,"opInc":-39.4,"om":-8.8,"ni":-101.4,"eps":-0.05,"ocf":35.5,"capex":15.2,"fcf":20.3,"dps":null},{"q":"2Q22","rev":473.0,"gp":370.8,"gm":78.4,"opInc":-41.7,"om":-8.8,"ni":-179.3,"eps":-0.09,"ocf":62.4,"capex":5.5,"fcf":57.0,"dps":null},{"q":"3Q22","rev":477.9,"gp":370.3,"gm":77.5,"opInc":-62.2,"om":-13.0,"ni":-123.9,"eps":-0.06,"ocf":47.1,"capex":14.4,"fcf":32.6,"dps":null},{"q":"4Q22","rev":508.6,"gp":404.3,"gm":79.5,"opInc":-17.8,"om":-3.5,"ni":30.9,"eps":0.01,"ocf":78.8,"capex":4.9,"fcf":73.8,"dps":null},{"q":"1Q23","rev":525.2,"gp":417.5,"gm":79.5,"opInc":4.1,"om":0.8,"ni":16.8,"eps":0.01,"ocf":187.4,"capex":4.8,"fcf":182.6,"dps":null},{"q":"2Q23","rev":533.3,"gp":426.4,"gm":80.0,"opInc":10.1,"om":1.9,"ni":28.1,"eps":0.01,"ocf":90.2,"capex":3.9,"fcf":86.3,"dps":null},{"q":"3Q23","rev":558.2,"gp":450.2,"gm":80.7,"opInc":40.0,"om":7.2,"ni":71.5,"eps":0.03,"ocf":133.4,"capex":1.6,"fcf":131.9,"dps":null},{"q":"4Q23","rev":608.4,"gp":499.7,"gm":82.1,"opInc":65.8,"om":10.8,"ni":93.4,"eps":0.04,"ocf":301.2,"capex":4.9,"fcf":296.3,"dps":null},{"q":"1Q24","rev":634.3,"gp":518.1,"gm":81.7,"opInc":80.9,"om":12.8,"ni":105.5,"eps":0.04,"ocf":129.6,"capex":2.7,"fcf":126.9,"dps":null},{"q":"2Q24","rev":678.1,"gp":549.6,"gm":81.0,"opInc":105.3,"om":15.5,"ni":134.1,"eps":0.06,"ocf":144.2,"capex":2.9,"fcf":141.3,"dps":null},{"q":"3Q24","rev":725.5,"gp":578.9,"gm":79.8,"opInc":113.1,"om":15.6,"ni":143.5,"eps":0.06,"ocf":419.8,"capex":4.0,"fcf":415.8,"dps":null},{"q":"4Q24","rev":827.5,"gp":653.0,"gm":78.9,"opInc":11.0,"om":1.3,"ni":79.0,"eps":0.03,"ocf":460.3,"capex":3.1,"fcf":457.2,"dps":null},{"q":"1Q25","rev":883.9,"gp":710.9,"gm":80.4,"opInc":176.0,"om":19.9,"ni":214.0,"eps":0.08,"ocf":310.3,"capex":6.2,"fcf":304.1,"dps":null},{"q":"2Q25","rev":1003.7,"gp":810.8,"gm":80.8,"opInc":269.3,"om":26.8,"ni":326.7,"eps":0.13,"ocf":539.3,"capex":7.6,"fcf":531.6,"dps":null},{"q":"3Q25","rev":1181.1,"gp":973.8,"gm":82.4,"opInc":393.3,"om":33.3,"ni":475.6,"eps":0.18,"ocf":507.7,"capex":6.8,"fcf":500.9,"dps":null},{"q":"4Q25","rev":1406.8,"gp":1190.8,"gm":84.6,"opInc":575.4,"om":40.9,"ni":608.7,"eps":0.24,"ocf":777.3,"capex":13.3,"fcf":764.0,"dps":null},{"q":"1Q26","rev":1632.6,"gp":1416.8,"gm":86.8,"opInc":754.0,"om":46.2,"ni":870.5,"eps":0.34,"ocf":899.2,"capex":7.4,"fcf":891.8,"dps":null},{"q":"2Q26","rev":1935.5,"gp":1638.6,"gm":84.7,"opInc":912.0,"om":47.1,"ni":1061.9,"eps":0.41,"ocf":1216.2,"capex":14.6,"fcf":1201.6,"dps":null}],"annual":{"2019":{"rev":742.6,"ni":-579.6,"eps":-1.02,"note":"僅部分季度可得（3Q19–4Q19）；1Q19、2Q19 的政府／商業拆分未在可取得的財報中單獨揭露"},"2020":{"rev":1092.7,"gp":740.1,"gm":67.7,"opInc":-1173.7,"om":-107.4,"ni":-1166.4,"eps":-1.2,"ocf":-296.6,"capex":12.2,"fcf":-308.8,"adjOpInc":189.9,"adjOm":17,"sbc":1270.7,"adjEps":null,"adjFcf":-271.9,"dps":null},"2021":{"rev":1541.9,"gp":1202.5,"gm":78.0,"opInc":-411.0,"om":-26.7,"ni":-520.4,"eps":-0.27,"ocf":333.9,"capex":12.6,"fcf":321.2,"adjOpInc":473.5,"adjOm":31,"sbc":778.2,"adjEps":0.13,"adjFcf":424.1,"dps":null},"2022":{"rev":1905.9,"gp":1497.3,"gm":78.6,"opInc":-161.2,"om":-8.5,"ni":-373.7,"eps":-0.18,"ocf":223.7,"capex":40.0,"fcf":183.7,"adjOpInc":420.8,"adjOm":22,"sbc":564.8,"adjEps":0.06,"adjFcf":203.0,"dps":null},"2023":{"rev":2225.0,"gp":1793.9,"gm":80.6,"opInc":120.0,"om":5.4,"ni":209.8,"eps":0.09,"ocf":712.2,"capex":15.1,"fcf":697.1,"adjOpInc":632.8,"adjOm":28,"sbc":475.9,"adjEps":0.25,"adjFcf":730.5,"dps":null},"2024":{"rev":2865.5,"gp":2299.5,"gm":80.2,"opInc":310.4,"om":10.8,"ni":462.2,"eps":0.19,"ocf":1153.9,"capex":12.6,"fcf":1141.2,"adjOpInc":1128.1,"adjOm":39,"sbc":691.6,"adjEps":0.41,"adjFcf":1249.2,"dps":null},"2025":{"rev":4475.4,"gp":3686.3,"gm":82.4,"opInc":1414.0,"om":31.6,"ni":1625.0,"eps":0.63,"ocf":2134.5,"capex":33.9,"fcf":2100.6,"adjOpInc":2254.1,"adjOm":50,"sbc":684.0,"adjEps":0.75,"adjFcf":2270.4,"dps":null}},"guidance":{"issued":"2026-08-03","nextQ":{"q":"3Q26","revLo":2160,"revHi":2164,"adjOpIncLo":1292,"adjOpIncHi":1296},"year":{"y":2026,"revLo":8150,"revHi":8158,"usComRevMin":3424,"adjOpIncLo":4889,"adjOpIncHi":4897,"adjFcfLo":4500,"adjFcfHi":4700,"note":"全年營收財測已上修兩次：2 月 7,182–7,198 → 5 月 7,650–7,662 → 8 月 8,150–8,158；公司預期 2026 年每季 GAAP 營業利益與淨利為正"}},"events":[{"date":"2026-11-02","t":"3Q26 財報（美股收盤後公布，5:00 PM ET 電話會議；10/12 公司公告）"}],"waterfall":{"q":"2Q26","rows":[{"n":"營收","v":1935.5,"t":1},{"n":"營業成本","v":-296.9},{"n":"毛利","v":1638.6,"t":1},{"n":"銷售與行銷費用","v":-339.5},{"n":"研發費用","v":-192.5},{"n":"一般與行政費用","v":-194.6},{"n":"營業利益","v":912.0,"t":1},{"n":"利息與其他收益","v":169.3},{"n":"所得稅","v":-15.4},{"n":"非控制權益","v":-4.1},{"n":"淨利（歸屬普通股股東）","v":1061.9,"t":1}],"note":"利息收入 77.5 加其他收益淨額 91.8；數字取自 2Q26 10-Q 損益表。"},"pltr":{"quarters":[{"q":"3Q19","gov":96.8,"com":93.7,"adjOpInc":-92.4,"adjEps":null,"adjFcf":null,"sbc":51.8},{"q":"4Q19","gov":102.7,"com":126.7,"adjOpInc":-70.1,"adjEps":null,"adjFcf":null,"sbc":77.3},{"q":"1Q20","gov":118.1,"com":111.2,"adjOpInc":-16.1,"adjEps":-0.01,"adjFcf":-290.2,"sbc":54.1},{"q":"2Q20","gov":139.6,"com":112.3,"adjOpInc":28.7,"adjEps":0.01,"adjFcf":57.9,"sbc":127.8},{"q":"3Q20","gov":162.6,"com":126.8,"adjOpInc":73.1,"adjEps":null,"adjFcf":-52.6,"sbc":847.0,"deals1m":null,"deals5m":15,"deals10m":null,"rpo":321.6},{"q":"4Q20","gov":189.9,"com":132.2,"adjOpInc":104.1,"adjEps":0.03,"adjFcf":13.0,"sbc":241.8,"top20Avg":33.2,"deals1m":null,"deals5m":21,"deals10m":12,"rpo":597.4},{"q":"1Q21","gov":208.4,"com":132.8,"adjOpInc":116.6,"adjEps":0.04,"adjFcf":151.0,"sbc":193.7,"rpo":625.9},{"q":"2Q21","gov":232.1,"com":143.5,"adjOpInc":116.7,"adjEps":0.04,"adjFcf":49.8,"sbc":232.7,"usComCustomers":34,"deals1m":62,"deals5m":30,"deals10m":21,"rpo":671.9},{"q":"3Q21","gov":217.8,"com":174.3,"adjOpInc":116.1,"adjEps":0.04,"adjFcf":119.1,"sbc":184.8,"deals1m":54,"deals5m":33,"deals10m":18,"rpo":873.9},{"q":"4Q21","gov":239.0,"com":193.9,"adjOpInc":124.0,"adjEps":0.02,"adjFcf":104.2,"sbc":166.9,"usComCustomers":80,"deals1m":64,"deals5m":27,"deals10m":19,"rpo":1100},{"q":"1Q22","gov":241.8,"com":204.6,"adjOpInc":117.4,"adjEps":0.02,"adjFcf":29.8,"sbc":149.3,"rpo":1200},{"q":"2Q22","gov":263.0,"com":210.0,"adjOpInc":107.8,"adjEps":-0.01,"adjFcf":60.9,"sbc":145.8,"usComCustomers":119,"tcv":792,"usComTcv":null,"rpo":1200},{"q":"3Q22","gov":273.8,"com":204.0,"adjOpInc":81.2,"adjEps":0.01,"adjFcf":36.6,"sbc":140.3,"usComCustomers":132,"tcv":1300,"usComTcv":null,"rpo":1300},{"q":"4Q22","gov":293.2,"com":215.5,"adjOpInc":114.3,"adjEps":0.04,"adjFcf":75.8,"sbc":129.4,"usCom":77,"usGov":225,"usComCustomers":143,"rpo":972.7},{"q":"1Q23","gov":289.1,"com":236.1,"adjOpInc":125.1,"adjEps":0.05,"adjFcf":188.9,"sbc":114.7,"usCom":107,"usGov":230,"usComCustomers":155,"rpo":936},{"q":"2Q23","gov":301.5,"com":231.8,"adjOpInc":135.0,"adjEps":0.05,"adjFcf":96.0,"sbc":114.2,"usCom":103,"usGov":null,"usComCustomers":161,"rpo":967.6},{"q":"3Q23","gov":307.6,"com":250.6,"adjOpInc":163.3,"adjEps":0.07,"adjFcf":140.8,"sbc":114.4,"usCom":116,"usGov":null,"usComCustomers":181,"rpo":987.7},{"q":"4Q23","gov":324.0,"com":284.3,"adjOpInc":209.4,"adjEps":0.08,"adjFcf":304.8,"sbc":132.6,"usCom":131,"usGov":null,"usComCustomers":221,"tcv":null,"usComTcv":343,"rpo":1200},{"q":"1Q24","gov":335.4,"com":299.0,"adjOpInc":226.5,"adjEps":0.08,"adjFcf":148.6,"sbc":125.7,"usCom":150,"usGov":257,"usComCustomers":262,"rpo":1300},{"q":"2Q24","gov":370.8,"com":307.4,"adjOpInc":253.6,"adjEps":0.09,"adjFcf":148.7,"sbc":141.8,"usCom":159,"usGov":278,"usComCustomers":295,"deals1m":null,"deals5m":null,"deals10m":27,"rpo":1400},{"q":"3Q24","gov":408.3,"com":317.2,"adjOpInc":275.5,"adjEps":0.1,"adjFcf":434.5,"sbc":142.4,"usCom":179,"usGov":320,"deals1m":104,"deals5m":null,"deals10m":null,"rpo":1600},{"q":"4Q24","gov":455.1,"com":372.4,"adjOpInc":372.5,"adjEps":0.14,"adjFcf":517.4,"sbc":281.8,"usCom":214,"usGov":343,"tcv":null,"usComTcv":803,"deals1m":129,"deals5m":58,"deals10m":32,"usComRdv":1790,"rpo":1700},{"q":"1Q25","gov":487.0,"com":396.9,"adjOpInc":390.7,"adjEps":0.13,"adjFcf":370.4,"sbc":155.3,"usCom":255,"usGov":373,"customers":769,"top20Avg":70,"tcv":null,"usComTcv":810,"deals1m":139,"deals5m":51,"deals10m":31,"usComRdv":2320,"rpo":1900},{"q":"2Q25","gov":553.0,"com":450.7,"adjOpInc":464.4,"adjEps":0.16,"adjFcf":568.8,"sbc":160.0,"usCom":306,"usGov":426,"tcv":2270,"usComTcv":843,"deals1m":157,"deals5m":66,"deals10m":42,"usComRdv":2790,"rpo":2400},{"q":"3Q25","gov":632.7,"com":548.4,"adjOpInc":600.5,"adjEps":0.21,"adjFcf":539.9,"sbc":172.3,"usCom":397,"usGov":486,"tcv":2760,"usComTcv":1310,"deals1m":204,"deals5m":91,"deals10m":53,"usComRdv":3630,"rpo":2600},{"q":"4Q25","gov":729.7,"com":677.1,"adjOpInc":798.5,"adjEps":0.25,"adjFcf":791.4,"sbc":196.4,"usCom":507,"usGov":570,"tcv":4262,"usComTcv":1344,"deals1m":180,"deals5m":84,"deals10m":61,"usComRdv":4380,"rpo":4100},{"q":"1Q26","gov":858.4,"com":774.2,"adjOpInc":983.5,"adjEps":0.33,"adjFcf":924.6,"sbc":201.6,"usCom":595,"usGov":687,"customers":1007,"top20Avg":108,"tcv":2410,"usComTcv":1176,"deals1m":206,"deals5m":72,"deals10m":47,"usComRdv":4920,"rpo":4500},{"q":"2Q26","gov":990.0,"com":945.4,"adjOpInc":1194.5,"adjEps":0.41,"adjFcf":1220.4,"sbc":265.2,"usCom":764,"usGov":809,"tcv":3373,"usComTcv":2132,"deals1m":220,"deals5m":98,"deals10m":73,"usComRdv":6238,"rpo":4900}]},"milestones":[{"d":"2020-09-30","cat":"listing","t":"在 NYSE 以直接上市（direct listing）方式掛牌，代號 PLTR","src":"https://www.sec.gov/Archives/edgar/data/1321655/000119312520292177/d31861d10q.htm","st":"p"},{"d":"2023-02-13","cat":"profit","t":"公布 4Q22 財報：GAAP 淨利轉正，為上市後首個 GAAP 獲利季度","src":"https://www.sec.gov/Archives/edgar/data/1321655/000132165523000005/a2022q4ex991pressrelease.htm","st":"p","note":"依 10-K／10-Q 數字判斷：1Q20–3Q22 皆虧損，4Q22 淨利 3,088 萬美元"},{"d":"2023-04","cat":"product","t":"發表 AIP（Artificial Intelligence Platform），把大型語言模型接上客戶資料，提供企業與軍事用途","src":"https://www.maginative.com/article/palantir-announces-artificial-intelligence-platform-for-enterprise-and-military-use/","st":"p","note":"媒體報導（2023/04/27）"},{"d":"2024-02-05","cat":"profit","t":"公布 2023 全年財報：首個 GAAP 全年獲利（淨利 2.1 億美元）","src":"https://www.sec.gov/Archives/edgar/data/1321655/000132165524000010/a2023q4ex991earningsrelease.htm","st":"p"},{"d":"2024-05","cat":"contract","t":"Maven Smart System 取得美國陸軍 5 年 IDIQ 合約，上限 4.8 億美元","src":"https://defensescoop.com/2025/05/23/dod-palantir-maven-smart-system-contract-increase/","st":"p","note":"媒體報導"},{"d":"2024-09-23","cat":"index","t":"納入 S&P 500 指數成分股","src":"https://www.nasdaq.com/articles/palantir-stock-joins-sp-500-it-time-buy","st":"p","note":"媒體報導"},{"d":"2024-11-26","cat":"listing","t":"股票轉往 Nasdaq Global Select Market 掛牌（11/14 公告），代號不變","src":"https://www.sec.gov/Archives/edgar/data/1321655/000132165524000219/pltr-exchangeswitchpressre.htm","st":"p"},{"d":"2024-12-23","cat":"index","t":"納入 Nasdaq-100 指數（12/14 公布）","src":"https://www.nasdaq.com/articles/palantir-axon-microstrategy-be-added-nasdaq-100-index","st":"p","note":"媒體報導"},{"d":"2025-05-23","cat":"contract","t":"Maven Smart System 合約上限再增 7.95 億美元，累計近 13 億美元（至 2029 年）","src":"https://defensescoop.com/2025/05/23/dod-palantir-maven-smart-system-contract-increase/","st":"p","note":"媒體報導"},{"d":"2025-07-31","cat":"contract","t":"美國陸軍 Enterprise Agreement：整併 75 份合約，上限 100 億美元、最長 10 年","src":"https://www.army.mil/article/287506/","st":"p"},{"d":"2026-03","cat":"contract","t":"路透社報導國防部副部長信函：Maven Smart System 將成為正式「列管計畫」（programme of record），預計在 9 月會計年度結束前生效","src":"https://www.freemalaysiatoday.com/category/business/2026/03/21/pentagon-to-adopt-palantir-ai-as-core-us-military-system","st":"p","unc":1,"note":"待確定：僅路透社看到信函（信函日期 3/9），Palantir 與五角大廈報導當時皆未回應"},{"d":"2026-09-01","cat":"contract","t":"美國陸軍 TITAN 地面站進入量產：Palantir 取得 1.27 億美元交付訂單（與 Anduril 合計 1.92 億美元，8 套系統）","src":"https://defensescoop.com/2026/09/01/army-titan-platform-production-awards-palantir-anduril/","st":"p","note":"媒體報導；陸軍與 Palantir 均已發布新聞稿"}],"pltrNotes":{"unavailable":["1Q19、2Q19 單季數字（政府／商業拆分只揭露 3Q19 起）","總客戶數：只有 1Q25（769）與 1Q26（1,007）在可取得的 10-Q 找到","前 20 大客戶平均營收：只有 4Q20（33.2）、1Q25（70）、1Q26（108）","剩餘交易價值（RDV）：公司只揭露美國商業的 RDV（4Q24 起在我們取得的新聞稿中有數字），總 RDV 未揭露；RPO 不含原期限 12 個月以內的合約","TCV：公司只在部分季度揭露，早期季度未揭露"]}}</script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="../assets/vendor/chart.umd.js"></script>
 <script>
-/* 共用前端函式（新公司的模板用；以 {{COMMON_JS}} 內嵌進頁面）。
+/* 共用前端函式（新公司的模板用；以 COMMON_JS 占位符內嵌進頁面）。
    依賴頁面已載入 Chart.js，且 assets/theme.css 的 CSS 變數存在。 */
 const $ = (s) => document.querySelector(s);
 const T = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -601,6 +626,173 @@ function drawWaterfall(W, el) {
   $(el).innerHTML = rows.join('');
 }
 
+/* 資料格式轉接層（normalization layer）
+   目的：不管公司資料是哪一種格式（schema），都轉成同一種「標準季度序列」，
+   讓首頁、跨公司比較、長期指標（assets/longterm.js）只需要認得一種格式。
+
+   標準序列 N：
+     N.Q[]      每季：{ q, yr, qi, rev, gp, gm, om, nm, ni, eps, ocf, capex, fcf, dps }  金額單位 = N.unit
+     N.unit     金額單位的中文（例：百萬美元、億元新台幣）
+     N.unitShort 放在數字旁的短單位（例：百萬美元、億）
+     N.epsUnit  每股單位（美元、元）
+     N.latest   首頁卡片用的「最新一期」摘要：{ revLabel, rev, revUnit, yoy, qLabel, gm, om, eps, epsUnit, next }
+     N.next     下一個公布日 {date, t, est?} 或 null
+   新增一種資料格式 → 在 ADAPTERS 加一個以 schema 名稱為鍵的函式；符合 v1 的公司什麼都不用加。 */
+const nextEvent = (D) => (D.events || []).filter(e => e.date > D.asOf).sort((a, b) => a.date < b.date ? -1 : 1)[0] || null;
+const qParts = (q) => ({ yr: 2000 + Number(q.slice(2)), qi: Number(q[0]) });
+const ADAPTERS = {
+  /* 台積電舊格式：monthly 為新台幣百萬元、quarters 的 rev/ni 為百萬元、capex/ocf 為十億元 → 一律換成「億元」 */
+  'tsmc-legacy': (D, c) => {
+    const Q = D.quarters.map(q => {
+      const rev = q.rev / 100, ocf = q.ocf == null ? null : q.ocf * 10, capex = q.capex == null ? null : q.capex * 10;
+      return Object.assign({ q: q.q, rev, gp: rev * q.gm / 100, gm: q.gm, om: q.om, ni: q.ni / 100, nm: q.ni / q.rev * 100, eps: q.eps,
+        ocf, capex, fcf: ocf == null || capex == null ? null : ocf - capex, dps: q.dps }, qParts(q.q));
+    });
+    const ys = Object.keys(D.monthly).map(Number).sort((a, b) => a - b), y = ys[ys.length - 1];
+    const arr = D.monthly[String(y)], m = arr.length, v = arr[m - 1], prev = (D.monthly[String(y - 1)] || [])[m - 1];
+    const L = Q[Q.length - 1];
+    return { Q, unit: '億元新台幣', unitShort: '億', epsUnit: '元', next: nextEvent(D),
+      latest: { revLabel: `${y}/${String(m).padStart(2, '0')} 月營收`, rev: v / 100, revUnit: '億元新台幣', yoy: prev ? (v / prev - 1) * 100 : null,
+        qLabel: L.q, gm: L.gm, om: L.om, eps: L.eps, epsUnit: '元', next: nextEvent(D) } };
+  },
+  /* 共用格式 v1：quarters[] 為「百萬」單位（幣別看 companies.json 的 currency） */
+  'v1': (D, c) => {
+    const cur = { USD: '百萬美元', TWD: '百萬元新台幣', JPY: '百萬日圓', EUR: '百萬歐元', HKD: '百萬港元', CNY: '百萬人民幣' }[c.currency] || ('百萬' + c.currency);
+    const epsUnit = { USD: '美元', TWD: '元', JPY: '日圓', EUR: '歐元', HKD: '港元', CNY: '人民幣' }[c.currency] || c.currency;
+    const Q = D.quarters.map(q => Object.assign({}, q, qParts(q.q), {
+      gp: q.gp == null ? (q.gm == null ? null : q.rev * q.gm / 100) : q.gp,
+      nm: q.ni == null ? null : q.ni / q.rev * 100,
+      fcf: q.fcf != null ? q.fcf : (q.ocf == null || q.capex == null ? null : q.ocf - q.capex),
+    }));
+    const L = Q[Q.length - 1], P = Q[Q.length - 5];
+    return { Q, unit: cur, unitShort: cur, epsUnit, next: nextEvent(D),
+      latest: { revLabel: `${L.q} 營收`, rev: L.rev, revUnit: cur, yoy: P ? (L.rev / P.rev - 1) * 100 : null,
+        qLabel: L.q, gm: L.gm, om: L.om, eps: L.eps, epsUnit, next: nextEvent(D) } };
+  },
+};
+function normalize(D, c) {
+  const N = (ADAPTERS[c.schema] || ADAPTERS.v1)(D, c);
+  N.Q.forEach((x, i) => {
+    x.yoy = i >= 4 && N.Q[i - 4].rev ? (x.rev / N.Q[i - 4].rev - 1) * 100 : null;
+    x.qoq = i >= 1 && N.Q[i - 1].rev ? (x.rev / N.Q[i - 1].rev - 1) * 100 : null;
+  });
+  N.c = c; N.D = D; N.asOf = D.asOf;
+  return N;
+}
+
+/* 長期指標（long-term view）：給「長期投資人」看的指標，全部由 assets/adapters.js 的標準序列 N 算出來。
+   不依賴頁面其他變數（台積電頁面沒有載入 common.js），所以自己帶一套小工具。
+   提供：
+     LT.metrics(N)            → 近四季（TTM）、年化成長（CAGR）、利潤率變化、連續年增季數、自由現金流率…
+     LT.freshness(D, today?)  → 資料新鮮度：fresh／aging／overdue
+     LT.render(el, N, M)      → 公司頁的「長期觀察」卡片（六格 + 怎麼看）
+     LT.badge(F)              → 新鮮度徽章 HTML
+     LT.DISCLAIMER            → 各頁共用的完整免責聲明 */
+const LT = (() => {
+  const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const f0 = (n) => n == null || !isFinite(n) ? '—' : nf0.format(n);
+  const f2 = (n) => n == null || !isFinite(n) ? '—' : nf2.format(n);
+  const pc = (n, d = 1) => n == null || !isFinite(n) ? '—' : n.toFixed(d) + '%';
+  const sp = (n, d = 1) => n == null || !isFinite(n) ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + '%';
+  const pp = (n, d = 1) => n == null || !isFinite(n) ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + ' 個百分點';
+  const cls = (n) => n == null || !isFinite(n) ? '' : (n >= 0 ? 'up' : 'down');
+  const sum = (arr) => arr.some(v => v == null) ? null : arr.reduce((a, b) => a + b, 0);
+  const win = (Q, i, key, n = 4) => i - n + 1 < 0 ? null : sum(Q.slice(i - n + 1, i + 1).map(q => q[key]));
+
+  /* ---------- 指標 ---------- */
+  function metrics(N) {
+    const Q = N.Q, n = Q.length, i = n - 1, L = Q[i];
+    const ttm = Q.map((_, k) => win(Q, k, 'rev'));
+    const ttmNi = Q.map((_, k) => win(Q, k, 'ni'));
+    const ttmEps = Q.map((_, k) => win(Q, k, 'eps'));
+    const ttmOcf = Q.map((_, k) => win(Q, k, 'ocf'));
+    const ttmCapex = Q.map((_, k) => win(Q, k, 'capex'));
+    const ttmFcf = ttmOcf.map((v, k) => v == null || ttmCapex[k] == null ? null : v - ttmCapex[k]);
+    const ttmGm = Q.map((_, k) => { if (k < 3) return null; const s = Q.slice(k - 3, k + 1); const r = sum(s.map(q => q.rev)); return r ? s.reduce((a, q) => a + q.gm * q.rev, 0) / r : null; });
+    const ttmOm = Q.map((_, k) => { if (k < 3) return null; const s = Q.slice(k - 3, k + 1); if (s.some(q => q.om == null)) return null; const r = sum(s.map(q => q.rev)); return r ? s.reduce((a, q) => a + q.om * q.rev, 0) / r : null; });
+    const g = (a, b) => a != null && b != null && b > 0 && a > 0 ? (a / b - 1) * 100 : null;
+    const cagr = (years) => { const k = i - years * 4; return k >= 3 && ttm[k] > 0 && ttm[i] > 0 ? (Math.pow(ttm[i] / ttm[k], 1 / years) - 1) * 100 : null; };
+    const firstTtm = ttm.findIndex(v => v != null);
+    const allYears = firstTtm >= 0 ? (i - firstTtm) / 4 : 0;
+    const cagrAll = allYears >= 1 && ttm[firstTtm] > 0 ? (Math.pow(ttm[i] / ttm[firstTtm], 1 / allYears) - 1) * 100 : null;
+    let streak = 0; for (let k = i; k >= 0 && Q[k].yoy != null && Q[k].yoy > 0; k--) streak++;
+    const last20 = Q.slice(Math.max(0, n - 20)).filter(q => q.yoy != null);
+    const posShare = last20.length ? last20.filter(q => q.yoy > 0).length / last20.length * 100 : null;
+    const recordTtm = ttm[i] != null && ttm.every(v => v == null || v <= ttm[i]);
+    const back = (arr, k) => i - k >= 0 ? arr[i - k] : null;
+    return {
+      L, ttm, ttmNi, ttmEps, ttmFcf, ttmGm, ttmOm,
+      ttmRev: ttm[i], ttmRevYoy: g(ttm[i], back(ttm, 4)), recordTtm,
+      ttmEpsNow: ttmEps[i], ttmEpsYoy: g(ttmEps[i], back(ttmEps, 4)),
+      ttmNm: ttm[i] && ttmNi[i] != null ? ttmNi[i] / ttm[i] * 100 : null,
+      ttmFcfNow: ttmFcf[i], ttmFcfM: ttm[i] && ttmFcf[i] != null ? ttmFcf[i] / ttm[i] * 100 : null,
+      ttmFcfM3y: back(ttm, 12) && back(ttmFcf, 12) != null ? back(ttmFcf, 12) / back(ttm, 12) * 100 : null,
+      cagr3: cagr(3), cagr5: cagr(5), cagrAll, allYears: Math.round(allYears * 10) / 10,
+      gmNow: ttmGm[i], gm3y: back(ttmGm, 12), gmDelta: ttmGm[i] != null && back(ttmGm, 12) != null ? ttmGm[i] - back(ttmGm, 12) : null,
+      omNow: ttmOm[i], om3y: back(ttmOm, 12), omDelta: ttmOm[i] != null && back(ttmOm, 12) != null ? ttmOm[i] - back(ttmOm, 12) : null,
+      streak, posShare, posN: last20.length, yoy: L.yoy, qoq: L.qoq,
+      years: Math.round((n / 4) * 10) / 10,
+    };
+  }
+
+  /* ---------- 新鮮度 ---------- */
+  function freshness(D, today) {
+    const t = today || new Date();
+    const iso = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+    const days = Math.round((Date.parse(iso) - Date.parse(D.asOf)) / 86400000);
+    const overdue = (D.events || []).filter(e => e.date < iso && e.date > D.asOf && !e.est);
+    if (overdue.length) return { status: 'overdue', days, text: `${overdue[0].date.slice(5).replace('-', '/')} 有公布日已過，資料尚未更新`, label: '待更新' };
+    if (days > 21) return { status: 'aging', days, text: `資料已 ${days} 天未更新`, label: `${days} 天前` };
+    return { status: 'fresh', days, text: days <= 0 ? '今天更新' : `${days} 天前更新`, label: days <= 0 ? '今天' : `${days} 天前` };
+  }
+  const badge = (F) => `<span class="fresh fresh-${F.status}" title="${F.text}">${F.label}</span>`;
+
+  /* ---------- 迷你走勢圖（inline SVG，不用 Chart.js） ---------- */
+  function spark(vals, opts = {}) {
+    const v = vals.map(x => x == null || !isFinite(x) ? null : x);
+    const pts = v.map((y, i) => [i, y]).filter(p => p[1] != null);
+    if (pts.length < 2) return '';
+    const W = 120, H = 34, pad = 3;
+    const ys = pts.map(p => p[1]); let lo = Math.min(...ys, opts.zero ? 0 : Infinity), hi = Math.max(...ys, opts.zero ? 0 : -Infinity);
+    if (hi === lo) { hi += 1; lo -= 1; }
+    const X = (i) => pad + i / (v.length - 1) * (W - 2 * pad), Y = (y) => H - pad - (y - lo) / (hi - lo) * (H - 2 * pad);
+    const d = pts.map((p, k) => (k ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ');
+    const last = pts[pts.length - 1];
+    const zero = opts.zero && lo < 0 && hi > 0 ? `<line x1="${pad}" x2="${W - pad}" y1="${Y(0).toFixed(1)}" y2="${Y(0).toFixed(1)}" stroke="var(--axis)" stroke-dasharray="2 3"/>` : '';
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">${zero}<path d="${d}" fill="none" stroke="var(--s1)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${X(last[0]).toFixed(1)}" cy="${Y(last[1]).toFixed(1)}" r="2.4" fill="var(--s1)"/></svg>`;
+  }
+
+  /* ---------- 公司頁的「長期觀察」卡片 ---------- */
+  function render(el, N, M) {
+    const u = N.unitShort, K = 20, tail = (arr) => arr.slice(-K);
+    const tiles = [
+      { label: '近四季營收（TTM）', value: f0(M.ttmRev), unit: u, delta: `年增 <span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span>`, chip: M.recordTtm ? '歷史新高' : '', sp: spark(tail(M.ttm)) },
+      { label: '營收年化成長（CAGR）', value: M.cagr3 == null ? '—' : M.cagr3.toFixed(1), unit: '% / 3 年', delta: `5 年 ${pc(M.cagr5)} · 全期間 ${pc(M.cagrAll)}（${M.allYears} 年）`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
+      { label: '近四季 EPS', value: f2(M.ttmEpsNow), unit: N.epsUnit, delta: `年增 <span class="${cls(M.ttmEpsYoy)}">${sp(M.ttmEpsYoy)}</span> · 近四季淨利率 ${pc(M.ttmNm)}`, sp: spark(tail(M.ttmEps), { zero: true }) },
+      { label: '毛利率（近四季加權）', value: pc(M.gmNow), unit: '', delta: `3 年前 ${pc(M.gm3y)} → <span class="${cls(M.gmDelta)}">${pp(M.gmDelta)}</span>`, sp: spark(tail(M.ttmGm)) },
+      { label: '自由現金流率（近四季）', value: pc(M.ttmFcfM), unit: '', delta: M.ttmFcfNow == null ? '現金流資料不足四季' : `自由現金流 ${f0(M.ttmFcfNow)} ${u} · 3 年前 ${pc(M.ttmFcfM3y)}`, sp: spark(tail(M.ttmFcf), { zero: true }) },
+      { label: '連續營收年增季數', value: String(M.streak), unit: '季', delta: `近 ${M.posN} 季有 ${pc(M.posShare, 0)} 的季度年增為正`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
+    ];
+    el.innerHTML = `<div class="lt-grid">${tiles.map(t => `
+      <div class="kpi lt">
+        <span class="label">${t.label}</span>
+        <span class="value">${t.value}${t.unit ? `<small>${t.unit}</small>` : ''}</span>
+        <span class="delta">${t.delta}</span>
+        ${t.sp}
+        ${t.chip ? `<span class="chip">${t.chip}</span>` : ''}
+      </div>`).join('')}</div>
+      <p class="how lt-how"><b>怎麼看：</b>單季數字會被季節與一次性因素干擾，所以這裡全部用「近四季加總（TTM）」把一年看成一個整體；
+      年化成長（CAGR）回答「平均每年長多少」，比單季年增率更能看出長期速度；毛利率與自由現金流率回答「生意有沒有越做越好賺、賺到的是不是真現金」；
+      連續年增季數回答「成長穩不穩」。每一格的小折線是最近 ${K} 季的走勢。這些都是公開財報的整理與計算，不是預測，也不構成投資建議。</p>`;
+  }
+
+  const DISCLAIMER = '本站為公開資料的整理與計算，不構成任何投資建議、推薦或要約；數字以各公司公告與主管機關申報文件為準，整理過程可能有誤或延遲，使用前請自行核對。' +
+    '「調整後」（non-GAAP）指標為各公司自訂口徑，不同公司間不可直接比較；標「待確定」的事件只是媒體報導、公司尚未證實。過去的財務表現不代表未來結果。';
+
+  return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };
+})();
+
 
 const D = JSON.parse(document.getElementById('company-data').textContent);
 const P = D.pltr.quarters;
@@ -631,6 +823,9 @@ const usd = (n) => n == null ? '—' : '$' + nf0.format(n);
 $('#eyebrow').textContent = `Nasdaq PLTR · ${Q[0].q} – ${L.q}`;
 $('#metaRow').innerHTML = `<span>資料截至 <b>${D.asOf.replace(/-/g, '/')}</b></span><span>最新一季 <b>${L.q}</b></span><span>單位 <b>百萬美元</b></span>`;
 $('#footer').textContent = `整理：${D.asOf.replace(/-/g, '/')} · 單位：百萬美元（每股為美元）`;
+/* 長期觀察（共用模組 assets/longterm.js） */
+(() => { const N = normalize(D, { schema: 'v1', currency: 'USD', code: 'pltr' }); const F = LT.freshness(D);
+  $('#metaRow').innerHTML += ` ${LT.badge(F)}`; LT.render($('#ltCard'), N, LT.metrics(N)); $('#disclaimer').textContent = LT.DISCLAIMER; })();
 const kpis = [
   { label: `${L.q} 營收`, value: f0(L.rev), unit: '百萬美元', delta: `年增 <span class="${cls(L.yoy)}">${sp(L.yoy)}</span> · 季增 <span class="${cls(L.qoq)}">${sp(L.qoq)}</span>`, chip: isRecord('rev') ? '單季新高' : '' },
   { label: `${L.q} 美國商業營收`, value: f0(L.usCom), unit: '百萬美元', delta: `年增 <span class="${cls(L.usComYoy)}">${sp(L.usComYoy)}</span><br>占總營收 ${pc(L.usCom / L.rev * 100, 0)}` },
