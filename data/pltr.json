@@ -544,8 +544,7 @@
  "events": [
   {
    "date": "2026-11-02",
-   "t": "3Q26 財報（預估日期，公司尚未公告）",
-   "est": 1
+   "t": "3Q26 財報（美股收盤後公布，5:00 PM ET 電話會議；10/12 公司公告）"
   }
  ],
  "waterfall": {
@@ -1082,6 +1081,14 @@
    "st": "p",
    "unc": 1,
    "note": "待確定：僅路透社看到信函（信函日期 3/9），Palantir 與五角大廈報導當時皆未回應"
+  },
+  {
+   "d": "2026-09-01",
+   "cat": "contract",
+   "t": "美國陸軍 TITAN 地面站進入量產：Palantir 取得 1.27 億美元交付訂單（與 Anduril 合計 1.92 億美元，8 套系統）",
+   "src": "https://defensescoop.com/2026/09/01/army-titan-platform-production-awards-palantir-anduril/",
+   "st": "p",
+   "note": "媒體報導；陸軍與 Palantir 均已發布新聞稿"
   }
  ],
  "pltrNotes": {
