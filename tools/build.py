@@ -59,11 +59,19 @@ def fill(frag, pairs):
     return frag
 
 
-def page(title, desc, frag):
+def icon_links(rel):
+    # 分頁圖示（favicon）：SVG 為主，PNG 與 apple-touch-icon 備援；rel 是回到網站根目錄的相對路徑
+    d = rel + "assets/icons/"
+    return (f'<link rel="icon" type="image/svg+xml" href="{d}favicon.svg">'
+            f'<link rel="icon" type="image/png" sizes="32x32" href="{d}favicon-32.png">'
+            f'<link rel="apple-touch-icon" href="{d}apple-touch-icon.png">')
+
+
+def page(title, desc, frag, rel=""):
     return ('<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">'
             f"<title>{title}</title><meta name=\"description\" content=\"{desc}\">"
             '<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            f"{BASE_STYLE}</head><body>\n{frag}\n</body></html>\n")
+            f"{icon_links(rel)}{BASE_STYLE}</head><body>\n{frag}\n</body></html>\n")
 
 
 SHELL_CSS = """
@@ -187,7 +195,7 @@ def main():
         depth = c["path"].count("/")
         build = lambda home, chart: fill(frag, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM),
                                                ("{{CHARTJS}}", chart), ("{{DATA}}", js_json(data)), ("{{HOME}}", home)])
-        write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth))), c["path"], "index.html")
+        write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth)), "../" * depth), c["path"], "index.html")
         write(f"<title>{c['title']}</title>\n" + build(pages_url, CDN_CHART), "dist", "artifacts", c["code"] + ".html")
         print(f"{c['code']}: {c['path']}index.html（資料截至 {data['asOf']}）")
     home_t = read("templates", "home.frag.html")
