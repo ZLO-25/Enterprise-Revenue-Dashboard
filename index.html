@@ -280,7 +280,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <header class="masthead" id="top">
     <div class="eyebrow">Enterprise Revenue Dashboard</div>
     <h1>企業財報追蹤板</h1>
-    <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，每週一早上自動更新。</p>
+    <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，每月 12 日早上自動更新。</p>
     <div class="meta-row" id="metaRow"></div>
   </header>
 
@@ -343,7 +343,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <section id="freshness">
     <div class="sec-head">
       <h2>資料新鮮度與來源</h2>
-      <p class="sub">每家公司的資料更新到哪一天、下一個公布日是公司公告還是我們預估、主要來源在哪裡。「待更新」代表有公布日已過但資料還沒跟上，通常下週一排程會補。</p>
+      <p class="sub">每家公司的資料更新到哪一天、下一個公布日是公司公告還是我們預估、主要來源在哪裡。「待更新」代表有公布日已過但資料還沒跟上，通常下一次每月排程（12 日）會補。</p>
     </div>
     <div class="tbl-wrap"><table id="freshTbl" class="fresh-tbl"></table></div>
   </section>
@@ -709,7 +709,7 @@ const REPO = 'https://github.com/ZLO-25/Enterprise-Revenue-Dashboard';
 /* 每家公司 → 標準序列 N → 長期指標 M → 新鮮度 F */
 const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c, D: DATA[c.code], N, M: LT.metrics(N), F: LT.freshness(DATA[c.code]), s: N.latest }; });
 const latest = S.map(s => s.D.asOf).sort().pop();
-$('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>每週一 08:00（台北）自動更新</span>`;
+$('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>每月 12 日 07:48（台北）自動更新</span>`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
 $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';

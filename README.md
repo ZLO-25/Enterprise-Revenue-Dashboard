@@ -56,7 +56,7 @@ python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA -
 
 ## 更新方式
 
-Claude 排程每週一早上 8:00（台北時間）依各公司的 `SOURCES.md` 更新資料；核對沒過的公司不發佈，只有實質變動才 commit、push 與更新 Artifact。
+Claude 排程每月 12 日早上 07:48（台北時間）依各公司的 `SOURCES.md` 更新資料；核對沒過的公司不發佈，只有實質變動才 commit、push 與更新 Artifact。
 
 ## 新增公司
 
