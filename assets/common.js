@@ -47,6 +47,65 @@ function xAxis(o = {}, t = {}) {
 }
 const bar = (o) => Object.assign({ type: 'bar', borderRadius: 3, borderSkipped: 'start', categoryPercentage: 0.8, barPercentage: 0.9 }, o);
 const line = (o) => Object.assign({ type: 'line', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2, spanGaps: false }, o);
+/* ---------- 比較圖共用：線尾標籤、對數刻度、季度刻度、缺口虛線 ---------- */
+/* 線尾標籤：在每條線最後一個有值的點右邊寫「公司名 數值」，互相重疊時往上下推開 */
+const endLabels = {
+  id: 'endLabels',
+  afterDatasetsDraw(chart, _a, opts) {
+    const { ctx, chartArea: { right, top, bottom } } = chart;
+    const fmt = opts.fmt || (v => v);
+    const narrow = chart.width < 520;
+    const items = [];
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+      let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
+      if (k < 0 || !meta.data[k]) return;
+      const pt = meta.data[k];
+      items.push({ x: pt.x, y: pt.y, c: ds.borderColor, t: narrow ? ds.label : `${ds.label} ${fmt(ds.data[k])}` });
+    });
+    items.sort((a, b) => a.y - b.y);
+    const h = 14;
+    for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < h) items[i].y = items[i - 1].y + h;
+    for (let i = items.length - 1; i >= 0; i--) { items[i].y = Math.min(items[i].y, bottom - 2); if (i < items.length - 1 && items[i + 1].y - items[i].y < h) items[i].y = items[i + 1].y - h; }
+    ctx.save();
+    ctx.font = `600 11px IBM Plex Sans, Noto Sans TC, system-ui, sans-serif`;
+    ctx.textBaseline = 'middle';
+    items.forEach(it => {
+      const w = ctx.measureText(it.t).width;
+      const x = Math.min(Math.max(it.x, right) + 6, chart.width - w - 2);
+      ctx.fillStyle = T('--surface'); ctx.fillRect(x - 2, it.y - 7, w + 4, 14);
+      ctx.fillStyle = it.c; ctx.fillText(it.t, x, Math.max(top + 7, it.y));
+    });
+    ctx.restore();
+  },
+};
+if (window.Chart) Chart.register(endLabels);
+/* 線尾標籤需要右邊留白 */
+const endPad = (w) => ({ layout: { padding: { right: w || 84, top: 8 } } });
+/* 對數刻度：以 100 為中心，每一格翻一倍（…50、100、200、400…），剛好蓋住資料範圍 */
+function logTicks(values, base = 100) {
+  const vs = values.filter(v => v != null && v > 0);
+  const lo0 = Math.min(base, ...vs), hi0 = Math.max(base, ...vs);
+  let lo = base, hi = base;
+  while (lo > lo0) lo /= 2;
+  while (hi < hi0) hi *= 2;
+  const ticks = []; for (let v = lo; v <= hi; v *= 2) ticks.push(v);
+  return { min: lo, max: hi, ticks };
+}
+/* 季度標籤 'nQyy'：短期間每季都標，長期間只在第一季標年份 */
+function qTicks(labels) {
+  const yearOnly = labels.length > 20;
+  return { autoSkip: !yearOnly, maxTicksLimit: 8, callback: (v) => { const l = labels[v]; if (!l) return ''; return yearOnly ? (l[0] === '1' ? '20' + l.slice(2) : '') : l; } };
+}
+/* 基準線（100 或 0）畫深一點，其他格線淡 */
+const gridWithBase = (baseVal) => ({ color: (c) => c.tick.value === baseVal ? T('--axis') : T('--grid'), lineWidth: (c) => c.tick.value === baseVal ? 1.5 : 1, drawTicks: false });
+/* 缺資料（null）的地方用虛線跨過，而不是假裝連起來；最後一個點畫圓點 */
+function cmpLine(o) {
+  return line(Object.assign({ borderWidth: 2.25, spanGaps: true,
+    segment: { borderDash: (c) => c.p0.skip || c.p1.skip ? [4, 4] : undefined },
+    pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; const f = d.findIndex(v => v != null); return c.dataIndex === k || (f > 0 && c.dataIndex === f) ? 3 : 0; },
+    pointHoverRadius: 4 }, o));
+}
 function syncSeg(id, attr, val) {
   document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val)));
 }

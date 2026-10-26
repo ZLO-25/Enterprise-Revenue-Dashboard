@@ -272,6 +272,8 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .guide .card b { font-size: 0.95rem; }
 .guide .card p { font-size: 0.86rem; color: var(--ink-2); }
 .fresh-tbl td.txt { min-width: 10rem; }
+.cmp-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 4px; }
+.cmp-note { font-size: 0.82rem; color: var(--muted); font-family: var(--font-data); }
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -298,19 +300,21 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <section id="compare">
     <div class="sec-head">
       <h2>跨公司比較</h2>
-      <p class="sub">把不同幣別的公司放在同一張圖，只能比「變化」：把起點都設成 100 看誰長得快；利潤率與年增率本身就是百分比，可以直接比。</p>
+      <p class="sub">不同幣別、不同規模的公司放在同一張圖，只能比「變化」：營收把同一個起點設成 100，看誰長得快；利潤率與年增率本身就是百分比，可以直接比。三張圖的時間軸一致，期間用右邊的開關切換；完整歷史請看各公司頁。</p>
+      <div class="cmp-bar">
+        <div class="seg" id="winSeg" role="group" aria-label="期間">
+          <button type="button" data-n="12" aria-pressed="true">近 3 年</button>
+          <button type="button" data-n="20" aria-pressed="false">近 5 年</button>
+          <button type="button" data-n="40" aria-pressed="false">近 10 年</button>
+          <button type="button" data-n="0" aria-pressed="false">全部</button>
+        </div>
+        <span class="cmp-note" id="winNote"></span>
+      </div>
     </div>
     <div class="grid2">
       <div class="card">
-        <div class="tbl-bar">
-          <h3>營收指數化（起點 ＝ 100，近四季加總）</h3>
-          <div class="seg" id="idxSeg" role="group" aria-label="起點">
-            <button type="button" data-n="12" aria-pressed="true">近 3 年</button>
-            <button type="button" data-n="20" aria-pressed="false">近 5 年</button>
-            <button type="button" data-n="0" aria-pressed="false">全部</button>
-          </div>
-        </div>
-        <p class="how">同一條線往上越陡，代表營收成長越快；線在 200 就是起點的兩倍。</p>
+        <h3>營收指數化（起點 ＝ 100，近四季加總）</h3>
+        <p class="how">每家公司在期間第一季的近四季營收都設成 100，所以線從同一點出發；資料較晚才開始的公司會從它的第一季起算，並在上方註明，和其他公司不是同一段期間。刻度是對數：<b>每往上一格就是翻一倍</b>，成長 30 倍和 3 倍的公司放在一起也不會把彼此壓扁；線越陡代表成長越快。</p>
         <div class="legend" id="lgIdx"></div>
         <div class="chartbox"><canvas id="cIdx" aria-label="營收指數化比較"></canvas></div>
       </div>
@@ -323,13 +327,13 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
             <button type="button" data-m="nm" aria-pressed="false">淨利率</button>
           </div>
         </div>
-        <p class="how">線往上代表每 100 元營收留下更多利潤。不同產業的合理水準不同，重點看方向。</p>
+        <p class="how">線往上代表每 100 元營收留下更多利潤。不同產業的合理水準不同，重點看方向；深色橫線是 0%，線在它下面就是虧損。</p>
         <div class="legend" id="lgM"></div>
         <div class="chartbox"><canvas id="cM" aria-label="利潤率比較"></canvas></div>
       </div>
       <div class="card wide">
         <h3>營收年增率（單季，%）</h3>
-        <p class="how">每一季跟去年同季比。長期投資人看的不是哪一季最高，而是正值能不能持續。</p>
+        <p class="how">每一季跟去年同季比。長期投資人看的不是哪一季最高，而是線能不能一直待在 0% 的深色橫線上方。</p>
         <div class="legend" id="lgY"></div>
         <div class="chartbox"><canvas id="cY" aria-label="營收年增率比較"></canvas></div>
       </div>
@@ -416,6 +420,65 @@ function xAxis(o = {}, t = {}) {
 }
 const bar = (o) => Object.assign({ type: 'bar', borderRadius: 3, borderSkipped: 'start', categoryPercentage: 0.8, barPercentage: 0.9 }, o);
 const line = (o) => Object.assign({ type: 'line', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2, spanGaps: false }, o);
+/* ---------- 比較圖共用：線尾標籤、對數刻度、季度刻度、缺口虛線 ---------- */
+/* 線尾標籤：在每條線最後一個有值的點右邊寫「公司名 數值」，互相重疊時往上下推開 */
+const endLabels = {
+  id: 'endLabels',
+  afterDatasetsDraw(chart, _a, opts) {
+    const { ctx, chartArea: { right, top, bottom } } = chart;
+    const fmt = opts.fmt || (v => v);
+    const narrow = chart.width < 520;
+    const items = [];
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+      let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
+      if (k < 0 || !meta.data[k]) return;
+      const pt = meta.data[k];
+      items.push({ x: pt.x, y: pt.y, c: ds.borderColor, t: narrow ? ds.label : `${ds.label} ${fmt(ds.data[k])}` });
+    });
+    items.sort((a, b) => a.y - b.y);
+    const h = 14;
+    for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < h) items[i].y = items[i - 1].y + h;
+    for (let i = items.length - 1; i >= 0; i--) { items[i].y = Math.min(items[i].y, bottom - 2); if (i < items.length - 1 && items[i + 1].y - items[i].y < h) items[i].y = items[i + 1].y - h; }
+    ctx.save();
+    ctx.font = `600 11px IBM Plex Sans, Noto Sans TC, system-ui, sans-serif`;
+    ctx.textBaseline = 'middle';
+    items.forEach(it => {
+      const w = ctx.measureText(it.t).width;
+      const x = Math.min(Math.max(it.x, right) + 6, chart.width - w - 2);
+      ctx.fillStyle = T('--surface'); ctx.fillRect(x - 2, it.y - 7, w + 4, 14);
+      ctx.fillStyle = it.c; ctx.fillText(it.t, x, Math.max(top + 7, it.y));
+    });
+    ctx.restore();
+  },
+};
+if (window.Chart) Chart.register(endLabels);
+/* 線尾標籤需要右邊留白 */
+const endPad = (w) => ({ layout: { padding: { right: w || 84, top: 8 } } });
+/* 對數刻度：以 100 為中心，每一格翻一倍（…50、100、200、400…），剛好蓋住資料範圍 */
+function logTicks(values, base = 100) {
+  const vs = values.filter(v => v != null && v > 0);
+  const lo0 = Math.min(base, ...vs), hi0 = Math.max(base, ...vs);
+  let lo = base, hi = base;
+  while (lo > lo0) lo /= 2;
+  while (hi < hi0) hi *= 2;
+  const ticks = []; for (let v = lo; v <= hi; v *= 2) ticks.push(v);
+  return { min: lo, max: hi, ticks };
+}
+/* 季度標籤 'nQyy'：短期間每季都標，長期間只在第一季標年份 */
+function qTicks(labels) {
+  const yearOnly = labels.length > 20;
+  return { autoSkip: !yearOnly, maxTicksLimit: 8, callback: (v) => { const l = labels[v]; if (!l) return ''; return yearOnly ? (l[0] === '1' ? '20' + l.slice(2) : '') : l; } };
+}
+/* 基準線（100 或 0）畫深一點，其他格線淡 */
+const gridWithBase = (baseVal) => ({ color: (c) => c.tick.value === baseVal ? T('--axis') : T('--grid'), lineWidth: (c) => c.tick.value === baseVal ? 1.5 : 1, drawTicks: false });
+/* 缺資料（null）的地方用虛線跨過，而不是假裝連起來；最後一個點畫圓點 */
+function cmpLine(o) {
+  return line(Object.assign({ borderWidth: 2.25, spanGaps: true,
+    segment: { borderDash: (c) => c.p0.skip || c.p1.skip ? [4, 4] : undefined },
+    pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; const f = d.findIndex(v => v != null); return c.dataIndex === k || (f > 0 && c.dataIndex === f) ? 3 : 0; },
+    pointHoverRadius: 4 }, o));
+}
 function syncSeg(id, attr, val) {
   document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val)));
 }
@@ -694,33 +757,49 @@ $('#scoreTbl').innerHTML = `<thead><tr><th>指標</th>${S.map(s => `<th>${s.c.na
 $('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th></tr></thead><tbody>` +
   S.map(({ c, D, F, s }) => `<tr><td style="font-family:var(--font-cjk)">${c.name}</td><td>${D.asOf.replace(/-/g, '/')}</td><td>${LT.badge(F)}</td><td>${s.qLabel}</td><td>${nextTxt({ s })}</td><td class="txt">${s.next ? s.next.t : '公司尚未公告'}</td><td class="txt">${c.primarySource ? `<a href="${c.primarySource.url}" target="_blank" rel="noopener">${c.primarySource.n}</a>` : '—'} · <a href="${REPO}/blob/main/companies/${c.code}/SOURCES.md" target="_blank" rel="noopener">欄位與核對規則</a></td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[c.frequency] || c.frequency}</td></tr>`).join('') + '</tbody>';
 
-/* ---------- 比較圖：對齊曆年季度 ---------- */
-const allQ = [...new Set(S.flatMap(s => s.N.Q.map(q => q.q)))].sort((a, b) => (a.slice(2) + a[0]) < (b.slice(2) + b[0]) ? -1 : 1);
-const byQ = (s, fn) => { const m = Object.fromEntries(s.N.Q.map((q, i) => [q.q, fn(q, i, s)])); return allQ.map(q => m[q] ?? null); };
-let idxN = 12, mKey = 'gm', charts = [];
+/* ---------- 比較圖：三張圖共用同一段期間，時間軸對齊 ---------- */
+const qKey = (q) => q.slice(2) + q[0];                       // '3Q24' → '243'，可直接排序
+const allQ = [...new Set(S.flatMap(s => s.N.Q.map(q => q.q)))].sort((a, b) => qKey(a) < qKey(b) ? -1 : 1);
+const qLong = (q) => `20${q.slice(2)} Q${q[0]}`;
+/* 每家公司各自以「季 → 值」查表，再攤到共同的季度軸上；沒有的季填 null */
+const onAxis = (s, arr, labels) => { const m = {}; s.N.Q.forEach((q, i) => { m[q.q] = arr[i]; }); return labels.map(q => m[q] == null ? null : r1(m[q])); };
+let winN = 12, mKey = 'gm', charts = [];
 const COL = (i) => T('--s' + ((i % 8) + 1));
 function build() {
   if (!window.Chart) return;
   charts.forEach(c => c.destroy()); charts = [];
   Chart.defaults.font.family = 'IBM Plex Sans, Noto Sans TC, system-ui, sans-serif';
   Chart.defaults.color = T('--tick');
-  const xt = { maxTicksLimit: 10 };
+  /* 1. 期間：近 N 季；「全部」= 從最早算得出近四季的那一季起（近四季需要 4 季資料）。期間不會因為某家公司資料短而被縮短 */
+  const firstTtmQ = S.map(s => s.N.Q[s.M.ttm.findIndex(v => v != null)]?.q).filter(Boolean).sort((a, b) => qKey(a) < qKey(b) ? -1 : 1)[0];
+  const from = winN ? Math.max(0, allQ.length - winN) : Math.max(0, allQ.indexOf(firstTtmQ));
+  const labels = allQ.slice(from);
+  /* 2. 指數化：每家公司在「期間第一季」的近四季營收設為 100；資料較晚才開始的公司，從它自己的第一季設為 100，並在上方註明 */
+  const late = [];
+  const idxSeries = S.map(s => { const m = {}; s.N.Q.forEach((q, i) => { m[q.q] = s.M.ttm[i]; }); const bq = labels.find(q => m[q] != null); const base = bq ? m[bq] : null; if (bq && bq !== labels[0]) late.push(`${s.c.name} 資料從 ${qLong(bq)} 起，該季 ＝ 100`); return labels.map(q => base > 0 && m[q] != null ? Math.round(m[q] / base * 1000) / 10 : null); });
+  $('#winNote').textContent = `${qLong(labels[0])} – ${qLong(labels[labels.length - 1])}，起點 ${qLong(labels[0])} ＝ 100` + (late.length ? '；' + late.join('；') : '');
   const lg = S.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 }));
   legend('#lgIdx', lg); legend('#lgM', lg); legend('#lgY', lg);
-  /* 指數化：每家公司各自以「起點季」的 TTM 為 100 */
-  const idxSeries = S.map(s => { const ttm = s.M.ttm; const n = ttm.length; const start = idxN ? Math.max(3, n - 1 - idxN) : ttm.findIndex(v => v != null); const base = ttm[start]; return byQ(s, (q, i) => i < start || base == null || ttm[i] == null ? null : Math.round(ttm[i] / base * 1000) / 10); });
-  const used = allQ.map((q, k) => idxSeries.some(a => a[k] != null));
-  const from = used.indexOf(true);
-  const labels = allQ.slice(from);
-  charts.push(new Chart($('#cIdx'), { data: { labels, datasets: S.map((s, i) => line({ label: s.c.name, data: idxSeries[i].slice(from), borderColor: COL(i), backgroundColor: COL(i), spanGaps: true })) },
-    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${c.raw == null ? '—' : c.raw}` } }) }) }));
+  const xt = qTicks(labels);
+  const sortDesc = { itemSort: (a, b) => (b.raw ?? -Infinity) - (a.raw ?? -Infinity), callbacks: { title: (it) => it.length ? qLong(it[0].label) : '' } };
+  /* 對數刻度：每格翻一倍 */
+  const lt = logTicks(idxSeries.flat());
+  const xMul = (v) => v == null ? '—' : (v / 100).toFixed(2) + '×';
+  charts.push(new Chart($('#cIdx'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: idxSeries[i], borderColor: COL(i), backgroundColor: COL(i) })) },
+    options: baseOpts({ ...endPad(), scales: {
+      y: { type: 'logarithmic', min: lt.min, max: lt.max, border: { display: false }, grid: gridWithBase(100), afterBuildTicks: (sc) => { sc.ticks = lt.ticks.map(v => ({ value: v })); }, ticks: { color: T('--tick'), padding: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: v => v } },
+      x: xAxis({}, xt) }, plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${c.raw}（起點的 ${xMul(c.raw)}）` } }), endLabels: { fmt: xMul } } }) }));
+  /* 3. 利潤率：近四季加權 */
   const mArr = { gm: s => s.M.ttmGm, om: s => s.M.ttmOm, nm: s => s.M.ttm.map((v, i) => v && s.M.ttmNi[i] != null ? s.M.ttmNi[i] / v * 100 : null) };
-  charts.push(new Chart($('#cM'), { data: { labels: allQ, datasets: S.map((s, i) => { const arr = mArr[mKey](s); return line({ label: s.c.name, data: byQ(s, (q, k) => arr[k] == null ? null : r1(arr[k])), borderColor: COL(i), backgroundColor: COL(i), spanGaps: true }); }) },
-    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${pc(c.raw)}` } }) }) }));
-  charts.push(new Chart($('#cY'), { data: { labels: allQ, datasets: S.map((s, i) => line({ label: s.c.name, data: byQ(s, q => q.yoy == null ? null : r1(q.yoy)), borderColor: COL(i), backgroundColor: COL(i), spanGaps: true })) },
-    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }) }) }));
+  charts.push(new Chart($('#cM'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, mArr[mKey](s), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
+    options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
+      plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${pc(c.raw)}` } }), endLabels: { fmt: v => pc(v) } } }) }));
+  /* 4. 單季年增率 */
+  charts.push(new Chart($('#cY'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, s.N.Q.map(q => q.yoy), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
+    options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
+      plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }), endLabels: { fmt: v => sp(v) } } }) }));
 }
-$('#idxSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; idxN = Number(b.dataset.n); syncSeg('idxSeg', 'n', b.dataset.n); build(); });
+$('#winSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; winN = Number(b.dataset.n); syncSeg('winSeg', 'n', b.dataset.n); build(); });
 $('#mSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; mKey = b.dataset.m; syncSeg('mSeg', 'm', mKey); build(); });
 build();
 let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(build, 60); };
