@@ -85,6 +85,66 @@
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true
+    },
+    {
+      "code": "anet",
+      "name": "Arista",
+      "nameEn": "Arista Networks",
+      "ticker": "ANET",
+      "exchange": "NYSE ANET",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "anet/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "Arista 財報追蹤板",
+      "description": "Arista Networks（ANET）2014 年上市以來每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1596532"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
+    },
+    {
+      "code": "spcx",
+      "name": "SpaceX",
+      "nameEn": "Space Exploration Technologies",
+      "ticker": "SPCX",
+      "exchange": "Nasdaq SPCX",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "spcx/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "SpaceX 財報追蹤板",
+      "description": "SpaceX（SPCX）2026 年上市後每季營收、三大部門、獲利、資本支出、Starlink 與發射指標、重要事件追蹤。",
+      "primarySource": {
+        "n": "SpaceX 財報新聞稿與 SEC EDGAR（10-Q、8-K）",
+        "url": "https://ir.spacex.com/"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
+    },
+    {
+      "code": "samsung",
+      "name": "三星電子",
+      "nameEn": "Samsung Electronics",
+      "ticker": "005930",
+      "exchange": "KRX 005930",
+      "currency": "KRW",
+      "frequency": "quarterly",
+      "path": "samsung/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "三星電子財報追蹤板",
+      "description": "三星電子（KRX 005930）2018 年以來每季營收、利潤率、EPS、現金流（K-IFRS 合併、百萬韓元）、初步業績與重要事件追蹤。",
+      "primarySource": {
+        "n": "三星電子投資人關係（法說會簡報，K-IFRS 合併）",
+        "url": "https://www.samsung.com/global/ir/financial-information/earnings-release/"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
     }
   ]
 }

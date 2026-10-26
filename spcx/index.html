@@ -1,0 +1,1026 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>SpaceX 財報追蹤板</title><meta name="description" content="SpaceX（SPCX）2026 年上市後每季營收、三大部門、獲利、資本支出、Starlink 與發射指標、重要事件追蹤。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: report column (max 1180px) — sticky section nav, KPI strip, then one section per metric family; charts sit two-up on wide screens, one-up on phones. */
+:root {
+  --page: #f3f3ef;
+  --surface: #fcfcfb;
+  --ink: #121211;
+  --ink-2: #4f4e4a;
+  --muted: #6c6a64;
+  --tick: #898781;
+  --grid: #e4e3dc;
+  --axis: #c3c2b7;
+  --line: rgba(11, 11, 11, 0.10);
+  --wash: rgba(42, 120, 214, 0.08);
+  --accent: #1c5cab;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --neg: #e34948;
+  --pos-soft: #86b6ef;
+  --n7: #86b6ef; --n5: #3987e5; --n3: #1c5cab; --n2: #0d366b;
+  --good-text: #006300;
+  --bad-text: #b42f2f;
+  --chip-bg: #e8f0fb; --chip-ink: #184f95;
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "Noto Sans TC", "IBM Plex Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem; --step-4: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+    --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+    --accent: #6da7ec;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --neg: #e66767; --pos-soft: #5598e7;
+    --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+    --good-text: #3fbf3f; --bad-text: #f08080;
+    --chip-bg: #16304f; --chip-ink: #b7d3f6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+  --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+  --accent: #6da7ec;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --neg: #e66767; --pos-soft: #5598e7;
+  --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+  --good-text: #3fbf3f; --bad-text: #f08080;
+  --chip-bg: #16304f; --chip-ink: #b7d3f6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; font-family: var(--font-ui); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-top: 28px; }
+.eyebrow { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.masthead h1 .code { font-family: var(--font-data); font-weight: 500; font-size: 0.55em; color: var(--muted); letter-spacing: 0; margin-left: 0.4em; vertical-align: 0.2em; }
+.lede { color: var(--ink-2); max-width: 68ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step-0); color: var(--muted); font-family: var(--font-data); }
+.meta-row b { color: var(--ink); font-weight: 500; }
+
+/* nav */
+.secnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.secnav .scroller { max-width: 1180px; margin-inline: auto; display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.secnav .scroller::-webkit-scrollbar { display: none; }
+.secnav a { flex: none; text-decoration: none; color: var(--ink-2); font-size: var(--step-0); padding: 6px 12px; border-radius: 999px; }
+.secnav a:hover { background: var(--wash); color: var(--ink); }
+
+/* cadence strip */
+.cadence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.cadence > div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cadence > div + div { border-left: 1px solid var(--line); }
+.cadence .when { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.cadence .what { font-weight: 600; }
+.cadence .which { font-size: var(--step-0); color: var(--ink-2); }
+@media (max-width: 720px) {
+  .cadence { grid-template-columns: minmax(0, 1fr); }
+  .cadence > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi:last-child { grid-column: 1 / -1; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 0.8rem; color: var(--muted); }
+.kpi .value { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+.kpi .value small { font-size: 0.55em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.kpi .delta { font-size: 0.8rem; color: var(--ink-2); font-family: var(--font-data); }
+.up { color: var(--good-text); }
+.down { color: var(--bad-text); }
+.chip { justify-self: start; font-size: 0.7rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+
+/* sections */
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+.sec-head .sub { color: var(--ink-2); max-width: 72ch; font-size: 0.95rem; }
+.sec-tag { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.card.wide { grid-column: 1 / -1; }
+.card h3 { font-size: 1.02rem; font-weight: 600; }
+.card .how { font-size: 0.88rem; color: var(--ink-2); }
+.card .how b { color: var(--ink); font-weight: 600; }
+.chartbox { position: relative; height: 300px; width: 100%; }
+.chartbox.short { height: 190px; }
+.chartbox.tall { height: 340px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls .lab { font-size: 0.8rem; color: var(--muted); margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 0.82rem; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+
+/* waterfall */
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 7.5rem; gap: 12px; align-items: center; font-size: 0.86rem; }
+.wf-row .nm { color: var(--ink-2); min-width: 0; }
+.wf-row.total .nm { color: var(--ink); font-weight: 600; }
+.wf-track { position: relative; height: 18px; }
+.wf-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.wf-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; }
+.wf-row .v { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.8rem; }
+.wf-row .v em { font-style: normal; color: var(--muted); display: block; font-size: 0.72rem; }
+@media (max-width: 560px) {
+  .wf-row { grid-template-columns: minmax(0, 1fr) 6.5rem; }
+  .wf-row .wf-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* notes */
+.note { font-size: 0.86rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.callout { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 6px; }
+.callout b { color: var(--ink); }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+th { font-weight: 600; color: var(--ink-2); background: var(--surface); position: sticky; top: 0; font-family: var(--font-cjk); }
+td { font-family: var(--font-data); color: var(--ink); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td .y { display: block; font-size: 0.68rem; }
+td.tot { font-weight: 500; background: var(--wash); }
+.tbl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.btn { font: inherit; font-size: 0.82rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--wash); }
+.copied { font-size: 0.8rem; color: var(--good-text); }
+
+/* glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.gloss { margin: 0; }
+.gloss .item { padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.gloss dt { font-weight: 600; }
+.gloss dt code { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.gloss dd { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.gloss dd .f { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink); background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+.sources { font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 8px; }
+.sources ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+footer { font-size: 0.78rem; color: var(--muted); }
+
+/* timelines */
+.gantt-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px 12px 4px; }
+.gantt { min-width: 780px; display: grid; }
+.g-row { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; border-bottom: 1px solid var(--grid); }
+.g-row:last-child { border-bottom: 0; }
+.g-row .nm { font-size: 0.84rem; line-height: 1.3; min-width: 0; }
+.g-row .nm small { display: block; color: var(--muted); font-size: 0.7rem; }
+.g-track { position: relative; height: 28px; }
+.g-axis .g-track { height: 22px; }
+.g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--tick); }
+.g-grid { position: absolute; top: -6px; bottom: -6px; border-left: 1px solid var(--grid); }
+.g-today { position: absolute; top: -6px; bottom: -6px; border-left: 1.5px dashed var(--s8); }
+.g-line { position: absolute; top: 13px; height: 2px; background: var(--axis); }
+.g-line.plan { background: repeating-linear-gradient(90deg, var(--axis) 0 4px, transparent 4px 8px); }
+.g-mk { position: absolute; top: 7px; width: 14px; height: 14px; margin-left: -7px; background: var(--c); border: 2px solid var(--c); cursor: pointer; padding: 0; }
+.g-mk.plan { background: var(--surface); }
+.g-mk.k-a { transform: rotate(45deg) scale(0.82); }
+.g-mk.k-g { border-radius: 2px; }
+.g-mk.k-c { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: 0; }
+.g-mk.k-c.plan { opacity: 0.45; }
+.g-mk.k-m { border-radius: 50%; }
+.g-mk.unc { border-style: dashed; background: var(--surface); opacity: 0.8; }
+.g-mk.k-c.unc { opacity: 0.35; }
+.unc-chip { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0 6px; margin-left: 6px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); vertical-align: 1px; white-space: nowrap; }
+.g-mk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.g-info { font-size: 0.86rem; color: var(--ink-2); min-height: 1.6em; }
+.g-info b { color: var(--ink); }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); align-items: center; }
+.g-key span { display: inline-flex; align-items: center; gap: 6px; }
+.g-key .g-mk { position: static; margin: 0; cursor: default; }
+.st-plan { color: var(--muted); }
+td.txt, th.txt { text-align: left; white-space: normal; min-width: 16rem; font-family: var(--font-cjk); }
+td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
+
+/* shared site chrome */
+.homelink { font-weight: 600; color: var(--accent) !important; }
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
+</style>
+
+<!-- 通用公司頁（schema v1）：任何符合 docs/DATA_SCHEMA.md 的 data/<代號>.json 都能直接用這個模板，
+     不必為每家公司另寫頁面。有資料才顯示的區塊：segments（營收拆分）、extra（公司專屬指標）、guidance、milestones、notes。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller" id="secnav">
+    <a class="homelink" href="../">← 所有公司</a>
+    <a href="#overview">總覽</a>
+    <a href="#longterm">長期觀察</a>
+    <a href="#revenue">營收</a>
+    <a href="#profit">獲利能力</a>
+    <a href="#eps">每股盈餘</a>
+    <a href="#cash">現金流</a>
+    <a href="#extra" data-opt="extra">專屬指標</a>
+    <a href="#guidance" data-opt="guidance">財測</a>
+    <a href="#events" data-opt="milestones">重要事件</a>
+    <a href="#tables">數據表</a>
+    <a href="#glossary">指標小辭典</a>
+    <a href="#sources">資料來源</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="overview">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <p class="lede" id="lede"></p>
+    <div class="meta-row" id="metaRow"></div>
+  </header>
+
+  <div class="cadence" id="cadence" aria-label="資料公布節奏" hidden></div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="callout">
+    <b>接下來</b>
+    <span id="nextText"></span>
+  </div>
+
+  <section id="longterm">
+    <div class="sec-head">
+      <span class="sec-tag">長期投資人視角</span>
+      <h2>長期觀察</h2>
+      <p class="sub">把一年當成一個整體看：近四季加總、年化成長、利潤率走勢、自由現金流、成長穩定度。</p>
+    </div>
+    <div id="ltCard"></div>
+  </section>
+
+  <section id="revenue">
+    <div class="sec-head">
+      <span class="sec-tag" id="tagRev">每季公布</span>
+      <h2>營收</h2>
+    </div>
+    <div class="grid2">
+      <div class="card" id="cardRev">
+        <h3 id="hRev">每季營收</h3>
+        <p class="how" id="howRev"></p>
+        <div class="legend" id="lgRev"></div>
+        <div class="chartbox"><canvas id="cRev" aria-label="每季營收長條圖"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>營收年增率（%）</h3>
+        <p class="how" id="howYoY"></p>
+        <div class="chartbox"><canvas id="cYoY" aria-label="營收年增率"></canvas></div>
+      </div>
+      <div class="card wide" id="cardSeg" hidden>
+        <h3 id="hSeg"></h3>
+        <p class="how" id="howSeg"></p>
+        <div class="legend" id="lgSeg"></div>
+        <div class="chartbox"><canvas id="cSeg" aria-label="營收拆分占比"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profit">
+    <div class="sec-head">
+      <span class="sec-tag">每季公布</span>
+      <h2>獲利能力</h2>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3 id="wfTitle">從營收到淨利</h3>
+        <p class="how" id="howWF"></p>
+        <div class="wf" id="wf"></div>
+        <p class="note" id="wfNote" hidden></p>
+      </div>
+      <div class="card">
+        <h3>利潤率：毛利率、營業利益率、淨利率（%）</h3>
+        <p class="how" id="howMargin"></p>
+        <div class="legend" id="lgMargin"></div>
+        <div class="chartbox"><canvas id="cMargin" aria-label="利潤率折線圖"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 id="hNi">營業利益與淨利</h3>
+        <p class="how" id="howNi"></p>
+        <div class="legend" id="lgNi"></div>
+        <div class="chartbox"><canvas id="cNi" aria-label="營業利益與淨利"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="eps">
+    <div class="sec-head">
+      <span class="sec-tag">每季公布</span>
+      <h2>每股盈餘</h2>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3 id="hEps">稀釋後每股盈餘</h3>
+        <p class="how" id="howEps"></p>
+        <div class="legend" id="lgEps"></div>
+        <div class="chartbox"><canvas id="cEps" aria-label="每股盈餘與每股股利"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cash">
+    <div class="sec-head">
+      <span class="sec-tag">每季公布</span>
+      <h2>現金流</h2>
+    </div>
+    <div class="grid2">
+      <div class="card wide">
+        <h3 id="hCash">營業現金流、資本支出、自由現金流</h3>
+        <p class="how" id="howCash"></p>
+        <div class="legend" id="lgCash"></div>
+        <div class="chartbox"><canvas id="cCash" aria-label="現金流"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="extra" hidden>
+    <div class="sec-head">
+      <span class="sec-tag">公司自己揭露的指標</span>
+      <h2 id="hExtra">專屬指標</h2>
+      <p class="sub" id="subExtra"></p>
+    </div>
+    <div class="grid2" id="extraCharts"></div>
+    <div class="card">
+      <div class="tbl-bar">
+        <h3 id="hExtraTable">專屬指標明細</h3>
+        <span><button type="button" class="btn" id="cpX">複製 CSV</button> <span class="copied" id="cpXok" hidden>已複製</span></span>
+      </div>
+      <div class="tbl-wrap"><table id="tExtra"></table></div>
+      <p class="note">「—」代表公司該季沒有揭露，或我們沒能在可取得的文件中找到。</p>
+    </div>
+    <div class="card" id="cardUnavail" hidden>
+      <h3>待確認與取不到的欄位</h3>
+      <ul class="note" id="unavail" style="margin:0;padding-left:1.2em"></ul>
+    </div>
+  </section>
+
+  <section id="guidance" hidden>
+    <div class="sec-head">
+      <span class="sec-tag" id="tagGuide">公司財測</span>
+      <h2>財測</h2>
+      <p class="sub">公司在財報時給的展望。區間是公司說的；「中點」是我們取上下限平均，不是公司公布的數字。</p>
+    </div>
+    <div class="card">
+      <div class="tbl-wrap"><table id="tGuide"></table></div>
+      <p class="note" id="guideNote" hidden></p>
+    </div>
+  </section>
+
+  <section id="events" hidden>
+    <div class="sec-head">
+      <span class="sec-tag">不定期</span>
+      <h2>重要事件時間軸</h2>
+      <p class="sub">產品、合約、併購、指數納入等。標「待確定」的是媒體報導、公司尚未證實的消息。</p>
+    </div>
+    <div class="card wide">
+      <div class="tbl-bar">
+        <h3>事件明細</h3>
+        <div class="seg" id="msSeg" role="group" aria-label="事件篩選"></div>
+      </div>
+      <div class="tbl-wrap"><table id="tMs"></table></div>
+    </div>
+  </section>
+
+  <section id="tables">
+    <div class="sec-head">
+      <span class="sec-tag">原始數字</span>
+      <h2>數據表</h2>
+      <p class="sub">圖上每一個點都在這裡。按「複製 CSV」可以直接貼到 Excel 或 Google 試算表。</p>
+    </div>
+    <div class="card" id="cardAnnual" hidden>
+      <div class="tbl-bar"><h3 id="hAnnual">年度摘要</h3></div>
+      <div class="tbl-wrap"><table id="tAnnual"></table></div>
+      <p class="note">年度數字以公司公布的全年數字為準；沒有公布全年數字的欄位用四季加總。</p>
+    </div>
+    <div class="card">
+      <div class="tbl-bar">
+        <h3 id="hQuarter">季度損益與現金流</h3>
+        <span><button type="button" class="btn" id="cpQ">複製 CSV</button> <span class="copied" id="cpQok" hidden>已複製</span></span>
+      </div>
+      <div class="tbl-wrap"><table id="tQuarter"></table></div>
+    </div>
+  </section>
+
+  <section id="glossary">
+    <div class="sec-head">
+      <span class="sec-tag">教別人時可以直接用</span>
+      <h2>指標小辭典</h2>
+    </div>
+    <dl class="gloss" id="gloss"></dl>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head"><h2>資料來源與注意事項</h2></div>
+    <div class="sources">
+      <ul id="srcList"></ul>
+      <p id="srcNote"></p>
+    </div>
+  </section>
+
+  <footer id="footer"></footer>
+  <p class="disclaimer-box" id="disclaimer"></p>
+</main>
+
+<script type="application/json" id="company-data">{"asOf":"2026-10-26","company":{"code":"spcx","name":"SpaceX","nameEn":"Space Exploration Technologies","ticker":"SPCX","exchange":"Nasdaq SPCX","currency":"USD","unit":"百萬美元","epsUnit":"美元","fiscalYearEnd":"12-31","frequency":"quarterly","lede":"SpaceX（Nasdaq SPCX）2026 年 6 月在 Nasdaq 上市，業務分成太空（發射與星艦開發）、連線（Starlink 衛星網路）、超級智慧 SI（Grok、X 與 AI 運算，第二季以前叫 AI）三個部門。本頁收錄上市後的兩季（2Q26、3Q26），金額單位是百萬美元。上市前的季度 EPS 只在 S-1 公開說明書的財務報表裡，目前讀不到，所以先不收。","cadence":[{"when":"每季結束後約 3–4 週","what":"財報新聞稿（公司 IR 網站與 X）","which":"營收、部門、獲利、資本支出、營運指標"},{"when":"財報後","what":"10-Q／10-K","which":"完整財報與附註"},{"when":"不定期","what":"8-K","which":"發債、併購、重大合約"}]},"quarters":[{"q":"2Q26","rev":7814.0,"gp":4319.0,"gm":55.3,"opInc":-143.0,"om":-1.8,"ni":-541.0,"eps":-0.09,"ocf":null,"capex":18369.0,"fcf":null,"dps":null},{"q":"3Q26","rev":14575.0,"gp":9097.0,"gm":62.4,"opInc":2791.0,"om":19.1,"ni":4404.0,"eps":0.35,"ocf":9631.0,"capex":19593.0,"fcf":-9962.0,"dps":null}],"annual":{},"guidance":{"issued":"2026-10-20","items":[],"note":"SpaceX 的財報新聞稿沒有提供數字財測。"},"events":[{"date":"2027-01-28","t":"4Q26 財報（預估日期，公司尚未公告）","est":1}],"waterfall":{"q":"3Q26","rows":[{"n":"營收","v":14575,"t":1},{"n":"營業成本","v":-5478},{"n":"毛利","v":9097,"t":1},{"n":"研發費用","v":-4596},{"n":"銷售、一般與行政費用","v":-1707},{"n":"重組費用","v":-3},{"n":"營業利益","v":2791,"t":1},{"n":"利息費用","v":-675},{"n":"利息收入","v":873},{"n":"其他收益淨額","v":1025},{"n":"稅前淨利","v":4014,"t":1},{"n":"所得稅（利益）","v":390},{"n":"淨利","v":4404,"t":1}],"note":"取自 3Q26 財報新聞稿 GAAP 損益表（百萬美元）。公司沒有列「毛利」這一行，毛利 = 營收 − 營業成本。"},"segments":{"title":"營收拆分：三大部門","unit":"百萬美元","keys":[{"k":"space","n":"太空"},{"k":"conn","n":"連線（Starlink）"},{"k":"si","n":"超級智慧 SI（原 AI）"}],"quarters":[{"q":"2Q26","space":962,"conn":4291,"si":2561},{"q":"3Q26","space":1767,"conn":5248,"si":7560}],"note":"第三季起 AI 部門改名為超級智慧（Super Intelligence, SI），範圍相同。"},"extra":{"title":"營運指標","note":"公司於財報新聞稿揭露","keys":[{"k":"revPY","n":"去年同季營收","unit":"百萬美元","dec":0,"desc":"上市前的同季營收，用來看年增率"},{"k":"subs","n":"Starlink 消費者用戶","unit":"百萬","dec":1,"chart":"bar","zero":true},{"k":"arpu","n":"Starlink 消費者每月 ARPU","unit":"美元","dec":0},{"k":"launches","n":"發射次數","dec":0,"chart":"bar","zero":true},{"k":"gw","n":"AI 運算容量（名目）","unit":"GW","dec":1}],"quarters":[{"q":"2Q26","revPY":4071,"subs":12.0,"arpu":66,"launches":38,"gw":1.4},{"q":"3Q26","revPY":5576,"subs":13.6,"arpu":69,"launches":35,"gw":1.7}]},"milestones":[{"d":"2026-06-12","cat":"listing","t":"最終公開說明書（424B4）申報，A 類普通股在 Nasdaq 上市，代號 SPCX；S-1/A 所列預計發行價每股 135 美元。公司第三季財報列前九個月 IPO 收到 856.75 億美元","src":"https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/","st":"p"},{"d":"2026-06-26","cat":"finance","t":"發行 250 億美元優先無擔保公司債（2031–2056 年到期，五個年期）","src":"https://www.sec.gov/Archives/edgar/data/1181412/000162828026045763/spcx-closing8xkjune2026.htm","st":"p"},{"d":"2026-08-14","cat":"ma","t":"完成收購 Cursor（AI 程式開發工具，隱含股權價值 600 億美元）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-Q3","cat":"product","t":"星艦第 14 次試飛：第一次軌道飛行，也是第一個有營收的星艦任務（送上 26 顆 Starlink V3 衛星）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-10-08","cat":"contract","t":"同意買下美國全國 800 MHz 低頻頻譜執照，用於 Starlink 手機直連；預計 2027 上半年完成","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-10-20","cat":"profit","t":"3Q26 上市後第一次單季獲利：淨利 44.04 億美元，營收 145.75 億美元（年增 161%）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"}],"sources":[{"n":"SpaceX 3Q26 財報新聞稿","url":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","note":"3Q26 與 3Q25、前九個月損益、現金流、部門、營運指標"},{"n":"SpaceX 2Q26 財報新聞稿","url":"https://s21.q4cdn.com/184289198/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf","note":"2Q26 與 2Q25、上半年損益、部門、資本支出"},{"n":"SEC EDGAR XBRL（2Q26 10-Q）","url":"https://data.sec.gov/api/xbrl/companyconcept/CIK0001181412/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax.json","note":"營收、EPS、上半年現金流核對"},{"n":"SpaceX 投資人關係","url":"https://ir.spacex.com/","note":"財報日、新聞稿"}],"notes":{"unavailable":["待確認：1Q25–1Q26（上市前五季）：營收、營業利益、淨利可以從新聞稿與 S-1 摘要推得，但單季 EPS 只在 S-1 公開說明書的財務報表裡；SEC 網站上的公開說明書檔案約 12 MB，目前的工具讀不到財務報表那一段，所以這五季先不收。之後讀到 S-1 財務報表（或公司在 10-K 揭露）再補","待確認：2023–2025 年全年數字：同上，只讀到 S-1 摘要的 2025 年營收 186.74 億美元、營業損失 25.89 億美元，其他欄位（淨利、EPS、現金流）沒讀到，所以年度表先不放","待確認：2Q26 營業現金流與自由現金流：公司只公布上半年累計（34.66 億美元），第一季單季數字沒有讀到，所以 2Q26 留空","毛利：公司損益表沒有「毛利」這一行，本頁用 營收 − 營業成本 計算","資本支出：用公司公布的各部門資本支出合計（2Q26 183.69 億美元），與現金流量表「購置不動產、廠房及設備」的累計相減結果一致","每股股利：SpaceX 沒有發放現金股利（全部為 null）"],"general":"SpaceX 上市後才有季度財報，所以目前只有兩季，近四季（TTM）、年化成長等長期指標要等累積到四季以上才算得出來。年增率請看「營運指標」表的「去年同季營收」：2Q26 年增 92%、3Q26 年增 161%。EPS 是稀釋後每股盈餘；2Q26 為虧損，基本與稀釋相同。"},"categories":{"listing":"上市","ma":"併購","product":"產品","contract":"合約","finance":"融資"}}</script>
+<script src="../assets/vendor/chart.umd.js"></script>
+<script>
+/* 共用前端函式（新公司的模板用；以 COMMON_JS 占位符內嵌進頁面）。
+   依賴頁面已載入 Chart.js，且 assets/theme.css 的 CSS 變數存在。 */
+const $ = (s) => document.querySelector(s);
+const T = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+const nf1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const f0 = (n) => n == null ? '—' : nf0.format(n);
+const f1 = (n) => n == null ? '—' : nf1.format(n);
+const f2 = (n) => n == null ? '—' : nf2.format(n);
+const sp = (n, d = 1) => n == null ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + '%';
+const pc = (n, d = 1) => n == null ? '—' : n.toFixed(d) + '%';
+const cls = (n) => n == null ? '' : (n >= 0 ? 'up' : 'down');
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const r1 = (n) => n == null ? null : Math.round(n * 10) / 10;
+const tint = (hex, a) => { const n = parseInt(hex.replace('#', ''), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+
+function legend(el, items) {
+  $(el).innerHTML = items.map(i => `<span><i class="${i.line ? 'ln' : ''}" style="background:${i.c}"></i>${i.t}</span>`).join('');
+}
+function baseOpts(extra = {}) {
+  return Object.assign({
+    responsive: true, maintainAspectRatio: false,
+    animation: reduce ? false : { duration: 350 },
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: T('--surface'), titleColor: T('--ink'), bodyColor: T('--ink-2'),
+        borderColor: T('--axis'), borderWidth: 1, padding: 10, boxPadding: 4, cornerRadius: 8,
+        titleFont: { family: 'IBM Plex Sans, Noto Sans TC, sans-serif', weight: '600' },
+        bodyFont: { family: 'IBM Plex Mono, Noto Sans TC, monospace', size: 12 },
+        usePointStyle: true,
+      },
+    },
+    scales: {},
+  }, extra);
+}
+const tip = (o) => ({ ...baseOpts().plugins, tooltip: { ...baseOpts().plugins.tooltip, ...o } });
+function yAxis(o = {}, t = {}) {
+  return Object.assign({ border: { display: false }, grid: { color: T('--grid'), drawTicks: false },
+    ticks: Object.assign({ color: T('--tick'), padding: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 } }, t) }, o);
+}
+function xAxis(o = {}, t = {}) {
+  return Object.assign({ border: { color: T('--axis') }, grid: { display: false },
+    ticks: Object.assign({ color: T('--tick'), maxRotation: 0, autoSkip: true, font: { family: 'IBM Plex Mono, monospace', size: 11 } }, t) }, o);
+}
+const bar = (o) => Object.assign({ type: 'bar', borderRadius: 3, borderSkipped: 'start', categoryPercentage: 0.8, barPercentage: 0.9 }, o);
+const line = (o) => Object.assign({ type: 'line', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2, spanGaps: false }, o);
+/* ---------- 比較圖共用：線尾標籤、對數刻度、季度刻度、缺口虛線 ---------- */
+/* 線尾標籤：在每條線最後一個有值的點右邊寫「公司名 數值」，互相重疊時往上下推開 */
+const endLabels = {
+  id: 'endLabels',
+  afterDatasetsDraw(chart, _a, opts) {
+    const { ctx, chartArea: { right, top, bottom } } = chart;
+    const fmt = opts.fmt || (v => v);
+    const narrow = chart.width < 520;
+    const items = [];
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+      let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
+      if (k < 0 || !meta.data[k]) return;
+      const pt = meta.data[k];
+      items.push({ x: pt.x, y: pt.y, c: ds.borderColor, t: narrow ? ds.label : `${ds.label} ${fmt(ds.data[k])}` });
+    });
+    items.sort((a, b) => a.y - b.y);
+    const h = 14;
+    for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < h) items[i].y = items[i - 1].y + h;
+    for (let i = items.length - 1; i >= 0; i--) { items[i].y = Math.min(items[i].y, bottom - 2); if (i < items.length - 1 && items[i + 1].y - items[i].y < h) items[i].y = items[i + 1].y - h; }
+    ctx.save();
+    ctx.font = `600 11px IBM Plex Sans, Noto Sans TC, system-ui, sans-serif`;
+    ctx.textBaseline = 'middle';
+    items.forEach(it => {
+      const w = ctx.measureText(it.t).width;
+      const x = Math.min(Math.max(it.x, right) + 6, chart.width - w - 2);
+      ctx.fillStyle = T('--surface'); ctx.fillRect(x - 2, it.y - 7, w + 4, 14);
+      ctx.fillStyle = it.c; ctx.fillText(it.t, x, Math.max(top + 7, it.y));
+    });
+    ctx.restore();
+  },
+};
+if (window.Chart) Chart.register(endLabels);
+/* 線尾標籤需要右邊留白 */
+const endPad = (w) => ({ layout: { padding: { right: w || 84, top: 8 } } });
+/* 對數刻度：以 100 為中心，每一格翻一倍（…50、100、200、400…），剛好蓋住資料範圍 */
+function logTicks(values, base = 100) {
+  const vs = values.filter(v => v != null && v > 0);
+  const lo0 = Math.min(base, ...vs), hi0 = Math.max(base, ...vs);
+  let lo = base, hi = base;
+  while (lo > lo0) lo /= 2;
+  while (hi < hi0) hi *= 2;
+  const ticks = []; for (let v = lo; v <= hi; v *= 2) ticks.push(v);
+  return { min: lo, max: hi, ticks };
+}
+/* 季度標籤 'nQyy'：短期間每季都標，長期間只在第一季標年份 */
+function qTicks(labels) {
+  const yearOnly = labels.length > 20;
+  return { autoSkip: !yearOnly, maxTicksLimit: 8, callback: (v) => { const l = labels[v]; if (!l) return ''; return yearOnly ? (l[0] === '1' ? '20' + l.slice(2) : '') : l; } };
+}
+/* 基準線（100 或 0）畫深一點，其他格線淡 */
+const gridWithBase = (baseVal) => ({ color: (c) => c.tick.value === baseVal ? T('--axis') : T('--grid'), lineWidth: (c) => c.tick.value === baseVal ? 1.5 : 1, drawTicks: false });
+/* 缺資料（null）的地方用虛線跨過，而不是假裝連起來；最後一個點畫圓點 */
+function cmpLine(o) {
+  return line(Object.assign({ borderWidth: 2.25, spanGaps: true,
+    segment: { borderDash: (c) => c.p0.skip || c.p1.skip ? [4, 4] : undefined },
+    pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; const f = d.findIndex(v => v != null); return c.dataIndex === k || (f > 0 && c.dataIndex === f) ? 3 : 0; },
+    pointHoverRadius: 4 }, o));
+}
+function syncSeg(id, attr, val) {
+  document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val)));
+}
+function copyBtn(btn, ok, fn) {
+  $(btn).addEventListener('click', async () => {
+    const text = fn();
+    try { await navigator.clipboard.writeText(text); $(ok).textContent = '已複製'; }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let done = false; try { done = document.execCommand('copy'); } catch (er) {}
+      ta.remove(); $(ok).textContent = done ? '已複製' : '瀏覽器擋下複製，請改用表格選取';
+    }
+    $(ok).hidden = false; setTimeout(() => { $(ok).hidden = true; }, 2500);
+  });
+}
+
+/* 日期：支援 YYYY-MM-DD、YYYY-MM、YYYY-Qn、YYYY-Hn、YYYY */
+const dy = (s) => {
+  let m;
+  if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/))) return +m[1] + (m[2] - 1) / 12 + (m[3] - 1) / 365;
+  if ((m = s.match(/^(\d{4})-(\d{2})$/))) return +m[1] + (m[2] - 0.5) / 12;
+  if ((m = s.match(/^(\d{4})-Q(\d)$/))) return +m[1] + (m[2] - 0.5) / 4;
+  if ((m = s.match(/^(\d{4})-H(\d)$/))) return +m[1] + (m[2] - 0.5) / 2;
+  return +s.slice(0, 4) + 0.5;
+};
+const dfmt = (s) => {
+  let m;
+  if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/))) return `${m[1]}/${m[2]}/${m[3]}`;
+  if ((m = s.match(/^(\d{4})-(\d{2})$/))) return `${m[1]}/${m[2]}`;
+  if ((m = s.match(/^(\d{4})-Q(\d)$/))) return `${m[1]} Q${m[2]}`;
+  if ((m = s.match(/^(\d{4})-H(\d)$/))) return `${m[1]} ${m[2] === '1' ? '上' : '下'}半年`;
+  return `${s} 年`;
+};
+const UNC = '<span class="unc-chip">待確定</span>';
+const srcLink = (o) => o.src ? `<a href="${o.src}" target="_blank" rel="noopener">${(o.unc || /^媒體報導/.test(o.note || '')) ? '媒體' : '來源'}</a>` : '';
+
+/* 從營收到淨利的拆解圖（HTML 長條） */
+function drawWaterfall(W, el) {
+  const R = W.rows[0].v; let run = 0; const rows = [];
+  const scale = 100 / (R * 1.03);
+  W.rows.forEach(r => {
+    let a, b;
+    if (r.t) { a = 0; b = r.v; run = r.v; } else { a = run; b = run + r.v; run = b; }
+    const lo = Math.min(a, b), hi = Math.max(a, b);
+    const color = r.t ? T('--s1') : (r.v < 0 ? T('--neg') : T('--pos-soft'));
+    const share = r.v / R * 100;
+    rows.push(`<div class="wf-row${r.t ? ' total' : ''}">
+      <span class="nm">${r.n}</span>
+      <span class="wf-track"><span class="wf-bar" style="left:${lo * scale}%;width:${Math.max((hi - lo) * scale, 0.4)}%;background:${color}"></span></span>
+      <span class="v">${r.t ? '' : (r.v > 0 ? '+' : '−')}${f1(Math.abs(r.v))}<em>${r.t ? '占營收 ' + share.toFixed(1) + '%' : (share > 0 ? '+' : '−') + Math.abs(share).toFixed(1) + '%'}</em></span>
+    </div>`);
+  });
+  $(el).innerHTML = rows.join('');
+}
+
+/* 資料格式轉接層（normalization layer）
+   目的：不管公司資料是哪一種格式（schema），都轉成同一種「標準季度序列」，
+   讓首頁、跨公司比較、長期指標（assets/longterm.js）只需要認得一種格式。
+
+   標準序列 N：
+     N.Q[]      每季：{ q, yr, qi, rev, gp, gm, om, nm, ni, eps, ocf, capex, fcf, dps }  金額單位 = N.unit
+     N.unit     金額單位的中文（例：百萬美元、億元新台幣）
+     N.unitShort 放在數字旁的短單位（例：百萬美元、億）
+     N.epsUnit  每股單位（美元、元）
+     N.latest   首頁卡片用的「最新一期」摘要：{ revLabel, rev, revUnit, yoy, qLabel, gm, om, eps, epsUnit, next }
+     N.next     下一個公布日 {date, t, est?} 或 null
+   新增一種資料格式 → 在 ADAPTERS 加一個以 schema 名稱為鍵的函式；符合 v1 的公司什麼都不用加。 */
+const nextEvent = (D) => (D.events || []).filter(e => e.date > D.asOf).sort((a, b) => a.date < b.date ? -1 : 1)[0] || null;
+const qParts = (q) => ({ yr: 2000 + Number(q.slice(2)), qi: Number(q[0]) });
+const ADAPTERS = {
+  /* 台積電舊格式：monthly 為新台幣百萬元、quarters 的 rev/ni 為百萬元、capex/ocf 為十億元 → 一律換成「億元」 */
+  'tsmc-legacy': (D, c) => {
+    const Q = D.quarters.map(q => {
+      const rev = q.rev / 100, ocf = q.ocf == null ? null : q.ocf * 10, capex = q.capex == null ? null : q.capex * 10;
+      return Object.assign({ q: q.q, rev, gp: rev * q.gm / 100, gm: q.gm, om: q.om, ni: q.ni / 100, nm: q.ni / q.rev * 100, eps: q.eps,
+        ocf, capex, fcf: ocf == null || capex == null ? null : ocf - capex, dps: q.dps }, qParts(q.q));
+    });
+    const ys = Object.keys(D.monthly).map(Number).sort((a, b) => a - b), y = ys[ys.length - 1];
+    const arr = D.monthly[String(y)], m = arr.length, v = arr[m - 1], prev = (D.monthly[String(y - 1)] || [])[m - 1];
+    const L = Q[Q.length - 1];
+    return { Q, unit: '億元新台幣', unitShort: '億', epsUnit: '元', next: nextEvent(D),
+      latest: { revLabel: `${y}/${String(m).padStart(2, '0')} 月營收`, rev: v / 100, revUnit: '億元新台幣', yoy: prev ? (v / prev - 1) * 100 : null,
+        qLabel: L.q, gm: L.gm, om: L.om, eps: L.eps, epsUnit: '元', next: nextEvent(D) } };
+  },
+  /* 共用格式 v1：quarters[] 為「百萬」單位（幣別看 companies.json 的 currency） */
+  'v1': (D, c) => {
+    const cur = { USD: '百萬美元', TWD: '百萬元新台幣', JPY: '百萬日圓', EUR: '百萬歐元', HKD: '百萬港元', CNY: '百萬人民幣' }[c.currency] || ('百萬' + c.currency);
+    const epsUnit = { USD: '美元', TWD: '元', JPY: '日圓', EUR: '歐元', HKD: '港元', CNY: '人民幣' }[c.currency] || c.currency;
+    const Q = D.quarters.map(q => Object.assign({}, q, qParts(q.q), {
+      gp: q.gp == null ? (q.gm == null ? null : q.rev * q.gm / 100) : q.gp,
+      nm: q.ni == null ? null : q.ni / q.rev * 100,
+      fcf: q.fcf != null ? q.fcf : (q.ocf == null || q.capex == null ? null : q.ocf - q.capex),
+    }));
+    const L = Q[Q.length - 1], P = Q[Q.length - 5];
+    return { Q, unit: cur, unitShort: cur, epsUnit, next: nextEvent(D),
+      latest: { revLabel: `${L.q} 營收`, rev: L.rev, revUnit: cur, yoy: P ? (L.rev / P.rev - 1) * 100 : null,
+        qLabel: L.q, gm: L.gm, om: L.om, eps: L.eps, epsUnit, next: nextEvent(D) } };
+  },
+};
+function normalize(D, c) {
+  const N = (ADAPTERS[c.schema] || ADAPTERS.v1)(D, c);
+  N.Q.forEach((x, i) => {
+    x.yoy = i >= 4 && N.Q[i - 4].rev ? (x.rev / N.Q[i - 4].rev - 1) * 100 : null;
+    x.qoq = i >= 1 && N.Q[i - 1].rev ? (x.rev / N.Q[i - 1].rev - 1) * 100 : null;
+  });
+  N.c = c; N.D = D; N.asOf = D.asOf;
+  return N;
+}
+
+/* 長期指標（long-term view）：給「長期投資人」看的指標，全部由 assets/adapters.js 的標準序列 N 算出來。
+   不依賴頁面其他變數（台積電頁面沒有載入 common.js），所以自己帶一套小工具。
+   提供：
+     LT.metrics(N)            → 近四季（TTM）、年化成長（CAGR）、利潤率變化、連續年增季數、自由現金流率…
+     LT.freshness(D, today?)  → 資料新鮮度：fresh／aging／overdue
+     LT.render(el, N, M)      → 公司頁的「長期觀察」卡片（六格 + 怎麼看）
+     LT.badge(F)              → 新鮮度徽章 HTML
+     LT.DISCLAIMER            → 各頁共用的完整免責聲明 */
+const LT = (() => {
+  const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const f0 = (n) => n == null || !isFinite(n) ? '—' : nf0.format(n);
+  const f2 = (n) => n == null || !isFinite(n) ? '—' : nf2.format(n);
+  const pc = (n, d = 1) => n == null || !isFinite(n) ? '—' : n.toFixed(d) + '%';
+  const sp = (n, d = 1) => n == null || !isFinite(n) ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + '%';
+  const pp = (n, d = 1) => n == null || !isFinite(n) ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + ' 個百分點';
+  const cls = (n) => n == null || !isFinite(n) ? '' : (n >= 0 ? 'up' : 'down');
+  const sum = (arr) => arr.some(v => v == null) ? null : arr.reduce((a, b) => a + b, 0);
+  const win = (Q, i, key, n = 4) => i - n + 1 < 0 ? null : sum(Q.slice(i - n + 1, i + 1).map(q => q[key]));
+
+  /* ---------- 指標 ---------- */
+  function metrics(N) {
+    const Q = N.Q, n = Q.length, i = n - 1, L = Q[i];
+    const ttm = Q.map((_, k) => win(Q, k, 'rev'));
+    const ttmNi = Q.map((_, k) => win(Q, k, 'ni'));
+    const ttmEps = Q.map((_, k) => win(Q, k, 'eps'));
+    const ttmOcf = Q.map((_, k) => win(Q, k, 'ocf'));
+    const ttmCapex = Q.map((_, k) => win(Q, k, 'capex'));
+    const ttmFcf = ttmOcf.map((v, k) => v == null || ttmCapex[k] == null ? null : v - ttmCapex[k]);
+    const ttmGm = Q.map((_, k) => { if (k < 3) return null; const s = Q.slice(k - 3, k + 1); const r = sum(s.map(q => q.rev)); return r ? s.reduce((a, q) => a + q.gm * q.rev, 0) / r : null; });
+    const ttmOm = Q.map((_, k) => { if (k < 3) return null; const s = Q.slice(k - 3, k + 1); if (s.some(q => q.om == null)) return null; const r = sum(s.map(q => q.rev)); return r ? s.reduce((a, q) => a + q.om * q.rev, 0) / r : null; });
+    const g = (a, b) => a != null && b != null && b > 0 && a > 0 ? (a / b - 1) * 100 : null;
+    const cagr = (years) => { const k = i - years * 4; return k >= 3 && ttm[k] > 0 && ttm[i] > 0 ? (Math.pow(ttm[i] / ttm[k], 1 / years) - 1) * 100 : null; };
+    const firstTtm = ttm.findIndex(v => v != null);
+    const allYears = firstTtm >= 0 ? (i - firstTtm) / 4 : 0;
+    const cagrAll = allYears >= 1 && ttm[firstTtm] > 0 ? (Math.pow(ttm[i] / ttm[firstTtm], 1 / allYears) - 1) * 100 : null;
+    let streak = 0; for (let k = i; k >= 0 && Q[k].yoy != null && Q[k].yoy > 0; k--) streak++;
+    const last20 = Q.slice(Math.max(0, n - 20)).filter(q => q.yoy != null);
+    const posShare = last20.length ? last20.filter(q => q.yoy > 0).length / last20.length * 100 : null;
+    const recordTtm = ttm[i] != null && ttm.every(v => v == null || v <= ttm[i]);
+    const back = (arr, k) => i - k >= 0 ? arr[i - k] : null;
+    return {
+      L, ttm, ttmNi, ttmEps, ttmFcf, ttmGm, ttmOm,
+      ttmRev: ttm[i], ttmRevYoy: g(ttm[i], back(ttm, 4)), recordTtm,
+      ttmEpsNow: ttmEps[i], ttmEpsYoy: g(ttmEps[i], back(ttmEps, 4)),
+      ttmNm: ttm[i] && ttmNi[i] != null ? ttmNi[i] / ttm[i] * 100 : null,
+      ttmFcfNow: ttmFcf[i], ttmFcfM: ttm[i] && ttmFcf[i] != null ? ttmFcf[i] / ttm[i] * 100 : null,
+      ttmFcfM3y: back(ttm, 12) && back(ttmFcf, 12) != null ? back(ttmFcf, 12) / back(ttm, 12) * 100 : null,
+      cagr3: cagr(3), cagr5: cagr(5), cagrAll, allYears: Math.round(allYears * 10) / 10,
+      gmNow: ttmGm[i], gm3y: back(ttmGm, 12), gmDelta: ttmGm[i] != null && back(ttmGm, 12) != null ? ttmGm[i] - back(ttmGm, 12) : null,
+      omNow: ttmOm[i], om3y: back(ttmOm, 12), omDelta: ttmOm[i] != null && back(ttmOm, 12) != null ? ttmOm[i] - back(ttmOm, 12) : null,
+      streak, posShare, posN: last20.length, yoy: L.yoy, qoq: L.qoq,
+      years: Math.round((n / 4) * 10) / 10,
+    };
+  }
+
+  /* ---------- 新鮮度 ---------- */
+  function freshness(D, today) {
+    const t = today || new Date();
+    const iso = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+    const days = Math.round((Date.parse(iso) - Date.parse(D.asOf)) / 86400000);
+    const overdue = (D.events || []).filter(e => e.date < iso && e.date > D.asOf && !e.est);
+    if (overdue.length) return { status: 'overdue', days, text: `${overdue[0].date.slice(5).replace('-', '/')} 有公布日已過，資料尚未更新`, label: '待更新' };
+    if (days > 21) return { status: 'aging', days, text: `資料已 ${days} 天未更新`, label: `${days} 天前` };
+    return { status: 'fresh', days, text: days <= 0 ? '今天更新' : `${days} 天前更新`, label: days <= 0 ? '今天' : `${days} 天前` };
+  }
+  const badge = (F) => `<span class="fresh fresh-${F.status}" title="${F.text}">${F.label}</span>`;
+
+  /* ---------- 迷你走勢圖（inline SVG，不用 Chart.js） ---------- */
+  function spark(vals, opts = {}) {
+    const v = vals.map(x => x == null || !isFinite(x) ? null : x);
+    const pts = v.map((y, i) => [i, y]).filter(p => p[1] != null);
+    if (pts.length < 2) return '';
+    const W = 120, H = 34, pad = 3;
+    const ys = pts.map(p => p[1]); let lo = Math.min(...ys, opts.zero ? 0 : Infinity), hi = Math.max(...ys, opts.zero ? 0 : -Infinity);
+    if (hi === lo) { hi += 1; lo -= 1; }
+    const X = (i) => pad + i / (v.length - 1) * (W - 2 * pad), Y = (y) => H - pad - (y - lo) / (hi - lo) * (H - 2 * pad);
+    const d = pts.map((p, k) => (k ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ');
+    const last = pts[pts.length - 1];
+    const zero = opts.zero && lo < 0 && hi > 0 ? `<line x1="${pad}" x2="${W - pad}" y1="${Y(0).toFixed(1)}" y2="${Y(0).toFixed(1)}" stroke="var(--axis)" stroke-dasharray="2 3"/>` : '';
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">${zero}<path d="${d}" fill="none" stroke="var(--s1)" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${X(last[0]).toFixed(1)}" cy="${Y(last[1]).toFixed(1)}" r="2.4" fill="var(--s1)"/></svg>`;
+  }
+
+  /* ---------- 公司頁的「長期觀察」卡片 ---------- */
+  function render(el, N, M) {
+    const u = N.unitShort, K = 20, tail = (arr) => arr.slice(-K);
+    const tiles = [
+      { label: '近四季營收（TTM）', value: f0(M.ttmRev), unit: u, delta: `年增 <span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span>`, chip: M.recordTtm ? '歷史新高' : '', sp: spark(tail(M.ttm)) },
+      { label: '營收年化成長（CAGR）', value: M.cagr3 == null ? '—' : M.cagr3.toFixed(1), unit: '% / 3 年', delta: `5 年 ${pc(M.cagr5)} · 全期間 ${pc(M.cagrAll)}（${M.allYears} 年）`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
+      { label: '近四季 EPS', value: f2(M.ttmEpsNow), unit: N.epsUnit, delta: `年增 <span class="${cls(M.ttmEpsYoy)}">${sp(M.ttmEpsYoy)}</span> · 近四季淨利率 ${pc(M.ttmNm)}`, sp: spark(tail(M.ttmEps), { zero: true }) },
+      { label: '毛利率（近四季加權）', value: pc(M.gmNow), unit: '', delta: `3 年前 ${pc(M.gm3y)} → <span class="${cls(M.gmDelta)}">${pp(M.gmDelta)}</span>`, sp: spark(tail(M.ttmGm)) },
+      { label: '自由現金流率（近四季）', value: pc(M.ttmFcfM), unit: '', delta: M.ttmFcfNow == null ? '現金流資料不足四季' : `自由現金流 ${f0(M.ttmFcfNow)} ${u} · 3 年前 ${pc(M.ttmFcfM3y)}`, sp: spark(tail(M.ttmFcf), { zero: true }) },
+      { label: '連續營收年增季數', value: String(M.streak), unit: '季', delta: `近 ${M.posN} 季有 ${pc(M.posShare, 0)} 的季度年增為正`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
+    ];
+    el.innerHTML = `<div class="lt-grid">${tiles.map(t => `
+      <div class="kpi lt">
+        <span class="label">${t.label}</span>
+        <span class="value">${t.value}${t.unit ? `<small>${t.unit}</small>` : ''}</span>
+        <span class="delta">${t.delta}</span>
+        ${t.sp}
+        ${t.chip ? `<span class="chip">${t.chip}</span>` : ''}
+      </div>`).join('')}</div>
+      <p class="how lt-how"><b>怎麼看：</b>單季數字會被季節與一次性因素干擾，所以這裡全部用「近四季加總（TTM）」把一年看成一個整體；
+      年化成長（CAGR）回答「平均每年長多少」，比單季年增率更能看出長期速度；毛利率與自由現金流率回答「生意有沒有越做越好賺、賺到的是不是真現金」；
+      連續年增季數回答「成長穩不穩」。每一格的小折線是最近 ${K} 季的走勢。這些都是公開財報的整理與計算，不是預測，也不構成投資建議。</p>`;
+  }
+
+  const DISCLAIMER = '本站為公開資料的整理與計算，不構成任何投資建議、推薦或要約；數字以各公司公告與主管機關申報文件為準，整理過程可能有誤或延遲，使用前請自行核對。' +
+    '「調整後」（non-GAAP）指標為各公司自訂口徑，不同公司間不可直接比較；標「待確定」的事件只是媒體報導、公司尚未證實。過去的財務表現不代表未來結果。';
+
+  return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };
+})();
+
+
+const D = JSON.parse(document.getElementById('company-data').textContent);
+const C = D.company || {};
+const UNIT = C.unit || '百萬';
+const EPSU = C.epsUnit || ({ USD: '美元', TWD: '元' }[C.currency] || C.currency || '');
+const N = normalize(D, { schema: 'v1', currency: C.currency || 'USD', code: C.code });
+const Q = N.Q, qLabels = Q.map(q => q.q);
+const L = Q[Q.length - 1], LY = Q[Q.length - 5] || null;
+const M = LT.metrics(N);
+const isRecord = (key) => L[key] != null && Q.slice(0, -1).every(q => q[key] == null || q[key] < L[key]);
+const hasAny = (arr, key) => arr.some(x => x[key] != null);
+
+/* ---------- 標頭 ---------- */
+$('#eyebrow').textContent = `${C.exchange || ''} ${C.ticker || ''} · ${Q[0].q} – ${L.q}`;
+$('#title').innerHTML = `${C.name || ''} 財報追蹤板<span class="code">${C.ticker || ''}</span>`;
+$('#lede').textContent = C.lede || `把 ${C.name || ''} 每一季的營收、利潤率、淨利、EPS 與現金流放在同一頁。金額單位是「${UNIT}」，每股數字用${EPSU}。`;
+const F = LT.freshness(D);
+$('#metaRow').innerHTML = `<span>資料截至 <b>${D.asOf.replace(/-/g, '/')}</b> ${LT.badge(F)}</span><span>最新一季 <b>${L.q}</b></span><span>單位 <b>${UNIT}</b></span>`;
+$('#footer').textContent = `整理：${D.asOf.replace(/-/g, '/')} · 單位：${UNIT}（每股為${EPSU}）`;
+$('#disclaimer').textContent = LT.DISCLAIMER;
+if (Array.isArray(C.cadence) && C.cadence.length) {
+  $('#cadence').hidden = false;
+  $('#cadence').innerHTML = C.cadence.slice(0, 3).map(x => `<div><span class="when">${x.when || ''}</span><span class="what">${x.what || ''}</span><span class="which">${x.which || ''}</span></div>`).join('');
+}
+
+/* ---------- KPI ---------- */
+const kpis = [
+  { label: `${L.q} 營收`, value: f0(L.rev), unit: UNIT, delta: `年增 <span class="${cls(L.yoy)}">${sp(L.yoy)}</span> · 季增 <span class="${cls(L.qoq)}">${sp(L.qoq)}</span>`, chip: isRecord('rev') ? '單季新高' : '' },
+  { label: `${L.q} 毛利率`, value: pc(L.gm), unit: '', delta: LY ? `去年同季 ${pc(LY.gm)}` : '' },
+  { label: `${L.q} 營業利益率`, value: pc(L.om), unit: '', delta: `淨利率 ${pc(L.nm)}` },
+  { label: `${L.q} 稀釋 EPS`, value: L.eps == null ? '—' : f2(L.eps), unit: EPSU, delta: LY && LY.eps ? `去年同季 ${f2(LY.eps)}` : '', chip: isRecord('eps') ? '歷史新高' : '' },
+  { label: `${L.q} 自由現金流`, value: f0(L.fcf), unit: UNIT, delta: L.fcf == null ? '公司尚未公布或未揭露' : `占營收 ${pc(L.fcf / L.rev * 100, 0)} · 營業現金流 ${f0(L.ocf)}` },
+];
+$('#kpis').innerHTML = kpis.map(k => `
+  <div class="kpi">
+    <span class="label">${k.label}</span>
+    <span class="value">${k.value}${k.unit ? `<small>${k.unit}</small>` : ''}</span>
+    <span class="delta">${k.delta}</span>
+    ${k.chip ? `<span class="chip">${k.chip}</span>` : ''}
+  </div>`).join('');
+const G = D.guidance || null;
+const upcoming = (D.events || []).filter(e => e.date > D.asOf).slice(0, 3);
+$('#nextText').innerHTML =
+  (upcoming.length ? upcoming.map(e => `${e.date.slice(5).replace('-', '/')} ${e.t}${e.est ? '（預估）' : ''}`).join('；') + '。' : '公司尚未公告下一個公布日。') +
+  (G && G.items && G.items.length ? ` 公司在 ${(G.issued || '').replace(/-/g, '/')} 給的財測：` + G.items.slice(0, 3).map(it => `${it.label} ${it.lo != null && it.hi != null && it.lo !== it.hi ? f0(it.lo) + '–' + f0(it.hi) : f0(it.lo ?? it.hi)}${it.unit ? ' ' + it.unit : ''}`).join('、') + '。' : '');
+
+/* ---------- 長期觀察 ---------- */
+LT.render($('#ltCard'), N, M);
+
+/* ---------- 文字 ---------- */
+$('#tagRev').textContent = `每季公布 · ${Q[0].q} – ${L.q}`;
+$('#hRev').textContent = `每季營收（${UNIT}）`;
+$('#howRev').innerHTML = `營收從 ${Q[0].q} 的 <b>${f0(Q[0].rev)}</b> 到 ${L.q} 的 <b>${f0(L.rev)}</b>` + (Q[0].rev > 0 ? `，約 <b>${(L.rev / Q[0].rev).toFixed(1)} 倍</b>` : '') + '。';
+(() => {
+  const ys = Q.filter(q => q.yoy != null); if (!ys.length) { $('#howYoY').textContent = '資料不足四季，還算不出年增率。'; return; }
+  const mx = ys.reduce((a, b) => b.yoy > a.yoy ? b : a), mn = ys.reduce((a, b) => b.yoy < a.yoy ? b : a);
+  $('#howYoY').innerHTML = `最高 ${mx.q} <b>${sp(mx.yoy)}</b>、最低 ${mn.q} <b>${sp(mn.yoy)}</b>，最新 ${L.q} <b>${sp(L.yoy)}</b>；連續 ${M.streak} 季年增為正。`;
+})();
+$('#wfTitle').textContent = `從營收到淨利：${D.waterfall ? D.waterfall.q : L.q}（${UNIT}）`;
+$('#howWF').innerHTML = `每 100 元營收，最後留下 <b>${pc(L.nm)}</b> 的淨利；毛利率 ${pc(L.gm)}、營業利益率 ${pc(L.om)}。`;
+if (D.waterfall && D.waterfall.note) { $('#wfNote').hidden = false; $('#wfNote').textContent = D.waterfall.note; }
+(() => {
+  const g0 = Q[0].gm, o0 = Q[0].om;
+  $('#howMargin').innerHTML = `毛利率從 ${Q[0].q} 的 <b>${pc(g0)}</b> 到 ${L.q} 的 <b>${pc(L.gm)}</b>；營業利益率從 <b>${pc(o0)}</b> 到 <b>${pc(L.om)}</b>。近四季加權毛利率 ${pc(M.gmNow)}，3 年前 ${pc(M.gm3y)}。`;
+})();
+$('#hNi').textContent = `營業利益與淨利（${UNIT}）`;
+$('#howNi').innerHTML = `${L.q} 營業利益 <b>${f0(L.opInc)}</b>、淨利 <b>${f0(L.ni)}</b>；近四季淨利 <b>${f0(M.ttmNi[M.ttmNi.length - 1])}</b>。`;
+$('#hEps').textContent = `稀釋後每股盈餘${hasAny(Q, 'dps') ? '與每股股利' : ''}（${EPSU}）`;
+$('#howEps').innerHTML = `${L.q} EPS <b>${L.eps == null ? '—' : f2(L.eps)}</b>，近四季合計 <b>${f2(M.ttmEpsNow)}</b>（年增 <span class="${cls(M.ttmEpsYoy)}">${sp(M.ttmEpsYoy)}</span>）。` + (hasAny(Q, 'dps') ? ' 橘色為每股現金股利。' : '');
+$('#hCash').textContent = `營業現金流、資本支出、自由現金流（${UNIT}）`;
+$('#howCash').innerHTML = hasAny(Q, 'ocf') ? `自由現金流 ＝ 營業現金流 − 資本支出。近四季自由現金流 <b>${f0(M.ttmFcfNow)}</b>，占營收 <b>${pc(M.ttmFcfM)}</b>。` : '公司資料中還沒有現金流欄位。';
+
+/* ---------- 營收拆分（選用）---------- */
+const SEG = D.segments && D.segments.keys && D.segments.quarters ? D.segments : null;
+let segQ = [];
+if (SEG) {
+  const byQ = Object.fromEntries(SEG.quarters.map(s => [s.q, s]));
+  segQ = Q.map(q => Object.assign({ q: q.q, rev: q.rev }, byQ[q.q] || {}));
+  $('#cardSeg').hidden = false;
+  $('#hSeg').textContent = `${SEG.title || '營收拆分'}（${SEG.unit || UNIT}）`;
+  const ls = segQ[segQ.length - 1];
+  $('#howSeg').innerHTML = `${L.q}：` + SEG.keys.map(k => `${k.n} <b>${f0(ls[k.k])}</b>（${pc(ls[k.k] != null && ls.rev ? ls[k.k] / ls.rev * 100 : null, 0)}）`).join('、') + '。' + (SEG.note ? ' ' + SEG.note : '');
+}
+
+/* ---------- 公司專屬指標（選用）---------- */
+const X = D.extra && D.extra.keys && D.extra.quarters ? D.extra : null;
+let xQ = [];
+if (X) {
+  const byQ = Object.fromEntries(X.quarters.map(s => [s.q, s]));
+  xQ = Q.map(q => Object.assign({ q: q.q }, byQ[q.q] || {}));
+  $('#extra').hidden = false;
+  $('#hExtra').textContent = X.title || '專屬指標';
+  $('#subExtra').textContent = X.note || '公司在財報或新聞稿中自己揭露的營運指標；定義以公司說明為準。';
+  $('#hExtraTable').textContent = (X.title || '專屬指標') + '明細';
+  const charts = X.keys.filter(k => k.chart);
+  $('#extraCharts').innerHTML = charts.map(k => `<div class="card"><h3>${k.n}${k.unit ? `（${k.unit}）` : ''}</h3>${k.desc ? `<p class="how">${k.desc}</p>` : ''}<div class="chartbox"><canvas id="cx_${k.k}" aria-label="${k.n}"></canvas></div></div>`).join('');
+  $('#tExtra').innerHTML = `<thead><tr><th>季度</th>${X.keys.map(k => `<th>${k.n}${k.unit ? `<br><small>${k.unit}</small>` : ''}</th>`).join('')}</tr></thead><tbody>` +
+    xQ.slice().reverse().map(r => `<tr><td>${r.q}</td>${X.keys.map(k => `<td>${k.pct ? pc(r[k.k]) : k.dec != null && r[k.k] != null ? r[k.k].toFixed(k.dec) : f0(r[k.k])}</td>`).join('')}</tr>`).join('') + '</tbody>';
+  copyBtn('#cpX', '#cpXok', () => ['季度,' + X.keys.map(k => k.n + (k.unit ? `(${k.unit})` : '')).join(',')].concat(xQ.map(r => [r.q].concat(X.keys.map(k => r[k.k] == null ? '' : r[k.k])).join(','))).join('\n'));
+}
+const UNAV = (D.notes && D.notes.unavailable) || [];
+if (UNAV.length) { $('#extra').hidden = false; $('#cardUnavail').hidden = false; $('#unavail').innerHTML = UNAV.map(t => `<li>${/^待確認/.test(t) ? UNC.replace('待確定', '待確認') + ' ' + t.replace(/^待確認[：:]\s*/, '') : t}</li>`).join(''); if (!X) { $('#tExtra').closest('.card').hidden = true; } }
+
+/* ---------- 財測（選用）---------- */
+if (G && G.items && G.items.length) {
+  $('#guidance').hidden = false;
+  $('#tagGuide').textContent = `公司財測 · ${(G.issued || '').replace(/-/g, '/')} 公布`;
+  $('#tGuide').innerHTML = `<thead><tr><th>項目</th><th>期間</th><th>下限</th><th>上限</th><th>中點</th><th class="txt">說明</th></tr></thead><tbody>` +
+    G.items.map(it => `<tr><td style="font-family:var(--font-cjk)">${it.label}</td><td>${it.period || ''}</td><td>${it.lo == null ? '—' : f1(it.lo)}</td><td>${it.hi == null ? '—' : f1(it.hi)}</td><td>${it.lo != null && it.hi != null ? f1((it.lo + it.hi) / 2) : '—'}${it.unit ? ` <small>${it.unit}</small>` : ''}</td><td class="txt">${it.note || ''}</td></tr>`).join('') + '</tbody>';
+  if (G.note) { $('#guideNote').hidden = false; $('#guideNote').textContent = G.note; }
+}
+
+/* ---------- 事件 ---------- */
+const MS = (D.milestones || []).slice().sort((a, b) => dy(b.d) - dy(a.d));
+const CAT = Object.assign({ contract: '合約', product: '產品', listing: '上市', index: '指數', profit: '獲利', ma: '併購', node: '製程', pkg: '封裝', capacity: '產能', mgmt: '經營層', other: '其他' }, D.categories || {});
+if (MS.length) {
+  $('#events').hidden = false;
+  const cats = [...new Set(MS.map(m => m.cat))];
+  $('#msSeg').innerHTML = `<button type="button" data-f="all" aria-pressed="true">全部</button>` + cats.map(c => `<button type="button" data-f="${c}" aria-pressed="false">${CAT[c] || c}</button>`).join('') + (MS.some(m => m.unc) ? `<button type="button" data-f="unc" aria-pressed="false">待確定</button>` : '');
+  let msFilter = 'all';
+  const msTable = () => {
+    const rows = MS.filter(m => msFilter === 'all' ? true : msFilter === 'unc' ? m.unc : m.cat === msFilter);
+    $('#tMs').innerHTML = `<thead><tr><th>時間</th><th>類別</th><th class="txt">事件</th><th>狀態</th><th>來源</th></tr></thead><tbody>` +
+      rows.map(m => `<tr class="${m.st === 'f' ? 'st-plan' : ''}"><td>${dfmt(m.d)}</td><td style="font-family:var(--font-cjk)">${CAT[m.cat] || m.cat}</td><td class="txt">${m.t}${m.unc ? UNC : ''}${m.note ? `<br><small class="st-plan">${m.note}</small>` : ''}</td><td style="font-family:var(--font-cjk)">${m.unc ? '待確定' : m.st === 'f' ? '規劃中' : '已證實'}</td><td class="src">${srcLink(m)}</td></tr>`).join('') + '</tbody>';
+  };
+  $('#msSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; msFilter = b.dataset.f; syncSeg('msSeg', 'f', msFilter); msTable(); });
+  msTable();
+}
+document.querySelectorAll('#secnav a[data-opt]').forEach(a => { const id = a.getAttribute('href').slice(1); if ($('#' + id).hidden) a.remove(); });
+
+/* ---------- 表格與 CSV ---------- */
+const years = [...new Set(Q.map(q => q.yr))];
+const AN = D.annual || {};
+const annualRows = years.map(y => {
+  const qs = Q.filter(q => q.yr === y), a = AN[String(y)] || {};
+  const s = (k) => qs.length === 4 && qs.every(q => q[k] != null) ? qs.reduce((t, q) => t + q[k], 0) : null;
+  const rev = a.rev ?? s('rev'), gp = a.gp ?? s('gp'), ni = a.ni ?? s('ni'), ocf = a.ocf ?? s('ocf'), capex = a.capex ?? s('capex');
+  return { y, n: qs.length, rev, gm: rev && gp != null ? gp / rev * 100 : null, opInc: a.opInc ?? s('opInc'), ni, nm: rev && ni != null ? ni / rev * 100 : null, eps: a.eps ?? s('eps'), ocf, capex, fcf: ocf != null && capex != null ? ocf - capex : null, dps: a.dps ?? s('dps') };
+}).filter(r => r.n === 4 || AN[String(r.y)]);
+if (annualRows.length) {
+  $('#cardAnnual').hidden = false;
+  $('#hAnnual').textContent = `年度摘要（${UNIT}）`;
+  $('#tAnnual').innerHTML = `<thead><tr><th>年度</th><th>營收</th><th>毛利率</th><th>營業利益</th><th>淨利</th><th>淨利率</th><th>稀釋 EPS</th><th>營業現金流</th><th>資本支出</th><th>自由現金流</th>${hasAny(Q, 'dps') ? '<th>每股股利</th>' : ''}</tr></thead><tbody>` +
+    annualRows.slice().reverse().map(a => `<tr><td>${a.y}${a.n < 4 ? '<span class="y">（' + a.n + ' 季）</span>' : ''}</td><td>${f0(a.rev)}</td><td>${pc(a.gm)}</td><td>${f0(a.opInc)}</td><td>${f0(a.ni)}</td><td>${pc(a.nm)}</td><td>${a.eps == null ? '—' : f2(a.eps)}</td><td>${f0(a.ocf)}</td><td>${f0(a.capex)}</td><td>${f0(a.fcf)}</td>${hasAny(Q, 'dps') ? `<td>${a.dps == null ? '—' : f2(a.dps)}</td>` : ''}</tr>`).join('') + '</tbody>';
+}
+$('#hQuarter').textContent = `季度損益與現金流（${UNIT}）`;
+$('#tQuarter').innerHTML = `<thead><tr><th>季度</th><th>營收</th><th>年增</th><th>毛利</th><th>毛利率</th><th>營業利益</th><th>營益率</th><th>淨利</th><th>淨利率</th><th>稀釋 EPS</th><th>營業現金流</th><th>資本支出</th><th>自由現金流</th>${hasAny(Q, 'dps') ? '<th>每股股利</th>' : ''}</tr></thead><tbody>` +
+  Q.slice().reverse().map(q => `<tr><td>${q.q}</td><td>${f0(q.rev)}</td><td class="${cls(q.yoy)}">${sp(q.yoy)}</td><td>${f0(q.gp)}</td><td>${pc(q.gm)}</td><td>${f0(q.opInc)}</td><td>${pc(q.om)}</td><td>${f0(q.ni)}</td><td>${pc(q.nm)}</td><td>${q.eps == null ? '—' : f2(q.eps)}</td><td>${f0(q.ocf)}</td><td>${f0(q.capex)}</td><td>${f0(q.fcf)}</td>${hasAny(Q, 'dps') ? `<td>${q.dps == null ? '—' : f2(q.dps)}</td>` : ''}</tr>`).join('') + '</tbody>';
+const v = (x) => x == null ? '' : x;
+copyBtn('#cpQ', '#cpQok', () => ['季度,營收,毛利,毛利率(%),營業利益,營業利益率(%),淨利,稀釋EPS,營業現金流,資本支出,自由現金流,每股股利']
+  .concat(Q.map(q => [q.q, q.rev, v(r1(q.gp)), v(q.gm), v(q.opInc), v(q.om), v(q.ni), v(q.eps), v(q.ocf), v(q.capex), v(r1(q.fcf)), v(q.dps)].join(','))).join('\n'));
+
+/* ---------- 小辭典 ---------- */
+const GL = [
+  ['毛利率', 'Gross margin', '每 100 元營收，扣掉做出產品或服務的直接成本後剩多少。看公司的定價能力與成本結構。', '毛利 ÷ 營收'],
+  ['營業利益率', 'Operating margin', '再扣掉研發、行銷、管理費用後剩多少。看本業到底賺不賺錢。', '營業利益 ÷ 營收'],
+  ['淨利率', 'Net margin', '再加減業外收支、扣掉所得稅後，最後留給股東的比例。', '淨利 ÷ 營收'],
+  ['稀釋 EPS', 'Diluted EPS', '把可能轉換成股票的選擇權、可轉債都算進股數後，每一股分到多少淨利。', '淨利 ÷ 稀釋後股數'],
+  ['自由現金流', 'Free cash flow', '營業活動賺到的現金，減掉維持與擴張所需的資本支出，剩下真正能自由運用的錢。', '營業現金流 − 資本支出'],
+  ['近四季（TTM）', 'Trailing twelve months', '最近四季加總，把季節性與一次性因素拉平，看一整年的真實水準。', '最近 4 季加總'],
+  ['年化成長（CAGR）', 'Compound annual growth rate', '假設每年以固定速度成長，從起點到終點平均每年長多少。', '(終值 ÷ 初值)^(1 ÷ 年數) − 1'],
+  ['年增率（YoY）', 'Year over year', '跟去年同一季比，避開季節性。', '本季 ÷ 去年同季 − 1'],
+].concat(D.glossary || []);
+$('#gloss').innerHTML = GL.map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join('');
+
+/* ---------- 來源 ---------- */
+$('#srcList').innerHTML = (D.sources || []).map(s => `<li>${s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.n}</a>` : s.n}${s.note ? `：${s.note}` : ''}</li>`).join('') || '<li>來源見 repo 內 companies/&lt;代號&gt;/SOURCES.md。</li>';
+$('#srcNote').textContent = (D.notes && D.notes.general) || '重要事件的來源列在事件明細的最後一欄；只有媒體報導、公司沒證實的標「待確定」。';
+
+/* ---------- 圖表 ---------- */
+let charts = [];
+function build() {
+  charts.forEach(c => c.destroy()); charts = [];
+  Chart.defaults.font.family = 'IBM Plex Sans, Noto Sans TC, system-ui, sans-serif';
+  Chart.defaults.color = T('--tick');
+  const S = [T('--s1'), T('--s2'), T('--s3'), T('--s4'), T('--s5'), T('--s6'), T('--s7'), T('--s8')];
+  if (D.waterfall) drawWaterfall(D.waterfall, '#wf'); else $('#wf').closest('.card').hidden = true;
+  const xt = { maxTicksLimit: 10 };
+  const mk = (id, cfg) => { const el = $('#' + id); if (el) charts.push(new Chart(el, cfg)); };
+
+  legend('#lgRev', [{ t: '營收', c: S[0] }]);
+  mk('cRev', { data: { labels: qLabels, datasets: [bar({ label: '營收', data: Q.map(q => r1(q.rev)), backgroundColor: S[0] })] },
+    options: baseOpts({ scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, xt) },
+      plugins: tip({ callbacks: { label: c => ` 營收 ${f0(c.raw)}`, afterBody: it => { const q = Q[it[0].dataIndex]; return ` 年增 ${sp(q.yoy)}　季增 ${sp(q.qoq)}`; } } }) }) });
+  mk('cYoY', { data: { labels: qLabels, datasets: [bar({ label: '年增率', data: Q.map(q => q.yoy == null ? null : r1(q.yoy)), backgroundColor: Q.map(q => (q.yoy ?? 0) >= 0 ? S[0] : T('--neg')), borderSkipped: false })] },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` 年增 ${sp(c.raw)}` } }) }) });
+  if (SEG) {
+    legend('#lgSeg', SEG.keys.map((k, i) => ({ t: k.n, c: S[i % S.length] })));
+    mk('cSeg', { data: { labels: qLabels, datasets: SEG.keys.map((k, i) => bar({ label: k.n, data: segQ.map(r => r[k.k] == null ? null : r1(r[k.k])), backgroundColor: S[i % S.length], stack: 's' })) },
+      options: baseOpts({ scales: { y: yAxis({ stacked: true, beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({ stacked: true }, xt) },
+        plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => { const r = segQ[c.dataIndex]; return ` ${c.dataset.label} ${f0(c.raw)}（${pc(r.rev ? c.raw / r.rev * 100 : null, 0)}）`; } } }) }) });
+  }
+  legend('#lgMargin', [{ t: '毛利率', c: S[0], line: 1 }, { t: '營業利益率', c: S[1], line: 1 }, { t: '淨利率', c: S[2], line: 1 }]);
+  mk('cMargin', { data: { labels: qLabels, datasets: [
+      line({ label: '毛利率', data: Q.map(q => q.gm), borderColor: S[0], backgroundColor: S[0] }),
+      line({ label: '營業利益率', data: Q.map(q => q.om), borderColor: S[1], backgroundColor: S[1] }),
+      line({ label: '淨利率', data: Q.map(q => r1(q.nm)), borderColor: S[2], backgroundColor: S[2] })] },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${pc(c.raw)}` } }) }) });
+  legend('#lgNi', [{ t: '營業利益', c: S[0] }, { t: '淨利', c: S[2] }]);
+  mk('cNi', { data: { labels: qLabels, datasets: [bar({ label: '營業利益', data: Q.map(q => r1(q.opInc)), backgroundColor: S[0] }), bar({ label: '淨利', data: Q.map(q => r1(q.ni)), backgroundColor: S[2] })] },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => nf0.format(v) }), x: xAxis({}, xt) }, plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)}` } }) }) });
+  const epsDs = [bar({ label: 'EPS', data: Q.map(q => q.eps), backgroundColor: S[0] })];
+  if (hasAny(Q, 'dps')) epsDs.push(bar({ label: '每股股利', data: Q.map(q => q.dps), backgroundColor: S[1] }));
+  legend('#lgEps', epsDs.map((d, i) => ({ t: d.label, c: [S[0], S[1]][i] })));
+  mk('cEps', { data: { labels: qLabels, datasets: epsDs },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => v.toFixed(2) }), x: xAxis({}, xt) }, plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${c.dataset.label} ${f2(c.raw)}` } }) }) });
+  legend('#lgCash', [{ t: '營業現金流', c: S[0] }, { t: '資本支出', c: S[3] }, { t: '自由現金流', c: S[2], line: 1 }]);
+  mk('cCash', { data: { labels: qLabels, datasets: [
+      bar({ label: '營業現金流', data: Q.map(q => r1(q.ocf)), backgroundColor: S[0] }),
+      bar({ label: '資本支出', data: Q.map(q => q.capex == null ? null : -r1(q.capex), 0), backgroundColor: S[3] }),
+      line({ label: '自由現金流', data: Q.map(q => r1(q.fcf)), borderColor: S[2], backgroundColor: S[2] })] },
+    options: baseOpts({ scales: { y: yAxis({}, { callback: v => nf0.format(v) }), x: xAxis({}, xt) }, plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${c.dataset.label} ${f0(Math.abs(c.raw))}` } }) }) });
+  if (X) X.keys.filter(k => k.chart).forEach((k, i) => {
+    mk('cx_' + k.k, { data: { labels: qLabels, datasets: [(k.chart === 'line' ? line : bar)({ label: k.n, data: xQ.map(r => r[k.k] == null ? null : r[k.k]), backgroundColor: S[(i + 1) % S.length], borderColor: S[(i + 1) % S.length] })] },
+      options: baseOpts({ scales: { y: yAxis({ beginAtZero: !!k.zero }, { callback: v => k.pct ? v + '%' : nf0.format(v) }), x: xAxis({}, xt) }, plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${k.n} ${k.pct ? pc(c.raw) : f1(c.raw)}${k.unit && !k.pct ? ' ' + k.unit : ''}` } }) }) });
+  });
+}
+
+/* ---------- boot ---------- */
+if (window.Chart) build(); else if (D.waterfall) drawWaterfall(D.waterfall, '#wf');
+let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(() => { if (window.Chart) build(); }, 60); };
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
+new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+
+</body></html>
