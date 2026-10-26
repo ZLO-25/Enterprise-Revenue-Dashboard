@@ -45,6 +45,46 @@
         "n": "SEC EDGAR（10-Q、10-K、8-K）",
         "url": "https://www.sec.gov/edgar/browse/?CIK=1321655"
       }
+    },
+    {
+      "code": "nvda",
+      "name": "輝達",
+      "nameEn": "NVIDIA",
+      "ticker": "NVDA",
+      "exchange": "Nasdaq NVDA",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "nvda/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "輝達財報追蹤板",
+      "description": "輝達（NVDA）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤。",
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1045810"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
+    },
+    {
+      "code": "tsla",
+      "name": "特斯拉",
+      "nameEn": "Tesla",
+      "ticker": "TSLA",
+      "exchange": "Nasdaq TSLA",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "tsla/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "特斯拉財報追蹤板",
+      "description": "特斯拉（TSLA）2010 年以來每季營收、利潤率、EPS、現金流，汽車／能源／服務拆分、交車與儲能、重要事件追蹤。",
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1318605"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
     }
   ]
 }
