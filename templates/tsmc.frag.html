@@ -27,7 +27,7 @@
   <header class="masthead" id="overview">
     <div class="eyebrow" id="eyebrow">TWSE 2330 · NYSE TSM</div>
     <h1>台積電財報追蹤板<span class="code">2330</span></h1>
-    <p class="lede">把 2015 年以來每個月的營收、每一季的毛利率、淨利、EPS、資本支出、現金流與產品結構放在同一頁。金額單位都是新台幣「億元」，資本支出年度總額用「億美元」，跟台積電法說會的寫法一致。</p>
+    <p class="lede">把 1999 年以來每個月的營收、2000 年以來每一季的毛利率、淨利與 EPS，以及 2015 年以來的資本支出、現金流與產品結構放在同一頁。金額單位都是新台幣「億元」，資本支出年度總額用「億美元」，跟台積電法說會的寫法一致。</p>
     <div class="meta-row" id="metaRow"></div>
   </header>
 
@@ -117,6 +117,13 @@
         <p class="how" id="howMargin"></p>
         <div class="legend" id="lgMargin"></div>
         <div class="chartbox"><canvas id="cMargin" aria-label="三率折線圖"></canvas></div>
+      </div>
+      <div class="card wide" id="earlyCard" hidden>
+        <h3>早期季度：營收、淨利與毛利率（2000–2014）</h3>
+        <p class="how" id="howEarly"></p>
+        <div class="legend" id="lgEarly"></div>
+        <div class="chartbox"><canvas id="cEarly" aria-label="2000 至 2014 年季營收、淨利與毛利率"></canvas></div>
+        <p class="note">2005 年以前為母公司單一公司口徑、2006 年起為合併口徑，2000 年 7 月起含合併後的世大與德碁；詳見「數據表」下方說明。</p>
       </div>
     </div>
   </section>
@@ -266,6 +273,14 @@
     </div>
   </section>
 
+  <section id="tablesEarly" hidden>
+    <div class="card">
+      <div class="tbl-bar"><h3>早期季度指標（2000–2014，空白＝季報未明確列出）</h3></div>
+      <div class="tbl-wrap"><table id="tEarly"></table></div>
+      <p class="note" id="earlyNote"></p>
+    </div>
+  </section>
+
   <section id="glossary">
     <div class="sec-head">
       <span class="sec-tag">教別人時可以直接用</span>
@@ -278,13 +293,14 @@
     <div class="sec-head"><h2>資料來源與注意事項</h2></div>
     <div class="sources">
       <ul>
-        <li>月營收：<a href="https://investor.tsmc.com/english/monthly-revenue/2026" target="_blank" rel="noopener">台積電投資人關係・Monthly Revenue</a>（2015–2026 各年度頁面）與 <a href="https://pr.tsmc.com/english/latest-news" target="_blank" rel="noopener">每月營收新聞稿</a>。</li>
-        <li>季度損益、三率、EPS、製程與平台占比、資本支出（美元）：台積電各季財報新聞稿與 Quarterly Management Report（<a href="https://investor.tsmc.com/english/quarterly-results" target="_blank" rel="noopener">Quarterly Results</a>）。</li>
+        <li>月營收：<a href="https://investor.tsmc.com/english/monthly-revenue/2026" target="_blank" rel="noopener">台積電投資人關係・Monthly Revenue</a>（1999–2026 各年度頁面）與 <a href="https://pr.tsmc.com/english/latest-news" target="_blank" rel="noopener">每月營收新聞稿</a>。</li>
+        <li>2000–2014 年季度營收、淨利、毛利率、EPS、資本支出與營業現金流（新台幣）：台積電各季 Quarterly Management Report 與財報新聞稿（同樣在 <a href="https://investor.tsmc.com/english/quarterly-results" target="_blank" rel="noopener">Quarterly Results</a>，1997 年起有存檔）；1999 年以前的季報只有影像檔，尚未收錄。口徑差異見「數據表」下方說明。</li>
+        <li>2015 年起的季度損益、三率、EPS、製程與平台占比、資本支出（美元）：台積電各季財報新聞稿與 Quarterly Management Report（<a href="https://investor.tsmc.com/english/quarterly-results" target="_blank" rel="noopener">Quarterly Results</a>）。</li>
         <li>3Q21 以前的季度營業現金流、資本支出（新台幣）與 2015–2018 年度股利：台積電管理報告、財務報表與股東會決議。3Q21 起的季度營業現金流與資本支出（新台幣）：<a href="https://stockanalysis.com/stocks/tsm/financials/?p=quarterly" target="_blank" rel="noopener">StockAnalysis（S&amp;P Global）</a>，並與台積電管理報告交叉核對。第四季淨利改用台積電公布值，因為該網站的第四季淨利與公司公告不一致。</li>
         <li>技術里程碑與建廠時程：台積電新聞稿、年報、官網製程頁與法說會逐字稿；少數項目來自媒體報導，表中標為「媒體」。</li>
         <li>資本預算、財測與股利：各季法說會逐字稿與董事會決議（<a href="https://pr.tsmc.com/chinese/news/3332" target="_blank" rel="noopener">2026/08/11 董事會決議</a>）。公布日期：<a href="https://investor.tsmc.com/english/financial-calendar" target="_blank" rel="noopener">Financial Calendar</a>。</li>
       </ul>
-      <p>月營收為自結數、未經會計師查核。季營收以季報為準，與三個月加總最多差新台幣 1 億元以內。本頁為資料整理，不構成投資建議。每月 18 日自動更新一次。</p>
+      <p>月營收為自結數、未經會計師查核。季營收以季報為準，與三個月加總最多差新台幣 2 億元以內（2000–2014 年僅在單一公司對單一公司、合併對合併時比對）。本頁為資料整理，不構成投資建議。每月 18 日自動更新一次。</p>
     </div>
   </section>
 
@@ -312,13 +328,15 @@ const r1 = (n) => Math.round(n * 10) / 10;
 
 /* ---------- derive everything from the raw data block ---------- */
 const mget = (y, m) => (D.monthly[String(y)] || [])[m - 1];
+const ovr = (y) => (D.yoyOverrideYears || []).includes(y); /* 基準改變或合併當年，年增率直接用公司公布值 */
+const basisBreak = (y) => D.monthlyBasis && D.monthlyBasis[String(y)] && D.monthlyBasis[String(y - 1)] && D.monthlyBasis[String(y)] !== D.monthlyBasis[String(y - 1)];
 const months = [];
 Object.keys(D.monthly).map(Number).sort((a, b) => a - b).forEach(y => D.monthly[String(y)].forEach((v, i) => {
   const m = i + 1, py = mget(y - 1, m), pm = m > 1 ? mget(y, m - 1) : mget(y - 1, 12);
   months.push({
     y, m, v, ym: `${y}-${String(m).padStart(2, '0')}`, rev: v / 100,
-    yoy: py != null ? (v / py - 1) * 100 : (D['yoy' + y] ? D['yoy' + y][i] : null),
-    mom: pm != null ? (v / pm - 1) * 100 : null,
+    yoy: ovr(y) && D['yoy' + y] ? D['yoy' + y][i] : py != null ? (v / py - 1) * 100 : (D['yoy' + y] ? D['yoy' + y][i] : null),
+    mom: pm != null && !(m === 1 && basisBreak(y)) ? (v / pm - 1) * 100 : null,
   });
 }));
 const Q = D.quarters.map(q => ({
@@ -328,6 +346,11 @@ const Q = D.quarters.map(q => ({
   capexPct: q.capex * 1000 / q.rev * 100,
   n2: q.n2, n3: q.n3, n5: q.n5, n7: q.n7, adv: q.n2 + q.n3 + q.n5 + q.n7, hpc: q.hpc, sp: q.sp, dps: q.dps,
   payout: q.dps == null ? null : q.dps / q.eps * 100,
+}));
+const QE = (D.quartersEarly || []).map(q => ({
+  q: q.q, yr: 2000 + Number(q.q.slice(2)), qi: Number(q.q[0]), b: q.b,
+  rev: q.rev / 100, ni: q.ni / 100, eps: q.eps, gm: q.gm, om: q.om, nm: q.ni / q.rev * 100,
+  capex: q.capex == null ? null : q.capex * 10, ocf: q.ocf == null ? null : q.ocf * 10,
 }));
 const qLabels = Q.map(q => q.q);
 const last = months[months.length - 1], prevM = months[months.length - 2];
@@ -351,16 +374,15 @@ for (let qi = 1; qi <= 4; qi++) {
 const A = Object.keys(D.monthly).map(Number).sort((a, b) => a - b).map(y => {
   const vals = D.monthly[String(y)], n = vals.length, rev = vals.reduce((a, b) => a + b, 0) / 100;
   const prev = D.monthly[String(y - 1)];
-  const yoy = prev ? (rev / (prev.slice(0, n).reduce((a, b) => a + b, 0) / 100) - 1) * 100 : (D['yoy' + y + 'Total'] ?? null);
-  const qs = Q.filter(q => q.yr === y);
-  const qrev = qs.reduce((a, q) => a + q.rev, 0);
-  const epsSum = qs.reduce((a, q) => a + q.eps, 0);
+  const yoy = ovr(y) && D['yoy' + y + 'Total'] != null ? D['yoy' + y + 'Total'] : prev ? (rev / (prev.slice(0, n).reduce((a, b) => a + b, 0) / 100) - 1) * 100 : (D['yoy' + y + 'Total'] ?? null);
+  const qs = Q.filter(q => q.yr === y), qe = QE.filter(q => q.yr === y), qa = qe.concat(qs);
+  const epsSum = qa.length && qa.every(q => q.eps != null) ? qa.reduce((a, q) => a + q.eps, 0) : null;
   return {
-    y, n, rev, yoy, nq: qs.length,
-    ni: qs.reduce((a, q) => a + q.ni, 0),
+    y, n, rev, yoy, nq: qa.length,
+    ni: qa.length ? qa.reduce((a, q) => a + q.ni, 0) : null,
     eps: qs.length === 4 && D.epsOfficial && D.epsOfficial[String(y)] != null ? D.epsOfficial[String(y)] : epsSum,
-    gm: qrev ? qs.reduce((a, q) => a + q.gm * q.rev, 0) / qrev : null,
-    dps: qs.reduce((a, q) => a + (q.dps || 0), 0),
+    gm: qa.length ? qa.reduce((a, q) => a + q.gm * q.rev, 0) / qa.reduce((a, q) => a + q.rev, 0) : null,
+    dps: qs.length ? qs.reduce((a, q) => a + (q.dps || 0), 0) : null,
     capexUsd: D.capexUsd[String(y)] ?? null,
   };
 });
@@ -413,7 +435,7 @@ $('#howMonthly').innerHTML = `${first.y} 年 ${first.m} 月 <b>${f0(first.rev)} 
   const mx = months.filter(r => r.yoy != null).reduce((a, b) => b.yoy > a.yoy ? b : a);
   let best = [], run = [];
   months.forEach(r => { if (r.yoy != null && r.yoy < 0) { run.push(r); if (run.length > best.length) best = run.slice(); } else run = []; });
-  const runTxt = best.length ? `最長的連續衰退是 ${ymTxt(best[0])}–${ymTxt(best[best.length - 1])}（${best.length} 個月），那是半導體庫存調整期；` : '';
+  const runTxt = best.length ? `最長的連續衰退是 ${ymTxt(best[0])}–${ymTxt(best[best.length - 1])}（${best.length} 個月）；` : '';
   $('#howYoY').innerHTML = `藍色＝比去年同月多，紅色＝比去年同月少。${runTxt}${mx.y} 年 ${mx.m} 月 <b>${sp(mx.yoy)}</b> 是這段期間最高。`;
 })();
 (() => {
@@ -456,6 +478,7 @@ if (D.provisional && Object.keys(D.provisional).length) {
   $('#monthlyNote').textContent = Object.entries(D.provisional).map(([k, v]) => `${k.replace('-', '/')}：${v}`).join('；');
   $('#monthlyNote').hidden = false;
 }
+if (D.monthlyBasisNote) { $('#monthlyNote').textContent = ($('#monthlyNote').textContent ? $('#monthlyNote').textContent + '　' : '') + D.monthlyBasisNote; $('#monthlyNote').hidden = false; }
 
 /* ---------- Waterfall ---------- */
 const W = D.waterfall;
@@ -540,7 +563,8 @@ function build() {
   const ms = range === 'all' ? months : months.slice(-Number(range));
   const all = range === 'all';
   const mLab = ms.map(ymTxt);
-  const mTicks = { autoSkip: !all, maxTicksLimit: 12, callback(v) { const l = mLab[v]; return all ? (l.endsWith('/01') ? l.slice(0, 4) : '') : l; } };
+  const yStep = ms.length > 300 ? 3 : 1;
+  const mTicks = { autoSkip: !all, maxTicksLimit: 12, callback(v) { const l = mLab[v]; return all ? (l.endsWith('/01') && Number(l.slice(0, 4)) % yStep === 0 ? l.slice(0, 4) : '') : l; } };
   charts.push(new Chart($('#cMonthly'), {
     data: { labels: mLab, datasets: [bar({ label: '營收', data: ms.map(m => r1(m.rev)), backgroundColor: S[0], categoryPercentage: 0.9, barPercentage: 0.85 })] },
     options: baseOpts({
@@ -681,6 +705,20 @@ function build() {
       plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${c.raw}%` } }),
     }),
   }));
+  if (QE.length) {
+    legend('#lgEarly', [{ t: '營收（億）', c: S[0] }, { t: '淨利（億）', c: S[1] }, { t: '毛利率', c: S[2], line: 1 }]);
+    charts.push(new Chart($('#cEarly'), {
+      data: { labels: QE.map(q => q.q), datasets: [
+        bar({ label: '營收', data: QE.map(q => r1(q.rev)), backgroundColor: S[0] }),
+        bar({ label: '淨利', data: QE.map(q => r1(q.ni)), backgroundColor: S[1] }),
+        line({ type: 'line', label: '毛利率', data: QE.map(q => q.gm), borderColor: S[2], backgroundColor: S[2], yAxisID: 'y1' }),
+      ] },
+      options: baseOpts({
+        scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), y1: Object.assign(yAxis({ min: 0, max: 80, position: 'right', grid: { display: false } }, { callback: v => v + '%' }), {}), x: xAxis({}, { maxTicksLimit: 8 }) },
+        plugins: tip({ callbacks: { label: c => c.dataset.yAxisID === 'y1' ? ` 毛利率 ${c.raw.toFixed(1)}%` : ` ${c.dataset.label} ${f0(c.raw)} 億`, afterBody: it => ` 口徑：${QE[it[0].dataIndex].b === 'c' ? '合併' : '母公司單一公司'}` } }),
+      }),
+    }));
+  }
   buildTech();
 }
 
@@ -706,9 +744,9 @@ syncSeg('rangeSeg', 'r', range); syncSeg('ovSeg', 'v', ovMode);
 function tables() {
   $('#tAnnual').innerHTML = `<thead><tr><th>年度</th><th>營收（億）</th><th>年增率</th><th>毛利率</th><th>淨利（億）</th><th>EPS（元）</th><th>股利（元）</th><th>資本支出（億美元）</th></tr></thead><tbody>` +
     A.map(a => {
-      const partial = a.n < 12 || a.nq < 4;
+      const partial = a.n < 12 || (a.nq > 0 && a.nq < 4);
       const cap = a.y === capB.y && a.capexUsd == null ? `${f0(capB.ytd * 10)}（預算 ${f0(capB.lo * 10)}–${f0(capB.hi * 10)}）` : f0(a.capexUsd == null ? null : a.capexUsd * 10);
-      return `<tr><td>${a.y}${partial ? `（1–${a.n} 月 / 前 ${a.nq} 季）` : ''}</td><td>${f0(a.rev)}</td><td class="${cls(a.yoy)}">${sp(a.yoy)}</td><td>${a.gm == null ? '—' : a.gm.toFixed(1) + '%'}</td><td>${f0(a.ni)}</td><td>${a.eps.toFixed(2)}</td><td>${a.dps.toFixed(2)}</td><td>${cap}</td></tr>`;
+      return `<tr><td>${a.y}${partial ? `（1–${a.n} 月 / 前 ${a.nq} 季）` : ''}</td><td>${f0(a.rev)}</td><td class="${cls(a.yoy)}">${sp(a.yoy)}</td><td>${a.gm == null ? '—' : a.gm.toFixed(1) + '%'}</td><td>${f0(a.ni)}</td><td>${a.eps == null ? '—' : a.eps.toFixed(2)}</td><td>${a.dps == null ? '—' : a.dps.toFixed(2)}</td><td>${cap}</td></tr>`;
     }).join('') + '</tbody>';
   const yrs = [...new Set(months.map(m => m.y))];
   let h = '<thead><tr><th>年度</th>' + Array.from({ length: 12 }, (_, i) => `<th>${i + 1} 月</th>`).join('') + '<th>全年</th></tr></thead><tbody>';
@@ -718,6 +756,15 @@ function tables() {
       `<td class="tot">${f0(a.rev)}<span class="y ${cls(a.yoy)}">${sp(a.yoy)}</span></td></tr>`;
   });
   $('#tMonthly').innerHTML = h + '</tbody>';
+  if (QE.length) {
+    $('#tablesEarly').hidden = false; $('#earlyCard').hidden = false;
+    const q0 = QE[0], q1 = QE[QE.length - 1];
+    $('#howEarly').innerHTML = `${q0.q} 營收 <b>${f0(q0.rev)} 億</b> → ${q1.q} <b>${f0(q1.rev)} 億</b>（約 ${(q1.rev / q0.rev).toFixed(1)} 倍）。毛利率最低 <b>${f1(Math.min(...QE.map(q => q.gm)))}%</b>（${QE.reduce((a, b) => b.gm < a.gm ? b : a).q}），最高 <b>${f1(Math.max(...QE.map(q => q.gm)))}%</b>（${QE.reduce((a, b) => b.gm > a.gm ? b : a).q}）。`;
+    const c1 = (n) => n == null ? '—' : n.toFixed(1), c2 = (n) => n == null ? '—' : n.toFixed(2);
+    $('#tEarly').innerHTML = `<thead><tr><th>季度</th><th>口徑</th><th>營收（億）</th><th>毛利率</th><th>營益率</th><th>淨利率</th><th>淨利（億）</th><th>EPS</th><th>資本支出（億）</th><th>營業現金流（億）</th></tr></thead><tbody>` +
+      QE.slice().reverse().map(q => `<tr><td>${q.q}</td><td>${q.b === 'c' ? '合併' : '單一'}</td><td>${f0(q.rev)}</td><td>${c1(q.gm)}%</td><td>${q.om == null ? '—' : q.om.toFixed(1) + '%'}</td><td>${c1(q.nm)}%</td><td>${f0(q.ni)}</td><td>${c2(q.eps)}</td><td>${q.capex == null ? '—' : f0(q.capex)}</td><td>${q.ocf == null ? '—' : f0(q.ocf)}</td></tr>`).join('') + '</tbody>';
+    $('#earlyNote').textContent = D.quartersEarlyNote || '';
+  }
   $('#tQuarter').innerHTML = `<thead><tr><th>季度</th><th>營收（億）</th><th>毛利率</th><th>營益率</th><th>淨利率</th><th>淨利（億）</th><th>EPS</th><th>股利</th><th>資本支出（億）</th><th>自由現金流（億）</th><th>≤7 奈米</th><th>HPC</th><th>手機</th></tr></thead><tbody>` +
     Q.slice().reverse().map(q => `<tr><td>${q.q}</td><td>${f0(q.rev)}</td><td>${q.gm.toFixed(1)}%</td><td>${q.om.toFixed(1)}%</td><td>${q.nm.toFixed(1)}%</td><td>${f0(q.ni)}</td><td>${q.eps.toFixed(2)}</td><td>${q.dps == null ? '—' : q.dps.toFixed(2)}</td><td>${f0(q.capex)}</td><td class="${q.fcf == null ? '' : cls(q.fcf)}">${q.fcf == null ? '—' : f0(q.fcf)}</td><td>${q.adv}%</td><td>${q.hpc == null ? '—' : q.hpc + '%'}</td><td>${q.sp == null ? '—' : q.sp + '%'}</td></tr>`).join('') + '</tbody>';
 }

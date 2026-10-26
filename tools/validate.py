@@ -179,12 +179,41 @@ def v1_generic(D, err):
 
 # ---------- 3b. 公司專屬 ----------
 def tsmc(D, err):
-    """每一季 rev 與該季三個月 monthly 加總相差不超過 200（百萬元）。"""
+    """每一季 rev 與該季三個月 monthly 加總相差不超過 200（百萬元）。
+    quartersEarly（2000–2014）只有「季度基準 b 與該年月營收基準 monthlyBasis 相同」時才比對（單一公司對單一公司、合併對合併）。"""
     for q in D["quarters"]:
         qi, yy = int(q["q"][0]), 2000 + int(q["q"][2:])
         ms = D["monthly"].get(str(yy), [])[(qi - 1) * 3:qi * 3]
         if len(ms) == 3 and abs(sum(ms) - q["rev"]) > 200:
             err.append(f"{q['q']} 季營收 {q['rev']} 與月營收加總 {sum(ms)} 差 {abs(sum(ms) - q['rev'])} 超過 200")
+    early = D.get("quartersEarly", [])
+    basis = D.get("monthlyBasis", {})
+    seen = []
+    for q in early:
+        if not Q_RE.match(q["q"]) or q["b"] not in ("u", "c"):
+            err.append(f"quartersEarly 格式錯誤：{q.get('q')}")
+            continue
+        seen.append(q["q"])
+        qi, yy = int(q["q"][0]), 2000 + int(q["q"][2:])
+        if yy >= 2015:
+            err.append(f"quartersEarly 只放 2014 以前：{q['q']}")
+        ms = D["monthly"].get(str(yy), [])[(qi - 1) * 3:qi * 3]
+        if len(ms) == 3 and basis.get(str(yy)) == q["b"] and abs(sum(ms) - q["rev"]) > 200:
+            err.append(f"{q['q']} 季營收 {q['rev']} 與月營收加總 {sum(ms)} 差 {abs(sum(ms) - q['rev'])} 超過 200")
+        if not 0 < (q["gm"] or 1) < 100 or (q["om"] is not None and not -50 < q["om"] < 100):
+            err.append(f"{q['q']} 毛利率／營益率超出合理範圍")
+        if q["gm"] is not None and q["om"] is not None and q["om"] > q["gm"]:
+            err.append(f"{q['q']} 營益率 {q['om']} 高於毛利率 {q['gm']}")
+        if q["eps"] is not None and q["ni"] and not 5 < q["ni"] / 1000 / q["eps"] < 40:
+            err.append(f"{q['q']} 淨利 ÷ EPS 推得股數 {q['ni'] / 1000 / q['eps']:.1f} 十億股，不在 5–40 之間")
+    ordered = sorted(seen, key=qkey)
+    if seen != ordered or len(set(seen)) != len(seen):
+        err.append("quartersEarly 季度未依時間排序或有重複")
+    if early and D["quarters"] and qkey(seen[-1]) >= qkey(D["quarters"][0]["q"]):
+        err.append("quartersEarly 與 quarters 的季度重疊")
+    for y in (1999, 2000, 2001, 2007):
+        if y in D.get("yoyOverrideYears", []) and (f"yoy{y}" not in D or f"yoy{y}Total" not in D or len(D[f"yoy{y}"]) != 12):
+            err.append(f"yoy{y} 官方年增率欄位不完整")
 
 
 def pltr(D, err):
