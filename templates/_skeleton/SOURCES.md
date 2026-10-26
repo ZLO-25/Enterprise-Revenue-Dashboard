@@ -40,6 +40,11 @@
 - `guidance.items[]`：`{label, period, lo, hi, unit, note}`。
 - `notes.unavailable[]`：取不到的欄位，頁面會列出。
 
+## 資料誠實規則
+- 每個數字都要能追到來源，而且真的讀到。讀不到、算不出來、來源對不起來 → 填 `null`，在 `notes.unavailable` 加「待確認：哪一季、哪個欄位、為什麼」。
+- 不估計、不內插、不從記憶補數字。`rev`、`gm`、`om`、`eps` 讀不到的那一季先不收。
+- 只有媒體報導的事件 → `unc:1`，`note` 以「待確定：」開頭。
+
 ## 核對規則（`python3 tools/validate.py {{CODE}}` 會自動做）
 
 1. 毛利率、營業利益率與金額自洽；`fcf = ocf − capex`。

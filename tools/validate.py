@@ -126,6 +126,10 @@ def v1_generic(D, err):
             tol = max(0.6, abs(a[key]) * 0.001)
             if abs(s - a[key]) > tol:
                 err.append(f"{y} 年 {key} 四季加總 {s:.1f} ≠ 全年 {a[key]}")
+    # 待確認清單
+    un = (D.get("notes") or {}).get("unavailable", [])
+    if not isinstance(un, list) or any(not isinstance(t, str) or not t.strip() for t in un):
+        err.append("notes.unavailable 必須是非空字串的清單（不確定的數字寫「待確認：…」）")
     # 營收拆分
     seg = D.get("segments")
     if seg:

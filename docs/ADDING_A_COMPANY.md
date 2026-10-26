@@ -1,6 +1,6 @@
 # 新增一家公司的標準流程
 
-使用者說「加入 XXX」時，照這份文件做（或直接用 [`docs/NEW_COMPANY_PROMPT.md`](NEW_COMPANY_PROMPT.md) 的模板）。目標：**只新增設定與資料，不改共用程式**（`assets/`、`tools/build.py`、首頁、通用模板與排程指令都不用動）。
+使用者說「加入新公司：XXX」「add new company: XXX」（可一次多家）時，照 [`docs/NEW_COMPANY_PROMPT.md`](NEW_COMPANY_PROMPT.md) 的完整模板做，細節依這份文件。目標：**只新增設定與資料，不改共用程式**（`assets/`、`tools/build.py`、首頁、通用模板與排程指令都不用動）。
 
 ## 1. 先重述需求（給使用者看）
 
@@ -46,6 +46,7 @@ python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA -
 腳手架已產生範本，照 `companies/pltr/SOURCES.md` 的深度補完：來源（依可信度排序）、欄位定義與單位、第四季推算、核對規則、每週更新步驟、已知缺口。**排程每次都照這份做，所以要寫到沒看過這個專案的人也能執行。**
 
 ### ③ 蒐集資料
+- **不確定就寫「待確認」，不能捏造**：讀不到、算不出來、來源對不起來的數字填 `null`，在 `notes.unavailable` 加「待確認：哪一季、哪個欄位、為什麼」；不估計、不內插、不從記憶補數字。
 - 美股優先用 SEC EDGAR XBRL（`https://data.sec.gov/api/xbrl/companyconcept/CIK##########/us-gaap/<概念>.json`，WebFetch 讀得到）與 8-K 財報新聞稿；台股用公開資訊觀測站與公司 IR。
 - 從公司最早能取得的一季開始；取不到的欄位填 `null` 並寫進 `notes.unavailable`。
 - 第四季通常要用「全年減前三季累計」推算（EPS 除外），並與公司公布的全年數字核對。
@@ -74,6 +75,9 @@ commit 並 push 到 `main`，GitHub Pages 會自動重新部署（根目錄、ma
 
 ### ⑨ Artifact
 Artifact 是**單一合併版**：`python3 tools/build.py` 會把新公司自動加成 `dist/artifacts/all.html` 的新分頁。用 Artifact 工具先 `read` `companies.json` 的 `site.artifact`，再 publish `dist/artifacts/all.html` 到同一個 `url`。不必為新公司另開 Artifact。
+
+## 3b. 一次加入多家
+每家各自做 ①–⑤；通過核對的一起做 ⑥–⑨（一次 commit、一次 Artifact）。沒過的公司保持 `enabled:false`，回報說明卡在哪裡。建議一次 3 家以內。
 
 ## 4. 想客製頁面時
 通用模板不夠用（例：台積電的製程結構、建廠甘特圖）才複製 `templates/generic.frag.html` 為 `templates/<代號>.frag.html` 改寫，並把 `companies.json` 的 `template` 改成該名稱。模板必須保留占位符：`{{THEME}}`、`{{COMMON_JS}}`、`{{LONGTERM_JS}}`、`{{DATA}}`、`{{CHARTJS}}`、`{{HOME}}`。

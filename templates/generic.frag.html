@@ -150,7 +150,7 @@
       <p class="note">「—」代表公司該季沒有揭露，或我們沒能在可取得的文件中找到。</p>
     </div>
     <div class="card" id="cardUnavail" hidden>
-      <h3>沒能取得或公司未揭露的欄位</h3>
+      <h3>待確認與取不到的欄位</h3>
       <ul class="note" id="unavail" style="margin:0;padding-left:1.2em"></ul>
     </div>
   </section>
@@ -328,7 +328,7 @@ if (X) {
   copyBtn('#cpX', '#cpXok', () => ['季度,' + X.keys.map(k => k.n + (k.unit ? `(${k.unit})` : '')).join(',')].concat(xQ.map(r => [r.q].concat(X.keys.map(k => r[k.k] == null ? '' : r[k.k])).join(','))).join('\n'));
 }
 const UNAV = (D.notes && D.notes.unavailable) || [];
-if (UNAV.length) { $('#extra').hidden = false; $('#cardUnavail').hidden = false; $('#unavail').innerHTML = UNAV.map(t => `<li>${t}</li>`).join(''); if (!X) { $('#tExtra').closest('.card').hidden = true; } }
+if (UNAV.length) { $('#extra').hidden = false; $('#cardUnavail').hidden = false; $('#unavail').innerHTML = UNAV.map(t => `<li>${/^待確認/.test(t) ? UNC.replace('待確定', '待確認') + ' ' + t.replace(/^待確認[：:]\s*/, '') : t}</li>`).join(''); if (!X) { $('#tExtra').closest('.card').hidden = true; } }
 
 /* ---------- 財測（選用）---------- */
 if (G && G.items && G.items.length) {
