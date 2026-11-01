@@ -1,0 +1,76 @@
+# 美光 Micron Technology（MU）資料來源與更新步驟
+
+- 資料檔：`data/mu.json`（schema `v1`）　頁面：`/mu/`　模板：`templates/generic.frag.html`（通用模板）
+- 單位：**百萬美元**（`rev`、`gp`、`opInc`、`ni`、`ocf`、`capex`、`fcf`）；每股數字（`eps`、`dps`）為美元。期間沒有股票分割，EPS 不用換算。
+- CIK：`0000723125`。頻率：每季。財報日約在 3、6、9、12 月下旬（美股收盤後）。
+- 排程：每月 12 日 07:48（台北）。只補「上次資料之後」的新期間；沒有新財報的月份只檢查事件與公布日；沒有實質變動就不 commit。
+
+## 會計年度與季度標籤
+
+美光的會計年度是 **52／53 週制**，在 8 月底或 9 月初最接近的星期四結束，**季度標籤用公司自己的會計年度**：
+
+```
+FY2026 = 2025/8/29 ─ 2026/9/3（53 週，第四季 14 週）
+  1Q26 = 2025/8/29 ─ 2025/11/27
+  2Q26 = 2025/11/28 ─ 2026/2/26
+  3Q26 = 2026/2/27 ─ 2026/5/28
+  4Q26 = 2026/5/29 ─ 2026/9/3
+FY2027 第一季 ≈ 2026/9–11（2026/12 中下旬公布）
+```
+53 週年度：FY2015、FY2020、FY2026。季度對應規則（程式用）：季底月份 11–12 月＝下一個 FY 的 Q1；2–3 月＝Q2；5–6 月＝Q3；8–9 月＝Q4。
+
+## 期間
+
+1Q10（FY2010 第一季，2009/9–12）–最新一季。FY2009 的 XBRL 只有第一季與全年，沒有第二、三季，所以從 FY2010 開始。
+
+## 來源（依可信度）
+
+1. **SEC EDGAR XBRL**：`https://data.sec.gov/api/xbrl/companyconcept/CIK0000723125/us-gaap/{概念}.json`（WebFetch 讀得到；容器 curl 會被擋）。讀法：每個 (start, end) 取最近一次申報的值。
+2. **財報新聞稿（8-K 附件 99.1）**：`https://www.sec.gov/Archives/edgar/data/723125/{accession}/a{年}q{季}ex991-pressrelease.htm`（例 `000072312526000018/a2026q4ex991-pressrelease.htm`）。第四季 EPS、下一季財測、股利都在這裡。
+3. 投資人關係 `https://investors.micron.com/`。
+4. 可信媒體：**只用於事件時間軸**；公司未證實的一律 `unc:1`。
+
+## 欄位定義（`quarters[]`）
+
+| 欄位 | XBRL 概念與口徑 |
+| --- | --- |
+| `rev` | FY2017 以前 `SalesRevenueNet`；FY2018 起 `RevenueFromContractWithCustomerExcludingAssessedTax` |
+| `gp`、`gm` | `GrossProfit` |
+| `opInc`、`om` | `OperatingIncomeLoss` |
+| `ni` | `NetIncomeLoss`（歸屬美光） |
+| `eps` | `EarningsPerShareDiluted`；第四季見下 |
+| `ocf` | `NetCashProvidedByUsedInOperatingActivities`，年初累計相減；FY2013 全年與 FY2014–FY2016 改用 `NetCashProvidedByUsedInOperatingActivitiesContinuingOperations` |
+| `capex` | `PaymentsToAcquirePropertyPlantAndEquipment`（Expenditures for property, plant, and equipment），年初累計相減 |
+| `dps` | `CommonStockDividendsPerShareDeclared`；2021 年 8 月開始配息 |
+
+### 第四季推算
+- 營收、毛利、淨利：FY2020 以前 XBRL 有第四季單季值；FY2021 以後用 **全年 − 前三季**，並與新聞稿核對（例：4Q24 營收 7,750、淨利 887）。
+- EPS：FY2020 以前取 XBRL；FY2021 以後取新聞稿（FY2021 2.39、FY2022 1.35、FY2023 −1.31、FY2024 0.79、FY2025 2.83、FY2026 32.87）。
+- 季度 EPS 加總不一定等於全年（股數變動、虧損季不計稀釋），這是正常的。
+
+## 核對規則（`python3 tools/validate.py mu`）
+
+1. 毛利率、營業利益率與金額自洽；`fcf = ocf − capex`。
+2. 四季加總 ＝ 全年（營收、毛利、營業利益、淨利、營業現金流、資本支出）。
+3. `waterfall` 小計加總；第一列營收＝最新一季 `rev`。
+4. 財測區間上下限沒有顛倒。
+
+**任何一項沒過就不發佈**，回到來源修資料，不要放寬核對。
+
+## 更新步驟（每月排程）
+
+1. 查有沒有新財報 8-K（WebSearch `Micron fiscal Q{季} {年} results`，或 SEC EDGAR 8-K 清單）。**沒有新財報 → 跳到第 6 步。**
+2. 讀新聞稿：單季營收、營業成本、毛利、研發、銷管、其他營業、營業利益、利息、其他、所得稅、權益法損益、淨利、稀釋 EPS；現金流（新聞稿非 GAAP 對照表有單季營業現金流與資本支出）；下一季財測；股利。
+3. 10-Q／10-K 進 XBRL API 後，用 API 核對（以 XBRL 為準）。第四季：營收等用全年減前三季，EPS 用新聞稿；新增 `annual`（`note` 寫 FY 結束日、是否 53 週）。
+4. 更新 `guidance`（下一季營收、毛利率、營業費用、EPS）、`waterfall`、`events`。
+5. `python3 tools/validate.py mu`；通過才繼續。
+6. 查事件：股利調整、重大投資（新廠、補助）、產品（HBM 世代）；優先 8-K 與 investors.micron.com。
+7. `asOf` 改成今天（台北時間），`python3 tools/build.py`，commit、push。
+
+## 已知缺口
+
+- FY2009 以前：見「期間」。
+- FY2011 全年營業利益：XBRL 全年 761 與四季加總 755 差 6，全年留空。
+- 4Q26／FY2026：取自新聞稿，10-K（2026-10-09）的營收、毛利概念尚未出現在 API，下次排程核對。
+- 每股股利 4Q21、1Q22、4Q22：沒有單季 XBRL 值，留空。
+- 業務單位營收：尚未收錄。

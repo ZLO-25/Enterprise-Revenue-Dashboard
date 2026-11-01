@@ -145,6 +145,66 @@
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true
+    },
+    {
+      "code": "delta",
+      "name": "台達電",
+      "nameEn": "Delta Electronics",
+      "ticker": "2308",
+      "exchange": "TWSE 2308",
+      "currency": "TWD",
+      "frequency": "quarterly",
+      "path": "delta/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "台達電財報追蹤板",
+      "description": "台達電（2308）2019 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
+      "primarySource": {
+        "n": "台達電投資人關係：合併財務報告與法說會簡報",
+        "url": "https://filecenter.deltaww.com/ir/download/financial_report/Q32026_chi_Consolidated%20Financial%20Report.pdf"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
+    },
+    {
+      "code": "msft",
+      "name": "微軟",
+      "nameEn": "Microsoft",
+      "ticker": "MSFT",
+      "exchange": "Nasdaq MSFT",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "msft/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "微軟財報追蹤板",
+      "description": "微軟（MSFT）FY2009（2008 年）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤（會計年度 7 月至隔年 6 月）。",
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=789019"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
+    },
+    {
+      "code": "mu",
+      "name": "美光",
+      "nameEn": "Micron Technology",
+      "ticker": "MU",
+      "exchange": "Nasdaq MU",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "mu/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "美光財報追蹤板",
+      "description": "美光（MU）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤（會計年度約 9 月初結束）。",
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=723125"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
     }
   ]
 }
