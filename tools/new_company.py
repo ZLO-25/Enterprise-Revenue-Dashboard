@@ -2,7 +2,7 @@
 
 用法：
   python3 tools/new_company.py <代號> --name 中文名 --name-en EnglishName --ticker NVDA \
-      --exchange "Nasdaq NVDA" --currency USD [--unit 百萬美元] [--eps-unit 美元] \
+      --exchange "Nasdaq NVDA" --sector 半導體 --currency USD [--unit 百萬美元] [--eps-unit 美元] \
       [--source-name "SEC EDGAR"] [--source-url https://...] [--enable]
 
 會建立／修改：
@@ -25,6 +25,7 @@ def main():
     ap.add_argument("--name-en", required=True, help="英文名稱，例：NVIDIA")
     ap.add_argument("--ticker", required=True, help="股票代號，例：NVDA 或 2330")
     ap.add_argument("--exchange", required=True, help="交易所與代號，例：'Nasdaq NVDA'、'TWSE 2330'")
+    ap.add_argument("--sector", required=True, help="產業（首頁分頁籤）：優先沿用 companies.json 已有的產業名稱；沒有合適的才取新名稱，首頁會自動多一個分頁")
     ap.add_argument("--currency", required=True, help="幣別代碼：USD、TWD、JPY…")
     ap.add_argument("--unit", help="金額單位中文（預設依幣別：百萬美元／百萬元新台幣…）")
     ap.add_argument("--eps-unit", help="每股單位（預設依幣別：美元／元…）")
@@ -72,7 +73,7 @@ def main():
     else:
         cfg["companies"].append({
             "code": code, "name": a.name, "nameEn": a.name_en, "ticker": a.ticker, "exchange": a.exchange,
-            "currency": a.currency.upper(), "frequency": a.frequency, "path": code + "/", "schema": "v1", "template": "generic",
+            "sector": a.sector.strip(), "currency": a.currency.upper(), "frequency": a.frequency, "path": code + "/", "schema": "v1", "template": "generic",
             "title": f"{a.name}財報追蹤板", "description": f"{a.name}（{a.ticker}）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
             "primarySource": {"n": a.source_name, "url": a.source_url}, "artifact": cfg["site"].get("artifact"), "enabled": bool(a.enable),
         })

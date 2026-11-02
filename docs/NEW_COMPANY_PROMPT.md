@@ -58,12 +58,13 @@ add new company: NVDA, AMD
 - GitHub repo：ZLO-25/Enterprise-Revenue-Dashboard（main 分支，GitHub Pages 從根目錄發佈）
 - 先用 add_repo（owner ZLO-25、repo Enterprise-Revenue-Dashboard、access push）附加 repo 並 clone。
 - 讀這三份文件再動手，照著做：docs/ADDING_A_COMPANY.md（流程）、docs/DATA_SCHEMA.md（資料格式）、companies/pltr/SOURCES.md（範例）。
-- 全程用繁體中文；先用你自己的話重述要加哪幾家公司，並列一張表：代號、交易所、幣別、會計年度、公布頻率、預計資料期間、專屬指標。會影響做法的問題一次問完；能用合理預設就直接做，最後告訴我選了什麼。
+- 全程用繁體中文；先用你自己的話重述要加哪幾家公司，並列一張表：代號、交易所、產業分頁、幣別、會計年度、公布頻率、預計資料期間、專屬指標。會影響做法的問題一次問完；能用合理預設就直接做，最後告訴我選了什麼。
 - 超過 3 家時，先做前 3 家，其餘列在回報裡等我說「繼續」。
 
 ## 步驟（每家公司各做一次 1–4，全部做完再做 5–8）
-1. 腳手架：python3 tools/new_company.py <代號> --name <中文名> --name-en <英文名> --ticker <代號> --exchange "<交易所 代號>" --currency <幣別>
+1. 腳手架：python3 tools/new_company.py <代號> --name <中文名> --name-en <英文名> --ticker <代號> --exchange "<交易所 代號>" --sector <產業> --currency <幣別>
    （代號用小寫英數字，同時是網址路徑；不要手動建檔。）
+   產業 sector 必填（首頁分頁籤用）：先看 companies.json 現有的產業名稱（目前：半導體、軟體與網路服務、硬體與網通、電動車與太空），有合適的就照抄一字不差；都不合適才取一個新名稱（12 字以內），首頁會自動多一個分頁。回報時寫出歸到哪個產業、是不是新分頁、為什麼。
 2. 寫 companies/<代號>/SOURCES.md：來源依可信度排序（主管機關申報文件 → 公司 IR → 法說會 → 可信媒體只用於事件）、欄位定義與單位、第四季推算方式、核對規則、每月排程的更新步驟（只補上次資料之後的新期間）、已知缺口。要寫到沒看過這個專案的人也能照做，因為每月排程會照這份執行。
 3. 蒐集資料填進 data/<代號>.json（schema v1）：
    - 共用欄位每季都要有：rev、gm、om、eps 不能是 null；這四個欄位如果某一季讀不到，那一季就先不要收，並寫進「待確認」。gp、opInc、ni、ocf、capex、fcf、dps 讀不到填 null。

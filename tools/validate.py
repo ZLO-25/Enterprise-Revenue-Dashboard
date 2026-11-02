@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATE_RE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?|-Q[1-4]|-H[12])?$")
 DAY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 Q_RE = re.compile(r"^[1-4]Q\d{2}$")
-REQUIRED_CFG = ("code", "name", "nameEn", "ticker", "exchange", "currency", "frequency", "path", "schema", "template", "title", "description", "enabled")
+REQUIRED_CFG = ("code", "name", "nameEn", "ticker", "exchange", "sector", "currency", "frequency", "path", "schema", "template", "title", "description", "enabled")
 
 
 def load(code):
@@ -44,6 +44,9 @@ def check_config(cfg, err):
             err.append(f"companies.json [{tag}] path 應為 {tag}/（現在是 {c.get('path')}）")
         if c.get("frequency") not in ("quarterly", "monthly+quarterly"):
             err.append(f"companies.json [{tag}] frequency 只能是 quarterly 或 monthly+quarterly")
+        sec = c.get("sector")
+        if not isinstance(sec, str) or not sec.strip() or len(sec.strip()) > 12:
+            err.append(f"companies.json [{tag}] sector 要填產業名稱（首頁分頁籤用，12 字以內，例如「半導體」）")
         if not c.get("enabled"):
             continue
         for rel in (("data", tag + ".json"), ("templates", c.get("template", "") + ".frag.html"), ("companies", tag, "SOURCES.md")):

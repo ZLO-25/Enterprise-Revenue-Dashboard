@@ -12,7 +12,7 @@
 說「加入 XXX」
       │
       ▼
- ① python3 tools/new_company.py <代號> --name … --ticker … --exchange … --currency …
+ ① python3 tools/new_company.py <代號> --name … --ticker … --exchange … --sector … --currency …
       │   自動建立：data/<代號>.json（空殼）、companies/<代號>/SOURCES.md（範本）、companies.json 一筆（enabled:false）
       ▼
  ② 補完 SOURCES.md（來源、欄位、核對規則、更新步驟）
@@ -36,7 +36,7 @@
 
 ### ① 腳手架
 ```
-python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA --exchange "Nasdaq NVDA" --currency USD
+python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA --exchange "Nasdaq NVDA" --sector 半導體 --currency USD
 ```
 - `code`：小寫英數字，同時是資料檔名、資料夾名與網址路徑（`nvda` → `/nvda/`）。
 - 台股：`--currency TWD --exchange "TWSE 2454"`；有月營收的公司加 `--frequency monthly+quarterly`（月營收欄位目前只有台積電舊格式支援，新公司先以季報為主，月營收可放 `extra`）。
@@ -61,7 +61,7 @@ python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA -
 `python3 tools/validate.py <代號>` 做三層檢查：設定完整 → 共通格式 → v1 通用（自洽、四季＝全年、分部加總、損益拆解加總、財測區間）。**沒過就修資料，不要放寬核對。**
 
 ### ⑥ `companies.json`
-腳手架已加好一筆；把 `enabled` 改成 `true`，確認 `primarySource: {n, url}`（首頁「資料新鮮度與來源」會顯示）。`enabled:false` 的公司不會建置、也不會被排程更新。然後：
+腳手架已加好一筆；把 `enabled` 改成 `true`，確認 `primarySource: {n, url}`（首頁「資料新鮮度與來源」會顯示）與 `sector`（首頁產業分頁籤）。`sector` 先沿用既有的產業名稱（要一字不差，否則會多出一個分頁）；都不合適才取新名稱，首頁會自動新增分頁，不用改程式。`enabled:false` 的公司不會建置、也不會被排程更新。然後：
 ```
 python3 tools/validate.py       # 連 companies.json 一起檢查
 python3 tools/build.py          # 產生 <path>/index.html、首頁、dist/artifacts/*.html
