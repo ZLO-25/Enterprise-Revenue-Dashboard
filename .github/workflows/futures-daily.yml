@@ -7,9 +7,6 @@ on:
     - cron: "30 0 * * 2-6"
     - cron: "30 2 * * 2-6"
   workflow_dispatch:
-  push:
-    branches: [futures-kbar]
-    paths: [tools/futures_update.py, .github/workflows/futures-daily.yml]
 permissions:
   contents: write
 concurrency:
@@ -25,11 +22,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install --quiet cryptography yfinance
-      - name: 抓資料、核對、加密（開發分支：改用開發公鑰）
-        if: github.ref == 'refs/heads/futures-kbar'
-        run: python3 tools/futures_update.py --dev-pubkey tools/dev_pubkey.pem
       - name: 抓資料、核對、加密
-        if: github.ref != 'refs/heads/futures-kbar'
         env:
           FUTURES_PASSWORD: ${{ secrets.FUTURES_PASSWORD }}
         run: python3 tools/futures_update.py
@@ -37,7 +30,7 @@ jobs:
         run: |
           git config user.name "futures-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/futures data/futures-dev 2>/dev/null || true
+          git add data/futures
           if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
           git commit -m "期貨日 K 自動更新 $(date -u +%Y-%m-%d)"
           git push
