@@ -136,7 +136,7 @@ const FUT = (() => {
       const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
       const chart = LW.createChart(box, {
         autoSize: true,
-        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 11, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
+        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 12, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
         grid: { vertLines: { color: grid }, horzLines: { color: grid } },
         rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
         crosshair: { mode: 0 }, localization: { locale: 'zh-TW' },
@@ -146,7 +146,7 @@ const FUT = (() => {
       candle.priceScale().applyOptions({ mode: o.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
       candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
       const maSeries = {};
-      MAS.forEach(n => { if (!o.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: n >= 50 ? 2 : 1, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q) }, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
+      MAS.forEach(n => { if (!o.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: 2, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q) }, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
         s.setData(bars.map((b, i) => S.ma[n][i] == null ? { time: toT(b) } : { time: toT(b), value: S.ma[n][i] })); maSeries[n] = s; });
       /* 扣抵三角（K 棒下方，顏色 = 均線顏色）＋ 推算換月日（只在日 K） */
       const mk = [];
@@ -161,8 +161,8 @@ const FUT = (() => {
         vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
       }
       const kdPane = pane;
-      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
-      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
       kS.setData(bars.map((b, i) => S.K[i] == null ? { time: toT(b) } : { time: toT(b), value: S.K[i] }));
       dS.setData(bars.map((b, i) => S.D[i] == null ? { time: toT(b) } : { time: toT(b), value: S.D[i] }));
       [20, 80].forEach(v => kS.createPriceLine({ price: v, color: T('--axis'), lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
@@ -170,7 +170,8 @@ const FUT = (() => {
       panes[0].setStretchFactor(o.vol ? 0.64 : 0.74); if (o.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25);
       const n = bars.length, show = o.show || { D: 160, W: 150, M: 160 }[o.p];
       chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
-      if (o.compact) chart.applyOptions({ handleScroll: false, handleScale: false, crosshair: { mode: 2 } });
+      /* 首頁小圖：滑鼠滾輪／雙指縮放、按住拖曳平移；手機上下滑動仍是捲動頁面 */
+      if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 2 } });
       return chart;
   }
 
@@ -194,7 +195,7 @@ const FUT = (() => {
         return;
       }
       const legend = MAS.map(n => `<span><i style="background:${T(MA_COLOR(n))}"></i>MA${n}</span>`).join('') + `<span><i style="background:${T('--s1')}"></i>K</span><span><i style="background:${T('--s2')}"></i>D</span>`;
-      el.innerHTML = `<div class="fut-ctrl"><div class="seg" role="group" aria-label="週期">${['D', 'W', 'M'].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === st.p}">${{ D: '日K', W: '週K', M: '月K' }[p]}</button>`).join('')}</div><div class="fut-leg">${legend}</div></div>
+      el.innerHTML = `<div class="fut-ctrl"><div class="seg" role="group" aria-label="週期">${['D', 'W', 'M'].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === st.p}">${{ D: '日K', W: '週K', M: '月K' }[p]}</button>`).join('')}</div><div class="fut-leg">${legend}</div><span class="fut-hint">滑鼠滾輪縮放、按住拖曳左右移動</span></div>
         <div class="fut-cards">${datas.map(d => `<article class="co fut-co" data-code="${d.code}">
           <div class="co-top"><h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月</span></h2>${badge(fresh(d.lastDate))}</div>
           <div class="fut-px"></div>
