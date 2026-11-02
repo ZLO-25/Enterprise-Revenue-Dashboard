@@ -245,11 +245,15 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
 :root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
 .kup { color: var(--kup); } .kdn { color: var(--kdn); }
-.fut-block { display: grid; gap: 10px; margin-bottom: 22px; }
-.fut-block .fut-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
-.fut-block .fut-h b { font-size: 1.02rem; }
-.fut-block .fut-h span { font-size: 0.82rem; color: var(--muted); }
-.fut-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.fut-head .fut-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fut-toggle { font: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 5px 14px; border-radius: 999px; cursor: pointer; }
+.fut-toggle:hover { color: var(--ink); }
+#futHome { display: grid; gap: 12px; }
+#futHome[hidden] { display: none; }
+.fut-mini { position: relative; width: 100%; height: 360px; }
+.fut-co .co-top h2 { font-size: var(--step-2); }
+.fut-co .fut-px small { font-size: 0.75rem; color: var(--muted); font-family: var(--font-ui); }
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
 .fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
 .fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
 .fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }

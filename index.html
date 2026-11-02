@@ -250,11 +250,15 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
 :root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
 .kup { color: var(--kup); } .kdn { color: var(--kdn); }
-.fut-block { display: grid; gap: 10px; margin-bottom: 22px; }
-.fut-block .fut-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
-.fut-block .fut-h b { font-size: 1.02rem; }
-.fut-block .fut-h span { font-size: 0.82rem; color: var(--muted); }
-.fut-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.fut-head .fut-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fut-toggle { font: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 5px 14px; border-radius: 999px; cursor: pointer; }
+.fut-toggle:hover { color: var(--ink); }
+#futHome { display: grid; gap: 12px; }
+#futHome[hidden] { display: none; }
+.fut-mini { position: relative; width: 100%; height: 360px; }
+.fut-co .co-top h2 { font-size: var(--step-2); }
+.fut-co .fut-px small { font-size: 0.75rem; color: var(--muted); font-family: var(--font-ui); }
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
 .fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
 .fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
 .fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }
@@ -344,12 +348,16 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <div class="meta-row" id="metaRow"></div>
   </header>
 
+  <section id="futures">
+    <div class="sec-head fut-head">
+      <div class="fut-title"><h2>指數期貨</h2><button type="button" class="fut-toggle" id="futToggle" aria-controls="futHome" aria-expanded="true">收合</button></div>
+      <p class="sub">小道瓊（YM）、小那斯達克（NQ）<b>期貨合約</b>的 K 棒、均線 MA5/10/20/50/100 與 KD，不是指數本身。每天台北 08:30 自動更新到前一個交易日；需要密碼。各數值與扣抵值請點「看數值與扣抵」。</p>
+    </div>
+    <div id="futHome"></div>
+  </section>
+
   <section id="companies">
     <div class="sec-head"><h2>公司</h2><p class="sub">用產業分頁籤或搜尋框找公司，選到的公司會一次全部列出。卡片上半部是最新一期，虛線以下是長期數字；左上角是產業，右上角的小徽章是資料新鮮度。</p></div>
-    <div class="fut-block" id="futures">
-      <div class="fut-h"><b>指數期貨</b><span>小道瓊、小那斯達克期貨（期貨合約，不是指數）· 前一個交易日收盤 · 每天台北 08:30 自動更新 · 需密碼</span></div>
-      <div id="futHome"></div>
-    </div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
@@ -440,6 +448,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 </main>
 
 <script src="assets/vendor/chart.umd.js"></script>
+<script src="assets/vendor/lightweight-charts.standalone.production.js"></script>
 <script>
 /* 共用前端函式（新公司的模板用；以 COMMON_JS 占位符內嵌進頁面）。
    依賴頁面已載入 Chart.js，且 assets/theme.css 的 CSS 變數存在。 */
@@ -904,29 +913,93 @@ const FUT = (() => {
     });
   }
 
-  /* ---------- 首頁：兩張小卡 ---------- */
-  async function home(el, base, link) {
-    const codes = ['ym', 'nq'];
-    let metas;
-    try { metas = await Promise.all(codes.map(c => meta(base, c))); }
-    catch (e) { el.innerHTML = `<p class="fut-note">目前讀不到期貨資料（第一次資料還在產生，或這裡不是網站版）。請到 <a href="${link}" target="_blank" rel="noopener">網站的 K 棒頁</a> 查看。</p>`; return; }
-    const datas = await Promise.all(codes.map(c => load(base, c)));
-    if (datas.some(d => !d)) {
-      el.innerHTML = `<div class="fut-cards">${metas.map(m => `<article class="co fut-co locked"><div class="co-top"><span class="sec-tag">指數期貨</span>${badge(fresh(m.lastDate))}</div><h2>${m.name}期貨<span class="code">${m.code.toUpperCase()}</span></h2><p class="fut-note">資料截至 ${dstr(m.lastDate)}，解鎖後顯示。</p></article>`).join('')}</div><div class="fut-lockbox"></div>`;
-      lockForm(el.querySelector('.fut-lockbox'), base, () => home(el, base, link));
-      return;
+  /* ---------- 畫一張 K 棒圖（首頁與 K 棒頁共用）：K 棒＋均線，選用成交量，最下方 KD ---------- */
+  function chartInto(box, d, bars, S, o) {
+    const LW = window.LightweightCharts, q = dp(d.code);
+      const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
+      const chart = LW.createChart(box, {
+        autoSize: true,
+        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 11, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
+        grid: { vertLines: { color: grid }, horzLines: { color: grid } },
+        rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
+        crosshair: { mode: 0 }, localization: { locale: 'zh-TW' },
+      });
+      const toT = (b) => b.t;
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
+      candle.priceScale().applyOptions({ mode: o.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
+      candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
+      const maSeries = {};
+      MAS.forEach(n => { if (!o.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: n >= 50 ? 2 : 1, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q) }, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
+        s.setData(bars.map((b, i) => S.ma[n][i] == null ? { time: toT(b) } : { time: toT(b), value: S.ma[n][i] })); maSeries[n] = s; });
+      /* 扣抵三角（K 棒下方，顏色 = 均線顏色）＋ 推算換月日（只在日 K） */
+      const mk = [];
+      if (o.marks) MAS.forEach(n => { const x = S.ded[n]; if (x && o.mas.has(n)) mk.push({ time: x.t, position: 'belowBar', shape: 'arrowUp', color: T(MA_COLOR(n)), text: '扣' + n }); });
+      const have = new Set(bars.map(b => b.t));
+      if (o.marks && o.p === 'D') (d.rolls || []).forEach(r => { if (have.has(r.date)) mk.push({ time: r.date, position: 'aboveBar', shape: 'circle', color: T('--muted'), text: '換月', size: 0.6 }); });
+      mk.sort((a, b) => a.time < b.time ? -1 : a.time > b.time ? 1 : 0);
+      LW.createSeriesMarkers(candle, mk);
+      let pane = 1;
+      if (o.vol) {
+        const vs = chart.addSeries(LW.HistogramSeries, { priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false }, pane++);
+        vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
+      }
+      const kdPane = pane;
+      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      kS.setData(bars.map((b, i) => S.K[i] == null ? { time: toT(b) } : { time: toT(b), value: S.K[i] }));
+      dS.setData(bars.map((b, i) => S.D[i] == null ? { time: toT(b) } : { time: toT(b), value: S.D[i] }));
+      [20, 80].forEach(v => kS.createPriceLine({ price: v, color: T('--axis'), lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
+      const panes = chart.panes();
+      panes[0].setStretchFactor(o.vol ? 0.64 : 0.74); if (o.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25);
+      const n = bars.length, show = o.show || { D: 160, W: 150, M: 160 }[o.p];
+      chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
+      if (o.compact) chart.applyOptions({ handleScroll: false, handleScale: false, crosshair: { mode: 2 } });
+      return chart;
+  }
+
+  /* ---------- 首頁：指數期貨區（可收合）：兩張 K 棒圖（K 棒、均線、KD），數值與扣抵在 K 棒頁 ---------- */
+  const OPEN_LS = 'erd-futures-open';
+  async function home(sec, base, link) {
+    const el = sec.querySelector('#futHome'), tg = sec.querySelector('#futToggle');
+    let st = { p: 'D' }, charts = [], ready = false;
+    const isOpen = () => ls.get(OPEN_LS) !== '0';
+    const setOpen = (v) => { ls.set(OPEN_LS, v ? '1' : '0'); tg.setAttribute('aria-expanded', String(v)); tg.innerHTML = v ? '收合 <span aria-hidden="true">▴</span>' : '展開 <span aria-hidden="true">▾</span>'; el.hidden = !v; if (v && !ready) render(); };
+    tg.addEventListener('click', () => setOpen(!isOpen()));
+    async function render() {
+      ready = true;
+      let metas;
+      try { metas = await Promise.all(['ym', 'nq'].map(c => meta(base, c))); }
+      catch (e) { el.innerHTML = `<p class="fut-note">目前讀不到期貨資料（第一次資料還在產生，或這裡不是網站版）。請到 <a href="${link}" target="_blank" rel="noopener">網站的 K 棒頁</a> 查看。</p>`; return; }
+      const datas = await Promise.all(['ym', 'nq'].map(c => load(base, c)));
+      if (datas.some(d => !d)) {
+        el.innerHTML = `<div class="fut-lockbox"></div><p class="fut-note">${metas.map(m => `${m.name}期貨資料截至 ${dstr(m.lastDate)}`).join('；')}，解鎖後顯示。</p>`;
+        lockForm(el.querySelector('.fut-lockbox'), base, () => { ready = false; render(); });
+        return;
+      }
+      const legend = MAS.map(n => `<span><i style="background:${T(MA_COLOR(n))}"></i>MA${n}</span>`).join('') + `<span><i style="background:${T('--s1')}"></i>K</span><span><i style="background:${T('--s2')}"></i>D</span>`;
+      el.innerHTML = `<div class="fut-ctrl"><div class="seg" role="group" aria-label="週期">${['D', 'W', 'M'].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === st.p}">${{ D: '日K', W: '週K', M: '月K' }[p]}</button>`).join('')}</div><div class="fut-leg">${legend}</div></div>
+        <div class="fut-cards">${datas.map(d => `<article class="co fut-co" data-code="${d.code}">
+          <div class="co-top"><h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月</span></h2>${badge(fresh(d.lastDate))}</div>
+          <div class="fut-px"></div>
+          <div class="fut-mini"></div>
+          <div class="foot"><span>資料截至 ${dstr(d.lastDate)}</span><a class="go" href="${link}?s=${d.code}">看數值與扣抵 →</a></div>
+        </article>`).join('')}</div>`;
+      el.querySelector('.fut-ctrl').addEventListener('click', (e) => { const b = e.target.closest('button[data-p]'); if (!b) return; st.p = b.dataset.p; el.querySelectorAll('[data-p]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.p === st.p))); draw(datas); });
+      draw(datas);
     }
-    el.innerHTML = `<div class="fut-cards">${datas.map(d => {
-      const s = summary(d), up = s.chg >= 0, col = T(up ? '--kup' : '--kdn'), q = dp(d.code);
-      const pos = s.ma20 == null ? '—' : s.b.c >= s.ma20 ? '站上 MA20' : '跌破 MA20';
-      return `<article class="co fut-co">
-        <div class="co-top"><span class="sec-tag">指數期貨</span>${badge(fresh(d.lastDate))}</div>
-        <h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月</span></h2>
-        <div class="fut-px"><b>${fmt(s.b.c, q)}</b><span class="${up ? 'kup' : 'kdn'}">${s.chg == null ? '' : (up ? '▲' : '▼') + ' ' + sp(s.chg, 2)}</span></div>
-        ${spark(s.spark, col)}
-        <div class="foot"><span>近 60 日 · ${pos} · KD ${fmt(s.K, 0)}/${fmt(s.D, 0)}</span><span>資料截至 ${dstr(d.lastDate)}</span></div>
-        <div><a class="go" href="${link}?s=${d.code}">看 ${d.name} K 棒 →</a></div>
-      </article>`; }).join('')}</div>`;
+    function draw(datas) {
+      charts.forEach(c => c.remove()); charts = [];
+      datas.forEach(d => {
+        const card = el.querySelector(`[data-code="${d.code}"]`), bars = aggregate(toBars(d), st.p), S = study(bars), b = bars[bars.length - 1], pv = bars[bars.length - 2];
+        const ch = pv ? (b.c / pv.c - 1) * 100 : null, up = ch >= 0, unit = { D: '日', W: '週', M: '月' }[st.p];
+        card.querySelector('.fut-px').innerHTML = `<b>${fmt(b.c, dp(d.code))}</b><span class="${up ? 'kup' : 'kdn'}">${ch == null ? '' : (up ? '▲' : '▼') + ' ' + sp(ch, 2)}</span><small>較上一${unit}</small>`;
+        charts.push(chartInto(card.querySelector('.fut-mini'), d, bars, S, { p: st.p, mas: new Set(MAS), vol: false, marks: false, show: { D: 120, W: 104, M: 120 }[st.p], compact: true }));
+      });
+    }
+    const redraw = () => { if (ready && charts.length) draw(['ym', 'nq'].map(c => cache[c])); };
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw);
+    new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    setOpen(isOpen());
   }
 
   /* ---------- K 棒頁 ---------- */
@@ -955,44 +1028,9 @@ const FUT = (() => {
       const pName = { D: '日 K', W: '週 K', M: '月 K' }[st.p];
       $r('#futTitle').textContent = `${d.name}期貨 ${pName}`;
       $r('#futSub').textContent = `${d.exchange} 連續近月合約（未調整）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}` + (done ? '' : `· 最後一根${pName.replace(' K', '')}尚未收完，只算到 ${dstr(d.lastDate)}`);
-      const box = $r('#futChart'); if (chart) { chart.remove(); chart = null; }
-      const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
-      chart = LW.createChart(box, {
-        autoSize: true,
-        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 11, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
-        grid: { vertLines: { color: grid }, horzLines: { color: grid } },
-        rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
-        crosshair: { mode: 0 }, localization: { locale: 'zh-TW' },
-      });
-      const toT = (b) => b.t;
-      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
-      candle.priceScale().applyOptions({ mode: st.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
-      candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
-      const maSeries = {};
-      MAS.forEach(n => { if (!st.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: n >= 50 ? 2 : 1, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q) }, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
-        s.setData(bars.map((b, i) => S.ma[n][i] == null ? { time: toT(b) } : { time: toT(b), value: S.ma[n][i] })); maSeries[n] = s; });
-      /* 扣抵三角（K 棒下方，顏色 = 均線顏色）＋ 推算換月日（只在日 K） */
-      const mk = [];
-      MAS.forEach(n => { const x = S.ded[n]; if (x && st.mas.has(n)) mk.push({ time: x.t, position: 'belowBar', shape: 'arrowUp', color: T(MA_COLOR(n)), text: '扣' + n }); });
-      const have = new Set(bars.map(b => b.t));
-      if (st.p === 'D') (d.rolls || []).forEach(r => { if (have.has(r.date)) mk.push({ time: r.date, position: 'aboveBar', shape: 'circle', color: T('--muted'), text: '換月', size: 0.6 }); });
-      mk.sort((a, b) => a.time < b.time ? -1 : a.time > b.time ? 1 : 0);
-      LW.createSeriesMarkers(candle, mk);
-      let pane = 1;
-      if (st.vol) {
-        const vs = chart.addSeries(LW.HistogramSeries, { priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false }, pane++);
-        vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
-      }
-      const kdPane = pane;
-      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
-      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
-      kS.setData(bars.map((b, i) => S.K[i] == null ? { time: toT(b) } : { time: toT(b), value: S.K[i] }));
-      dS.setData(bars.map((b, i) => S.D[i] == null ? { time: toT(b) } : { time: toT(b), value: S.D[i] }));
-      [20, 80].forEach(v => kS.createPriceLine({ price: v, color: T('--axis'), lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
-      const panes = chart.panes();
-      panes[0].setStretchFactor(st.vol ? 0.64 : 0.74); if (st.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25);
-      const n = bars.length, show = { D: 160, W: 150, M: 160 }[st.p];
-      chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
+      if (chart) { chart.remove(); chart = null; }
+      chart = chartInto($r('#futChart'), d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true });
+      const n = bars.length;
       /* 十字游標所在那一根的數值 */
       const idx = Object.fromEntries(bars.map((b, i) => [b.t, i]));
       const leg = (i) => {
@@ -1106,7 +1144,7 @@ qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = '';
 applyFilter();
 
 /* ---------- 指數期貨小卡（資料加密，解鎖後才顯示；見 assets/futures.js） ---------- */
-FUT.home($('#futHome'), 'data/futures/', 'futures/');
+FUT.home(document.getElementById('futures'), 'data/futures/', 'futures/');
 
 /* ---------- 記分板 ---------- */
 const ROWS = [

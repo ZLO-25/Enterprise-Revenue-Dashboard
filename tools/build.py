@@ -15,7 +15,7 @@
   {{CHARTJS}}      <script src=…chart.umd.js>（Pages 用本地副本，Artifact 用 CDN）
   {{HOME}}         回首頁的連結
   {{FUTURES_JS}}   assets/futures.js（指數期貨：解密、指標、首頁小卡、K 棒頁）
-  {{FUT_BASE}}     加密期貨資料的資料夾網址；{{FUT_LINK}} K 棒頁網址；{{LWC}} Lightweight Charts（只有 K 棒頁）
+  {{FUT_BASE}}     加密期貨資料的資料夾網址；{{FUT_LINK}} K 棒頁網址；{{LWC}} Lightweight Charts（首頁與 K 棒頁）
   首頁另有 {{COMPANIES}}、{{DATASETS}}、{{SITE_TITLE}}、{{REPO}}
 新增公司只要補 companies.json、data/<code>.json 與 companies/<code>/SOURCES.md；資料符合 v1 就用 templates/generic.frag.html，不必改本檔。
 """
@@ -50,6 +50,8 @@ def js_json(obj):
 
 CDN_CHART = '<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>'
 LOCAL_CHART = '<script src="{rel}assets/vendor/chart.umd.js"></script>'
+LOCAL_LWC = '<script src="assets/vendor/lightweight-charts.standalone.production.js"></script>'
+CDN_LWC = '<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@5.2.1/dist/lightweight-charts.standalone.production.js"></script>'
 REQUIRED = ("{{THEME}}", "{{DATA}}", "{{CHARTJS}}", "{{LONGTERM_JS}}")
 
 
@@ -151,7 +153,7 @@ def build_combined(cfg, companies, datasets, theme, common):
     home = fill(home, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", CDN_CHART),
                        ("{{COMPANIES}}", js_json(companies)), ("{{DATASETS}}", js_json(datasets)),
                        ("{{SITE_TITLE}}", title), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
-                       ("{{FUT_BASE}}", cfg["site"]["pagesUrl"] + "data/futures/"), ("{{FUT_LINK}}", cfg["site"]["pagesUrl"] + "futures/")])
+                       ("{{FUT_BASE}}", cfg["site"]["pagesUrl"] + "data/futures/"), ("{{FUT_LINK}}", cfg["site"]["pagesUrl"] + "futures/"), ("{{LWC}}", CDN_LWC)])
     html, code = split_frag(home)
     views.append({"id": "overview", "label": "總覽", "html": html, "code": code, "path": ""})
     for c in companies:
@@ -167,7 +169,7 @@ def build_combined(cfg, companies, datasets, theme, common):
              f"<style>\n{theme}\n{SHELL_CSS}</style>\n"
              '<div class="tabbar" role="navigation" aria-label="公司"><div class="in" id="tabs" role="tablist"></div></div>\n'
              '<div id="stage"></div>\n'
-             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>\n'
+             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>\n' + CDN_LWC + '\n'
              "<script>" + SHELL_JS.replace("__VIEWS__", js_json(views)) + "</script>\n")
     write(shell, "dist", "artifacts", "all.html")
     # 相容：舊排程指令仍會發佈 dist/artifacts/<代號>.html 到各公司的 artifact 網址；
@@ -208,10 +210,10 @@ def main():
     home = lambda chart: fill(home_t, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", chart),
                                        ("{{COMPANIES}}", js_json(pub)), ("{{DATASETS}}", js_json(datasets)),
                                        ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
-                                       ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl)])
-    fb, fl = "data/futures/", "futures/"
+                                       ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl), ("{{LWC}}", lwc)])
+    fb, fl, lwc = "data/futures/", "futures/", LOCAL_LWC
     write(page(cfg["site"]["title"], "多家公司財報與營收追蹤總覽：最新一季、近四季、年化成長、利潤率與自由現金流比較。", home(LOCAL_CHART.format(rel=""))), "index.html")
-    fb, fl = pages_url + "data/futures/", pages_url + "futures/"
+    fb, fl, lwc = pages_url + "data/futures/", pages_url + "futures/", CDN_LWC
     write(f"<title>{cfg['site']['title']}</title>\n" + home(CDN_CHART), "dist", "artifacts", "home.html")
     # 指數期貨 K 棒頁（資料加密；頁面本身公開，解鎖後才有內容）
     ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS),
