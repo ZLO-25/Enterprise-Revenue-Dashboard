@@ -60,21 +60,29 @@ def last_closed_date(now=None):
 
 
 def fetch_yahoo(sym):
-    p2 = int(time.time())
-    raw = get(f"https://query2.finance.yahoo.com/v8/finance/chart/{sym}?period1=0&period2={p2}&interval=1d&includePrePost=false")
-    res = json.loads(raw)["chart"]["result"][0]
-    q = res["indicators"]["quote"][0]
-    hours = {}
-    bars = {}
-    for i, ts in enumerate(res.get("timestamp") or []):
-        o, h, l, c, v = (q[k][i] for k in ("open", "high", "low", "close", "volume"))
-        if None in (o, h, l, c):
+    """用 yfinance 抓（它會處理 Yahoo 的 cookie／crumb，直接打 API 常被 429 擋）。"""
+    import yfinance as yf
+    df = None
+    for i in range(3):
+        try:
+            df = yf.Ticker(sym).history(period="max", interval="1d", auto_adjust=False, actions=False, raise_errors=True)
+            if len(df):
+                break
+        except Exception as e:  # noqa: BLE001
+            log(f"  Yahoo 第 {i+1} 次失敗：{str(e)[:120]}")
+            time.sleep(10 * (i + 1))
+    if df is None or not len(df):
+        raise RuntimeError(f"Yahoo {sym} 抓不到資料")
+    hours, bars = {}, {}
+    for idx, r in df.iterrows():
+        o, h, l, c, v = (r[k] for k in ("Open", "High", "Low", "Close", "Volume"))
+        if any(x != x for x in (o, h, l, c)):  # NaN
             continue
-        hr = dt.datetime.fromtimestamp(ts, CT).hour
-        hours[hr] = hours.get(hr, 0) + 1
-        d = cme_trade_date(ts)
-        bars[d.isoformat()] = [d.isoformat(), o, h, l, c, int(v or 0)]
-    log(f"  Yahoo {sym}: {len(bars)} 根，時間戳小時分布(CT) {dict(sorted(hours.items()))}")
+        t = idx.to_pydatetime().astimezone(CT)
+        hours[t.hour] = hours.get(t.hour, 0) + 1
+        d = cme_trade_date(t.timestamp())
+        bars[d.isoformat()] = [d.isoformat(), round(float(o), 4), round(float(h), 4), round(float(l), 4), round(float(c), 4), int(v or 0)]
+    log(f"  Yahoo {sym}: {len(bars)} 根，時間戳小時分布(CT) {dict(sorted(hours.items()))}，原始時區 {df.index.tz}")
     return bars
 
 
