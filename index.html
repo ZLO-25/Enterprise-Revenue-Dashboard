@@ -246,7 +246,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
 
 .co-tools { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.sec-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; max-width: 100%; padding-bottom: 2px; }
+.sec-tabs { display: flex; flex-wrap: wrap; gap: 6px; max-width: 100%; }
 .sec-tabs::-webkit-scrollbar { display: none; }
 .sec-tabs button { flex: none; font: inherit; font-size: 0.9rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 7px 14px; border-radius: 999px; cursor: pointer; }
 .sec-tabs button .n { font-family: var(--font-data); font-size: 0.74rem; font-weight: 500; margin-left: 5px; opacity: 0.75; }
@@ -256,17 +256,11 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .co-search input { width: 100%; font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px 8px 34px; }
 .co-search input:focus { outline: 2px solid var(--chip-ink); outline-offset: 1px; }
 .co-search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
-.co-status { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; min-height: 32px; }
-.co-nav { display: flex; gap: 6px; }
-.co-nav button { font: inherit; width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; font-size: 0.95rem; }
-.co-nav button:disabled { opacity: 0.35; cursor: default; }
-.co-nav[hidden] { display: none; }
-/* 公司卡片排成一列、左右捲動：公司再多，這一區的高度都不變 */
-.cos { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 32px) / 3); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding-bottom: 10px; scrollbar-width: thin; }
-.cos > .co { scroll-snap-align: start; }
+.co-status { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
+/* 公司卡片自動換行：選到的產業一次全部顯示，不用左右滑 */
+.cos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
 .cos > .co[hidden] { display: none; }
-@media (max-width: 1000px) { .cos { grid-auto-columns: calc((100% - 16px) / 2); } }
-@media (max-width: 640px) { .cos { grid-auto-columns: 86%; gap: 12px; } .co-search { max-width: none; } .sec-tabs { flex-wrap: wrap; } }
+@media (max-width: 640px) { .cos { gap: 12px; } .co-search { max-width: none; } .sec-tabs { flex-wrap: wrap; } }
 .co-empty { padding: 28px 16px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; }
 .co-empty[hidden] { display: none; }
 .co .co-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -311,12 +305,12 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   </header>
 
   <section id="companies">
-    <div class="sec-head"><h2>公司</h2><p class="sub">用產業分頁籤或搜尋框找公司，卡片可以左右滑動。卡片上半部是最新一期，虛線以下是長期數字；左上角是產業，右上角的小徽章是資料新鮮度。</p></div>
+    <div class="sec-head"><h2>公司</h2><p class="sub">用產業分頁籤或搜尋框找公司，選到的公司會一次全部列出。卡片上半部是最新一期，虛線以下是長期數字；左上角是產業，右上角的小徽章是資料新鮮度。</p></div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
     </div>
-    <div class="co-status"><span id="coCount" aria-live="polite"></span><span class="co-nav" id="coNav"><button type="button" id="coPrev" aria-label="上一張">←</button><button type="button" id="coNext" aria-label="下一張">→</button></span></div>
+    <div class="co-status"><span id="coCount" aria-live="polite"></span></div>
     <div class="cos" id="cos"></div>
     <p class="co-empty" id="coEmpty" hidden></p>
   </section>
@@ -779,13 +773,6 @@ const cnt = (sec) => sec === ALL ? S.length : S.filter(s => (s.c.sector || '其�
 tabsEl.innerHTML = [ALL, ...SECTORS].map(t => `<button type="button" role="tab" data-sec="${t}" aria-selected="${t === ALL}">${t}<span class="n">${cnt(t)}</span></button>`).join('');
 const norm = (t) => String(t || '').toLowerCase().replace(/[\s·.\-]/g, '');
 const hay = Object.fromEntries(S.map(({ c }) => [c.code, norm([c.name, c.nameEn, c.ticker, c.code, c.exchange, c.sector].join('|'))]));
-function navSync() {
-  const over = cosEl.scrollWidth > cosEl.clientWidth + 4;
-  $('#coNav').hidden = !over;
-  $('#coPrev').disabled = cosEl.scrollLeft <= 4;
-  $('#coNext').disabled = cosEl.scrollLeft + cosEl.clientWidth >= cosEl.scrollWidth - 4;
-  return over;
-}
 function applyFilter() {
   const q = norm(qEl.value);
   let shown = 0;
@@ -796,19 +783,12 @@ function applyFilter() {
   tabsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(!q && b.dataset.sec === curSec || (!!q && b.dataset.sec === ALL))));
   $('#coEmpty').hidden = shown > 0;
   $('#coEmpty').textContent = shown ? '' : `找不到符合「${qEl.value.trim()}」的公司。可以試試中文名、英文名或股票代號。`;
-  cosEl.scrollLeft = 0;
-  const over = navSync();
-  $('#coCount').textContent = shown ? `顯示 ${shown} / ${S.length} 家` + (q ? `（搜尋「${qEl.value.trim()}」）` : curSec === ALL ? '' : `（${curSec}）`) + (over ? ' · 左右滑動看更多' : '') : '';
+  $('#coCount').textContent = shown ? `顯示 ${shown} / ${S.length} 家` + (q ? `（搜尋「${qEl.value.trim()}」）` : curSec === ALL ? '' : `（${curSec}）`) : '';
 }
 tabsEl.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; curSec = b.dataset.sec; qEl.value = ''; applyFilter(); });
 cosEl.addEventListener('click', e => { const b = e.target.closest('.sec-tag'); if (!b) return; curSec = b.dataset.sector; qEl.value = ''; applyFilter(); tabsEl.querySelector(`[data-sec="${curSec}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); });
 qEl.addEventListener('input', () => { if (qEl.value.trim()) curSec = ALL; applyFilter(); });
 qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = ''; applyFilter(); } });
-const step = () => { const card = [...cosEl.children].find(x => !x.hidden); return card ? card.getBoundingClientRect().width + 16 : cosEl.clientWidth; };
-$('#coPrev').addEventListener('click', () => cosEl.scrollBy({ left: -step(), behavior: 'smooth' }));
-$('#coNext').addEventListener('click', () => cosEl.scrollBy({ left: step(), behavior: 'smooth' }));
-cosEl.addEventListener('scroll', () => navSync(), { passive: true });
-window.addEventListener('resize', () => { const over = navSync(); const t = $('#coCount').textContent.replace(' · 左右滑動看更多', ''); $('#coCount').textContent = t && over ? t + ' · 左右滑動看更多' : t; });
 applyFilter();
 
 /* ---------- 記分板 ---------- */
