@@ -51,7 +51,7 @@ const FUT = (() => {
   }
 
   /* ---------- 資料整理 ---------- */
-  const toBars = (d) => d.bars.map(([t, o, h, l, c, v]) => ({ t, o, h, l, c, v }));
+  const toBars = (d) => d.bars.map(([t, o, h, l, c, v]) => ({ t, o, h, l, c, v }));  // v = null：來源沒有成交量
   const monday = (t) => { const d = new Date(t + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
   function aggregate(bars, p) {
     if (p === 'D') return bars;
@@ -60,7 +60,7 @@ const FUT = (() => {
     for (const b of bars) {
       const k = key(b);
       if (k !== k0) { cur = { t: b.t, o: b.o, h: b.h, l: b.l, c: b.c, v: b.v, last: b.t }; out.push(cur); k0 = k; }
-      else { cur.h = Math.max(cur.h, b.h); cur.l = Math.min(cur.l, b.l); cur.c = b.c; cur.v += b.v; cur.last = b.t; }
+      else { cur.h = Math.max(cur.h, b.h); cur.l = Math.min(cur.l, b.l); cur.c = b.c; cur.v = cur.v == null || b.v == null ? null : cur.v + b.v; cur.last = b.t; }
     }
     return out;
   }
@@ -104,6 +104,7 @@ const FUT = (() => {
     const days = Math.round((Date.now() - new Date(lastDate + 'T21:00:00Z')) / 864e5);
     return days <= 4 ? { status: 'fresh', label: '最新', text: '資料到前一個交易日' } : { status: 'aging', label: `${days} 天未更新`, text: '每日更新可能失敗，請看 GitHub Actions' };
   }
+  const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const badge = (F) => `<span class="fresh fresh-${F.status}" title="${F.text}">${F.label}</span>`;
   function spark(vals, color) {
     const w = 240, h = 44, lo = Math.min(...vals), hi = Math.max(...vals), sx = w / (vals.length - 1), sy = (v) => h - 3 - (v - lo) / ((hi - lo) || 1) * (h - 6);
@@ -134,7 +135,7 @@ const FUT = (() => {
     const codes = ['ym', 'nq'];
     let metas;
     try { metas = await Promise.all(codes.map(c => meta(base, c))); }
-    catch (e) { el.innerHTML = `<p class="fut-note">期貨 K 棒只在網站版提供：<a href="${link}" target="_blank" rel="noopener">打開網站</a>。</p>`; return; }
+    catch (e) { el.innerHTML = `<p class="fut-note">目前讀不到期貨資料（第一次資料還在產生，或這裡不是網站版）。請到 <a href="${link}" target="_blank" rel="noopener">網站的 K 棒頁</a> 查看。</p>`; return; }
     const datas = await Promise.all(codes.map(c => load(base, c)));
     if (datas.some(d => !d)) {
       el.innerHTML = `<div class="fut-cards">${metas.map(m => `<article class="co fut-co locked"><div class="co-top"><span class="sec-tag">指數期貨</span>${badge(fresh(m.lastDate))}</div><h2>${m.name}期貨<span class="code">${m.code.toUpperCase()}</span></h2><p class="fut-note">資料截至 ${dstr(m.lastDate)}，解鎖後顯示。</p></article>`).join('')}</div><div class="fut-lockbox"></div>`;
@@ -187,13 +188,14 @@ const FUT = (() => {
         layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 11, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
         grid: { vertLines: { color: grid }, horzLines: { color: grid } },
         rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
-        crosshair: { mode: 0 }, localization: { locale: 'zh-TW', priceFormatter: (v) => fmt(v, q) },
+        crosshair: { mode: 0 }, localization: { locale: 'zh-TW' },
       });
       const toT = (b) => b.t;
-      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false }, 0);
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
+      candle.priceScale().applyOptions({ mode: st.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
       candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
       const maSeries = {};
-      MAS.forEach(n => { if (!st.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: n >= 50 ? 2 : 1, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
+      MAS.forEach(n => { if (!st.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: n >= 50 ? 2 : 1, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q) }, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
         s.setData(bars.map((b, i) => S.ma[n][i] == null ? { time: toT(b) } : { time: toT(b), value: S.ma[n][i] })); maSeries[n] = s; });
       /* 扣抵三角（K 棒下方，顏色 = 均線顏色）＋ 推算換月日（只在日 K） */
       const mk = [];
@@ -205,7 +207,7 @@ const FUT = (() => {
       let pane = 1;
       if (st.vol) {
         const vs = chart.addSeries(LW.HistogramSeries, { priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false }, pane++);
-        vs.setData(bars.map(b => ({ time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) })));
+        vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
       }
       const kdPane = pane;
       const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
@@ -235,13 +237,16 @@ const FUT = (() => {
           const diff = last.c - x.c, nx = m + diff / n;
           return `<tr><td><i class="dot" style="background:${T(MA_COLOR(n))}"></i>MA${n}</td><td>${fmt(m, q)}</td><td>${fmt(x.c, q)}</td><td>${dstr(x.t)}</td><td class="${diff >= 0 ? 'kup' : 'kdn'}">${diff >= 0 ? '+' : '−'}${fmt(Math.abs(diff), q)}</td><td class="txt">${diff > 0 ? '均線上揚' : diff < 0 ? '均線下彎' : '均線持平'}，變成 ${fmt(nx, q)}</td></tr>`; }).join('') + '</tbody>';
       /* 來源與待確認 */
-      const cr = d.cross || {};
-      $r('#futSrc').innerHTML = `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${d.source.n}</a>，每天台北 08:30 自動抓前一個交易日（抓取時間 ${d.fetchedAt.replace('T', ' ').slice(0, 16)} UTC）。延遲資料，僅供研究，不能拿來下單。</li>` +
-        `<li>交叉核對：<a href="${d.check.url}" target="_blank" rel="noopener">${d.check.n}</a> 的收盤價。` + (cr.ok ? `比對 ${cr.compared} 天，差距超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間，兩個來源可能用不同月份的合約），最大差 ${cr.maxDiffPct}%。新的一天若差超過 0.1% 會先不發佈。` : `這次無法核對（${cr.error || '來源沒有回應'}），價格只有單一來源。`) + `</li>` +
-        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。</li>` +
+      const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
+      const checked = cr.ok || cme.length;
+      $r('#futSrc').innerHTML = `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，每天台北 08:30 自動抓前一個交易日（這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
+        `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
+        (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
+        (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
+        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
         `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
-        `<li>週 K、月 K 由日 K 合成；指標口徑：MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
-        (d.pending && d.pending.length ? d.pending.map(p => `<li class="pend">${dstr(p.date)}：${p.reason}</li>`).join('') : '');
+        `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
+        (d.pending && d.pending.length ? `<li><details><summary class="pend">待確認：${d.pending.length} 天的 K 棒沒有採用（點開看日期與原因）</summary><ul>${d.pending.map(p => `<li>${dstr(p.date)}：${esc(p.reason)}</li>`).join('')}</ul></details></li>` : '');
     }
     root.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
