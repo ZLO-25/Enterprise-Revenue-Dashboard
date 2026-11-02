@@ -239,3 +239,40 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
 .fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
 .disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
+/* 指數期貨（assets/futures.js）：K 棒用台灣習慣，紅漲綠跌 */
+:root { --kup: #d23a3a; --kdn: #138a52; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
+:root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
+.kup { color: var(--kup); } .kdn { color: var(--kdn); }
+.fut-block { display: grid; gap: 10px; margin-bottom: 22px; }
+.fut-block .fut-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.fut-block .fut-h b { font-size: 1.02rem; }
+.fut-block .fut-h span { font-size: 0.82rem; color: var(--muted); }
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
+.fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }
+.fut-spark { width: 100%; height: 44px; display: block; }
+.fut-co.locked { opacity: 0.85; }
+.fut-note { font-size: 0.86rem; color: var(--muted); }
+.fut-lock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; background: var(--surface); border: 1px dashed var(--axis); border-radius: 12px; padding: 14px 16px; }
+.fut-lock svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.fut-lock .t { font-size: 0.88rem; color: var(--ink-2); flex: 1 1 220px; }
+.fut-lock input[type=password] { font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; flex: 1 1 180px; max-width: 260px; }
+.fut-lock button { border: 0; cursor: pointer; }
+.fut-lock .err { font-size: 0.82rem; color: var(--bad-text); width: 100%; }
+.fut-lock .err:empty { display: none; }
+#futLock { margin-top: -16px; }
+.fut-ctrl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.fut-ctrl .seg button i, .fut-leg i, .fut-ma-tbl i.dot { display: inline-block; width: 10px; height: 3px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+.fut-ctrl .seg button[aria-pressed="false"] i { opacity: 0.35; }
+.fut-leg { display: flex; flex-wrap: wrap; gap: 2px 14px; font-family: var(--font-data); font-size: 0.78rem; color: var(--ink-2); min-height: 2.6em; }
+.fut-leg .d { color: var(--ink); font-weight: 500; }
+.fut-leg b { font-weight: 500; color: var(--ink); }
+.fut-chart { position: relative; width: 100%; height: min(72vh, 640px); min-height: 420px; }
+.fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
+.fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
+.fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
+.fut-src .pend { color: var(--bad-text); }
+@media (max-width: 640px) { .fut-chart { height: 70vh; min-height: 380px; } }

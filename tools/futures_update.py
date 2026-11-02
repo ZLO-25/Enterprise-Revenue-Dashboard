@@ -21,8 +21,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CT = ZoneInfo("America/Chicago")
 UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"}
 SYMBOLS = [
-    {"code": "ym", "name": "小道瓊", "nameEn": "E-mini Dow ($5)", "yahoo": "YM=F", "stooq": "ym.f", "exchange": "CBOT YM"},
-    {"code": "nq", "name": "小那斯達克", "nameEn": "E-mini Nasdaq-100", "yahoo": "NQ=F", "stooq": "nq.f", "exchange": "CME NQ"},
+    {"code": "ym", "name": "小道瓊", "nameEn": "E-mini Dow ($5)", "yahoo": "YM=F", "stooq": "ym.f", "cme": 318, "exchange": "CBOT YM"},
+    {"code": "nq", "name": "小那斯達克", "nameEn": "E-mini Nasdaq-100", "yahoo": "NQ=F", "stooq": "nq.f", "cme": 146, "exchange": "CME NQ"},
 ]
 TOL = 0.001  # 兩來源收盤價容許差距 0.1%
 
@@ -123,6 +123,59 @@ def in_roll_window(d):
     return False
 
 
+MON = {m: i + 1 for i, m in enumerate("JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC".split())}
+
+
+def front_contract(d):
+    """依換月慣例（到期前 8 天換）判斷某交易日的近月合約到期月 (年, 月)。"""
+    x = dt.date.fromisoformat(d)
+    for y in (x.year, x.year + 1):
+        for m in (3, 6, 9, 12):
+            if x < third_friday(y, m) - dt.timedelta(days=8):
+                return (y, m)
+
+
+def fetch_cme_settle(pid, d):
+    """CME 官網每日結算價（官方）。回傳 {(年,月): (結算價, 成交量)}；被擋或沒資料就丟出錯誤。"""
+    x = dt.date.fromisoformat(d)
+    url = (f"https://www.cmegroup.com/CmeWS/mvc/Settlements/Futures/Settlements/{pid}/FUT"
+           f"?strategy=DEFAULT&tradeDate={x.month:02d}/{x.day:02d}/{x.year}&pageSize=50&isProtected&_t={int(time.time()*1000)}")
+    h = dict(UA, **{"Accept": "application/json", "Referer": "https://www.cmegroup.com/"})
+    req = urllib.request.Request(url, headers=h)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        js = json.loads(r.read())
+    out = {}
+    for row in js.get("settlements", []):
+        try:
+            mon, yy = row["month"].split()
+            v = float(str(row["settle"]).replace(",", "").rstrip("AB"))
+            vol = int(str(row.get("volume") or row.get("estimatedVolume") or "0").replace(",", "") or 0)
+            out[(2000 + int(yy), MON[mon])] = (v, vol)
+        except Exception:  # noqa: BLE001
+            continue
+    if not out:
+        raise RuntimeError("CME 沒有回傳結算價")
+    return out
+
+
+def check_cme(s, bars, n=5):
+    """最近 n 個交易日：Yahoo 收盤 vs CME 官方結算價（近月合約）。只回傳差距，不印價格。"""
+    res = []
+    for b in bars[-n:]:
+        try:
+            st = fetch_cme_settle(s["cme"], b[0])
+            fc = front_contract(b[0])
+            if fc not in st:
+                res.append({"date": b[0], "ok": None, "why": "CME 沒有近月合約資料"})
+                continue
+            settle = st[fc][0]
+            r = abs(b[4] - settle) / settle
+            res.append({"date": b[0], "ok": r <= TOL, "diffPct": round(r * 100, 3), "contract": f"{fc[0]}-{fc[1]:02d}"})
+        except Exception as e:  # noqa: BLE001
+            res.append({"date": b[0], "ok": None, "why": str(e)[:100]})
+    return res
+
+
 def sane(b):
     _, o, h, l, c, v = b
     return h >= max(o, c) - 1e-9 and l <= min(o, c) + 1e-9 and min(o, h, l, c) > 0 and v >= 0
@@ -164,6 +217,17 @@ def build(s, prev):
         # 不能跳過中間一天：從第一個被擋的日期之後都先不放
         first = min(held)
         bars = [b for b in bars if b[0] < first]
+    try:
+        cme = check_cme(s, bars)
+    except Exception as e:  # noqa: BLE001
+        cme = [{"ok": None, "why": str(e)[:100]}]
+    log(f"  CME 官方結算價比對：{cme}")
+    # Yahoo 最新一根的成交量常常還沒更新（會跟前一天一樣），先標成未知，隔天重抓會補上
+    if len(bars) > 1 and bars[-1][5] == bars[-2][5]:
+        bars[-1][5] = None
+    for b in bars:
+        if b[5] == 0:
+            b[5] = None
     flagged = [{"date": d, "diffPct": round(r * 100, 2), "roll": in_roll_window(d)} for d, r in mism if d not in held]
     log(f"  採用 {len(bars)} 根：{bars[0][0]} ~ {bars[-1][0]}；交叉核對 {cross}；暫不發佈 {len(held)} 根")
     return {
@@ -174,7 +238,7 @@ def build(s, prev):
         "firstDate": bars[0][0], "lastDate": bars[-1][0],
         "cols": ["date", "open", "high", "low", "close", "volume"], "bars": bars,
         "rolls": roll_dates(bars[0][0], bars[-1][0]),
-        "cross": cross, "flagged": flagged[-200:], "pending": pending,
+        "cross": cross, "cme": cme, "flagged": flagged[-200:], "pending": pending,
     }
 
 
