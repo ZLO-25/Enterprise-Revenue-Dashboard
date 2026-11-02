@@ -14,6 +14,8 @@
   {{DATA}}         data/<code>.json
   {{CHARTJS}}      <script src=…chart.umd.js>（Pages 用本地副本，Artifact 用 CDN）
   {{HOME}}         回首頁的連結
+  {{FUTURES_JS}}   assets/futures.js（指數期貨：解密、指標、首頁小卡、K 棒頁）
+  {{FUT_BASE}}     加密期貨資料的資料夾網址；{{FUT_LINK}} K 棒頁網址；{{LWC}} Lightweight Charts（只有 K 棒頁）
   首頁另有 {{COMPANIES}}、{{DATASETS}}、{{SITE_TITLE}}、{{REPO}}
 新增公司只要補 companies.json、data/<code>.json 與 companies/<code>/SOURCES.md；資料符合 v1 就用 templates/generic.frag.html，不必改本檔。
 """
@@ -148,7 +150,8 @@ def build_combined(cfg, companies, datasets, theme, common):
     home = read("templates", "home.frag.html")
     home = fill(home, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", CDN_CHART),
                        ("{{COMPANIES}}", js_json(companies)), ("{{DATASETS}}", js_json(datasets)),
-                       ("{{SITE_TITLE}}", title), ("{{REPO}}", cfg["site"]["repo"])])
+                       ("{{SITE_TITLE}}", title), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
+                       ("{{FUT_BASE}}", cfg["site"]["pagesUrl"] + "data/futures/"), ("{{FUT_LINK}}", cfg["site"]["pagesUrl"] + "futures/")])
     html, code = split_frag(home)
     views.append({"id": "overview", "label": "總覽", "html": html, "code": code, "path": ""})
     for c in companies:
@@ -175,14 +178,16 @@ def build_combined(cfg, companies, datasets, theme, common):
 
 
 LONGTERM = ""
+FUTJS = ""
 
 
 def main():
-    global LONGTERM
+    global LONGTERM, FUTJS
     cfg = json.loads(read("companies.json"))
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
     LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js")
+    FUTJS = read("assets", "futures.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
     datasets = {}
@@ -202,9 +207,18 @@ def main():
     pub = [{k: v for k, v in c.items()} for c in companies]
     home = lambda chart: fill(home_t, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", chart),
                                        ("{{COMPANIES}}", js_json(pub)), ("{{DATASETS}}", js_json(datasets)),
-                                       ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"])])
+                                       ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
+                                       ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl)])
+    fb, fl = "data/futures/", "futures/"
     write(page(cfg["site"]["title"], "多家公司財報與營收追蹤總覽：最新一季、近四季、年化成長、利潤率與自由現金流比較。", home(LOCAL_CHART.format(rel=""))), "index.html")
+    fb, fl = pages_url + "data/futures/", pages_url + "futures/"
     write(f"<title>{cfg['site']['title']}</title>\n" + home(CDN_CHART), "dist", "artifacts", "home.html")
+    # 指數期貨 K 棒頁（資料加密；頁面本身公開，解鎖後才有內容）
+    ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS),
+              ("{{LWC}}", '<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>'),
+              ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/")])
+    write(page("指數期貨 K 棒", "小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../"), "futures", "index.html")
+    print("futures/index.html（指數期貨 K 棒頁）")
     print("index.html（首頁）")
     build_combined(cfg, companies, datasets, theme, common)
 

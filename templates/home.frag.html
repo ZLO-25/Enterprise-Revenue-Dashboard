@@ -64,6 +64,10 @@
 
   <section id="companies">
     <div class="sec-head"><h2>公司</h2><p class="sub">用產業分頁籤或搜尋框找公司，選到的公司會一次全部列出。卡片上半部是最新一期，虛線以下是長期數字；左上角是產業，右上角的小徽章是資料新鮮度。</p></div>
+    <div class="fut-block" id="futures">
+      <div class="fut-h"><b>指數期貨</b><span>小道瓊、小那斯達克期貨（期貨合約，不是指數）· 前一個交易日收盤 · 每天台北 08:30 自動更新 · 需密碼</span></div>
+      <div id="futHome"></div>
+    </div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
@@ -157,6 +161,7 @@
 <script>
 {{COMMON_JS}}
 {{LONGTERM_JS}}
+{{FUTURES_JS}}
 const COMPANIES = {{COMPANIES}};
 const DATA = {{DATASETS}};
 const REPO = 'https://github.com/{{REPO}}';
@@ -221,6 +226,9 @@ cosEl.addEventListener('click', e => { const b = e.target.closest('.sec-tag'); i
 qEl.addEventListener('input', () => { curSec = qEl.value.trim() ? ALL : DEFAULT_SEC; applyFilter(); });
 qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = ''; curSec = DEFAULT_SEC; applyFilter(); } });
 applyFilter();
+
+/* ---------- 指數期貨小卡（資料加密，解鎖後才顯示；見 assets/futures.js） ---------- */
+FUT.home($('#futHome'), '{{FUT_BASE}}', '{{FUT_LINK}}');
 
 /* ---------- 記分板 ---------- */
 const ROWS = [

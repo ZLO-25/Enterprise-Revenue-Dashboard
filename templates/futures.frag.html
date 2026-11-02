@@ -1,0 +1,62 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+</style>
+
+<!-- 指數期貨 K 棒頁：小道瓊（YM）、小那斯達克（NQ）。資料加密，解鎖後才顯示；說明見 assets/futures.js 開頭。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="{{HOME}}">← 所有公司</a>
+    <a href="#chart">K 棒</a>
+    <a href="#ma">均線與扣抵</a>
+    <a href="#sources">資料來源</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Index Futures · YM / NQ</div>
+    <h1 id="futTitle">指數期貨 K 棒</h1>
+    <p class="lede">小道瓊、小那斯達克<b>期貨</b>（不是指數本身）的日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值與 KD。每天台北早上自動更新到前一個交易日。</p>
+    <div class="meta-row"><span id="futSub"></span></div>
+  </header>
+
+  <div id="futLock" hidden></div>
+
+  <div id="futBody" hidden>
+    <section id="chart">
+      <div class="card wide">
+        <div class="fut-ctrl">
+          <div class="seg" role="group" aria-label="商品"><button type="button" data-code="ym">小道瓊 YM</button><button type="button" data-code="nq">小那指 NQ</button></div>
+          <div class="seg" role="group" aria-label="週期"><button type="button" data-p="D">日K</button><button type="button" data-p="W">週K</button><button type="button" data-p="M">月K</button></div>
+          <div class="seg fut-ma" role="group" aria-label="均線" id="futMaBtns"></div>
+          <div class="seg" role="group" aria-label="成交量"><button type="button" id="futVol">成交量</button></div>
+          <div class="seg" role="group" aria-label="鎖定"><button type="button" id="futLockBtn" title="清除這台裝置記住的密碼">上鎖</button></div>
+        </div>
+        <div class="fut-leg" id="futLeg"></div>
+        <div class="fut-chart" id="futChart"></div>
+        <p class="how">圖下方小三角「扣N」＝ MA N 下一根會扣掉的那根 K 棒；上方灰點「換月」＝推算的換月日。可以拖曳、用滾輪或雙指縮放；最下面是 KD（虛線 20、80）。</p>
+      </div>
+    </section>
+
+    <section id="ma">
+      <div class="sec-head"><h2>均線與扣抵值</h2><p class="sub">扣抵值是下一根 K 棒產生時，均線會丟掉的那一根收盤價。下一根收盤高於扣抵值，均線就往上；低於扣抵值，均線就往下。</p></div>
+      <div class="tbl-wrap"><table id="futMaTbl" class="fut-ma-tbl"></table></div>
+    </section>
+
+    <section id="sources">
+      <div class="sec-head"><h2>資料來源與口徑</h2></div>
+      <ul class="fut-src" id="futSrc"></ul>
+    </section>
+  </div>
+  <p class="disclaimer-box">本頁為個人研究用的延遲資料整理，不構成投資建議，也不能用於交易。圖表由 <a href="https://www.tradingview.com/" target="_blank" rel="noopener">TradingView</a> Lightweight Charts™ 繪製（Apache-2.0）。</p>
+</main>
+
+{{LWC}}
+<script>
+{{COMMON_JS}}
+{{FUTURES_JS}}
+FUT.page(document.querySelector('main'), '{{FUT_BASE}}');
+</script>

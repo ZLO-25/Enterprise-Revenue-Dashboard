@@ -1,0 +1,776 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>指數期貨 K 棒</title><meta name="description" content="小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: report column (max 1180px) — sticky section nav, KPI strip, then one section per metric family; charts sit two-up on wide screens, one-up on phones. */
+:root {
+  --page: #f3f3ef;
+  --surface: #fcfcfb;
+  --ink: #121211;
+  --ink-2: #4f4e4a;
+  --muted: #6c6a64;
+  --tick: #898781;
+  --grid: #e4e3dc;
+  --axis: #c3c2b7;
+  --line: rgba(11, 11, 11, 0.10);
+  --wash: rgba(42, 120, 214, 0.08);
+  --accent: #1c5cab;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --neg: #e34948;
+  --pos-soft: #86b6ef;
+  --n7: #86b6ef; --n5: #3987e5; --n3: #1c5cab; --n2: #0d366b;
+  --good-text: #006300;
+  --bad-text: #b42f2f;
+  --chip-bg: #e8f0fb; --chip-ink: #184f95;
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "Noto Sans TC", "IBM Plex Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem; --step-4: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+    --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+    --accent: #6da7ec;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --neg: #e66767; --pos-soft: #5598e7;
+    --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+    --good-text: #3fbf3f; --bad-text: #f08080;
+    --chip-bg: #16304f; --chip-ink: #b7d3f6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+  --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+  --accent: #6da7ec;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --neg: #e66767; --pos-soft: #5598e7;
+  --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+  --good-text: #3fbf3f; --bad-text: #f08080;
+  --chip-bg: #16304f; --chip-ink: #b7d3f6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; font-family: var(--font-ui); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-top: 28px; }
+.eyebrow { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.masthead h1 .code { font-family: var(--font-data); font-weight: 500; font-size: 0.55em; color: var(--muted); letter-spacing: 0; margin-left: 0.4em; vertical-align: 0.2em; }
+.lede { color: var(--ink-2); max-width: 68ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step-0); color: var(--muted); font-family: var(--font-data); }
+.meta-row b { color: var(--ink); font-weight: 500; }
+
+/* nav */
+.secnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.secnav .scroller { max-width: 1180px; margin-inline: auto; display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.secnav .scroller::-webkit-scrollbar { display: none; }
+.secnav a { flex: none; text-decoration: none; color: var(--ink-2); font-size: var(--step-0); padding: 6px 12px; border-radius: 999px; }
+.secnav a:hover { background: var(--wash); color: var(--ink); }
+
+/* cadence strip */
+.cadence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.cadence > div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cadence > div + div { border-left: 1px solid var(--line); }
+.cadence .when { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.cadence .what { font-weight: 600; }
+.cadence .which { font-size: var(--step-0); color: var(--ink-2); }
+@media (max-width: 720px) {
+  .cadence { grid-template-columns: minmax(0, 1fr); }
+  .cadence > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi:last-child { grid-column: 1 / -1; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 0.8rem; color: var(--muted); }
+.kpi .value { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+.kpi .value small { font-size: 0.55em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.kpi .delta { font-size: 0.8rem; color: var(--ink-2); font-family: var(--font-data); }
+.up { color: var(--good-text); }
+.down { color: var(--bad-text); }
+.chip { justify-self: start; font-size: 0.7rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+
+/* sections */
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+.sec-head .sub { color: var(--ink-2); max-width: 72ch; font-size: 0.95rem; }
+.sec-tag { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.card.wide { grid-column: 1 / -1; }
+.card h3 { font-size: 1.02rem; font-weight: 600; }
+.card .how { font-size: 0.88rem; color: var(--ink-2); }
+.card .how b { color: var(--ink); font-weight: 600; }
+.chartbox { position: relative; height: 300px; width: 100%; }
+.chartbox.short { height: 190px; }
+.chartbox.tall { height: 340px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls .lab { font-size: 0.8rem; color: var(--muted); margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 0.82rem; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+
+/* waterfall */
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 7.5rem; gap: 12px; align-items: center; font-size: 0.86rem; }
+.wf-row .nm { color: var(--ink-2); min-width: 0; }
+.wf-row.total .nm { color: var(--ink); font-weight: 600; }
+.wf-track { position: relative; height: 18px; }
+.wf-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.wf-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; }
+.wf-row .v { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.8rem; }
+.wf-row .v em { font-style: normal; color: var(--muted); display: block; font-size: 0.72rem; }
+@media (max-width: 560px) {
+  .wf-row { grid-template-columns: minmax(0, 1fr) 6.5rem; }
+  .wf-row .wf-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* notes */
+.note { font-size: 0.86rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.callout { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 6px; }
+.callout b { color: var(--ink); }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+th { font-weight: 600; color: var(--ink-2); background: var(--surface); position: sticky; top: 0; font-family: var(--font-cjk); }
+td { font-family: var(--font-data); color: var(--ink); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td .y { display: block; font-size: 0.68rem; }
+td.tot { font-weight: 500; background: var(--wash); }
+.tbl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.btn { font: inherit; font-size: 0.82rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--wash); }
+.copied { font-size: 0.8rem; color: var(--good-text); }
+
+/* glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.gloss { margin: 0; }
+.gloss .item { padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.gloss dt { font-weight: 600; }
+.gloss dt code { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.gloss dd { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.gloss dd .f { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink); background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+.sources { font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 8px; }
+.sources ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+footer { font-size: 0.78rem; color: var(--muted); }
+
+/* timelines */
+.gantt-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px 12px 4px; }
+.gantt { min-width: 780px; display: grid; }
+.g-row { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; border-bottom: 1px solid var(--grid); }
+.g-row:last-child { border-bottom: 0; }
+.g-row .nm { font-size: 0.84rem; line-height: 1.3; min-width: 0; }
+.g-row .nm small { display: block; color: var(--muted); font-size: 0.7rem; }
+.g-track { position: relative; height: 28px; }
+.g-axis .g-track { height: 22px; }
+.g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--tick); }
+.g-grid { position: absolute; top: -6px; bottom: -6px; border-left: 1px solid var(--grid); }
+.g-today { position: absolute; top: -6px; bottom: -6px; border-left: 1.5px dashed var(--s8); }
+.g-line { position: absolute; top: 13px; height: 2px; background: var(--axis); }
+.g-line.plan { background: repeating-linear-gradient(90deg, var(--axis) 0 4px, transparent 4px 8px); }
+.g-mk { position: absolute; top: 7px; width: 14px; height: 14px; margin-left: -7px; background: var(--c); border: 2px solid var(--c); cursor: pointer; padding: 0; }
+.g-mk.plan { background: var(--surface); }
+.g-mk.k-a { transform: rotate(45deg) scale(0.82); }
+.g-mk.k-g { border-radius: 2px; }
+.g-mk.k-c { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: 0; }
+.g-mk.k-c.plan { opacity: 0.45; }
+.g-mk.k-m { border-radius: 50%; }
+.g-mk.unc { border-style: dashed; background: var(--surface); opacity: 0.8; }
+.g-mk.k-c.unc { opacity: 0.35; }
+.unc-chip { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0 6px; margin-left: 6px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); vertical-align: 1px; white-space: nowrap; }
+.g-mk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.g-info { font-size: 0.86rem; color: var(--ink-2); min-height: 1.6em; }
+.g-info b { color: var(--ink); }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); align-items: center; }
+.g-key span { display: inline-flex; align-items: center; gap: 6px; }
+.g-key .g-mk { position: static; margin: 0; cursor: default; }
+.st-plan { color: var(--muted); }
+td.txt, th.txt { text-align: left; white-space: normal; min-width: 16rem; font-family: var(--font-cjk); }
+td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
+
+/* shared site chrome */
+.homelink { font-weight: 600; color: var(--accent) !important; }
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
+/* 指數期貨（assets/futures.js）：K 棒用台灣習慣，紅漲綠跌 */
+:root { --kup: #d23a3a; --kdn: #138a52; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
+:root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
+.kup { color: var(--kup); } .kdn { color: var(--kdn); }
+.fut-block { display: grid; gap: 10px; margin-bottom: 22px; }
+.fut-block .fut-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.fut-block .fut-h b { font-size: 1.02rem; }
+.fut-block .fut-h span { font-size: 0.82rem; color: var(--muted); }
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
+.fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }
+.fut-spark { width: 100%; height: 44px; display: block; }
+.fut-co.locked { opacity: 0.85; }
+.fut-note { font-size: 0.86rem; color: var(--muted); }
+.fut-lock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; background: var(--surface); border: 1px dashed var(--axis); border-radius: 12px; padding: 14px 16px; }
+.fut-lock svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.fut-lock .t { font-size: 0.88rem; color: var(--ink-2); flex: 1 1 220px; }
+.fut-lock input[type=password] { font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; flex: 1 1 180px; max-width: 260px; }
+.fut-lock button { border: 0; cursor: pointer; }
+.fut-lock .err { font-size: 0.82rem; color: var(--bad-text); width: 100%; }
+.fut-lock .err:empty { display: none; }
+#futLock { margin-top: -16px; }
+.fut-ctrl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.fut-ctrl .seg button i, .fut-leg i, .fut-ma-tbl i.dot { display: inline-block; width: 10px; height: 3px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+.fut-ctrl .seg button[aria-pressed="false"] i { opacity: 0.35; }
+.fut-leg { display: flex; flex-wrap: wrap; gap: 2px 14px; font-family: var(--font-data); font-size: 0.78rem; color: var(--ink-2); min-height: 2.6em; }
+.fut-leg .d { color: var(--ink); font-weight: 500; }
+.fut-leg b { font-weight: 500; color: var(--ink); }
+.fut-chart { position: relative; width: 100%; height: min(72vh, 640px); min-height: 420px; }
+.fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
+.fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
+.fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
+.fut-src .pend { color: var(--bad-text); }
+@media (max-width: 640px) { .fut-chart { height: 70vh; min-height: 380px; } }
+#futBody:not([hidden]) { display: grid; gap: 40px; }
+.fut-src details summary { cursor: pointer; }
+.fut-src details ul { margin-top: 6px; padding-left: 1.2em; display: grid; gap: 2px; font-size: 0.82rem; }
+
+</style>
+
+<!-- 指數期貨 K 棒頁：小道瓊（YM）、小那斯達克（NQ）。資料加密，解鎖後才顯示；說明見 assets/futures.js 開頭。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="../">← 所有公司</a>
+    <a href="#chart">K 棒</a>
+    <a href="#ma">均線與扣抵</a>
+    <a href="#sources">資料來源</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Index Futures · YM / NQ</div>
+    <h1 id="futTitle">指數期貨 K 棒</h1>
+    <p class="lede">小道瓊、小那斯達克<b>期貨</b>（不是指數本身）的日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值與 KD。每天台北早上自動更新到前一個交易日。</p>
+    <div class="meta-row"><span id="futSub"></span></div>
+  </header>
+
+  <div id="futLock" hidden></div>
+
+  <div id="futBody" hidden>
+    <section id="chart">
+      <div class="card wide">
+        <div class="fut-ctrl">
+          <div class="seg" role="group" aria-label="商品"><button type="button" data-code="ym">小道瓊 YM</button><button type="button" data-code="nq">小那指 NQ</button></div>
+          <div class="seg" role="group" aria-label="週期"><button type="button" data-p="D">日K</button><button type="button" data-p="W">週K</button><button type="button" data-p="M">月K</button></div>
+          <div class="seg fut-ma" role="group" aria-label="均線" id="futMaBtns"></div>
+          <div class="seg" role="group" aria-label="成交量"><button type="button" id="futVol">成交量</button></div>
+          <div class="seg" role="group" aria-label="鎖定"><button type="button" id="futLockBtn" title="清除這台裝置記住的密碼">上鎖</button></div>
+        </div>
+        <div class="fut-leg" id="futLeg"></div>
+        <div class="fut-chart" id="futChart"></div>
+        <p class="how">圖下方小三角「扣N」＝ MA N 下一根會扣掉的那根 K 棒；上方灰點「換月」＝推算的換月日。可以拖曳、用滾輪或雙指縮放；最下面是 KD（虛線 20、80）。</p>
+      </div>
+    </section>
+
+    <section id="ma">
+      <div class="sec-head"><h2>均線與扣抵值</h2><p class="sub">扣抵值是下一根 K 棒產生時，均線會丟掉的那一根收盤價。下一根收盤高於扣抵值，均線就往上；低於扣抵值，均線就往下。</p></div>
+      <div class="tbl-wrap"><table id="futMaTbl" class="fut-ma-tbl"></table></div>
+    </section>
+
+    <section id="sources">
+      <div class="sec-head"><h2>資料來源與口徑</h2></div>
+      <ul class="fut-src" id="futSrc"></ul>
+    </section>
+  </div>
+  <p class="disclaimer-box">本頁為個人研究用的延遲資料整理，不構成投資建議，也不能用於交易。圖表由 <a href="https://www.tradingview.com/" target="_blank" rel="noopener">TradingView</a> Lightweight Charts™ 繪製（Apache-2.0）。</p>
+</main>
+
+<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>
+<script>
+/* 共用前端函式（新公司的模板用；以 COMMON_JS 占位符內嵌進頁面）。
+   依賴頁面已載入 Chart.js，且 assets/theme.css 的 CSS 變數存在。 */
+const $ = (s) => document.querySelector(s);
+const T = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+const nf1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const f0 = (n) => n == null ? '—' : nf0.format(n);
+const f1 = (n) => n == null ? '—' : nf1.format(n);
+const f2 = (n) => n == null ? '—' : nf2.format(n);
+const sp = (n, d = 1) => n == null ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d) + '%';
+const pc = (n, d = 1) => n == null ? '—' : n.toFixed(d) + '%';
+const cls = (n) => n == null ? '' : (n >= 0 ? 'up' : 'down');
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const r1 = (n) => n == null ? null : Math.round(n * 10) / 10;
+const tint = (hex, a) => { const n = parseInt(hex.replace('#', ''), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; };
+
+function legend(el, items) {
+  $(el).innerHTML = items.map(i => `<span><i class="${i.line ? 'ln' : ''}" style="background:${i.c}"></i>${i.t}</span>`).join('');
+}
+function baseOpts(extra = {}) {
+  return Object.assign({
+    responsive: true, maintainAspectRatio: false,
+    animation: reduce ? false : { duration: 350 },
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: T('--surface'), titleColor: T('--ink'), bodyColor: T('--ink-2'),
+        borderColor: T('--axis'), borderWidth: 1, padding: 10, boxPadding: 4, cornerRadius: 8,
+        titleFont: { family: 'IBM Plex Sans, Noto Sans TC, sans-serif', weight: '600' },
+        bodyFont: { family: 'IBM Plex Mono, Noto Sans TC, monospace', size: 12 },
+        usePointStyle: true,
+      },
+    },
+    scales: {},
+  }, extra);
+}
+const tip = (o) => ({ ...baseOpts().plugins, tooltip: { ...baseOpts().plugins.tooltip, ...o } });
+function yAxis(o = {}, t = {}) {
+  return Object.assign({ border: { display: false }, grid: { color: T('--grid'), drawTicks: false },
+    ticks: Object.assign({ color: T('--tick'), padding: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 } }, t) }, o);
+}
+function xAxis(o = {}, t = {}) {
+  return Object.assign({ border: { color: T('--axis') }, grid: { display: false },
+    ticks: Object.assign({ color: T('--tick'), maxRotation: 0, autoSkip: true, font: { family: 'IBM Plex Mono, monospace', size: 11 } }, t) }, o);
+}
+const bar = (o) => Object.assign({ type: 'bar', borderRadius: 3, borderSkipped: 'start', categoryPercentage: 0.8, barPercentage: 0.9 }, o);
+const line = (o) => Object.assign({ type: 'line', borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: 0.2, spanGaps: false }, o);
+/* ---------- 比較圖共用：線尾標籤、對數刻度、季度刻度、缺口虛線 ---------- */
+/* 線尾標籤：在每條線最後一個有值的點右邊寫「公司名 數值」，互相重疊時往上下推開 */
+const endLabels = {
+  id: 'endLabels',
+  afterDatasetsDraw(chart, _a, opts) {
+    const { ctx, chartArea: { right, top, bottom } } = chart;
+    const fmt = opts.fmt || (v => v);
+    const narrow = chart.width < 520;
+    const items = [];
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+      let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
+      if (k < 0 || !meta.data[k]) return;
+      const pt = meta.data[k];
+      items.push({ x: pt.x, y: pt.y, c: ds.borderColor, t: narrow ? ds.label : `${ds.label} ${fmt(ds.data[k])}` });
+    });
+    items.sort((a, b) => a.y - b.y);
+    const h = 14;
+    for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < h) items[i].y = items[i - 1].y + h;
+    for (let i = items.length - 1; i >= 0; i--) { items[i].y = Math.min(items[i].y, bottom - 2); if (i < items.length - 1 && items[i + 1].y - items[i].y < h) items[i].y = items[i + 1].y - h; }
+    ctx.save();
+    ctx.font = `600 11px IBM Plex Sans, Noto Sans TC, system-ui, sans-serif`;
+    ctx.textBaseline = 'middle';
+    items.forEach(it => {
+      const w = ctx.measureText(it.t).width;
+      const x = Math.min(Math.max(it.x, right) + 6, chart.width - w - 2);
+      ctx.fillStyle = T('--surface'); ctx.fillRect(x - 2, it.y - 7, w + 4, 14);
+      ctx.fillStyle = it.c; ctx.fillText(it.t, x, Math.max(top + 7, it.y));
+    });
+    ctx.restore();
+  },
+};
+if (window.Chart) Chart.register(endLabels);
+/* 線尾標籤需要右邊留白 */
+const endPad = (w) => ({ layout: { padding: { right: w || 84, top: 8 } } });
+/* 對數刻度：以 100 為中心，每一格翻一倍（…50、100、200、400…），剛好蓋住資料範圍 */
+function logTicks(values, base = 100) {
+  const vs = values.filter(v => v != null && v > 0);
+  const lo0 = Math.min(base, ...vs), hi0 = Math.max(base, ...vs);
+  let lo = base, hi = base;
+  while (lo > lo0) lo /= 2;
+  while (hi < hi0) hi *= 2;
+  const ticks = []; for (let v = lo; v <= hi; v *= 2) ticks.push(v);
+  return { min: lo, max: hi, ticks };
+}
+/* 季度標籤 'nQyy'：短期間每季都標，長期間只在第一季標年份 */
+function qTicks(labels) {
+  const yearOnly = labels.length > 20;
+  return { autoSkip: !yearOnly, maxTicksLimit: 8, callback: (v) => { const l = labels[v]; if (!l) return ''; return yearOnly ? (l[0] === '1' ? '20' + l.slice(2) : '') : l; } };
+}
+/* 基準線（100 或 0）畫深一點，其他格線淡 */
+const gridWithBase = (baseVal) => ({ color: (c) => c.tick.value === baseVal ? T('--axis') : T('--grid'), lineWidth: (c) => c.tick.value === baseVal ? 1.5 : 1, drawTicks: false });
+/* 缺資料（null）的地方用虛線跨過，而不是假裝連起來；最後一個點畫圓點 */
+function cmpLine(o) {
+  return line(Object.assign({ borderWidth: 2.25, spanGaps: true,
+    segment: { borderDash: (c) => c.p0.skip || c.p1.skip ? [4, 4] : undefined },
+    pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; const f = d.findIndex(v => v != null); return c.dataIndex === k || (f > 0 && c.dataIndex === f) ? 3 : 0; },
+    pointHoverRadius: 4 }, o));
+}
+function syncSeg(id, attr, val) {
+  document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val)));
+}
+function copyBtn(btn, ok, fn) {
+  $(btn).addEventListener('click', async () => {
+    const text = fn();
+    try { await navigator.clipboard.writeText(text); $(ok).textContent = '已複製'; }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let done = false; try { done = document.execCommand('copy'); } catch (er) {}
+      ta.remove(); $(ok).textContent = done ? '已複製' : '瀏覽器擋下複製，請改用表格選取';
+    }
+    $(ok).hidden = false; setTimeout(() => { $(ok).hidden = true; }, 2500);
+  });
+}
+
+/* 日期：支援 YYYY-MM-DD、YYYY-MM、YYYY-Qn、YYYY-Hn、YYYY */
+const dy = (s) => {
+  let m;
+  if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/))) return +m[1] + (m[2] - 1) / 12 + (m[3] - 1) / 365;
+  if ((m = s.match(/^(\d{4})-(\d{2})$/))) return +m[1] + (m[2] - 0.5) / 12;
+  if ((m = s.match(/^(\d{4})-Q(\d)$/))) return +m[1] + (m[2] - 0.5) / 4;
+  if ((m = s.match(/^(\d{4})-H(\d)$/))) return +m[1] + (m[2] - 0.5) / 2;
+  return +s.slice(0, 4) + 0.5;
+};
+const dfmt = (s) => {
+  let m;
+  if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/))) return `${m[1]}/${m[2]}/${m[3]}`;
+  if ((m = s.match(/^(\d{4})-(\d{2})$/))) return `${m[1]}/${m[2]}`;
+  if ((m = s.match(/^(\d{4})-Q(\d)$/))) return `${m[1]} Q${m[2]}`;
+  if ((m = s.match(/^(\d{4})-H(\d)$/))) return `${m[1]} ${m[2] === '1' ? '上' : '下'}半年`;
+  return `${s} 年`;
+};
+const UNC = '<span class="unc-chip">待確定</span>';
+const srcLink = (o) => o.src ? `<a href="${o.src}" target="_blank" rel="noopener">${(o.unc || /^媒體報導/.test(o.note || '')) ? '媒體' : '來源'}</a>` : '';
+
+/* 從營收到淨利的拆解圖（HTML 長條） */
+function drawWaterfall(W, el) {
+  const R = W.rows[0].v; let run = 0; const rows = [];
+  const scale = 100 / (R * 1.03);
+  W.rows.forEach(r => {
+    let a, b;
+    if (r.t) { a = 0; b = r.v; run = r.v; } else { a = run; b = run + r.v; run = b; }
+    const lo = Math.min(a, b), hi = Math.max(a, b);
+    const color = r.t ? T('--s1') : (r.v < 0 ? T('--neg') : T('--pos-soft'));
+    const share = r.v / R * 100;
+    rows.push(`<div class="wf-row${r.t ? ' total' : ''}">
+      <span class="nm">${r.n}</span>
+      <span class="wf-track"><span class="wf-bar" style="left:${lo * scale}%;width:${Math.max((hi - lo) * scale, 0.4)}%;background:${color}"></span></span>
+      <span class="v">${r.t ? '' : (r.v > 0 ? '+' : '−')}${f1(Math.abs(r.v))}<em>${r.t ? '占營收 ' + share.toFixed(1) + '%' : (share > 0 ? '+' : '−') + Math.abs(share).toFixed(1) + '%'}</em></span>
+    </div>`);
+  });
+  $(el).innerHTML = rows.join('');
+}
+
+/* 小道瓊、小那指期貨 K 棒：解密、合成週 K／月 K、指標計算、首頁小卡、K 棒圖。
+   資料：data/futures/<代號>.enc.json（AES-256-GCM 加密；金鑰 = PBKDF2-SHA256(密碼, data/futures/key.json 的 salt)）
+   解鎖後把推導出的金鑰存在這台裝置的 localStorage，之後不用再輸入密碼；換密碼後解不開會自動要求重新輸入。
+   指標口徑（與台灣看盤軟體一致）：
+     MA N  = 最近 N 根收盤價的簡單平均（週 K 的 MA5 = 5 週）
+     扣抵值 = 下一根 K 棒產生時，MA N 會丟掉的那一根的收盤價 = 倒數第 N 根的收盤價
+     KD(9,3,3)：RSV = (收 − 9 根最低) ÷ (9 根最高 − 9 根最低) × 100；K = 前K×2/3 + RSV×1/3；D = 前D×2/3 + K×1/3；起始 K = D = 50 */
+const FUT = (() => {
+  const KEY_LS = 'erd-futures-key-v1';
+  const MAS = [5, 10, 20, 50, 100];
+  const MA_COLOR = (n) => ({ 5: '--s4', 10: '--s5', 20: '--s1', 50: '--s7', 100: '--s2' })[n];
+  const b64 = (s) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const ub64 = (u) => btoa(String.fromCharCode(...new Uint8Array(u)));
+  const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+               set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 私密視窗：只在這次有效 */ } },
+               del(k) { try { localStorage.removeItem(k); } catch (e) { } } };
+  let memKey = null;
+  const cache = {};
+
+  async function getJSON(url) { const r = await fetch(url, { cache: 'no-cache' }); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); }
+  async function keyFromStore() {
+    if (memKey) return memKey;
+    const raw = ls.get(KEY_LS); if (!raw) return null;
+    memKey = await crypto.subtle.importKey('raw', b64(raw), 'AES-GCM', false, ['decrypt']);
+    return memKey;
+  }
+  async function unlock(base, password) {
+    const kp = await getJSON(base + 'key.json');
+    const pk = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: b64(kp.salt), iterations: kp.iter }, pk, 256);
+    const key = await crypto.subtle.importKey('raw', bits, 'AES-GCM', false, ['decrypt']);
+    const meta = await getJSON(base + 'ym.enc.json');
+    await decrypt(meta, key);                         // 密碼錯會在這裡丟出錯誤
+    memKey = key; ls.set(KEY_LS, ub64(bits));
+    return true;
+  }
+  function lock() { memKey = null; ls.del(KEY_LS); Object.keys(cache).forEach(k => delete cache[k]); }
+  async function decrypt(file, key) {
+    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(file.iv) }, key, b64(file.ct));
+    const ds = new Blob([plain]).stream().pipeThrough(new DecompressionStream('deflate'));
+    return JSON.parse(await new Response(ds).text());
+  }
+  async function meta(base, code) { return getJSON(base + code + '.enc.json'); }
+  /* 讀取並解密；沒有金鑰回傳 null；金鑰錯（例如換了密碼）會清掉記住的金鑰並回傳 null */
+  async function load(base, code) {
+    if (cache[code]) return cache[code];
+    const key = await keyFromStore(); if (!key) return null;
+    const file = await meta(base, code);
+    try { cache[code] = await decrypt(file, key); } catch (e) { lock(); return null; }
+    return cache[code];
+  }
+
+  /* ---------- 資料整理 ---------- */
+  const toBars = (d) => d.bars.map(([t, o, h, l, c, v]) => ({ t, o, h, l, c, v }));  // v = null：來源沒有成交量
+  const monday = (t) => { const d = new Date(t + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
+  function aggregate(bars, p) {
+    if (p === 'D') return bars;
+    const key = p === 'W' ? (b) => monday(b.t) : (b) => b.t.slice(0, 7);
+    const out = []; let cur = null, k0 = null;
+    for (const b of bars) {
+      const k = key(b);
+      if (k !== k0) { cur = { t: b.t, o: b.o, h: b.h, l: b.l, c: b.c, v: b.v, last: b.t }; out.push(cur); k0 = k; }
+      else { cur.h = Math.max(cur.h, b.h); cur.l = Math.min(cur.l, b.l); cur.c = b.c; cur.v = cur.v == null || b.v == null ? null : cur.v + b.v; cur.last = b.t; }
+    }
+    return out;
+  }
+  /* 最後一根週 K／月 K 是否已經收完（最後一天是星期五／當月最後一個平日）；假日造成的例外會標「可能」 */
+  function periodDone(last, p) {
+    if (p === 'D') return true;
+    const d = new Date(last + 'T00:00:00Z');
+    if (p === 'W') return d.getUTCDay() === 5;
+    const n = new Date(d); do { n.setUTCDate(n.getUTCDate() + 1); } while (n.getUTCDay() === 0 || n.getUTCDay() === 6);
+    return n.getUTCMonth() !== d.getUTCMonth();
+  }
+  function sma(cl, n) { const out = Array(cl.length).fill(null); let s = 0; for (let i = 0; i < cl.length; i++) { s += cl[i]; if (i >= n) s -= cl[i - n]; if (i >= n - 1) out[i] = s / n; } return out; }
+  function kd(bars, n = 9) {
+    const K = [], D = []; let k = 50, d = 50;
+    for (let i = 0; i < bars.length; i++) {
+      if (i < n - 1) { K.push(null); D.push(null); continue; }
+      let hi = -Infinity, lo = Infinity; for (let j = i - n + 1; j <= i; j++) { hi = Math.max(hi, bars[j].h); lo = Math.min(lo, bars[j].l); }
+      const rsv = hi === lo ? 50 : (bars[i].c - lo) / (hi - lo) * 100;
+      k = k * 2 / 3 + rsv / 3; d = d * 2 / 3 + k / 3; K.push(k); D.push(d);
+    }
+    return { K, D };
+  }
+  /* 扣抵：MA N 下一根會丟掉的那一根 = bars[len − N] */
+  function deduct(bars, n) { const i = bars.length - n; return i >= 0 ? { i, t: bars[i].t, c: bars[i].c } : null; }
+  function study(bars) {
+    const cl = bars.map(b => b.c), ma = {}, ded = {};
+    MAS.forEach(n => { ma[n] = sma(cl, n); ded[n] = deduct(bars, n); });
+    return { ma, ded, ...kd(bars) };
+  }
+  function summary(d) {
+    const bars = toBars(d), st = study(bars), i = bars.length - 1, b = bars[i], p = bars[i - 1];
+    return { d, bars, b, chg: p ? (b.c / p.c - 1) * 100 : null, ma20: st.ma[20][i], K: st.K[i], D: st.D[i], spark: bars.slice(-60).map(x => x.c) };
+  }
+
+  /* ---------- 顯示小工具 ---------- */
+  const fmt = (n, dp = 2) => n == null ? '—' : n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  const dp = (code) => code === 'ym' ? 0 : 2;
+  const dstr = (t) => t.replace(/-/g, '/');
+  function fresh(lastDate) {
+    // 台北早上看到的應該是美國「前一個交易日」；超過 4 天沒新 K 棒（連假除外）就提醒
+    const days = Math.round((Date.now() - new Date(lastDate + 'T21:00:00Z')) / 864e5);
+    return days <= 4 ? { status: 'fresh', label: '最新', text: '資料到前一個交易日' } : { status: 'aging', label: `${days} 天未更新`, text: '每日更新可能失敗，請看 GitHub Actions' };
+  }
+  const esc = (t) => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const badge = (F) => `<span class="fresh fresh-${F.status}" title="${F.text}">${F.label}</span>`;
+  function spark(vals, color) {
+    const w = 240, h = 44, lo = Math.min(...vals), hi = Math.max(...vals), sx = w / (vals.length - 1), sy = (v) => h - 3 - (v - lo) / ((hi - lo) || 1) * (h - 6);
+    return `<svg class="fut-spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="${color}" stroke-width="1.6" vector-effect="non-scaling-stroke" points="${vals.map((v, i) => (i * sx).toFixed(1) + ',' + sy(v).toFixed(1)).join(' ')}"/></svg>`;
+  }
+
+  /* ---------- 解鎖表單（首頁與 K 棒頁共用） ---------- */
+  function lockForm(el, base, onOk) {
+    el.innerHTML = `<form class="fut-lock" autocomplete="on">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>
+      <span class="t">這一區只給本人看，請輸入密碼。這台裝置之後會自動解鎖。</span>
+      <input type="text" name="username" value="futures" autocomplete="username" hidden>
+      <input type="password" name="password" autocomplete="current-password" placeholder="密碼" aria-label="期貨區密碼" required>
+      <button type="submit" class="go">解鎖</button>
+      <span class="err" role="alert"></span></form>`;
+    const f = el.querySelector('form');
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault(); const btn = f.querySelector('button'), err = f.querySelector('.err');
+      btn.disabled = true; err.textContent = '解鎖中…';
+      try { await unlock(base, f.password.value); err.textContent = ''; onOk(); }
+      catch (x) { err.textContent = x && x.name === 'OperationError' ? '密碼不對，請再試一次。' : '讀不到資料（' + (x.message || x) + '）'; }
+      finally { btn.disabled = false; }
+    });
+  }
+
+  /* ---------- 首頁：兩張小卡 ---------- */
+  async function home(el, base, link) {
+    const codes = ['ym', 'nq'];
+    let metas;
+    try { metas = await Promise.all(codes.map(c => meta(base, c))); }
+    catch (e) { el.innerHTML = `<p class="fut-note">目前讀不到期貨資料（第一次資料還在產生，或這裡不是網站版）。請到 <a href="${link}" target="_blank" rel="noopener">網站的 K 棒頁</a> 查看。</p>`; return; }
+    const datas = await Promise.all(codes.map(c => load(base, c)));
+    if (datas.some(d => !d)) {
+      el.innerHTML = `<div class="fut-cards">${metas.map(m => `<article class="co fut-co locked"><div class="co-top"><span class="sec-tag">指數期貨</span>${badge(fresh(m.lastDate))}</div><h2>${m.name}期貨<span class="code">${m.code.toUpperCase()}</span></h2><p class="fut-note">資料截至 ${dstr(m.lastDate)}，解鎖後顯示。</p></article>`).join('')}</div><div class="fut-lockbox"></div>`;
+      lockForm(el.querySelector('.fut-lockbox'), base, () => home(el, base, link));
+      return;
+    }
+    el.innerHTML = `<div class="fut-cards">${datas.map(d => {
+      const s = summary(d), up = s.chg >= 0, col = T(up ? '--kup' : '--kdn'), q = dp(d.code);
+      const pos = s.ma20 == null ? '—' : s.b.c >= s.ma20 ? '站上 MA20' : '跌破 MA20';
+      return `<article class="co fut-co">
+        <div class="co-top"><span class="sec-tag">指數期貨</span>${badge(fresh(d.lastDate))}</div>
+        <h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月</span></h2>
+        <div class="fut-px"><b>${fmt(s.b.c, q)}</b><span class="${up ? 'kup' : 'kdn'}">${s.chg == null ? '' : (up ? '▲' : '▼') + ' ' + sp(s.chg, 2)}</span></div>
+        ${spark(s.spark, col)}
+        <div class="foot"><span>近 60 日 · ${pos} · KD ${fmt(s.K, 0)}/${fmt(s.D, 0)}</span><span>資料截至 ${dstr(d.lastDate)}</span></div>
+        <div><a class="go" href="${link}?s=${d.code}">看 ${d.name} K 棒 →</a></div>
+      </article>`; }).join('')}</div>`;
+  }
+
+  /* ---------- K 棒頁 ---------- */
+  function page(root, base) {
+    const q = new URLSearchParams(location.search);
+    const st = { code: q.get('s') === 'nq' ? 'nq' : 'ym', p: { D: 'D', W: 'W', M: 'M' }[q.get('p')] || 'D', mas: new Set(MAS), vol: true };
+    const $r = (s) => root.querySelector(s);
+    let chart = null;
+    async function go() {
+      const d = await load(base, st.code);
+      if (!d) { $r('#futBody').hidden = true; $r('#futLock').hidden = false; lockForm($r('#futLock'), base, go); return; }
+      $r('#futLock').hidden = true; $r('#futBody').hidden = false;
+      history.replaceState(null, '', `?s=${st.code}&p=${st.p}`);
+      draw(d);
+    }
+    function sync() {
+      root.querySelectorAll('[data-code]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.code === st.code)));
+      root.querySelectorAll('[data-p]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === st.p)));
+      root.querySelectorAll('[data-ma]').forEach(b => b.setAttribute('aria-pressed', String(st.mas.has(+b.dataset.ma))));
+      $r('#futVol').setAttribute('aria-pressed', String(st.vol));
+    }
+    function draw(d) {
+      sync();
+      const LW = window.LightweightCharts, bars = aggregate(toBars(d), st.p), S = study(bars), q = dp(d.code);
+      const done = periodDone(bars[bars.length - 1].last || bars[bars.length - 1].t, st.p);
+      const pName = { D: '日 K', W: '週 K', M: '月 K' }[st.p];
+      $r('#futTitle').textContent = `${d.name}期貨 ${pName}`;
+      $r('#futSub').textContent = `${d.exchange} 連續近月合約（未調整）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}` + (done ? '' : `· 最後一根${pName.replace(' K', '')}尚未收完，只算到 ${dstr(d.lastDate)}`);
+      const box = $r('#futChart'); if (chart) { chart.remove(); chart = null; }
+      const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
+      chart = LW.createChart(box, {
+        autoSize: true,
+        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 11, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
+        grid: { vertLines: { color: grid }, horzLines: { color: grid } },
+        rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
+        crosshair: { mode: 0 }, localization: { locale: 'zh-TW' },
+      });
+      const toT = (b) => b.t;
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
+      candle.priceScale().applyOptions({ mode: st.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
+      candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
+      const maSeries = {};
+      MAS.forEach(n => { if (!st.mas.has(n)) return; const s = chart.addSeries(LW.LineSeries, { color: T(MA_COLOR(n)), lineWidth: n >= 50 ? 2 : 1, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q) }, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false }, 0);
+        s.setData(bars.map((b, i) => S.ma[n][i] == null ? { time: toT(b) } : { time: toT(b), value: S.ma[n][i] })); maSeries[n] = s; });
+      /* 扣抵三角（K 棒下方，顏色 = 均線顏色）＋ 推算換月日（只在日 K） */
+      const mk = [];
+      MAS.forEach(n => { const x = S.ded[n]; if (x && st.mas.has(n)) mk.push({ time: x.t, position: 'belowBar', shape: 'arrowUp', color: T(MA_COLOR(n)), text: '扣' + n }); });
+      const have = new Set(bars.map(b => b.t));
+      if (st.p === 'D') (d.rolls || []).forEach(r => { if (have.has(r.date)) mk.push({ time: r.date, position: 'aboveBar', shape: 'circle', color: T('--muted'), text: '換月', size: 0.6 }); });
+      mk.sort((a, b) => a.time < b.time ? -1 : a.time > b.time ? 1 : 0);
+      LW.createSeriesMarkers(candle, mk);
+      let pane = 1;
+      if (st.vol) {
+        const vs = chart.addSeries(LW.HistogramSeries, { priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false }, pane++);
+        vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
+      }
+      const kdPane = pane;
+      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 1, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      kS.setData(bars.map((b, i) => S.K[i] == null ? { time: toT(b) } : { time: toT(b), value: S.K[i] }));
+      dS.setData(bars.map((b, i) => S.D[i] == null ? { time: toT(b) } : { time: toT(b), value: S.D[i] }));
+      [20, 80].forEach(v => kS.createPriceLine({ price: v, color: T('--axis'), lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
+      const panes = chart.panes();
+      panes[0].setStretchFactor(st.vol ? 0.64 : 0.74); if (st.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25);
+      const n = bars.length, show = { D: 160, W: 150, M: 160 }[st.p];
+      chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
+      /* 十字游標所在那一根的數值 */
+      const idx = Object.fromEntries(bars.map((b, i) => [b.t, i]));
+      const leg = (i) => {
+        const b = bars[i], p = bars[i - 1], ch = p ? (b.c / p.c - 1) * 100 : null;
+        $r('#futLeg').innerHTML = `<span class="d">${dstr(b.t)}${st.p !== 'D' && b.last && b.last !== b.t ? '–' + dstr(b.last).slice(5) : ''}</span>` +
+          `<span>開 <b>${fmt(b.o, q)}</b></span><span>高 <b>${fmt(b.h, q)}</b></span><span>低 <b>${fmt(b.l, q)}</b></span><span>收 <b class="${ch >= 0 ? 'kup' : 'kdn'}">${fmt(b.c, q)}</b> ${ch == null ? '' : sp(ch, 2)}</span>` +
+          MAS.filter(n => st.mas.has(n)).map(n => `<span><i style="background:${T(MA_COLOR(n))}"></i>MA${n} ${fmt(S.ma[n][i], q)}</span>`).join('') +
+          `<span><i style="background:${T('--s1')}"></i>K ${fmt(S.K[i], 1)}</span><span><i style="background:${T('--s2')}"></i>D ${fmt(S.D[i], 1)}</span>`;
+      };
+      leg(n - 1);
+      chart.subscribeCrosshairMove(p => { const i = p && p.time != null ? idx[typeof p.time === 'string' ? p.time : `${p.time.year}-${String(p.time.month).padStart(2, '0')}-${String(p.time.day).padStart(2, '0')}`] : null; leg(i == null ? n - 1 : i); });
+      /* 均線與扣抵表 */
+      const last = bars[n - 1];
+      $r('#futMaTbl').innerHTML = `<thead><tr><th>均線</th><th>目前</th><th>扣抵值</th><th>扣抵那一根</th><th>最新收盤 − 扣抵值</th><th class="txt">若下一根收盤跟最新收盤一樣</th></tr></thead><tbody>` +
+        MAS.map(n => { const x = S.ded[n], m = S.ma[n][bars.length - 1]; if (!x || m == null) return `<tr><td><i class="dot" style="background:${T(MA_COLOR(n))}"></i>MA${n}</td><td colspan="5" class="txt">資料不足 ${n} 根</td></tr>`;
+          const diff = last.c - x.c, nx = m + diff / n;
+          return `<tr><td><i class="dot" style="background:${T(MA_COLOR(n))}"></i>MA${n}</td><td>${fmt(m, q)}</td><td>${fmt(x.c, q)}</td><td>${dstr(x.t)}</td><td class="${diff >= 0 ? 'kup' : 'kdn'}">${diff >= 0 ? '+' : '−'}${fmt(Math.abs(diff), q)}</td><td class="txt">${diff > 0 ? '均線上揚' : diff < 0 ? '均線下彎' : '均線持平'}，變成 ${fmt(nx, q)}</td></tr>`; }).join('') + '</tbody>';
+      /* 來源與待確認 */
+      const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
+      const checked = cr.ok || cme.length;
+      $r('#futSrc').innerHTML = `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，每天台北 08:30 自動抓前一個交易日（這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
+        `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
+        (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
+        (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
+        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
+        `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
+        `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
+        (d.pending && d.pending.length ? `<li><details><summary class="pend">待確認：${d.pending.length} 天的 K 棒沒有採用（點開看日期與原因）</summary><ul>${d.pending.map(p => `<li>${dstr(p.date)}：${esc(p.reason)}</li>`).join('')}</ul></details></li>` : '');
+    }
+    root.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
+      if (b.dataset.code) st.code = b.dataset.code; else if (b.dataset.p) st.p = b.dataset.p;
+      else if (b.dataset.ma) { const n = +b.dataset.ma; st.mas.has(n) ? st.mas.delete(n) : st.mas.add(n); }
+      else if (b.id === 'futVol') st.vol = !st.vol;
+      else if (b.id === 'futLockBtn') { lock(); }
+      go();
+    });
+    root.querySelector('#futMaBtns').innerHTML = MAS.map(n => `<button type="button" data-ma="${n}" aria-pressed="true"><i style="background:${T(MA_COLOR(n))}"></i>${n}</button>`).join('');
+    const redraw = () => { if (cache[st.code]) draw(cache[st.code]); };
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw);
+    new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    go();
+  }
+
+  return { unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS };
+})();
+
+FUT.page(document.querySelector('main'), '../data/futures/');
+</script>
+
+</body></html>
