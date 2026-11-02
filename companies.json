@@ -257,6 +257,27 @@
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true
+    },
+    {
+      "code": "anthropic",
+      "name": "Anthropic",
+      "nameEn": "Anthropic, PBC",
+      "ticker": "ANT",
+      "exchange": "Nasdaq ANT",
+      "sector": "軟體與網路服務",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "anthropic/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "Anthropic財報追蹤板",
+      "description": "Anthropic（ANT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "primarySource": {
+        "n": "SEC EDGAR（S-1、10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357"
+      },
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false
     }
   ]
 }

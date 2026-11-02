@@ -1,0 +1,179 @@
+{
+  "asOf": "2026-11-02",
+  "company": {
+    "code": "anthropic",
+    "name": "Anthropic",
+    "nameEn": "Anthropic, PBC",
+    "ticker": "ANT",
+    "exchange": "Nasdaq ANT",
+    "currency": "USD",
+    "unit": "百萬美元",
+    "epsUnit": "美元",
+    "fiscalYearEnd": "12-31",
+    "frequency": "quarterly",
+    "lede": "Anthropic（預計 Nasdaq ANT）開發 Claude 系列 AI 模型。2026-10-26 向 SEC 公開 S-1，尚未定價上市。上市前沒有單季 EPS，所以本頁要等上市後第一份季報才開放。金額單位是百萬美元。",
+    "cadence": [
+      {
+        "when": "每季",
+        "what": "財報新聞稿",
+        "which": "營收、獲利、現金流、財測"
+      },
+      {
+        "when": "財報後",
+        "what": "10-Q／10-K 或季報",
+        "which": "分部拆分與完整附註"
+      },
+      {
+        "when": "不定期",
+        "what": "新聞稿與媒體",
+        "which": "重大合約、產品、併購"
+      }
+    ]
+  },
+  "quarters": [
+    {
+      "q": "1Q24",
+      "rev": null,
+      "gp": null,
+      "gm": null,
+      "opInc": null,
+      "om": null,
+      "ni": null,
+      "eps": null,
+      "ocf": null,
+      "capex": null,
+      "fcf": null,
+      "dps": null
+    }
+  ],
+  "annual": {
+    "2023": {
+      "rev": 41,
+      "gp": null,
+      "opInc": -551,
+      "ni": -1531,
+      "eps": -1.42,
+      "ocf": null,
+      "capex": null
+    },
+    "2024": {
+      "rev": 386,
+      "gp": null,
+      "opInc": -2980,
+      "ni": -8309,
+      "eps": -5.43,
+      "ocf": null,
+      "capex": null
+    },
+    "2025": {
+      "rev": 4585,
+      "gp": null,
+      "opInc": -8060,
+      "ni": -41965,
+      "eps": -23.04,
+      "ocf": null,
+      "capex": null
+    }
+  },
+  "guidance": {
+    "issued": "2026-11-02",
+    "items": [],
+    "note": "上市前沒有公司財測。"
+  },
+  "events": [
+    {
+      "date": "2026-11-30",
+      "t": "IPO 定價與掛牌（公司尚未公告日期）",
+      "est": 1
+    }
+  ],
+  "waterfall": {
+    "q": "1Q24",
+    "rows": [
+      {
+        "n": "營收",
+        "v": null,
+        "t": 1
+      },
+      {
+        "n": "營業成本",
+        "v": null
+      },
+      {
+        "n": "毛利",
+        "v": null,
+        "t": 1
+      },
+      {
+        "n": "營業費用",
+        "v": null
+      },
+      {
+        "n": "營業利益",
+        "v": null,
+        "t": 1
+      },
+      {
+        "n": "業外收支",
+        "v": null
+      },
+      {
+        "n": "所得稅",
+        "v": null
+      },
+      {
+        "n": "淨利（歸屬母公司）",
+        "v": null,
+        "t": 1
+      }
+    ],
+    "note": ""
+  },
+  "segments": null,
+  "extra": null,
+  "milestones": [
+    {
+      "t": "向 SEC 秘密遞交上市申請（DRS）",
+      "src": "https://data.sec.gov/submissions/CIK0002130357.json",
+      "d": "2026-06-01",
+      "cat": "listing",
+      "st": "p"
+    },
+    {
+      "t": "公開 S-1，預計在 Nasdaq Global Select 以 ANT 掛牌",
+      "src": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+      "d": "2026-10-26",
+      "cat": "listing",
+      "st": "p"
+    }
+  ],
+  "sources": [
+    {
+      "n": "SEC EDGAR（S-1、10-Q、10-K、8-K）",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357",
+      "note": "損益、現金流、EPS"
+    },
+    {
+      "n": "S-1 公開說明書（2026-10-26）",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm",
+      "note": "2023–2025 全年、1H25、1H26"
+    }
+  ],
+  "notes": {
+    "unavailable": [
+      "待確認：所有季度。上市前沒有單季 EPS（S-1 只有全年與上半年的每股虧損），共用欄位 eps 不能是 null，所以上市後第一份季報（10-Q 或財報新聞稿）出來前不收任何季度",
+      "待確認：1Q25–2Q26 單季營收與營業利益。S-1 的季度表在 MD&A（約第 132 頁後），主檔 14 MB，WebFetch 只讀得到前約 13 萬字，讀不到",
+      "待確定：2Q26 營收 115.6 億美元、營業利益 9.74 億美元，只有媒體（The VC Corner、Futurum）引用，未讀到 S-1 原文",
+      "待確認：毛利。S-1 損益表沒有「營業成本／毛利」這一行，最接近的是「Compute and infrastructure」費用，口徑要等讀到完整報表再決定",
+      "待確認：2023–2025 全年營業現金流與資本支出，S-1 摘要讀到的部分沒有"
+    ],
+    "general": "重要事件的來源列在事件明細的最後一欄；只有媒體報導、公司沒證實的標「待確定」。"
+  },
+  "categories": {
+    "listing": "上市",
+    "ma": "併購",
+    "product": "產品",
+    "contract": "合約",
+    "finance": "融資"
+  }
+}
