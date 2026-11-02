@@ -196,10 +196,12 @@ $('#cos').innerHTML = S.map(({ c, D, N, M, F, s }) => `
    點分頁籤 → 清空搜尋、只看該產業；在搜尋框打字 → 回到「全部」，比對名稱、英文名、代號、交易所、產業。 */
 const ALL = '全部';
 const SECTORS = [...new Set(S.map(s => s.c.sector || '其他'))];
-let curSec = ALL;
+/* 首頁一打開預設顯示「半導體」；沒有這個產業時退回「全部」 */
+const DEFAULT_SEC = SECTORS.includes('半導體') ? '半導體' : ALL;
+let curSec = DEFAULT_SEC;
 const tabsEl = $('#secTabs'), qEl = $('#coQ'), cosEl = $('#cos');
 const cnt = (sec) => sec === ALL ? S.length : S.filter(s => (s.c.sector || '其他') === sec).length;
-tabsEl.innerHTML = [ALL, ...SECTORS].map(t => `<button type="button" role="tab" data-sec="${t}" aria-selected="${t === ALL}">${t}<span class="n">${cnt(t)}</span></button>`).join('');
+tabsEl.innerHTML = [ALL, ...SECTORS].map(t => `<button type="button" role="tab" data-sec="${t}" aria-selected="${t === DEFAULT_SEC}">${t}<span class="n">${cnt(t)}</span></button>`).join('');
 const norm = (t) => String(t || '').toLowerCase().replace(/[\s·.\-]/g, '');
 const hay = Object.fromEntries(S.map(({ c }) => [c.code, norm([c.name, c.nameEn, c.ticker, c.code, c.exchange, c.sector].join('|'))]));
 function applyFilter() {
@@ -216,8 +218,8 @@ function applyFilter() {
 }
 tabsEl.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; curSec = b.dataset.sec; qEl.value = ''; applyFilter(); });
 cosEl.addEventListener('click', e => { const b = e.target.closest('.sec-tag'); if (!b) return; curSec = b.dataset.sector; qEl.value = ''; applyFilter(); tabsEl.querySelector(`[data-sec="${curSec}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); });
-qEl.addEventListener('input', () => { if (qEl.value.trim()) curSec = ALL; applyFilter(); });
-qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = ''; applyFilter(); } });
+qEl.addEventListener('input', () => { curSec = qEl.value.trim() ? ALL : DEFAULT_SEC; applyFilter(); });
+qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = ''; curSec = DEFAULT_SEC; applyFilter(); } });
 applyFilter();
 
 /* ---------- 記分板 ---------- */
