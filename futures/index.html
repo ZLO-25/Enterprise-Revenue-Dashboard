@@ -651,7 +651,13 @@ const FUT = (() => {
         layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 12, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
         grid: { vertLines: { color: grid }, horzLines: { color: grid } },
         rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
-        crosshair: { mode: 0 }, localization: { locale: 'zh-TW' },
+        crosshair: { mode: 0 }, localization: { locale: 'zh-TW', timeFormatter: (t) => {
+          /* 十字線底下的日期：日 K = 2026/10/30（五），週 K = 該週第一個交易日起，月 K = 2026/10 */
+          const ds = typeof t === 'string' ? t : `${t.year}-${String(t.month).padStart(2, '0')}-${String(t.day).padStart(2, '0')}`;
+          if (o.p === 'M') return ds.slice(0, 7).replace('-', '/');
+          const wd = '日一二三四五六'[new Date(ds + 'T00:00:00Z').getUTCDay()];
+          return dstr(ds) + (o.p === 'W' ? ' 起的一週' : `（${wd}）`);
+        } },
       });
       const toT = (b) => b.t;
       const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
@@ -683,7 +689,7 @@ const FUT = (() => {
       const n = bars.length, show = o.show || { D: 160, W: 150, M: 160 }[o.p];
       chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
       /* 首頁小圖：滑鼠滾輪／雙指縮放、按住拖曳平移；手機上下滑動仍是捲動頁面 */
-      if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 2 } });
+      if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 0, horzLine: { visible: false, labelVisible: false }, vertLine: { labelVisible: true } } });
       return chart;
   }
 
