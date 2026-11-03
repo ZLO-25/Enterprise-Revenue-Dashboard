@@ -59,6 +59,59 @@ def last_closed_date(now=None):
     return d if now.time() >= dt.time(16, 15) else d - dt.timedelta(days=1)
 
 
+def us_holidays(y):
+    """美股／CME 股價指數期貨沒有日 K 的國定假日（NYSE 規則）。只用來判斷「應該要有哪一天」，避免假日誤報。"""
+    def nth(month, weekday, n):  # 第 n 個星期幾；n = -1 代表最後一個
+        if n > 0:
+            d = dt.date(y, month, 1)
+            d += dt.timedelta(days=(weekday - d.weekday()) % 7)
+            return d + dt.timedelta(weeks=n - 1)
+        d = dt.date(y, month + 1, 1) - dt.timedelta(days=1)
+        return d - dt.timedelta(days=(d.weekday() - weekday) % 7)
+    def observed(d):
+        return d - dt.timedelta(days=1) if d.weekday() == 5 else d + dt.timedelta(days=1) if d.weekday() == 6 else d
+    a = y % 19; b, c = divmod(y, 100); d_, e = divmod(b, 4); f = (b + 8) // 25; g = (b - f + 1) // 3
+    h = (19 * a + b - d_ - g + 15) % 30; i, k = divmod(c, 4); l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451; month, day = divmod(h + l - 7 * m + 114, 31)
+    easter = dt.date(y, month, day + 1)
+    return {observed(dt.date(y, 1, 1)), nth(1, 0, 3), nth(2, 0, 3), easter - dt.timedelta(days=2), nth(5, 0, -1),
+            observed(dt.date(y, 6, 19)), observed(dt.date(y, 7, 4)), nth(9, 0, 1), nth(11, 3, 4), observed(dt.date(y, 12, 25))}
+
+
+def expected_date(now=None):
+    """現在應該已經拿得到的最新交易日（已收盤、跳過週末與假日）。"""
+    d = last_closed_date(now)
+    while d.weekday() >= 5 or d in us_holidays(d.year):
+        d -= dt.timedelta(days=1)
+    return d.isoformat()
+
+
+def stored_dates(outdir):
+    out = {}
+    for s in SYMBOLS:
+        p = os.path.join(outdir, s["code"] + ".enc.json")
+        out[s["code"]] = json.load(open(p)).get("lastDate", "") if os.path.exists(p) else ""
+    return out
+
+
+def gh_output(**kv):
+    p = os.environ.get("GITHUB_OUTPUT")
+    if p:
+        with open(p, "a") as f:
+            for k, v in kv.items():
+                f.write(f"{k}={v}\n")
+
+
+def check():
+    """確認：網站上的資料是否已經到最新交易日。只讀日期，不需要密碼、不抓資料。"""
+    exp = expected_date()
+    have = stored_dates(os.path.join(ROOT, "data", "futures"))
+    behind = [c for c, d in have.items() if d < exp]
+    log(f"應有的最新交易日 {exp}；目前資料 {have}；" + ("落後：" + ",".join(behind) if behind else "已是最新"))
+    gh_output(stale="true" if behind else "false", expected=exp)
+    return behind
+
+
 def fetch_yahoo(sym):
     """用 yfinance 抓（它會處理 Yahoo 的 cookie／crumb，直接打 API 常被 429 擋）。"""
     import yfinance as yf
@@ -298,8 +351,21 @@ def main():
             json.dump(out, f, separators=(",", ":"))
         log(f"  ✓ 已寫入 {os.path.relpath(path, ROOT)}（加密）")
     if failed and len(failed) == len(SYMBOLS):
-        sys.exit("全部商品都失敗")
+        log("全部商品都抓取失敗")
+    if dev:
+        return
+    # 確認：寫完之後再檢查一次是不是真的到最新交易日
+    behind = check()
+    if behind:
+        msg = f"還沒更新到 {expected_date()}（{','.join(behind)}）：可能 Yahoo 還沒出資料，或抓取失敗"
+        if os.environ.get("FINAL_TRY") == "1":
+            sys.exit("✗ 今天最後一次嘗試仍失敗，" + msg)   # 讓 Actions 變紅燈，GitHub 會寄信通知
+        log("… " + msg + "；稍後重試")
+        sys.exit(75)  # 75 = 稍後重試（workflow 會依這個代碼重跑）
 
 
 if __name__ == "__main__":
-    main()
+    if "--check" in sys.argv:
+        check()
+    else:
+        main()
