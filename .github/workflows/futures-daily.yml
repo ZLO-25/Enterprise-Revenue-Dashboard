@@ -1,11 +1,16 @@
 # 小道瓊、小那指期貨日 K 每日更新（不經過 Claude）
-# 台北 08:30 與 10:30（UTC 00:30、02:30），週二到週六；美國收盤後約 2.5 小時。
+# CME 收盤：芝加哥 16:00 = UTC 21:00（美國夏令）／22:00（冬令）。
+# 盤後跑三次，前一次成功、沒有新 K 棒時，後面幾次什麼都不做：
+#   UTC 23:17 週一～五 = 台北 07:17 週二～六（冬令收盤後約 1.3 小時，夏令約 2.3 小時）
+#   UTC 01:47、04:17 週二～六 = 台北 09:47、12:17（備援：GitHub 排程常延遲或漏跑）
+# 分鐘刻意避開整點與半點（整點排程最擁擠、最容易被延遲）。
 # 密碼放在 Settings → Secrets and variables → Actions → FUTURES_PASSWORD。
 name: futures-daily
 on:
   schedule:
-    - cron: "30 0 * * 2-6"
-    - cron: "30 2 * * 2-6"
+    - cron: "17 23 * * 1-5"
+    - cron: "47 1 * * 2-6"
+    - cron: "17 4 * * 2-6"
   workflow_dispatch:
 permissions:
   contents: write
