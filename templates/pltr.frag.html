@@ -17,6 +17,7 @@
     <a href="#deals">客戶與合約</a>
     <a href="#guidance">財測</a>
     <a href="#events">重要事件</a>
+    <a href="#policy">政策風險</a>
     <a href="#tables">數據表</a>
     <a href="#glossary">指標小辭典</a>
     <a href="#sources">資料來源</a>
@@ -215,10 +216,33 @@
           <button type="button" data-f="product" aria-pressed="false">產品</button>
           <button type="button" data-f="mkt" aria-pressed="false">上市與指數</button>
           <button type="button" data-f="profit" aria-pressed="false">獲利</button>
+          <button type="button" data-f="policy" aria-pressed="false">政策</button>
           <button type="button" data-f="unc" aria-pressed="false">待確定</button>
         </div>
       </div>
       <div class="tbl-wrap"><table id="tMs"></table></div>
+    </div>
+  </section>
+
+  <section id="policy">
+    <div class="sec-head">
+      <span class="sec-tag">不定期</span>
+      <h2 id="polTitle">政策風險</h2>
+      <p class="sub" id="polSum"></p>
+    </div>
+    <div class="callout" id="polExp"></div>
+    <div class="card wide">
+      <div class="tbl-bar"><h3>六大風險（機率與影響為主觀判斷）</h3></div>
+      <div class="tbl-wrap"><table id="tPolRisk"></table></div>
+    </div>
+    <div class="card wide">
+      <div class="tbl-bar"><h3>三情境（到 2028 大選）</h3></div>
+      <div class="tbl-wrap"><table id="tPolScen"></table></div>
+    </div>
+    <div class="card wide">
+      <div class="tbl-bar"><h3>觀察指標時間軸</h3></div>
+      <div class="tbl-wrap"><table id="tPolWatch"></table></div>
+      <p class="note" id="polNote"></p>
     </div>
   </section>
 
@@ -514,7 +538,7 @@ function build() {
 
 /* ---------- 事件 ---------- */
 const MS = (D.milestones || []).slice().sort((a, b) => dy(b.d) - dy(a.d));
-const CAT = { contract: '合約', product: '產品', listing: '上市', index: '指數', profit: '獲利' };
+const CAT = { contract: '合約', product: '產品', listing: '上市', index: '指數', profit: '獲利', policy: '政策' };
 let msFilter = 'all';
 function msTable() {
   const rows = MS.filter(m => msFilter === 'all' ? true : msFilter === 'unc' ? m.unc : msFilter === 'mkt' ? (m.cat === 'listing' || m.cat === 'index') : m.cat === msFilter);
@@ -522,6 +546,24 @@ function msTable() {
     rows.map(m => `<tr class="${m.st === 'f' ? 'st-plan' : ''}"><td>${dfmt(m.d)}</td><td>${CAT[m.cat] || '其他'}</td><td class="txt">${m.t}${m.unc ? UNC : ''}${m.note ? `<br><small class="st-plan">${m.note}</small>` : ''}</td><td>${m.unc ? '待確定' : m.st === 'f' ? '規劃中' : '已證實'}</td><td class="src">${srcLink(m)}</td></tr>`).join('') + '</tbody>';
 }
 $('#msSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; msFilter = b.dataset.f; syncSeg('msSeg', 'f', msFilter); msTable(); });
+
+/* ---------- 政策風險 ---------- */
+(() => {
+  const P = D.policyRisk; const sec = $('#policy');
+  if (!P) { sec.hidden = true; return; }
+  const e = P.exposure;
+  $('#polTitle').textContent = P.title;
+  $('#polSum').textContent = P.summary;
+  $('#polExp').innerHTML = `<b>政治曝險（${e.q}）</b><span>美國政府營收 ${f0(e.usGov)}（占 ${pc(e.usGov / e.rev * 100, 0)}），美國商業 ${f0(e.usCom)}，總營收 ${f0(e.rev)}。國會的預算權主要碰得到美國政府這一塊。<a href="${e.src}" target="_blank" rel="noopener">來源</a></span>`;
+  $('#tPolRisk').innerHTML = `<thead><tr><th class="txt">風險</th><th>發生機率</th><th>營收影響</th><th>時點</th><th class="txt">一句話</th></tr></thead><tbody>` +
+    P.risks.map(r => `<tr><td class="txt">${r.n}</td><td>${r.p}</td><td>${r.impact}</td><td>${r.when}</td><td class="txt">${r.line}</td></tr>`).join('') + '</tbody>';
+  $('#tPolScen').innerHTML = `<thead><tr><th>情境</th><th>主觀機率</th><th class="txt">劇情</th><th class="txt">觸發訊號（百萬美元）</th></tr></thead><tbody>` +
+    P.scenarios.map(r => `<tr><td>${r.n}</td><td>${r.prob}%</td><td class="txt">${r.line}</td><td class="txt">${r.trigger}</td></tr>`).join('') + '</tbody>';
+  $('#tPolWatch').innerHTML = `<thead><tr><th>時間</th><th class="txt">要看什麼</th></tr></thead><tbody>` +
+    P.watch.map(w => `<tr><td>${dfmt(w.d)}${w.est ? '（預估）' : ''}</td><td class="txt">${w.t}</td></tr>`).join('') + '</tbody>';
+  $('#polNote').innerHTML = `${P.note} 分析時點 ${P.asOf}。<a href="${P.doc}" target="_blank" rel="noopener">完整分析文件</a>｜` +
+    P.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.n}</a>`).join('｜');
+})();
 
 /* ---------- 表格與 CSV ---------- */
 function tables() {

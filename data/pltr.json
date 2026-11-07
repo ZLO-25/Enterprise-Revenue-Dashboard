@@ -1089,6 +1089,23 @@
    "src": "https://defensescoop.com/2026/09/01/army-titan-platform-production-awards-palantir-anduril/",
    "st": "p",
    "note": "媒體報導；陸軍與 Palantir 均已發布新聞稿"
+  },
+  {
+   "d": "2026-02-28",
+   "cat": "policy",
+   "t": "伊朗戰爭首日 Minab 小學遭誤炸；Maven Smart System 被指為當時的目標系統",
+   "src": "https://www.techdirt.com/2026/09/29/reporting-confirms-stupid-over-reliance-on-palantir-ai-helped-lead-to-us-bombing-of-iranian-schoolgirls/",
+   "st": "p",
+   "unc": 1,
+   "note": "待確定：Bloomberg 報導五角大廈未公開的內部調查認為人員過度依賴 Maven；Palantir 表示不對底層資料負責，報告至今未公開"
+  },
+  {
+   "d": "2026-11-03",
+   "cat": "policy",
+   "t": "美國期中選舉：民主黨拿下參眾兩院，2027/1/3 上任，國防預算與政府合約監督將更嚴",
+   "src": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+   "st": "p",
+   "note": "CBS 等媒體預估；AP 正式計票持續中"
   }
  ],
  "pltrNotes": {
@@ -1098,6 +1115,139 @@
    "前 20 大客戶平均營收：只有 4Q20（33.2）、1Q25（70）、1Q26（108）",
    "剩餘交易價值（RDV）：公司只揭露美國商業的 RDV（4Q24 起在我們取得的新聞稿中有數字），總 RDV 未揭露；RPO 不含原期限 12 個月以內的合約",
    "TCV：公司只在部分季度揭露，早期季度未揭露"
+  ]
+ },
+ "policyRisk": {
+  "asOf": "2026-11-07",
+  "title": "政策風險：2026 期中選舉後",
+  "doc": "https://claude.ai/artifact/LM1jKuPJTk4sTQyHaWUxXr",
+  "summary": "民主黨大勝對 PLTR 的影響主要在估值與頭條，2027 年營收受傷有限；真正會傷到錢的是國防預算成長放緩與 Maven／Minab 問責。關鍵觀察點是 2027 年 2 月的 Q4 財報。",
+  "exposure": {
+   "q": "3Q26",
+   "rev": 2313,
+   "usGov": 953,
+   "usCom": 984,
+   "govTotal": 1145.5,
+   "src": "https://www.sec.gov/Archives/edgar/data/0001321655/000132165526000048/pltr-20260930.htm",
+   "note": "3Q26 10-Q：美國政府占總營收約 41%；美國商業首次超過美國政府"
+  },
+  "risks": [
+   {
+    "n": "國防預算成長放緩",
+    "p": "高",
+    "impact": "中",
+    "when": "2027 下半年",
+    "line": "FY27 從川普要求的 1.5 兆落到約 1.1 兆，是少漲不是砍；撥款延遲會讓新單變慢"
+   },
+   {
+    "n": "Maven／Minab 誤炸問責",
+    "p": "中",
+    "impact": "中～高",
+    "when": "2027",
+    "line": "若報告定調為系統瑕疵，最可能動到核心合約；定調為人為錯誤則輕傷"
+   },
+   {
+    "n": "國會監督調查",
+    "p": "高",
+    "impact": "小",
+    "when": "2027 上半年起",
+    "line": "聽證與傳票傷估值、不傷營收；風險在調查帶出新文件"
+   },
+   {
+    "n": "ICE／移民執法合約",
+    "p": "中",
+    "impact": "小",
+    "when": "2027 撥款季",
+    "line": "ImmigrationOS 合約 3,000 萬美元，不到 2026 營收 0.4%；傷名聲大於傷錢"
+   },
+   {
+    "n": "AI 監管立法",
+    "p": "低",
+    "impact": "小",
+    "when": "2027–2028",
+    "line": "目標是大模型公司與資料中心；需 2/3 推翻否決，但可能夾帶進必過法案"
+   },
+   {
+    "n": "海外去 Palantir 化",
+    "p": "中",
+    "impact": "小～中",
+    "when": "持續",
+    "line": "德、法排除 PLTR，英國 NHS 有反彈；日本自衛隊在評估導入"
+   }
+  ],
+  "scenarios": [
+   {
+    "n": "樂觀",
+    "prob": 25,
+    "line": "預算約 1.15 兆過關，報告歸咎國防部領導，商業短約續約放大",
+    "trigger": "Q4 TCV 超過 4Q25 的 4,262；報告未點名系統瑕疵"
+   },
+   {
+    "n": "基準",
+    "prob": 50,
+    "line": "預算約 1.05–1.1 兆、撥款延遲；聽證多但無合約取消",
+    "trigger": "2027 指引接近市場共識約 12,400"
+   },
+   {
+    "n": "悲觀",
+    "prob": 25,
+    "line": "報告定調系統問題、NDAA 夾帶分散供應商條款、商業訂單續弱",
+    "trigger": "報告公開並點名 Maven；Q4 TCV 年減"
+   }
+  ],
+  "watch": [
+   {
+    "d": "2026-12-11",
+    "t": "臨時撥款到期：政府是否關門，新單會不會延遲"
+   },
+   {
+    "d": "2027-01-03",
+    "t": "新國會上任：委員會主席與首批調查對象"
+   },
+   {
+    "d": "2027-02",
+    "t": "Q4 財報與 2027 指引（最重要）：TCV 對 4,262、指引對約 12,400",
+    "est": 1
+   },
+   {
+    "d": "2027-H1",
+    "t": "FY27 國防撥款定案：1.0／1.1／1.15 兆哪一檔"
+   },
+   {
+    "d": "2027-H1",
+    "t": "ICE、Maven 相關聽證；Minab 報告是否被要求公開"
+   },
+   {
+    "d": "2027",
+    "t": "FY28 國防授權法（NDAA）是否夾帶 AI 採購或供應商條款"
+   },
+   {
+    "d": "2028-11",
+    "t": "總統大選：決定 2029 年後的合約環境"
+   }
+  ],
+  "note": "機率與影響為主觀判斷，用來排序風險，不構成投資建議。市場共識與本益比來自第三方整理。",
+  "sources": [
+   {
+    "n": "PLTR 3Q26 10-Q",
+    "url": "https://www.sec.gov/Archives/edgar/data/0001321655/000132165526000048/pltr-20260930.htm"
+   },
+   {
+    "n": "Forecast International：選後 PLTR 的不確定性",
+    "url": "https://dsm.forecastinternational.com/2026/11/04/after-the-u-s-midterms-uncertainties-for-palantir/"
+   },
+   {
+    "n": "Forecast International：國防預算攤牌",
+    "url": "https://dsm.forecastinternational.com/2026/11/06/midterm-results-trigger-a-showdown-over-defense-spending/"
+   },
+   {
+    "n": "Reuters：民主黨 AI 法案計畫",
+    "url": "https://www.usnews.com/news/politics/articles/2026-11-06/democrats-planning-flood-of-ai-bills-when-they-take-control-of-congress"
+   },
+   {
+    "n": "TIKR：PLTR 選後下跌 10%",
+    "url": "https://www.tikr.com/blog/palantir-sinks-10-as-democratic-sweep-deepens-ai-and-defense-stock-sell-off"
+   }
   ]
  }
 }
