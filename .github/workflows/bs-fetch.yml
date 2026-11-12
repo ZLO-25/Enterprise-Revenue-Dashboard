@@ -1,0 +1,40 @@
+# 資產負債表欄位回補（手動觸發；階段 3 一次性＋新增公司時用）。只讀 SEC，結果寫 data/bs-raw/（提案），不直接改公司資料。
+name: bs-fetch
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "probe＝只列各公司有哪些概念；build＝產生提案 data/bs-raw/"
+        default: "probe"
+      company:
+        description: "只做這一家（代號，空白＝全部有 cik 的）"
+        required: false
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet yfinance
+      - name: 讀 SEC XBRL
+        env:
+          MODE: ${{ github.event.inputs.mode }}
+          COMPANY: ${{ github.event.inputs.company }}
+        run: |
+          ARGS=""
+          if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
+          if [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; else python3 tools/bs_fetch.py $ARGS; fi
+      - name: 提交提案
+        if: github.event.inputs.mode == 'build'
+        run: |
+          git config user.name "bs-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bs-raw
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -m "資產負債表提案 $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push && break || sleep 5; done
