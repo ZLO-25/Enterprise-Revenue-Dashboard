@@ -1,0 +1,4071 @@
+{
+"code": "tsla",
+"fetched": "2026-11-12T06:56Z",
+"splits": [
+[
+"2020-08-31",
+5.0
+],
+[
+"2022-08-25",
+3.0
+]
+],
+"quarters": [
+{
+"q": "1Q10",
+"end": "2010-03-31",
+"vals": {},
+"prov": {},
+"why": {
+"equity": "缺 StockholdersEquity",
+"shOut": "缺 CommonStockSharesOutstanding",
+"dilSh": "讀不到單季值",
+"pretax": "讀不到單季值",
+"tax": "讀不到單季值",
+"buyback": "讀不到單季值",
+"cash": "缺 CashAndCashEquivalentsAtCarryingValue",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q10",
+"end": "2010-06-30",
+"vals": {
+"pretax": -38.508,
+"tax": 0.009,
+"cash": 47.304
+},
+"prov": {
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-11-221497",
+"filed": "2011-08-12"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-11-221497",
+"filed": "2011-08-12"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-11-221497",
+"filed": "2011-08-12"
+}
+]
+},
+"why": {
+"equity": "缺 StockholdersEquity",
+"shOut": "缺 CommonStockSharesOutstanding",
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q10",
+"end": "2010-09-30",
+"vals": {
+"pretax": -34.852,
+"tax": 0.083,
+"cash": 96.563
+},
+"prov": {
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-11-308489",
+"filed": "2011-11-14"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-11-308489",
+"filed": "2011-11-14"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-11-308489",
+"filed": "2011-11-14"
+}
+]
+},
+"why": {
+"equity": "缺 StockholdersEquity",
+"shOut": "缺 CommonStockSharesOutstanding",
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q10",
+"end": "2010-12-31",
+"vals": {
+"equity": 207.048,
+"shOut": 1423.626,
+"pretax": -51.395,
+"tax": -0.037,
+"cash": 99.558
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-14-069681",
+"filed": "2014-02-26"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-12-137560",
+"filed": "2012-03-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-13-096241",
+"filed": "2013-03-07"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-096241",
+"filed": "2013-03-07"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-14-069681",
+"filed": "2014-02-26"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "1Q11",
+"end": "2011-03-31",
+"vals": {
+"pretax": -48.791,
+"tax": 0.15,
+"cash": 100.655
+},
+"prov": {
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-12-225825",
+"filed": "2012-05-10"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-12-225825",
+"filed": "2012-05-10"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-12-225825",
+"filed": "2012-05-10"
+}
+]
+},
+"why": {
+"equity": "缺 StockholdersEquity",
+"shOut": "缺 CommonStockSharesOutstanding",
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q11",
+"end": "2011-06-30",
+"vals": {
+"equity": 348.452,
+"shOut": 1559.715,
+"pretax": -58.764,
+"tax": 0.139,
+"cash": 319.38
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-11-221497",
+"filed": "2011-08-12"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-11-221497",
+"filed": "2011-08-12"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-12-332138",
+"filed": "2012-08-02"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-12-332138",
+"filed": "2012-08-02"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-12-332138",
+"filed": "2012-08-02"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q11",
+"end": "2011-09-30",
+"vals": {
+"equity": 294.118,
+"shOut": 1562.832,
+"pretax": -64.991,
+"tax": 0.087,
+"cash": 278.388
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-11-308489",
+"filed": "2011-11-14"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-11-308489",
+"filed": "2011-11-14"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-12-457610",
+"filed": "2012-11-07"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-12-457610",
+"filed": "2012-11-07"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-12-457610",
+"filed": "2012-11-07"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-11-308489",
+"filed": "2011-11-14"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q11",
+"end": "2011-12-31",
+"vals": {
+"equity": 224.045,
+"shOut": 1567.955,
+"pretax": -81.377,
+"tax": 0.112,
+"cash": 280.327
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-15-001031",
+"filed": "2015-02-26"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-13-096241",
+"filed": "2013-03-07"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-14-069681",
+"filed": "2014-02-26"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-14-069681",
+"filed": "2014-02-26"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-15-001031",
+"filed": "2015-02-26"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-13-096241",
+"filed": "2013-03-07"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "1Q12",
+"end": "2012-03-31",
+"vals": {
+"equity": 153.874,
+"shOut": 1577.472,
+"dilSh": 1571.765,
+"pretax": -89.814,
+"tax": 0.059,
+"cash": 243.579
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-12-225825",
+"filed": "2012-05-10"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-12-225825",
+"filed": "2012-05-10"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-13-212354",
+"filed": "2013-05-10"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-13-212354",
+"filed": "2013-05-10"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-212354",
+"filed": "2013-05-10"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-13-212354",
+"filed": "2013-05-10"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-12-225825",
+"filed": "2012-05-10"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q12",
+"end": "2012-06-30",
+"vals": {
+"equity": 62.215,
+"shOut": 1579.85,
+"pretax": -105.494,
+"tax": 0.109,
+"cash": 210.554
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-12-332138",
+"filed": "2012-08-02"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-12-332138",
+"filed": "2012-08-02"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-13-327916",
+"filed": "2013-08-09"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-327916",
+"filed": "2013-08-09"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-13-327916",
+"filed": "2013-08-09"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q12",
+"end": "2012-09-30",
+"vals": {
+"equity": -27.875,
+"shOut": 1586.586,
+"pretax": -110.688,
+"tax": 0.116,
+"cash": 85.693
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-12-457610",
+"filed": "2012-11-07"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-12-457610",
+"filed": "2012-11-07"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-13-435480",
+"filed": "2013-11-08"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-435480",
+"filed": "2013-11-08"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-13-435480",
+"filed": "2013-11-08"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q12",
+"end": "2012-12-31",
+"vals": {
+"equity": 124.7,
+"shOut": 1713.214,
+"pretax": -90.079,
+"tax": -0.148,
+"cash": 201.89
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-16-013195",
+"filed": "2016-02-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-14-069681",
+"filed": "2014-02-26"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-15-001031",
+"filed": "2015-02-26"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-15-001031",
+"filed": "2015-02-26"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-16-013195",
+"filed": "2016-02-24"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "1Q13",
+"end": "2013-03-31",
+"vals": {
+"equity": 168.583,
+"shOut": 1727.416,
+"dilSh": 1863.979,
+"pretax": 11.399,
+"tax": 0.151,
+"cash": 214.417
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-13-212354",
+"filed": "2013-05-10"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-13-212354",
+"filed": "2013-05-10"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q13",
+"end": "2013-06-30",
+"vals": {
+"equity": 629.426,
+"shOut": 1821.445,
+"pretax": -30.201,
+"tax": 0.301,
+"cash": 746.057
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-13-327916",
+"filed": "2013-08-09"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-13-327916",
+"filed": "2013-08-09"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-14-303175",
+"filed": "2014-08-08"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-14-303175",
+"filed": "2014-08-08"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-14-303175",
+"filed": "2014-08-08"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q13",
+"end": "2013-09-30",
+"vals": {
+"equity": 564.165,
+"shOut": 1838.491,
+"pretax": -37.718,
+"tax": 0.778,
+"cash": 795.116
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-13-435480",
+"filed": "2013-11-08"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-13-435480",
+"filed": "2013-11-08"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001193125-14-403635",
+"filed": "2014-11-07"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-14-403635",
+"filed": "2014-11-07"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-14-403635",
+"filed": "2014-11-07"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q13",
+"end": "2013-12-31",
+"vals": {
+"equity": 667.12,
+"shOut": 1846.365,
+"pretax": -14.906,
+"tax": 1.358,
+"cash": 845.889
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-15-001031",
+"filed": "2015-02-26"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-16-013195",
+"filed": "2016-02-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-16-013195",
+"filed": "2016-02-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "1Q14",
+"end": "2014-03-31",
+"vals": {
+"equity": 912.056,
+"shOut": 1860.611,
+"dilSh": 1852.092,
+"pretax": -48.991,
+"tax": 0.809,
+"cash": 2583.019
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-15-003789",
+"filed": "2015-05-11"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-15-003789",
+"filed": "2015-05-11"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-15-003789",
+"filed": "2015-05-11"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-14-192606",
+"filed": "2014-05-09"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q14",
+"end": "2014-06-30",
+"vals": {
+"equity": 952.333,
+"shOut": 1868.823,
+"pretax": -60.75,
+"tax": 1.15,
+"cash": 2674.91
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-14-303175",
+"filed": "2014-08-08"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-14-303175",
+"filed": "2014-08-08"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-15-006666",
+"filed": "2015-08-07"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-15-006666",
+"filed": "2015-08-07"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-15-006666",
+"filed": "2015-08-07"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q14",
+"end": "2014-09-30",
+"vals": {
+"equity": 958.094,
+"shOut": 1880.493,
+"pretax": -70.981,
+"tax": 3.727,
+"cash": 2370.735
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-14-403635",
+"filed": "2014-11-07"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-14-403635",
+"filed": "2014-11-07"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-15-009741",
+"filed": "2015-11-05"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-15-009741",
+"filed": "2015-11-05"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-15-009741",
+"filed": "2015-11-05"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q14",
+"end": "2014-12-31",
+"vals": {
+"equity": 911.71,
+"shOut": 1885.32,
+"pretax": -103.91,
+"tax": 3.719,
+"cash": 1905.713
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-16-013195",
+"filed": "2016-02-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "1Q15",
+"end": "2015-03-31",
+"vals": {
+"equity": 825.997,
+"shOut": 1895.435,
+"pretax": -151.141,
+"tax": 3.04,
+"cash": 1510.076
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-15-003789",
+"filed": "2015-05-11"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-15-003789",
+"filed": "2015-05-11"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-16-018886",
+"filed": "2016-05-10"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-16-018886",
+"filed": "2016-05-10"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-16-018886",
+"filed": "2016-05-10"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q15",
+"end": "2015-06-30",
+"vals": {
+"equity": 715.934,
+"shOut": 1906.514,
+"pretax": -181.06,
+"tax": 3.167,
+"cash": 1150.673
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-15-006666",
+"filed": "2015-08-07"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-15-006666",
+"filed": "2015-08-07"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-16-023024",
+"filed": "2016-08-05"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-16-023024",
+"filed": "2016-08-05"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-16-023024",
+"filed": "2016-08-05"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q15",
+"end": "2015-09-30",
+"vals": {
+"equity": 1314.656,
+"shOut": 1963.515,
+"dilSh": 1935.09,
+"pretax": -228.074,
+"tax": 1.784,
+"cash": 1426.036
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-15-009741",
+"filed": "2015-11-05"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-15-009741",
+"filed": "2015-11-05"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-16-026820",
+"filed": "2016-11-02"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-16-026820",
+"filed": "2016-11-02"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-16-026820",
+"filed": "2016-11-02"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-16-026820",
+"filed": "2016-11-02"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q15",
+"end": "2015-12-31",
+"vals": {
+"equity": 1083.704,
+"shOut": 1971.375,
+"dilSh": 14.655,
+"pretax": -315.349,
+"tax": 5.048,
+"cash": 1213.608
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-17-003118",
+"filed": "2017-03-01"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "1Q16",
+"end": "2016-03-31",
+"vals": {
+"equity": 970.365,
+"shOut": 2007.87,
+"pretax": -278.421,
+"tax": 3.846,
+"cash": 1441.789
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-16-018886",
+"filed": "2016-05-10"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-16-018886",
+"filed": "2016-05-10"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "2Q16",
+"end": "2016-06-30",
+"vals": {
+"equity": 2520.294,
+"shOut": 2220.225,
+"pretax": -289.539,
+"tax": 3.649,
+"cash": 3246.301
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-16-023024",
+"filed": "2016-08-05"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-16-023024",
+"filed": "2016-08-05"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+}
+]
+},
+"why": {
+"dilSh": "讀不到單季值",
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "3Q16",
+"end": "2016-09-30",
+"vals": {
+"equity": 2680.488,
+"shOut": 2247.375,
+"dilSh": 2354.025,
+"pretax": 30.011,
+"tax": 8.133,
+"cash": 3084.257
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-16-026820",
+"filed": "2016-11-02"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-16-026820",
+"filed": "2016-11-02"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 DebtCurrent"
+}
+},
+{
+"q": "4Q16",
+"end": "2016-12-31",
+"vals": {
+"equity": 4752.911,
+"shOut": 2423.415,
+"dilSh": 54.465,
+"pretax": -208.399,
+"tax": 11.07,
+"cash": 3393.0,
+"debt": 7006.668
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-18-002956",
+"filed": "2018-02-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "1Q17",
+"end": "2017-03-31",
+"vals": {
+"equity": 4987.719,
+"shOut": 2462.46,
+"dilSh": 2431.935,
+"pretax": -371.903,
+"tax": 25.278,
+"cash": 4006.593,
+"debt": 7891.674
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-17-009968",
+"filed": "2017-05-10"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q17",
+"end": "2017-06-30",
+"vals": {
+"equity": 5105.752,
+"shOut": 2502.945,
+"dilSh": 2478.18,
+"pretax": -385.78,
+"tax": 15.647,
+"cash": 3035.924,
+"debt": 7515.847
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-17-015705",
+"filed": "2017-08-04"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q17",
+"end": "2017-09-30",
+"vals": {
+"equity": 4711.48,
+"shOut": 2520.255,
+"dilSh": 2509.41,
+"pretax": -671.448,
+"tax": -0.285,
+"cash": 3530.03,
+"debt": 9425.235
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-17-021343",
+"filed": "2017-11-03"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q17",
+"end": "2017-12-31",
+"vals": {
+"equity": 4237.242,
+"shOut": 2531.955,
+"dilSh": 16.545,
+"pretax": -779.869,
+"tax": -8.64,
+"cash": 3368.0,
+"debt": 9628.834
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-19-003165",
+"filed": "2019-02-19"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "1Q18",
+"end": "2018-03-31",
+"vals": {
+"equity": 4450.695,
+"shOut": 2546.25,
+"dilSh": 2537.19,
+"pretax": -779.022,
+"tax": 5.605,
+"cash": 2665.673,
+"debt": 9975.211
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-18-011086",
+"filed": "2018-05-07"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q18",
+"end": "2018-06-30",
+"vals": {
+"equity": 3906.421,
+"shOut": 2557.74,
+"dilSh": 2549.955,
+"pretax": -728.999,
+"tax": 13.707,
+"cash": 2236.424,
+"debt": 10465.023
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-18-019254",
+"filed": "2018-08-06"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q18",
+"end": "2018-09-30",
+"vals": {
+"equity": 4508.838,
+"shOut": 2573.67,
+"dilSh": 2670.0,
+"pretax": 271.0,
+"tax": 17.0,
+"cash": 2967.0,
+"debt": 10498.638
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-18-026353",
+"filed": "2018-11-02"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q18",
+"end": "2018-12-31",
+"vals": {
+"equity": 4923.0,
+"shOut": 2595.0,
+"dilSh": 2049.0,
+"pretax": 232.0,
+"tax": 22.0,
+"cash": 3686.0,
+"debt": 10633.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-20-004475",
+"filed": "2020-02-13"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "1Q19",
+"end": "2019-03-31",
+"vals": {
+"equity": 4605.596,
+"shOut": 2605.23,
+"dilSh": 2595.0,
+"pretax": -645.0,
+"tax": 23.0,
+"cash": 2198.0,
+"debt": 10002.619
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-19-013462",
+"filed": "2019-04-29"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q19",
+"end": "2019-06-30",
+"vals": {
+"equity": 5715.393,
+"shOut": 2686.77,
+"dilSh": 2655.0,
+"pretax": -370.0,
+"tax": 19.0,
+"cash": 4955.0,
+"debt": 11365.675
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-19-026445",
+"filed": "2019-07-29"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q19",
+"end": "2019-09-30",
+"vals": {
+"equity": 6040.0,
+"shOut": 2700.0,
+"dilSh": 2766.0,
+"pretax": 176.0,
+"tax": 26.0,
+"cash": 5338.0,
+"debt": 11739.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-19-038256",
+"filed": "2019-10-29"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q19",
+"end": "2019-12-31",
+"vals": {
+"equity": 6618.0,
+"shOut": 2715.0,
+"dilSh": 15.0,
+"pretax": 174.0,
+"tax": 42.0,
+"cash": 6268.0,
+"debt": 11801.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-21-004599",
+"filed": "2021-02-08"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "1Q20",
+"end": "2020-03-31",
+"vals": {
+"equity": 9173.0,
+"shOut": 2775.0,
+"dilSh": 2982.0,
+"pretax": 70.0,
+"tax": 2.0,
+"cash": 8080.0,
+"debt": 12330.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-20-019931",
+"filed": "2020-04-30"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q20",
+"end": "2020-06-30",
+"vals": {
+"equity": 9855.0,
+"shOut": 2790.0,
+"dilSh": 3108.0,
+"pretax": 150.0,
+"tax": 21.0,
+"cash": 8615.0,
+"debt": 12564.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-20-033670",
+"filed": "2020-07-28"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q20",
+"end": "2020-09-30",
+"vals": {
+"equity": 16031.0,
+"shOut": 2844.0,
+"dilSh": 3315.0,
+"pretax": 555.0,
+"tax": 186.0,
+"cash": 14531.0,
+"debt": 12194.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001564590-20-047486",
+"filed": "2020-10-26"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q20",
+"end": "2020-12-31",
+"vals": {
+"equity": 22225.0,
+"shOut": 2880.0,
+"dilSh": 2190.0,
+"pretax": 379.0,
+"tax": 83.0,
+"cash": 19384.0,
+"debt": 10220.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-23-001409",
+"filed": "2023-01-31"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-23-001409",
+"filed": "2023-01-31"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-23-001409",
+"filed": "2023-01-31"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-23-001409",
+"filed": "2023-01-31"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-22-000796",
+"filed": "2022-02-07"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "1Q21",
+"end": "2021-03-31",
+"vals": {
+"equity": 23017.0,
+"shOut": 2889.0,
+"dilSh": 3399.0,
+"pretax": 533.0,
+"tax": 69.0,
+"cash": 17141.0,
+"debt": 9434.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-21-000046",
+"filed": "2021-04-28"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q21",
+"end": "2021-06-30",
+"vals": {
+"equity": 24804.0,
+"shOut": 2952.0,
+"dilSh": 3357.0,
+"pretax": 1293.0,
+"tax": 115.0,
+"cash": 16229.0,
+"debt": 7960.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-21-000524",
+"filed": "2021-07-27"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q21",
+"end": "2021-09-30",
+"vals": {
+"equity": 27053.0,
+"shOut": 3012.0,
+"dilSh": 3369.0,
+"pretax": 1882.0,
+"tax": 223.0,
+"cash": 16095.0,
+"debt": 6646.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-21-002253",
+"filed": "2021-10-25"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "1Q22",
+"end": "2022-03-31",
+"vals": {
+"equity": 34085.0,
+"shOut": 3108.0,
+"dilSh": 3472.0,
+"pretax": 3626.0,
+"tax": 346.0,
+"cash": 18013.0,
+"debt": 3421.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-22-006034",
+"filed": "2022-04-25"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q22",
+"end": "2022-06-30",
+"vals": {
+"equity": 36376.0,
+"shOut": 3123.0,
+"dilSh": 3464.0,
+"pretax": 2474.0,
+"tax": 205.0,
+"cash": 18915.0,
+"debt": 3152.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-22-012936",
+"filed": "2022-07-25"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q22",
+"end": "2022-09-30",
+"vals": {
+"equity": 39851.0,
+"shOut": 3158.0,
+"dilSh": 3468.0,
+"pretax": 3636.0,
+"tax": 305.0,
+"cash": 21107.0,
+"debt": 2397.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-22-019867",
+"filed": "2022-10-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q22",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q23",
+"end": "2023-03-31",
+"vals": {
+"equity": 48054.0,
+"shOut": 3169.0,
+"dilSh": 3468.0,
+"pretax": 2800.0,
+"tax": 261.0,
+"cash": 22402.0,
+"debt": 1752.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-23-013890",
+"filed": "2023-04-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q23",
+"end": "2023-06-30",
+"vals": {
+"equity": 51130.0,
+"shOut": 3174.0,
+"dilSh": 3478.0,
+"pretax": 2937.0,
+"tax": 323.0,
+"cash": 23075.0,
+"debt": 1519.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0000950170-23-033872",
+"filed": "2023-07-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q23",
+"end": "2023-09-30",
+"vals": {
+"equity": 53466.0,
+"shOut": 3179.0,
+"dilSh": 3493.0,
+"pretax": 2045.0,
+"tax": 167.0,
+"cash": 26077.0,
+"debt": 3704.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-23-034847",
+"filed": "2023-10-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q23",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q24",
+"end": "2024-03-31",
+"vals": {
+"equity": 64378.0,
+"shOut": 3189.0,
+"dilSh": 3484.0,
+"pretax": 1888.0,
+"tax": 483.0,
+"cash": 26863.0,
+"debt": 4874.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-24-017503",
+"filed": "2024-04-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q24",
+"end": "2024-06-30",
+"vals": {
+"equity": 66468.0,
+"shOut": 3194.0,
+"dilSh": 3481.0,
+"pretax": 1787.0,
+"tax": 371.0,
+"cash": 30720.0,
+"debt": 7362.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-24-032662",
+"filed": "2024-07-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q24",
+"end": "2024-09-30",
+"vals": {
+"equity": 69931.0,
+"shOut": 3207.0,
+"dilSh": 3497.0,
+"pretax": 2791.0,
+"tax": 602.0,
+"cash": 33648.0,
+"debt": 7390.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-24-043486",
+"filed": "2024-10-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q24",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q25",
+"end": "2025-03-31",
+"vals": {
+"equity": 74653.0,
+"shOut": 3220.0,
+"dilSh": 3521.0,
+"pretax": 589.0,
+"tax": 169.0,
+"cash": 36996.0,
+"debt": 7244.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-25-018911",
+"filed": "2025-04-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q25",
+"end": "2025-06-30",
+"vals": {
+"equity": 77314.0,
+"shOut": 3224.0,
+"dilSh": 3519.0,
+"pretax": 1549.0,
+"tax": 359.0,
+"cash": 36782.0,
+"debt": 6956.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-25-035806",
+"filed": "2025-07-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q25",
+"end": "2025-09-30",
+"vals": {
+"equity": 79970.0,
+"shOut": 3324.0,
+"dilSh": 3526.0,
+"pretax": 1959.0,
+"tax": 570.0,
+"cash": 41647.0,
+"debt": 7461.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-25-045968",
+"filed": "2025-10-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "4Q25",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q26",
+"end": "2026-03-31",
+"vals": {
+"equity": 84116.0,
+"shOut": 3755.0,
+"dilSh": 3538.0,
+"pretax": 748.0,
+"tax": 257.0,
+"cash": 44743.0,
+"debt": 9019.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-26-026673",
+"filed": "2026-04-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "2Q26",
+"end": "2026-06-30",
+"vals": {
+"equity": 86858.0,
+"shOut": 3949.0,
+"dilSh": 3540.0,
+"pretax": 1329.0,
+"tax": 201.0,
+"cash": 43524.0,
+"debt": 9061.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-26-049270",
+"filed": "2026-07-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+},
+{
+"q": "3Q26",
+"end": "2026-09-30",
+"vals": {
+"equity": 89289.0,
+"shOut": 3953.0,
+"dilSh": 3541.0,
+"pretax": 956.0,
+"tax": 152.0,
+"cash": 45447.0,
+"debt": 9267.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+],
+"debt": [
+{
+"c": "DebtCurrent",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+},
+{
+"c": "LongTermDebt",
+"acc": "0001628280-26-066775",
+"filed": "2026-10-22"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值"
+}
+}
+]
+}

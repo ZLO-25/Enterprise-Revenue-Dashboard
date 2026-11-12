@@ -1,0 +1,1204 @@
+{
+"code": "amzn",
+"fetched": "2026-11-12T06:56Z",
+"splits": [
+[
+"1998-06-02",
+2.0
+],
+[
+"1999-01-05",
+3.0
+],
+[
+"1999-09-02",
+2.0
+],
+[
+"2022-06-06",
+20.0
+]
+],
+"quarters": [
+{
+"q": "1Q09",
+"end": "2009-03-31",
+"vals": {
+"dilSh": 8740.0,
+"pretax": 248.0,
+"tax": 69.0
+},
+"prov": {
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+]
+},
+"why": {
+"equity": "缺 StockholdersEquity",
+"shOut": "缺 CommonStockSharesOutstanding",
+"buyback": "讀不到單季值",
+"cash": "缺 MarketableSecuritiesCurrent",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "2Q09",
+"end": "2009-06-30",
+"vals": {
+"equity": 3256.0,
+"shOut": 8640.0,
+"dilSh": 8800.0,
+"pretax": 179.0,
+"tax": 39.0,
+"cash": 3212.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-09-154174",
+"filed": "2009-07-24"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-09-154174",
+"filed": "2009-07-24"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-11-197823",
+"filed": "2011-07-27"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-09-154174",
+"filed": "2009-07-24"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "3Q09",
+"end": "2009-09-30",
+"vals": {
+"equity": 3585.0,
+"shOut": 8660.0,
+"dilSh": 8820.0,
+"pretax": 262.0,
+"tax": 60.0,
+"cash": 4001.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-09-212134",
+"filed": "2009-10-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-09-212134",
+"filed": "2009-10-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-11-280739",
+"filed": "2011-10-26"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-09-212134",
+"filed": "2009-10-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "4Q09",
+"end": "2009-12-31",
+"vals": {
+"equity": 5257.0,
+"shOut": 8880.0,
+"dilSh": 9000.0,
+"pretax": 471.0,
+"tax": 85.0,
+"buyback": 0.0,
+"cash": 6366.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+],
+"buyback": [
+{
+"c": "PaymentsForRepurchaseOfCommonStock",
+"acc": "0001193125-10-016098",
+"filed": "2010-01-29"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-11-016253",
+"filed": "2011-01-28"
+}
+]
+},
+"why": {
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "1Q10",
+"end": "2010-03-31",
+"vals": {
+"equity": 5618.0,
+"shOut": 8920.0,
+"dilSh": 9080.0,
+"pretax": 401.0,
+"tax": 100.0,
+"cash": 5063.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-10-090367",
+"filed": "2010-04-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-10-090367",
+"filed": "2010-04-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-12-187203",
+"filed": "2012-04-27"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-10-090367",
+"filed": "2010-04-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "2Q10",
+"end": "2010-06-30",
+"vals": {
+"equity": 5857.0,
+"shOut": 8960.0,
+"dilSh": 9100.0,
+"pretax": 297.0,
+"tax": 88.0,
+"cash": 5108.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-10-164083",
+"filed": "2010-07-23"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-10-164083",
+"filed": "2010-07-23"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-12-317409",
+"filed": "2012-07-27"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-10-164083",
+"filed": "2010-07-23"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "3Q10",
+"end": "2010-09-30",
+"vals": {
+"equity": 6397.0,
+"shOut": 8980.0,
+"dilSh": 9120.0,
+"pretax": 292.0,
+"tax": 79.0,
+"cash": 5885.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-10-233883",
+"filed": "2010-10-22"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-10-233883",
+"filed": "2010-10-22"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-12-032846",
+"filed": "2012-02-01"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-12-436012",
+"filed": "2012-10-26"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-10-233883",
+"filed": "2010-10-22"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "4Q10",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q11",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q11",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q11",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q11",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q12",
+"end": "2011-03-31",
+"vals": {
+"equity": 7347.0,
+"shOut": 9040.0,
+"dilSh": 9200.0,
+"pretax": 84.0,
+"tax": 43.0,
+"cash": 6881.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-11-110197",
+"filed": "2011-04-27"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-11-110197",
+"filed": "2011-04-27"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-13-174667",
+"filed": "2013-04-26"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-11-110197",
+"filed": "2011-04-27"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "2Q12",
+"end": "2011-06-30",
+"vals": {
+"equity": 7765.0,
+"shOut": 9080.0,
+"dilSh": 9160.0,
+"pretax": 146.0,
+"tax": 109.0,
+"cash": 6355.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-11-197823",
+"filed": "2011-07-27"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-11-197823",
+"filed": "2011-07-27"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001193125-13-303204",
+"filed": "2013-07-26"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-11-197823",
+"filed": "2011-07-27"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "3Q12",
+"end": "2011-09-30",
+"vals": {
+"equity": 7766.0,
+"shOut": 9100.0,
+"dilSh": 9040.0,
+"pretax": -22.0,
+"tax": 83.0,
+"cash": 6326.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001193125-11-280739",
+"filed": "2011-10-26"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001193125-11-280739",
+"filed": "2011-10-26"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001193125-13-028520",
+"filed": "2013-01-30"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001445305-13-002495",
+"filed": "2013-10-25"
+},
+{
+"c": "MarketableSecuritiesCurrent",
+"acc": "0001193125-11-280739",
+"filed": "2011-10-26"
+}
+]
+},
+"why": {
+"buyback": "讀不到單季值",
+"debt": "缺 LongTermDebtCurrent"
+}
+},
+{
+"q": "4Q12",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q13",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q13",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q13",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q13",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q14",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q14",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q14",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q14",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q15",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q15",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q15",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q15",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q16",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q16",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q16",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q16",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q17",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q17",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q17",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q17",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q18",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q18",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q18",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q18",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q19",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q19",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q19",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q19",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q20",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q20",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q20",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q20",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q21",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q21",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q21",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q21",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q22",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q22",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q22",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q22",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q23",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q23",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q23",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q23",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q24",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q24",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q24",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q24",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q25",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q25",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q25",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "4Q25",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q26",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "2Q26",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "3Q26",
+"end": null,
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+}
+]
+}
