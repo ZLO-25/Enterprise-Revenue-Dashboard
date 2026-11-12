@@ -531,6 +531,62 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0001327567"
+    },
+    {
+      "code": "rklb",
+      "name": "火箭實驗室",
+      "nameEn": "Rocket Lab",
+      "ticker": "RKLB",
+      "exchange": "Nasdaq RKLB",
+      "sector": "電動車與太空",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "rklb/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "火箭實驗室財報追蹤板",
+      "description": "火箭實驗室（RKLB）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "RKLB",
+        "from": "2021-08",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1819994"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0001819994"
+    },
+    {
+      "code": "gev",
+      "name": "GE Vernova",
+      "nameEn": "GE Vernova",
+      "ticker": "GEV",
+      "exchange": "NYSE GEV",
+      "sector": "能源與電力",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "gev/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "GE Vernova財報追蹤板",
+      "description": "GE Vernova（GEV）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "GEV",
+        "from": "2024-04",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1996810"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0001996810"
     }
   ]
 }

@@ -1014,5 +1014,161 @@
     ]
    ]
   }
+ },
+ "rklb": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock",
+     "PaymentsForRepurchaseOfEquity"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue"
+    ]
+   ],
+   "opt": [
+    [
+     "MarketableSecuritiesCurrent",
+     "ShortTermInvestments"
+    ]
+   ]
+  }
+ },
+ "gev": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock",
+     "PaymentsForRepurchaseOfEquity"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue",
+     "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+    ]
+   ],
+   "opt": [
+    [
+     "ShortTermInvestments",
+     "MarketableSecuritiesCurrent"
+    ]
+   ]
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"
+    ]
+   ],
+   "opt": [
+    [
+     "ShortTermBorrowings"
+    ]
+   ]
+  }
  }
 }
