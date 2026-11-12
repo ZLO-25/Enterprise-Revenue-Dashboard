@@ -203,12 +203,12 @@ def main():
         pf = os.path.join(ROOT, "data", "prices", c["code"] + ".json")
         prices = json.load(open(pf, encoding="utf8")) if (c.get("price") and os.path.exists(pf)) else None
         data["valuation"] = PE.compute(data["quarters"], prices)   # 本益比只在建置時算，不存檔
-        data["health"] = HEALTH.compute(data["quarters"], data["valuation"], prices)   # ROIC、ROE、FCF 殖利率…只在建置時算，不存檔
+        data["health"] = HEALTH.compute(HEALTH.normq(data, c.get("schema")), data["valuation"], prices)   # ROIC、ROE、FCF 殖利率…只在建置時算，不存檔
         tp = os.path.join(ROOT, "data", "thesis", c["code"] + ".json")
         if os.path.exists(tp):
             th = json.load(open(tp, encoding="utf8"))
             if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
-                th["lights"] = THESIS.lights(th, data["quarters"], data["valuation"], data["health"])
+                th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
                 data["thesis"] = th
         datasets[c["code"]] = data
         frag = read("templates", c["template"] + ".frag.html")

@@ -25,6 +25,23 @@ def s4(Q, i, k):
     return None if any(x is None for x in v) else sum(v)
 
 
+def normq(D, schema=None):
+    """台積電舊格式（schema tsmc-legacy）：rev／ni 是百萬元、ocf／capex 是「十億元」（assets/adapters.js 同樣換算）。
+    這裡換成和其他公司一樣的「百萬」單位，並補上 fcf、opInc（＝營收×營業利益率，om 是公司公布值）。其他格式原樣回傳。"""
+    Q = D["quarters"]
+    if schema != "tsmc-legacy":
+        return Q
+    out = []
+    for q in Q:
+        x = dict(q)
+        for k in ("ocf", "capex"):
+            x[k] = None if q.get(k) is None else q[k] * 1000
+        x["fcf"] = None if x["ocf"] is None or x["capex"] is None else x["ocf"] - x["capex"]
+        x["opInc"] = None if q.get("om") is None or q.get("rev") is None else q["rev"] * q["om"] / 100
+        out.append(x)
+    return out
+
+
 def r(x, n=2):
     return None if x is None else round(x, n)
 

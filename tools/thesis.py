@@ -73,6 +73,9 @@ def lights(th, Q, val, health):
     out = {}
     for m in th.get("metrics", []):
         s = [p for p in S.get(m["k"], [])]
+        if m["k"] in ("dilYoy", "buybackTtm", "roe", "roic"):   # 季度指標：最新一季算不出來時，改取最近算得出來的季度（label 會標明季別）
+            while len(s) > 1 and s[-1][1] is None:
+                s = s[:-1]
         if not s or s[-1][1] is None:
             out[m["k"]] = {"light": "n", "now": None, "label": s[-1][0] if s else None, "why": "最新一點算不出來（欄位待確認、分母不是正數或沒有資料）"}
             continue
@@ -99,8 +102,9 @@ def context(code):
     c = next(x for x in cfg["companies"] if x["code"] == code)
     pf = os.path.join(ROOT, "data", "prices", code + ".json")
     prices = json.load(open(pf, encoding="utf8")) if c.get("price") and os.path.exists(pf) else None
+    Q = H.normq(D, c.get("schema"))
     val = PE.compute(D["quarters"], prices)
-    return D, val, H.compute(D["quarters"], val, prices)
+    return D, val, H.compute(Q, val, prices), Q
 
 
 def main():
@@ -109,8 +113,8 @@ def main():
         code = a[1]
         p = os.path.join(ROOT, "data", "thesis", code + ".json")
         th = json.load(open(p, encoding="utf8"))
-        D, val, hl = context(code)
-        L = lights(th, D["quarters"], val, hl)
+        D, val, hl, Q = context(code)
+        L = lights(th, Q, val, hl)
         q = D["quarters"][-1]["q"]
         th["history"] = [h for h in th.get("history", []) if h["q"] != q] + [{"q": q, "lights": {k: v["light"] for k, v in L.items()}}]
         json.dump(th, open(p, "w", encoding="utf8"), ensure_ascii=False, indent=1)
@@ -122,8 +126,8 @@ def main():
         if th.get("status") != "approved":
             rows.append(f"  {c['code']}：草稿（{th.get('updated')}），等使用者確認，不上線")
             continue
-        D, val, hl = context(c["code"])
-        L = lights(th, D["quarters"], val, hl)
+        D, val, hl, Q = context(c["code"])
+        L = lights(th, Q, val, hl)
         s = " ".join(f"{k}:{v['light']}" for k, v in L.items())
         rows.append(f"  {c['code']}：{s}")
         red += [f"{c['code']}.{k}" for k, v in L.items() if v["light"] == "r"]
