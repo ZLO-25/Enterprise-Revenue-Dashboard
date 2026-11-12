@@ -208,9 +208,9 @@ def check_thesis(code, D, err):
         err.append("thesis approved 但沒有 updatedBy（誰確認的）")
     if t.get("status") == "approved":
         for m in t.get("metrics", []):
-            if m.get("by") == "ZL" or (m.get("by") == "analyst" and m.get("group") == "val"):
+            if m.get("by") == "ZL" or m.get("by") == "analyst":
                 continue
-            err.append(f"thesis approved 但 {m.get('k')} 門檻不是使用者確認的（metrics[].by 要是 ZL；估值門檻 group=val 可用 analyst＝分析師建議、ZL 可改）")
+            err.append(f"thesis approved 但 {m.get('k')} 門檻不是使用者確認的（metrics[].by 要是 ZL；analyst＝分析師建議、ZL 可改）")
         if t.get("type") not in ("compounder", "growth", "cyclical", "turnaround"):
             err.append("thesis approved 要有 type：compounder／growth／cyclical／turnaround")
     for m in t.get("metrics", []):
