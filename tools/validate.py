@@ -315,7 +315,9 @@ def check_valuation(code, D, cfg_c, err, warn):
     for i, r in enumerate(M):
         if not r["d"].startswith(r["m"]):
             err.append(f"{r['m']} 的日期 {r['d']} 不在該月")
-        if i > 0 and int(r["d"][8:]) < 23:
+        # 例外：台股農曆春節長假（1～2 月）最後交易日可能早於 23 日（2025 年是 1 月 22 日），且該日已有證交所收盤價核對
+        cny = r.get("x") == "twse" and r["m"][5:] in ("01", "02") and int(r["d"][8:]) >= 20
+        if i > 0 and int(r["d"][8:]) < 23 and not cny:
             err.append(f"{r['m']} 的日期 {r['d']} 不是月底（應為 23 日以後的最後交易日）")
         if r.get("c") is None:
             if not str(r.get("why", "")).startswith("待確認："):
