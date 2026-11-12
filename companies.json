@@ -25,6 +25,12 @@
       "primarySource": {
         "n": "台積電投資人關係（月營收、季報）",
         "url": "https://investor.tsmc.com/english/quarterly-results"
+      },
+      "price": {
+        "yahoo": "2330.TW",
+        "from": "2015-01",
+        "currency": "TWD",
+        "twse": "2330"
       }
     },
     {
@@ -46,6 +52,11 @@
       "primarySource": {
         "n": "SEC EDGAR（10-Q、10-K、8-K）",
         "url": "https://www.sec.gov/edgar/browse/?CIK=1321655"
+      },
+      "price": {
+        "yahoo": "PLTR",
+        "from": "2020-09",
+        "currency": "USD"
       }
     },
     {
@@ -67,7 +78,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=1045810"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "NVDA",
+        "from": "2009-02",
+        "currency": "USD"
+      }
     },
     {
       "code": "tsla",
@@ -88,7 +104,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=1318605"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "TSLA",
+        "from": "2010-06",
+        "currency": "USD"
+      }
     },
     {
       "code": "anet",
@@ -109,7 +130,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=1596532"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "ANET",
+        "from": "2014-06",
+        "currency": "USD"
+      }
     },
     {
       "code": "spcx",
@@ -130,7 +156,12 @@
         "url": "https://ir.spacex.com/"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "SPCX",
+        "from": "2026-06",
+        "currency": "USD"
+      }
     },
     {
       "code": "samsung",
@@ -151,7 +182,12 @@
         "url": "https://www.samsung.com/global/ir/financial-information/earnings-release/"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "005930.KS",
+        "from": "2018-01",
+        "currency": "KRW"
+      }
     },
     {
       "code": "delta",
@@ -172,7 +208,13 @@
         "url": "https://filecenter.deltaww.com/ir/download/financial_report/Q32026_chi_Consolidated%20Financial%20Report.pdf"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "2308.TW",
+        "from": "2019-01",
+        "currency": "TWD",
+        "twse": "2308"
+      }
     },
     {
       "code": "msft",
@@ -193,7 +235,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=789019"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "MSFT",
+        "from": "2008-07",
+        "currency": "USD"
+      }
     },
     {
       "code": "mu",
@@ -214,7 +261,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=723125"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "MU",
+        "from": "2009-09",
+        "currency": "USD"
+      }
     },
     {
       "code": "amzn",
@@ -235,7 +287,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=1018724"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "AMZN",
+        "from": "2009-01",
+        "currency": "USD"
+      }
     },
     {
       "code": "aapl",
@@ -256,7 +313,12 @@
         "url": "https://www.sec.gov/edgar/browse/?CIK=320193"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
+      "enabled": true,
+      "price": {
+        "yahoo": "AAPL",
+        "from": "2008-10",
+        "currency": "USD"
+      }
     },
     {
       "code": "anthropic",
@@ -277,7 +339,8 @@
         "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357"
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": false
+      "enabled": false,
+      "price": null
     }
   ]
 }
