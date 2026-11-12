@@ -1,0 +1,289 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/2488/000000248822000014/q421991amd.htm
+
+EX-99.1
+2
+q421991amd.htm
+EX-99.1
+Document
+NEWS RELEASE 
+Media Contact:
+Drew Prairie
+AMD Communications
+512-602-4425
+drew.prairie@amd.com
+Investor Contact
+Laura Graves
+AMD Investor Relations
+408-749-5467
+laura.graves@amd.com
+AMD Reports Fourth Quarter and Full Year 2021 Financial Results
+― Record quarterly revenue of $4.8B up 49% y/y; Record full year revenue of $16.4B up 68%; 
+Gross margin expanded and operating income more than doubled from prior year ―
+SANTA CLARA, Calif. ― Feb. 1, 2022 ― AMD (NASDAQ:AMD) today announced revenue for the fourth quarter of 2021 of $4.8 billion, operating income of $1.2 billion, net income of $974 million and diluted earnings per share of $0.80. On a non-GAAP(*) basis, operating income was $1.3 billion, net income was $1.1 billion and diluted earnings per share was $0.92.
+For full year 2021, the company reported revenue of $16.4 billion, operating income of $3.6 billion, net income of $3.2 billion and diluted earnings per share of $2.57. On a non-GAAP(*) basis, operating income was $4.1 billion, net income was $3.4 billion and diluted earnings per share was $2.79.
+ GAAP Quarterly Financial Results
+Q4 2021 | Q4 2020 | Y/Y | Q3 2021 | Q/Q
+Revenue ($M) | $4,826 | $3,244 | Up 49% | $4,313 | Up 12%
+Gross profit ($M) | $2,426 | $1,451 | Up 67% | $2,086 | Up 16%
+Gross margin % | 50% | 45% | Up 560 bps | 48% | Up 190 bps
+Operating expenses ($M) | $1,223 | $881 | Up 39% | $1,141 | Up 7%
+Operating income ($M) | $1,207 | $570 | Up 112% | 948 | Up 27%
+Operating margin % | 25% | 18% | Up 7pp | 22% | Up 3pp
+Tax valuation allowance release benefit ($M)(1) | - | $1,301 | - | - | -
+Net income ($M) | $974 | $1,781 | Down 45% | $923 | Up 6%
+Earnings per share(1) | $0.80 | $1.45 | Down 45% | $0.75 | Up 7%
+1
+Non-GAAP(*) Quarterly Financial Results
+Q4 2021 | Q4 2020 | Y/Y | Q3 2021 | Q/Q
+Revenue ($M) | $4,826 | $3,244 | Up 49% | $4,313 | Up 12%
+Gross profit ($M) | $2,427 | $1,452 | Up 67% | $2,087 | Up 16%
+Gross margin % | 50% | 45% | Up 560 bps | 48% | Up 190 bps
+Operating expenses ($M) | $1,103 | $789 | Up 40% | $1,035 | Up 7%
+Operating income ($M) | $1,328 | $663 | Up 100% | $1,055 | Up 26%
+Operating margin % | 27% | 20% | Up 7pp | 24% | Up 3pp
+Net income ($M) | $1,122 | $636 | Up 76% | $893 | Up 26%
+Earnings per share | $0.92 | $0.52 | Up 77% | $0.73 | Up 26%
+Annual Financial Results
+GAAP | Non-GAAP(*)
+2021 | 2020 | Y/Y | 2021 | 2020 | Y/Y
+Revenue ($M) | $16,434 | $9,763 | Up 68% | $16,434 | $9,763 | Up 68%
+Gross profit ($M) | $7,929 | $4,347 | Up 82% | $7,934 | $4,353 | Up 82%
+Gross margin % | 48% | 45% | Up 370 bps | 48% | 45% | Up 370bps
+Operating expenses ($M) | $4,293 | $2,978 | Up 44% | $3,877 | $2,696 | Up 44%
+Operating income ($M) | $3,648 | $1,369 | Up 166% | $4,069 | $1,657 | Up 146%
+Operating margin % | 22% | 14% | Up 8pp | 25% | 17% | Up 8pp
+Tax valuation allowance release benefit ($M)(1) | - | $1,301 | - | - | - | -
+Net income ($M) | $3,162 | $2,490 | Up 27% | $3,435 | $1,575 | Up 118%
+Earnings per share(1) | $2.57 | $2.06 | Up 25% | $2.79 | $1.29 | Up 117%
+(1) The fourth quarter of 2020 included an income tax benefit of $1.3 billion associated with a valuation allowance release which contributed $1.06 per share to EPS for Q4 2020 and $1.07 per share to EPS for FY 2020 on a GAAP basis.
+“2021 was an outstanding year for AMD with record annual revenue and profitability,” said AMD President and CEO Dr. Lisa Su. “Each of our businesses performed extremely well, with data center revenue doubling year-over-year driven by growing adoption of AMD EPYC processors across cloud and enterprise customers. We expect another year of significant growth in 2022 as we ramp our current portfolio and launch our next generation of PC, gaming and data center products.”
+Q4 2021 Results
+•Revenue of $4.8 billion was up 49 percent year-over-year and 12 percent quarter-over-quarter driven by higher revenue in the Computing and Graphics and Enterprise, Embedded and Semi-Custom segments. 
+•Gross margin was 50 percent, an increase of more than 5 percentage points year-over-year and approximately 2 percentage points quarter-over-quarter. The year-over-year and quarter-over-quarter increases were primarily driven by a richer product mix.
+2
+•Operating income was $1.2 billion compared to $570 million a year ago and $948 million in the prior quarter. Non-GAAP operating income was $1.3 billion compared to $663 million a year ago and $1.1 billion in the prior quarter. Operating income improvements were primarily driven by higher revenue and gross margin expansion. 
+•Net income was $974 million compared to $1.8 billion a year ago, which included a $1.3 billion income tax benefit associated with a valuation allowance release, and $923 million in the prior quarter. Non-GAAP net income was $1.1 billion compared to $636 million a year ago and $893 million in the prior quarter.
+•Diluted earnings per share was $0.80 compared to $1.45 a year ago, which included a $1.06 per share income tax benefit, and $0.75 in the prior quarter. Non-GAAP diluted earnings per share was $0.92 compared to $0.52 a year ago and $0.73 in the prior quarter.
+•Cash, cash equivalents and short-term investments were $3.6 billion at the end of the quarter. The company repurchased $756 million of common stock during the quarter. 
+•Cash from operations was $822 million in the quarter compared to $554 million a year ago and $849 million in the prior quarter. Free cash flow was $736 million in the quarter compared to $480 million a year ago and $764 million in the prior quarter. Fourth quarter cash from operations and free cash flow included strategic investments in long-term supply chain capacity to support future revenue growth.
+Quarterly Financial Segment Summary
+•Computing and Graphics segment revenue was $2.6 billion, up 32 percent year-over-year and up 8 percent quarter-over-quarter. The year-over-year and quarter-over-quarter increases were driven by Ryzen™ and Radeon™ processor sales. 
+•Client processor average selling price (ASP) increased year-over-year and quarter-over-quarter due to a richer mix of Ryzen processor sales.
+•GPU ASP increased year-over-year primarily driven by Radeon product sales and decreased quarter-over-quarter due to product mix.
+•Operating income was $566 million compared to $420 million a year ago and $513 million in the prior quarter. Operating income improvements were primarily driven by higher revenue, partially offset by higher operating expenses. 
+•Enterprise, Embedded and Semi-Custom segment revenue was $2.2 billion, up 75 percent year-over-year and 17 percent quarter-over-quarter driven by higher EPYC™ and semi-custom processor sales. 
+3
+•Operating income was $762 million compared to $243 million a year ago and $542 million in the prior quarter. Operating income improvements were primarily driven by higher revenue and richer product mix, partially offset by higher operating expenses. 
+•All Other operating loss was $121 million as compared to operating losses of $93 million a year ago and $107 million in the prior quarter.
+2021 Annual Results
+•Revenue of $16.4 billion was up 68 percent over 2020 driven by higher revenue in the Computing and Graphics and Enterprise, Embedded and Semi-Custom segments.
+•Gross margin was 48 percent, an increase of more than 3 percentage points over 2020. Gross margin expansion was driven by a richer mix of EPYC, Radeon and Ryzen processor sales.
+•Operating income was $3.6 billion compared to $1.4 billion in the prior year. Non-GAAP operating income was $4.1 billion compared to $1.7 billion in the prior year. The operating income improvement was primarily driven by higher revenue and gross margin expansion.
+•Net income was $3.2 billion compared to $2.5 billion in the prior year, which included a $1.3 billion income tax benefit recorded in the fourth quarter of 2020. Non-GAAP net income was $3.4 billion compared to $1.6 billion in the prior year. 
+•Diluted earnings per share was $2.57 compared to $2.06 in the prior year (which included a $1.07 per share income tax benefit). Non-GAAP diluted earnings per share was $2.79 compared to $1.29 in the prior year. 
+•Cash, cash equivalents and short-term investments were $3.6 billion at the end of the year. The company repurchased $1.8 billion of common stock during 2021. 
+•Cash from operations was $3.5 billion compared to $1.1 billion in the prior year. Free cash flow was $3.2 billion compared to $777 million in the prior year. Annual cash from operations and free cash flow in 2021 included strategic investments in long-term supply chain capacity to support future revenue growth.
+Recent PR Highlights
+•AMD announced it received approval from the State Administration for Market Regulation (SAMR) of the People’s Republic of China for the acquisition of Xilinx. AMD anticipates that the acquisition will close in the first quarter of 2022.
+4
+•AMD continues to drive strong momentum in the data center with growing adoption of powerful AMD EPYC processors, AMD Instinct™ accelerators and data center solutions with new customers and expanded cloud offerings.
+•Leading cloud providers expanded their AMD-powered offerings with more than 130 new public instances launching in the quarter including: Amazon Web Services, Inc. (AWS) introduced the new Amazon EC2 Hpc6a instances that make high performance computing more accessible for customers with compute-intensive workloads and the new general-purpose Amazon EC2 M6a instances; Google Cloud launched multiple general purpose and compute- and memory-intensive instances; IBM Cloud launched new bare metal service offerings for demanding workloads and solutions; and Microsoft Azure announced the latest generation of Dasv5 and Easv5 Azure Virtual Machines (VMs) and new confidential VMs, DCasv5 and ECasv5.
+•AMD and Meta worked together to define an open, cloud-scale, single-socket server based on AMD EYPC CPUs for Meta’s newest “North Dome” systems with leadership performance-per-watt across major workloads. 
+•AMD announced the new AMD Instinct MI200 series accelerators, the fastest accelerators for HPC and AI applications. The MI200 series accelerators are powering Oak Ridge National Laboratory’s Frontier supercomputer, the first Exascale supercomputer in the United States. 
+•In the latest Top500 list, AMD now powers 73 supercomputers, a more than 3x increase compared to the November 2020 list. AMD also powers four out of the top 10 most powerful supercomputers in the world, as well as the most powerful supercomputer in EMEA.
+•NVIDIA is adopting Ryzen™ Threadripper™ PRO processors to help power next-generation cloud gaming experiences.
+•AMD announced the AMD Radeon PRO V620 GPU, delivering powerful data center visual performance for 3D workloads, modern office productivity applications and cloud gaming, including Tencent’s upcoming cloud gaming service. 
+•At its 2022 Product Premiere event, AMD announced the AMD Ryzen 6000 Series processors, built on the highly efficient 6nm “Zen 3+” core architecture, and including AMD RDNA™ 2 architecture-based integrated graphics to provide the fastest Ryzen mobile processor experience ever. AMD expects first system availability starting in February.
+•AMD announced new updates to its graphics processor lineup and software portfolio, including new AMD Radeon RX 6000M Series and AMD Radeon RX 6000S Series mobile graphics for premium and thin-and-light gaming laptops, three new AMD Radeon RX 6000 Series desktop graphics cards 
+5
+for 1080p gaming, and AMD Radeon Super Resolution, a new driver-based spatial upscaling technology available in the upcoming update to the AMD Software: Adrenalin Edition application.
+•AMD delivered a first look at its next wave of leadership data center and desktop PC processors which will set the pace of industry innovation.
+•AMD provided a preview of 3rd Gen AMD EPYC processors with AMD 3D V-Cache™, the “Zen 4” processor core powering the next generation of EPYC processors, codenamed “Genoa,” and the new “Zen 4c” processor core, which is designed for cloud native workloads and will power the EPYC processor codenamed “Bergamo.” 
+•AMD also announced the first AMD Ryzen processors with AMD 3D V-Cache technology to power incredible gaming experiences and previewed its Ryzen 7000 Series processors, which will be based on the 5nm “Zen 4” architecture and are expected to be available in the second half of 2022.
+•AMD was recognized on Newsweek’s America’s Most Responsible Companies 2022 list for environmental, social and corporate governance efforts.
+Current Outlook
+AMD’s outlook statements are based on current expectations. The following statements are forward-looking and actual results could differ materially depending on market conditions and the factors set forth under “Cautionary Statement” below.
+For the first quarter of 2022, AMD expects revenue to be approximately $5.0 billion, plus or minus $100 million, an increase of approximately 45 percent year-over-year and approximately 4 percent quarter-over-quarter. The year-over-year increase is expected to be driven by growth across all businesses. The quarter-over-quarter increase is expected to be driven by higher server and client processor revenue. AMD expects non-GAAP gross margin to be approximately 50.5 percent in the first quarter of 2022.
+For the full year 2022, AMD expects revenue to be approximately $21.5 billion, an increase of approximately 31 percent over 2021 driven by growth across all businesses. AMD expects non-GAAP gross margin to be approximately 51 percent for 2022. 
+AMD Teleconference
+6
+AMD will hold a conference call for the financial community at 2:00 p.m. PT (5:00 p.m. ET) today to discuss its fourth quarter and full year 2021 financial results. AMD will provide a real-time audio broadcast of the teleconference on the Investor Relations page of its website at www.amd.com.
+7
+RECONCILIATION OF GAAP TO NON-GAAP FINANCIAL MEASURES
+(In millions, except per share data) (Unaudited)
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+GAAP gross profit | $ | 2,426 | $ | 2,086 | $ | 1,451 | $ | 7,929 | $ | 4,347
+GAAP gross margin % | 50 | % | 48 | % | 45 | % | 48 | % | 45 | %
+Stock-based compensation | 1 | 1 | 1 | 5 | 6
+Non-GAAP gross profit | $ | 2,427 | $ | 2,087 | $ | 1,452 | $ | 7,934 | $ | 4,353
+Non-GAAP gross margin % | 50 | % | 48 | % | 45 | % | 48 | % | 45 | %
+GAAP operating expenses | $ | 1,223 | $ | 1,141 | $ | 881 | $ | 4,293 | $ | 2,978
+GAAP operating expenses/revenue % | 25 | % | 26 | % | 27 | % | 26 | % | 31 | %
+Stock-based compensation | 111 | 98 | 78 | 374 | 268
+Acquisition-related costs | 9 | 8 | 14 | 42 | 14
+Non-GAAP operating expenses | $ | 1,103 | $ | 1,035 | $ | 789 | $ | 3,877 | $ | 2,696
+Non-GAAP operating expenses/revenue% | 23 | % | 24 | % | 24 | % | 24 | % | 28 | %
+GAAP operating income | $ | 1,207 | $ | 948 | $ | 570 | $ | 3,648 | $ | 1,369
+GAAP operating margin % | 25 | % | 22 | % | 18 | % | 22 | % | 14 | %
+Stock-based compensation | 112 | 99 | 79 | 379 | 274
+Acquisition-related costs | 9 | 8 | 14 | 42 | 14
+Non-GAAP operating income | $ | 1,328 | $ | 1,055 | $ | 663 | $ | 4,069 | $ | 1,657
+Non-GAAP operating margin % | 27 | % | 24 | % | 20 | % | 25 | % | 17 | %
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+GAAP net income / earnings per share | $ | 974 | $0.80 | $ | 923 | $0.75 | $ | 1,781 | $1.45 | $ | 3,162 | $2.57 | $ | 2,490 | $2.06
+Loss on debt redemption/conversion | — | — | — | — | 16 | 0.01 | 7 | — | 54 | 0.04
+(Gains) losses on equity investments, net | (4) | — | (60) | (0.05) | — | — | (56) | (0.04) | — | —
+Non-cash interest expense related to convertible debt | — | — | — | — | — | — | — | — | 6 | —
+Stock-based compensation | 112 | 0.09 | 99 | 0.08 | 79 | 0.06 | 379 | 0.31 | 274 | 0.22
+Equity income in investee | — | — | (2) | — | (3) | — | (6) | — | (5) | —
+Acquisition-related costs | 9 | — | 8 | 0.01 | 14 | 0.01 | 42 | 0.03 | 14 | 0.01
+Release of valuation allowance on deferred tax assets | — | — | — | — | (1,301) | (1.06) | — | — | (1,301) | (1.07)
+Income tax provision | 31 | 0.03 | (75) | (0.06) | 50 | 0.05 | (93) | (0.08) | 43 | 0.03
+Non-GAAP net income / earnings per share | $ | 1,122 | $0.92 | $ | 893 | $0.73 | $ | 636 | $0.52 | $ | 3,435 | $2.79 | $ | 1,575 | $1.29
+Shares used and net income adjustment in earnings per share calculation (1)
+Shares used in per share calculation (GAAP) | 1,222 | 1,230 | 1,226 | 1,229 | 1,207
+Interest expense add-back to GAAP net income | $ | — | $ | — | $ | — | $ | — | $ | 1
+Shares used in per share calculation (Non-GAAP) | 1,222 | 1,230 | 1,232 | 1,229 | 1,228
+Interest expense add-back to Non-GAAP net income | $ | — | $ | — | $ | — | $ | — | $ | 4
+8
+(1) | For the three months ended December 26, 2020, GAAP diluted EPS calculations include 3 million shares related to the assumed conversion of the Company's 2026 Convertible Notes and the associated $0 million interest expense add-back to net income under the "if converted" method.For the year ended December 26, 2020, GAAP diluted EPS calculations include 3 million shares related to the assumed conversion of the Company's 2026 Convertible Notes and the associated $1 million interest expense add-back to net income under the "if converted" method. For the three months ended December 26, 2020, Non-GAAP diluted EPS calculations include 9 million shares related to the assumed conversion of the Company's 2026 Convertible Notes and the associated $0 million add-back to net income under the "if converted" method. For the year ended December 26, 2020. Non-GAAP diluted EPS calculations include 24 million shares related to the assumed conversion of the Company's 2026 Convertible Notes and the associated $4 million interest expense add-back to net income under the "if converted" method.
+About AMD
+For more than 50 years, AMD has driven innovation in high-performance computing, graphics and visualization technologies - the building blocks for gaming, immersive platforms and the data center. Hundreds of millions of consumers, leading Fortune 500 businesses and cutting-edge scientific research facilities around the world rely on AMD technology daily to improve how they live, work and play. AMD employees around the world are focused on building great products that push the boundaries of what is possible. For more information about how AMD is enabling today and inspiring tomorrow, visit the AMD (NASDAQ: AMD) website, blog, Facebook and Twitter pages.
+Cautionary Statement
+This press release contains forward-looking statements concerning Advanced Micro Devices, Inc. (AMD) such as the features, functionality, performance, availability, timing and expected benefits of AMD products; AMD’s expected first quarter 2022 and fiscal 2022 financial outlook, including revenue and non-GAAP gross margin and expected drivers based on current expectations; expected growth in 2022; and the expected timing of the close of the Xilinx, Inc. transaction, which are made pursuant to the Safe Harbor provisions of the Private Securities Litigation Reform Act of 1995. Forward-looking statements are commonly identified by words such as "would," "may," "expects," "believes," "plans," "intends," "projects" and other terms with similar meaning. Investors are cautioned that the forward-looking statements in this press release are based on current beliefs, assumptions and expectations, speak only as of the date of this press release and involve risks and uncertainties that could cause actual results to differ materially from current expectations. Such statements are subject to certain known and unknown risks and uncertainties, many of which are difficult to predict and generally beyond AMD's control, that could cause actual results and other future events to differ materially from those expressed in, or implied or projected by, the forward-looking information and statements. Material factors that could cause actual results to differ materially from current expectations include, without limitation, the following: Intel Corporation’s dominance of the microprocessor market and its aggressive business practices; global economic uncertainty; loss of a significant customer; impact of the COVID-19 pandemic on AMD’s business, financial condition and results of operations; competitive markets in which AMD’s products are sold; market conditions of the industries in which AMD products are sold; cyclical nature of the semiconductor industry; quarterly and seasonal sales patterns; AMD's ability to adequately protect its technology or other intellectual property; unfavorable currency exchange rate fluctuations; ability of third party manufacturers to manufacture AMD's products on a timely basis in sufficient quantities and using competitive technologies; availability of essential equipment, materials, substrates or manufacturing processes; ability to achieve expected manufacturing yields for AMD’s products; AMD's ability to introduce products on a timely basis with expected features and performance levels; AMD's ability to generate revenue from its semi-custom SoC products; potential security vulnerabilities; potential security incidents including IT outages, data loss, data breaches and cyber-attacks; uncertainties involving the ordering and shipment of AMD’s products; AMD’s reliance on third-party intellectual property to design and introduce new products in a timely manner; AMD's reliance on third-party companies for design, manufacture and supply of motherboards, software and other computer platform components; AMD's reliance on Microsoft and other software vendors' support to design and develop software to run on AMD’s products; AMD’s reliance on third-party distributors and add-in-board partners; impact of modification or interruption of AMD’s internal business processes and information systems; compatibility of AMD’s products with some or all industry-standard software and hardware; costs related to defective products; efficiency of AMD's supply chain; AMD's ability to rely on third party supply-chain logistics functions; AMD’s ability to effectively control sales of its products on the gray market; impact of government actions and regulations such as export administration regulations, tariffs and trade protection measures; AMD’s ability to realize its deferred tax assets; potential tax liabilities; current and future claims and litigation; impact of environmental laws, conflict minerals-related provisions and other laws or regulations; impact of acquisitions, joint ventures and/or investments on AMD's business, including the announced acquisition of Xilinx, and ability to integrate acquired businesses; AMD’s ability to complete the Xilinx merger; impact of the announcement and pendency of the Xilinx merger on AMD’s business; impact of any impairment of the combined company’s assets on the combined company’s financial position and results of operation; restrictions imposed by agreements governing AMD’s notes and the revolving credit facility; AMD's indebtedness; AMD's ability to generate sufficient cash to meet its working capital requirements or generate sufficient revenue and operating cash flow to make all of its planned R&D or strategic investments; political, legal, economic risks and natural disasters; future impairments of goodwill and technology license purchases; AMD’s ability to attract and retain qualified personnel; AMD’s stock price volatility; and worldwide political conditions. Investors are urged to review in detail the risks and uncertainties in AMD’s Securities and Exchange Commission filings, including but not limited to AMD’s most recent reports on Forms 10-K and 10-Q.
+9
+(*) In this earnings press release, in addition to GAAP financial results, AMD has provided non-GAAP financial measures including non-GAAP gross profit, non-GAAP operating expenses, non-GAAP operating income, non-GAAP net income and non-GAAP earnings per share. AMD uses a normalized tax rate in its computation of the non-GAAP income tax provision to provide better consistency across the reporting periods. For fiscal 2021, AMD uses a non-GAAP tax rate of 15%, which excludes the tax impact of pre-tax non-GAAP adjustments. AMD also provided adjusted EBITDA and free cash flow as supplemental non-GAAP measures of its performance. These items are defined in the footnotes to the selected corporate data tables provided at the end of this earnings press release. AMD is providing these financial measures because it believes this non-GAAP presentation makes it easier for investors to compare its operating results for current and historical periods and also because AMD believes it assists investors in comparing AMD’s performance across reporting periods on a consistent basis by excluding items that it does not believe are indicative of its core operating performance and for the other reasons described in the footnotes to the selected data tables. The non-GAAP financial measures disclosed in this earnings press release should be viewed in addition to and not as a substitute for or superior to AMD’s reported results prepared in accordance with GAAP and should be read only in conjunction with AMD’s Consolidated Financial Statements prepared in accordance with GAAP. These non-GAAP financial measures referenced are reconciled to their most directly comparable GAAP financial measures in the data tables at the end of this earnings press release. This earnings press release also contains forward-looking non-GAAP gross margin concerning AMD’s financial outlook, which is based on current expectations as of February 1, 2022 and assumptions and beliefs that involve numerous risks and uncertainties. AMD undertakes no intent or obligation to publicly update or revise its outlook statements as a result of new information, future events or otherwise, except as may be required by law.
+-30-
+AMD, the AMD Arrow logo, EPYC, Radeon, Ryzen, Instinct, Threadripper and combinations thereof, are trademarks of Advanced Micro Devices, Inc. Other names are for informational purposes only and used to identify companies and products and may be trademarks of their respective owner.
+10
+ADVANCED MICRO DEVICES, INC.
+CONDENSED CONSOLIDATED STATEMENTS OF OPERATIONS
+(Millions except per share amounts and percentages) (Unaudited)
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+Net revenue | $ | 4,826 | $ | 4,313 | $ | 3,244 | $ | 16,434 | $ | 9,763
+Cost of sales | 2,400 | 2,227 | 1,793 | 8,505 | 5,416
+Gross profit | 2,426 | 2,086 | 1,451 | 7,929 | 4,347
+Gross margin % | 50 | % | 48 | % | 45 | % | 48 | % | 45 | %
+Research and development | 811 | 765 | 573 | 2,845 | 1,983
+Marketing, general and administrative | 412 | 376 | 308 | 1,448 | 995
+Licensing gain | (4) | (3) | — | (12) | —
+Operating income | 1,207 | 948 | 570 | 3,648 | 1,369
+Interest expense | (8) | (7) | (9) | (34) | (47)
+Other income (expense), net | 4 | 62 | (15) | 55 | (47)
+Income before income taxes and equity income | 1,203 | 1,003 | 546 | 3,669 | 1,275
+Income tax provision | 229 | 82 | (1,232) | 513 | (1,210)
+Equity income in investee | — | 2 | 3 | 6 | 5
+Net Income | $ | 974 | $ | 923 | $ | 1,781 | $ | 3,162 | $ | 2,490
+Earnings per share
+Basic | $ | 0.81 | $ | 0.76 | $ | 1.48 | $ | 2.61 | $ | 2.10
+Diluted | $ | 0.80 | $ | 0.75 | $ | 1.45 | $ | 2.57 | $ | 2.06
+Shares used in per share calculation
+Basic | 1,208 | 1,214 | 1,205 | 1,213 | 1,184
+Diluted | 1,222 | 1,230 | 1,226 | 1,229 | 1,207
+11
+ADVANCED MICRO DEVICES, INC.
+CONDENSED CONSOLIDATED BALANCE SHEETS 
+(Millions) (Unaudited)
+December 25,2021 | December 26,2020
+ASSETS
+Current assets:
+Cash and cash equivalents | $ | 2,535 | $ | 1,595
+Short-term investments | 1,073 | 695
+Accounts receivable, net | 2,706 | 2,066
+Inventories | 1,955 | 1,399
+Receivables from related parties | 2 | 10
+Prepaid expenses and other current assets | 312 | 378
+Total current assets | 8,583 | 6,143
+Property and equipment, net | 702 | 641
+Operating lease right-of-use assets | 367 | 208
+Goodwill | 289 | 289
+Investment: equity method | 69 | 63
+Deferred tax assets | 931 | 1,245
+Other non-current assets | 1,478 | 373
+Total Assets | $ | 12,419 | $ | 8,962
+LIABILITIES AND STOCKHOLDERS' EQUITY
+Current liabilities:
+Accounts payable | 1,321 | 468
+Payables to related parties | 85 | 78
+Accrued liabilities | 2,424 | 1,796
+Short-term debt | 312 | —
+Other current liabilities | 98 | 75
+Total current liabilities | 4,240 | 2,417
+Long-term debt, net | 1 | 330
+Long-term operating lease liabilities | 348 | 201
+Other long-term liabilities | 333 | 177
+Stockholders' equity:
+Capital stock:
+Common stock, par value | 12 | 12
+Additional paid-in capital | 11,069 | 10,544
+Treasury stock, at cost | (2,130) | (131)
+Accumulated deficit (1) | (1,451) | (4,605)
+Accumulated other comprehensive income | (3) | 17
+Total stockholders' equity | $ | 7,497 | $ | 5,837
+Total Liabilities and Stockholders' equity | $ | 12,419 | $ | 8,962
+(1) | During the first quarter of 2021, the Company adopted ASU 2019-12, Income Taxes (Topic 740): Simplifying the Accounting for Income Taxes, using the modified retrospective adoption method, which resulted in $8 million of deferred tax liability associated with book-tax differences in a foreign equity method investment recognized in Accumulated deficit.
+12
+ADVANCED MICRO DEVICES, INC.
+SELECTED CASH FLOW INFORMATION
+(Millions) (Unaudited)
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+Net cash provided by (used in)
+Operating activities | $ | 822 | $ | 849 | $ | 554 | $ | 3,521 | $ | 1,071
+Investing activities | $ | — | $ | (83) | $ | (294) | $ | (686) | $ | (952)
+Financing activities | $ | (727) | $ | (949) | $ | 35 | $ | (1,895) | $ | 6
+SELECTED CORPORATE DATA
+(Millions) (Unaudited)
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+Segment and Category Information
+Computing and Graphics(1)
+Net revenue | $ | 2,584 | $ | 2,398 | $ | 1,960 | $ | 9,332 | $ | 6,432
+Operating income | $ | 566 | $ | 513 | $ | 420 | $ | 2,090 | $ | 1,266
+Enterprise, Embedded and Semi-Custom(2)
+Net revenue | $ | 2,242 | $ | 1,915 | $ | 1,284 | $ | 7,102 | $ | 3,331
+Operating income | $ | 762 | $ | 542 | $ | 243 | $ | 1,979 | $ | 391
+All Other(3)
+Net revenue | $ | — | $ | — | $ | — | $ | — | $ | —
+Operating loss | $ | (121) | $ | (107) | $ | (93) | $ | (421) | $ | (288)
+Total
+Net revenue | $ | 4,826 | $ | 4,313 | $ | 3,244 | $ | 16,434 | $ | 9,763
+Operating income | $ | 1,207 | $ | 948 | $ | 570 | $ | 3,648 | $ | 1,369
+Other Data
+Capital expenditures | $ | 86 | $ | 85 | $ | 74 | $ | 301 | $ | 294
+Adjusted EBITDA(4) | $ | 1,446 | $ | 1,152 | $ | 753 | $ | 4,476 | $ | 1,969
+Cash, cash equivalents and short-term investments | $ | 3,608 | $ | 3,608 | $ | 2,290 | $ | 3,608 | $ | 2,290
+Free cash flow(5) | $ | 736 | $ | 764 | $ | 480 | $ | 3,220 | $ | 777
+Total assets | $ | 12,419 | $ | 11,153 | $ | 8,962 | $ | 12,419 | $ | 8,962
+Total debt | $ | 313 | $ | 313 | $ | 330 | $ | 313 | $ | 330
+13
+(1) | The Computing and Graphics segment, which primarily includes desktop and notebook processors and chipsets, discrete and integrated graphics processing units (GPUs), data center and professional GPUs and development services. From time to time, the Company may also sell or license portions of its IP portfolio.
+(2) | The Enterprise, Embedded and Semi-Custom segment, which primarily includes server and embedded processors, semi-custom System-on-Chip (SoC) products, development services and technology for game consoles. From time to time, the Company may also sell or license portions of its IP portfolio.
+(3) | All Other category primarily includes certain expenses and credits that are not allocated to any of the operating segments. Also included in this category is stock-based compensation expense and acquisition-related costs.
+(4) | Reconciliation of GAAP Net Income to Adjusted EBITDA*
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+GAAP net income | $ | 974 | $ | 923 | $ | 1,781 | $ | 3,162 | $ | 2,490
+Interest expense | 8 | 7 | 9 | 34 | 47
+Other (income) expense, net | (4) | (62) | 15 | (55) | 47
+Income tax provision (benefit) | 229 | 82 | (1,232) | 513 | (1,210)
+Equity income in investee | — | (2) | (3) | (6) | (5)
+Stock-based compensation | 112 | 99 | 79 | 379 | 274
+Depreciation and amortization | 118 | 97 | 90 | 407 | 312
+Acquisition-related costs | 9 | 8 | 14 | 42 | 14
+Adjusted EBITDA | $ | 1,446 | $ | 1,152 | $ | 753 | $ | 4,476 | $ | 1,969
+(5) | Reconciliation of GAAP Net Cash Provided by Operating Activities to Free Cash Flow**
+Three Months Ended | Year Ended
+December 25,2021 | September 25,2021 | December 26,2020 | December 25,2021 | December 26,2020
+GAAP net cash provided by operating activities | $ | 822 | $ | 849 | $ | 554 | $ | 3,521 | $ | 1,071
+Operating cash flow margin % | 17 | % | 20 | % | 17 | % | 21 | % | 11 | %
+Purchases of property and equipment | (86) | (85) | (74) | (301) | (294)
+Free cash flow | $ | 736 | $ | 764 | $ | 480 | $ | 3,220 | $ | 777
+Free cash flow margin % | 15 | % | 18 | % | 15 | % | 20 | % | 8 | %
+* | The Company presents “Adjusted EBITDA” as a supplemental measure of its performance. Adjusted EBITDA for the Company is determined by adjusting GAAP net income for interest expense, other income (expense), net, income tax provision, equity income in investee, stock-based compensation, and depreciation and amortization expense. The Company also included acquisition-related costs for the three months ended December 25, 2021, September 25, 2021 and December 26, 2020, and for the year ended December 25, 2021 and December 26, 2020. The Company calculates and presents Adjusted EBITDA because management believes it is of importance to investors and lenders in relation to its overall capital structure and its ability to borrow additional funds. In addition, the Company presents Adjusted EBITDA because it believes this measure assists investors in comparing its performance across reporting periods on a consistent basis by excluding items that the Company does not believe are indicative of its core operating performance. The Company’s calculation of Adjusted EBITDA may or may not be consistent with the calculation of this measure by other companies in the same industry. Investors should not view Adjusted EBITDA as an alternative to the GAAP operating measure of income or GAAP liquidity measures of cash flows from operating, investing and financing activities. In addition, Adjusted EBITDA does not take into account changes in certain assets and liabilities that can affect cash flows.
+** | The Company also presents free cash flow as a supplemental Non-GAAP measure of its performance. Free cash flow is determined by adjusting GAAP net cash provided by operating activities for capital expenditures. The Company calculates and communicates free cash flow in the financial earnings press release because management believes it is of importance to investors to understand the nature of these cash flows. The Company’s calculation of free cash flow may or may not be consistent with the calculation of this measure by other companies in the same industry. Investors should not view free cash flow as an alternative to GAAP liquidity measures of cash flows from operating activities.
+The Company has provided reconciliations within the earnings press release of these Non-GAAP financial measures to the most directly comparable GAAP financial measures.
+14

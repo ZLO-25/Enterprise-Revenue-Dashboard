@@ -1,0 +1,374 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/1535527/000153552723000012/crwd-20230531xex991.htm
+
+EX-99.1
+2
+crwd-20230531xex991.htm
+EX-99.1
+Document
+CrowdStrike Reports First Quarter Fiscal Year 2024 Financial Results
+•Achieves record revenue, GAAP and non-GAAP earnings, cash flow from operations and free cash flow
+•Ending ARR grows 42% year-over-year to reach $2.73 billion, adding $174 million in net new ARR
+•Delivers record GAAP subscription gross margin of 78% and record non-GAAP subscription gross margin of 80%
+AUSTIN, Texas, May 31, 2023 -- CrowdStrike Holdings, Inc. (Nasdaq: CRWD), a global cybersecurity leader that provides cloud-delivered protection of endpoints, cloud workloads, identity and data, today announced financial results for the first quarter fiscal year 2024, ended April 30, 2023.
+“CrowdStrike's first quarter results exceeded our guided metrics and reached new financial milestones, delivering the winning combination of growth, profitability and free cash flow at scale,” said George Kurtz, CrowdStrike’s president, chief executive officer and co-founder. "Our demonstrated leadership in leveraging AI to drive better security outcomes and consolidate security spend strategically positions CrowdStrike to win in our markets.”
+Commenting on the company's financial results, Burt Podbere, CrowdStrike’s chief financial officer, added, “Highlights of the quarter included a rule of 75 on a free cash flow basis and records across revenue, gross margin, GAAP and non-GAAP earnings, and cash flow. Through our relentless focus on execution, we achieved these records while remaining capital efficient and increasing module adoption rates.”
+First Quarter Fiscal 2024 Financial Highlights
+•Revenue: Total revenue was $692.6 million, a 42% increase, compared to $487.8 million in the first quarter of fiscal 2023. Subscription revenue was $651.2 million, a 42% increase, compared to $459.8 million in the first quarter of fiscal 2023.
+•Annual Recurring Revenue (ARR) increased 42% year-over-year and grew to $2.73 billion as of April 30, 2023, of which $174.2 million was net new ARR added in the quarter.
+•Subscription Gross Margin: GAAP subscription gross margin was 78%, compared to 77% in the first quarter of fiscal 2023. Non-GAAP subscription gross margin was 80%, compared to 79% in the first quarter of fiscal 2023.
+•Income/Loss from Operations: GAAP loss from operations was $19.5 million, compared to $23.9 million in the first quarter of fiscal 2023. Non-GAAP income from operations was $115.9 million, compared to $83.0 million in the first quarter of fiscal 2023.
+•Net Income/Loss Attributable to CrowdStrike: GAAP net income attributable to CrowdStrike was $0.5 million, compared to a loss of $31.5 million in the first quarter of fiscal 2023. GAAP net income per share attributable to CrowdStrike, diluted, was $0.00, compared to a loss of $0.14 in the first quarter of fiscal 2023. Non-GAAP net income attributable to CrowdStrike was $136.4 million, compared to $74.8 million in the first quarter of fiscal 2023. Non-GAAP net income attributable to CrowdStrike per share, diluted, was $0.57, compared to $0.31 in the first quarter of fiscal 2023.
+•Cash Flow: Net cash generated from operations was $300.9 million, compared to $215.0 million in the first quarter of fiscal 2023. Free cash flow was $227.4 million, compared to $157.5 million in the first quarter of fiscal 2023.
+•Cash, Cash Equivalents and Short-term Investments was $2.93 billion as of April 30, 2023.
+Recent Highlights 
+•CrowdStrike’s module adoption rates were 62%, 40% and 23% for five or more, six or more and seven or more modules, respectively, as of April 30, 20231.
+•Introduced Charlotte AI, a new generative AI security analyst that uses the world’s highest-fidelity security data and is continuously improved through a tight human feedback loop from usage by CrowdStrike’s industry-leading threat hunters, managed detection and response operators, and incident response experts.
+•Announced CrowdStrike and AWS are working together to develop powerful new Generative AI applications that help customers accelerate their cloud, security and AI journeys.
+•Granted an Impact Level 5 Provisional Authorization from the Department of Defense.
+•Named a leader in The Forrester Wave™: Managed Detection and Response (MDR), Q2 2023 report2.
+•Ranked #1 worldwide for revenue for a second consecutive year in Managed Detection and Response (MDR) in the new Gartner® report: “Market Share: Managed Security Services, Worldwide, 2022.”3
+•Announced CrowdStrike Falcon Complete XDR, a new Managed eXtended Detection and Response (MXDR) service.
+•Released CrowdStrike Falcon Insight for IoT, the world’s first and only EDR/XDR solution for Extended Internet of Things (XIoT) assets.
+•Launched a new partnership with Abnormal Security, the leading behavioral AI-based email security platform.
+•Introduced CrowdStream, a native platform capability that directly connects any data source into the CrowdStrike Falcon platform using Cribl’s observability pipeline technology.
+•Expanded partnership with Google with industry’s first native EDR/XDR offering for ChromeOS.
+•Named to the 2023 Fortune 100 Best Companies to Work For® list for the third consecutive year.
+Financial Outlook
+CrowdStrike is providing the following guidance for the second quarter of fiscal 2024 (ending July 31, 2023) and increasing its guidance for the fiscal year 2024 (ending January 31, 2024).
+Guidance for non-GAAP financial measures excludes stock-based compensation expense, amortization expense of acquired intangible assets, including purchased patents, amortization of debt issuance costs and discount, mark-to-market adjustments on deferred compensation liabilities, legal reserve and settlement charges or benefits, gain (loss) and other income from strategic investments, acquisition-related expenses, and losses (gains) from deferred compensation assets. The company has not provided the most directly comparable GAAP measures because certain items are out of the company's control or cannot be reasonably predicted. Accordingly, a reconciliation for non-GAAP income from operations, non-GAAP net income attributable to CrowdStrike, and non-GAAP net income per share attributable to CrowdStrike common stockholders is not available without unreasonable effort.
+Q2 FY24Guidance | Full Year FY24Guidance
+Total revenue | $717.2 - $727.4 million | $3,000.5 - $3,036.7 million
+Non-GAAP income from operations | $116.4 - $123.8 million | $498.9 - $526.2 million
+Non-GAAP net income attributable to CrowdStrike | $129.5 - $137.0 million | $562.8 - $590.1 million
+Non-GAAP net income per share attributable to CrowdStrike common stockholders, diluted | $0.54 - $0.57 | $2.32 - $2.43
+Weighted average shares used in computing Non-GAAP net income per share attributable to common stockholders, diluted | 242 million | 243 million
+These statements are forward-looking and actual results may differ materially as a result of many factors. Refer to the Forward-Looking Statements safe harbor below for information on the factors that could cause the company's actual results to differ materially from these forward-looking statements.
+Conference Call Information
+CrowdStrike will host a conference call for analysts and investors to discuss its earnings results for the first quarter of fiscal 2024 and outlook for its fiscal second quarter and fiscal year 2024 today at 2:00 p.m. Pacific time (5:00 p.m. Eastern time). A recorded webcast of the event will also be available for one year on the CrowdStrike Investor Relations website ir.crowdstrike.com.
+Date: | May 31, 2023
+Time: | 2:00 p.m. Pacific time / 5:00 p.m. Eastern time
+Pre-registration link for dial-in access: | register.vevent.com/register/BI598eb6ba76e2464eae231d18fa2614f0
+Webcast: | ir.crowdstrike.com
+Forward-Looking Statements
+This press release contains forward-looking statements that involve risks and uncertainties, including statements regarding CrowdStrike’s future growth, and future financial and operating performance, including CrowdStrike’s financial outlook for the fiscal second quarter and fiscal year 2024. There are a significant number of factors that could cause actual results to differ materially from statements made in this press release, including: risks associated with managing CrowdStrike’s rapid growth; CrowdStrike’s ability to identify and effectively implement necessary changes to address execution challenges; CrowdStrike’s limited experience with new product and subscription and support introductions and the risks associated with new products and subscription and support offerings, including the risk of defects, errors, or vulnerabilities; length and unpredictability of sales cycles; CrowdStrike’s ability to attract new and retain existing customers; CrowdStrike’s ability to successfully integrate acquisitions; the failure to timely develop and achieve market acceptance of new products and subscriptions as well as existing products and subscriptions and support; CrowdStrike’s ability to collaborate and integrate its products with offerings from other parties to deliver benefits to customers; industry trends; rapidly evolving technological developments in the market for security products and subscription and support offerings; and general market, political, economic, and business conditions, including those related to a deterioration in macroeconomic conditions, inflation, geopolitical uncertainty, public health crises and volatility in the banking and financial services sector.
+Additional risks and uncertainties that could affect CrowdStrike’s financial results are included in the filings CrowdStrike makes with the Securities and Exchange Commission (“SEC”) from time to time, particularly under the captions “Risk Factors” and “Management’s Discussion and Analysis of Financial Condition and Results of Operations”, including CrowdStrike’s most recently filed Annual Report on Form 10-K, most recently filed Quarterly Report on Form 10-Q and subsequent filings.
+You should not rely on these forward-looking statements, as actual outcomes and results may differ materially from those contemplated by these forward-looking statements as a result of such risks and uncertainties. All forward-looking statements in this press release are based on information available to CrowdStrike as of the date hereof, and CrowdStrike does not assume any obligation to update the forward-looking statements provided to reflect events that occur or circumstances that exist after the date on which they were made.
+Use of Non-GAAP Financial Information
+CrowdStrike believes that the presentation of non-GAAP financial information provides important supplemental information to management and investors regarding financial and business trends relating to CrowdStrike’s financial condition and results of operations. For further information regarding these non-GAAP measures, including the reconciliation of these non-GAAP financial measures to their most directly comparable GAAP financial measures, please refer to the financial tables below, as well as the “Explanation of Non-GAAP Financial Measures” section of this press release.
+Channels for Disclosure of Information
+CrowdStrike intends to announce material information to the public through the CrowdStrike Investor Relations website ir.crowdstrike.com, SEC filings, press releases, public conference calls, and public webcasts. CrowdStrike uses these channels, as well as social media and its blog, to communicate with its investors, customers, and the public about the company, its offerings, and other issues. It is possible that the information CrowdStrike posts on social media and its blog could be deemed to be material information. As such, CrowdStrike encourages investors, the media, and others to follow the channels listed above, including the social media channels listed on CrowdStrike’s investor relations website, and to review the information disclosed through such channels. Any updates to the list of disclosure channels through which CrowdStrike will announce information will be posted on the investor relations page on CrowdStrike’s website.
+Definition of Module Adoption Rates
+1.Beginning in the fourth quarter of fiscal 2023, module adoption rates are calculated by taking the total number of customers with five or more, six or more, and seven or more modules, respectively, divided by the total number of 
+subscription customers (excluding Falcon Go customers). Falcon Go customers are defined as customers who have subscribed with the Falcon Go bundle, a package designed for organizations with 100 endpoints or less.
+Reports Referenced and Disclaimers
+2.The Forrester Wave™: Managed Detection And Response, Q2 2023 report, Forrester Research, Inc., May 18, 2023
+3.Gartner, Market Share: Managed Security Services, Worldwide, 2022, Rahul Yadav, Travis Lee, Matt Milone, Akshita Joshi, Shailendra Upadhyay, 18 April 2023
+GARTNER is a registered trademark and service mark of Gartner, Inc. and/or its affiliates in the U.S. and internationally and is used herein with permission. All rights reserved. Gartner does not endorse any vendor, product or service depicted in its research publications, and does not advise technology users to select only those vendors with the highest ratings or other designation. Gartner research publications consist of the opinions of Gartner’s research organization and should not be construed as statements of fact. Gartner disclaims all warranties, expressed or implied, with respect to this research, including any warranties of merchantability or fitness for a particular purpose. 
+The Gartner content described herein, (the "Gartner Content") represent(s) research opinion or viewpoints published, as part of a syndicated subscription service, by Gartner, Inc. ("Gartner"), and are not representations of fact. Gartner Content speaks as of its original publication date (and not as of the date of this press release) and the opinions expressed in the Gartner Content are subject to change without notice.
+About CrowdStrike Holdings
+CrowdStrike Holdings, Inc. is a global cybersecurity leader that provides cloud-delivered protection of endpoints, cloud workloads, identity and data.
+Powered by the CrowdStrike Security Cloud and advanced artificial intelligence, the CrowdStrike Falcon® platform delivers better outcomes to customers through rapid and scalable deployment, superior protection and performance, reduced complexity and immediate time-to-value.
+CrowdStrike Falcon leverages a single lightweight-agent architecture with integrated cloud modules spanning multiple security markets, including corporate workload security, managed security services, security and vulnerability management, IT operations management, threat intelligence services, identity protection and log management.
+For more information, please visit: ir.crowdstrike.com
+CrowdStrike, the CrowdStrike logo, and other CrowdStrike marks are trademarks and/or registered trademarks of CrowdStrike, Inc., or its affiliates or licensors. Other words, symbols, and company product names may be trademarks of the respective companies with which they are associated.
+Investor Relations Contact
+CrowdStrike Holdings, Inc.
+Maria Riley, Vice President of Investor Relations
+investors@crowdstrike.com
+669-721-0742
+Press Contact
+CrowdStrike Holdings, Inc.
+Kevin Benacci, Sr. Director, Corporate Communications
+press@crowdstrike.com
+216-409-5055
+###
+CROWDSTRIKE HOLDINGS, INC.
+Condensed Consolidated Statements of Operations
+(in thousands, except per share amounts)
+(unaudited)
+Three Months Ended April 30,
+2023 | 2022
+Revenue
+Subscription | $ | 651,175 | $ | 459,822
+Professional services | 41,405 | 28,012
+Total revenue | 692,580 | 487,834
+Cost of revenue
+Subscription (1)(2) | 142,100 | 107,942
+Professional services (1) | 27,130 | 18,890
+Total cost of revenue | 169,230 | 126,832
+Gross profit | 523,350 | 361,002
+Operating expenses
+Sales and marketing (1)(2) | 281,107 | 193,532
+Research and development (1)(3) | 179,065 | 123,399
+General and administrative (1)(2)(3)(4) | 82,634 | 67,954
+Total operating expenses | 542,806 | 384,885
+Loss from operations | (19,456) | (23,883)
+Interest expense(5) | (6,387) | (6,298)
+Interest income | 30,521 | 1,507
+Other income, net(6)(7) | 230 | 1,705
+Income (loss) before provision for income taxes | 4,908 | (26,969)
+Provision for income taxes(9) | 4,409 | 3,440
+Net income (loss) | 499 | (30,409)
+Net income attributable to non-controlling interest | 8 | 1,114
+Net income (loss) attributable to CrowdStrike | $ | 491 | $ | (31,523)
+Net income (loss) per share attributable to CrowdStrike common stockholders:
+Basic | $ | 0.00 | $ | (0.14)
+Diluted | $ | 0.00 | $ | (0.14)
+Weighted-average shares used in computing net income (loss) per share attributable to CrowdStrike common stockholders:
+Basic | 236,414 | 231,179
+Diluted | 240,598 | 231,179
+____________________________
+(1)Includes stock-based compensation expense as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Subscription cost of revenue | $ | 8,966 | $ | 6,578
+Professional services cost of revenue | 4,630 | 3,001
+Sales and marketing | 35,739 | 26,710
+Research and development | 44,381 | 34,036
+General and administrative | 37,140 | 32,169
+Total stock-based compensation expense | $ | 130,856 | $ | 102,494
+(2)Includes amortization of acquired intangible assets, including purchased patents, as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Subscription cost of revenue | $ | 3,580 | $ | 3,425
+Sales and marketing | 531 | 649
+General and administrative | 63 | 14
+Total amortization of acquired intangible assets | $ | 4,174 | $ | 4,088
+(3)Includes acquisition-related expenses (credit), net as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Research and development | $ | 371 | $ | —
+General and administrative | (70) | 301
+Total acquisition-related expenses, net | $ | 301 | $ | 301
+(4)Includes mark-to-market adjustments on deferred compensation liabilities as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Sales and marketing | $ | 3 | $ | —
+Research and development | 1 | —
+Total mark-to-market adjustments on deferred compensation liabilities | $ | 4 | $ | —
+(5)Includes amortization of debt issuance costs and discount as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Interest expense | $ | 546 | $ | 546
+Total amortization of debt issuance costs and discount | $ | 546 | $ | 546
+(6)Includes gains and other income from strategic investments as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Other income, net | $ | 16 | $ | 2,229
+Total gains and other income from strategic investments | $ | 16 | $ | 2,229
+(7)Includes gains on deferred compensation assets as follows (in thousands):
+Three Months Ended April 30,
+2023 | 2022
+Other income, net | $ | 4 | $ | —
+Total gains on deferred compensation assets | $ | 4 | $ | —
+CROWDSTRIKE HOLDINGS, INC.
+Condensed Consolidated Balance Sheets
+(in thousands)
+(unaudited)
+April 30, 2023 | January 31, 2023
+Assets
+Current assets:
+Cash and cash equivalents | $ | 2,829,677 | $ | 2,455,369
+Short-term investments | 100,000 | 250,000
+Accounts receivable, net of allowance for credit losses | 461,092 | 626,181
+Deferred contract acquisition costs, current | 186,901 | 186,855
+Prepaid expenses and other current assets | 131,100 | 121,862
+Total current assets | 3,708,770 | 3,640,267
+Strategic investments | 57,877 | 47,270
+Property and equipment, net | 523,721 | 492,335
+Operating lease right-of-use assets | 50,459 | 39,936
+Deferred contract acquisition costs, noncurrent | 254,397 | 260,233
+Goodwill | 430,755 | 430,645
+Intangible assets, net | 83,215 | 86,889
+Other long-term assets | 28,664 | 28,965
+Total assets | $ | 5,137,858 | $ | 5,026,540
+Liabilities and Stockholders’ Equity
+Current liabilities:
+Accounts payable | $ | 16,900 | $ | 45,372
+Accrued expenses | 91,494 | 137,884
+Accrued payroll and benefits | 151,099 | 168,767
+Operating lease liabilities, current | 16,215 | 13,046
+Deferred revenue | 1,788,304 | 1,727,484
+Other current liabilities | 16,052 | 16,519
+Total current liabilities | 2,080,064 | 2,109,072
+Long-term debt | 741,377 | 741,005
+Deferred revenue, noncurrent | 615,487 | 627,629
+Operating lease liabilities, noncurrent | 36,774 | 29,567
+Other liabilities, noncurrent | 29,797 | 31,833
+Total liabilities | 3,503,499 | 3,539,106
+Commitments and contingencies
+Stockholders’ Equity
+Common stock, Class A and Class B | 118 | 118
+Additional paid-in capital | 2,752,716 | 2,612,705
+Accumulated deficit | (1,147,672) | (1,148,163)
+Accumulated other comprehensive income (loss) | 139 | (1,019)
+Total CrowdStrike Holdings, Inc. stockholders’ equity | 1,605,301 | 1,463,641
+Non-controlling interest | 29,058 | 23,793
+Total stockholders’ equity | 1,634,359 | 1,487,434
+Total liabilities and stockholders’ equity | $ | 5,137,858 | $ | 5,026,540
+CROWDSTRIKE HOLDINGS, INC.
+Condensed Consolidated Statements of Cash Flows
+(in thousands)
+(unaudited)
+Three Months Ended April 30,
+2023 | 2022
+Operating activities
+Net income (loss) | $ | 499 | $ | (30,409)
+Adjustments to reconcile net loss to net cash provided by operating activities:
+Depreciation and amortization | 26,409 | 16,341
+Amortization of intangible assets | 4,174 | 4,088
+Amortization of deferred contract acquisition costs | 55,322 | 37,592
+Non-cash operating lease costs | 3,092 | 2,237
+Stock-based compensation expense | 130,856 | 102,494
+Deferred income taxes | (255) | 1,752
+Non-cash interest expense | 754 | 669
+Change in fair value of strategic investments | — | (2,208)
+Changes in operating assets and liabilities, net of impact of acquisitions
+Accounts receivable, net | 165,089 | (1,058)
+Deferred contract acquisition costs | (49,532) | (51,354)
+Prepaid expenses and other assets | (8,542) | 4,243
+Accounts payable | (18,596) | (36,431)
+Accrued expenses and other liabilities | (36,576) | (7,300)
+Accrued payroll and benefits | (17,281) | 13,235
+Operating lease liabilities | (3,199) | (2,210)
+Deferred revenue | 48,678 | 163,276
+Net cash provided by operating activities | 300,892 | 214,957
+Investing activities
+Purchases of property and equipment | (62,264) | (52,211)
+Capitalized internal-use software and website development costs | (10,902) | (5,214)
+Purchases of strategic investments | (10,513) | (2,825)
+Purchases of intangible assets | — | (700)
+Proceeds from sales of investments | 150,000 | —
+Purchases of deferred compensation investments | (290) | —
+Net cash used provided by (used in) investing activities | 66,031 | (60,950)
+Financing activities
+Proceeds from issuance of common stock upon exercise of stock options | 2,651 | 3,106
+Capital contributions from non-controlling interest holders | 5,257 | 1,462
+Net cash provided by financing activities | 7,908 | 4,568
+Effect of foreign exchange rates on cash, cash equivalents and restricted cash | (190) | (2,472)
+Net increase in cash, cash equivalents and restricted cash | 374,641 | 156,103
+Cash, cash equivalents and restricted cash, beginning of period | 2,456,924 | 1,996,633
+Cash, cash equivalents and restricted cash, end of period | $ | 2,831,565 | $ | 2,152,736
+CROWDSTRIKE HOLDINGS, INC.
+GAAP to Non-GAAP Reconciliations
+(in thousands, except percentages)
+(unaudited)
+Three Months Ended April 30,
+2023 | 2022
+GAAP subscription revenue | $ | 651,175 | $ | 459,822
+GAAP professional services revenue | 41,405 | 28,012
+GAAP total revenue | $ | 692,580 | $ | 487,834
+GAAP subscription gross profit | $ | 509,075 | $ | 351,880
+Stock based compensation expense | 8,966 | 6,578
+Amortization of acquired intangible assets | 3,580 | 3,425
+Non-GAAP subscription gross profit | $ | 521,621 | $ | 361,883
+GAAP subscription gross margin | 78 | % | 77 | %
+Non-GAAP subscription gross margin | 80 | % | 79 | %
+GAAP professional services gross profit | $ | 14,275 | $ | 9,122
+Stock based compensation expense | 4,630 | 3,001
+Non-GAAP professional services gross profit | $ | 18,905 | $ | 12,123
+GAAP professional services gross margin | 34 | % | 33 | %
+Non-GAAP professional services gross margin | 46 | % | 43 | %
+Total GAAP gross margin | 76 | % | 74 | %
+Total Non-GAAP gross margin | 78 | % | 77 | %
+GAAP sales and marketing operating expenses | $ | 281,107 | $ | 193,532
+Stock based compensation expense | (35,739) | (26,710)
+Amortization of acquired intangible assets | (531) | (649)
+Mark-to-market adjustments on deferred compensation liabilities | (3) | —
+Non-GAAP sales and marketing operating expenses | $ | 244,834 | $ | 166,173
+GAAP sales and marketing operating expenses as a percentage of revenue | 41 | % | 40 | %
+Non-GAAP sales and marketing operating expenses as a percentage of revenue | 35 | % | 34 | %
+GAAP research and development operating expenses | $ | 179,065 | $ | 123,399
+Stock based compensation expense | (44,381) | (34,036)
+Acquisition-related expenses | (371) | —
+Mark-to-market adjustments on deferred compensation liabilities | (1) | —
+Non-GAAP research and development operating expenses | $ | 134,312 | $ | 89,363
+GAAP research and development operating expenses as a percentage of revenue | 26 | % | 25 | %
+Non-GAAP research and development operating expenses as a percentage of revenue | 19 | % | 18 | %
+GAAP general and administrative operating expenses | $ | 82,634 | $ | 67,954
+Stock based compensation expense | (37,140) | (32,169)
+Acquisition-related credit (expense) | 70 | (301)
+Amortization of acquired intangible assets | (63) | (14)
+Non-GAAP general and administrative operating expenses | $ | 45,501 | $ | 35,470
+GAAP general and administrative operating expenses as a percentage of revenue | 12 | % | 14 | %
+Non-GAAP general and administrative operating expenses as a percentage of revenue | 7 | % | 7 | %
+CROWDSTRIKE HOLDINGS, INC.
+GAAP to Non-GAAP Reconciliations (continued)
+(in thousands, except per share amounts)
+(unaudited)
+Three Months Ended April 30,
+2023 | 2022
+GAAP loss from operations | $ | (19,456) | $ | (23,883)
+Stock based compensation expense | 130,856 | 102,494
+Amortization of acquired intangible assets | 4,174 | 4,088
+Acquisition-related expenses, net | 301 | 301
+Mark-to-market adjustments on deferred compensation liabilities | 4 | —
+Non-GAAP income from operations | $ | 115,879 | $ | 83,000
+GAAP operating margin | (3) | % | (5) | %
+Non-GAAP operating margin | 17 | % | 17 | %
+GAAP net income (loss) attributable to CrowdStrike | $ | 491 | $ | (31,523)
+Stock based compensation expense | 130,856 | 102,494
+Amortization of acquired intangible assets | 4,174 | 4,088
+Acquisition-related expenses, net | 301 | 301
+Amortization of debt issuance costs and discount | 546 | 546
+Mark-to-market adjustments on deferred compensation liabilities | 4 | —
+Gains and other income from strategic investments attributable to CrowdStrike | (8) | (1,114)
+Gains on deferred compensation assets | (4) | —
+Non-GAAP net income attributable to CrowdStrike | $ | 136,360 | $ | 74,792
+Weighted-average shares used in computing basic net income (loss) per share attributable to CrowdStrike common stockholders (GAAP) | 236,414 | 231,179
+GAAP basic net income (loss) per share attributable to CrowdStrike common stockholders | $ | 0.00 | $ | (0.14)
+GAAP diluted net income (loss) per share attributable to CrowdStrike common stockholders | $ | 0.00 | $ | (0.14)
+Stock-based compensation | 0.54 | 0.43
+Amortization of acquired intangible assets | 0.02 | 0.02
+Acquisition-related expenses, net | — | —
+Amortization of debt issuance costs and discount | — | —
+Mark-to-market adjustments on deferred compensation liabilities | — | —
+Adjustment to fully diluted earnings per share (1) | 0.01 | —
+Gains and other income from strategic investments attributable to CrowdStrike | — | —
+Gains on deferred compensation assets | — | —
+Non-GAAP diluted net income per share attributable to CrowdStrike common stockholders | $ | 0.57 | $ | 0.31
+Weighted-average shares used in diluted net income (loss) per share attributable to CrowdStrike common stockholders calculation:
+GAAP | 240,598 | 231,179
+Non-GAAP | 240,598 | 238,654
+______________________________________________________
+(1) For periods in which we had diluted non-GAAP net income per share attributable to CrowdStrike common stockholders, the sum of the impact of individual reconciling items may not total to diluted Non-GAAP net income per share attributable to CrowdStrike common stockholders because of rounding differences or because the basic share counts used to calculate GAAP net loss per share attributable to CrowdStrike common stockholders differ from the diluted share counts used to calculate non-GAAP net income per share attributable to CrowdStrike common stockholders. The GAAP net loss per share attributable to CrowdStrike common stockholders calculation uses a lower share count as it excludes dilutive shares which are included in calculating the non-GAAP net income per share attributable to CrowdStrike common stockholders.
+CROWDSTRIKE HOLDINGS, INC.
+GAAP to Non-GAAP Reconciliations (continued)
+(in thousands, except percentages)
+(unaudited)
+Three Months Ended April 30,
+2023 | 2022
+GAAP net cash provided by operating activities | $ | 300,892 | $ | 214,957
+Purchases of property and equipment | (62,264) | (52,211)
+Capitalized internal-use software and website development costs | (10,902) | (5,214)
+Purchases of deferred compensation investments | (290) | —
+Free cash flow | $ | 227,436 | $ | 157,532
+GAAP net cash provided by (used in) investing activities | $ | 66,031 | $ | (60,950)
+GAAP net cash provided by financing activities | $ | 7,908 | $ | 4,568
+GAAP net cash provided by operating activities as a percentage of revenue | 43 | % | 44 | %
+Purchases of property and equipment as a percentage of revenue | (9) | % | (11) | %
+Capitalized internal-use software and website development costs as a percentage of revenue | (2) | % | (1) | %
+Purchases of deferred compensation investments as a percentage of revenue | — | % | — | %
+Free cash flow margin | 33 | % | 32 | %
+###
+Explanation of Non-GAAP Financial Measures
+In addition to determining results in accordance with U.S. generally accepted accounting principles (“GAAP”), CrowdStrike believes the following non-GAAP measures are useful in evaluating its operating performance. CrowdStrike uses the following non-GAAP financial information to evaluate its ongoing operations and for internal planning and forecasting purposes. CrowdStrike believes that non-GAAP financial information, when taken collectively, may be helpful to investors because it provides consistency and comparability with past financial performance and facilitates period-to-period comparisons of operations, as these measures eliminate the effects of certain variables unrelated to CrowdStrike’s overall operating performance. However, non-GAAP financial information is presented for supplemental informational purposes only, has limitations as an analytical tool, and should not be considered in isolation or as a substitute for financial information presented in accordance with GAAP.
+Other companies, including companies in CrowdStrike’s industry, may calculate similarly titled non-GAAP measures differently or may use other measures to evaluate their performance, all of which could reduce the usefulness of CrowdStrike’s non-GAAP financial measures as tools for comparison.
+Investors are encouraged to review the related GAAP financial measures and the reconciliation of these non-GAAP financial measures to their most directly comparable GAAP financial measures and not rely on any single financial measure to evaluate CrowdStrike’s business.
+Non-GAAP Subscription Gross Profit and Non-GAAP Subscription Gross Margin
+CrowdStrike defines non-GAAP subscription gross profit and non-GAAP subscription gross margin as GAAP subscription gross profit and GAAP subscription gross margin, respectively, excluding stock-based compensation expense and amortization of acquired intangible assets.
+Non-GAAP Income from Operations
+CrowdStrike defines non-GAAP income from operations as GAAP loss from operations excluding stock-based compensation expense, amortization of acquired intangible assets (including purchased patents), acquisition-related expenses, net, and mark-to-market adjustments on deferred compensation liabilities.
+Non-GAAP Net Income Attributable to CrowdStrike
+The company defines non-GAAP net income attributable to CrowdStrike as GAAP net income (loss) attributable to CrowdStrike excluding stock-based compensation expense, amortization of acquired intangible assets (including purchased patents), acquisition-related expenses, net, amortization of debt issuance costs and discount, mark-to-market adjustments on deferred compensation liabilities, gains and other income from strategic investments, and gains on deferred compensation assets.
+Non-GAAP Net Income per Share Attributable to CrowdStrike Common Stockholders, Diluted
+CrowdStrike defines non-GAAP net income per share attributable to CrowdStrike common stockholders, as non-GAAP net income attributable to CrowdStrike divided by the weighted-average shares outstanding, which includes the dilutive effect of potentially dilutive common stock equivalents outstanding during the period.
+Free Cash Flow
+Free cash flow is a non-GAAP financial measure that CrowdStrike defines as net cash provided by operating activities less purchases of property and equipment, capitalized internal-use software and website development costs, and purchases of deferred compensation investments. CrowdStrike monitors free cash flow as one measure of its overall business performance, which enables CrowdStrike to analyze its future performance without the effects of non-cash items and allow CrowdStrike to better understand the cash needs of its business. While CrowdStrike believes that free cash flow is useful in evaluating its business, free cash flow is a non-GAAP financial measure that has limitations as an analytical tool, and free cash flow should not be considered as an alternative to, or substitute for, net cash provided by operating activities in accordance with GAAP. The utility of free cash flow as a measure of CrowdStrike’s liquidity is further limited as it does not represent the total increase or decrease in CrowdStrike’s cash balance for any given period. In addition, other companies, including companies in CrowdStrike's industry, may calculate free cash flow differently or not at all, which reduces the usefulness of free cash flow as a tool for comparison.
+Explanation of Operational Measures
+Annual Recurring Revenue
+ARR is calculated as the annualized value of CrowdStrike’s customer subscription contracts as of the measurement date, assuming any contract that expires during the next 12 months is renewed on its existing terms. To the extent that CrowdStrike is negotiating a renewal with a customer after the expiration of the subscription, CrowdStrike continues to include that revenue in ARR if CrowdStrike is actively in discussion with such an organization for a new subscription or renewal, or until such organization notifies CrowdStrike that it is not renewing its subscription.
+Magic Number
+Magic Number is calculated by performing the following calculation for the most recent four quarters and taking the average: annualizing the difference between a quarter’s Subscription Revenue and the prior quarter’s Subscription Revenue, and then dividing the resulting number by the previous quarter’s Non-GAAP Sales & Marketing Expense. Magic Number = Average of previous four quarters: ((Quarter Subscription Revenue – Prior Quarter Subscription Revenue) x 4) / Prior Quarter Non-GAAP Sales & Marketing Expense.
+Free Cash Flow Rule of 40
+Free cash flow rule of 40 is calculated by taking the current quarter total revenue year over year growth rate percentage and summing it with the current quarter free cash flow margin percentage.

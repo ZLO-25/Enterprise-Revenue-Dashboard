@@ -1,0 +1,288 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/2488/000119312514373863/d805390dex991.htm
+
+EX-99.1
+2
+d805390dex991.htm
+EX-99.1
+EX-99.1
+Exhibit 99.1 
+NEWS RELEASE 
+Media Contact 
+Drew Prairie
+512-602-4425 
+drew.prairie@amd.com 
+Investor Contact 
+Ruth
+Cotter 
+408-749-3887 
+ruth.cotter@amd.com 
+AMD
+Reports 2014 Third Quarter Results 
+• | Q3 2014 Results
+o | Revenue of $1.43 billion, flat sequentially and a decrease of 2 percent year-over-year
+o | Gross margin of 35 percent
+o | Operating income of $63 million and non-GAAP(1) operating income of $66 million
+o | Net income of $17 million, earnings per share of $0.02 and non-GAAP(1) net income of $20 million, non-GAAP earnings per share of $0.03
+• | Announces restructuring plan to better position the company for profitability and long-term growth
+SUNNYVALE, Calif. – Oct. 16, 2014 – AMD (NYSE:AMD) today announced revenue for the third quarter of 2014 of $1.43
+billion, operating income of $63 million and net income of $17 million, or $0.02 per share. Non-GAAP (1) operating income was $66 million and non-GAAP (1) net income was $20 million, or $0.03 per share. 
+“AMD’s third quarter
+financial performance reflects progress in diversifying our business,” said Dr. Lisa Su, AMD president and CEO. “Our Enterprise, Embedded and Semi-Custom segment results were strong; however, performance in our Computing and Graphics
+segment was mixed based on challenging market conditions that require us to take further steps to evolve and strengthen the financial performance of this business. Our top priority is to deliver leadership technologies and products as we continue to
+transform AMD.” 
+GAAP Financial Results 
+Q3-14 | Q2-14 | Q3-13
+Revenue | $1.43B | $1.44B | $1.46B
+Operating income | $63M | $63M | $95M
+Net income (loss) / Earnings (loss) per share | $17M/$0.02 | $(36)M/$(0.05) | $48M/$0.06
+Non-GAAP Financial
+Results 1 
+Q3-14 | Q2-14 | Q3-13
+Revenue | $1.43B | $1.44B | $1.46B
+Operating income | $66M | $67M | $78M
+Net income / Earnings per share | $20M/$0.03 | $17M/$0.02 | $31M/$0.04
+Effective July 1, 2014, AMD reorganized into two business groups, one focused on the
+traditional PC market and the second focused on adjacent high-growth opportunities. 
+Accordingly, AMD has two reportable segments: 
+• | Computing and Graphics, which primarily includes desktop and notebook processors and chipsets, discrete GPUs and professional graphics; and
+• | Enterprise, Embedded and Semi-Custom, which primarily includes server and embedded processors, dense servers, semi-custom SoC products, engineering services and royalties.
+Quarterly Financial Summary 
+• | Gross margin was 35 percent in Q3 2014.
+o | Gross margin was flat sequentially and included a $27 million, or 2 percent, benefit from revenue related to technology licensing.
+• | Cash, cash equivalents and marketable securities were $938 million at the end of the quarter, essentially flat from the prior quarter.
+• | Total debt at the end of the quarter was $2.20 billion.
+• | Computing and Graphics segment revenue decreased 6 percent sequentially and decreased 16 percent year-over-year. The sequential decrease was primarily driven by lower chipset and GPU sales. The year-over-year decline was primarily due to decreased notebook processor and chipset sales.
+o | Operating loss was $17 million, compared with an operating loss of $6 million in Q2 2014 and operating income of $9 million in Q3 2013. The sequential decrease was primarily driven by lower revenue while the year-over-year decrease was primarily driven by lower revenue partially offset by lower operating expenses.
+o | Client average selling price (ASP) increased sequentially and year-over-year primarily driven by a richer mix of notebook processor sales.
+o | GPU ASP decreased sequentially due to lower desktop GPU ASP and increased year-over-year.
+• | Enterprise, Embedded and Semi-Custom segment revenue increased 6 percent sequentially and 21 percent year-over-year primarily driven by increased sales of semi-custom SoCs.
+o | Operating income was $108 million compared with $97 million in Q2 2014 and $92 million in Q3 2013. The sequential and year-over-year increase was primarily due to increased sales of semi-custom SoCs.
+o | Embedded revenue grew by double digits on a percentage basis sequentially.
+Q4 2014 Restructuring and
+Transformation Initiatives 
+As a part of AMD’s ongoing transformation work, the company has developed a targeted restructuring
+plan to better position AMD for profitability and long-term growth while aligning investments and resources with high-priority opportunities. 
+The restructuring plan, which will be largely implemented in Q4 2014, is expected to: 
+• | Reduce global headcount by 7 percent, largely expected to be completed by the end of Q4 2014;
+• | Align AMD’s real estate footprint with its reduced headcount;
+• | Result in a restructuring and impairment charge of approximately $57 million in Q4 2014, primarily related to severance, and a restructuring charge of approximately $13 million in 1H 2015, primarily related to real estate actions;
+o | The company expects to make cash payments related to these actions of approximately $34 million in Q4 2014 and $20 million in 1H 2015;
+• | Result in operational savings, primarily in operating expenses, of approximately $9 million in Q4 2014 and approximately $85 million in 2015.
+“While decisions that impact the size of our global team are never entered into lightly, this is the right step to ensure we prioritize
+our resources and engineering investments in our highest-priority opportunities that can drive improved profitability and long-term growth,” said Dr. Su. 
+Recent Highlights 
+• | AMD appointed Dr. Lisa Su as president and CEO and a member of the board of directors, succeeding Mr. Rory Read who will remain with the company through 2014 to advise on the transition. Mr. Joseph Householder was also appointed to the company’s board. Mr. Householder currently serves as executive vice president and chief financial officer of Sempra Energy.
+• | AMD and Synopsys announced a multi-year agreement, with Synopsys acquiring rights to AMD’s interface and foundation IP. The IP partnership will provide AMD with access to a range of Synopsys tools and IP for advanced FinFET process nodes.
+• | AMD expanded its award-winning AMD Radeon™ R9 series graphics family with the launch of the AMD Radeon™ R9 285 graphics card designed to run the most demanding games at the highest settings.
+• | AMD completed its most advanced APU lineup to-date for the component channel with the introduction of new AMD A-Series APUs with HSA features and GCN architecture for the system builder and DIY market, along with new APUs designed for smaller form factor gaming and home theater PC (HTPC) systems.
+• | Demonstrating its leadership in building a robust software ecosystem for 64-bit ARM servers, AMD announced immediate availability of the AMD Opteron™ A1100-Series development kit, featuring AMD’s first 64-bit ARM®-based processor, and showcased the first public demonstration of Apache™ Hadoop® running on an ARM® Cortex®-A57-based AMD Opteron™ A-Series processor. AMD is the first company to provide a standard ARM Cortex®-A57-based server platform for software developers and integrators.
+• | AMD expanded its AMD FirePro™ professional graphics offerings with the introduction of 4 new next-generation AMD FirePro™ W-series professional graphics cards that deliver at least 2x2 more graphics memory over the previous generation, multi-display 4K capability and increased compute performance. AMD secured several new design wins with tier-1 OEMs, including multiple HP mobile and desktop workstations. AMD also introduced the most powerful server GPU ever built for High Performance Computing with the AMD FirePro™ S9150 3.
+• | Mentor Graphics announced the availability of commercial Embedded Linux® software enabling developers to easily migrate to new commercially-supported versions for the AMD Embedded G-Series SoC and CPU, and the AMD Embedded R-Series APU.
+• | AMD announced a new technology partnership with OCZ Storage Solutions, a Toshiba Group Company, for AMD Radeon™-branded Solid State Drives (SSDs).
+• | In collaboration with Canonical®, AMD announced a ready-to-deploy OpenStack private cloud based on the SeaMicro SM15000™ server. The “out of the box” experience is meant to ease the complexities of deploying OpenStack technology and automates complex configuration tasks, simplifies management, and provides a graphical user interface to dynamically deploy new services on demand.
+• | Dow Jones named AMD to the Dow Jones Sustainability Index (DJSI) North America, marking more than a decade-long appearance on the list and exemplifying the company’s legacy of corporate responsibility and commitment to social, economic and environmental issues.
+Current Outlook 
+AMD’s outlook statements are based on current expectations. The following statements are forward-looking, and actual results could differ
+materially depending on market conditions and the factors set forth under “Cautionary Statement” below. 
+For Q4 2014, AMD
+expects revenue to decrease 13 percent, plus or minus 3 percent, sequentially. 
+For additional details regarding AMD’s results and
+outlook please see the CFO commentary posted at quarterlyearnings.amd.com. 
+AMD Teleconference 
+AMD will hold a conference call for the financial community at 2:30 p.m. PT (5:30 p.m. ET) today to discuss its third quarter financial
+results. AMD will provide a real-time audio broadcast of the teleconference on the Investor Relations page of its web site at www.amd.com. The webcast will be available for 12 months after the conference call. 
+Reconciliation of GAAP to Non-GAAP Operating Income1
+(Millions) | Q3-14 | Q2-14 | Q3-13
+GAAP operating income | $ | 63 | $ | 63 | $ | 95
+Amortization of acquired intangible assets | 3 | 4 | 5
+Restructuring and other special charges (gains), net | — | — | (22 | )
+Non-GAAP operating income | $ | 66 | $ | 67 | $ | 78
+Reconciliation of GAAP Net Income (Loss) to Non-GAAP Net Income 
+(Millions except per share amounts) | Q3-14 | Q2-14 | Q3-13
+GAAP net income (loss) / Earnings (loss) per share | $ | 17 | $ | 0.02 | $ | (36 | ) | $ | (0.05 | ) | $ | 48 | $ | 0.06
+Amortization of acquired intangible assets | 3 | 0.00 | 4 | 0.01 | 5 | 0.01
+Loss on debt redemption | — | — | 49 | 0.06 | — | —
+Restructuring and other special charges (gains), net | — | — | — | — | (22 | ) | (0.03 | )
+Non-GAAP net income / Earnings per share | $ | 20 | $ | 0.03 | $ | 17 | $ | 0.02 | $ | 31 | $ | 0.04
+About AMD 
+AMD (NYSE: AMD) designs and integrates technology that powers millions of intelligent devices, including personal computers, tablets, game
+consoles and cloud servers that define the new era of surround computing. AMD solutions enable people everywhere to realize the full potential of their favorite devices and applications to push the boundaries of what is possible. For more
+information, visit www.amd.com. 
+Cautionary Statement 
+This earnings press release and the conference call remarks contain forward-looking statements concerning AMD; its ability to increase
+profitability and improve financial performance; its restructuring plan, including the timing of actions implemented in connection with the plan and expected restructuring and impairment charges, cash payments and operational savings; expected
+benefits of its restructuring plan and transformation initiatives; its expected fourth quarter of 2014 revenue; and timing of and expected revenue in connection with its future products, which are made pursuant to the safe harbor provisions of the
+Private Securities Litigation Reform Act of 1995. Forward-looking statements are commonly identified by words such as “believes,” “expects,” “may,” “will,” “should,” “seeks,”
+“intends,” “pro forma,” “estimates,” “anticipates,” “plans,” “projects,” “would” and other terms with similar meaning. Investors are cautioned that the forward-looking statements
+in this release are based on current beliefs, assumptions and expectations, speak only as of the date of this release and involve risks and uncertainties that could cause actual results to differ materially from current expectations. Risks include
+the possibility that Intel Corporation’s pricing, marketing and rebating programs, product bundling, standard setting, new product introductions or other activities may negatively impact AMD’s plans; that AMD will require additional
+funding and may be unable to raise sufficient capital on favorable terms, or at all; that customers stop buying AMD’s products or materially reduce their operations or demand for AMD’s products; that AMD may be unable to develop, launch
+and ramp new products and technologies in the volumes that are required by the market at mature yields on a timely basis; that AMD’s third-party foundry suppliers will be unable to transition AMD’s products to advanced manufacturing
+process technologies in a timely and effective way or to manufacture AMD’s products on a timely basis in sufficient quantities and using competitive process technologies; that AMD will be unable to obtain sufficient manufacturing capacity or
+components to meet demand for its products or will not fully utilize its projected manufacturing capacity needs at GLOBALFOUNDRIES, Inc. (GF) microprocessor manufacturing facilities; that AMD’s requirements for wafers will be less than the
+fixed number of wafers that it agreed to purchase from GF or GF encounters 
+problems that significantly reduce the number of functional die it receives from each wafer; that AMD is unable to successfully implement its long-term business strategy; that AMD inaccurately
+estimates the quantity or type of products that its customers will want in the future or will ultimately end up purchasing, resulting in excess or obsolete inventory; that AMD is unable to manage the risks related to the use of its third-party
+distributors and add-in-board (AIB) partners or offer the appropriate incentives to focus them on the sale of AMD’s products; that AMD may be unable to maintain the level of investment in research and development that is required to remain
+competitive; that there may be unexpected variations in market growth and demand for AMD’s products and technologies in light of the product mix that it may have available at any particular time; that global business and economic conditions
+will not improve or will worsen; that PC market conditions will not improve or will worsen; that demand for computers will be lower than currently expected; and the effect of political or economic instability, domestically or internationally, on
+AMD’s sales or supply chain. Investors are urged to review in detail the risks and uncertainties in AMD’s Securities and Exchange Commission filings, including but not limited to the Quarterly Report on Form 10-Q for the quarter ended
+June 28, 2014. 
+-30- 
+AMD, the AMD
+Arrow logo, AMD Opteron, AMD Radeon and combinations thereof, are trademarks of Advanced Micro Devices, Inc. Other names are for informational purposes only and used to identify companies and products and may be trademarks of their respective owner.
+1. | In this earnings press release, in addition to GAAP financial results, AMD has provided non-GAAP financial measures including non-GAAP operating income, non-GAAP net income (loss) and non-GAAP earnings (loss) per share. These non-GAAP financial measures reflect certain adjustments as presented in the tables in this earnings press release. AMD also provided Adjusted EBITDA and non-GAAP free cash flow as supplemental measures of its performance. These items are defined in the footnotes to the selected corporate data tables provided at the end of this earnings press release. AMD is providing these financial measures because it believes this non-GAAP presentation makes it easier for investors to compare its operating results for current and historical periods and also because AMD believes it assists investors in comparing AMD’s performance across reporting periods on a consistent basis by excluding items that it does not believe are indicative of its core operating performance and for the other reasons described in the footnotes to the selected data tables. Refer to the data tables at the end of this earnings.
+2. | Compared to the previous generation of AMD FirePro™ professional graphics.
+3. | AMD FirePro™ S9150 max power is 235W and delivers up to 2.53 TFLOPS peak double and up to 5.07 peak single precision floating point performance. Nvidia’s highest performing server cards in the market as of June 2014 are the Tesla K40, max power of 235W, with up to 1.43 TFLOPS peak double and up to 4.29 peak single, and the K10, max power 225W, with up to 4.58 TFLOPS peak single and 190 GFLOPS peak double precision. Visit http://www.nvidia.com/object/tesla-servers.html for Nvidia product specs. FP-97
+ADVANCED MICRO DEVICES, INC. 
+CONDENSED CONSOLIDATED STATEMENTS OF OPERATIONS 
+(Millions except per share amounts and percentages) 
+Three Months Ended | Nine Months Ended
+Sep. 27,2014 | Jun. 28,2014 | Sep. 28,2013 | Sep. 27,2014 | Sep. 28,2013
+Net revenue | $ | 1,429 | $ | 1,441 | $ | 1,461 | $ | 4,267 | $ | 3,710
+Cost of sales | 935 | 943 | 940 | $ | 2,788 | 2,285
+Gross margin | 494 | 498 | 521 | 1,479 | 1,425
+Gross margin % | 35 | % | 35 | % | 36 | % | 35 | % | 38 | %
+Research and development | 278 | 277 | 288 | 834 | 908
+Marketing, general and administrative | 150 | 154 | 155 | 460 | 505
+Amortization of acquired intangible assets | 3 | 4 | 5 | 10 | 14
+Restructuring and other special charges (gains), net | — | — | (22 | ) | — | 30
+Operating income (loss) | 63 | 63 | 95 | 175 | (32 | )
+Interest income | 1 | — | 1 | 2 | 4
+Interest expense | (43 | ) | (46 | ) | (47 | ) | (136 | ) | (133 | )
+Other income (expense), net | (2 | ) | (49 | ) | 2 | (72 | ) | (3 | )
+Income (loss) before income taxes | 19 | (32 | ) | 51 | (31 | ) | (164 | )
+Provision for income taxes | 2 | 4 | 3 | 8 | 8
+Net income (loss) | $ | 17 | $ | (36 | ) | $ | 48 | $ | (39 | ) | $ | (172 | )
+Net income (loss) per share
+Basic | $ | 0.02 | $ | (0.05 | ) | $ | 0.06 | $ | (0.05 | ) | $ | (0.23 | )
+Diluted | $ | 0.02 | $ | (0.05 | ) | $ | 0.06 | $ | (0.05 | ) | $ | (0.23 | )
+Shares used in per share calculation
+Basic | 770 | 764 | 757 | 765 | 753
+Diluted | 785 | 764 | 764 | 765 | 753
+ADVANCED MICRO DEVICES, INC. 
+CONDENSED CONSOLIDATED STATEMENTS OF COMPREHENSIVE INCOME (LOSS) 
+(Millions) 
+Three Months Ended | Nine Months Ended
+Sep. 27,2014 | Jun. 28,2014 | Sep. 28,2013 | Sep. 27,2014 | Sep. 28,2013
+Total comprehensive income (loss) | $ | 15 | $ | (32 | ) | $ | 52 | $ | (38 | ) | $ | (171 | )
+ADVANCED MICRO DEVICES, INC. 
+CONDENSED CONSOLIDATED BALANCE SHEETS 
+(Millions)
+Sep. 27,2014 | Jun. 28,2014 | Dec. 28,2013
+Assets
+Current assets:
+Cash and cash equivalents | $ | 640 | $ | 503 | $ | 869
+Marketable securities | 298 | 445 | 228
+Accounts receivable, net | 973 | 872 | 832
+Inventories, net | 897 | 960 | 884
+Prepaid expenses and other current assets | 212 | 152 | 71
+Total current assets | 3,020 | 2,932 | 2,884
+Long-term marketable securities | — | — | 90
+Property, plant and equipment, net | 328 | 329 | 346
+Acquisition related intangible assets, net | 69 | 72 | 78
+Goodwill | 553 | 553 | 553
+Other assets | 355 | 360 | 386
+Total Assets | $ | 4,325 | $ | 4,246 | $ | 4,337
+Liabilities and Stockholders’ Equity
+Current liabilities:
+Short-term debt | $ | 102 | $ | 101 | $ | 60
+Accounts payable | 498 | 511 | 519
+Payable to GLOBALFOUNDRIES | 317 | 295 | 364
+Accrued and other current liabilities | 555 | 480 | 530
+Deferred income on shipments to distributors | 94 | 118 | 145
+Total current liabilities | 1,566 | 1,505 | 1,618
+Long-term debt | 2,106 | 2,109 | 1,998
+Other long-term liabilities | 118 | 131 | 177
+Stockholders’ equity:
+Capital stock:
+Common stock, par value | 8 | 8 | 7
+Additional paid-in capital | 6,928 | 6,905 | 6,894
+Treasury stock, at cost | (118 | ) | (114 | ) | (112 | )
+Accumulated deficit | (6,282 | ) | (6,299 | ) | (6,243 | )
+Accumulated other comprehensive income (loss) | (1 | ) | 1 | (2 | )
+Total stockholders’ equity | 535 | 501 | 544
+Total Liabilities and Stockholders’ Equity | $ | 4,325 | $ | 4,246 | $ | 4,337
+ADVANCED MICRO DEVICES, INC. 
+CONDENSED CONSOLIDATED STATEMENT OF CASH FLOWS 
+(Millions) 
+Three Months Ended | Nine Months Ended
+Sep. 27,2014 | Sep. 27,2014
+Cash flows from operating activities:
+Net Income (loss) | $ | 17 | $ | (39 | )
+Adjustments to reconcile net income (loss) to net cash provided by (used in) operating activities:
+Depreciation and amortization | 49 | 155
+Employee stock-based compensation expense | 21 | 65
+Non-cash interest expense | 2 | 11
+Loss on debt redemptions | — | 64
+Other | (6 | ) | (9 | )
+Changes in operating assets and liabilities:
+Accounts receivable | (104 | ) | (144 | )
+Inventories | 62 | (14 | )
+Prepaid expenses and other assets | (71 | ) | (156 | )
+Payable to GLOBALFOUNDRIES | 22 | (47 | )
+Accounts payable, accrued liabilities and other | 26 | (100 | )
+Net cash provided by (used in) operating activities | $ | 18 | $ | (214 | )
+Cash flows from investing activities:
+Purchases of property, plant and equipment | (29 | ) | (73 | )
+Purchases of available-for-sale securities | (28 | ) | (646 | )
+Proceeds from sale and maturity of available-for-sale securities | 176 | 664
+Net cash provided by (used in) investing activities | $ | 119 | $ | (55 | )
+Cash flows from financing activities:
+Net proceeds from foreign grants and allowances | $ | 3 | $ | 5
+Proceeds from issuance of common stock | 2 | 4
+Proceeds from borrowings, net | — | 1,080
+Repayments of long-term debt and capital lease obligations | (1 | ) | (1,043 | )
+Other | (4 | ) | (6 | )
+Net cash provided by financing activities | $ | — | $ | 40
+Net increase (decrease) in cash and cash equivalents | 137 | (229 | )
+Cash and cash equivalents at beginning of period | $ | 503 | $ | 869
+Cash and cash equivalents at end of period | $ | 640 | $ | 640
+ADVANCED MICRO DEVICES, INC. 
+SELECTED CORPORATE DATA 
+(Millions except headcount)
+Three Months Ended | Nine Months Ended
+Sep. 27,2014 | Jun. 28,2014 | Sep. 28,2013 | Sep. 27,2014 | Sep. 28,2013
+Segment and Category Information
+Computing and Graphics (1)
+Net revenue | $ | 781 | $ | 828 | $ | 925 | $ | 2,470 | $ | 2,832
+Operating income (loss) | $ | (17 | ) | $ | (6 | ) | $ | 9 | $ | (20 | ) | $ | (86 | )
+Enterprise, Embedded and Semi-Custom (2)
+Net revenue | 648 | 613 | 536 | 1,797 | 878
+Operating income | 108 | 97 | 92 | 290 | 166
+All Other (3)
+Operating loss | (28 | ) | (28 | ) | (6 | ) | (95 | ) | (112 | )
+Total
+Net revenue | $ | 1,429 | $ | 1,441 | $ | 1,461 | $ | 4,267 | $ | 3,710
+Operating income (loss) | $ | 63 | $ | 63 | $ | 95 | $ | 175 | $ | (32 | )
+Other Data
+Depreciation and amortization, excluding amortization of acquired intangible assets | $ | 46 | $ | 49 | $ | 52 | $ | 145 | $ | 168
+Capital additions | $ | 29 | $ | 23 | $ | 15 | $ | 73 | $ | 63
+Adjusted EBITDA (4) | $ | 133 | $ | 137 | $ | 153 | $ | 409 | $ | 247
+Cash, cash equivalents and marketable securities, including long-term marketable securities | $ | 938 | $ | 948 | $ | 1,181 | $ | 938 | $ | 1,181
+Non-GAAP free cash flow (5) | $ | (11 | ) | $ | (51 | ) | $ | 6 | $ | (287 | ) | $ | (232 | )
+Total assets | $ | 4,325 | $ | 4,246 | $ | 4,317 | $ | 4,325 | $ | 4,317
+Total debt | $ | 2,208 | $ | 2,210 | $ | 2,049 | $ | 2,208 | $ | 2,049
+Headcount | 10,149 | 10,300 | 10,330 | 10,149 | 10,330
+See footnotes on the next page 
+(1) | Computing and Graphics segment primarily includes desktop and notebook processors and chipsets, discrete graphics processing units (GPUs) and professional graphics.
+(2) | Enterprise, Embedded and Semi-Custom segment primarily includes server and embedded processors, dense servers, semi-custom System-on-Chip (SoC) products, engineering services and royalties.
+(3) | All Other category primarily includes certain expenses and credits that are not allocated to any of the operating segments. Also included in this category are amortization of acquired intangible assets and employee stock-based compensation expense. In addition, the Company also included the following adjustments for the indicated periods: for the nine months ended September 27, 2014, the Company included an adjustment for workforce rebalancing severance charges; and for the third quarter of 2013 and nine months ended September 28, 2013, the Company included an adjustment for net restructuring and other special charges (gains).
+(4) | Reconciliation of GAAP operating income (loss) to Adjusted EBITDA*
+Three Months Ended | Nine Months Ended
+Sep. 27,2014 | Jun. 28,2014 | Sep. 28,2013 | Sep. 27,2014 | Sep. 28,2013
+GAAP operating income (loss) | $ | 63 | $ | 63 | $ | 95 | $ | 175 | $ | (32 | )
+Workforce rebalancing severance charges | — | — | — | 14 | —
+Depreciation and amortization | 46 | 49 | 52 | 145 | 168
+Employee stock-based compensation expense | 21 | 21 | 23 | 65 | 67
+Amortization of acquired intangible assets | 3 | 4 | 5 | 10 | 14
+Restructuring and other special charges (gains), net | — | — | (22 | ) | — | 30
+Adjusted EBITDA | $ | 133 | $ | 137 | $ | 153 | $ | 409 | $ | 247
+(5) | Non-GAAP free cash flow reconciliation**
+Three Months Ended | Nine Months Ended
+Sep. 27,2014 | Jun. 28,2014 | Sep. 28,2013 | Sep. 27,2014 | Sep. 28,2013
+GAAP net cash provided by (used in) operating activities | $ | 18 | $ | (28 | ) | $ | 21 | $ | (214 | ) | $ | (169 | )
+Purchases of property, plant and equipment | (29 | ) | (23 | ) | (15 | ) | (73 | ) | (63 | )
+Non-GAAP free cash flow | $ | (11 | ) | $ | (51 | ) | $ | 6 | $ | (287 | ) | $ | (232 | )
+* | The Company presents Adjusted EBITDA as a supplemental measure of its performance. Adjusted EBITDA for the Company is determined by adjusting operating income (loss) for depreciation and amortization, employee stock-based compensation expense and amortization of acquired intangible assets. In addition, the Company also included the following adjustments for the indicated periods: for the nine months ended September 27, 2014, the Company included an adjustment for workforce rebalancing severance charges; and for the third quarter of 2013 and nine months ended September 28, 2013, the Company included an adjustment for net restructuring and other special charges (gains). The Company calculates and communicates Adjusted EBITDA in the earnings press release because the Company’s management believes it is of importance to investors and lenders in relation to its overall capital structure and its ability to borrow additional funds. In addition, the Company presents Adjusted EBITDA because it believes this measure assists investors in comparing its performance across reporting periods on a consistent basis by excluding items that the Company does not believe are indicative of its core operating performance. The Company’s calculation of Adjusted EBITDA may or may not be consistent with the calculation of this measure by other companies in the same industry. Investors should not view Adjusted EBITDA as an alternative to the GAAP operating measure of operating income (loss) or GAAP liquidity measures of cash flows from operating, investing and financing activities. In addition, Adjusted EBITDA does not take into account changes in certain assets and liabilities as well as interest and income taxes that can affect cash flows.
+** | The Company also presents non-GAAP free cash flow in the earnings press release as a supplemental measure of its performance. Non-GAAP free cash flow is determined by adjusting GAAP net cash used in operating activities for capital expenditures. The Company calculates and communicates non-GAAP free cash flow in the financial earnings press release because the Company’s management believes it is of importance to investors to understand the nature of these cash flows. The Company’s calculation of non-GAAP free cash flow may or may not be consistent with the calculation of this measure by other companies in the same industry. Investors should not view non-GAAP free cash flow as an alternative to GAAP liquidity measures of cash flows from operating activities. The Company has provided reconciliations within the earnings press release of these non-GAAP financial measures to the most directly comparable GAAP financial measures.

@@ -1,0 +1,246 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/1327567/000132756718000004/ex991q218earningsrelease.htm
+
+EX-99.1
+3
+ex991q218earningsrelease.htm
+EXHIBIT 99.1
+ Exhibit
+Exhibit 99.1
+Palo Alto Networks Reports Fiscal Second Quarter 2018 Financial Results
+• | Fiscal second quarter revenue grows 28 percent year over year to $542.4 million; product revenue grows 20 percent year over year to $202.2 million; and subscription and support revenue grows 34 percent year over year to $340.2 million
+• | Fiscal second quarter billings grow 20 percent year over year to $674.6 million
+• | Deferred revenue grows 33 percent year over year to $2.0 billion
+SANTA CLARA, Calif. — February 26, 2018 — Palo Alto Networks® (NYSE: PANW), the next-generation security company, today announced financial results for its fiscal second quarter 2018, ended January 31, 2018.
+Total revenue for the fiscal second quarter 2018 grew 28 percent year over year to $542.4 million, compared with total revenue of $422.6 million for the fiscal second quarter 2017. GAAP net loss for the fiscal second quarter 2018 was $34.9 million, or $0.38 per diluted share, compared with GAAP net loss of $60.6 million, or $0.67 per diluted share, for the fiscal second quarter 2017. In its fiscal second quarter 2018, the company had a GAAP one-time tax benefit of $6.2 million associated with the U.S. Tax Cuts and Jobs Act, which resulted in a benefit to fiscal second quarter 2018 GAAP earnings per diluted share of $0.07.
+Non-GAAP net income for the fiscal second quarter 2018 was $91.5 million, or $0.97 per diluted share, compared with non-GAAP net income of $59.6 million, or $0.63 per diluted share, for the fiscal second quarter 2017. In its fiscal second quarter 2018, the company changed its non-GAAP effective tax rate from 31 percent to 22 percent due to the reduction of the U.S. federal corporate income tax rate under the 
+1
+Tax Cuts and Jobs Act. This change in tax rate resulted in a benefit to fiscal second quarter 2018 non-GAAP net income and non-GAAP earnings per diluted share of $10.6 million and $0.11, respectively. A reconciliation between GAAP and non-GAAP information is contained in the tables below.
+“We delivered a strong fiscal second quarter with total revenue growing 28 percent year over year to $542.4 million as we saw robust new customer acquisition and expansion in existing accounts,” said Mark McLaughlin, chief executive officer of Palo Alto Networks. “Digital transformation requires security transformation built upon increasing automation, leverage, and consistency, the hallmarks of our Next-Generation Security Platform. We continue to harness the power of innovation to introduce new technology and disrupt traditional consumption models as we help customers solve their most complex security challenges and embrace the benefits of the digital age.”
+“The team executed well in our fiscal second quarter, and we were once again able to outgrow the security market and the competition at scale, while driving leverage in our operating model,” said Kathy Bonanno, chief financial officer of Palo Alto Networks. “We delivered record revenue and deferred revenue; increased operating margins both sequentially and year over year; and generated $243.7 million in cash flow from operations and $218.1 million in free cash flow. We ended the quarter with approximately $2.4 billion in cash, cash equivalents and investments.”
+Recent Highlights
+• | Announced PAN-OS 8.1 and new hardware: This announcement included the introduction of PAN-OS® 8.1, the PA-3200 series with three models, the PA-5280, the ruggedized PA-220R, and two new models of M-Series management appliances. PAN-OS 8.1 adds over 60 new features to our next-generation firewall, including more granular control of SaaS applications, expanded SSL decryption capabilities making it easier to secure encrypted traffic, and many features to simplify
+2
+the adoption of security best practices. In addition, the new hardware appliances increase decryption throughput, bring higher performance and capacity for securing large data centers, and provide additional stability for managing large firewall deployments.
+• | Expanded capabilities to prevent successful cyberattacks in the cloud: We announced expanded capabilities of our platform to provide customers operating hybrid and multi-cloud environments comprehensive, consistent security that easily integrates with their cloud infrastructure and workloads. This included extended protections to the Google® Cloud Platform in addition to enhanced capabilities for AWS® and Azure® environments, simplified and centralized management for all major clouds, and automated integrations for frictionless workflows in multi-cloud environments.
+• | Launched Magnifier behavioral analytics application: This new cloud-based application, delivered through the Palo Alto Networks Application Framework, enables organizations to rapidly identify and prevent behavior-based threats. The application, along with the Palo Alto Networks Logging Service and Palo Alto Networks physical and virtual firewalls, enables customers to collect telemetry data and automate analysis to prevent threats while eliminating supplemental networking devices and costly on-premise logging servers.
+• | Launched Logging Service in Europe: This service, which mirrors the Logging Service previously announced in the U.S., enables customers to collect large amounts of their own security data from Palo Alto Networks devices, making large-scale log collection affordable while addressing data privacy and location concerns for many European organizations. All data sent to the Logging Service in Europe will be stored within a data center in the EU.
+• | Achieved Amazon Web Services Networking Competency status: This competency complements our Amazon® Web Services Security Competency, achieved in 2016, and recognizes that we provide proven technology and deep expertise to help customers adopt, develop, deploy and secure networks in AWS.
+3
+• | Launched global Cyber Range initiative and facilities: Through our new Cyber Range initiative and facilities, cybersecurity professionals can build on their understanding of today’s most advanced threats; improve their internal team communications and processes; and enhance skills in identifying and preventing threats with real-time use of the Palo Alto Networks Next-Generation Security Platform. Our inaugural facility opened this quarter in Amsterdam with additional site openings planned throughout the year.
+• | Announced the appointment of chief accounting officer: Today the company announced that Jean Compeau, formerly senior vice president, accounting and corporate controller, has been named chief accounting officer with ongoing responsibility for accounting and tax functions. Ms. Compeau, who joined the company in 2012, has 20 years’ business experience, having held several senior accounting or corporate controller positions at various technology companies. She holds a B.A. degree in Business Economics from UCLA and is a certified public accountant (inactive) in California.
+Financial Outlook
+Palo Alto Networks provides guidance based on current market conditions and expectations. 
+Fiscal third quarter 2018 and fiscal year 2018 guidance includes the company’s new non-GAAP effective tax rate under the Tax Cuts and Jobs Act. The new quarterly non-GAAP effective tax rate is 22 percent, a reduction from our previously guided non-GAAP effective tax rate of 31 percent.
+For the fiscal third quarter 2018, we expect: 
+• | Total revenue in the range of $538 to $548 million, representing year-over-year growth between 25 percent and 27 percent. Product revenue in the range of $193 to $196 million, representing year-over-year growth between 18 percent and 19 percent.
+4
+• | Total billings in the range of $665 to $680 million, representing year-over-year growth between 22 percent and 25 percent.
+• | Diluted non-GAAP net income per share in the range of $0.94 to $0.96 using 94.5 to 96.5 million shares; this includes an approximately $0.11 benefit from the new non-GAAP effective tax rate of 22 percent.
+For the fiscal year 2018, we expect:
+• | Total revenue in the range of $2.190 to $2.220 billion, representing year-over-year growth between 24 percent and 26 percent. Product revenue in the range of $810 to $820 million, representing year-over-year growth between 14 percent and 16 percent.
+• | Total billings in the range of $2.715 to $2.770 billion, representing year-over-year growth between 18 percent and 21 percent.
+• | A full-year weighted average non-GAAP effective tax rate of approximately 24 percent, which includes fiscal first quarter 2018 at the prior non-GAAP effective tax rate of 31 percent and the remainder of the year at the new, lower non-GAAP effective tax rate of 22 percent.
+• | Using this tax range, diluted non-GAAP net income per share in the range of $3.84 to $3.91 using 94 to 96 million shares; this includes an approximately $0.36 benefit from the new full-year non-GAAP effective tax rate.
+Guidance for non-GAAP financial measures excludes share-based compensation related charges including share-based payroll tax expense, acquisition related costs, amortization expense of acquired intangible assets, litigation-related charges including legal settlements, facility exit costs, non-cash interest expense related to our convertible senior notes, foreign currency gains (losses) and income and other tax effects associated with these items, and certain non-recurring expenses. We have not reconciled diluted non-GAAP net income per share guidance to GAAP net income (loss) per diluted share because we do not 
+5
+provide guidance on GAAP net income (loss) and would not be able to present the various reconciling cash and non-cash items between GAAP net income (loss) and non-GAAP net income, including share-based compensation expense, without unreasonable effort. Share-based compensation expense is impacted by the company’s future hiring and retention needs and, to a lesser extent, the future fair market value of the company’s common stock, all of which is difficult to predict and subject to constant change. The actual amounts of such reconciling items will have a significant impact on the company’s GAAP net income (loss) per diluted share.
+Conference Call Information
+Palo Alto Networks will host a conference call for analysts and investors to discuss its fiscal second quarter 2018 results and outlook for its fiscal third quarter and full fiscal year 2018 today at 4:30 p.m. Eastern time/1:30 p.m. Pacific time. Open to the public, investors may access the call by dialing 1-877-397-0272 or 1-719-325-2464 and using conference ID 3106318. A live audio webcast of the conference call, along with supplemental financial information, will also be accessible from the “Investors” section of our website at investors.paloaltonetworks.com. Following the webcast, an archived version will be available on our website for one year. A telephonic replay of the call will be available three hours after the call, will run for ten days, and may be accessed by dialing 1-888-203-1112 or 1-719-457-0820 and entering the passcode 3106318.
+Forward-Looking Statements
+This press release contains forward-looking statements that involve risks and uncertainties, including statements regarding our future financial and operating performance, including our financial outlook for the fiscal third quarter and full fiscal year 2018, our expectations related to the impact of the recently passed Tax Cuts and Jobs Act on our effective tax rate, and our expectations regarding the benefits of new subscription offerings and the effectiveness of our offerings to perform as intended. There are a significant 
+6
+number of factors that could cause actual results to differ materially from statements made in this press release, including: our limited operating history; our ability to identify and effectively implement the necessary changes to address execution challenges; risks associated with managing our rapid growth; organizational changes; the risks associated with new products and subscription and support offerings, including the discovery of software bugs; our ability to attract and retain new customers; delays in the development or release of new subscription offerings, or the failure to timely develop and achieve market acceptance of new products and subscriptions as well as existing products and subscription and support offerings; rapidly evolving technological developments in the market for network security products and subscription and support offerings; length of sales cycles; and general market, political, economic and business conditions.
+Additional risks and uncertainties that could affect our financial results are included under the captions “Risk Factors” and “Management’s Discussion and Analysis of Financial Condition and Results of Operations” in our Quarterly Report on Form 10-Q filed with the SEC on November 21, 2017, which is available on our website at investors.paloaltonetworks.com and on the SEC’s website at www.sec.gov. Additional information will also be set forth in other filings that we make with the SEC from time to time. All forward-looking statements in this press release are based on information available to us as of the date hereof, and we do not assume any obligation to update the forward-looking statements provided to reflect events that occur or circumstances that exist after the date on which they were made.
+Non-GAAP Financial Measures and Other Key Metrics
+Palo Alto Networks has provided in this press release financial information that has not been prepared in accordance with generally accepted accounting principles in the United States (GAAP). The company uses these non-GAAP financial measures and key metrics internally in analyzing its financial results and believes that the use of these non-GAAP financial measures and key metrics is useful to investors as an 
+7
+additional tool to evaluate ongoing operating results and trends, and in comparing the company’s financial results with other companies in its industry, many of which present similar non-GAAP financial measures or key metrics.
+The presentation of these non-GAAP financial measures and key metrics are not meant to be considered in isolation or as a substitute for comparable GAAP financial measures, and should be read only in conjunction with the company’s consolidated financial statements prepared in accordance with GAAP. A reconciliation of the company’s historical non-GAAP financial measures and key metrics to their most directly comparable GAAP measures has been provided in the financial statement tables included in this press release, and investors are encouraged to review these reconciliations.
+Non-GAAP net income and net income per share, diluted. Palo Alto Networks defines non-GAAP net income as net income (loss) plus share-based compensation related charges including share-based payroll tax expense, acquisition related costs, amortization expense of acquired intangible assets, litigation related charges including legal settlements, facility exit costs, non-cash interest expense related to the company’s convertible senior notes, and intellectual property restructuring related charges. The company also excludes from non-GAAP net income the foreign currency gains (losses) and tax effects associated with these items in order to provide a complete picture of the company’s recurring core business operating results. The company defines non-GAAP net income per share, diluted, as non-GAAP net income divided by the weighted average diluted shares outstanding, which includes the potentially dilutive effect of the company’s employee equity incentive plan awards and the company’s convertible senior notes outstanding, after giving effect to the anti-dilutive impact of the company’s note hedge agreements, which reduces the potential economic dilution that otherwise would occur upon conversion of the company’s convertible senior notes. Under GAAP, the anti-dilutive impact of the note hedge is not reflected in diluted shares outstanding. The company believes that excluding these items from non-GAAP net income and 
+8
+non-GAAP net income per share, diluted, provides management and investors with greater visibility into the underlying performance of the company’s core business operating results, meaning its operating performance excluding these items and, from time to time, other discrete charges that are infrequent in nature, over multiple periods.
+Billings. Palo Alto Networks defines billings as total revenue plus the change in total deferred revenue, net of acquired deferred revenue, during the period. The company considers billings to be a key metric used by management to manage the company’s business given the company’s hybrid-SaaS revenue model, and believes billings provides investors with an important indicator of the health and visibility of the company’s business because it includes subscription and support revenue, which is recognized ratably over the contractual service period, and product revenue, which is recognized at the time of shipment, provided that all other revenue recognition criteria have been met. The company considers billings to be a useful metric for management and investors, particularly if sales of subscriptions continue to increase and the company experiences strong renewal rates for subscriptions and support. 
+Free cash flow. Palo Alto Networks defines free cash flow as cash provided by operating activities less purchases of property, equipment, and other assets. The company considers free cash flow to be a profitability and liquidity measure that provides useful information to management and investors about the amount of cash generated by the business after necessary capital expenditures.
+Investors are cautioned that there are a number of limitations associated with the use of non-GAAP financial measures and key metrics as analytical tools. In particular, the billings metric reported by the company includes amounts that have not yet been recognized as revenue, and free cash flow does not represent the total increase or decrease in our cash balance for the period. In addition, many of the adjustments to the company’s GAAP financial measures reflect the exclusion of items that are recurring 
+9
+and will be reflected in the company’s financial results for the foreseeable future, such as share-based compensation, which is an important part of Palo Alto Networks employees’ compensation and impacts their performance. Furthermore, these non-GAAP financial measures are not based on any standardized methodology prescribed by GAAP, and the components that Palo Alto Networks excludes in its calculation of non-GAAP financial measures may differ from the components that its peer companies exclude when they report their non-GAAP results of operations. Palo Alto Networks compensates for these limitations by providing specific information regarding the GAAP amounts excluded from these non-GAAP financial measures. In the future, the company may also exclude non-recurring expenses and other expenses that do not reflect the company’s core business operating results.
+About Palo Alto Networks
+Palo Alto Networks is the next-generation security company, leading a new era in cybersecurity by safely enabling applications and preventing cyber breaches for tens of thousands of organizations worldwide. Built with an innovative approach and highly differentiated cyberthreat prevention capabilities, our game-changing security platform delivers security far superior to legacy or point products, safely enables daily business operations, and protects an organization’s most valuable assets. Find out more at www.paloaltonetworks.com.
+Palo Alto Networks and the Palo Alto Networks logo are trademarks of Palo Alto Networks, Inc. in the United States and in jurisdictions throughout the world. All other trademarks, trade names or service marks used or mentioned herein belong to their respective owners.
+10
+Media Contact:
+Kristen Batch
+Senior Vice President of Corporate Communications
+Palo Alto Networks
+669-235-3754
+kbatch@paloaltonetworks.com
+Investor Relations Contact:
+Kelsey Turcotte
+Vice President of Investor Relations
+Palo Alto Networks
+408-753-3872
+kturcotte@paloaltonetworks.com 
+11
+Palo Alto Networks, Inc.
+Preliminary Condensed Consolidated Statements of Operations
+(In millions, except per share data)
+(Unaudited)
+Three Months Ended January 31, | Six Months Ended January 31,
+2018 | 2017 | 2018 | 2017
+Revenue:
+Product | $ | 202.2 | $ | 168.8 | $ | 388.7 | $ | 332.6
+Subscription and support | 340.2 | 253.8 | 659.2 | 488.1
+Total revenue | 542.4 | 422.6 | 1,047.9 | 820.7
+Cost of revenue:
+Product | 63.9 | 45.8 | 121.5 | 88.0
+Subscription and support | 95.4 | 67.4 | 179.2 | 126.4
+Total cost of revenue | 159.3 | 113.2 | 300.7 | 214.4
+Total gross profit | 383.1 | 309.4 | 747.2 | 606.3
+Operating expenses:
+Research and development | 96.6 | 89.9 | 190.8 | 174.1
+Sales and marketing | 265.0 | 226.7 | 523.5 | 446.8
+General and administrative | 53.3 | 47.2 | 119.0 | 88.8
+Total operating expenses | 414.9 | 363.8 | 833.3 | 709.7
+Operating loss | (31.8 | ) | (54.4 | ) | (86.1 | ) | (103.4 | )
+Interest expense | (6.4 | ) | (6.1 | ) | (12.7 | ) | (12.1 | )
+Other income, net | 4.9 | 2.7 | 9.7 | 5.2
+Loss before income taxes | (33.3 | ) | (57.8 | ) | (89.1 | ) | (110.3 | )
+Provision for income taxes | 1.6 | 2.8 | 9.8 | 7.2
+Net loss | $ | (34.9 | ) | $ | (60.6 | ) | $ | (98.9 | ) | $ | (117.5 | )
+Net loss per share, basic and diluted | $ | (0.38 | ) | $ | (0.67 | ) | $ | (1.09 | ) | $ | (1.30 | )
+Weighted-average shares used to compute net loss per share, basic and diluted | 91.1 | 90.7 | 91.0 | 90.2
+12
+Palo Alto Networks, Inc.
+Reconciliation of GAAP to Non-GAAP Financial Measures
+(In millions, except per share amounts)
+(Unaudited)
+Three Months Ended | Six Months Ended
+January 31, | January 31,
+2018 | 2017 | 2018 | 2017
+GAAP net loss | $ | (34.9 | ) | $ | (60.6 | ) | $ | (98.9 | ) | $ | (117.5 | )
+Share-based compensation related charges | 136.3 | 131.8 | 265.2 | 247.4
+Acquisition related costs | — | 0.7 | — | 0.7
+Amortization expense of acquired intangible assets | 2.5 | 2.0 | 5.0 | 4.1
+Litigation related charges(1) | 3.0 | 3.0 | 6.1 | 6.1
+Facility exit costs(2) | 1.4 | — | 17.0 | —
+Non-cash interest expense related to convertible notes | 6.4 | 6.1 | 12.7 | 12.1
+Foreign currency loss associated with non-GAAP adjustments | 1.0 | 0.6 | 1.5 | 0.4
+Income tax and other tax adjustments related to the above(3) | (24.2 | ) | (24.0 | ) | (47.3 | ) | (42.5 | )
+Non-GAAP net income | $ | 91.5 | $ | 59.6 | $ | 161.3 | $ | 110.8
+Income tax benefit from Tax Cuts and Jobs Act(3) | (10.6 | )
+Non-GAAP net income, excluding impact of Tax Cuts and Jobs Act(3) | $ | 80.9
+GAAP net loss per share, diluted | $ | (0.38 | ) | $ | (0.67 | ) | $ | (1.09 | ) | $ | (1.30 | )
+Share-based compensation related charges | 1.46 | 1.42 | 2.86 | 2.69
+Acquisition related costs | 0.00 | 0.01 | 0.00 | 0.01
+Amortization expense of acquired intangible assets | 0.03 | 0.02 | 0.05 | 0.05
+Litigation related charges(1) | 0.03 | 0.03 | 0.07 | 0.07
+Facility exit costs(2) | 0.02 | 0.00 | 0.19 | 0.00
+Non-cash interest expense related to convertible notes | 0.07 | 0.07 | 0.14 | 0.13
+Foreign currency loss associated with non-GAAP adjustments | 0.01 | 0.01 | 0.02 | 0.00
+Income tax and other tax adjustments related to the above(3) | (0.27 | ) | (0.26 | ) | (0.52 | ) | (0.47 | )
+Non-GAAP net income per share, diluted | $ | 0.97 | $ | 0.63 | $ | 1.72 | $ | 1.18
+Income tax benefit from Tax Cuts and Jobs Act(3) | (0.11 | )
+Non-GAAP net income per share, diluted, excluding impact of Tax Cuts and Jobs Act(3) | $ | 0.86
+GAAP weighted-average shares used to compute net loss per share, diluted | 91.1 | 90.7 | 91.0 | 90.2
+Weighted-average effect of potentially dilutive securities(4) | 2.8 | 3.2 | 2.8 | 3.6
+Non-GAAP weighted-average shares used to compute net income per share, diluted | 93.9 | 93.9 | 93.8 | 93.8
+Net cash provided by operating activities | $ | 243.7 | $ | 214.3 | $ | 517.8 | $ | 417.8
+Less: purchases of property, equipment, and other assets | 25.6 | 44.7 | 57.8 | 65.6
+Free cash flow (non-GAAP) | $ | 218.1 | $ | 169.6 | $ | 460.0 | $ | 352.2
+Net cash used in investing activities | $ | (36.1 | ) | $ | (173.1 | ) | $ | (88.5 | ) | $ | (244.3 | )
+Net cash used in financing activities | $ | (135.2 | ) | $ | (119.2 | ) | $ | (258.6 | ) | $ | (146.5 | )
+___________
+(1) | Consists of the amortization of intellectual property licenses.
+(2) | Consists of charges related to the relocation of the company’s corporate headquarters during the three months ended October 31, 2017, including a cease-use loss of $15.4 million and accelerated depreciation, and charges related to the relocation of the company’s research and development center in Israel during the three months ended January 31, 2018, including a cease-use loss of $1.3 million and accelerated depreciation.
+(3) | The company changed its non-GAAP effective tax rate from 31% to 22% in its second quarter of fiscal 2018 due to the reduction of the U.S. federal corporate income tax rate under the U.S. Tax Cuts and Jobs Act, which was enacted into law on December 22, 2017.
+(4) | Non-GAAP net income per share, diluted, includes the potentially dilutive effect of employee equity incentive plan awards and convertible senior notes outstanding. In addition, non-GAAP net income per share, diluted, includes the anti-dilutive impact of the company’s note hedge agreements, which reduced the potentially dilutive effect of the convertible notes by 1.4 million shares and 1.4 million shares for the three and six months ended January 31, 2018, respectively, and 0.9 million shares and 1.2 million shares for the three and six months ended January 31, 2017, respectively.
+13
+Palo Alto Networks, Inc.
+Calculation of Billings
+(In millions)
+(Unaudited)
+Three Months Ended | Six Months Ended
+January 31, | January 31,
+2018 | 2017 | 2018 | 2017
+Total revenue | $ | 542.4 | $ | 422.6 | $ | 1,047.9 | $ | 820.7
+Add: change in total deferred revenue, net of acquired deferred revenue | 132.2 | 139.0 | 223.2 | 257.8
+Billings | $ | 674.6 | $ | 561.6 | $ | 1,271.1 | $ | 1,078.5
+14
+Palo Alto Networks, Inc.
+Preliminary Condensed Consolidated Balance Sheets
+(In millions)
+(Unaudited)
+January 31, 2018 | July 31, 2017
+Assets
+Current assets:
+Cash and cash equivalents | $ | 915.0 | $ | 744.3
+Short-term investments | 720.7 | 630.7
+Accounts receivable, net | 365.1 | 432.1
+Prepaid expenses and other current assets | 209.4 | 169.2
+Total current assets | 2,210.2 | 1,976.3
+Property and equipment, net | 264.7 | 211.1
+Long-term investments | 722.3 | 789.3
+Goodwill | 238.8 | 238.8
+Intangible assets, net | 48.3 | 53.7
+Other assets | 143.2 | 169.1
+Total assets | $ | 3,627.5 | $ | 3,438.3
+Liabilities, temporary equity, and stockholders’ equity
+Current liabilities:
+Accounts payable | $ | 33.4 | $ | 35.5
+Accrued compensation | 113.2 | 117.5
+Accrued and other liabilities | 83.6 | 79.9
+Deferred revenue | 1,088.8 | 968.4
+Convertible senior notes, net | 537.4 | —
+Total current liabilities | 1,856.4 | 1,201.3
+Convertible senior notes, net | — | 524.7
+Long-term deferred revenue | 907.9 | 805.1
+Other long-term liabilities | 196.6 | 147.6
+Temporary equity | 33.5 | —
+Stockholders’ equity:
+Preferred stock | — | —
+Common stock and additional paid-in capital | 1,575.9 | 1,599.7
+Accumulated other comprehensive loss | (7.2 | ) | (3.4 | )
+Accumulated deficit | (935.6 | ) | (836.7 | )
+Total stockholders’ equity | 633.1 | 759.6
+Total liabilities, temporary equity, and stockholders’ equity | $ | 3,627.5 | $ | 3,438.3
+15
+Palo Alto Networks, Inc.
+Preliminary Condensed Consolidated Statements of Cash Flows
+(In millions)
+(Unaudited)
+Six Months Ended January 31,
+2018 | 2017
+Cash flows from operating activities
+Net loss | $ | (98.9 | ) | $ | (117.5 | )
+Adjustments to reconcile net loss to net cash provided by operating activities:
+Share-based compensation for equity based awards | 256.5 | 240.6
+Depreciation and amortization | 43.4 | 28.0
+Cease-use loss related to facility exit | 16.7 | —
+Amortization of debt discount and debt issuance costs | 12.7 | 12.1
+Amortization of investment premiums, net of accretion of purchase discounts | 0.6 | 1.4
+Changes in operating assets and liabilities:
+Accounts receivable, net | 67.0 | (37.3 | )
+Prepaid expenses and other assets | (39.0 | ) | (3.8 | )
+Accounts payable | (6.4 | ) | 0.2
+Accrued compensation | (4.3 | ) | 5.3
+Accrued and other liabilities | 46.3 | 31.0
+Deferred revenue | 223.2 | 257.8
+Net cash provided by operating activities(1) | 517.8 | 417.8
+Cash flows from investing activities
+Purchases of investments | (372.5 | ) | (562.7 | )
+Proceeds from maturities of investments | 341.8 | 384.0
+Purchases of property, equipment, and other assets | (57.8 | ) | (65.6 | )
+Net cash used in investing activities | (88.5 | ) | (244.3 | )
+Cash flows from financing activities
+Repurchases of common stock | (259.1 | ) | (170.1 | )
+Proceeds from sales of shares through employee equity incentive plans | 23.4 | 23.6
+Payments for taxes related to net share settlement of equity awards | (22.9 | ) | —
+Net cash used in financing activities | (258.6 | ) | (146.5 | )
+Net increase in cash and cash equivalents | 170.7 | 27.0
+Cash and cash equivalents - beginning of period | 744.3 | 734.4
+Cash and cash equivalents - end of period | $ | 915.0 | $ | 761.4
+Non-cash investing and financing activities
+Property and equipment acquired through lease incentives | $ | 37.8 | $ | —
+___________
+(1) | Cash provided by operating activities for the six months ended January 31, 2018 includes the receipt of an upfront cash reimbursement of $38.2 million from the company’s landlords during the three months ended October 31, 2017, in connection with the exercise of their option to amend the lease payment schedules and eliminate the rent holiday periods under certain of the company’s lease agreements. The upfront cash reimbursement will be applied against rental payments due in fiscal years 2018 through 2020 under the amended lease agreements.
+16 

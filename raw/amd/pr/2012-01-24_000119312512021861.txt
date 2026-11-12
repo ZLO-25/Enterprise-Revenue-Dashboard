@@ -1,0 +1,340 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/2488/000119312512021861/d286106dex991.htm
+
+EX-99.1
+2
+d286106dex991.htm
+PRESS RELEASE
+Press Release
+Exhibit 99.1 
+NEWS RELEASE 
+Media Contact 
+Drew Prairie 
+512-602-4425 
+drew.prairie@amd.com 
+Investor Contact 
+Ruth Cotter 
+408-749-3887 
+ruth.cotter@amd.com 
+AMD Reports Fourth Quarter and Annual Results 
+Q4 2011 Results 
+• | AMD revenue $1.69 billion, flat sequentially and increased two percent year-over-year
+• | Net loss $177 million, loss per share $0.24, operating income $71 million
+• | Non-GAAP(1) net income $138 million, earnings per share $0.19, operating income $172 million
+• | Gross margin 46 percent
+2011 Annual Results 
+• | AMD revenue $6.57 billion, flat year-over-year
+• | Net income $491 million, earnings per share $0.66, operating income $368 million
+• | Non-GAAP(1) net income $374 million, earnings per share $0.50, operating income $524 million
+• | Gross margin 45 percent
+• | More than 30 million Accelerated Processor Unit (APU) shipments in 2011 drives record annual notebook revenue
+SUNNYVALE, Calif. – Jan. 24, 2012 – AMD (NYSE:AMD) today announced revenue for the
+fourth quarter of 2011 of $1.69 billion, net loss of $177 million, or $0.24 per share, and operating income of $71 million. The company reported non-GAAP net income of $138 million, or $0.19 per share, and non-GAAP operating income of $172 million.
+Fourth quarter non-GAAP net income excludes an impairment of AMD’s investment in GLOBALFOUNDRIES of $209 million, restructuring charges of $98 million, the loss from discontinued operations of $4 million, the amortization of acquired intangible
+assets of $3 million and a loss on debt repurchase of $1 million. 
+For the year ended December 31, 2011, AMD reported revenue
+of $6.57 billion, net income of $491 million, or $0.66 per share, and operating income of $368 million. Full year non-GAAP net income was $374 million, or $0.50 per share, and non-GAAP operating income was $524 million. 
+“AMD shipped more than 30 million APU’s in 2011, resulting in record annual notebook revenue,” said Rory Read, AMD
+president and CEO. “The unmatched combination of computing and graphics capabilities in our low-power ‘Brazos’ platform has made it our fastest ramping platform ever, paving the way for continued growth in key segments and
+geographies. Our server business has re-gained momentum, delivering two consecutive quarters of strong sequential growth.
+“We continued optimizing our financial model in 2011, consistently delivering operating income and creating the foundation for
+sustained success. We begin 2012 clear on our priorities and opportunities. We are building an AMD that consistently delivers on its commitments.” 
+-more- | #2112006
+2 
+GAAP Financial
+Results2 
+Q4-11 | Q3-11 | Q4-10 | 2011 | 2010
+Revenue | $ | 1.69B | $ | 1.69B | $ | 1.65B | $ | 6.57B | $ | 6.49B
+Operating income | $ | 71M | $ | 138M | $ | 413M | $ | 368M | $ | 848M
+Net income (loss) / Earnings (loss) per share | $(177)M/$(0.24) | $97M/$0.13 | $375M/$0.50 | $491M/$0.66 | $471M/$0.64
+Non-GAAP Financial Results1 
+Q4-11 | Q3-11 | Q4-10 | 2011 | 2010
+Revenue | $ | 1.69B | $ | 1.69B | $ | 1.65B | $ | 6.57B | $ | 6.49B
+Operating income | $ | 172M | $ | 146M | $ | 141M | $ | 524M | $ | 553M
+Net income / Earnings per share | $138M/$0.19 | $110M/$0.15 | $106M/$0.14 | $374M/$0.50 | $360M/$0.49
+Quarterly Summary 
+• | Gross margin was 46 percent, a sequential increase of one percent.
+• | Cash, cash equivalents and marketable securities balance, including long-term marketable securities, was $1.91 billion at the end of the quarter.
+• | Computing Solutions segment revenue increased two percent sequentially and seven percent year-over-year. The sequential increase was driven by double digit growth in Server and Chipset revenue. The year-over-year increase was driven by higher mobile processor and Chipset revenue.
+• | Operating income was $165 million, compared with $149 million in Q3 11 and $91 million in Q4 10.
+• | Microprocessor ASP increased sequentially and was flat year-over-year.
+• | AMD launched its “Bulldozer”-based AMD Opteron™6200 Series and AMD Opteron 4200 Series processors, delivering industry-leading performance(3) for business, increased scalability for virtualization and more efficient economics for the cloud.
+• | HP introduced five new ProLiant systems, including the industry’s fastest dual-socket database server.
+• | Dell introduced four new PowerEdge systems, including the world’s most power-efficient blade server. The AMD-powered PowerEdge R715 was awarded Technology of the Year from InfoWorld magazine based on its outstanding virtualization performance.
+• | The AMD Opteron 6200 Series Processors were honored with the Analysts’ Choice Award for Best Server Processor by the Linley Group and “Technology of the Year” from InfoWorld.
+• | AMD Opteron processor adoption in the HPC market continued, as the National Science Foundation announced a new supercomputer at the University of Illinois’ National Center for Supercomputing Applications (NCSA) will be powered by approximately 50,000 AMD Opteron 6200 series processors.
+• | Worldwide demand for AMD APUs continued to increase throughout the fourth quarter. AMD shipped more than 30 million APUs in 2011, including a record number of mobile processors found in notebooks from Acer, Asus, Dell, HP, Lenovo, MSI Samsung, Sony and Toshiba.
+-more- | #2112006
+3 
+• | AMD introduced new A-Series notebook and desktop APUs that offer improved performance and enhanced features. We expect that systems based on the refreshed A-Series APU will be offered from the world’s largest PC companies in early 2012.
+• | Graphics segment revenue decreased five percent sequentially and 10 percent year-over-year. The sequential decrease was driven primarily by a decline in mobile graphics processor unit (GPU) shipments, partially offset by a seasonal increase in game console revenue. The year-over-year decrease was primarily driven by decreased desktop and Add-in Board (AIB) graphics revenue.
+• | Operating income was $27 million, compared with $12 million in Q3 11 and $68 million in Q4 10.
+• | GPU ASP increased sequentially and year-over-year.
+• | In December, AMD launched the world’s fastest single-GPU graphics card(4) and the first member of its AMD Radeon™ HD 7000 Series graphics family, the AMD Radeon HD 7970. The HD 7970 delivers up to 150% performance improvement per square millimeter compared to our previous generation GPU, and is the industry’s first 28nm GPU(5).
+• | AMD launched the AMD Radeon HD 7000M series mobile graphics processors for smaller form factor notebooks. Both HP and Lenovo announced new notebooks powered by the new GPU.
+• | AMD is the industry leader in leading-edge graphics technology, having shipped more than 100 million DirectX® 11graphics engines across its GPUs and APUs that enable superior visual experiences.
+• | Corporate
+• | The Company announced a restructuring plan and implementation of operational efficiency initiatives designed to strengthen the Company’s competitive positioning. The Company plans to reinvest a significant portion of the anticipated savings to fund initiatives designed to accelerate AMD’s strategies for lower power, emerging markets, and the cloud.
+• | AMD strengthened its leadership team with the additions of Mark Papermaster as senior vice president and chief technology officer, Rajan Naik as senior vice president and chief strategy officer, and Dr. Lisa Su as senior vice president and general manager, global business units.
+Current Outlook 
+AMD’s outlook statements are based on current
+expectations. The following statements are forward-looking, and actual results could differ materially depending on market conditions and the factors set forth under “Cautionary Statement” below. 
+AMD expects revenue to decrease eight percent, plus or minus three percent, sequentially for the first quarter of 2012. 
+For additional detail regarding AMD’s results and outlook please see the CFO commentary posted at quarterlyearnings.amd.com.
+AMD Teleconference 
+AMD will hold a conference call for the financial community at 2:00 p.m. PT (5:00 p.m. ET) today to discuss its fourth quarter financial results. AMD will provide a real-time audio broadcast of the
+teleconference on the Investor Relations page of its Web site at AMD. The webcast will be available for 10 days after the conference call. 
+-more- | #2112006
+4 
+Reconciliation of GAAP Net Income (Loss) to Non-GAAP Net Income1 
+(Millions except per share amounts) | Q4-11 | Q3-11 | Q4-10 | 2011 | 2010
+GAAP net income (loss) / Earnings (loss) per share | $ | (177 | ) | $ | (0.24 | ) | $ | 97 | $ | 0.13 | $ | 375 | $ | 0.50 | $ | 491 | $ | 0.66 | $ | 471 | $ | 0.64
+Gross margin benefit due to deconsolidation of GLOBALFOUNDRIES | — | — | — | — | — | — | — | — | 69 | 0.09
+Deconsolidation gain on the fair value assessment of investment in GLOBALFOUNDRIES | — | — | — | — | — | — | — | — | 325 | 0.44
+Equity income (loss) and dilution gain in investee, net | — | — | — | — | 27 | 0.05 | 492 | 0.66 | (462 | ) | (0.63 | )
+Payment to GLOBALFOUNDRIES | — | — | — | — | — | — | (24 | ) | (0.03 | ) | — | —
+Impairment of investment in GLOBALFOUNDRIES | (209 | ) | (0.28 | ) | — | — | — | — | (209 | ) | (0.28 | ) | — | —
+Non-GAAP net income excluding GLOBALFOUNDRIES related items | 32 | 0.04 | 97 | 0.13 | 348 | 0.47 | 232 | 0.31 | 539 | 0.73
+Amortization of acquired intangible assets | (3 | ) | — | (8 | ) | (0.01 | ) | (11 | ) | (0.01 | ) | (29 | ) | (0.04 | ) | (61 | ) | (0.08 | )
+Legal settlement | — | — | — | — | 283 | 0.39 | (5 | ) | (0.01 | ) | 283 | 0.39
+Income tax related to legal settlement | — | — | — | — | (47 | ) | (0.06 | ) | — | — | (47 | ) | (0.06 | )
+Gain on investment sale | — | — | — | — | 17 | 0.02 | — | — | 24 | 0.03
+Loss on debt repurchase | (1 | ) | — | (5 | ) | (0.01 | ) | — | — | (6 | ) | (0.01 | ) | (24 | ) | (0.03 | )
+Restructuring (charges) reversals, net | (98 | ) | (0.13 | ) | — | — | — | — | (98 | ) | (0.13 | ) | 4 | 0.01
+Loss from discontinued operations* | (4 | ) | (0.01 | ) | — | — | — | — | (4 | ) | (0.01 | ) | — | —
+Non-GAAP net income / Earnings per share | $ | 138 | $ | 0.19 | $ | 110 | $ | 0.15 | $ | 106 | $ | 0.14 | $ | 374 | $ | 0.50 | $ | 360 | $ | 0.49
+* | Loss on discontinued operations consists of charges related to the sale of our DTV division to Broadcom which occurred in 2008.
+Reconciliation of GAAP to Non-GAAP Operating Income1 
+(Millions) | Q4-11 | Q3-11 | Q4-10 | 2011 | 2010
+GAAP operating income | $ | 71 | $ | 138 | $ | 413 | $ | 368 | $ | 848
+Gross margin benefit due to the deconsolidation of GLOBALFOUNDRIES | — | — | — | — | 69
+Payment to GLOBALFOUNDRIES | — | — | — | (24 | ) | —
+Amortization of acquired intangible assets | (3 | ) | (8 | ) | (11 | ) | (29 | ) | (61 | )
+Legal settlement | — | — | 283 | (5 | ) | 283
+Restructuring (charges) reversals, net | (98 | ) | — | — | (98 | ) | 4
+Non-GAAP operating income | $ | 172 | $ | 146 | $ | 141 | $ | 524 | $ | 553
+Reconciliation of GAAP to Non-GAAP Gross Margin 1
+(Millions except percentages) | Q4-11 | Q3-11 | Q4-10 | 2011 | 2010
+GAAP Gross Margin | $ | 773 | $ | 756 | $ | 743 | $ | 2,940 | $ | 2,961
+GAAP Gross Margin % | 46 | % | 45 | % | 45 | % | 45 | % | 46 | %
+Gross margin benefit due to the deconsolidation of GLOBALFOUNDRIES | — | — | — | — | 69
+Payment to GLOBALFOUNDRIES | — | — | — | (24 | ) | —
+Legal settlement | — | — | — | (5 | ) | —
+Non-GAAP Gross Margin | $ | 773 | $ | 756 | $ | 743 | $ | 2,969 | $ | 2,892
+Non-GAAP Gross Margin % | 46 | % | 45 | % | 45 | % | 45 | % | 45 | %
+-more- | #2112006
+5 
+About AMD 
+AMD (NYSE: AMD) is a semiconductor design innovator leading the next era of vivid digital experiences with its groundbreaking AMD Fusion Accelerated Processing Units (APUs) that power a wide range of
+computing devices. AMD’s server computing products are focused on driving industry-leading cloud computing and virtualization environments. AMD’s superior graphics technologies are found in a variety of solutions ranging from game
+consoles, PCs to supercomputers. For more information, visit http://www.amd.com. 
+Cautionary Statement 
+This release contains forward-looking statements concerning AMD, its first quarter 2012 revenue, its future growth in key segments and geographies, the
+momentum of its server business, its ability to deliver sustained success, the timing of future products that incorporate the company’s products, and the company’s restructuring plan implemented in the fourth quarter of 2011, the
+anticipated operational savings resulting from the restructuring and the company’s plans for reinvesting these savings, which are made pursuant to the safe harbor provisions of the Private Securities Litigation Reform Act of 1995.
+Forward-looking statements are commonly identified by words such as “would,” “may,” “expects,” “believes,” “plans,” “intends,” “projects,” and other terms with similar meaning.
+Investors are cautioned that the forward-looking statements in this release are based on current beliefs, assumptions and expectations, speak only as of the date of this release and involve risks and uncertainties that could cause actual results to
+differ materially from current expectations. Risks include the possibility that Intel Corporation’s pricing, marketing and rebating programs, product bundling, standard setting, new product introductions or other activities targeting the
+company’s business will prevent attainment of the company’s current plans; the company will be unable to develop, launch and ramp new products and technologies in the volumes and mix required by the market and at mature yields on a timely
+basis; GLOBALFOUNDRIES will be unable to manufacture the company’s products on a timely basis in sufficient quantities and using competitive technologies; the company will be unable to obtain sufficient manufacturing capacity or components to
+meet demand for its products or will under-utilize its commitment with respect to GLOBALFOUNDRIES’ microprocessor manufacturing facilities; the company will be unable to transition its products to advanced manufacturing process technologies in
+a timely and effective way; global business and economic conditions will not continue to improve or will worsen resulting in lower than currently expected demand; demand for computers and consumer electronics products and, in turn, demand for the
+company’s products will be lower than currently expected; customers stop buying the company’s products or materially reduce their demand for its products; the company will require additional funding and may not be able to raise funds on
+favorable terms or at all; there will be unexpected variations in market growth and demand for the company’s products and technologies in light of the product mix that it may have available at any particular time or a decline in demand; and the
+company will be unable to maintain the level of investment in research and development that is required to remain competitive. Investors are urged to review in detail the risks and uncertainties in the company’s Securities and Exchange
+Commission filings, including but not limited to the Quarterly Report on Form 10-Q for the quarter ended October 1, 2011. 
+-more- | #2112006
+6 
+AMD, the AMD Arrow logo, AMD Opteron, AMD Radeon, and combinations thereof, and are trademarks of
+Advanced Micro Devices, Inc. Other names are for informational purposes only and used to identify companies and products and may be trademarks of their respective owner. 
+1 | In this press release, in addition to GAAP financial results, the Company has provided non-GAAP financial measures, including for non-GAAP net income excluding GLOBALFOUNDRIES related items, non-GAAP net income, non-GAAP operating income, non-GAAP earnings per share and non-GAAP gross margin. These non-GAAP financial measures reflect certain adjustments as presented in the tables in this press release. The Company also provided Adjusted EBITDA and non-GAAP Adjusted free cash flow as supplemental measures of its performance. These items are defined in the footnotes to the selected corporate data tables provided at the end of this press release. The Company is providing these financial measures because it believes this non-GAAP presentation makes it easier for investors to compare its operating results for current and historical periods and also because the Company believes it assists investors in comparing the Company’s performance across reporting periods on a consistent basis by excluding items that it does not believe are indicative of its core operating performance and for the other reasons described in the footnotes to the selected data tables. Refer to corresponding tables at the end of this press release for additional AMD data.
+2 | For the year 2010, the Company accounted for its investment in GLOBALFOUNDRIES under the equity method of accounting. Starting in the first quarter of 2011, the Company started accounting for its investment in GLOBALFOUNDRIES under the cost method of accounting.
+3 | The highest 2P TPC-C performance score ever was achieved by an AMD OpteronTM processor-powered server. Based on results published by the Transaction Processing Performance Council as of November 15, 2011, an AMD Opteron™ processor-based server achieved the highest TPC-C performance score of any 2P server. 1,207,982 tpmC using 2 x AMD Opteron™ processors Model 6282 SE in HP ProLiant DL385 G7 server, 512GB memory, Microsoft® Windows Server® 2008 R2 Enterprise x64 Edition, Microsoft® SQL Server® 2005 Enterprise x64 Edition SP3. http://www.tpc.org/results/individual_results/HP/HP_ProLiant_DL385G7_TPCC_111114_01_es.pdf. For the latest TPC-C results, visit www.tpc.org. TPC Benchmark and TPC-C are trademarks of the Transaction Processing Performance Council. SVR-105
+4 | As of December 22, 2011, the AMD Radeon™ HD 7970 scores in excess of X2700 in 3DMark® 11, the highest single-GPU graphics card score achieved on a stock platform to date.
+5 | The AMD Radeon™ HD 7970 Series GPU offers more than 1.54X times the compute power/mm2 when compared to the AMD Radeon™ HD 6970 Series GPU: the AMD Radeon™ HD 6970 Series GPU has been calculated at 2.703 TFLOPs of compute power with a measured die size of 389mm2, while the AMD Radeon™ HD 7970 Series GPU has been calculated at 3.789 TFLOPs of compute power with a die size of 352mm2.
+#2112006 
+ADVANCED MICRO DEVICES, INC. 
+CONSOLIDATED STATEMENTS OF OPERATIONS 
+(Millions except per share amounts and
+percentages) 
+Quarter Ended | Year Ended
+Dec. 31,2011 | Oct. 1,2011 | Dec. 25,2010 | Dec. 31,2011 | Dec. 25,2010
+Net revenue | $ | 1,691 | $ | 1,690 | $ | 1,649 | $ | 6,568 | $ | 6,494
+Cost of sales | 918 | 934 | 906 | 3,628 | 3,533
+Gross margin | 773 | 756 | 743 | 2,940 | 2,961
+Gross margin % | 46 | % | 45 | % | 45 | % | 45 | % | 46 | %
+Research and development | 358 | 361 | 352 | 1,453 | 1,405
+Marketing, general and administrative | 243 | 249 | 250 | 992 | 934
+Legal settlement | — | — | (283 | ) | — | (283 | )
+Amortization of acquired intangible assets | 3 | 8 | 11 | 29 | 61
+Restructuring charges (reversals), net | 98 | — | — | 98 | (4 | )
+Operating income | 71 | 138 | 413 | 368 | 848
+Interest income | 2 | 3 | 2 | 10 | 11
+Interest expense | (43 | ) | (42 | ) | (39 | ) | (180 | ) | (199 | )
+Other income (expense), net | (207 | ) | (7 | ) | 14 | (199 | ) | 311
+Income before equity income (loss) and dilution gain in investee and income taxes | (177 | ) | 92 | 390 | (1 | ) | 971
+Provision (benefit) for income taxes | (4 | ) | (5 | ) | 42 | (4 | ) | 38
+Equity income (loss) and dilution gain in investee, net | — | — | 27 | 492 | (462 | )
+Income (loss) from continuing operations | $ | (173 | ) | $ | 97 | $ | 375 | $ | 495 | $ | 471
+Loss from discontinued operations, net of tax | (4 | ) | — | — | (4 | ) | —
+Net income (loss) | $ | (177 | ) | $ | 97 | $ | 375 | $ | 491 | $ | 471
+Net income (loss) per share
+Basic
+Continuing operations | $ | (0.24 | ) | $ | 0.13 | $ | 0.52 | $ | 0.68 | $ | 0.66
+Discontinued operations | (0.01 | ) | — | — | (0.01 | ) | —
+Basic net income (loss) per share | $ | (0.24 | ) | $ | 0.13 | $ | 0.52 | $ | 0.68 | $ | 0.66
+Diluted
+Continuing operations | $ | (0.24 | ) | $ | 0.13 | $ | 0.50 | $ | 0.67 | $ | 0.64
+Discontinued operations | (0.01 | ) | — | — | (0.01 | ) | —
+Diluted net income (loss) per share | $ | (0.24 | ) | $ | 0.13 | $ | 0.50 | $ | 0.66 | $ | 0.64
+Shares used in per share calculation
+Basic | 732 | 729 | 717 | 727 | 711
+Diluted | 732 | 741 | 758 | 742 | 733
+ADVANCED MICRO DEVICES, INC. 
+CONSOLIDATED BALANCE SHEETS 
+(Millions) 
+Dec. 31,2011 | Oct. 1,2011 | Dec. 25,2010
+Assets
+Current assets:
+Cash, cash equivalents and marketable securities | $ | 1,765 | $ | 1,807 | $ | 1,789
+Accounts receivable, net | 919 | 908 | 968
+Inventories, net | 476 | 540 | 632
+Prepaid expenses and other current assets | 69 | 157 | 205
+Total current assets | 3,229 | 3,412 | 3,594
+Long-term marketable securities | 149 | 50 | —
+Property, plant and equipment, net | 726 | 697 | 700
+Investment in GLOBALFOUNDRIES | 278 | 486 | —
+Goodwill | 323 | 323 | 323
+Other assets | 249 | 268 | 347
+Total Assets | $ | 4,954 | $ | 5,236 | $ | 4,964
+Liabilities and Stockholders’ Equity
+Current liabilities:
+Accounts payable | $ | 363 | $ | 467 | $ | 376
+Accounts payable to GLOBALFOUNDRIES | 177 | 151 | 205
+Accrued liabilities | 550 | 590 | 698
+Deferred income on shipments to distributors | 123 | 131 | 143
+Other short-term obligations | — | — | 229
+Current portion of long-term debt and capital lease obligations | 489 | 489 | 4
+Other current liabilities | 72 | 27 | 19
+Total current liabilities | 1,774 | 1,855 | 1,674
+Long-term debt and capital lease obligations, less current portion | 1,527 | 1,571 | 2,188
+Other long-term liabilities | 63 | 66 | 89
+Stockholders’ equity:
+Capital stock:
+Common stock, par value | 7 | 7 | 7
+Additional paid-in capital | 6,672 | 6,652 | 6,575
+Treasury stock, at cost | (107 | ) | (107 | ) | (102 | )
+Accumulated deficit | (4,977 | ) | (4,800 | ) | (5,468 | )
+Accumulated other comprehensive income (loss) | (5 | ) | (8 | ) | 1
+Total stockholders’ equity | 1,590 | 1,744 | 1,013
+Total Liabilities and Stockholders’ Equity | $ | 4,954 | $ | 5,236 | $ | 4,964
+ADVANCED MICRO DEVICES, INC. 
+CONSOLIDATED STATEMENT OF CASH FLOWS 
+(Millions) 
+Quarter Ended | Year Ended
+Dec. 31,2011 | Dec. 31,2011
+Cash flows from operating activities:
+Net income (loss) | $ | (177 | ) | $ | 491
+Adjustments to reconcile net income to net cash provided by operating activities:
+Equity in net (gain) loss of investee | — | (492 | )
+Impairment charge of GF investment | 209 | 209
+Depreciation and amortization | 70 | 317
+Compensation recognized under employee stock plans | 21 | 90
+Non-cash interest expense | 5 | 21
+Net gain on sale of marketable securities | (1 | ) | (4 | )
+Other | (5 | ) | 2
+Changes in operating assets and liabilities:
+Accounts receivable | (10 | ) | (347 | )
+Inventories | 65 | 157
+Prepaid expenses and other current assets | 73 | 115
+Other assets | 2 | (1 | )
+Accounts payable to GLOBALFOUNDRIES | 26 | (28 | )
+Accounts payable, accrued liabilities and other | (91 | ) | (148 | )
+Net cash provided by operating activities | $ | 187 | $ | 382
+Cash flows from investing activities:
+Purchases of property, plant and equipment | (87 | ) | (250 | )
+Proceeds from sale of property, plant, and equipment | — | 16
+Purchases of available-for-sale securities | (125 | ) | (1,586 | )
+Proceeds from sale and maturity of available-for-sale securities | 311 | 1,726
+Other | (2 | ) | (19 | )
+Net cash provided by (used in) investing activities | $ | 97 | $ | (113 | )
+Cash flows from financing activities:
+Proceeds from borrowings, net of issuance cost | — | 170
+Net proceeds from foreign grants | 10 | 20
+Proceeds from issuance of AMD common stock | 1 | 18
+Repayments of debt and capital lease obligations | (51 | ) | (209 | )
+Other | — | (5 | )
+Net cash used in financing activities | $ | (40 | ) | $ | (6 | )
+Net increase in cash and cash equivalents | 244 | 263
+Cash and cash equivalents at beginning of period | $ | 625 | $ | 606
+Cash and cash equivalents at end of period | $ | 869 | $ | 869
+ADVANCED MICRO DEVICES, INC. 
+SELECTED CORPORATE DATA 
+(Millions except headcount) 
+Quarter Ended | Year Ended
+Segment and Category Information | Dec. 31,2011 | Oct. 2,2011 | Dec. 25,2010 | Dec. 31,2011 | Dec. 25,2010
+Computing Solutions (1)
+Net revenue | $ | 1,309 | $ | 1,286 | $ | 1,219 | $ | 5,002 | $ | 4,817
+Operating income | $ | 165 | $ | 149 | $ | 91 | $ | 556 | $ | 529
+Graphics (2)
+Net revenue | 382 | 403 | 424 | 1,565 | 1,663
+Operating income | 27 | 12 | 68 | 51 | 149
+All Other (3)
+Net revenue | — | 1 | 6 | 1 | 14
+Operating income (loss) | (121 | ) | (23 | ) | 254 | (239 | ) | 170
+Total
+Net revenue | $ | 1,691 | $ | 1,690 | $ | 1,649 | $ | 6,568 | $ | 6,494
+Operating income | $ | 71 | $ | 138 | $ | 413 | $ | 368 | $ | 848
+Other Data
+Depreciation and amortization (excluding amortization of acquired intangible assets) | $ | 67 | $ | 71 | $ | 78 | $ | 288 | $ | 322
+Capital additions | $ | 87 | $ | 58 | $ | 38 | $ | 250 | $ | 148
+Adjusted EBITDA (4) | $ | 260 | $ | 239 | $ | 241 | $ | 902 | $ | 1,031
+Cash, cash equivalents and marketable securities (5) | $ | 1,914 | $ | 1,857 | $ | 1,789 | $ | 1,914 | $ | 1,789
+Adjusted free cash flow (6) | $ | 100 | $ | 131 | $ | 11 | $ | 528 | $ | 355
+Total assets | $ | 4,954 | $ | 5,236 | $ | 4,964 | $ | 4,954 | $ | 4,964
+Long-term debt and capital lease obligations, including current portion | $ | 2,016 | $ | 2,060 | $ | 2,192 | $ | 2,016 | $ | 2,192
+Headcount | 11,093 | 12,019 | 11,068 | 11,093 | 11,068
+See footnotes on the next page 
+(1) | Computing Solutions segment includes microprocessors, chipsets and embedded processors.
+(2) | Graphics segment includes graphics, video and multimedia products developed for use in desktop and notebook computers, including home media PCs, professional workstations and servers and also includes revenue received in connection with the development and sale of game console systems that incorporate the Company’s graphics technology.
+(3) | All Other category includes certain operating expenses and credits that are not allocated to the operating segments. Also included in this category are amortization of acquired intangible assets and restructuring charges. It also includes the results of the Handheld business unit because the operating results of this business unit were not material.
+(4) | AMD reconciliation of GAAP operating income to Adjusted EBITDA*
+Quarter Ended | Year Ended
+Dec. 31,2011 | Oct. 1,2011 | Dec. 25,2010 | Dec. 31,2011 | Dec. 25,2010
+GAAP operating income | $ | 71 | $ | 138 | $ | 413 | $ | 368 | $ | 848
+Payments to GLOBALFOUNDRIES | — | — | — | 24 | —
+Legal settlement | — | — | (283 | ) | 5 | (283 | )
+Depreciation and amortization | 67 | 71 | 78 | 288 | 322
+Employee stock-based compensation expense | 21 | 22 | 22 | 90 | 87
+Amortization of acquired intangible assets | 3 | 8 | 11 | 29 | 61
+Restructuring charges (reversals), net | 98 | — | — | 98 | (4 | )
+Adjusted EBITDA | $ | 260 | $ | 239 | $ | 241 | $ | 902 | $ | 1,031
+(5) | Cash, cash equivalents and marketable securities also include the long-term portion of marketable securities.
+(6) | Non-GAAP adjusted free cash flow reconciliation**
+Quarter Ended | Year Ended
+Dec. 31,2011 | Oct. 1,2011 | Dec. 25,2010 | Dec. 31,2011 | Dec. 25,2010
+GAAP net cash provided by (used in) operating activities | $ | 187 | $ | 189 | $ | (213 | ) | $ | 382 | $ | (412 | )
+Non-GAAP adjustment | — | — | 262 | 396 | 915
+Non-GAAP net cash provided by operating activities | 187 | 189 | 49 | 778 | 503
+Purchases of property, plant and equipment | (87 | ) | (58 | ) | (38 | ) | (250 | ) | (148 | )
+Non-GAAP adjusted free cash flow | $ | 100 | $ | 131 | $ | 11 | $ | 528 | $ | 355
+* The Company presents “Adjusted EBITDA” as a supplemental measure of its performance.
+Adjusted EBITDA for the Company is determined by adjusting operating income for depreciation and amortization, employee stock-based compensation expense and amortization of acquired intangible assets. In addition, for the fourth quarter of 2011 and
+fiscal 2011, the Company included an adjustment for restructuring charges and reversals, net; for the fourth quarter of 2010 and fiscal 2010, the Company also included an adjustment related to its legal settlement with Samsung; and for fiscal 2011,
+the Company included an adjustment related to a payment to GF. The Company calculates and communicates Adjusted EBITDA in the financial schedules because the Company’s management believes it is of importance to investors and lenders in relation
+to its overall capital structure and its ability to borrow additional funds. In addition, the Company presents Adjusted EBITDA because it believes this measure assists investors in comparing its performance across reporting periods on a consistent
+basis by excluding items that the Company does not believe are indicative of its core operating performance. The Company’s calculation of Adjusted EBITDA may or may not be consistent with the calculation of this measure by other companies in
+the same industry. Investors should not view Adjusted EBITDA as an alternative to the GAAP operating measure of operating income (loss) or GAAP liquidity measures of cash flows from operating, investing and financing activities. In addition,
+Adjusted EBITDA does not take into account changes in certain assets and liabilities as well as interest and income taxes that can affect cash flows. 
+** Starting in the first quarter of 2010, the Company also presents non-GAAP adjusted free cash flow in the earnings release as a supplemental measure of its performance. In 2008 and 2009, the Company and
+certain of its subsidiaries (collectively, the “AMD Parties”) entered into supplier agreements with IBM Credit LLC and certain of its subsidiaries (collectively, the “IBM Parties”). Pursuant to these supplier agreements, the AMD
+Parties sold to the IBM Parties invoices of selected distributor customers. Because the Company does not recognize revenue until its distributors sell its products to their customers, under GAAP, the Company classified funds received from the IBM
+Parties as debt on the balance sheet. Moreover, for cash flow purposes, these funds were classified as cash flows from financing activities. When a distributor paid the applicable IBM Party, the Company reduced the distributor’s accounts
+receivable and the corresponding debt resulting in a noncash accounting entry. Because the Company did not receive the cash from the distributor to reduce the accounts receivable, the distributor’s payment was never reflected in the
+Company’s cash flows from operating activities. Non-GAAP adjusted free cash flow for the Company was determined by adding the distributors’ payments to the IBM Parties to GAAP net cash provided by (used in) operating activities. This
+amount was then further adjusted by subtracting capital expenditures. Generally, under GAAP, the reduction in accounts receivable is assumed to be a source of operating cash flows. Therefore, the Company believes that treating the payments from its
+distributor customers to the IBM Parties as if the Company actually received the cash from the distributor and then used that cash to pay down the debt is more reflective of the economic substance of the transaction. On February 11, 2011, the
+Company terminated its supplier agreements with IBM Parties. As a result, during the third quarter of 2011, there were no outstanding invoices related to the financing arrangement with the IBM Parties, and the Company did not make any adjustments
+for distributor payments to the IBM Parties to its GAAP net cash provided by (used in) operating activities when calculating non-GAAP adjusted free cash flow. The Company calculates and communicates non-GAAP adjusted free cash flow in the financial
+schedules because the Company’s management believes it is of importance to investors to understand the nature of these cash flows. The Company’s calculation of non-GAAP adjusted free cash flow may or may not be consistent with the
+calculation of this measure by other companies in the same industry. Investors should not view non-GAAP adjusted free cash flow as an alternative to GAAP liquidity measures of cash flows from operating or financing activities. The Company has
+provided reconciliations within the press release and financial schedules of these non-GAAP financial measures to the most directly comparable GAAP financial measures. 

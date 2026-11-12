@@ -1,0 +1,392 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/1535527/000153552721000005/crwd-20210316xex991.htm
+
+EX-99.1
+2
+crwd-20210316xex991.htm
+EX-99.1
+Document
+CrowdStrike Reports Fourth Quarter and Fiscal Year 2021 Financial Results
+•ARR surpasses $1 billion milestone driven by record net new ARR of $143 million 
+•Net new customer growth accelerates, adds record 1,480 net new subscription customers 
+•Delivers record operating and free cash flow
+SUNNYVALE, Calif., March 16, 2021 -- CrowdStrike Holdings, Inc., (Nasdaq: CRWD), a leader in cloud-delivered endpoint and cloud workload protection, today announced financial results for the fourth quarter and fiscal year 2021, ended January 31, 2021.
+“CrowdStrike delivered a record fourth quarter and an exceptional finish to a strong fiscal year, achieving over $1 billion in ending ARR. The strong fourth quarter performance included record net new ARR of $143 million, 70% net new subscription customer growth year-over-year, and 77% year-over-year subscription revenue growth. Our go-to-market engine has gained incredible momentum with both marquee enterprises and small businesses alike as we expand our partner ecosystem and leverage our frictionless sales motion and leading technology to deliver immediate value to our customers. Combined with strong secular tailwinds, including digital transformation and an unprecedented threat environment, and our expanding technology portfolio, which now includes leading index-free data ingestion capabilities, we believe we are in an ideal position to further extend our leadership in the Security Cloud category we pioneered,” said George Kurtz, CrowdStrike’s co-founder and chief executive officer.
+Commenting on the company's financial results, Burt Podbere, CrowdStrike’s chief financial officer, added, “Throughout the fiscal year our record topline performance and strong execution resulted in significant gains in operating leverage and profitability on both a GAAP and non-GAAP basis. We are exiting the year with record subscription gross margin at the high end of our target model and record operating and free cash flow. With a continued focus on unit economics, we plan to aggressively invest for the long-term success of the company and further strengthen our position as the security cloud provider of choice.”
+Fourth Quarter Fiscal 2021 Financial Highlights
+•Revenue: Total revenue was $264.9 million, a 74% increase, compared to $152.1 million in the fourth quarter of fiscal 2020. Subscription revenue was $244.7 million, a 77% increase, compared to $138.5 million in the fourth quarter of fiscal 2020.
+•Annual Recurring Revenue (ARR) increased 75% year-over-year and grew to $1.05 billion as of January 31, 2021, of which $142.7 million was net new ARR added in the quarter.
+•Subscription Gross Margin: GAAP subscription gross margin was 78%, compared to 75% in the fourth quarter of fiscal 2020. Non-GAAP subscription gross margin was 80%, compared to 77% in the fourth quarter of fiscal 2020.
+•Income/Loss from Operations: GAAP loss from operations was $15.8 million, compared to $31.1 million in the fourth quarter of fiscal 2020. Non-GAAP income from operations was $34.4 million, compared to a loss of $6.7 million in the fourth quarter of fiscal 2020.
+•Net Income/Loss: GAAP net loss was $19.0 million, compared to $28.4 million in the fourth quarter of fiscal 2020. GAAP net loss per share, basic and diluted, was $0.09, compared to $0.14 in the fourth quarter of fiscal 2020. Non-GAAP net income was $31.6 million, compared to a loss of $3.9 million in the fourth quarter of fiscal 2020. Non-GAAP net income per share, diluted, was $0.13, compared to a loss of $0.02 in the fourth quarter of fiscal 2020.
+•Cash Flow: Net cash generated from operations was $114.5 million, compared to $66.1 million in the fourth quarter of fiscal 2020. Free cash flow was $97.4 million, compared to $50.7 million in the fourth quarter of fiscal 2020.
+•Cash and Cash Equivalents was $1.92 billion as of January 31, 2021.
+Full Year Fiscal 2021 Financial Highlights
+•Revenue: Total revenue was $874.4 million, an 82% increase, compared to $481.4 million in fiscal 2020. Subscription revenue was $804.7 million, an 84% increase, compared to $436.3 million in fiscal 2020.
+•Subscription Gross Margin: GAAP subscription gross margin was 77%, compared to 74% in fiscal 2020. Non-GAAP subscription gross margin was 79%, compared to 75% in fiscal 2020.
+•Income/Loss from Operations: GAAP loss from operations was $92.5 million, compared to $146.1 million in fiscal 2020. Non-GAAP income from operations was $62.4 million, compared to a loss of $65.6 million in fiscal 2020.
+•Net Income/Loss: GAAP net loss was $92.6 million, compared to $141.8 million in fiscal 2020. GAAP net loss per share, basic and diluted, was $0.43, compared to $0.96 in fiscal 2020. Non-GAAP net income was $62.6 million, compared to a loss of $62.6 million in fiscal 2020. Non-GAAP net income per share, diluted, was $0.27, compared to a loss of $0.42 in fiscal 2020.
+•Cash Flow: Net cash generated from operations was $356.6 million, compared to $99.9 million in fiscal 2020. Free cash flow was $292.9 million, compared to $12.5 million in fiscal 2020.
+Recent Highlights 
+•Added 1,480 net new subscription customers in the quarter for a total of 9,896 subscription customers as of January 31, 2021, representing 82% growth year-over-year.
+•CrowdStrike’s subscription customers that have adopted four or more modules, five or more modules and six or more modules increased to 63%, 47%, and 24%, respectively, as of January 31, 2021.
+•Acquired Humio, a leading provider of high-performance cloud log management and observability technology.
+•Completed the issuance of $750 million in senior unsecured notes due 2029 with a coupon rate of 3.000% per year. Additionally, CrowdStrike expanded its revolving credit facility to $750 million, which remains undrawn.
+•Expanded Cloud Security Posture Management and Cloud Workload Protection capabilities to deliver greater control, visibility and security for cloud workloads and cloud-native applications from build to runtime.
+•Integrated CrowdStrike Falcon’s threat intelligence feeds with AWS Network Firewall, a managed service that makes it easy to deploy essential network protections across a customer’s Amazon Virtual Private Clouds.
+•Received a perfect score on the Human Rights Campaign 2021 Corporate Equality Index, demonstrating CrowdStrike’s commitment to a supportive and inclusive culture for all employees.
+•Released the annual CrowdStrike Services Cyber Front Lines Report and the annual Global Threat Report, revealing critical insights and takeaways, including an observed 4x increase in the number of hands-on-keyboard attacks uncovered by the OverWatch team in the last two years.
+•Supported our community through the CrowdStrike Foundation by expanding the NextGen Scholarship program for university students in cybersecurity degree programs, partnering with the Thurgood Marshall College Fund on HBCU student scholarships, supporting Black Girls Code, NAACP Empowerment Programs and the Northside Achievement Zone. The CrowdStrike Foundation also directed grants to more than twenty nonprofits helping communities across the globe fighting the COVID-19 pandemic.
+Financial Outlook
+CrowdStrike is providing the following guidance for the first quarter of fiscal 2022 (ending April 30, 2021) and guidance for fiscal year 2022 (ending January 31, 2022):
+Q1 FY22Guidance | Full Year FY22Guidance
+Total revenue | $287.8 - $292.1 million | $1,310.4 - $1,320.7 million
+Non-GAAP income from operations | $18.5 - $21.7 million | $94.8 - $102.5 million
+Non-GAAP net income | $10.8 - $13.9 million | $63.8 - $71.4 million
+Non-GAAP net income per share, diluted | $0.05 - $0.06 | $0.27 - $0.30
+Weighted average shares used in computing Non-GAAP net income per share attributable to common stockholders, diluted | 238 million | 240 million
+These statements are forward-looking and actual results may differ materially as a result of many factors. Refer to the Forward-Looking Statements safe harbor below for information on the factors that could cause our actual results to differ materially from these forward-looking statements.
+Guidance for non-GAAP financial measures excludes stock-based compensation expense, amortization expense of acquired intangible assets, amortization of debt issuance costs and discount, and acquisition related acquisition-related expenses including tax costs for intellectual property integration. We have not provided the most directly comparable GAAP measures because certain items are out of our control or cannot be reasonably predicted. Accordingly, a reconciliation for non-GAAP loss from operations, non-GAAP net loss, and non-GAAP net loss per share is not available without unreasonable effort.
+Conference Call Information
+CrowdStrike will host a conference call for analysts and investors to discuss its earnings results for the fourth quarter of fiscal 2021 and outlook for its fiscal first quarter and year 2022 today at 2:00 p.m. Pacific time (5:00 p.m. Eastern time). A recorded webcast of the event will also be available for one year on the CrowdStrike Investor Relations website ir.crowdstrike.com.
+Date: | March 16, 2021
+Time: | 2:00 p.m. Pacific time / 5:00 p.m. Eastern time
+Dial-in number: | 409-937-8967, conference ID: 7779006
+Webcast: | ir.crowdstrike.com
+Forward-Looking Statements
+This press release contains forward-looking statements that involve risks and uncertainties, including statements regarding our future growth, and future financial and operating performance, including our financial outlook for the fiscal first quarter and fiscal year 2022. There are a significant number of factors that could cause actual results to differ materially from statements made in this press release, including: our limited operating history; risks associated with managing our rapid growth; our ability to identify and effectively implement the necessary changes to address execution challenges; the impact of the COVID-19 pandemic on our and our customers’ business; our limited experience with new product and subscription and support introductions and the risks associated with new products and subscription and support offerings, including the risk of defects, errors, or vulnerabilities; our ability to attract new and retain existing customers; our ability to successfully integrate acquisitions; the failure to timely develop and achieve market acceptance of new products and subscriptions as well as existing products and subscriptions and support; our ability to collaborate and integrate our products with offerings from other parties to deliver benefits to customers; rapidly evolving technological developments in the market for security products and subscription and support offerings; length of sales cycles; and general market, political, economic, and business conditions, including those related to COVID-19.
+Additional risks and uncertainties that could affect our financial results are included in the filings we make with the Securities and Exchange Commission (“SEC”) from time to time, particularly under the captions “Risk Factors” and “Management’s Discussion and Analysis of Financial Condition and Results of Operations”, including our most recently filed Annual Report on Form 10-K, subsequent Quarterly Reports on Form 10-Q and subsequent filings.
+You should not rely on these forward-looking statements, as actual outcomes and results may differ materially from those contemplated by these forward-looking statements as a result of such risks and uncertainties. All forward-looking statements in this press release are based on information available to us as of the date hereof, and we do not assume any obligation to update the forward-looking statements provided to reflect events that occur or circumstances that exist after the date on which they were made.
+Use of Non-GAAP Financial Information
+We believe that the presentation of non-GAAP financial information provides important supplemental information to management and investors regarding financial and business trends relating to our financial condition and results of operations. For further information regarding these non-GAAP measures, including the reconciliation of these non-GAAP financial measures to their most directly comparable GAAP financial measures, please refer to the financial tables below, as well as the “Explanation of Non-GAAP Financial Measures" section of this press release.
+Channels for Disclosure of Information
+We intend to announce material information to the public through the CrowdStrike Investor Relations website ir.crowdstrike.com, SEC filings, press releases, public conference calls, and public webcasts. We use these channels, as well as social media and our blog, to communicate with our investors, customers, and the public about our company, our offerings, and other issues. It is possible that the information we post on social media and our blog could be deemed to be material information. As such, we encourage investors, the media, and others to follow the channels listed above, including the social media channels listed on our investor relations website, and to review the information disclosed through such channels. Any updates to the list of disclosure channels through which we will announce information will be posted on the investor relations page on our website.
+About CrowdStrike Holdings
+CrowdStrike provides cloud-delivered endpoint and cloud workload protection. Leveraging artificial intelligence (AI), the CrowdStrike Falcon® platform protects customers against cyberattacks on endpoints on or off the network by offering visibility and protection across the enterprise.
+Copyright © 2021 CrowdStrike, Inc. All rights reserved. CrowdStrike and CrowdStrike Falcon® are the registered trademarks of CrowdStrike, Inc. CrowdStrike owns other trademarks and service marks, and may use the brands of third parties to identify their products and services.
+Investor Relations Contact
+CrowdStrike Holdings, Inc.
+Maria Riley, Senior Director of Investor Relations
+investors@crowdstrike.com
+669-721-0742
+Press Contact
+CrowdStrike Holdings, Inc.
+Ilina Cashiola, Senior Director of Public Relations
+ilina.cashiola@crowdstrike.com
+202-340-0517
+###
+CROWDSTRIKE HOLDINGS, INC.
+Condensed Consolidated Statements of Operations
+(in thousands, except per share amounts)
+(unaudited)
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+Revenue
+Subscription | $ | 244,662 | $ | 138,537 | $ | 804,670 | $ | 436,323
+Professional services | 20,267 | 13,572 | 69,768 | 45,090
+Total revenue | 264,929 | 152,109 | 874,438 | 481,413
+Cost of revenue
+Subscription(1)(2) | 54,348 | 34,616 | 185,212 | 112,474
+Professional services(1) | 12,384 | 8,801 | 44,333 | 29,153
+Total cost of revenue | 66,732 | 43,417 | 229,545 | 141,627
+Gross profit | 198,197 | 108,692 | 644,893 | 339,786
+Operating expenses
+Sales and marketing(1)(2) | 112,449 | 75,803 | 401,316 | 266,595
+Research and development(1)(2) | 66,070 | 38,691 | 214,670 | 130,188
+General and administrative(1)(3) | 35,481 | 25,331 | 121,436 | 89,068
+Total operating expenses | 214,000 | 139,825 | 737,422 | 485,851
+Loss from operations | (15,803) | (31,133) | (92,529) | (146,065)
+Interest expense(4) | (1,049) | (145) | (1,559) | (442)
+Other income (expense), net | 682 | 3,203 | 6,219 | 6,725
+Loss before provision for income taxes | (16,170) | (28,075) | (87,869) | (139,782)
+Provision for income taxes | 2,832 | 333 | 4,760 | 1,997
+Net loss attributable to Class A and Class B common stockholders | $ | (19,002) | $ | (28,408) | $ | (92,629) | $ | (141,779)
+Net loss per share attributable to Class A and Class B common stockholders, basic and diluted | $ | (0.09) | $ | (0.14) | $ | (0.43) | $ | (0.96)
+Weighted-average shares used in computing net loss per share attributable to Class A and Class B common stockholders, basic and diluted | 221,700 | 207,565 | 217,756 | 148,062
+_____________________________
+(1)Includes stock-based compensation expense as follows:
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+(in thousands) | (in thousands)
+Subscription cost of revenue | $ | 3,849 | $ | 2,062 | $ | 11,705 | $ | 5,226
+Professional services cost of revenue | 2,058 | 955 | 6,005 | 2,486
+Sales and marketing | 15,456 | 8,408 | 50,557 | 23,919
+Research and development | 14,574 | 5,050 | 40,274 | 15,403
+General and administrative | 11,777 | 7,888 | 41,134 | 32,906
+Total stock-based compensation expense | $ | 47,714 | $ | 24,363 | $ | 149,675 | $ | 79,940
+(2)Includes amortization of acquired intangible assets as follows:
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+(in thousands) | (in thousands)
+Subscription cost of revenue | $ | 660 | $ | 61 | $ | 1,057 | $ | 323
+Sales and marketing | 209 | 31 | 362 | 123
+Research and development | — | 10 | 29 | 41
+Total amortization of purchased intangibles | $ | 869 | $ | 102 | $ | 1,448 | $ | 487
+(3)Includes acquisition-related expenses as follows:
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+(in thousands) | (in thousands)
+General and administrative | $ | 1,639 | $ | — | $ | 3,758 | $ | —
+Total acquisition-related expenses | $ | 1,639 | $ | — | $ | 3,758 | $ | —
+(4)Includes amortization of debt issuance costs and discount as follows:
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+(in thousands) | (in thousands)
+Interest expense | $ | 347 | $ | — | $ | 347 | $ | —
+Total amortization of debt issuance costs and discount | $ | 347 | $ | — | $ | 347 | $ | —
+CROWDSTRIKE HOLDINGS, INC.
+Condensed Consolidated Balance Sheets
+(in thousands)
+(unaudited)
+January 31, | January 31,
+2021 | 2020
+Assets
+Current assets:
+Cash and cash equivalents | $ | 1,918,608 | $ | 264,798
+Marketable securities | — | 647,266
+Accounts receivable, net | 239,199 | 164,987
+Deferred contract acquisition costs, current | 80,850 | 42,971
+Prepaid expenses and other current assets | 53,617 | 51,614
+Total current assets | 2,292,274 | 1,171,636
+Strategic investments | 2,500 | 1,000
+Property and equipment, net | 167,014 | 136,078
+Operating lease right-of-use assets | 36,484 | —
+Deferred contract acquisition costs, noncurrent | 117,906 | 71,235
+Goodwill | 83,566 | 7,722
+Intangible assets, net | 15,677 | 527
+Other long-term assets | 17,112 | 16,708
+Total assets | $ | 2,732,533 | $ | 1,404,906
+Liabilities and Stockholders’ Equity
+Current liabilities:
+Accounts payable | $ | 12,065 | $ | 1,345
+Accrued expenses | 51,117 | 30,355
+Accrued payroll and benefits | 71,907 | 36,810
+Operating lease liabilities, current | 8,977 | —
+Deferred revenue | 701,988 | 412,985
+Other current liabilities | 17,499 | 11,601
+Total current liabilities | 863,553 | 493,096
+Long-term debt | 738,029 | —
+Deferred revenue, noncurrent | 209,907 | 158,183
+Operating lease liabilities, noncurrent | 31,986 | —
+Other liabilities, noncurrent | 17,184 | 11,020
+Total liabilities | 1,860,659 | 662,299
+Commitments and contingencies
+Stockholders’ Equity
+Common stock, Class A and Class B | 112 | 106
+Additional paid-in capital | 1,598,259 | 1,378,479
+Accumulated deficit | (730,116) | (637,487)
+Accumulated other comprehensive income | 2,319 | 1,009
+Total CrowdStrike Holdings, Inc. stockholders’ equity | 870,574 | 742,107
+Non-controlling interest | 1,300 | 500
+Total stockholders’ equity | 871,874 | 742,607
+Total liabilities and stockholders’ equity | $ | 2,732,533 | $ | 1,404,906
+CROWDSTRIKE HOLDINGS, INC.
+Condensed Consolidated Statements of Cash Flows
+(in thousands)
+(unaudited)
+Year Ended January 31,
+2021 | 2020
+Operating activities
+Net loss | $ | (92,629) | $ | (141,779)
+Adjustments to reconcile net loss to net cash provided by (used in) operating activities:
+Depreciation and amortization | 38,695 | 23,026
+Loss on disposal of fixed assets | 15 | —
+Amortization of intangible assets | 1,448 | 487
+Amortization of deferred contract acquisition costs | 66,425 | 35,459
+Non-cash operating lease cost | 7,786 | —
+Change in fair value of redeemable convertible preferred stock warrant liability | — | 6,022
+Provision for bad debts | (544) | 556
+Stock-based compensation expense | 149,675 | 79,940
+Gain on sale of debt securities, net | (1,347) | —
+Accretion (amortization) of marketable securities purchased at a discount | 578 | (1,247)
+Non-cash interest expense | 853 | 435
+Other non-cash charges | — | (427)
+Changes in operating assets and liabilities
+Accounts receivable | (72,478) | (73,067)
+Deferred contract acquisition costs | (150,975) | (86,594)
+Prepaid expenses and other assets | 1,203 | (43,467)
+Accounts payable | 11,325 | (6,570)
+Accrued expenses and other current liabilities | 23,838 | 9,173
+Accrued payroll and benefits | 33,212 | 17,526
+Operating lease liabilities | (8,105) | —
+Deferred revenue | 338,803 | 280,768
+Other liabilities | 8,788 | (298)
+Net cash provided by operating activities | 356,566 | 99,943
+Investing activities
+Purchases of property and equipment | (52,799) | (80,198)
+Capitalized internal-use software | (10,864) | (7,289)
+Purchase of strategic investments | (1,500) | (1,000)
+Business acquisition, net of cash acquired | (85,517) | —
+Purchase of intangible assets | (180) | —
+Purchases of marketable securities | (84,904) | (779,701)
+Proceeds from sales of marketable securities | 639,586 | 9,581
+Maturities of marketable securities | 91,605 | 228,976
+Net cash provided by (used in) investing activities | 495,427 | (629,631)
+Financing activities
+Proceeds from the issuance of common stock upon initial public offering, net of underwriting discounts | — | 665,092
+Issuance costs related to revolving line of credit | (3,328) | —
+Proceeds from issuance of Senior Notes, net of debt financing costs | 739,569 | —
+Payments of deferred offering costs | — | (5,872)
+Proceeds from issuance of common stock upon exercise of stock options | 28,831 | 21,512
+Proceeds from the issuance of common stock upon exercise of early exercisable stock options | — | 10,264
+Proceeds from issuance of common stock under the employee stock purchase plan | 34,263 | 12,365
+Settlement related to stockholder short-swing trade profit | — | 2,283
+Capital contributions from non-controlling interest holders | 800 | 500
+Net cash provided by financing activities | 800,135 | 706,144
+Effect of foreign exchange rates on cash and cash equivalents | 1,682 | (66)
+Net increase in cash and cash equivalents | 1,653,810 | 176,390
+Cash and cash equivalents, beginning of period | 264,798 | 88,408
+Cash and cash equivalents, end of period | $ | 1,918,608 | $ | 264,798
+CROWDSTRIKE HOLDINGS, INC.
+Non-GAAP Financial Measures with Reconciliation to GAAP
+(in thousands, except percentages)
+(unaudited)
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+GAAP subscription revenue | $ | 244,662 | $ | 138,537 | $ | 804,670 | $ | 436,323
+GAAP subscription gross profit | $ | 190,314 | $ | 103,921 | $ | 619,458 | $ | 323,849
+Add: Stock-based compensation expense | 3,849 | 2,062 | 11,705 | 5,226
+Add: Amortization of acquired intangible assets | 660 | 61 | 1,057 | 323
+Non-GAAP subscription gross profit | $ | 194,823 | $ | 106,044 | $ | 632,220 | $ | 329,398
+GAAP subscription gross margin | 78 | % | 75 | % | 77 | % | 74 | %
+Non-GAAP subscription gross margin | 80 | % | 77 | % | 79 | % | 75 | %
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+GAAP total revenue | $ | 264,929 | $ | 152,109 | $ | 874,438 | $ | 481,413
+GAAP loss from operations | $ | (15,803) | $ | (31,133) | $ | (92,529) | $ | (146,065)
+Add: Stock-based compensation expense | 47,714 | 24,363 | 149,675 | 79,940
+Add: Amortization of acquired intangible assets | 869 | 102 | 1,448 | 487
+Add: Acquisition-related expenses | 1,639 | — | 3,758 | —
+Non-GAAP income (loss) from operations | $ | 34,419 | $ | (6,668) | $ | 62,352 | $ | (65,638)
+GAAP operating margin | (6) | % | (20) | % | (11) | % | (30) | %
+Non-GAAP operating margin | 13 | % | (4) | % | 7 | % | (14) | %
+CROWDSTRIKE HOLDINGS, INC.
+Non-GAAP Financial Measures with Reconciliation to GAAP (Continued)
+(in thousands, except percentages and per share amounts)
+(unaudited)
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+GAAP net loss | $ | (19,002) | $ | (28,408) | $ | (92,629) | $ | (141,779)
+Add: Stock-based compensation expense | $ | 47,714 | $ | 24,363 | $ | 149,675 | $ | 79,940
+Add: Amortization of acquired intangible assets | 869 | 102 | 1,448 | 487
+Add: Acquisition-related expenses | 1,639 | — | 3,758 | —
+Add: Amortization of debt issuance costs and discount | 347 | — | 347 | —
+Add: Provision for income taxes(1) | — | — | — | —
+Less: Gain on settlement of lawsuit | — | — | — | (1,250)
+Non-GAAP net income (loss) | $ | 31,567 | $ | (3,943) | $ | 62,599 | $ | (62,602)
+Weighted-average shares used in computing GAAP net loss per share attributable to Class A and Class B common stockholders, basic and diluted | 221,700 | 207,565 | 217,756 | 148,062
+Weighted-average shares used in computing Non-GAAP net income (loss) per share attributable to Class A and Class B common stockholders, basic | 221,700 | 207,565 | 217,756 | 148,062
+Weighted-average shares used in computing Non-GAAP net income (loss) per share attributable to Class A and Class B common stockholders, diluted | 236,683 | 207,565 | 234,356 | 148,062
+GAAP net loss per share attributable to common stockholders, basic and diluted | $ | (0.09) | $ | (0.14) | $ | (0.43) | $ | (0.96)
+Non-GAAP net income (loss) per share attributable to common stockholders, basic | $ | 0.14 | $ | (0.02) | $ | 0.29 | $ | (0.42)
+Non-GAAP net income (loss) per share attributable to common stockholders, diluted | $ | 0.13 | $ | (0.02) | $ | 0.27 | $ | (0.42)
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+GAAP total revenue | $ | 264,929 | $ | 152,109 | $ | 874,438 | $ | 481,413
+GAAP net cash provided by operating activities | $ | 114,463 | $ | 66,107 | $ | 356,566 | $ | 99,943
+Less: Purchases of property and equipment | (12,554) | (13,350) | (52,799) | (80,198)
+Less: Capitalized internal-use software | (4,519) | (2,081) | (10,864) | (7,289)
+Free cash flow | $ | 97,390 | $ | 50,676 | $ | 292,903 | $ | 12,456
+GAAP net cash provided by (used in) investing activities | $ | (17,301) | $ | (572,115) | $ | 495,427 | $ | (629,631)
+GAAP net cash provided by (used in) financing activities | $ | 760,529 | $ | 27,310 | $ | 800,135 | $ | 706,144
+GAAP net cash provided by operating activities as a percentage of revenue | 43 | % | 43 | % | 41 | % | 21 | %
+Less: Purchases of property and equipment as a percentage of revenue | (5) | % | (9) | % | (6) | % | (17) | %
+Less: Capitalized internal-use software as a percentage of revenue | (2) | % | (1) | % | (1) | % | (2) | %
+Free cash flow margin | 37 | % | 33 | % | 33 | % | 3 | %
+_____________________________
+(1)We use our GAAP provision for income taxes for the purpose of determining our non-GAAP income tax expense. The income tax benefit related to stock-based compensation, amortization of intangibles, acquisition related expenses and gain on settlement of lawsuit included in the GAAP provision for income taxes was not material for all periods presented.
+CROWDSTRIKE HOLDINGS, INC.
+Statements of Operations: GAAP to Non-GAAP Reconciliations
+(in thousands)
+(unaudited)
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+GAAP cost of revenue | $ | 66,732 | $ | 43,417 | $ | 229,545 | $ | 141,627
+Less:
+Stock based compensation expense | 5,907 | 3,017 | 17,710 | 7,712
+Amortization of acquired intangible assets | 660 | 61 | 1,057 | 323
+Non-GAAP cost of revenue | $ | 60,165 | $ | 40,339 | $ | 210,778 | $ | 133,592
+GAAP subscription gross profit | $ | 190,314 | $ | 103,921 | $ | 619,458 | $ | 323,849
+Add:
+Stock based compensation expense | 3,849 | 2,062 | 11,705 | 5,226
+Amortization of acquired intangible assets | 660 | 61 | 1,057 | 323
+Non-GAAP subscription gross profit | $ | 194,823 | $ | 106,044 | $ | 632,220 | $ | 329,398
+GAAP professional services gross profit | $ | 7,883 | $ | 4,771 | $ | 25,435 | $ | 15,937
+Add:
+Stock based compensation expense | 2,058 | 955 | 6,005 | 2,486
+Non-GAAP professional services gross profit | $ | 9,941 | $ | 5,726 | $ | 31,440 | $ | 18,423
+GAAP sales and marketing operating expenses | $ | 112,449 | $ | 75,803 | $ | 401,316 | $ | 266,595
+Less:
+Stock based compensation expense | 15,456 | 8,408 | 50,557 | 23,919
+Amortization of acquired intangible assets | 209 | 31 | 362 | 123
+Non-GAAP sales and marketing operating expenses | $ | 96,784 | $ | 67,364 | $ | 350,397 | $ | 242,553
+GAAP research and development operating expenses | $ | 66,070 | $ | 38,691 | $ | 214,670 | $ | 130,188
+Less:
+Stock based compensation expense | 14,574 | 5,050 | 40,274 | 15,403
+Amortization of acquired intangible assets | — | 10 | 29 | 41
+Non-GAAP research and development operating expenses | $ | 51,496 | $ | 33,631 | $ | 174,367 | $ | 114,744
+GAAP general and administrative operating expenses | $ | 35,481 | $ | 25,331 | $ | 121,436 | $ | 89,068
+Less:
+Stock based compensation expense | 11,777 | 7,888 | 41,134 | 32,906
+Acquisition-related expenses | 1,639 | — | 3,758 | —
+Non-GAAP general and administrative operating expenses | $ | 22,065 | $ | 17,443 | $ | 76,544 | $ | 56,162
+GAAP loss from operations | $ | (15,803) | $ | (31,133) | $ | (92,529) | $ | (146,065)
+Add:
+Stock based compensation expense | 47,714 | 24,363 | 149,675 | 79,940
+Amortization of acquired intangible assets | 869 | 102 | 1,448 | 487
+Acquisition-related expenses | 1,639 | — | 3,758 | —
+Non-GAAP income (loss) from operations | $ | 34,419 | $ | (6,668) | $ | 62,352 | $ | (65,638)
+CROWDSTRIKE HOLDINGS, INC.
+Statements of Operations: GAAP to Non-GAAP Reconciliations (continued)
+(in thousands, except per share amounts)
+(unaudited)
+Three Months Ended January 31, | Year Ended January 31,
+2021 | 2020 | 2021 | 2020
+GAAP net loss | $ | (19,002) | $ | (28,408) | $ | (92,629) | $ | (141,779)
+Add:
+Stock based compensation expense | 47,714 | 24,363 | 149,675 | 79,940
+Amortization of acquired intangible assets | 869 | 102 | 1,448 | 487
+Acquisition-related expenses | 1,639 | — | 3,758 | —
+Amortization of debt issuance costs and discount | 347 | — | 347 | —
+Provision for income taxes(1) | — | — | — | —
+Less:
+Gain on settlement of lawsuit | — | — | — | (1,250)
+Non-GAAP net income (loss) | $ | 31,567 | $ | (3,943) | $ | 62,599 | $ | (62,602)
+Weighted-average shares used in computing basic net income (loss) per share (GAAP and Non-GAAP) | 221,700 | 207,565 | 217,756 | 148,062
+GAAP basic net loss per share | $ | (0.09) | $ | (0.14) | $ | (0.43) | $ | (0.96)
+Non-GAAP basic net income (loss) per share | $ | 0.14 | $ | (0.02) | $ | 0.29 | $ | (0.42)
+GAAP diluted loss per common share | $ | (0.09) | $ | (0.14) | $ | (0.43) | $ | (0.96)
+Stock-based compensation | 0.20 | 0.12 | 0.64 | 0.54
+Amortization of acquired intangible assets | — | — | 0.01 | —
+Acquisition-related expenses | 0.01 | — | 0.02 | —
+Amortization of debt issuance costs and discount | — | — | — | —
+Gain on settlement of lawsuit | — | — | — | (0.01)
+Provision for income taxes (1) | — | — | — | —
+Adjustment to fully diluted earnings per share (2) | 0.01 | — | 0.03 | 0.01
+Non-GAAP diluted income (loss) per common share | $ | 0.13 | $ | (0.02) | $ | 0.27 | $ | (0.42)
+Weighted-average shares used in diluted net income (loss) per share calculation:
+GAAP | 221,700 | 207,565 | 217,756 | 148,062
+Non-GAAP | 236,683 | 207,565 | 234,356 | 148,062
+_____________________________
+(1)We use our GAAP provision for income taxes for the purpose of determining our non-GAAP income tax expense. The income tax benefit related to stock-based compensation, amortization of intangibles, acquisition related expenses and gain on settlement of lawsuit included in the GAAP provision for income taxes was not material for all periods presented.
+(2)For periods in which we had diluted non-GAAP net income per share, the sum of the impact of individual reconciling items may not total to diluted Non-GAAP net income per share because the basic share counts used to calculate GAAP net loss per share differ from the diluted share counts used to calculate non-GAAP net income per share and because of rounding differences. The GAAP net loss per share calculation uses a lower share count as it excludes dilutive shares which are included in calculating the non-GAAP net income per share.
+###
+Explanation of Non-GAAP Financial Measures
+In addition to our results determined in accordance with U.S. generally accepted accounting principles (“GAAP”), we believe the following non-GAAP measures are useful in evaluating our operating performance. We use the following non-GAAP financial information to evaluate our ongoing operations and for internal planning and forecasting purposes. We believe that non-GAAP financial information, when taken collectively, may be helpful to investors because it provides consistency and comparability with past financial performance. However, non-GAAP financial information is presented for supplemental informational purposes only, has limitations as an analytical tool, and should not be considered in isolation or as a substitute for financial information presented in accordance with GAAP.
+Other companies, including companies in our industry, may calculate similarly titled non-GAAP measures differently or may use other measures to evaluate their performance, all of which could reduce the usefulness of our non-GAAP financial measures as tools for comparison. In addition, the utility of free cash flow as a measure of our financial performance and liquidity is limited as it does not represent the total increase or decrease in our cash balance for a given period.
+Investors are encouraged to review the related GAAP financial measures and the reconciliation of these non-GAAP financial measures to their most directly comparable GAAP financial measures and not rely on any single financial measure to evaluate our business.
+Non-GAAP Subscription Gross Profit and Non-GAAP Subscription Gross Margin
+We define non-GAAP subscription gross profit and non-GAAP subscription gross margin as GAAP subscription gross profit and GAAP subscription gross margin, respectively, excluding stock-based compensation expense and amortization of acquired intangible assets. We believe non-GAAP subscription gross profit and non-GAAP subscription gross margin provide our management and investors consistency and comparability with our past financial performance and facilitate period-to-period comparisons of operations, as these measures eliminate the effects of certain variables unrelated to our overall operating performance.
+Non-GAAP Income (Loss) from Operations
+We define non-GAAP income (loss) from operations as GAAP income (loss) from operations excluding stock-based compensation expense, amortization of acquired intangible assets, and acquisition-related expenses. We believe non-GAAP income (loss) from operations provides our management and investors consistency and comparability with our past financial performance and facilitates period-to-period comparisons of operations, as this metric generally eliminates the effects of certain variables unrelated to our overall operating performance.
+Non-GAAP Net Income (Loss) 
+We define non-GAAP net income (loss) as GAAP income (loss) excluding stock-based compensation expense, amortization of acquired intangible assets, acquisition-related expenses, amortization of debt issuance costs and discount, and gain or loss on the settlement of lawsuits. We believe non-GAAP income (loss) provides our management and investors consistency and comparability with our past financial performance and facilitates period-to-period comparisons, as this metric generally eliminates the effects of certain variables unrelated to our overall performance.
+Non-GAAP Net Income (Loss) per Share Attributable to Common Stockholders, Basic and Diluted
+We define non-GAAP net income (loss) per share attributable to common stockholders, as non-GAAP net income (loss) divided by the weighted-average shares outstanding, which includes the dilutive effect of potentially diluted common stock equivalents outstanding during the period. We may periodically incur charges or receive payments in connection with litigation settlements. We exclude these charges and payments received from non-GAAP net income (loss) when associated with a significant settlement because we do not believe they are reflective of ongoing business and operating results.
+Free Cash Flow
+Free cash flow is a non-GAAP financial measure that we define as net cash provided by operating activities less purchases of property and equipment and capitalized internal-use software. We monitor free cash flow as one measure of our overall business performance, which enables us to analyze our future performance without the effects of non-cash items and allow us to better understand the cash needs of our business. While we believe that free cash flow is useful in evaluating our business, free cash flow is a non-GAAP financial measure that has limitations as an analytical tool, and free cash flow should 
+not be considered as an alternative to, or substitute for, net cash provided by operating activities in accordance with GAAP. The utility of free cash flow as a measure of our liquidity is further limited as it does not represent the total increase or decrease in our cash balance for any given period. In addition, other companies, including companies in our industry, may calculate free cash flow differently or not at all, which reduces the usefulness of free cash flow as a tool for comparison.
+Explanation of Operational Measures
+Annual Recurring Revenue
+ARR is calculated as the annualized value of our customer subscription contracts as of the measurement date, assuming any contract that expires during the next 12 months is renewed on its existing terms. To the extent that we are negotiating a renewal with a customer after the expiration of the subscription, we continue to include that revenue in ARR if we are actively in discussion with such an organization for a new subscription or renewal, or until such organization notifies us that it is not renewing its subscription.
+Magic Number
+Magic Number is calculated by performing the following calculation for the most recent four quarters and taking the average: annualizing the difference between a quarter’s Subscription Revenue and the prior quarter’s Subscription Revenue, and then dividing the resulting number by the previous quarter’s Non-GAAP Sales & Marketing Expense. Magic Number = Average of previous four quarters: ((Quarter Subscription Revenue – Prior Quarter Subscription Revenue) x 4) / Prior Quarter Non-GAAP Sales & Marketing Expense.
