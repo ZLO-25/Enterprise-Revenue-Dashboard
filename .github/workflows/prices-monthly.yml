@@ -1,0 +1,72 @@
+# 每月月底收盤價與分析師預估（不經過 Claude）
+#
+# 確認 + 重試機制（比照 futures-daily.yml）：
+#   ① 每月 1～6 日台北 08:23 各跑一次（GitHub 免費排程偶爾漏跑，多幾班就沒關係）。也可手動觸發。
+#   ② 先「確認」：每家公司的股價檔是否已有上個月；月底後 10 天內還要有當月的分析師預估快照。已是最新 → 幾秒結束。
+#   ③ 落後才抓 Yahoo（台股另對證交所）→ 核對 → 重產網站 → 有變動才提交。
+#   ④ 6 日那一班仍落後 → 這次執行標成紅燈，GitHub 會寄信通知你。
+# 舊月份股價與上次不同超過 0.5%（股票分割或資料修正）→ 不覆寫、紅燈；等 Claude 依 SOURCES.md 同步重編 EPS 後，
+# 手動觸發並填入 accept 公司代號覆寫。
+name: prices-monthly
+on:
+  schedule:
+    - cron: "23 0 1-6 * *"      # 台北 08:23（每月 1～6 日）
+  workflow_dispatch:
+    inputs:
+      company:
+        description: "只更新這一家（代號，可空白＝全部）"
+        required: false
+      accept:
+        description: "接受這家公司舊月份股價被分割／修正改動（代號）"
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: prices-monthly
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安裝套件
+        run: pip install --quiet yfinance
+      - name: 確認股價是否已是最新
+        id: chk
+        run: python3 tools/prices_update.py --check
+      - name: 抓股價與預估、核對
+        if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
+        env:
+          COMPANY: ${{ github.event.inputs.company }}
+          ACCEPT: ${{ github.event.inputs.accept }}
+        run: |
+          set +e
+          ARGS=""
+          if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
+          if [ -n "$ACCEPT" ]; then ARGS="--accept-restatement $ACCEPT"; fi
+          python3 tools/prices_update.py $ARGS; rc=$?
+          set -e
+          D=$(date -u +%d)
+          if [ $rc -ne 0 ] && [ "${{ github.event_name }}" = "schedule" ] && [ "$D" != "06" ]; then
+            echo "這一班沒成功（rc=$rc），6 日前還有下一班"; exit 0
+          fi
+          exit $rc
+      - name: 核對資料並重產網站
+        if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          python3 tools/validate.py
+          python3 tools/build.py
+      - name: 有新資料才提交
+        if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "prices-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/prices index.html */index.html
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -m "每月股價自動更新 $(date -u +%Y-%m-%d)"
+          git pull --rebase -q origin main
+          git push
