@@ -193,6 +193,40 @@ def check_bs(code, D, err):
             err.append(f"{q['q']} 期末股數 {q['shOut']} 與稀釋加權股數 {q['dilSh']} 差超過 50%（分割換算有誤？）")
 
 
+def check_thesis(code, D, err):
+    """data/thesis/<代號>.json：草稿可以先放著（不上線）；approved 必須是使用者確認過的，指標 key 要是程式算得出來的。"""
+    p = os.path.join(ROOT, "data", "thesis", code + ".json")
+    if not os.path.exists(p):
+        return
+    import thesis as TH
+    t = json.load(open(p, encoding="utf8"))
+    if t.get("code") != code:
+        err.append("thesis.code 與檔名不符")
+    if t.get("status") not in ("draft", "approved"):
+        err.append("thesis.status 要是 draft 或 approved")
+    if not t.get("oneLiner"):
+        err.append("thesis 缺一句話論點 oneLiner")
+    if t.get("status") == "approved" and not t.get("updatedBy"):
+        err.append("thesis approved 但沒有 updatedBy（誰確認的）")
+    if t.get("status") == "approved" and any(m.get("by") != "ZL" for m in t.get("metrics", [])):
+        err.append("thesis approved 但有門檻不是使用者定的／確認的（metrics[].by 要是 ZL）：草稿門檻確認後請改 by")
+    ks = set()
+    for m in t.get("metrics", []):
+        if m.get("k") not in TH.KEYS:
+            err.append(f"thesis 指標 key 不存在：{m.get('k')}")
+        if m.get("op") not in (">=", "<="):
+            err.append(f"thesis {m.get('k')} op 要是 >= 或 <=")
+        if not isinstance(m.get("thr"), (int, float)):
+            err.append(f"thesis {m.get('k')} 門檻 thr 要是數字")
+        if m.get("k") in ks:
+            err.append(f"thesis 指標重複：{m.get('k')}")
+        ks.add(m.get("k"))
+    if not (3 <= len(t.get("metrics", [])) <= 5):
+        err.append("thesis 關鍵指標要 3～5 個")
+    if not t.get("breakWhen"):
+        err.append("thesis 缺「論點破了的條件」breakWhen")
+
+
 def common(code, D, err):
     if not DAY_RE.match(D.get("asOf", "")):
         err.append("asOf 格式必須是 YYYY-MM-DD")
@@ -539,6 +573,7 @@ def main():
             common(code, D, err)
             check_summary(code, D, err)
             check_bs(code, D, err)
+            check_thesis(code, D, err)
             schema = bycode.get(code, {}).get("schema", "v1")
             if schema in SCHEMA_CHECKS:
                 SCHEMA_CHECKS[schema](D, err)

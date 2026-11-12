@@ -24,6 +24,7 @@ import json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe as PE
 import health as HEALTH
+import thesis as THESIS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if "--root" in sys.argv:
@@ -192,7 +193,7 @@ def main():
     cfg = json.loads(read("companies.json"))
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
     FUTJS = read("assets", "futures.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
@@ -203,6 +204,12 @@ def main():
         prices = json.load(open(pf, encoding="utf8")) if (c.get("price") and os.path.exists(pf)) else None
         data["valuation"] = PE.compute(data["quarters"], prices)   # 本益比只在建置時算，不存檔
         data["health"] = HEALTH.compute(data["quarters"], data["valuation"], prices)   # ROIC、ROE、FCF 殖利率…只在建置時算，不存檔
+        tp = os.path.join(ROOT, "data", "thesis", c["code"] + ".json")
+        if os.path.exists(tp):
+            th = json.load(open(tp, encoding="utf8"))
+            if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
+                th["lights"] = THESIS.lights(th, data["quarters"], data["valuation"], data["health"])
+                data["thesis"] = th
         datasets[c["code"]] = data
         frag = read("templates", c["template"] + ".frag.html")
         for key in REQUIRED:
