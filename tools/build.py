@@ -191,7 +191,7 @@ def main():
     cfg = json.loads(read("companies.json"))
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "valuation.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "valuation.js")
     FUTJS = read("assets", "futures.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]

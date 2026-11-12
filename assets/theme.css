@@ -306,3 +306,24 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fut-lines-tbl th, .fut-lines-tbl td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--line); }
 .fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
 .fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+/* 每季一頁摘要（assets/summary.js）：四種來源標籤＋成績單 */
+.src-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 0.05em; white-space: nowrap; }
+.src-w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
+.src-o { background: rgba(235, 104, 52, 0.12); color: var(--s2); border-color: rgba(235, 104, 52, 0.4); }
+.src-e { background: rgba(74, 58, 167, 0.12); color: var(--s7); border-color: rgba(74, 58, 167, 0.4); }
+.src-v { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.sum-card h3 { font-size: 1rem; margin: 18px 0 6px; }
+.sum-head { font-size: 1.05rem; font-weight: 600; margin: 0 0 6px; }
+.sum-list { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.sum-list li { overflow-wrap: anywhere; }
+.sum-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.sum-tbl th, .sum-tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.sum-tbl td small { display: block; color: var(--muted); font-size: 0.75rem; }
+.sum-tbl thead th { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+.src-link { font-size: 0.8rem; }
+.chip-warn { background: rgba(237, 161, 0, 0.18); color: var(--s4); }
+.chip-up { background: rgba(27, 175, 122, 0.16); color: var(--s3); }
+.chip-down { background: rgba(227, 73, 72, 0.16); color: var(--s8); }
+.sum-card details { margin-top: 14px; }
+.tbl-wrap { overflow-x: auto; }

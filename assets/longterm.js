@@ -85,6 +85,7 @@ const LT = (() => {
 
   /* ---------- 公司頁的「長期觀察」卡片 ---------- */
   function render(el, N, M) {
+    if (typeof SUM !== 'undefined') SUM.mount(el.closest('section'), N);
     const u = N.unitShort, K = 20, tail = (arr) => arr.slice(-K);
     const tiles = [
       { label: '近四季營收（TTM）', value: f0(M.ttmRev), unit: u, delta: `年增 <span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span>`, chip: M.recordTtm ? '歷史新高' : '', sp: spark(tail(M.ttm)) },

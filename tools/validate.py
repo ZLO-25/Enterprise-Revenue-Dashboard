@@ -77,6 +77,91 @@ def check_config(cfg, err):
 
 
 # ---------- 2. 共通層 ----------
+def check_summary(code, D, err):
+    """summary（一頁摘要）、summaryHistory、guidanceHistory：來源標籤、口頭內容要有逐字稿連結、市場預期要對得上快照檔。"""
+    qs = {q["q"] for q in D.get("quarters", [])}
+    iso = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+    gh = D.get("guidanceHistory")
+    if gh is not None:
+        prev = ""
+        for g in gh:
+            if not iso.match(str(g.get("issued", ""))):
+                err.append("guidanceHistory 缺 issued（YYYY-MM-DD）")
+                continue
+            if g["issued"] < prev:
+                err.append(f"guidanceHistory 沒有依發布日由舊到新排序：{g['issued']}")
+            prev = g["issued"]
+            if D.get("guidance", {}).get("issued") and g["issued"] >= D["guidance"]["issued"]:
+                err.append(f"guidanceHistory {g['issued']} 不早於目前財測的發布日（目前財測放 guidance，歷史只放被取代的舊財測）")
+            for it in g.get("items", []):
+                lo, hi = it.get("lo"), it.get("hi")
+                if not it.get("label") or not it.get("period"):
+                    err.append(f"guidanceHistory {g['issued']} 有項目缺 label／period")
+                if lo is not None and hi is not None and lo > hi:
+                    err.append(f"guidanceHistory {g['issued']} 「{it.get('label')}」區間上下限顛倒")
+    S = D.get("summary")
+    if not S:
+        return
+
+    def tagcheck(where, it):
+        t = it.get("tag")
+        if t not in ("w", "o", "e", "v"):
+            err.append(f"summary {where} 缺來源標籤 tag（w 書面／o 口頭／e 分析師預估／v 觀點）：{str(it.get('t') or it.get('q'))[:20]}")
+        if t == "o":
+            src = it.get("src") or {}
+            if not str(src.get("url", "")).startswith("http") or not src.get("speaker") or not src.get("n"):
+                err.append(f"summary {where} 口頭內容要附逐字稿來源 src:{{n,url,speaker}}：{str(it.get('t') or it.get('q'))[:20]}")
+        if t == "w" and it.get("src") is not None and not str(it["src"].get("url", "")).startswith("http"):
+            err.append(f"summary {where} 書面來源連結不是網址")
+    if S.get("q") not in qs:
+        err.append(f"summary.q {S.get('q')} 不在 quarters 裡（摘要只能針對已有資料的季度）")
+    if S.get("status") not in ("flash", "final"):
+        err.append("summary.status 要是 flash（初版）或 final（定稿）")
+    if not iso.match(str(S.get("flashDate", ""))):
+        err.append("summary.flashDate 缺（YYYY-MM-DD）")
+    if S.get("status") == "final" and not iso.match(str(S.get("finalDate", ""))):
+        err.append("summary 定稿但缺 finalDate")
+    if S.get("headline"):
+        tagcheck("headline", S["headline"])
+    for sec in ("mgmt", "qa", "risks"):
+        for it in S.get(sec, []) or []:
+            tagcheck(sec, it)
+            if sec in ("mgmt", "qa") and it.get("tag") != "o":
+                err.append(f"summary.{sec} 的內容來自電話會議，tag 要是 o（口頭）")
+            if sec == "risks" and it.get("tag") != "v":
+                err.append("summary.risks 是判斷，tag 要是 v（觀點）")
+    if S.get("outlook"):
+        if S["outlook"].get("dir") not in ("up", "flat", "down", "na"):
+            err.append("summary.outlook.dir 要是 up／flat／down／na")
+        for it in S["outlook"].get("items", []) or []:
+            tagcheck("outlook", it)
+    cons_file = os.path.join(ROOT, "data", "consensus", code + ".json")
+    snaps = json.load(open(cons_file, encoding="utf8"))["snapshots"] if os.path.exists(cons_file) else []
+    for r in S.get("scorecard", []) or []:
+        if r.get("k") not in ("rev", "gm", "om", "eps") and not r.get("label"):
+            err.append(f"summary.scorecard 的 k 要是 rev／gm／om／eps：{r.get('k')}")
+        c = r.get("cons")
+        if c:
+            if c.get("v") is None or not iso.match(str(c.get("snap", ""))):
+                err.append("summary.scorecard.cons 要有 v（數字）與 snap（快照日）")
+                continue
+            match = [x for x in snaps if x["period"] == S.get("q") and x["date"] == c["snap"]]
+            if not match:
+                err.append(f"summary.scorecard.cons 的快照 {c['snap']} 不在 data/consensus/{code}.json（市場預期只能用事前快照，不可事後補）")
+            else:
+                m = match[0]
+                if S.get("flashDate") and c["snap"] > S["flashDate"]:
+                    err.append("市場預期快照日晚於快報日（疑似事後補）")
+                if r.get("k") == "rev" and m.get("revAvg"):
+                    if abs(m["revAvg"] / 1e6 - c["v"]) > max(0.5, abs(c["v"]) * 0.001):
+                        err.append(f"summary 營收市場預期 {c['v']} 與快照 {m['revAvg'] / 1e6:.1f} 不符")
+                if r.get("k") == "eps" and m.get("epsAvg") is not None and abs(m["epsAvg"] - c["v"]) > 0.006:
+                    err.append(f"summary EPS 市場預期 {c['v']} 與快照 {m['epsAvg']} 不符")
+    for h in D.get("summaryHistory", []) or []:
+        if not h.get("q") or h.get("q") == S.get("q"):
+            err.append(f"summaryHistory 的 {h.get('q')} 與目前摘要同一季或缺季度")
+
+
 def common(code, D, err):
     if not DAY_RE.match(D.get("asOf", "")):
         err.append("asOf 格式必須是 YYYY-MM-DD")
@@ -421,6 +506,7 @@ def main():
         try:
             D = load(code)
             common(code, D, err)
+            check_summary(code, D, err)
             schema = bycode.get(code, {}).get("schema", "v1")
             if schema in SCHEMA_CHECKS:
                 SCHEMA_CHECKS[schema](D, err)
