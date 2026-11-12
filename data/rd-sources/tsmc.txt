@@ -38,3 +38,5 @@ T 3Q25 2025-11-14
 T 4Q25 2026-02-26
 T 1Q26 2026-05-15
 T 2Q26 2026-08-14
+# 公司新聞稿（Earnings Release）日期 P＝期末 公布日；3Q26 來自 https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/526b65af7305df2dde6b9ece6812b1fdf1e49f9b/3Q26%20EarningsRelease.pdf 的 dateline "October 15, 2026"
+P 2026-09-30 2026-10-15
