@@ -42,7 +42,10 @@ def get(url):
 
 
 def concept(cik, name):
-    d = get(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/{name}.json")
+    tax = "us-gaap"
+    if ":" in name:
+        tax, name = name.split(":", 1)
+    d = get(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/{tax}/{name}.json")
     time.sleep(0.15)
     if not d:
         return []
@@ -169,6 +172,15 @@ def flow(facts, end, prev_end, kind):
     return (y, y["val"] - pv[0]["val"]) if pv else (None, None)
 
 
+def cover(facts, ends, E):
+    """資產負債表沒有股數時，用 10-Q／10-K 封面的流通股數（dei:EntityCommonStockSharesOutstanding，期末後 100 天內最早的一筆）。"""
+    lim = (dt.date.fromisoformat(E) + dt.timedelta(days=100)).isoformat()
+    best = [f for f in facts if E < f["end"] <= lim and f.get("form") in ("10-Q", "10-K")]
+    if not best:
+        return None, None
+    return sorted(best, key=lambda f: f["end"])[0], "dei:EntityCommonStockSharesOutstanding（封面）"
+
+
 def build(cfg, only):
     os.makedirs(os.path.join(ROOT, "data", "bs-raw"), exist_ok=True)
     for c in cfg["companies"]:
@@ -184,6 +196,7 @@ def build(cfg, only):
         names = set(n for v in M.values() if isinstance(v, dict) for part in v.get("all", []) + v.get("opt", []) for n in part) | {"NetIncomeLoss"}
         names |= set(M.get("ni", ["NetIncomeLoss"]))
         F = {n: concept(c["cik"], n) for n in sorted(names)}
+        F["cover"] = concept(c["cik"], "dei:EntityCommonStockSharesOutstanding")
         ni_facts = [f for n in M.get("ni", ["NetIncomeLoss"]) for f in F.get(n, [])]
         ends, allends = quarter_ends(ni_facts, Q)
         splits = splits_for(c["price"]["yahoo"]) if c.get("price") else []
@@ -207,6 +220,8 @@ def build(cfg, only):
                     total, prov, bad = 0.0, [], False
                     for part in spec.get("all", []):
                         f, n = inst(F, part, E)
+                        if not f and spec.get("cover"):
+                            f, n = cover(F["cover"], allends, E)
                         if not f:
                             bad = True
                             row["why"][field] = "缺 " + "/".join(part)
