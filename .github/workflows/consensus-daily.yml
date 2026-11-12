@@ -1,0 +1,34 @@
+# 市場預期事前拍照（不經過 Claude）：每週二～六台北 07:40，公布前 14 天內的公司存一張當季預估快照。
+# 為什麼：財報一公布，資料網站的「當季預估」就被新數字蓋掉，事後補不回來。舊快照永遠不改、不回填。
+# 已實測（2026-11-12）：Yahoo（yfinance earnings_estimate／revenue_estimate 的 0q）有當季預估；調整後或 GAAP 口徑記在 epsBasis。
+name: consensus-daily
+on:
+  schedule:
+    - cron: "40 23 * * 1-5"     # 台北 07:40（週二～六），在 sec-feed（07:05）之後、每日排程（08:18）之前
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: consensus-daily
+  cancel-in-progress: false
+jobs:
+  snap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet yfinance
+      - name: 拍照（失敗會標紅燈，GitHub 寄信通知）
+        run: python3 tools/consensus.py
+      - name: 有新快照才提交
+        if: always()
+        run: |
+          git config user.name "consensus-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/consensus
+          if git diff --cached --quiet; then echo "沒有新快照"; exit 0; fi
+          git commit -m "市場預期快照 $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push && break || sleep 5; done
