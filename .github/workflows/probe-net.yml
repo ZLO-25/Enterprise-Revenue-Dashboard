@@ -1,0 +1,25 @@
+name: probe-net
+on: workflow_dispatch
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA="Enterprise-Revenue-Dashboard research (github.com/ZLO-25/Enterprise-Revenue-Dashboard)"
+          for u in "https://data.sec.gov/submissions/CIK0000320193.json" "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000320193&type=8-K" "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=1mo&interval=1d" "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20261001&stockNo=2330" "https://www.twse.com.tw/exchangeReport/BWIBBU?response=json&date=20261030&stockNo=2330" "https://mops.twse.com.tw/mops/web/t05st01" "https://dart.fss.or.kr" "https://finance.naver.com/item/sise_day.naver?code=005930" ; do
+            echo "$u -> $(curl -s -o /dev/null -w '%{http_code}' -A "$UA" "$u")"
+          done
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: |
+          pip install -q yfinance
+          python - <<'P'
+          import yfinance as yf
+          for s in ["AAPL","2330.TW","005930.KS","SPCX"]:
+              try:
+                  t=yf.Ticker(s); h=t.history(period="1mo",auto_adjust=False)
+                  print(s,"hist rows",len(h))
+                  e=t.earnings_estimate; print(s,"est",None if e is None else list(e.index), None if e is None else list(e.columns))
+                  print(s,"info keys fy", [ (k,t.info.get(k)) for k in ("currency","exchange","sharesOutstanding")])
+              except Exception as ex: print(s,"ERR",repr(ex)[:200])
+          P
