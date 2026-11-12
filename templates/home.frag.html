@@ -141,7 +141,7 @@
   <section id="freshness">
     <div class="sec-head">
       <h2>資料新鮮度與來源</h2>
-      <p class="sub">每家公司的資料更新到哪一天、下一個公布日是公司公告還是我們預估、主要來源在哪裡。「待更新」代表有公布日已過但資料還沒跟上，通常下一次每月排程（12 日）會補。</p>
+      <p class="sub">每家公司的資料更新到哪一天、下一個公布日是公司公告還是我們預估、主要來源在哪裡。「待更新」代表有公布日已過但資料還沒跟上，每日排程（週二至週六）會在公布後隔天先放初版。</p>
     </div>
     <div class="tbl-wrap"><table id="freshTbl" class="fresh-tbl"></table></div>
   </section>
@@ -180,7 +180,7 @@ const REPO = 'https://github.com/{{REPO}}';
 /* 每家公司 → 標準序列 N → 長期指標 M → 新鮮度 F */
 const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c, D: DATA[c.code], N, M: LT.metrics(N), F: LT.freshness(DATA[c.code]), s: N.latest, P: PEV.brief(DATA[c.code]) }; });
 const latest = S.map(s => s.D.asOf).sort().pop();
-$('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>每月 12 日 07:48（台北）自動更新</span>`;
+$('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>週二至週六 08:30（台北）每日檢查更新</span>`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
 $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';

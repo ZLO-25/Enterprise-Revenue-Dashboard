@@ -3,7 +3,7 @@
 - 資料檔：`data/msft.json`（schema `v1`）　頁面：`/msft/`　模板：`templates/generic.frag.html`（通用模板）
 - 單位：**百萬美元**（`rev`、`gp`、`opInc`、`ni`、`ocf`、`capex`、`fcf`）；每股數字（`eps`、`dps`）為美元。期間沒有股票分割（最近一次是 2003 年），EPS 不用換算。
 - CIK：`0000789019`。頻率：每季。財報日約在 1、4、7、10 月最後一週（美股收盤後）。
-- 排程：每月 12 日 07:48（台北）。只補「上次資料之後」的新期間；沒有新財報的月份只檢查事件與公布日；沒有實質變動就不 commit。
+- 排程：週二至週六 08:30（台北）每日檢查（見 docs/SCHEDULE_PROMPT.md；公布日隔天先做「快報」，再「補完」「核對」）。只補「上次資料之後」的新期間；沒有新財報的月份只檢查事件與公布日；沒有實質變動就不 commit。
 
 ## 會計年度與季度標籤
 
@@ -64,7 +64,7 @@ FY2016 的營收舊 85,320、新 91,154（差約 6.8%），比較長期成長時
 
 **任何一項沒過就不發佈**，回到來源修資料，不要放寬核對。
 
-## 更新步驟（每月排程）
+## 更新步驟（每日排程「快報」步驟；補完、核對見 docs/SCHEDULE_PROMPT.md）
 
 1. 查有沒有新財報：`https://www.microsoft.com/en-us/investor/earnings/fy-{年}-q{季}/press-release-webcast`（下一季）或 SEC 8-K。**沒有新財報 → 跳到第 6 步。**
 2. 讀 `income-statements`（營收、營業成本、毛利、研發、行銷、管理、營業利益、其他收益、所得稅、淨利、稀釋 EPS）與 `cash-flows`（Net cash from operations、Additions to property and equipment）。
@@ -92,7 +92,7 @@ FY2016 的營收舊 85,320、新 91,154（差約 6.8%），比較長期成長時
 | EPS 口徑 | 稀釋 EPS；都是公認會計準則數字，不用調整後 EPS |
 | 財報公布日 `rd` 來源 | SEC XBRL 的 10-Q／10-K 申報日（rdB:f）；最新一季用新聞稿日（rdB:p） |
 
-**更新步驟（每月排程）**
+**更新步驟（每日排程「快報」步驟；補完、核對見 docs/SCHEDULE_PROMPT.md）**
 1. 新增一季時，同時填該季 `rd`（那一季 EPS 第一次公開的日期）與 `rdB`。讀不到就填 `null`，在 `notes.unavailable` 加「待確認：<季度> 的財報公布日（rd）：原因」，**不可以用「季度結束後幾天」推算**。最新一季的 `rd` 不可為 null。
 2. 股價檔 `data/prices/msft.json` 只由 GitHub Actions（prices-monthly）寫入，Claude 不手填、不修改；排程只檢查上個月有沒有進來。
 3. 本益比（`tools/pe.py`）與預估本益比不存檔，建置時算出；預估只有每月 1–6 日 Actions 存下的快照，**不回填**。

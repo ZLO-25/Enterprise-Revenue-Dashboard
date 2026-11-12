@@ -3,7 +3,7 @@
 - 資料檔：`data/amzn.json`（schema `v1`）　頁面：`/amzn/`　模板：`templates/generic.frag.html`（通用模板）
 - 單位：**百萬美元**（`rev`、`gp`、`opInc`、`ni`、`ocf`、`capex`、`fcf`）；`eps` 為美元，**已換算成 2022 年分割後股數基準**。亞馬遜不發放現金股利，`dps` 一律 `null`。
 - CIK：`0001018724`。頻率：每季。會計年度＝日曆年。財報日約在 2 月初、4 月底、7 月底、10 月底（美股收盤後）。
-- 排程：每月 12 日 07:48（台北）。只補「上次資料之後」的新期間，舊數字不重抓；沒有新財報的月份只檢查事件與公布日；沒有實質變動就不 commit。
+- 排程：週二至週六 08:30（台北）每日檢查（見 docs/SCHEDULE_PROMPT.md；公布日隔天先做「快報」，再「補完」「核對」）。只補「上次資料之後」的新期間，舊數字不重抓；沒有新財報的月份只檢查事件與公布日；沒有實質變動就不 commit。
 
 ## 期間
 
@@ -50,7 +50,7 @@
 
 **任何一項沒過就不發佈**，回到來源修資料，不要放寬核對。
 
-## 更新步驟（每月排程）
+## 更新步驟（每日排程「快報」步驟；補完、核對見 docs/SCHEDULE_PROMPT.md）
 
 1. 查有沒有新財報：上面 ir.aboutamazon.com 的網址（換季別與年份），或 WebSearch「Amazon.com Announces {季別} Quarter Results {年}」。**沒有新財報 → 跳到第 6 步。**
 2. 讀新聞稿：損益表（Total net sales、Cost of sales、Operating income、Other income、Provision for income taxes、Equity-method、Net income、Diluted EPS）、現金流量表（Net cash provided by operating activities、Purchases of property and equipment 的年初累計欄）、下一季財測（Net sales、Operating income 區間）。
@@ -76,7 +76,7 @@
 | EPS 口徑 | 稀釋 EPS；都是公認會計準則數字，不用調整後 EPS |
 | 財報公布日 `rd` 來源 | SEC XBRL 的 10-Q／10-K 申報日（rdB:f）；最新一季用新聞稿日（rdB:p） |
 
-**更新步驟（每月排程）**
+**更新步驟（每日排程「快報」步驟；補完、核對見 docs/SCHEDULE_PROMPT.md）**
 1. 新增一季時，同時填該季 `rd`（那一季 EPS 第一次公開的日期）與 `rdB`。讀不到就填 `null`，在 `notes.unavailable` 加「待確認：<季度> 的財報公布日（rd）：原因」，**不可以用「季度結束後幾天」推算**。最新一季的 `rd` 不可為 null。
 2. 股價檔 `data/prices/amzn.json` 只由 GitHub Actions（prices-monthly）寫入，Claude 不手填、不修改；排程只檢查上個月有沒有進來。
 3. 本益比（`tools/pe.py`）與預估本益比不存檔，建置時算出；預估只有每月 1–6 日 Actions 存下的快照，**不回填**。

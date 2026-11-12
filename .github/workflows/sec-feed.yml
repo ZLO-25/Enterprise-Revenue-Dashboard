@@ -1,0 +1,31 @@
+# SEC 新申報清單（不經過 Claude）：每週二～六台北 07:05 更新 data/sec-feed.json，給每日排程判斷誰已公布財報。
+# 已實測（2026-11-12）：GitHub Actions 讀得到 data.sec.gov。失敗會標紅燈，GitHub 寄信通知。
+name: sec-feed
+on:
+  schedule:
+    - cron: "5 23 * * 1-5"      # 台北 07:05（週二～六）
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sec-feed
+  cancel-in-progress: false
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 tools/sec_feed.py
+      - name: 有變動才提交
+        run: |
+          git config user.name "feed-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sec-feed.json
+          # fetched 時間每次不同；只有申報清單內容變了才提交
+          git diff --cached -U0 data/sec-feed.json | grep '^[+-]' | grep -v 'fetched\|^+++\|^---' > /dev/null || { echo "清單沒變"; exit 0; }
+          git commit -m "SEC 新申報清單更新 $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push && break || sleep 5; done

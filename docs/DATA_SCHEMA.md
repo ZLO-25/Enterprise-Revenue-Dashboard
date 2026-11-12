@@ -82,7 +82,7 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 `lo`、`hi` 相同代表單一數字；只有一端給 `null`。頁面會算中點。
 
 ### `events[]`
-`{ "date": "2026-11-02", "t": "3Q26 財報", "est": 1 }`。只保留今天之後的；公司尚未公告的日期加 `est:1`，並在 `t` 註明「預估」。新鮮度判斷：**沒有 `est` 的公布日已過、資料卻沒更新 → 首頁顯示「待更新」**。
+`{ "date": "2026-11-02", "t": "3Q26 財報", "est": 1 }`。公司尚未公告的日期加 `est:1`，並在 `t` 註明「預估」。**這是每日排程判斷「誰到期」的唯一依據**：日期早於今天、還在清單裡＝還沒處理；處理完要從 `events` 移除並加入下一個公布日（`validate.py` 會擋住早於 `asOf` 的舊項目）。新鮮度判斷：**確定的公布日已過，或預估日（`est`）已過 7 天，資料卻沒更新 → 首頁顯示「待更新」**。
 
 ### `waterfall`
 ```json
@@ -164,3 +164,25 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 `monthly[] = {m,d,c,eps4,pe,why,ntm,fpe,fwhy,few}`；`why`：`loss` 近四季 EPS ≤ 0、`short` 已公布未滿四季、`missing` EPS 或公布日待確認、`price` 股價待確認。
 `stats = {latest, med5, med10, pct10, fpeLatest, …}`：中位數與百分位只用有本益比的月份；少於 12 個月不算中位數、少於 24 個月不算百分位。
 預估本益比：`NTM = w×eps1 + (1−w)×eps2`，`w = min(fy1End − 月底, 365) ÷ 365`；`NTM ≤ 0` 不計算；分析師少於 3 人照算但標「預估人數少」。
+
+## 每日排程狀態（2026-11 新增）
+
+```
+ events[]（data/<代號>.json，公布日）──┐
+ data/sec-feed.json（Actions 每天寫）──┼─► python3 tools/daily.py ─► 今天的工作清單
+ data/calendar.json（狀態檔）──────────┘
+```
+
+`data/calendar.json`：`{"version":1,"lastRun","lastSuccess","companies":{"<代號>":{"state","target","tries","since","flashDate","note"}}}`。沒有紀錄的公司＝`waiting`。
+
+| state | 意思 | 下一步 |
+| --- | --- | --- |
+| `waiting` | 沒有進行中的事 | 公布日隔天進入快報 |
+| `flash` | 快報完成（書面數字、財測已上線，標「初版」） | 補完：電話會議重點、一頁總結定稿 |
+| `completed` | 補完完成 | 核對：10-Q／XBRL，解除待確認；完成後 `set <代號> verified` 回到 `waiting` |
+| `stuck` | 連續 5 次沒成功 | 停止自動重試、首頁標待更新、每日回報置頂，等使用者說「繼續 <代號>」 |
+
+只用 `tools/daily.py`（`set`／`try`／`done`）改這個檔案，不手改。`companies.json` 每家有 `tz`（公布時區 US／TW／KR…），美股另有 `cik`（SEC 申報清單用）。
+
+### `data/sec-feed.json`
+`{"fetched","companies":{"<代號>":{"earnings8k":[{date,acc,doc}],"periodic":[{date,form,period,acc,doc}]}}}`：最近 3 筆 8-K Item 2.02（財報新聞稿）與 10-Q／10-K 申報，由 `.github/workflows/sec-feed.yml` 每週二至六 07:05（台北）寫入，Claude 不手填。已實測 GitHub Actions 讀得到 data.sec.gov（容器內讀不到）。

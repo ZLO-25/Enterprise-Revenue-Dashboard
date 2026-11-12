@@ -894,8 +894,10 @@ const LT = (() => {
     const t = today || new Date();
     const iso = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
     const days = Math.round((Date.parse(iso) - Date.parse(D.asOf)) / 86400000);
-    const overdue = (D.events || []).filter(e => e.date < iso && e.date > D.asOf && !e.est);
-    if (overdue.length) return { status: 'overdue', days, text: `${overdue[0].date.slice(5).replace('-', '/')} 有公布日已過，資料尚未更新`, label: '待更新' };
+    // 確定的公布日已過、資料沒更新 → 待更新；預估日（est）過了 7 天仍沒更新也算（2026-11 修：以前預估日永遠不會觸發）
+    const grace = new Date(Date.parse(iso) - 7 * 86400000).toISOString().slice(0, 10);
+    const overdue = (D.events || []).filter(e => e.date < iso && e.date > D.asOf && (!e.est || e.date < grace));
+    if (overdue.length) return { status: 'overdue', days, text: `${overdue[0].date.slice(5).replace('-', '/')} ${overdue[0].est ? '預估公布日已過 7 天' : '有公布日已過'}，資料尚未更新`, label: '待更新' };
     if (days > 21) return { status: 'aging', days, text: `資料已 ${days} 天未更新`, label: `${days} 天前` };
     return { status: 'fresh', days, text: days <= 0 ? '今天更新' : `${days} 天前更新`, label: days <= 0 ? '今天' : `${days} 天前` };
   }

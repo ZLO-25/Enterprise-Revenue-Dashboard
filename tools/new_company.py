@@ -35,6 +35,8 @@ def main():
     ap.add_argument("--yahoo", help="Yahoo Finance 代碼（主要掛牌地普通股，例：NVDA、2330.TW、005930.KS）。有上市就必填")
     ap.add_argument("--price-from", help="股價起點 YYYY-MM（第一季資料的季度起始月或上市當月，取較晚者）")
     ap.add_argument("--twse", help="台股才填：證交所股票代號（會做證交所收盤價交叉核對），例：2330")
+    ap.add_argument("--cik", help="美股才填：SEC CIK（10 位數，例 0001045810）。填了每日排程才能用 SEC 新申報清單判斷是否已公布財報")
+    ap.add_argument("--tz", default=None, choices=["US", "TW", "KR", "JP", "EU"], help="公布時區（預設：有 cik 為 US，其餘請指定）")
     ap.add_argument("--no-price", action="store_true", help="尚未上市：companies.json 的 price 寫 null")
     ap.add_argument("--enable", action="store_true", help="直接 enabled:true（預設 false，填完資料並通過核對再開）")
     a = ap.parse_args()
@@ -82,8 +84,10 @@ def main():
             "sector": a.sector.strip(), "currency": a.currency.upper(), "frequency": a.frequency, "path": code + "/", "schema": "v1", "template": "generic",
             "title": f"{a.name}財報追蹤板", "description": f"{a.name}（{a.ticker}）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
             "price": None if a.no_price else dict({"yahoo": a.yahoo, "from": a.price_from, "currency": a.currency.upper()}, **({"twse": a.twse} if a.twse else {})),
-            "primarySource": {"n": a.source_name, "url": a.source_url}, "artifact": cfg["site"].get("artifact"), "enabled": bool(a.enable),
+            "primarySource": {"n": a.source_name, "url": a.source_url}, "tz": a.tz or ("US" if a.cik else "US"), "artifact": cfg["site"].get("artifact"), "enabled": bool(a.enable),
         })
+        if a.cik:
+            cfg["companies"][-1]["cik"] = a.cik
         with open(cfg_path, "w", encoding="utf8") as f:
             json.dump(cfg, f, ensure_ascii=False, indent=2); f.write("\n")
         print("  companies.json 已加入設定" + ("（enabled:true）" if a.enable else "（enabled:false，填完資料再改成 true）"))

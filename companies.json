@@ -31,7 +31,8 @@
         "from": "2015-01",
         "currency": "TWD",
         "twse": "2330"
-      }
+      },
+      "tz": "TW"
     },
     {
       "code": "pltr",
@@ -57,7 +58,9 @@
         "yahoo": "PLTR",
         "from": "2020-09",
         "currency": "USD"
-      }
+      },
+      "cik": "0001321655",
+      "tz": "US"
     },
     {
       "code": "nvda",
@@ -83,7 +86,9 @@
         "yahoo": "NVDA",
         "from": "2009-02",
         "currency": "USD"
-      }
+      },
+      "cik": "0001045810",
+      "tz": "US"
     },
     {
       "code": "tsla",
@@ -109,7 +114,9 @@
         "yahoo": "TSLA",
         "from": "2010-06",
         "currency": "USD"
-      }
+      },
+      "cik": "0001318605",
+      "tz": "US"
     },
     {
       "code": "anet",
@@ -135,7 +142,9 @@
         "yahoo": "ANET",
         "from": "2014-06",
         "currency": "USD"
-      }
+      },
+      "cik": "0001596532",
+      "tz": "US"
     },
     {
       "code": "spcx",
@@ -161,7 +170,9 @@
         "yahoo": "SPCX",
         "from": "2026-06",
         "currency": "USD"
-      }
+      },
+      "cik": "0001181412",
+      "tz": "US"
     },
     {
       "code": "samsung",
@@ -187,7 +198,8 @@
         "yahoo": "005930.KS",
         "from": "2018-01",
         "currency": "KRW"
-      }
+      },
+      "tz": "KR"
     },
     {
       "code": "delta",
@@ -214,7 +226,8 @@
         "from": "2019-01",
         "currency": "TWD",
         "twse": "2308"
-      }
+      },
+      "tz": "TW"
     },
     {
       "code": "msft",
@@ -240,7 +253,9 @@
         "yahoo": "MSFT",
         "from": "2008-07",
         "currency": "USD"
-      }
+      },
+      "cik": "0000789019",
+      "tz": "US"
     },
     {
       "code": "mu",
@@ -266,7 +281,9 @@
         "yahoo": "MU",
         "from": "2009-09",
         "currency": "USD"
-      }
+      },
+      "cik": "0000723125",
+      "tz": "US"
     },
     {
       "code": "amzn",
@@ -292,7 +309,9 @@
         "yahoo": "AMZN",
         "from": "2009-01",
         "currency": "USD"
-      }
+      },
+      "cik": "0001018724",
+      "tz": "US"
     },
     {
       "code": "aapl",
@@ -318,7 +337,9 @@
         "yahoo": "AAPL",
         "from": "2008-10",
         "currency": "USD"
-      }
+      },
+      "cik": "0000320193",
+      "tz": "US"
     },
     {
       "code": "anthropic",
@@ -340,7 +361,8 @@
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": false,
-      "price": null
+      "price": null,
+      "tz": "US"
     }
   ]
 }

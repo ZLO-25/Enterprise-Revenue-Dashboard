@@ -90,4 +90,4 @@ Artifact 是**單一合併版**：`python3 tools/build.py` 會把新公司自動
 通用模板不夠用（例：台積電的製程結構、建廠甘特圖）才複製 `templates/generic.frag.html` 為 `templates/<代號>.frag.html` 改寫，並把 `companies.json` 的 `template` 改成該名稱。模板必須保留占位符：`{{THEME}}`、`{{COMMON_JS}}`、`{{LONGTERM_JS}}`、`{{DATA}}`、`{{CHARTJS}}`、`{{HOME}}`。
 
 ## 5. 完成後要告訴使用者
-網站網址、資料涵蓋期間、**取不到的欄位**、選了哪些預設、下一次排程什麼時候會更新這家公司。
+網站網址、資料涵蓋期間、**取不到的欄位**、選了哪些預設、下一個公布日（每日排程會在隔天做「快報」）。

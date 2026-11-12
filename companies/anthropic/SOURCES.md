@@ -2,7 +2,7 @@
 
 > **狀態（2026-11-02）：待上市，`enabled:false`，網站上不顯示。**
 > 使用者 ZL 在 2026-11-02 選擇「先建骨架，上市後再上架」。上市後第一份季報出來，ZL 說「繼續 Anthropic」時，照下面「上架步驟」做。
-> 每月排程只處理 `enabled:true` 的公司，所以**不會**自動上架。
+> 每日排程只處理 `enabled:true` 的公司，所以**不會**自動上架。
 
 - 資料檔：`data/anthropic.json`（schema `v1`）　頁面：`/anthropic/`　模板：`templates/generic.frag.html`（通用模板）
 - 公司：Anthropic, PBC（公益公司），SEC CIK `0002130357`，會計年度 12 月 31 日結束。預計 A 類普通股在 Nasdaq Global Select 掛牌，代號 **ANT**。
@@ -78,7 +78,7 @@
 
 毛利率、營業利益率與金額自洽；`fcf = ocf − capex`；四季加總 ＝ 全年；`waterfall` 小計正確。**沒過就不發佈**，回到來源修資料，不要放寬核對。
 
-## 更新步驟（上架後的每月排程）
+## 更新步驟（上架後的每日排程）
 
 1. 查 SEC 或 IR 有沒有新財報。沒有 → 跳到第 4 步。
 2. 新增一季，更新 `waterfall`、`events`、`guidance`。

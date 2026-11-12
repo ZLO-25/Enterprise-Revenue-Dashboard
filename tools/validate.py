@@ -101,6 +101,8 @@ def common(code, D, err):
             err.append(f"events 日期格式錯誤：{e.get('date')}")
         if not e.get("t"):
             err.append(f"events 缺說明 t：{e.get('date')}")
+        elif D.get("asOf") and e["date"] < D["asOf"]:
+            err.append(f"events 有早於 asOf 的舊公布日 {e['date']}：已處理的公布日要從 events 移除（asOf 只在該公司資料真的更新或確認時才改）")
     labels = [q["q"] for q in D.get("quarters", [])]
     if len(labels) != len(set(labels)):
         err.append("quarters 季度重複")
@@ -367,6 +369,31 @@ def PE_month_end(m):
     return dt.date(y + (mo == 12), mo % 12 + 1, 1) - dt.timedelta(days=1)
 
 
+def check_calendar(cfg, err):
+    """data/calendar.json：每日排程的狀態檔（tools/daily.py 說明）。"""
+    p = os.path.join(ROOT, "data", "calendar.json")
+    if not os.path.exists(p):
+        err.append("缺 data/calendar.json")
+        return
+    cal = json.load(open(p, encoding="utf8"))
+    codes = {c["code"] for c in cfg["companies"]}
+    for k in ("lastRun", "lastSuccess"):
+        v = cal.get(k)
+        if v is not None and not re.match(r"^\d{4}-\d{2}-\d{2}$", str(v)):
+            err.append(f"calendar.json {k} 日期格式錯誤：{v}")
+    for code, e in cal.get("companies", {}).items():
+        if code not in codes:
+            err.append(f"calendar.json 有不存在的公司 {code}")
+        if e.get("state") not in ("waiting", "flash", "completed", "stuck"):
+            err.append(f"calendar.json {code} 狀態不合法：{e.get('state')}")
+        if e.get("state") in ("flash", "completed", "stuck") and not e.get("target"):
+            err.append(f"calendar.json {code} 進行中但沒有 target（哪一季）")
+        if not isinstance(e.get("tries", 0), int) or e.get("tries", 0) < 0:
+            err.append(f"calendar.json {code} tries 要是 0 以上整數")
+        if e.get("state") == "stuck" and not e.get("note"):
+            err.append(f"calendar.json {code} 卡住了但沒寫原因 note")
+
+
 CHECKS = {"tsmc": tsmc, "pltr": pltr}
 SCHEMA_CHECKS = {"v1": v1_generic}
 
@@ -384,7 +411,8 @@ def main():
     if not sys.argv[1:]:
         err = []
         check_config(cfg, err)
-        print("[companies.json] " + ("通過" if not err else f"{len(err)} 項未通過"))
+        check_calendar(cfg, err)
+        print("[companies.json + calendar.json] " + ("通過" if not err else f"{len(err)} 項未通過"))
         for e in err:
             print("   -", e)
         failed |= bool(err)
