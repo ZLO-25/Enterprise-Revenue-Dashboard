@@ -64,7 +64,7 @@ add new company: NVDA, AMD
 ## 步驟（每家公司各做一次 1–4，全部做完再做 5–8）
 1. 腳手架：python3 tools/new_company.py <代號> --name <中文名> --name-en <英文名> --ticker <代號> --exchange "<交易所 代號>" --sector <產業> --currency <幣別> [--cik <SEC 10 位 CIK，美股必填>] [--tz US|TW|KR|JP|EU] --yahoo <Yahoo 代碼> --price-from <YYYY-MM>（台股再加 --twse <代號>；尚未上市改用 --no-price）
    （代號用小寫英數字，同時是網址路徑；不要手動建檔。）
-   產業 sector 必填（首頁分頁籤用）：先看 companies.json 現有的產業名稱（目前：半導體、軟體與網路服務、硬體與網通、電動車與太空），有合適的就照抄一字不差；都不合適才取一個新名稱（12 字以內），首頁會自動多一個分頁。回報時寫出歸到哪個產業、是不是新分頁、為什麼。
+   產業 sector 必填（首頁分頁籤用；同時決定要用 docs/SECTOR_METRICS.md 的哪一份第 2 層產業指標清單）：先看 companies.json 現有的產業名稱（目前：半導體、軟體與網路服務、硬體與網通、電動車與太空），有合適的就照抄一字不差；都不合適才取一個新名稱（12 字以內），首頁會自動多一個分頁。回報時寫出歸到哪個產業、是不是新分頁、為什麼。
 2. 寫 companies/<代號>/SOURCES.md：來源依可信度排序（主管機關申報文件 → 公司 IR → 法說會 → 可信媒體只用於事件）、欄位定義與單位、第四季推算方式、核對規則、「快報」更新步驟（每日排程在公布日隔天照做，只抓最新一期）、電話會議逐字稿來源、已知缺口。要寫到沒看過這個專案的人也能照做，因為每日排程會照這份執行。
 3. 蒐集資料填進 data/<代號>.json（schema v1）：
    - 共用欄位每季都要有：rev、gm、om、eps 不能是 null；這四個欄位如果某一季讀不到，那一季就先不要收，並寫進「待確認」。gp、opInc、ni、ocf、capex、fcf、dps 讀不到填 null。
@@ -73,6 +73,7 @@ add new company: NVDA, AMD
    - annual 只放公司公布的全年數字；guidance 用 items[] 形式；events 放下一個公布日（公司未公告的加 est:1；這是每日排程判斷「誰到期」的唯一依據，一定要有）；waterfall 換成最新一季；milestones 列上市、重大產品、合約、併購、指數納入；sources 列頁面要顯示的來源連結；notes.unavailable 列「待確認」與取不到的欄位。
    - 有分部營收就放 segments（分部加總＝營收）；公司專屬指標放 extra（keys 指定哪些要畫圖）。
 3a. 文字摘要：新公司只做「最新一季」的 summary（不回補舊季度）；guidanceHistory 從目前財測開始累積；市場預期不回補，下個公布日前 14 天起由 GitHub Actions（consensus-daily）自動拍照（需要 events 有「財報」公布日）。SOURCES.md 要寫「電話會議（逐字稿）來源」與「公司有無非 GAAP EPS」。美股用 --cik 填 SEC CIK。
+3c. 資產負債表欄位：每季 8 個新欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax；定義見 docs/DATA_SCHEMA.md 與 docs/SECTOR_METRICS.md）要補到該公司最早一季；美股用 GitHub Actions 的 bs-fetch 從 SEC XBRL 產生提案（tools/bs_fetch.py、tools/bs_merge.py），其餘來源手動讀申報文件。讀不到的欄位填 null 並在 notes.unavailable 寫「待確認：<欄位名>…」（validate 會擋）；SOURCES.md 要有「資產負債表欄位」一節寫明各欄位口徑。體質總覽的 ROIC、ROE、回購、FCF 殖利率、EV/Sales、PEG 由程式（tools/health.py）建置時算出，不手填。
 3b. 本益比資料：每一季都要填 rd（EPS 第一次公開的日期）與 rdB，讀不到填 null 並寫待確認（不可推算）；companies.json 的 price 設好後，手動觸發 GitHub Actions 的 prices-monthly 並等它完成（股價只由它寫，Claude 不手填）；回補後每家抽查 3 個月底股價（最早、最近一次分割前、最新）對第二個獨立來源，結果寫進 SOURCES.md，確認分割前後本益比沒有斷崖。預估本益比不回填。確認表多兩欄：Yahoo 代碼、股價起點。
 4. 核對：python3 tools/validate.py <代號>。沒過就回到來源修資料，不要放寬核對、不要改數字去湊。修不好的公司保持 enabled:false，在回報說明卡在哪一項、差多少。
 5. 通過核對的公司：companies.json 把 enabled 改成 true，確認 primarySource {n, url}；python3 tools/validate.py && python3 tools/build.py。

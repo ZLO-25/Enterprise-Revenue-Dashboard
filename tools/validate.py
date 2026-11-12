@@ -162,6 +162,37 @@ def check_summary(code, D, err):
             err.append(f"summaryHistory 的 {h.get('q')} 與目前摘要同一季或缺季度")
 
 
+def check_bs(code, D, err):
+    """階段 3 的 8 個新欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）：型別、符號、自洽，缺值必須在 notes.unavailable 有「待確認」說明。"""
+    import health as H
+    Q = D.get("quarters", [])
+    if not Q or not any(k in q for q in Q for k in H.NEW):
+        return
+    unavail = " ".join((D.get("notes") or {}).get("unavailable", []) or [])
+    for k in H.NEW:
+        miss = [q["q"] for q in Q if q.get(k) is None]
+        for q in Q:
+            v = q.get(k)
+            if v is None:
+                continue
+            if not isinstance(v, (int, float)):
+                err.append(f"{q['q']} {k} 不是數字")
+            elif k in ("shOut", "dilSh") and v <= 0:
+                err.append(f"{q['q']} {k} 要大於 0")
+            elif k in ("cash", "debt", "buyback") and v < 0:
+                err.append(f"{q['q']} {k} 不可為負（買回金額、負債、現金都用正數）")
+        if miss and not ("待確認" in unavail and H.NAMES[k] in unavail):
+            err.append(f"{k}（{H.NAMES[k]}）有 {len(miss)} 季是 null（{miss[0]}…），但 notes.unavailable 沒有「待確認：…{H.NAMES[k]}…」說明")
+    for q in Q:
+        ni, eps, dil = q.get("ni"), q.get("eps"), q.get("dilSh")
+        if None not in (ni, eps, dil) and eps:
+            implied = ni / dil
+            if abs(implied - eps) > max(0.02, abs(eps) * 0.04):
+                err.append(f"{q['q']} 淨利÷稀釋股數 ＝ {implied:.3f} 與 EPS {eps} 差太多（股數口徑或分割換算有誤？）")
+        if q.get("shOut") and q.get("dilSh") and not (0.5 < q["shOut"] / q["dilSh"] < 1.5):
+            err.append(f"{q['q']} 期末股數 {q['shOut']} 與稀釋加權股數 {q['dilSh']} 差超過 50%（分割換算有誤？）")
+
+
 def common(code, D, err):
     if not DAY_RE.match(D.get("asOf", "")):
         err.append("asOf 格式必須是 YYYY-MM-DD")
@@ -507,6 +538,7 @@ def main():
             D = load(code)
             common(code, D, err)
             check_summary(code, D, err)
+            check_bs(code, D, err)
             schema = bycode.get(code, {}).get("schema", "v1")
             if schema in SCHEMA_CHECKS:
                 SCHEMA_CHECKS[schema](D, err)
