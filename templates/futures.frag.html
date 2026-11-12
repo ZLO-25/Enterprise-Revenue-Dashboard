@@ -33,11 +33,13 @@
           <div class="seg" role="group" aria-label="週期"><button type="button" data-p="D">日K</button><button type="button" data-p="W">週K</button><button type="button" data-p="M">月K</button></div>
           <div class="seg fut-ma" role="group" aria-label="均線" id="futMaBtns"></div>
           <div class="seg" role="group" aria-label="成交量"><button type="button" id="futVol">成交量</button></div>
+          <div class="seg" role="group" aria-label="畫線"><button type="button" class="fut-tool" aria-pressed="false" title="水平線（快速鍵 Alt+H：在游標位置放線）"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1.5 8h13"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>水平線</button></div>
           <div class="seg" role="group" aria-label="鎖定"><button type="button" id="futLockBtn" title="清除這台裝置記住的密碼">上鎖</button></div>
         </div>
         <div class="fut-leg" id="futLeg"></div>
         <div class="fut-chart" id="futChart"></div>
-        <p class="how">圖下方小三角「扣N」＝ MA N 下一根會扣掉的那根 K 棒；上方灰點「換月」＝推算的換月日。可以拖曳、用滾輪或雙指縮放；最下面是 KD（虛線 20、80）。</p>
+        <div class="fut-lines" id="futLines"></div>
+        <p class="how">圖下方小三角「扣N」＝ MA N 下一根會扣掉的那根 K 棒；上方灰點「換月」＝推算的換月日。可以拖曳、用滾輪或雙指縮放；最下面是 KD（虛線 20、80）。<br>水平線：按「水平線」再點圖放線（或游標移到價位按 Alt+H）；按住線可上下拖曳；點一下線可換顏色、虛實線、寫備註或刪除（Delete 鍵）。線記在這台裝置，日／週／月 K 共用。</p>
       </div>
     </section>
 

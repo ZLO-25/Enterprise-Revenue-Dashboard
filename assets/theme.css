@@ -287,3 +287,22 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 #futHome .fut-mini { cursor: zoom-in; }
 .fut-hint { font-size: 0.8rem; color: var(--muted); }
 @media (max-width: 640px) { .fut-leg { font-size: 0.82rem; gap: 2px 12px; } .fut-ctrl .seg button i, .fut-leg i { width: 14px; height: 3px; } }
+/* 水平線工具（assets/futures.js attachLines） */
+.fut-tool svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 4px; }
+.fut-tool[aria-pressed="true"] { outline: 2px solid var(--s1); outline-offset: -2px; }
+.fut-drawing, .fut-drawing * { cursor: crosshair !important; }
+.fut-onl, .fut-onl * { cursor: ns-resize !important; }
+.fut-ltb { position: absolute; left: 8px; z-index: 5; display: flex; gap: 4px; align-items: center; padding: 4px 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+.fut-ltb[hidden] { display: none; }
+.fut-ltb .sw { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; }
+.fut-ltb .sw[aria-pressed="true"] { border-color: var(--ink); }
+.fut-ltb .tx, .fut-lines .tx { font: inherit; font-size: 0.8rem; color: var(--ink-2); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+.fut-ltb .tx:hover, .fut-lines .tx:hover { color: var(--ink); }
+.fut-ltb .del, .fut-lines [data-del], .fut-lines [data-clear] { color: var(--bad-text); }
+.fut-lines { margin-top: 10px; font-size: 0.9rem; width: fit-content; max-width: 100%; overflow-x: auto; }
+.fut-lines-head { gap: 16px; }
+.fut-lines-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.fut-lines-tbl { width: 100%; border-collapse: collapse; font-family: var(--font-data); }
+.fut-lines-tbl th, .fut-lines-tbl td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--line); }
+.fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
+.fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }

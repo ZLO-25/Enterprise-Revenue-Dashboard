@@ -130,6 +130,153 @@ const FUT = (() => {
     });
   }
 
+  /* ---------- 水平線（仿 TradingView）：按「水平線」再點圖放線；拖曳移動；點一下選取可換顏色、虛實、備註、刪除 ----------
+     記錄方式：存在這台裝置瀏覽器的 localStorage（erd-futures-lines-v1），依商品分開（YM、NQ 各一組），
+     日 K／週 K／月 K、首頁與 K 棒頁共用同一組線；重新整理或關掉瀏覽器後還在。換裝置不會跟著走。 */
+  const LINES_LS = 'erd-futures-lines-v1';
+  const LINE_COLORS = ['--s1', '--s2', '--s3', '--s4', '--s5', '--s7', '--ink-2'];
+  const Lines = (() => {
+    let all = null; const subs = new Set();
+    const read = () => { if (!all) { try { all = JSON.parse(ls.get(LINES_LS) || '{}') || {}; } catch (e) { all = {}; } } return all; };
+    const get = (code) => (read()[code] || []).slice();
+    const emit = (code) => subs.forEach(f => f(code));
+    function save(code, arr) { read()[code] = arr; ls.set(LINES_LS, JSON.stringify(all)); emit(code); }
+    const add = (code, L) => { L.id = L.id || Date.now().toString(36) + Math.random().toString(36).slice(2, 6); save(code, get(code).concat(L)); return L.id; };
+    const patch = (code, id, ch) => save(code, get(code).map(L => L.id === id ? { ...L, ...ch } : L));
+    const del = (code, id) => save(code, get(code).filter(L => L.id !== id));
+    window.addEventListener('storage', (e) => { if (e.key === LINES_LS) { all = null; emit(null); } });   // 另一個分頁改了線
+    return { get, save, add, patch, del, on: (f) => { subs.add(f); return () => subs.delete(f); } };
+  })();
+  /* 「水平線」工具按鈕：全頁共用一個狀態，按下後下一次點圖就放線 */
+  const tool = { armed: false, subs: new Set() };
+  function arm(v) { tool.armed = v; tool.subs.forEach(f => f(v)); }
+  const TOOL_SVG = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1.5 8h13"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>';
+  const toolBtn = () => `<div class="seg" role="group" aria-label="畫線"><button type="button" class="fut-tool" aria-pressed="false" title="水平線（快速鍵 Alt+H：在游標位置放線）">${TOOL_SVG}水平線</button></div>`;
+  function wireTool(root) {
+    const sync = (v) => root.querySelectorAll('.fut-tool').forEach(b => { b.setAttribute('aria-pressed', String(v)); b.lastChild.textContent = v ? '點圖放線…' : '水平線'; });
+    tool.subs.add(sync); sync(tool.armed);
+    root.addEventListener('click', (e) => { if (e.target.closest('.fut-tool')) arm(!tool.armed); });
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && tool.armed) arm(false); });
+
+  function attachLines(chart, candle, box, d, q) {
+    if (box._linesOff) box._linesOff();
+    const code = d.code, step = q ? 0.25 : 1, snap = (p) => Math.round(p / step) * step;
+    const pls = new Map();               // 線的 id → 圖上的 price line
+    let sel = null, hover = null, drag = null, lastY = null, raf = 0;
+    const col = (L) => T(L.c || '--s1');
+    const opt = (L) => { const on = L.id === sel || L.id === hover; return { price: L.p, color: col(L), lineWidth: on ? 2 : 1, lineStyle: L.s || 0, axisLabelVisible: true, axisLabelColor: col(L), axisLabelTextColor: '#ffffff', title: L.n || '' }; };
+    function sync() {
+      const now = Lines.get(code), ids = new Set(now.map(L => L.id));
+      pls.forEach((pl, id) => { if (!ids.has(id)) { candle.removePriceLine(pl); pls.delete(id); } });
+      now.forEach(L => { if (drag && drag.id === L.id) return; pls.has(L.id) ? pls.get(L.id).applyOptions(opt(L)) : pls.set(L.id, candle.createPriceLine(opt(L))); });
+      if (sel && !ids.has(sel)) sel = null;
+      bar();
+    }
+    /* 選取時浮出的小工具列 */
+    const tb = document.createElement('div'); tb.className = 'fut-ltb'; tb.hidden = true; box.appendChild(tb);
+    function bar() {
+      const L = sel && Lines.get(code).find(x => x.id === sel);
+      if (!L) { tb.hidden = true; cancelAnimationFrame(raf); return; }
+      tb.innerHTML = LINE_COLORS.map(c => `<button type="button" class="sw" data-c="${c}" style="background:${T(c)}" aria-label="顏色" aria-pressed="${(L.c || '--s1') === c}"></button>`).join('') +
+        `<button type="button" class="tx" data-s="1" title="實線／虛線">${L.s ? '虛線' : '實線'}</button>` +
+        `<button type="button" class="tx" data-n="1" title="在線上寫備註">${L.n ? '改備註' : '備註'}</button>` +
+        `<button type="button" class="tx del" data-del="1" title="刪除（Delete 鍵）">刪除</button>`;
+      tb.hidden = false; place();
+    }
+    function place() {
+      const L = sel && Lines.get(code).find(x => x.id === sel); if (!L) return;
+      const y = candle.priceToCoordinate(drag && drag.id === sel ? drag.p : L.p), h = chart.panes()[0].getHeight();
+      if (y == null || y < 0 || y > h) tb.style.visibility = 'hidden';
+      else { tb.style.visibility = ''; tb.style.top = Math.max(2, Math.min(h - tb.offsetHeight - 2, y - tb.offsetHeight - 8)) + 'px'; }
+      raf = requestAnimationFrame(place);  // 縮放、拖曳圖表時跟著線走
+    }
+    tb.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b || !sel) return; const L = Lines.get(code).find(x => x.id === sel);
+      if (b.dataset.c) Lines.patch(code, sel, { c: b.dataset.c });
+      else if (b.dataset.s) Lines.patch(code, sel, { s: L.s ? 0 : 2 });
+      else if (b.dataset.n) { const n = prompt(`備註（顯示在 ${fmt(L.p, q)} 這條線上，留空 = 不顯示）`, L.n || ''); if (n != null) Lines.patch(code, sel, { n: n.trim().slice(0, 40) }); }
+      else if (b.dataset.del) { const id = sel; sel = null; Lines.del(code, id); }
+    });
+    /* 滑鼠／手指位置 → 是哪一條線 */
+    const rel = (e) => { const r = box.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+    const inMain = (pt) => pt.y >= 0 && pt.y <= chart.panes()[0].getHeight();
+    function hit(pt, touch) {
+      if (!inMain(pt)) return null; let best = null, bd = touch ? 14 : 6;
+      Lines.get(code).forEach(L => { const y = candle.priceToCoordinate(L.p); if (y != null && Math.abs(y - pt.y) <= bd) { bd = Math.abs(y - pt.y); best = L; } });
+      return best;
+    }
+    const setHover = (id) => { if (id === hover) return; hover = id; box.classList.toggle('fut-onl', !!id); sync(); };
+    const onDown = (e) => {
+      if (e.button > 0 || tb.contains(e.target)) return;
+      const pt = rel(e), touch = e.pointerType === 'touch';
+      if (tool.armed && inMain(pt)) {                               // 放一條新線
+        const p = candle.coordinateToPrice(pt.y); if (p == null) return;
+        e.stopPropagation(); e.preventDefault(); arm(false);
+        sel = Lines.add(code, { p: snap(p), c: '--s1', s: 0, n: '' });
+        return;
+      }
+      const L = hit(pt, touch);
+      if (!L) { if (sel) { sel = null; sync(); } return; }
+      e.stopPropagation(); e.preventDefault();                      // 不讓圖表跟著平移
+      drag = { id: L.id, p: L.p, y0: pt.y, moved: false, pid: e.pointerId }; box.setPointerCapture(e.pointerId);
+      sel = L.id; sync();
+    };
+    const onMove = (e) => {
+      const pt = rel(e); lastY = inMain(pt) ? pt.y : null;
+      if (!drag) { if (e.pointerType !== 'touch') setHover(tool.armed ? null : (hit(pt) || {}).id || null); return; }
+      if (!drag.moved && Math.abs(pt.y - drag.y0) < 3) return;
+      const p = candle.coordinateToPrice(Math.max(0, Math.min(chart.panes()[0].getHeight(), pt.y))); if (p == null) return;
+      drag.moved = true; drag.p = snap(p);
+      const L = Lines.get(code).find(x => x.id === drag.id); pls.get(drag.id).applyOptions(opt({ ...L, p: drag.p }));
+      e.stopPropagation();
+    };
+    const onUp = (e) => {
+      if (!drag) return; const g = drag; drag = null;
+      try { box.releasePointerCapture(g.pid); } catch (x) { }
+      if (g.moved) Lines.patch(code, g.id, { p: g.p }); else sync();
+    };
+    const onLeave = () => { lastY = null; if (!drag) setHover(null); };
+    /* 圖表套件自己也聽 mousedown／touchstart，拖線時要一起擋住 */
+    const swallow = (e) => { if (drag || (tool.armed && e.type !== 'touchmove')) { e.stopPropagation(); if (e.cancelable && e.type === 'touchmove') e.preventDefault(); } };
+    const onKey = (e) => {
+      if (/INPUT|TEXTAREA|SELECT/.test((e.target.tagName || ''))) return;
+      if (sel && (e.key === 'Delete' || e.key === 'Backspace')) { e.preventDefault(); const id = sel; sel = null; Lines.del(code, id); }
+      else if (sel && e.key === 'Escape') { sel = null; sync(); }
+      else if (e.altKey && (e.key === 'h' || e.key === 'H' || e.code === 'KeyH') && lastY != null) {   // TradingView 的 Alt+H
+        const p = candle.coordinateToPrice(lastY); if (p != null) { e.preventDefault(); sel = Lines.add(code, { p: snap(p), c: '--s1', s: 0, n: '' }); }
+      }
+    };
+    const onArm = (v) => box.classList.toggle('fut-drawing', v);
+    box.addEventListener('pointerdown', onDown, true); box.addEventListener('pointermove', onMove, true);
+    box.addEventListener('pointerup', onUp, true); box.addEventListener('pointercancel', onUp, true); box.addEventListener('pointerleave', onLeave);
+    ['mousedown', 'touchstart', 'touchmove'].forEach(t => box.addEventListener(t, swallow, { capture: true, passive: false }));
+    document.addEventListener('keydown', onKey); tool.subs.add(onArm); onArm(tool.armed);
+    const offLines = Lines.on((c) => { if (c == null || c === code) sync(); });
+    box._linesOff = () => {
+      box.removeEventListener('pointerdown', onDown, true); box.removeEventListener('pointermove', onMove, true);
+      box.removeEventListener('pointerup', onUp, true); box.removeEventListener('pointercancel', onUp, true); box.removeEventListener('pointerleave', onLeave);
+      ['mousedown', 'touchstart', 'touchmove'].forEach(t => box.removeEventListener(t, swallow, { capture: true }));
+      document.removeEventListener('keydown', onKey); tool.subs.delete(onArm); offLines(); cancelAnimationFrame(raf); tb.remove();
+      box.classList.remove('fut-drawing', 'fut-onl'); box._linesOff = null;
+    };
+    sync();
+  }
+
+  /* K 棒頁：圖下方的「我的水平線」清單（價格、離最新收盤多遠、備註、刪除） */
+  function linesList(el, d) {
+    const q = dp(d.code), last = d.bars[d.bars.length - 1][4];
+    const L = Lines.get(d.code).sort((a, b) => b.p - a.p);
+    if (!L.length) { el.innerHTML = `<p class="fut-note">還沒有水平線。按上面的「水平線」，再點圖上想要的價位；畫好的線會記在這台裝置，下次打開還在。</p>`; return; }
+    el.innerHTML = `<div class="fut-lines-head"><b>${d.name}的水平線（${L.length} 條）</b><button type="button" class="tx" data-clear="1">全部刪除</button></div><table class="fut-lines-tbl"><thead><tr><th>價位</th><th>離最新收盤 ${fmt(last, q)}</th><th class="txt">備註</th><th></th></tr></thead><tbody>` +
+      L.map(x => { const g = (x.p / last - 1) * 100; return `<tr><td><i class="dot" style="background:${T(x.c || '--s1')}"></i>${fmt(x.p, q)}</td><td class="${g >= 0 ? 'kup' : 'kdn'}">${g >= 0 ? '高 ' : '低 '}${fmt(Math.abs(x.p - last), q)}（${sp(g, 2)}）</td><td class="txt">${esc(x.n || '')}</td><td><button type="button" class="tx" data-del="${x.id}">刪除</button></td></tr>`; }).join('') + '</tbody></table>';
+    el.onclick = (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.del) Lines.del(d.code, b.dataset.del);
+      else if (b.dataset.clear && confirm(`確定刪除 ${d.name} 的全部 ${L.length} 條水平線？`)) Lines.save(d.code, []);
+    };
+  }
+
   /* ---------- 畫一張 K 棒圖（首頁與 K 棒頁共用）：K 棒＋均線，選用成交量，最下方 KD ---------- */
   function chartInto(box, d, bars, S, o) {
     const LW = window.LightweightCharts, q = dp(d.code);
@@ -178,6 +325,7 @@ const FUT = (() => {
       chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
       /* 首頁小圖：滑鼠滾輪／雙指縮放、按住拖曳平移；手機上下滑動仍是捲動頁面 */
       if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 0, horzLine: { visible: false, labelVisible: false }, vertLine: { labelVisible: true } } });
+      attachLines(chart, candle, box, d, q);
       return chart;
   }
 
@@ -189,6 +337,7 @@ const FUT = (() => {
     const isOpen = () => ls.get(OPEN_LS) !== '0';
     const setOpen = (v) => { ls.set(OPEN_LS, v ? '1' : '0'); tg.setAttribute('aria-expanded', String(v)); tg.innerHTML = v ? '收合 <span aria-hidden="true">▴</span>' : '展開 <span aria-hidden="true">▾</span>'; el.hidden = !v; if (v && !ready) render(); };
     tg.addEventListener('click', () => setOpen(!isOpen()));
+    wireTool(el);
     async function render() {
       ready = true;
       let metas;
@@ -201,7 +350,7 @@ const FUT = (() => {
         return;
       }
       const legend = MAS.map(n => `<span><i style="background:${T(MA_COLOR(n))}"></i>MA${n}</span>`).join('') + `<span><i style="background:${T('--s1')}"></i>K</span><span><i style="background:${T('--s2')}"></i>D</span>`;
-      el.innerHTML = `<div class="fut-ctrl"><div class="seg" role="group" aria-label="週期">${['D', 'W', 'M'].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === st.p}">${{ D: '日K', W: '週K', M: '月K' }[p]}</button>`).join('')}</div><div class="fut-leg">${legend}</div><span class="fut-hint">滑鼠滾輪縮放、按住拖曳左右移動</span></div>
+      el.innerHTML = `<div class="fut-ctrl"><div class="seg" role="group" aria-label="週期">${['D', 'W', 'M'].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === st.p}">${{ D: '日K', W: '週K', M: '月K' }[p]}</button>`).join('')}</div><div class="fut-leg">${legend}</div>${toolBtn()}<span class="fut-hint">滑鼠滾輪縮放、按住拖曳左右移動；畫好的水平線可拖曳，點一下可改顏色或刪除</span></div>
         <div class="fut-cards">${datas.map(d => `<article class="co fut-co" data-code="${d.code}">
           <div class="co-top"><h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月</span></h2>${badge(fresh(d.lastDate))}</div>
           <div class="fut-px"></div>
@@ -254,6 +403,7 @@ const FUT = (() => {
       $r('#futSub').textContent = `${d.exchange} 連續近月合約（未調整）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}` + (done ? '' : `· 最後一根${pName.replace(' K', '')}尚未收完，只算到 ${dstr(d.lastDate)}`);
       if (chart) { chart.remove(); chart = null; }
       chart = chartInto($r('#futChart'), d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true });
+      linesList($r('#futLines'), d);
       const n = bars.length;
       /* 十字游標所在那一根的數值 */
       const idx = Object.fromEntries(bars.map((b, i) => [b.t, i]));
@@ -292,6 +442,8 @@ const FUT = (() => {
       else if (b.id === 'futLockBtn') { lock(); }
       go();
     });
+    wireTool(root);
+    Lines.on((c) => { if (cache[st.code] && (c == null || c === st.code)) linesList($r('#futLines'), cache[st.code]); });
     root.querySelector('#futMaBtns').innerHTML = MAS.map(n => `<button type="button" data-ma="${n}" aria-pressed="true"><i style="background:${T(MA_COLOR(n))}"></i>${n}</button>`).join('');
     const redraw = () => { if (cache[st.code]) draw(cache[st.code]); };
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw);
@@ -299,5 +451,5 @@ const FUT = (() => {
     go();
   }
 
-  return { unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS };
+  return { unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
 })();
