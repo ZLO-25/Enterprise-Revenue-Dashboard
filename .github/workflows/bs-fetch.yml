@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "probe＝只列各公司有哪些概念；build＝產生提案 data/bs-raw/"
+        description: "probe＝只列各公司有哪些概念；balance＝列最近資產負債表日的相關概念與數值；build＝產生提案 data/bs-raw/"
         default: "probe"
       company:
         description: "只做這一家（代號，空白＝全部有 cik 的）"
@@ -28,7 +28,7 @@ jobs:
         run: |
           ARGS=""
           if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
-          if [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; else python3 tools/bs_fetch.py $ARGS; fi
+          if [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; elif [ "$MODE" = "balance" ]; then python3 tools/bs_fetch.py --balance $ARGS; else python3 tools/bs_fetch.py $ARGS; fi
       - name: 提交提案
         if: github.event.inputs.mode == 'build'
         run: |
