@@ -103,3 +103,29 @@
 | 2018-04（2018-04-30） | 53000.0 | — | 待確認：2026-11-12 嘗試的免費來源只提供最近約 50 個交易日，讀不到這一天，尚未完成第二來源核對 |
 | 2026-10（2026-10-30） | 225000.0 | stockanalysis.com/quote/krx/005930/history | 一致（225000.0；2026-11-12 讀取，頁面標示已依分割調整） |
 
+
+## 資產負債表欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）
+
+單位：百萬韓元（股數欄位為百萬股，本檔沒有值）。2026-11-12 補入，1Q18–3Q26 共 35 季。
+
+| 欄位 | 口徑與來源 |
+| --- | --- |
+| `cash` | 現金及約當現金（Cash and cash equivalents，不含短期金融商品）。來源：IR 季度財報 PDF `https://images.samsung.com/is/content/samsung/assets/global/ir/docs/{年}_con_quarter0{1-3}_bs.pdf`（2019 年第一季在 `p5/global/ir/docs/`）；每份有「當季末」與「上年底」兩欄，第四季取下一年度各份的上年底欄（4Q25 取 `2025_con_quarter04_bs.pdf`） |
+| `debt` | 短期借款＋一年內到期長期負債＋公司債（Debentures，非流動）＋長期借款，四項相加，同上 bs PDF。核對：3Q25 相加 16,672,280，與 3Q26 簡報的 Debts 欄 16,672.3 十億韓元一致；2Q26 相加 22,408.7 十億韓元與簡報一致 |
+| `equity` | Equity attributable to owners of the parent（歸屬母公司權益，不含非控制權益），同上 bs PDF（2021 年以前標示為「of the Company」，同一小計列） |
+| `pretax` | Profit before income tax（單季）。來源：`{年}_con_quarter0{1-4}_soi.pdf`。第一到第三季取 3M 欄；第四季＝全年（`quarter04_soi`）− 前九個月（9M 欄）；每年都驗算 3M 加總 ＝ 6M／9M 欄 |
+| `tax` | Income tax expense（單季），算法同 `pretax`。4Q22 為所得稅利益（負值，−18,786,528）、2Q23、3Q23、4Q23 也是負值（所得稅利益），照來源保留負號 |
+| `buyback` | 現金流量表 Purchase of treasury shares（`{年}_con_quarter0{1-4}_cf.pdf`，正數）。累計欄逐期相減：Q2＝6M−3M、Q3＝9M−6M、Q4＝全年−9M。2023 全年與 2024 前三季來源印「-」，填 0；2024 全年 1,811,775、2025 全年 8,189,263、2026 上半年 13,248,625 |
+| `shOut`、`dilSh` | 全部 null。Samsung IR 的財報 PDF 在可讀範圍內（股本附註 15、每股盈餘附註 23 被截斷）沒有股數；簡報也沒有。不用淨利÷EPS 推算 |
+
+3Q26 特例：DART／IR 的 3Q26 合併財報 PDF 尚未公布（2026-11-12），只用法說會簡報（`2026_3Q_conference_eng.pdf`，註明會計師核閱尚未完成）：
+
+- `debt` 17,191,200：簡報 Debts 17,191.2 十億韓元；簡報的 Debts 口徑已用 2Q26、3Q25 對過，與上述四項相加一致。
+- `pretax` 98,500,000、`tax` 23,400,000、`buyback` 12,500,000：簡報只印到 0.1 兆韓元，所以是四捨五入值（稅前 98.5 − 稅 23.4 ＝ 淨利 75.1，與簡報一致）。
+- `cash`、`equity` 填 null：簡報的 Cash 含短期金融商品，口徑不符；簡報只有權益總額（含非控制權益）。等 3Q26 季報公布後補，並把 `pretax`、`tax`、`buyback` 換成附註精確值。
+
+有值季數：`cash` 34、`debt` 35、`equity` 34、`pretax` 35、`tax` 35、`buyback` 15（2023 起）、`shOut` 0、`dilSh` 0。
+
+`buyback` 2018–2022 為 null：現金流量表財務活動沒有買回庫藏股列（合計與各列加總一致），無法確認是真的沒買回，還是改列在其他區塊（如信託），所以不填 0。要補需讀權益變動表或附註。
+
+淨利÷稀釋股數的 4% 核對：因 `dilSh` 全 null，沒有適用。

@@ -79,3 +79,17 @@
 | 2020-06（2020-06-30） | 313.0 | 臺灣證券交易所 STOCK_DAY | 未能用第二來源核對；已由證交所 STOCK_DAY 收盤價核對（差 0.5% 以內），且本益比與證交所官方值相符 |
 | 2026-10（2026-10-30） | 2370.0 | 臺灣證券交易所 STOCK_DAY | 未能用第二來源核對；已由證交所 STOCK_DAY 收盤價核對（差 0.5% 以內），且本益比與證交所官方值相符 |
 
+
+## 資產負債表欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）
+- 單位：新台幣百萬元；股數百萬股。**範圍：1Q22～3Q26 共 19 季有值**；1Q15～4Q21 為 `null`（尚未讀取，原因寫在 `notes.unavailable`「待確認：資產負債表欄位」）。
+- 來源（`https://investor.tsmc.com/english/quarterly-results/{年}/q{季}` 頁面上的兩份 PDF）：
+  - **Financial Statements（FS.pdf）**：每份有 3 欄（本季、上一季、去年同季）。讀了 3Q26、1Q26、2Q25、1Q25、4Q24（FS_audited）、3Q24、3Q23、1Q23、2Q22 共 9 份，互相涵蓋 1Q22～3Q26。
+  - **Management Report（{季}Q{yy}ManagementReport.pdf）**：同樣 9 個季度各一份；只用來取 `debt`。
+- 口徑：
+  - `cash`＝Cash and Cash Equivalents（資產負債表，**不含**有價證券；管理報告另有 Cash & Marketable Securities，未採用）。
+  - `debt`＝管理報告 III-3 的 **Interest-Bearing Debts**（單位十億元、兩位小數，×1000 換成百萬元，所以精度約 ±5 百萬元）。管理報告沒有定義這個詞（未註明是否含租賃負債），**待確認口徑**；FS 精簡版資產負債表只列「一年內到期公司債與長期借款」與「應付公司債」，無法自行加總。
+  - `equity`＝Equity Attributable to Shareholders of the Parent。`pretax`／`tax`＝Income Before Income Tax／Income Tax Expenses（單季欄，第四季也有單季欄，不用相減；`tax` 填正數）。
+  - `dilSh`＝Weighted Average Outstanding Shares – Diluted（FS 損益表，百萬股）；淨利÷`dilSh` 與 EPS 差在 0.1% 內。
+  - `shOut`＝資產負債表 Capital Stock at Par Value ÷ 面額 10 元（**換算值，不是直接讀到的股數**；台積電無股票分割，期末沒有庫藏股時發行股數＝流通股數）。1Q22（庫藏股 872 百萬元）與 2Q24（庫藏股 3,089 百萬元）期末有庫藏股但股數未揭露，填 `null`。
+  - `buyback`＝現金流量表 Repurchase of Treasury Stock：1Q22 872、2Q24 3,089（百萬元），其餘各季籌資活動沒有這個項目，填 0。
+- 更新：每季新增一季時，讀當季 FS.pdf 與 ManagementReport.pdf，照上面口徑補 8 欄；不用估計。
