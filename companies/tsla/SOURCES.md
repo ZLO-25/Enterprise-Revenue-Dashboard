@@ -97,3 +97,9 @@
 | 2022-07（2022-07-29） | 297.15 | — | 待確認：2026-11-12 嘗試的免費來源只提供最近約 50 個交易日，讀不到這一天，尚未完成第二來源核對 |
 | 2026-10（2026-10-30） | 399.81 | stockanalysis.com/stocks/tsla/history | 一致（399.81；2026-11-12 讀取，頁面標示已依分割調整） |
 
+
+## 資產負債表欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）
+- 來源：SEC EDGAR XBRL companyconcept API，由 GitHub Actions 的 `bs-fetch` 產生提案（`data/bs-raw/<代號>.json`），`tools/bs_merge.py` 合併進資料檔。各欄位用哪些 XBRL 概念組成，寫在 `tools/bs_map.json`（必要項缺任何一項就整格填 null，不做部分加總）。
+- 口徑：shOut＝期末在外流通股數（百萬股，分割後）；dilSh＝當季稀釋加權股數；cash＝現金及約當現金（不含有價證券）；debt＝有息負債（短期＋長期）；buyback＝當季股票買回金額（正數；年度累計相減得單季）；equity＝股東權益；pretax／tax＝稅前淨利／所得稅費用。
+- 讀不到的季度為 null，原因彙整在 `notes.unavailable` 以「待確認：資產負債表欄位」開頭的幾行。新一季快報時，重跑 bs-fetch 後再 merge，或直接讀 10-Q／10-K 手動補。
+- 合併時自動擋下：淨利÷稀釋股數與 EPS 對不上、股數差一個數量級、買回／負債／現金為負。

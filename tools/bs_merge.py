@@ -36,6 +36,10 @@ def main():
             if sh is not None and ref and not (0.2 <= sh / ref <= 5):
                 r["vals"]["shOut"] = None
                 r["why"]["shOut"] = "期末股數與淨利÷EPS 差一個數量級以上（單位或分割換算疑似有誤，不使用）"
+            for k in ("buyback", "debt", "cash"):
+                if (r["vals"].get(k) or 0) < 0:
+                    r["vals"][k] = None
+                    r["why"][k] = "年度累計相減得負值（來源口徑前後不一致，不使用）"
             for k in H.NEW:
                 v = r["vals"].get(k)
                 q[k] = v
