@@ -7,13 +7,13 @@
 import datetime, json, os, sys, time, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UA = "Enterprise-Revenue-Dashboard sec-feed (github.com/ZLO-25/Enterprise-Revenue-Dashboard)"
+UA = "Enterprise-Revenue-Dashboard research contact@example.com"  # SEC 要求 User-Agent 含聯絡方式；探測時用這個格式讀得到
 
 
 def get(url):
-    for i in range(3):
+    for i in range(2):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=40) as r:
+            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=20) as r:
                 return json.load(r)
         except Exception as e:  # noqa
             print("  重試", url, e)
