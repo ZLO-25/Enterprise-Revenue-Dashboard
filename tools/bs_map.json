@@ -756,5 +756,263 @@
     ]
    ]
   }
+ },
+ "amd": {
+  "ni": [
+   "NetIncomeLoss",
+   "NetIncomeLossAvailableToCommonStockholdersBasic",
+   "ProfitLoss"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock",
+     "PaymentsForRepurchaseOfEquity"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue"
+    ],
+    [
+     "ShortTermInvestments",
+     "MarketableSecuritiesCurrent"
+    ]
+   ],
+   "opt": []
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "LongTermDebtNoncurrent",
+     "LongTermDebtAndCapitalLeaseObligations"
+    ]
+   ],
+   "opt": [
+    [
+     "LongTermDebtCurrent",
+     "LongTermDebtAndCapitalLeaseObligationsCurrent",
+     "DebtCurrent"
+    ],
+    [
+     "ShortTermBorrowings"
+    ]
+   ]
+  }
+ },
+ "crwd": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock",
+     "PaymentsForRepurchaseOfEquity"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue"
+    ]
+   ],
+   "opt": [
+    [
+     "ShortTermInvestments",
+     "AvailableForSaleSecuritiesDebtSecuritiesCurrent",
+     "MarketableSecuritiesCurrent"
+    ]
+   ]
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "LongTermDebtNoncurrent"
+    ]
+   ],
+   "opt": []
+  }
+ },
+ "panw": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock",
+     "PaymentsForRepurchaseOfEquity"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue"
+    ]
+   ],
+   "opt": [
+    [
+     "ShortTermInvestments",
+     "AvailableForSaleSecuritiesCurrent"
+    ]
+   ]
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "ConvertibleDebtNoncurrent"
+    ]
+   ],
+   "opt": [
+    [
+     "ConvertibleDebtCurrent"
+    ]
+   ]
+  }
  }
 }
