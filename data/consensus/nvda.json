@@ -1,0 +1,19 @@
+{
+ "code": "nvda",
+ "snapshots": [
+  {
+   "date": "2026-11-12",
+   "period": "3Q27",
+   "epsAvg": 2.47461,
+   "epsLow": 2.34,
+   "epsHigh": 2.7,
+   "epsN": 44,
+   "epsBasis": "normalized",
+   "revAvg": 109006829530.0,
+   "revLow": 104937000000.0,
+   "revHigh": 116251000000.0,
+   "revN": 44,
+   "cur": "USD"
+  }
+ ]
+}
