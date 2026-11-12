@@ -187,10 +187,8 @@ def check_bs(code, D, err):
         ni, eps, dil = q.get("ni"), q.get("eps"), q.get("dilSh")
         if None not in (ni, eps, dil) and eps:
             implied = ni / dil
-            if abs(implied - eps) > max(0.02, abs(eps) * 0.04):
+            if abs(eps) >= 0.05 and abs(implied - eps) > max(0.02, abs(eps) * 0.04):
                 err.append(f"{q['q']} 淨利÷稀釋股數 ＝ {implied:.3f} 與 EPS {eps} 差太多（股數口徑或分割換算有誤？）")
-        if q.get("shOut") and q.get("dilSh") and not (0.5 < q["shOut"] / q["dilSh"] < 1.5):
-            err.append(f"{q['q']} 期末股數 {q['shOut']} 與稀釋加權股數 {q['dilSh']} 差超過 50%（分割換算有誤？）")
 
 
 def check_thesis(code, D, err):

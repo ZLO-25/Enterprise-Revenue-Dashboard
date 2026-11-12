@@ -25,6 +25,17 @@ def main():
         why = {k: collections.Counter() for k in H.NEW}
         for q in D["quarters"]:
             r = by.get(q["q"], {"vals": {}, "why": {"*": "提案沒有這一季"}})
+            r = {"vals": dict(r["vals"]), "why": dict(r["why"])}
+            ni, eps = q.get("ni"), q.get("eps")
+            dil = r["vals"].get("dilSh")
+            if dil is not None and ni is not None and eps is not None and abs(eps) >= 0.05 and abs(ni / dil - eps) > max(0.02, abs(eps) * 0.04):
+                r["vals"]["dilSh"] = None
+                r["why"]["dilSh"] = "淨利÷稀釋股數與 EPS 對不上（SEC 資料單位或分割換算疑似有誤，不使用）"
+            ref = (ni / eps) if (ni is not None and eps is not None and abs(eps) >= 0.05 and ni / eps > 0) else (r["vals"].get("dilSh"))
+            sh = r["vals"].get("shOut")
+            if sh is not None and ref and not (0.2 <= sh / ref <= 5):
+                r["vals"]["shOut"] = None
+                r["why"]["shOut"] = "期末股數與淨利÷EPS 差一個數量級以上（單位或分割換算疑似有誤，不使用）"
             for k in H.NEW:
                 v = r["vals"].get(k)
                 q[k] = v

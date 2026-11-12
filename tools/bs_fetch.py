@@ -128,7 +128,7 @@ def quarter_ends(ni_facts, ours):
     out, ptr = [], 0
     for q in ours:
         hit = None
-        for k in range(ptr, min(ptr + 4, len(ends))):
+        for k in range(ptr, len(ends)):
             if q.get("ni") is not None and abs(cand[ends[k]] - q["ni"]) <= 0.6:
                 hit = k
                 break
@@ -137,7 +137,7 @@ def quarter_ends(ni_facts, ours):
         else:
             out.append(ends[hit])
             ptr = hit + 1
-    return out, ends
+    return out, ends, cand
 
 
 def inst(facts_by_name, names, end):
@@ -151,10 +151,12 @@ def inst(facts_by_name, names, end):
 def flow(facts, end, prev_end, kind):
     """kind: q＝單季（10-Q 有 3 個月值，第四季＝全年－9 個月）；ytd＝現金流量表年初累計相減。"""
     L = latest(facts)
-    if kind == "q":
+    if kind in ("q", "qonly"):
         q = [f for f in L if f["end"] == end and f.get("start") and Q_DAYS[0] <= dur(f) <= Q_DAYS[1]]
         if q:
             return q[0], q[0]["val"]
+        if kind == "qonly":
+            return None, None          # 加權平均股數不能「全年減前九個月」，第四季沒有單季值就是 null
         fy = [f for f in L if f["end"] == end and f.get("start") and FY_DAYS[0] <= dur(f) <= FY_DAYS[1]]
         if fy:
             n9 = [g for g in L if g.get("start") == fy[0]["start"] and 250 <= (dur(g) or 0) <= 290]
@@ -198,12 +200,12 @@ def build(cfg, only):
         F = {n: concept(c["cik"], n) for n in sorted(names)}
         F["cover"] = concept(c["cik"], "dei:EntityCommonStockSharesOutstanding")
         ni_facts = [f for n in M.get("ni", ["NetIncomeLoss"]) for f in F.get(n, [])]
-        ends, allends = quarter_ends(ni_facts, Q)
+        ends, allends, cand = quarter_ends(ni_facts, Q)
         splits = splits_for(c["price"]["yahoo"]) if c.get("price") else []
         if splits is None:
             print(code, "沒有分割資料 → 股數欄位不產生")
             splits = None
-        out = {"code": code, "fetched": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "splits": splits, "quarters": []}
+        out = {"code": code, "fetched": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "splits": splits, "niCand": {k: round(v, 1) for k, v in cand.items()}, "quarters": []}
         for i, q in enumerate(Q):
             E = ends[i]
             row = {"q": q["q"], "end": E, "vals": {}, "prov": {}, "why": {}}
