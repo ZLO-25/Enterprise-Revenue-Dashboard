@@ -28,9 +28,9 @@ jobs:
         run: |
           ARGS=""
           if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
-          if [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; elif [ "$MODE" = "balance" ]; then python3 tools/bs_fetch.py --balance $ARGS; else python3 tools/bs_fetch.py $ARGS; fi
+          if [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; elif [ "$MODE" = "balance" ]; then mkdir -p data/bs-raw && python3 tools/bs_fetch.py --balance $ARGS | tee data/bs-raw/balance-probe.txt; else python3 tools/bs_fetch.py $ARGS; fi
       - name: 提交提案
-        if: github.event.inputs.mode == 'build'
+        if: github.event.inputs.mode == 'build' || github.event.inputs.mode == 'balance'
         run: |
           git config user.name "bs-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
