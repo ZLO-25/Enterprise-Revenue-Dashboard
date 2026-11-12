@@ -108,3 +108,6 @@
 - 口徑：shOut＝期末在外流通股數（百萬股，分割後）；dilSh＝當季稀釋加權股數；cash＝現金及約當現金（不含有價證券）；debt＝有息負債（短期＋長期）；buyback＝當季股票買回金額（正數；年度累計相減得單季）；equity＝股東權益；pretax／tax＝稅前淨利／所得稅費用。
 - 讀不到的季度為 null，原因彙整在 `notes.unavailable` 以「待確認：資產負債表欄位」開頭的幾行。新一季快報時，重跑 bs-fetch 後再 merge，或直接讀 10-Q／10-K 手動補。
 - 合併時自動擋下：淨利÷稀釋股數與 EPS 對不上、股數差一個數量級、買回／負債／現金為負。
+
+## 核對紀錄
+- 2026-11-12：3Q26 對 10-Q（2026-11-04 申報，accn 0001596532-26-000254）核對，**全部一致**：營收 3,657.6、毛利 2,325.7、營業利益 1,642.4、稅前 1,915.5、稅 355.1、淨利 1,560.4、EPS 1.22、稀釋股數 1,278.2（R4 損益表）；營業現金流 = XBRL 九個月 3,977.4 − 上半年 2,776.5 = 1,200.9；資本支出 = 九個月 184.9（R7）− 上半年 84.2（XBRL）= 100.7。來源：data.sec.gov companyconcept（NetCashProvidedByUsedInOperatingActivities、PaymentsToAcquirePropertyPlantAndEquipment）與 sec.gov/Archives/edgar/data/1596532/000159653226000254/R4.htm、R7.htm。
