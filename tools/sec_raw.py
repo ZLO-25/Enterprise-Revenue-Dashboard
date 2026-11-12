@@ -42,6 +42,7 @@ class T(HTMLParser):
 def text(html):
     p=T(); p.feed(html.decode("utf-8","replace")); t="".join(p.out)
     t=re.sub(r"[ \t\xa0]+"," ",t); t=re.sub(r"\n\s*\n+","\n",t); return t
+EXTRA_SAMEDAY=os.environ.get("SAMEDAY","1")=="1"
 want=[l.split() for l in open("want.txt") if l.strip() and not l.startswith("#")]
 for code, cik in want:
     d=f"raw/{code}"; os.makedirs(d+"/pr", exist_ok=True)
@@ -60,7 +61,8 @@ for code, cik in want:
     keep=[r for r in rows if r["form"] in ("10-Q","10-K","10-Q/A","10-K/A","8-K","8-K/A","S-1","424B4","10-KT")]
     json.dump(keep, open(d+"/filings.json","w"), indent=0)
     for r in keep:
-        if not r["form"].startswith("8-K") or "2.02" not in (r.get("items") or ""): continue
+        q_days={x["filingDate"] for x in keep if x["form"] in ("10-Q","10-K")}
+        if not r["form"].startswith("8-K") or not ("2.02" in (r.get("items") or "") or (r["filingDate"] in q_days and EXTRA_SAMEDAY)): continue
         acc=r["accessionNumber"].replace("-","")
         fn=f"{d}/pr/{r['filingDate']}_{acc}.txt"
         if os.path.exists(fn): continue
@@ -68,7 +70,8 @@ for code, cik in want:
         if not idx: continue
         items=[i["name"] for i in idx["directory"]["item"]]
         ex=[n for n in items if re.search(r"ex.?99.?0?1", n, re.I) and n.lower().endswith((".htm",".html",".txt"))]
-        if not ex: ex=[n for n in items if re.search(r"99", n) and n.lower().endswith((".htm",".html"))]
+        if not ex: ex=[n for n in items if re.search(r"99", n) and n.lower().endswith((".htm",".html")) and "index" not in n]
+        if not ex: ex=[n for n in items if re.search(r"earning|release|pressrel", n, re.I) and n.lower().endswith((".htm",".html")) and "index" not in n]
         if not ex: print("no ex99", code, acc, items); continue
         b=get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{ex[0]}", raw=True)
         if b: open(fn,"w").write(f"SOURCE https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{ex[0]}\n"+text(b))
