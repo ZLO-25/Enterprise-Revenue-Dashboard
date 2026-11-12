@@ -678,6 +678,7 @@ const FUT = (() => {
     const patch = (code, id, ch) => save(code, get(code).map(L => L.id === id ? { ...L, ...ch } : L));
     const del = (code, id) => save(code, get(code).filter(L => L.id !== id));
     window.addEventListener('storage', (e) => { if (e.key === LINES_LS) { all = null; emit(null); } });   // 另一個分頁改了線
+    window.addEventListener('pageshow', (e) => { if (e.persisted) { all = null; emit(null); } });       // 按「上一頁」回來時重讀一次
     return { get, save, add, patch, del, on: (f) => { subs.add(f); return () => subs.delete(f); } };
   })();
   /* 「水平線」工具按鈕：全頁共用一個狀態，按下後下一次點圖就放線 */
@@ -710,7 +711,7 @@ const FUT = (() => {
     const tb = document.createElement('div'); tb.className = 'fut-ltb'; tb.hidden = true; box.appendChild(tb);
     function bar() {
       const L = sel && Lines.get(code).find(x => x.id === sel);
-      if (!L) { tb.hidden = true; cancelAnimationFrame(raf); return; }
+      if (!L) { tb.hidden = true; return; }
       tb.innerHTML = LINE_COLORS.map(c => `<button type="button" class="sw" data-c="${c}" style="background:${T(c)}" aria-label="顏色" aria-pressed="${(L.c || '--s1') === c}"></button>`).join('') +
         `<button type="button" class="tx" data-s="1" title="實線／虛線">${L.s ? '虛線' : '實線'}</button>` +
         `<button type="button" class="tx" data-n="1" title="在線上寫備註">${L.n ? '改備註' : '備註'}</button>` +
@@ -722,8 +723,12 @@ const FUT = (() => {
       const y = candle.priceToCoordinate(drag && drag.id === sel ? drag.p : L.p), h = chart.panes()[0].getHeight();
       if (y == null || y < 0 || y > h) tb.style.visibility = 'hidden';
       else { tb.style.visibility = ''; tb.style.top = Math.max(2, Math.min(h - tb.offsetHeight - 2, y - tb.offsetHeight - 8)) + 'px'; }
-      raf = requestAnimationFrame(place);  // 縮放、拖曳圖表時跟著線走
     }
+    /* 工具列跟著線走：只在圖表真的動了（平移、縮放、拖線、視窗大小改變）才重算位置，一個畫面最多算一次；沒選線時完全不做事 */
+    const follow = () => { if (!sel || raf) return; raf = requestAnimationFrame(() => { raf = 0; place(); }); };
+    chart.timeScale().subscribeVisibleLogicalRangeChange(follow);
+    box.addEventListener('wheel', follow, { passive: true });
+    const ro = new ResizeObserver(follow); ro.observe(box);
     tb.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !sel) return; const L = Lines.get(code).find(x => x.id === sel);
       if (b.dataset.c) Lines.patch(code, sel, { c: b.dataset.c });
@@ -757,6 +762,7 @@ const FUT = (() => {
     };
     const onMove = (e) => {
       const pt = rel(e); lastY = inMain(pt) ? pt.y : null;
+      if (e.buttons) follow();
       if (!drag) { if (e.pointerType !== 'touch') setHover(tool.armed ? null : (hit(pt) || {}).id || null); return; }
       if (!drag.moved && Math.abs(pt.y - drag.y0) < 3) return;
       const p = candle.coordinateToPrice(Math.max(0, Math.min(chart.panes()[0].getHeight(), pt.y))); if (p == null) return;
@@ -790,7 +796,7 @@ const FUT = (() => {
       box.removeEventListener('pointerdown', onDown, true); box.removeEventListener('pointermove', onMove, true);
       box.removeEventListener('pointerup', onUp, true); box.removeEventListener('pointercancel', onUp, true); box.removeEventListener('pointerleave', onLeave);
       ['mousedown', 'touchstart', 'touchmove'].forEach(t => box.removeEventListener(t, swallow, { capture: true }));
-      document.removeEventListener('keydown', onKey); tool.subs.delete(onArm); offLines(); cancelAnimationFrame(raf); tb.remove();
+      document.removeEventListener('keydown', onKey); tool.subs.delete(onArm); offLines(); cancelAnimationFrame(raf); ro.disconnect(); box.removeEventListener('wheel', follow); tb.remove();
       box.classList.remove('fut-drawing', 'fut-onl'); box._linesOff = null;
     };
     sync();
