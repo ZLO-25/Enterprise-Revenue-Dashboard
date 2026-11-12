@@ -324,6 +324,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <a href="#revenue">營收</a>
     <a href="#profit">獲利能力</a>
     <a href="#eps">每股盈餘</a>
+    <a href="#pe">本益比</a>
     <a href="#cash">現金流</a>
     <a href="#extra" data-opt="extra">專屬指標</a>
     <a href="#guidance" data-opt="guidance">財測</a>
@@ -428,6 +429,8 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     </div>
   </section>
 
+  <section id="pe" hidden></section>
+
   <section id="cash">
     <div class="sec-head">
       <span class="sec-tag">每季公布</span>
@@ -531,7 +534,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <p class="disclaimer-box" id="disclaimer"></p>
 </main>
 
-<script type="application/json" id="company-data">{"asOf":"2026-10-26","company":{"code":"spcx","name":"SpaceX","nameEn":"Space Exploration Technologies","ticker":"SPCX","exchange":"Nasdaq SPCX","currency":"USD","unit":"百萬美元","epsUnit":"美元","fiscalYearEnd":"12-31","frequency":"quarterly","lede":"SpaceX（Nasdaq SPCX）2026 年 6 月在 Nasdaq 上市，業務分成太空（發射與星艦開發）、連線（Starlink 衛星網路）、超級智慧 SI（Grok、X 與 AI 運算，第二季以前叫 AI）三個部門。本頁收錄上市後的兩季（2Q26、3Q26），金額單位是百萬美元。上市前的季度 EPS 只在 S-1 公開說明書的財務報表裡，目前讀不到，所以先不收。","cadence":[{"when":"每季結束後約 3–4 週","what":"財報新聞稿（公司 IR 網站與 X）","which":"營收、部門、獲利、資本支出、營運指標"},{"when":"財報後","what":"10-Q／10-K","which":"完整財報與附註"},{"when":"不定期","what":"8-K","which":"發債、併購、重大合約"}]},"quarters":[{"q":"2Q26","rev":7814.0,"gp":4319.0,"gm":55.3,"opInc":-143.0,"om":-1.8,"ni":-541.0,"eps":-0.09,"ocf":null,"capex":18369.0,"fcf":null,"dps":null},{"q":"3Q26","rev":14575.0,"gp":9097.0,"gm":62.4,"opInc":2791.0,"om":19.1,"ni":4404.0,"eps":0.35,"ocf":9631.0,"capex":19593.0,"fcf":-9962.0,"dps":null}],"annual":{},"guidance":{"issued":"2026-10-20","items":[],"note":"SpaceX 的財報新聞稿沒有提供數字財測。"},"events":[{"date":"2027-01-28","t":"4Q26 財報（預估日期，公司尚未公告）","est":1}],"waterfall":{"q":"3Q26","rows":[{"n":"營收","v":14575,"t":1},{"n":"營業成本","v":-5478},{"n":"毛利","v":9097,"t":1},{"n":"研發費用","v":-4596},{"n":"銷售、一般與行政費用","v":-1707},{"n":"重組費用","v":-3},{"n":"營業利益","v":2791,"t":1},{"n":"利息費用","v":-675},{"n":"利息收入","v":873},{"n":"其他收益淨額","v":1025},{"n":"稅前淨利","v":4014,"t":1},{"n":"所得稅（利益）","v":390},{"n":"淨利","v":4404,"t":1}],"note":"取自 3Q26 財報新聞稿 GAAP 損益表（百萬美元）。公司沒有列「毛利」這一行，毛利 = 營收 − 營業成本。"},"segments":{"title":"營收拆分：三大部門","unit":"百萬美元","keys":[{"k":"space","n":"太空"},{"k":"conn","n":"連線（Starlink）"},{"k":"si","n":"超級智慧 SI（原 AI）"}],"quarters":[{"q":"2Q26","space":962,"conn":4291,"si":2561},{"q":"3Q26","space":1767,"conn":5248,"si":7560}],"note":"第三季起 AI 部門改名為超級智慧（Super Intelligence, SI），範圍相同。"},"extra":{"title":"營運指標","note":"公司於財報新聞稿揭露","keys":[{"k":"revPY","n":"去年同季營收","unit":"百萬美元","dec":0,"desc":"上市前的同季營收，用來看年增率"},{"k":"subs","n":"Starlink 消費者用戶","unit":"百萬","dec":1,"chart":"bar","zero":true},{"k":"arpu","n":"Starlink 消費者每月 ARPU","unit":"美元","dec":0},{"k":"launches","n":"發射次數","dec":0,"chart":"bar","zero":true},{"k":"gw","n":"AI 運算容量（名目）","unit":"GW","dec":1}],"quarters":[{"q":"2Q26","revPY":4071,"subs":12.0,"arpu":66,"launches":38,"gw":1.4},{"q":"3Q26","revPY":5576,"subs":13.6,"arpu":69,"launches":35,"gw":1.7}]},"milestones":[{"d":"2026-06-12","cat":"listing","t":"最終公開說明書（424B4）申報，A 類普通股在 Nasdaq 上市，代號 SPCX；S-1/A 所列預計發行價每股 135 美元。公司第三季財報列前九個月 IPO 收到 856.75 億美元","src":"https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/","st":"p"},{"d":"2026-06-26","cat":"finance","t":"發行 250 億美元優先無擔保公司債（2031–2056 年到期，五個年期）","src":"https://www.sec.gov/Archives/edgar/data/1181412/000162828026045763/spcx-closing8xkjune2026.htm","st":"p"},{"d":"2026-08-14","cat":"ma","t":"完成收購 Cursor（AI 程式開發工具，隱含股權價值 600 億美元）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-Q3","cat":"product","t":"星艦第 14 次試飛：第一次軌道飛行，也是第一個有營收的星艦任務（送上 26 顆 Starlink V3 衛星）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-10-08","cat":"contract","t":"同意買下美國全國 800 MHz 低頻頻譜執照，用於 Starlink 手機直連；預計 2027 上半年完成","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-10-20","cat":"profit","t":"3Q26 上市後第一次單季獲利：淨利 44.04 億美元，營收 145.75 億美元（年增 161%）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"}],"sources":[{"n":"SpaceX 3Q26 財報新聞稿","url":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","note":"3Q26 與 3Q25、前九個月損益、現金流、部門、營運指標"},{"n":"SpaceX 2Q26 財報新聞稿","url":"https://s21.q4cdn.com/184289198/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf","note":"2Q26 與 2Q25、上半年損益、部門、資本支出"},{"n":"SEC EDGAR XBRL（2Q26 10-Q）","url":"https://data.sec.gov/api/xbrl/companyconcept/CIK0001181412/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax.json","note":"營收、EPS、上半年現金流核對"},{"n":"SpaceX 投資人關係","url":"https://ir.spacex.com/","note":"財報日、新聞稿"}],"notes":{"unavailable":["待確認：1Q25–1Q26（上市前五季）：營收、營業利益、淨利可以從新聞稿與 S-1 摘要推得，但單季 EPS 只在 S-1 公開說明書的財務報表裡；SEC 網站上的公開說明書檔案約 12 MB，目前的工具讀不到財務報表那一段，所以這五季先不收。之後讀到 S-1 財務報表（或公司在 10-K 揭露）再補","待確認：2023–2025 年全年數字：同上，只讀到 S-1 摘要的 2025 年營收 186.74 億美元、營業損失 25.89 億美元，其他欄位（淨利、EPS、現金流）沒讀到，所以年度表先不放","待確認：2Q26 營業現金流與自由現金流：公司只公布上半年累計（34.66 億美元），第一季單季數字沒有讀到，所以 2Q26 留空","毛利：公司損益表沒有「毛利」這一行，本頁用 營收 − 營業成本 計算","資本支出：用公司公布的各部門資本支出合計（2Q26 183.69 億美元），與現金流量表「購置不動產、廠房及設備」的累計相減結果一致","每股股利：SpaceX 沒有發放現金股利（全部為 null）"],"general":"SpaceX 上市後才有季度財報，所以目前只有兩季，近四季（TTM）、年化成長等長期指標要等累積到四季以上才算得出來。年增率請看「營運指標」表的「去年同季營收」：2Q26 年增 92%、3Q26 年增 161%。EPS 是稀釋後每股盈餘；2Q26 為虧損，基本與稀釋相同。"},"categories":{"listing":"上市","ma":"併購","product":"產品","contract":"合約","finance":"融資"}}</script>
+<script type="application/json" id="company-data">{"asOf":"2026-10-26","company":{"code":"spcx","name":"SpaceX","nameEn":"Space Exploration Technologies","ticker":"SPCX","exchange":"Nasdaq SPCX","currency":"USD","unit":"百萬美元","epsUnit":"美元","fiscalYearEnd":"12-31","frequency":"quarterly","lede":"SpaceX（Nasdaq SPCX）2026 年 6 月在 Nasdaq 上市，業務分成太空（發射與星艦開發）、連線（Starlink 衛星網路）、超級智慧 SI（Grok、X 與 AI 運算，第二季以前叫 AI）三個部門。本頁收錄上市後的兩季（2Q26、3Q26），金額單位是百萬美元。上市前的季度 EPS 只在 S-1 公開說明書的財務報表裡，目前讀不到，所以先不收。","cadence":[{"when":"每季結束後約 3–4 週","what":"財報新聞稿（公司 IR 網站與 X）","which":"營收、部門、獲利、資本支出、營運指標"},{"when":"財報後","what":"10-Q／10-K","which":"完整財報與附註"},{"when":"不定期","what":"8-K","which":"發債、併購、重大合約"}]},"quarters":[{"q":"2Q26","rev":7814.0,"gp":4319.0,"gm":55.3,"opInc":-143.0,"om":-1.8,"ni":-541.0,"eps":-0.09,"ocf":null,"capex":18369.0,"fcf":null,"dps":null,"rd":"2026-08-04","rdB":"p"},{"q":"3Q26","rev":14575.0,"gp":9097.0,"gm":62.4,"opInc":2791.0,"om":19.1,"ni":4404.0,"eps":0.35,"ocf":9631.0,"capex":19593.0,"fcf":-9962.0,"dps":null,"rd":"2026-10-20","rdB":"p"}],"annual":{},"guidance":{"issued":"2026-10-20","items":[],"note":"SpaceX 的財報新聞稿沒有提供數字財測。"},"events":[{"date":"2027-01-28","t":"4Q26 財報（預估日期，公司尚未公告）","est":1}],"waterfall":{"q":"3Q26","rows":[{"n":"營收","v":14575,"t":1},{"n":"營業成本","v":-5478},{"n":"毛利","v":9097,"t":1},{"n":"研發費用","v":-4596},{"n":"銷售、一般與行政費用","v":-1707},{"n":"重組費用","v":-3},{"n":"營業利益","v":2791,"t":1},{"n":"利息費用","v":-675},{"n":"利息收入","v":873},{"n":"其他收益淨額","v":1025},{"n":"稅前淨利","v":4014,"t":1},{"n":"所得稅（利益）","v":390},{"n":"淨利","v":4404,"t":1}],"note":"取自 3Q26 財報新聞稿 GAAP 損益表（百萬美元）。公司沒有列「毛利」這一行，毛利 = 營收 − 營業成本。"},"segments":{"title":"營收拆分：三大部門","unit":"百萬美元","keys":[{"k":"space","n":"太空"},{"k":"conn","n":"連線（Starlink）"},{"k":"si","n":"超級智慧 SI（原 AI）"}],"quarters":[{"q":"2Q26","space":962,"conn":4291,"si":2561},{"q":"3Q26","space":1767,"conn":5248,"si":7560}],"note":"第三季起 AI 部門改名為超級智慧（Super Intelligence, SI），範圍相同。"},"extra":{"title":"營運指標","note":"公司於財報新聞稿揭露","keys":[{"k":"revPY","n":"去年同季營收","unit":"百萬美元","dec":0,"desc":"上市前的同季營收，用來看年增率"},{"k":"subs","n":"Starlink 消費者用戶","unit":"百萬","dec":1,"chart":"bar","zero":true},{"k":"arpu","n":"Starlink 消費者每月 ARPU","unit":"美元","dec":0},{"k":"launches","n":"發射次數","dec":0,"chart":"bar","zero":true},{"k":"gw","n":"AI 運算容量（名目）","unit":"GW","dec":1}],"quarters":[{"q":"2Q26","revPY":4071,"subs":12.0,"arpu":66,"launches":38,"gw":1.4},{"q":"3Q26","revPY":5576,"subs":13.6,"arpu":69,"launches":35,"gw":1.7}]},"milestones":[{"d":"2026-06-12","cat":"listing","t":"最終公開說明書（424B4）申報，A 類普通股在 Nasdaq 上市，代號 SPCX；S-1/A 所列預計發行價每股 135 美元。公司第三季財報列前九個月 IPO 收到 856.75 億美元","src":"https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/","st":"p"},{"d":"2026-06-26","cat":"finance","t":"發行 250 億美元優先無擔保公司債（2031–2056 年到期，五個年期）","src":"https://www.sec.gov/Archives/edgar/data/1181412/000162828026045763/spcx-closing8xkjune2026.htm","st":"p"},{"d":"2026-08-14","cat":"ma","t":"完成收購 Cursor（AI 程式開發工具，隱含股權價值 600 億美元）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-Q3","cat":"product","t":"星艦第 14 次試飛：第一次軌道飛行，也是第一個有營收的星艦任務（送上 26 顆 Starlink V3 衛星）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-10-08","cat":"contract","t":"同意買下美國全國 800 MHz 低頻頻譜執照，用於 Starlink 手機直連；預計 2027 上半年完成","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"},{"d":"2026-10-20","cat":"profit","t":"3Q26 上市後第一次單季獲利：淨利 44.04 億美元，營收 145.75 億美元（年增 161%）","src":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","st":"p"}],"sources":[{"n":"SpaceX 3Q26 財報新聞稿","url":"https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf","note":"3Q26 與 3Q25、前九個月損益、現金流、部門、營運指標"},{"n":"SpaceX 2Q26 財報新聞稿","url":"https://s21.q4cdn.com/184289198/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf","note":"2Q26 與 2Q25、上半年損益、部門、資本支出"},{"n":"SEC EDGAR XBRL（2Q26 10-Q）","url":"https://data.sec.gov/api/xbrl/companyconcept/CIK0001181412/us-gaap/RevenueFromContractWithCustomerExcludingAssessedTax.json","note":"營收、EPS、上半年現金流核對"},{"n":"SpaceX 投資人關係","url":"https://ir.spacex.com/","note":"財報日、新聞稿"}],"notes":{"unavailable":["待確認：1Q25–1Q26（上市前五季）：營收、營業利益、淨利可以從新聞稿與 S-1 摘要推得，但單季 EPS 只在 S-1 公開說明書的財務報表裡；SEC 網站上的公開說明書檔案約 12 MB，目前的工具讀不到財務報表那一段，所以這五季先不收。之後讀到 S-1 財務報表（或公司在 10-K 揭露）再補","待確認：2023–2025 年全年數字：同上，只讀到 S-1 摘要的 2025 年營收 186.74 億美元、營業損失 25.89 億美元，其他欄位（淨利、EPS、現金流）沒讀到，所以年度表先不放","待確認：2Q26 營業現金流與自由現金流：公司只公布上半年累計（34.66 億美元），第一季單季數字沒有讀到，所以 2Q26 留空","毛利：公司損益表沒有「毛利」這一行，本頁用 營收 − 營業成本 計算","資本支出：用公司公布的各部門資本支出合計（2Q26 183.69 億美元），與現金流量表「購置不動產、廠房及設備」的累計相減結果一致","每股股利：SpaceX 沒有發放現金股利（全部為 null）"],"general":"SpaceX 上市後才有季度財報，所以目前只有兩季，近四季（TTM）、年化成長等長期指標要等累積到四季以上才算得出來。年增率請看「營運指標」表的「去年同季營收」：2Q26 年增 92%、3Q26 年增 161%。EPS 是稀釋後每股盈餘；2Q26 為虧損，基本與稀釋相同。"},"categories":{"listing":"上市","ma":"併購","product":"產品","contract":"合約","finance":"融資"},"valuation":null}</script>
 <script src="../assets/vendor/chart.umd.js"></script>
 <script>
 /* 共用前端函式（新公司的模板用；以 COMMON_JS 占位符內嵌進頁面）。
@@ -846,6 +849,12 @@ const LT = (() => {
       { label: '自由現金流率（近四季）', value: pc(M.ttmFcfM), unit: '', delta: M.ttmFcfNow == null ? '現金流資料不足四季' : `自由現金流 ${f0(M.ttmFcfNow)} ${u} · 3 年前 ${pc(M.ttmFcfM3y)}`, sp: spark(tail(M.ttmFcf), { zero: true }) },
       { label: '連續營收年增季數', value: String(M.streak), unit: '季', delta: `近 ${M.posN} 季有 ${pc(M.posShare, 0)} 的季度年增為正`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
     ];
+    const V = N.D && N.D.valuation;
+    if (V && V.monthly.length) {
+      const st = V.stats, la = V.monthly[V.monthly.length - 1];
+      tiles.push({ label: '本益比（每月，月底）', value: la.pe != null ? la.pe.toFixed(1) : '—', unit: la.pe != null ? '倍' : '', delta: la.pe != null ? `近 5 年中位數 ${st.med5 == null ? '—' : st.med5.toFixed(1)} 倍${st.pct10 == null ? '' : ' · 近 10 年第 ' + st.pct10 + ' 百分位'}` : ({ loss: '近四季虧損，不適用', short: '已公布未滿四季', missing: '公布日或 EPS 待確認', price: '股價待確認' }[la.why] || ''),
+        sp: spark(tail(V.monthly.map(r => r.pe)), {}) });
+    }
     el.innerHTML = `<div class="lt-grid">${tiles.map(t => `
       <div class="kpi lt">
         <span class="label">${t.label}</span>
@@ -860,9 +869,124 @@ const LT = (() => {
   }
 
   const DISCLAIMER = '本站為公開資料的整理與計算，不構成任何投資建議、推薦或要約；數字以各公司公告與主管機關申報文件為準，整理過程可能有誤或延遲，使用前請自行核對。' +
+    '本益比是歷史資料的計算（月底收盤價 ÷ 當時已公布的近四季 EPS），高低不代表貴或便宜，不是買賣建議；預估本益比使用分析師預估，預估會被修正、口徑常為調整後，僅供參考。' +
     '「調整後」（non-GAAP）指標為各公司自訂口徑，不同公司間不可直接比較；標「待確定」的事件只是媒體報導、公司尚未證實。過去的財務表現不代表未來結果。';
 
   return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };
+})();
+
+/* 每月本益比（P/E）與預估本益比（forward P/E）的前端顯示。
+   資料由 tools/pe.py 在建置時算好放在 D.valuation（前端只畫圖、不重算）：
+     D.valuation = { symbol, currency, monthly:[{m,d,c,eps4,pe,why,ntm,fpe,fwhy,few}], stats:{latest,latestM,med5,med10,pct10,fpeLatest,fpeM,priceM} }
+   why：loss 虧損、short 累積未滿四季、missing EPS 或公布日待確認、price 股價待確認
+   不依賴 common.js（台積電頁面沒有載入），所以自己帶一套小工具。
+   提供：PEV.mount(D)  公司頁「本益比（每月）」整節；PEV.brief(D) 首頁卡片／記分板用的文字；PEV.cmp(...) 首頁比較圖 */
+const PEV = (() => {
+  const CAP = 200;
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const x1 = (n) => n == null ? '—' : n.toFixed(1) + '×';
+  const f2 = (n) => n == null ? '—' : n.toFixed(2);
+  const f4 = (n) => n == null ? '—' : n.toFixed(2);
+  const ym = (m) => m.replace('-', '/');
+  const WHY = { loss: '虧損，不適用', short: '累積未滿四季', missing: '待確認', price: '待確認（股價）' };
+  const FWHY = { loss: '預估虧損，不適用', missing: '待確認', none: '' };
+  const COPY = '本益比 ＝ 月底收盤價 ÷ 「那一天為止已公布」的最近四季 EPS 加總。美股用稀釋 EPS，台積電、台達電、三星用基本 EPS；都是公認會計準則數字。';
+
+  /* 首頁卡片、記分板用 */
+  function brief(D) {
+    const V = D.valuation; if (!V || !V.monthly.length) return { pe: '股價尚未收錄', fpe: '—', sub: '', pct: '—', has: false };
+    const s = V.stats, last = V.monthly[V.monthly.length - 1];
+    let pe, sub = '';
+    if (last.pe != null) { pe = x1(last.pe); sub = ym(last.m) + ' 月底'; }
+    else { pe = WHY[last.why] || '—'; sub = ym(last.m) + ' 月底'; }
+    const fl = [...V.monthly].reverse().find(r => r.fpe != null);
+    return { has: true, pe, sub, fpe: fl ? x1(fl.fpe) : '累積中', fpeSub: fl ? ym(fl.m) + (fl.few ? '（預估人數少）' : '') : '2026-11 起逐月累積',
+      pct: s.pct10 == null ? '—' : s.pct10 + '%', med5: x1(s.med5), med10: x1(s.med10), latestPe: last.pe, priceM: s.priceM, priceD: last.d };
+  }
+
+  /* 公司頁整節 */
+  function mount(D) {
+    const sec = document.getElementById('pe'); if (!sec) return;
+    const V = D.valuation;
+    const hide = () => { sec.hidden = true; document.querySelectorAll('#secnav a[href="#pe"]').forEach(a => a.remove()); };
+    if (!V || !V.monthly.length) return hide();
+    const M = V.monthly, s = V.stats, last = M[M.length - 1];
+    const b = brief(D);
+    const fl = [...M].reverse().find(r => r.fpe != null);
+    const nF = M.filter(r => r.fpe != null).length;
+    const cur = V.currency || '';
+    const hasPE = M.some(r => r.pe != null);
+    sec.innerHTML = `
+    <div class="sec-head"><span class="sec-tag">每月一筆 · ${ym(M[0].m)} – ${ym(last.m)}</span><h2>本益比（每月）</h2>
+      <p class="sub">市場用幾倍的價格買這家公司的一年獲利。每個月底算一次，用「當時已經公布」的最近四季 EPS，所以是當時投資人真的看得到的數字。</p></div>
+    <div class="kpis pe-kpis">
+      <div class="kpi"><span class="label">最新本益比（${ym(last.m)} 月底）</span><span class="value">${last.pe != null ? x1(last.pe) : `<small>${WHY[last.why] || '—'}</small>`}</span><span class="delta">月底收盤價 ${f2(last.c)} ${cur}</span></div>
+      <div class="kpi"><span class="label">近 5 年中位數</span><span class="value">${x1(s.med5)}</span><span class="delta">${s.med5 == null ? '有本益比的月份不足 12 個' : '只用有本益比的月份'}</span></div>
+      <div class="kpi"><span class="label">近 10 年中位數</span><span class="value">${x1(s.med10)}</span><span class="delta">${s.med10 == null ? '有本益比的月份不足 12 個' : ''}</span></div>
+      <div class="kpi"><span class="label">目前在近 10 年的位置</span><span class="value">${s.pct10 == null ? '—' : s.pct10 + '<small>百分位</small>'}</span><span class="delta">${s.pct10 == null ? '有本益比的月份少於 24 個月，不算百分位' : s.pct10 + '% 的月份比現在便宜（本益比較低）'}</span></div>
+      <div class="kpi"><span class="label">預估本益比（分析師預估）</span><span class="value">${fl ? x1(fl.fpe) : '<small>累積中</small>'}</span><span class="delta">${fl ? ym(fl.m) + ' 月底快照' + (fl.few ? ' · 預估人數少' : '') : '2026-11 月底起逐月存檔，不回填'}</span></div>
+    </div>
+    <div class="card wide">
+      <div class="tbl-bar"><h3>每月本益比走勢（倍）</h3>
+        <div class="seg" id="peWin" role="group" aria-label="期間"><button type="button" data-y="3" aria-pressed="false">近 3 年</button><button type="button" data-y="5" aria-pressed="false">近 5 年</button><button type="button" data-y="10" aria-pressed="false">近 10 年</button><button type="button" data-y="0" aria-pressed="true">全部</button></div></div>
+      <p class="how" id="peHow"></p>
+      <div class="legend" id="peLg"></div>
+      <div class="chartbox"><canvas id="cPE" aria-label="每月本益比"></canvas></div>
+      <p class="how pe-note">${COPY} 虧損期間圖上留白；本益比超過 ${CAP} 倍的點貼在圖的頂端，滑鼠移上去看實際值。股價用「分割調整後、不含股利調整」的收盤價，才跟網站已換算成今天股數的 EPS 對得上。</p>
+      <p class="how pe-note"><b>預估本益比</b> ＝ 月底收盤價 ÷ 未來 12 個月預估 EPS（分析師平均預估，按今年度剩餘天數在「今年度」與「下年度」之間加權）。它是<b>分析師預估</b>、不是財報數字，美股多為調整後（non-GAAP）EPS，通常比公認會計準則高，所以和歷史本益比<b>不能直接相減</b>；歷史只能從 2026-11 月底開始逐月累積，不回填。</p>
+    </div>
+    <details class="card wide pe-det"><summary>每月本益比數據表（${M.length} 個月）</summary>
+      <div class="tbl-wrap"><table id="tPE"></table></div></details>`;
+    const rows = M.slice().reverse().map(r => `<tr><td>${ym(r.m)}</td><td>${ym(r.d)}</td><td>${f2(r.c)}</td><td>${r.eps4 == null ? '—' : f4(r.eps4)}</td><td>${r.pe != null ? x1(r.pe) : `<span class="st-plan">${WHY[r.why] || '—'}</span>`}</td><td>${r.ntm == null ? '—' : f4(r.ntm)}</td><td>${r.fpe != null ? x1(r.fpe) + (r.few ? '＊' : '') : (r.fwhy && FWHY[r.fwhy] ? `<span class="st-plan">${FWHY[r.fwhy]}</span>` : '—')}</td></tr>`).join('');
+    sec.querySelector('#tPE').innerHTML = `<thead><tr><th>月份</th><th>收盤日</th><th>收盤價（${cur}）</th><th>近四季 EPS</th><th>本益比</th><th>未來 12 個月 EPS</th><th>預估本益比</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="7" class="txt" style="text-align:left">＊預估人數少於 3 人。未來 12 個月 EPS 與預估本益比為分析師預估，只有存檔過的月份才有。</td></tr></tfoot>`;
+    let chart = null, years = 0;
+    const draw = () => {
+      if (!window.Chart) return;
+      if (chart) chart.destroy();
+      let from = 0;
+      if (years) { const y = +last.m.slice(0, 4) - years, lo = `${y}-${last.m.slice(5)}`; from = Math.max(0, M.findIndex(r => r.m > lo)); }
+      const A = M.slice(from);
+      const labels = A.map(r => r.m);
+      const raw = A.map(r => r.pe);
+      const capped = raw.map(v => v == null ? null : Math.min(v, CAP));
+      const over = raw.filter(v => v != null && v > CAP).length;
+      const c1 = css('--s1'), c2 = css('--s4') || css('--s2');
+      const ds = [{ label: '歷史本益比', data: capped, raw, borderColor: c1, backgroundColor: c1, borderWidth: 2, pointRadius: (c) => (raw[c.dataIndex] != null && raw[c.dataIndex] > CAP) ? 4 : (c.dataIndex === raw.length - 1 || raw.filter(v => v != null).length < 3 ? 3 : 0), pointStyle: (c) => (raw[c.dataIndex] != null && raw[c.dataIndex] > CAP) ? 'triangle' : 'circle', pointHoverRadius: 4, tension: 0.15, spanGaps: false }];
+      const m5 = s.med5;
+      if (m5 != null) ds.push({ label: '近 5 年中位數', data: A.map(() => m5), borderColor: css('--axis'), borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 0, spanGaps: true });
+      const fp = A.map(r => r.fpe), nfp = fp.filter(v => v != null).length;
+      if (nfp) ds.push({ label: '預估本益比', data: fp.map(v => v == null ? null : Math.min(v, CAP)), raw: fp, borderColor: c2, backgroundColor: c2, borderWidth: 2, pointRadius: nfp < 3 ? 5 : 2, pointHoverRadius: 5, tension: 0.15, spanGaps: false });
+      const lg = [{ t: '歷史本益比', c: c1, ln: 1 }]; if (m5 != null) lg.push({ t: '近 5 年中位數', c: css('--axis'), ln: 1 }); if (nfp) lg.push({ t: '預估本益比（分析師預估）', c: c2, ln: 1 });
+      sec.querySelector('#peLg').innerHTML = lg.map(i => `<span><i class="ln" style="background:${i.c}"></i>${i.t}</span>`).join('');
+      const nul = A.filter(r => r.pe == null).length;
+      sec.querySelector('#peHow').innerHTML = `${ym(A[0].m)} – ${ym(A[A.length - 1].m)} 共 ${A.length} 個月，其中 <b>${A.length - nul}</b> 個月算得出本益比` + (nul ? `，<b>${nul}</b> 個月留白（虧損、累積未滿四季，或 EPS／公布日待確認，原因見數據表）` : '') + (over ? `；<b>${over}</b> 個月超過 ${CAP} 倍（貼在頂端，▲ 標記）` : '') + '。';
+      const grid = css('--grid'), tick = css('--tick');
+      chart = new Chart(sec.querySelector('#cPE'), { type: 'line', data: { labels, datasets: ds }, options: {
+        responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: css('--surface'), titleColor: css('--ink'), bodyColor: css('--ink-2'), borderColor: css('--axis'), borderWidth: 1, padding: 10, cornerRadius: 8,
+          callbacks: { title: (it) => it.length ? ym(it[0].label) + ' 月底' : '', label: (c) => { const v = c.dataset.raw ? c.dataset.raw[c.dataIndex] : c.raw; if (v == null) return null; return ` ${c.dataset.label} ${x1(v)}`; }, afterBody: (it) => { const r = A[it[0].dataIndex]; return r.pe == null && r.why ? ' 歷史本益比：' + (WHY[r.why] || '') : ''; } } } },
+        scales: { y: { min: 0, max: Math.min(CAP, Math.max(10, Math.ceil(Math.max(...capped.filter(v => v != null), ...fp.filter(v => v != null), m5 || 0) * 1.1 / 5) * 5)), border: { display: false }, grid: { color: grid, drawTicks: false }, ticks: { color: tick, padding: 8, callback: (v) => v + '×', font: { family: 'IBM Plex Mono, monospace', size: 11 } } },
+          x: { border: { color: css('--axis') }, grid: { display: false }, ticks: { color: tick, maxRotation: 0, autoSkip: true, maxTicksLimit: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: function (v) { const l = this.getLabelForValue(v); return l ? l.slice(0, 4) + (l.slice(5) === '01' ? '' : '/' + l.slice(5)) : ''; } } } } } });
+    };
+    sec.querySelector('#peWin').addEventListener('click', (e) => { const bt = e.target.closest('button'); if (!bt) return; years = +bt.dataset.y; sec.querySelectorAll('#peWin button').forEach(x => x.setAttribute('aria-pressed', String(x === bt))); draw(); });
+    draw();
+    let t; const re = () => { clearTimeout(t); t = setTimeout(draw, 60); };
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', re);
+    new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    sec.hidden = false;
+    const gl = document.getElementById('gloss');
+    if (gl) gl.insertAdjacentHTML('beforeend', [
+      ['本益比', 'P/E ratio', '市場用幾倍的價格買這家公司一年的獲利。倍數高代表市場願意為每 1 元獲利付更高的價格（常見於預期成長快的公司），低則相反；高低不代表貴或便宜。', '月底收盤價 ÷ 當時已公布的近四季 EPS 加總'],
+      ['近四季 EPS', 'Trailing EPS', '最近連續四季的每股盈餘加總。「當時已公布」指財報公布日（rd）不晚於該月最後交易日。', '最近 4 個已公布季度的 EPS 相加'],
+      ['歷史百分位', 'Percentile', '最新本益比在過去 10 年每個月的本益比中排第幾。例：第 80 百分位＝過去 10 年有 80% 的月份本益比比現在低。', '低於現值的月份數 ÷ 有本益比的月份數'],
+      ['預估本益比', 'Forward P/E', '用分析師對「未來 12 個月」EPS 的平均預估來算的本益比。預估會被修正，美股多為調整後 EPS，不能和歷史本益比直接相減。', '月底收盤價 ÷ 未來 12 個月預估 EPS'],
+      ['未來 12 個月 EPS', 'NTM EPS', '分析師按會計年度給今年度與下年度預估，依今年度剩餘天數加權成未來 12 個月。', 'w×今年度預估 ＋ (1−w)×下年度預估；w＝今年度剩餘天數 ÷ 365'],
+    ].map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join(''));
+    const sl = document.getElementById('srcList');
+    if (sl) sl.insertAdjacentHTML('beforeend', `<li>股價：Yahoo Finance 日線 Close（已依股票分割調整、不含股利調整；每月由 GitHub Actions 抓取，台股另與證交所收盤價交叉核對）。財報公布日（rd）與 EPS 見各公司 SOURCES.md。預估本益比使用 Yahoo Finance 的分析師 EPS 預估（非財報數字）。</li>`);
+    if (!hasPE) sec.querySelector('#peHow').innerHTML += ' 目前還沒有任何一個月算得出本益比。';
+  }
+  return { mount, brief, WHY, CAP, x1, ym };
 })();
 
 
@@ -1088,6 +1212,7 @@ if (window.Chart) build(); else if (D.waterfall) drawWaterfall(D.waterfall, '#wf
 let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(() => { if (window.Chart) build(); }, 60); };
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
 new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+PEV.mount(D);
 </script>
 
 </body></html>

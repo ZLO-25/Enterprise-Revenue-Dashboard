@@ -3,7 +3,7 @@
 用法：
   python3 tools/new_company.py <代號> --name 中文名 --name-en EnglishName --ticker NVDA \
       --exchange "Nasdaq NVDA" --sector 半導體 --currency USD [--unit 百萬美元] [--eps-unit 美元] \
-      [--source-name "SEC EDGAR"] [--source-url https://...] [--enable]
+      [--yahoo NVDA --price-from 2009-02 [--twse 2330] | --no-price] [--source-name "SEC EDGAR"] [--source-url https://...] [--enable]
 
 會建立／修改：
   data/<代號>.json               由 templates/_skeleton/data.v1.json 產生的空殼（所有數字為 null）
@@ -32,8 +32,14 @@ def main():
     ap.add_argument("--source-name", default="SEC EDGAR（10-Q、10-K、8-K）")
     ap.add_argument("--source-url", default="https://www.sec.gov/edgar/search/")
     ap.add_argument("--frequency", default="quarterly", choices=["quarterly", "monthly+quarterly"])
+    ap.add_argument("--yahoo", help="Yahoo Finance 代碼（主要掛牌地普通股，例：NVDA、2330.TW、005930.KS）。有上市就必填")
+    ap.add_argument("--price-from", help="股價起點 YYYY-MM（第一季資料的季度起始月或上市當月，取較晚者）")
+    ap.add_argument("--twse", help="台股才填：證交所股票代號（會做證交所收盤價交叉核對），例：2330")
+    ap.add_argument("--no-price", action="store_true", help="尚未上市：companies.json 的 price 寫 null")
     ap.add_argument("--enable", action="store_true", help="直接 enabled:true（預設 false，填完資料並通過核對再開）")
     a = ap.parse_args()
+    if not a.no_price and not (a.yahoo and a.price_from):
+        sys.exit("本益比需要股價：請填 --yahoo <代碼> --price-from YYYY-MM（台股再加 --twse <代號>）；尚未上市請改用 --no-price")
     code = a.code.lower()
     if not code.isalnum():
         sys.exit("代號只能是小寫英數字")
@@ -75,11 +81,14 @@ def main():
             "code": code, "name": a.name, "nameEn": a.name_en, "ticker": a.ticker, "exchange": a.exchange,
             "sector": a.sector.strip(), "currency": a.currency.upper(), "frequency": a.frequency, "path": code + "/", "schema": "v1", "template": "generic",
             "title": f"{a.name}財報追蹤板", "description": f"{a.name}（{a.ticker}）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+            "price": None if a.no_price else dict({"yahoo": a.yahoo, "from": a.price_from, "currency": a.currency.upper()}, **({"twse": a.twse} if a.twse else {})),
             "primarySource": {"n": a.source_name, "url": a.source_url}, "artifact": cfg["site"].get("artifact"), "enabled": bool(a.enable),
         })
         with open(cfg_path, "w", encoding="utf8") as f:
             json.dump(cfg, f, ensure_ascii=False, indent=2); f.write("\n")
         print("  companies.json 已加入設定" + ("（enabled:true）" if a.enable else "（enabled:false，填完資料再改成 true）"))
+    if not a.no_price:
+        print("  提醒：每一季要填 rd（財報公布日）；設定 price 後請手動觸發 GitHub Actions 的 prices-monthly 並等它完成，再抽查 3 個月股價")
     print("\n下一步：\n  1. 照 companies/%s/SOURCES.md 蒐集資料，填進 data/%s.json（取不到的欄位留 null）\n  2. python3 tools/validate.py %s\n  3. companies.json 把 enabled 改成 true → python3 tools/build.py\n  4. 用無頭瀏覽器檢查 /%s/，再 commit、push" % (code, code, code, code))
 
 

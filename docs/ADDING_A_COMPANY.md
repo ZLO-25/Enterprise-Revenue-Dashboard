@@ -42,6 +42,8 @@ python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA -
 - 台股：`--currency TWD --exchange "TWSE 2454"`；有月營收的公司加 `--frequency monthly+quarterly`（月營收欄位目前只有台積電舊格式支援，新公司先以季報為主，月營收可放 `extra`）。
 - 會計年度不是曆年（例：NVDA 的 FY 到 1 月底）：季度標籤仍用公司自己的會計季度（`4Q26` = FY2026 Q4），並在 SOURCES.md 寫清楚對應的月份。
 
+- 本益比：加 `--yahoo <Yahoo 代碼> --price-from <YYYY-MM>`（台股再加 `--twse <代號>`）；尚未上市加 `--no-price`（`price:null`）。
+
 ### ② `companies/<代號>/SOURCES.md`
 腳手架已產生範本，照 `companies/pltr/SOURCES.md` 的深度補完：來源（依可信度排序）、欄位定義與單位、第四季推算、核對規則、每月排程的更新步驟、已知缺口。**排程每次都照這份做，所以要寫到沒看過這個專案的人也能執行。**
 
@@ -50,6 +52,11 @@ python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA -
 - 美股優先用 SEC EDGAR XBRL（`https://data.sec.gov/api/xbrl/companyconcept/CIK##########/us-gaap/<概念>.json`，WebFetch 讀得到）與 8-K 財報新聞稿；台股用公開資訊觀測站與公司 IR。
 - 從公司最早能取得的一季開始；取不到的欄位填 `null` 並寫進 `notes.unavailable`。
 - 第四季通常要用「全年減前三季累計」推算（EPS 除外），並與公司公布的全年數字核對。
+
+### ③b 股價與財報公布日（本益比）
+1. 每一季填 `rd`／`rdB`（EPS 第一次公開的日期）；讀不到填 `null` 並寫「待確認」，不可推算。
+2. 設定 `price` 後到 GitHub → Actions → prices-monthly → Run workflow，等它跑完（會產生 `data/prices/<代號>.json`）。
+3. 抽查 3 個月底股價（最早、最近一次分割前、最新）對第二個獨立來源，確認分割前後本益比沒有斷崖；結果寫進 SOURCES.md。
 
 ### ④ `data/<代號>.json`
 格式見 [`docs/DATA_SCHEMA.md`](DATA_SCHEMA.md)。重點：

@@ -23,6 +23,13 @@
 - 每家公司的更新方法只看它自己的 `companies/<代號>/SOURCES.md`（來源、單位、會計年度、第四季推算、核對規則、更新步驟）。不同公司寫法不同（月營收、季報、會計年度不同），**照各自的 SOURCES.md 做，不要拿別家的做法套用**。
 - 某家公司缺 `companies/<代號>/SOURCES.md` 或 `data/<代號>.json`：這家跳過、不改檔案，在回報列出原因，其他公司照常做。
 
+## 本益比、股價與財報公布日（每次都要做）
+- **新增每一季時同時填 `rd` 與 `rdB`**（那一季 EPS 第一次公開的日期）：美股優先用 8-K Item 2.02 新聞稿日（`rdB:"p"`），讀不到才用該季 10-Q／10-K 申報日（`rdB:"f"`）；台積電、台達電用法說會或公開資訊觀測站公告日（`rdB:"c"`）；三星用正式財報法說會日（`rdB:"c"`）。讀不到填 `null`，並在 `notes.unavailable` 加「待確認：<季度> 的財報公布日（rd）：原因」，**不可以用季度結束後幾天推算**；最新一季的 `rd` 不可為 null。預估公布日（`est`）換成公司公告日時，確認 `rd` 一致。
+- **股價不是你寫的**：`data/prices/<代號>.json` 由 GitHub Actions（prices-monthly，每月 1～6 日）寫入。先 `git pull` 取得最新；檢查每家公司的股價檔最後一個月是不是上個月。沒進來 → 用 GitHub 工具手動觸發 prices-monthly 一次（`mcp__github__actions_run_trigger`），並在回報說明；仍然不可以自己填股價、不可以估計。
+- **股票分割**：EPS 重編（SOURCES.md 步驟）與股價檔重抓必須在同一次完成：重編 EPS 後觸發 prices-monthly 並在 `accept` 填該公司代號；否則 validate 會因本益比相鄰月份跳動超過 3 倍而失敗。
+- **預估本益比**：由 Actions 每月存當月快照，**不補、不回填、不用今天的預估填過去的月份**；回報列各公司最新預估本益比，缺的列待確認。
+- 本益比與預估本益比都不存檔、不手填（`tools/pe.py` 建置時算出）。
+
 ## 步驟
 1. 把 repo clone 下來（`git clone https://github.com/ZLO-25/Enterprise-Revenue-Dashboard`），讀 `CLAUDE.md`、`companies.json`。若沒有這個 repo 的存取權，先用 `add_repo` 工具（owner `ZLO-25`，repo `Enterprise-Revenue-Dashboard`，access `push`）附加；仍失敗就回報後結束。
 2. **記下每家公司的「上次資料位置」**（動手改之前先記）：從 `data/<代號>.json` 讀出
@@ -38,7 +45,7 @@
    - SOURCES.md 有交叉核對規則的（例如新聞稿對 XBRL、季營收對三個月月營收加總、第四季＝全年減前三季）都要做；兩個來源對不起來就以 SOURCES.md 指定的為準，並在回報寫出差多少。
    - **資料誠實規則**：讀不到、算不出來、來源對不起來的數字填 `null`，在 `notes.unavailable`（沒有這個欄位的舊格式公司就寫進回報）加一行「待確認：<哪一季／月>、<哪個欄位>、<原因>」。只有媒體報導、公司未證實的事件 `unc:1`，`note` 以「待確定：」開頭。**不估計、不內插、不從記憶補數字。**
 5. 核對：`python3 tools/validate.py <代號>`。**沒過的公司不發佈**：用 `git checkout -- data/<代號>.json` 還原、保留原值，回報說明哪一項、差多少。不可以為了通過核對去改數字或放寬核對。
-6. 判斷實質變動：所有公司都沒有實質變動 → 不 commit、不發佈、不通知，**安靜結束**。
+6. 判斷實質變動（有新的季度／月份資料，**或 `data/prices/` 有新的股價月份**，都算實質變動；只有 `asOf` 變動不算）：所有公司都沒有實質變動 → 不 commit、不發佈、不通知，**安靜結束**。
 7. 有實質變動：`python3 tools/build.py`（會重產各公司頁面、首頁、`dist/artifacts/`），再 `python3 tools/validate.py` 一次。commit 訊息用繁體中文簡述這次新增的期間（例：「<公司> 加入 <季度> 季報」「<公司> 更新 <月份> 營收」），`git push -u origin main`；GitHub Pages 會自動重新部署。
 8. Artifact：只有**一個合併版 Artifact**（總覽＋各公司分頁），網址在 `companies.json` 的 `site.artifact`。任何公司有變動時，用 Artifact 工具 publish：`file_path` 用 `dist/artifacts/all.html`，`url` 用 `site.artifact`。發佈前先用 `action:"read"` 讀該 Artifact（工具要求先讀才能更新）。`label` 寫這次變動。不要建立新的 Artifact；各公司自己的 `artifact` 欄位不用更新。
 9. 有變動時用 PushNotification 通知使用者（內容即下面回報的精簡版）。沒有變動就不通知。
@@ -57,5 +64,6 @@
 - 所有「待確認」「待確定」項目（哪家、哪一期、哪個欄位、原因）
 - 核對沒過、被跳過或沒能更新的公司與原因
 - GitHub Pages（push 是否成功）與合併版 Artifact 是否更新成功
+- 各公司最新本益比（月底）與預估本益比、股價最後一個月；本次新增的 `rd` 與缺的 `rd`（待確認）
 - 各公司下一個公布日
 - 使用的來源連結

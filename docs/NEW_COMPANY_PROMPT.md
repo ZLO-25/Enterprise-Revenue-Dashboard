@@ -62,7 +62,7 @@ add new company: NVDA, AMD
 - 超過 3 家時，先做前 3 家，其餘列在回報裡等我說「繼續」。
 
 ## 步驟（每家公司各做一次 1–4，全部做完再做 5–8）
-1. 腳手架：python3 tools/new_company.py <代號> --name <中文名> --name-en <英文名> --ticker <代號> --exchange "<交易所 代號>" --sector <產業> --currency <幣別>
+1. 腳手架：python3 tools/new_company.py <代號> --name <中文名> --name-en <英文名> --ticker <代號> --exchange "<交易所 代號>" --sector <產業> --currency <幣別> --yahoo <Yahoo 代碼> --price-from <YYYY-MM>（台股再加 --twse <代號>；尚未上市改用 --no-price）
    （代號用小寫英數字，同時是網址路徑；不要手動建檔。）
    產業 sector 必填（首頁分頁籤用）：先看 companies.json 現有的產業名稱（目前：半導體、軟體與網路服務、硬體與網通、電動車與太空），有合適的就照抄一字不差；都不合適才取一個新名稱（12 字以內），首頁會自動多一個分頁。回報時寫出歸到哪個產業、是不是新分頁、為什麼。
 2. 寫 companies/<代號>/SOURCES.md：來源依可信度排序（主管機關申報文件 → 公司 IR → 法說會 → 可信媒體只用於事件）、欄位定義與單位、第四季推算方式、核對規則、每月排程的更新步驟（只補上次資料之後的新期間）、已知缺口。要寫到沒看過這個專案的人也能照做，因為每月排程會照這份執行。
@@ -72,6 +72,7 @@ add new company: NVDA, AMD
    - 第四季 = 全年 − 前三季累計（EPS 除外，取公司公布的 Q4）。
    - annual 只放公司公布的全年數字；guidance 用 items[] 形式；events 放下一個公布日（公司未公告的加 est:1）；waterfall 換成最新一季；milestones 列上市、重大產品、合約、併購、指數納入；sources 列頁面要顯示的來源連結；notes.unavailable 列「待確認」與取不到的欄位。
    - 有分部營收就放 segments（分部加總＝營收）；公司專屬指標放 extra（keys 指定哪些要畫圖）。
+3b. 本益比資料：每一季都要填 rd（EPS 第一次公開的日期）與 rdB，讀不到填 null 並寫待確認（不可推算）；companies.json 的 price 設好後，手動觸發 GitHub Actions 的 prices-monthly 並等它完成（股價只由它寫，Claude 不手填）；回補後每家抽查 3 個月底股價（最早、最近一次分割前、最新）對第二個獨立來源，結果寫進 SOURCES.md，確認分割前後本益比沒有斷崖。預估本益比不回填。確認表多兩欄：Yahoo 代碼、股價起點。
 4. 核對：python3 tools/validate.py <代號>。沒過就回到來源修資料，不要放寬核對、不要改數字去湊。修不好的公司保持 enabled:false，在回報說明卡在哪一項、差多少。
 5. 通過核對的公司：companies.json 把 enabled 改成 true，確認 primarySource {n, url}；python3 tools/validate.py && python3 tools/build.py。
 6. 用無頭瀏覽器（Playwright）開首頁與每家公司的頁面：桌機 1280、手機 390、深色模式；沒有 JavaScript 錯誤、沒有水平捲動、沒有 undefined／NaN。容器的 curl 多半被擋，讀網頁用 WebFetch／WebSearch；Chart.js 在 repo 的 assets/vendor/ 有本地副本。

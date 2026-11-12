@@ -71,3 +71,10 @@ GitHub Pages：Settings → Pages → Deploy from a branch → `main` / `/ (root
 資料來自各公司的投資人關係網站、SEC EDGAR（10-Q、10-K、8-K）與公開資訊；只有媒體報導、公司未證實的消息標為「待確定」。調整後（non-GAAP）數字是公司自訂指標。
 
 **本專案為公開資料的整理與計算，不構成任何投資建議；整理過程可能有誤或延遲，使用前請自行核對；過去的財務表現不代表未來結果。**
+
+## 每月本益比與預估本益比
+
+每家公司頁有「本益比（每月）」一節，首頁有本益比比較圖與記分板欄位。
+- 本益比 ＝ 月底收盤價 ÷ 「那一天為止已公布」的最近四季 EPS 加總（`tools/pe.py` 建置時算出，不存檔）。
+- 預估本益比 ＝ 月底收盤價 ÷ 未來 12 個月分析師預估 EPS；只有每月快照、不回填。
+- 股價由 `.github/workflows/prices-monthly.yml` 每月 1～6 日抓 Yahoo Finance（台股另對證交所），寫入 `data/prices/`；財報公布日 `rd` 在 `data/<代號>.json` 的每一季。詳見 `docs/DATA_SCHEMA.md`。

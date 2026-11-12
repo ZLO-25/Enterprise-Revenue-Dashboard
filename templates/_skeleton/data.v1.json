@@ -19,7 +19,7 @@
     ]
   },
   "quarters": [
-    { "q": "1Q24", "rev": null, "gp": null, "gm": null, "opInc": null, "om": null, "ni": null, "eps": null, "ocf": null, "capex": null, "fcf": null, "dps": null }
+    { "q": "1Q24", "rev": null, "gp": null, "gm": null, "opInc": null, "om": null, "ni": null, "eps": null, "ocf": null, "capex": null, "fcf": null, "dps": null, "rd": null }
   ],
   "annual": {
     "2024": { "rev": null, "gp": null, "opInc": null, "ni": null, "eps": null, "ocf": null, "capex": null }

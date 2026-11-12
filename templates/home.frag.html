@@ -129,6 +129,12 @@
         <div class="legend" id="lgY"></div>
         <div class="chartbox"><canvas id="cY" aria-label="營收年增率比較"></canvas></div>
       </div>
+      <div class="card wide">
+        <h3>本益比比較（每月月底，倍）</h3>
+        <p class="how">本益比是倍數，幣別會約掉，可以跨公司直接看「市場用幾倍的價格買一年獲利」。虧損期間斷線；超過 200 倍的點貼在頂端。期間跟上面三張圖的開關連動。<b>口徑：</b>美股為稀釋 EPS，台積電、台達電、三星為基本 EPS，都是公認會計準則數字。本益比高低不代表貴或便宜，不是買賣建議。</p>
+        <div class="legend" id="lgPE"></div>
+        <div class="chartbox"><canvas id="cPE" aria-label="本益比比較"></canvas></div>
+      </div>
     </div>
   </section>
 
@@ -172,7 +178,7 @@ const DATA = {{DATASETS}};
 const REPO = 'https://github.com/{{REPO}}';
 
 /* 每家公司 → 標準序列 N → 長期指標 M → 新鮮度 F */
-const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c, D: DATA[c.code], N, M: LT.metrics(N), F: LT.freshness(DATA[c.code]), s: N.latest }; });
+const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c, D: DATA[c.code], N, M: LT.metrics(N), F: LT.freshness(DATA[c.code]), s: N.latest, P: PEV.brief(DATA[c.code]) }; });
 const latest = S.map(s => s.D.asOf).sort().pop();
 $('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>每月 12 日 07:48（台北）自動更新</span>`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
@@ -182,7 +188,7 @@ $('#promptLink').href = REPO + '/blob/main/docs/NEW_COMPANY_PROMPT.md';
 
 /* ---------- 公司卡片 ---------- */
 const nextTxt = (s) => s.s.next ? s.s.next.date.replace(/-/g, '/') + (s.s.next.est ? '（預估）' : '') : '—';
-$('#cos').innerHTML = S.map(({ c, D, N, M, F, s }) => `
+$('#cos').innerHTML = S.map(({ c, D, N, M, F, s, P }) => `
   <article class="co" data-code="${c.code}">
     <div class="co-top"><button type="button" class="sec-tag" data-sector="${c.sector}" title="只看${c.sector}">${c.sector}</button>${LT.badge(F)}</div>
     <h2>${c.name}<span class="code">${c.exchange}</span></h2>
@@ -196,6 +202,11 @@ $('#cos').innerHTML = S.map(({ c, D, N, M, F, s }) => `
       <div><dt>近四季營收</dt><dd>${f0(M.ttmRev)}<small>${N.unitShort}</small></dd><dd class="sub"><span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span></dd></div>
       <div><dt>3 年年化成長</dt><dd>${pc(M.cagr3)}</dd><dd class="sub">5 年 ${pc(M.cagr5)}</dd></div>
       <div><dt>自由現金流率</dt><dd>${pc(M.ttmFcfM)}</dd><dd class="sub">淨利率 ${pc(M.ttmNm)}</dd></div>
+    </dl>
+    <dl class="stats lt-row pe-row">
+      <div><dt>本益比（月底）</dt><dd>${P.pe}</dd><dd class="sub">${P.sub || '&nbsp;'}</dd></div>
+      <div><dt>預估本益比</dt><dd>${P.fpe}</dd><dd class="sub">${P.fpeSub || '&nbsp;'}</dd></div>
+      <div><dt>10 年百分位</dt><dd>${P.pct}</dd><dd class="sub">中位數 ${P.med10 || '—'}</dd></div>
     </dl>
     <div class="foot"><span>資料截至 ${D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${nextTxt({ s })}${s.next ? '（' + s.next.t.split('（')[0] + '）' : ''}</span></div>
     <div><a class="go" href="${c.path}">看 ${c.name} 追蹤板 →</a></div>
@@ -248,14 +259,17 @@ const ROWS = [
   ['淨利率（近四季）', s => pc(s.M.ttmNm), '近四季淨利 ÷ 近四季營收。'],
   ['自由現金流率（近四季）', s => pc(s.M.ttmFcfM), '（營業現金流 − 資本支出）÷ 營收。接近或高於淨利率，代表獲利有變成現金。'],
   ['近四季 EPS 年增', s => `<span class="${cls(s.M.ttmEpsYoy)}">${sp(s.M.ttmEpsYoy)}</span>`, '近四季 EPS 對前一個四季 EPS。EPS 由負轉正或基期極小時會失真。'],
+  ['本益比（最新月底）', s => s.P.has ? (s.P.latestPe != null ? s.P.pe : `<span class="st-plan">${s.P.pe}</span>`) : '—', '月底收盤價 ÷ 當時已公布的近四季 EPS。虧損或累積未滿四季時不計算。美股為稀釋 EPS，台積電、台達電、三星為基本 EPS。'],
+  ['本益比近 10 年百分位', s => s.P.pct, '最新本益比在近 10 年每月本益比中的位置（只用有本益比的月份，少於 24 個月不算）。數字越小代表歷史上越少月份比現在便宜。高低不代表貴或便宜。'],
+  ['預估本益比（分析師預估）', s => s.P.fpe, '月底收盤價 ÷ 未來 12 個月分析師預估 EPS。預估不是財報數字，多為調整後口徑，只能從 2026-11 起逐月累積。'],
   ['資料年數', s => `${s.M.years} 年`, '這個板收錄了幾年的季度資料；年數越長，長期指標越可靠。'],
 ];
 $('#scoreTbl').innerHTML = `<thead><tr><th>指標</th>${S.map(s => `<th>${s.c.name}</th>`).join('')}</tr></thead><tbody>` +
   ROWS.map(r => `<tr><td class="lbl">${r[0]}</td>${S.map(s => `<td>${r[1](s)}</td>`).join('')}</tr><tr class="exp"><td colspan="${S.length + 1}">${r[2]}</td></tr>`).join('') + '</tbody>';
 
 /* ---------- 新鮮度表 ---------- */
-$('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th></tr></thead><tbody>` +
-  S.map(({ c, D, F, s }) => `<tr><td style="font-family:var(--font-cjk)">${c.name}</td><td>${D.asOf.replace(/-/g, '/')}</td><td>${LT.badge(F)}</td><td>${s.qLabel}</td><td>${nextTxt({ s })}</td><td class="txt">${s.next ? s.next.t : '公司尚未公告'}</td><td class="txt">${c.primarySource ? `<a href="${c.primarySource.url}" target="_blank" rel="noopener">${c.primarySource.n}</a>` : '—'} · <a href="${REPO}/blob/main/companies/${c.code}/SOURCES.md" target="_blank" rel="noopener">欄位與核對規則</a></td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[c.frequency] || c.frequency}</td></tr>`).join('') + '</tbody>';
+$('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th><th>股價截至</th></tr></thead><tbody>` +
+  S.map(({ c, D, F, s, P }) => `<tr><td style="font-family:var(--font-cjk)">${c.name}</td><td>${D.asOf.replace(/-/g, '/')}</td><td>${LT.badge(F)}</td><td>${s.qLabel}</td><td>${nextTxt({ s })}</td><td class="txt">${s.next ? s.next.t : '公司尚未公告'}</td><td class="txt">${c.primarySource ? `<a href="${c.primarySource.url}" target="_blank" rel="noopener">${c.primarySource.n}</a>` : '—'} · <a href="${REPO}/blob/main/companies/${c.code}/SOURCES.md" target="_blank" rel="noopener">欄位與核對規則</a></td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[c.frequency] || c.frequency}</td><td>${P.has ? PEV.ym(P.priceD) : '—'}</td></tr>`).join('') + '</tbody>';
 
 /* ---------- 比較圖：三張圖共用同一段期間，時間軸對齊 ---------- */
 const qKey = (q) => q.slice(2) + q[0];                       // '3Q24' → '243'，可直接排序
@@ -298,6 +312,26 @@ function build() {
   charts.push(new Chart($('#cY'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, s.N.Q.map(q => q.yoy), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
     options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
       plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }), endLabels: { fmt: v => sp(v) } } }) }));
+  /* 5. 本益比：月度資料。期間與上面三張圖連動（近 N 季 ＝ 近 3N 個月）；「全部」＝從最早有本益比的月份起 */
+  (() => {
+    const mk = (m) => m.slice(0, 4) + m.slice(5, 7);
+    const have = S.map(s => s.D.valuation ? s.D.valuation.monthly : []);
+    const monthsAll = [...new Set(have.flat().map(r => r.m))].sort();
+    const firstPe = monthsAll.find(m => have.some(arr => arr.some(r => r.m === m && r.pe != null)));
+    if (!firstPe) { $('#cPE').closest('.card').hidden = true; return; }
+    const i0 = winN ? Math.max(0, monthsAll.length - winN * 3) : monthsAll.indexOf(firstPe);
+    const mLabels = monthsAll.slice(i0);
+    const series = have.map(arr => { const m = {}; arr.forEach(r => { m[r.m] = r; }); return mLabels.map(l => m[l] && m[l].pe != null ? m[l] : null); });
+    const CAPV = PEV.CAP;
+    const dsP = S.map((s, i) => cmpLine({ label: s.c.name, data: series[i].map(r => r ? Math.min(r.pe, CAPV) : null), raw: series[i].map(r => r ? r.pe : null), borderColor: COL(i), backgroundColor: COL(i), spanGaps: false, segment: undefined,
+      pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; return c.dataIndex === k ? 3 : 0; } }));
+    legend('#lgPE', S.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 })));
+    const mx = Math.max(10, ...series.flat().filter(Boolean).map(r => Math.min(r.pe, CAPV)));
+    const lab = mLabels;
+    charts.push(new Chart($('#cPE'), { data: { labels: lab, datasets: dsP }, options: baseOpts({ ...endPad(), scales: { y: yAxis({ min: 0, max: Math.min(CAPV, Math.ceil(mx * 1.08 / 10) * 10) }, { callback: v => v + '×' }),
+      x: xAxis({}, { autoSkip: true, maxTicksLimit: 8, callback: function (v) { const l = this.getLabelForValue(v); return l ? l.slice(0, 4) + '/' + l.slice(5) : ''; } }) },
+      plugins: { ...tip({ itemSort: (a, b) => (b.raw ?? -Infinity) - (a.raw ?? -Infinity), callbacks: { title: (it) => it.length ? it[0].label.replace('-', '/') + ' 月底' : '', label: c => { const v = c.dataset.raw[c.dataIndex]; return v == null ? null : ` ${c.dataset.label} ${v.toFixed(1)}×${v > CAPV ? '（超過上限，貼在頂端）' : ''}`; } } }), endLabels: { fmt: v => v.toFixed(1) + '×' } } }) }));
+  })();
 }
 $('#winSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; winN = Number(b.dataset.n); syncSeg('winSeg', 'n', b.dataset.n); build(); });
 $('#mSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; mKey = b.dataset.m; syncSeg('mSeg', 'm', mKey); build(); });

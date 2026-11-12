@@ -132,3 +132,35 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 
 ## 舊格式
 台積電用 `tsmc-legacy`（月營收百萬元、資本支出十億元等），由 `assets/adapters.js` 轉成標準序列；新公司一律用 v1，不要再新增格式。若真的需要新格式：在 `ADAPTERS` 加一個函式（約 15 行）、在 `tools/validate.py` 的 `SCHEMA_CHECKS` 加核對，其他都不用動。
+
+## 本益比相關欄位（2026-11 新增）
+
+```
+ data/<代號>.json  quarters[].eps ─┐
+ data/<代號>.json  quarters[].rd  ─┼─► tools/pe.py ─► valuation（建置時算出，放進頁面資料，不存檔）
+ data/prices/<代號>.json          ─┘
+   monthly[]  每月最後交易日收盤價（GitHub Actions 寫）
+   forward[]  每月分析師預估快照（GitHub Actions 寫，不回填）
+```
+
+### `quarters[].rd` / `rdB`（財報公布日）
+- `rd`：`YYYY-MM-DD`，那一季 EPS 第一次公開的日期；讀不到填 `null`，並在 `notes.unavailable` 加「待確認：<季度> 的財報公布日（rd）：原因」。最新一季不可為 `null`。
+- `rdB`：`f` 10-Q／10-K 申報日（較晚、偏保守）、`p` 財報新聞稿日、`c` 公司法說會日、`t` 證交所 BWIBBU 財報生效日。
+- 依季度遞增；與由 `fiscalYearEnd` 推得的季度結束日相差 5～120 天（`validate.py` 檢查）。台積電的 `quartersEarly` 不加。
+
+### `data/prices/<代號>.json`
+```json
+{"symbol":"AAPL","currency":"USD","source":"Yahoo Finance …","fetched":"2026-11-12",
+ "monthly":[{"m":"2026-10","d":"2026-10-30","c":123.45,"x":"twse"}],
+ "forward":[{"m":"2026-11","asOf":"2026-12-02","fy1End":"2027-09-25","fy2End":"2028-09-25","eps1":8.1,"eps2":9.0,"n1":30,"n2":28}]}
+```
+- `c`：分割調整後、不含股利調整的收盤價；`c:null` 必須有 `why:"待確認：…"`。`x:"twse"` 表示已對證交所收盤價核對（差 ≤ 0.5%）。
+- `forward[]`：`why` 有值代表那個月沒有可用預估（待確認）；一旦寫入不再覆寫。數字只是格式範例，不是真實股價。
+
+### `companies.json` 的 `price`
+`{"yahoo":"AAPL","from":"2008-10","currency":"USD","twse":"2330"}`（`twse` 只有台股填）；未上市填 `null`。
+
+### valuation（`tools/pe.py` 輸出）
+`monthly[] = {m,d,c,eps4,pe,why,ntm,fpe,fwhy,few}`；`why`：`loss` 近四季 EPS ≤ 0、`short` 已公布未滿四季、`missing` EPS 或公布日待確認、`price` 股價待確認。
+`stats = {latest, med5, med10, pct10, fpeLatest, …}`：中位數與百分位只用有本益比的月份；少於 12 個月不算中位數、少於 24 個月不算百分位。
+預估本益比：`NTM = w×eps1 + (1−w)×eps2`，`w = min(fy1End − 月底, 365) ÷ 365`；`NTM ≤ 0` 不計算；分析師少於 3 人照算但標「預估人數少」。

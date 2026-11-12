@@ -97,6 +97,16 @@ const PEV = (() => {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', re);
     new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     sec.hidden = false;
+    const gl = document.getElementById('gloss');
+    if (gl) gl.insertAdjacentHTML('beforeend', [
+      ['本益比', 'P/E ratio', '市場用幾倍的價格買這家公司一年的獲利。倍數高代表市場願意為每 1 元獲利付更高的價格（常見於預期成長快的公司），低則相反；高低不代表貴或便宜。', '月底收盤價 ÷ 當時已公布的近四季 EPS 加總'],
+      ['近四季 EPS', 'Trailing EPS', '最近連續四季的每股盈餘加總。「當時已公布」指財報公布日（rd）不晚於該月最後交易日。', '最近 4 個已公布季度的 EPS 相加'],
+      ['歷史百分位', 'Percentile', '最新本益比在過去 10 年每個月的本益比中排第幾。例：第 80 百分位＝過去 10 年有 80% 的月份本益比比現在低。', '低於現值的月份數 ÷ 有本益比的月份數'],
+      ['預估本益比', 'Forward P/E', '用分析師對「未來 12 個月」EPS 的平均預估來算的本益比。預估會被修正，美股多為調整後 EPS，不能和歷史本益比直接相減。', '月底收盤價 ÷ 未來 12 個月預估 EPS'],
+      ['未來 12 個月 EPS', 'NTM EPS', '分析師按會計年度給今年度與下年度預估，依今年度剩餘天數加權成未來 12 個月。', 'w×今年度預估 ＋ (1−w)×下年度預估；w＝今年度剩餘天數 ÷ 365'],
+    ].map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join(''));
+    const sl = document.getElementById('srcList');
+    if (sl) sl.insertAdjacentHTML('beforeend', `<li>股價：Yahoo Finance 日線 Close（已依股票分割調整、不含股利調整；每月由 GitHub Actions 抓取，台股另與證交所收盤價交叉核對）。財報公布日（rd）與 EPS 見各公司 SOURCES.md。預估本益比使用 Yahoo Finance 的分析師 EPS 預估（非財報數字）。</li>`);
     if (!hasPE) sec.querySelector('#peHow').innerHTML += ' 目前還沒有任何一個月算得出本益比。';
   }
   return { mount, brief, WHY, CAP, x1, ym };
