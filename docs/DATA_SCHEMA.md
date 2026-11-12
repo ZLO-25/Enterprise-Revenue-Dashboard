@@ -240,3 +240,9 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 
 ### `data/consensus/<代號>.json`（GitHub Actions 寫，Claude 不手填）
 `{"code","snapshots":[{date,period,epsAvg,epsLow,epsHigh,epsN,epsBasis,revAvg,revLow,revHigh,revN,cur}]}`。`tools/consensus.py` 每週二至六 07:40（台北，`consensus-daily.yml`）在「財報公布日前 14 天內」存一張；公布日（台北時間）當天早上為止。營收是原幣「元」（不是百萬）。舊快照不改、不補、不用今天的預估填過去。公司還沒公布但資料沒更新、或已有更新的 8-K Item 2.02 時不拍。分析師少於 3 位照存，頁面標「預估人數少」。已實測 Yahoo 有當季（`0q`）預估。
+
+## 論點卡 data/thesis/<代號>.json
+- `status`：`draft`（Claude 草稿，不上線）／`approved`（ZL 確認後才上線）。`build.py` 只注入 approved；approved 的每個 `metrics[].by` 必須是 `"ZL"`（validate 會擋）。
+- 欄位：`oneLiner`、`metrics[{k,name,op,thr,note,by}]`（k 為 tools/thesis.py 認得的指標）、`breakWhen`、`risks[]`、`history[]`。
+- 燈號 g／y／r／n 由 `python3 tools/thesis.py` 依最新資料算出，不手填；每日排程用 `--record` 把燈號變化寫進 history 並在回報提及。
+- 新增公司：先寫 draft，等 ZL 確認再改 approved。

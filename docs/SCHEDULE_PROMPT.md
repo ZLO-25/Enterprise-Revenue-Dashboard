@@ -94,3 +94,6 @@
 ## 一次性的例外
 - 公司停止重試（stuck）後，使用者說「繼續 <代號>」才 `python3 tools/daily.py set <代號> waiting` 重新開始。
 - 手動觸發同一個排程（`fire_trigger`）等於多跑一天，`daily.py` 的判斷不受影響。
+
+## 論點卡（有 approved 的公司才做）
+每日 ③ 核對後執行 `python3 tools/thesis.py`：燈號由綠轉黃／紅，或觸及 `breakWhen`，要寫進每日回報「需要你注意」一節。`status:"draft"` 的不上線、不改燈號，只能由 ZL 確認後改 approved。
