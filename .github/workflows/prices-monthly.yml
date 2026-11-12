@@ -55,18 +55,24 @@ jobs:
             echo "這一班沒成功（rc=$rc），6 日前還有下一班"; exit 0
           fi
           exit $rc
+      - name: 先只提交股價資料，再合併最新 main
+        if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "prices-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/prices
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -m "每月股價資料更新 $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push && break || sleep 5; done
       - name: 核對資料並重產網站
         if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           python3 tools/validate.py
           python3 tools/build.py
-      - name: 有新資料才提交
+      - name: 提交重產的網頁
         if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
         run: |
-          git config user.name "prices-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/prices index.html */index.html
-          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
-          git commit -m "每月股價自動更新 $(date -u +%Y-%m-%d)"
-          git pull --rebase -q origin main
-          git push
+          git add index.html */index.html
+          if git diff --cached --quiet; then echo "網頁沒有變更"; exit 0; fi
+          git commit -m "重產網站（股價更新後）"
+          for i in 1 2 3; do git pull --rebase -q -X theirs origin main && git push && break || sleep 5; done
