@@ -1,6 +1,6 @@
 {
 "code": "mu",
-"fetched": "2026-11-12T06:56Z",
+"fetched": "2026-11-12T06:58Z",
 "splits": [
 [
 "1994-04-19",
@@ -15,6 +15,77 @@
 2.0
 ]
 ],
+"niCand": {
+"2008-12-04": -718.0,
+"2009-12-03": 204.0,
+"2010-03-04": 365.0,
+"2010-06-03": 939.0,
+"2010-09-02": 342.0,
+"2010-12-02": 155.0,
+"2011-03-03": 72.0,
+"2011-06-02": 75.0,
+"2011-09-01": -135.0,
+"2011-12-01": -187.0,
+"2012-03-01": -282.0,
+"2012-05-31": -320.0,
+"2012-08-30": -243.0,
+"2012-11-29": -275.0,
+"2013-02-28": -286.0,
+"2013-05-30": 43.0,
+"2013-08-29": 1708.0,
+"2013-11-28": 358.0,
+"2014-02-27": 731.0,
+"2014-05-29": 806.0,
+"2014-08-28": 1150.0,
+"2014-12-04": 1003.0,
+"2015-03-05": 934.0,
+"2015-06-04": 491.0,
+"2015-09-03": 471.0,
+"2015-12-03": 206.0,
+"2016-03-03": -97.0,
+"2016-06-02": -215.0,
+"2016-09-01": -170.0,
+"2016-12-01": 180.0,
+"2017-03-02": 894.0,
+"2017-06-01": 1647.0,
+"2017-08-31": 2368.0,
+"2017-11-30": 2678.0,
+"2018-03-01": 3309.0,
+"2018-05-31": 3823.0,
+"2018-08-30": 4325.0,
+"2018-11-29": 3293.0,
+"2019-02-28": 1619.0,
+"2019-05-30": 840.0,
+"2019-08-29": 561.0,
+"2019-11-28": 491.0,
+"2020-02-27": 405.0,
+"2020-05-28": 803.0,
+"2020-09-03": 988.0,
+"2020-12-03": 803.0,
+"2021-03-04": 603.0,
+"2021-06-03": 1735.0,
+"2021-12-02": 2306.0,
+"2022-03-03": 2263.0,
+"2022-06-02": 2626.0,
+"2022-12-01": -195.0,
+"2023-03-02": -2312.0,
+"2023-06-01": -1896.0,
+"2023-11-30": -1234.0,
+"2024-02-29": 793.0,
+"2024-05-30": 332.0,
+"2024-11-28": 1870.0,
+"2025-02-27": 1583.0,
+"2025-05-29": 1885.0,
+"2025-11-27": 5240.0,
+"2026-02-26": 13785.0,
+"2026-05-28": 28243.0,
+"2021-09-02": 2720.0,
+"2022-09-01": 1492.0,
+"2023-08-31": -1430.0,
+"2024-08-29": 887.0,
+"2025-08-28": 3201.0,
+"2026-09-03": 37701.0
+},
 "quarters": [
 {
 "q": "1Q10",
@@ -153,7 +224,6 @@
 "vals": {
 "equity": 8020.0,
 "shOut": 994.5,
-"dilSh": 31.0,
 "pretax": 400.0,
 "tax": 25.0,
 "debt": 2360.0
@@ -171,13 +241,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-11-000189",
 "filed": "2011-10-25"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-12-000156",
-"filed": "2012-10-29"
 }
 ],
 "pretax": [
@@ -203,6 +266,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "buyback": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments"
 }
@@ -393,7 +457,6 @@
 "vals": {
 "equity": 8470.0,
 "shOut": 984.3,
-"dilSh": -29.4,
 "pretax": -78.0,
 "tax": 16.0,
 "debt": 2001.0
@@ -411,13 +474,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-12-000156",
 "filed": "2012-10-29"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-14-000133",
-"filed": "2014-07-22"
 }
 ],
 "pretax": [
@@ -443,6 +499,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "buyback": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments"
 }
@@ -633,7 +690,6 @@
 "vals": {
 "equity": 7700.0,
 "shOut": 1017.7,
-"dilSh": 7.1,
 "pretax": -196.0,
 "tax": 14.0,
 "debt": 3262.0
@@ -651,13 +707,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-14-000133",
 "filed": "2014-07-22"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-14-000195",
-"filed": "2014-10-27"
 }
 ],
 "pretax": [
@@ -683,6 +732,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "buyback": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments"
 }
@@ -894,7 +944,6 @@
 "vals": {
 "equity": 9142.0,
 "shOut": 1044.0,
-"dilSh": 39.0,
 "pretax": 1678.0,
 "tax": 5.0,
 "buyback": 0.0
@@ -912,13 +961,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-14-000195",
 "filed": "2014-10-27"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-15-000112",
-"filed": "2015-10-27"
 }
 ],
 "pretax": [
@@ -944,6 +986,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments",
 "debt": "缺 LongTermDebt"
 }
@@ -1134,7 +1177,6 @@
 "vals": {
 "equity": 10760.0,
 "shOut": 1073.0,
-"dilSh": 2.0,
 "pretax": 945.0,
 "tax": -87.0,
 "buyback": 1.0
@@ -1152,13 +1194,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-15-000112",
 "filed": "2015-10-27"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001104659-17-061554",
-"filed": "2017-10-10"
 }
 ],
 "pretax": [
@@ -1184,6 +1219,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments",
 "debt": "缺 LongTermDebt"
 }
@@ -1374,7 +1410,6 @@
 "vals": {
 "equity": 12302.0,
 "shOut": 1084.0,
-"dilSh": -15.0,
 "pretax": 355.0,
 "tax": -69.0,
 "buyback": 639.0
@@ -1392,13 +1427,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0001104659-17-061554",
 "filed": "2017-10-10"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-17-000131",
-"filed": "2017-10-26"
 }
 ],
 "pretax": [
@@ -1424,6 +1452,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments",
 "debt": "缺 LongTermDebt"
 }
@@ -1614,7 +1643,6 @@
 "vals": {
 "equity": 12080.0,
 "shOut": 1040.0,
-"dilSh": 1.0,
 "pretax": -168.0,
 "tax": 3.0,
 "buyback": 1.0
@@ -1632,13 +1660,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-17-000131",
 "filed": "2017-10-26"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-18-000092",
-"filed": "2018-10-15"
 }
 ],
 "pretax": [
@@ -1664,6 +1685,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments",
 "debt": "缺 LongTermDebt"
 }
@@ -1854,7 +1876,6 @@
 "vals": {
 "equity": 18621.0,
 "shOut": 1112.0,
-"dilSh": 12.0,
 "pretax": 2321.0,
 "tax": -47.0,
 "buyback": 1.0
@@ -1872,13 +1893,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-18-000092",
 "filed": "2018-10-15"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-19-000094",
-"filed": "2019-10-17"
 }
 ],
 "pretax": [
@@ -1904,6 +1918,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "cash": "缺 AvailableForSaleSecuritiesDebtSecuritiesCurrent/ShortTermInvestments",
 "debt": "缺 LongTermDebt"
 }
@@ -2094,7 +2109,6 @@
 "vals": {
 "equity": 32294.0,
 "shOut": 1161.0,
-"dilSh": -4.0,
 "pretax": 4346.0,
 "tax": 20.0,
 "buyback": 2.0,
@@ -2113,13 +2127,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-19-000094",
 "filed": "2019-10-17"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-20-000082",
-"filed": "2020-10-19"
 }
 ],
 "pretax": [
@@ -2162,6 +2169,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "debt": "缺 LongTermDebt"
 }
 },
@@ -2385,7 +2393,6 @@
 "vals": {
 "equity": 35881.0,
 "shOut": 1106.0,
-"dilSh": -5.0,
 "pretax": 655.0,
 "tax": 71.0,
 "buyback": 2.0,
@@ -2404,13 +2411,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-20-000082",
 "filed": "2020-10-19"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-21-000065",
-"filed": "2021-10-08"
 }
 ],
 "pretax": [
@@ -2453,6 +2453,7 @@
 ]
 },
 "why": {
+"dilSh": "讀不到單季值",
 "debt": "缺 LongTermDebt"
 }
 },
@@ -2693,7 +2694,6 @@
 "vals": {
 "equity": 38996.0,
 "shOut": 1113.0,
-"dilSh": 0.0,
 "pretax": 1125.0,
 "tax": 136.0,
 "buyback": -27.0,
@@ -2713,13 +2713,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-21-000065",
 "filed": "2021-10-08"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-22-000048",
-"filed": "2022-10-07"
 }
 ],
 "pretax": [
@@ -2768,7 +2761,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 },
 {
 "q": "1Q21",
@@ -3007,7 +3002,6 @@
 "vals": {
 "equity": 43933.0,
 "shOut": 1119.0,
-"dilSh": 0.0,
 "pretax": 2936.0,
 "tax": 230.0,
 "buyback": 1050.0,
@@ -3027,13 +3021,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-22-000048",
 "filed": "2022-10-07"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-23-000054",
-"filed": "2023-10-06"
 }
 ],
 "pretax": [
@@ -3082,7 +3069,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 },
 {
 "q": "1Q22",
@@ -3339,7 +3328,6 @@
 "vals": {
 "equity": 49907.0,
 "shOut": 1094.0,
-"dilSh": -5.0,
 "pretax": 1553.0,
 "tax": 56.0,
 "buyback": 784.0,
@@ -3359,13 +3347,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-23-000054",
 "filed": "2023-10-06"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-24-000027",
-"filed": "2024-10-04"
 }
 ],
 "pretax": [
@@ -3414,7 +3395,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 },
 {
 "q": "1Q23",
@@ -3671,7 +3654,6 @@
 "vals": {
 "equity": 44120.0,
 "shOut": 1098.0,
-"dilSh": 1.0,
 "pretax": -1458.0,
 "tax": -24.0,
 "buyback": 0.0,
@@ -3691,13 +3673,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-24-000027",
 "filed": "2024-10-04"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-25-000028",
-"filed": "2025-10-03"
 }
 ],
 "pretax": [
@@ -3746,7 +3721,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 },
 {
 "q": "1Q24",
@@ -4003,7 +3980,6 @@
 "vals": {
 "equity": 45131.0,
 "shOut": 1109.0,
-"dilSh": 14.0,
 "pretax": 1510.0,
 "tax": 623.0,
 "buyback": 300.0,
@@ -4023,13 +3999,6 @@
 "c": "CommonStockSharesOutstanding",
 "acc": "0000723125-25-000028",
 "filed": "2025-10-03"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0000723125-26-000023",
-"filed": "2026-10-09"
 }
 ],
 "pretax": [
@@ -4078,7 +4047,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 },
 {
 "q": "1Q25",
@@ -4335,7 +4306,6 @@
 "vals": {
 "equity": 54165.0,
 "shOut": 1122.0,
-"dilSh": 2.0,
 "pretax": 3631.0,
 "tax": 429.0,
 "buyback": 0.0,
@@ -4353,13 +4323,6 @@
 "shOut": [
 {
 "c": "CommonStockSharesOutstanding",
-"acc": "0000723125-26-000023",
-"filed": "2026-10-09"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
 "acc": "0000723125-26-000023",
 "filed": "2026-10-09"
 }
@@ -4410,7 +4373,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 },
 {
 "q": "1Q26",
@@ -4655,7 +4620,6 @@
 "vals": {
 "equity": 138378.0,
 "shOut": 1131.0,
-"dilSh": 1.0,
 "pretax": 44238.0,
 "tax": 6583.0,
 "buyback": 0.0,
@@ -4673,13 +4637,6 @@
 "shOut": [
 {
 "c": "CommonStockSharesOutstanding",
-"acc": "0000723125-26-000023",
-"filed": "2026-10-09"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
 "acc": "0000723125-26-000023",
 "filed": "2026-10-09"
 }
@@ -4730,7 +4687,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"dilSh": "讀不到單季值"
+}
 }
 ]
 }
