@@ -1,0 +1,56 @@
+{
+ "code": "aapl",
+ "status": "draft",
+ "updated": "2026-11-12",
+ "updatedBy": "Claude 草稿（等 ZL 確認，確認前不上線）",
+ "oneLiner": "龐大的裝置基礎帶動服務收入，維持穩定現金流與大量回購。",
+ "metrics": [
+  {
+   "k": "revYoy",
+   "name": "營收年增（近四季）",
+   "op": ">=",
+   "thr": 5,
+   "note": "成長底線",
+   "by": "draft"
+  },
+  {
+   "k": "gm",
+   "name": "毛利率（近四季）",
+   "op": ">=",
+   "thr": 45,
+   "note": "服務占比提升帶動",
+   "by": "draft"
+  },
+  {
+   "k": "om",
+   "name": "營業利益率（近四季）",
+   "op": ">=",
+   "thr": 30,
+   "note": "營運效率",
+   "by": "draft"
+  },
+  {
+   "k": "fcfRate",
+   "name": "自由現金流率（近四季）",
+   "op": ">=",
+   "thr": 25,
+   "note": "現金轉換",
+   "by": "draft"
+  },
+  {
+   "k": "pe",
+   "name": "本益比",
+   "op": "<=",
+   "thr": 40,
+   "note": "估值上限",
+   "by": "draft"
+  }
+ ],
+ "breakWhen": "營收年增連續兩季低於 5%，或毛利率連續兩季低於 45%。",
+ "risks": [
+  "iPhone 單一產品依賴",
+  "App Store 監管",
+  "供應鏈與關稅"
+ ],
+ "history": []
+}
