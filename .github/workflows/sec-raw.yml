@@ -1,0 +1,23 @@
+# 一次性：新增公司時從 SEC 讀原始 XBRL（companyfacts）與財報新聞稿文字，存到這個分支（不進 main）。
+name: sec-raw
+on:
+  push:
+    branches: [sec-raw]
+    paths: [".github/workflows/sec-raw.yml", "tools/sec_raw.py", "want.txt"]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python3 tools/sec_raw.py
+      - run: |
+          git config user.name "sec-raw-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw
+          git commit -m "SEC 原始資料 $(date -u +%Y-%m-%dT%H:%M)" || exit 0
+          git push
