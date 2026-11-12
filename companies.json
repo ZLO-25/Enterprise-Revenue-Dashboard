@@ -447,6 +447,90 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0001835632"
+    },
+    {
+      "code": "amd",
+      "name": "超微",
+      "nameEn": "Advanced Micro Devices",
+      "ticker": "AMD",
+      "exchange": "Nasdaq AMD",
+      "sector": "半導體",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "amd/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "超微財報追蹤板",
+      "description": "超微（AMD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "AMD",
+        "from": "2009-03",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=2488"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0000002488"
+    },
+    {
+      "code": "crwd",
+      "name": "CrowdStrike",
+      "nameEn": "CrowdStrike Holdings",
+      "ticker": "CRWD",
+      "exchange": "Nasdaq CRWD",
+      "sector": "軟體與網路服務",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "crwd/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "CrowdStrike財報追蹤板",
+      "description": "CrowdStrike（CRWD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "CRWD",
+        "from": "2019-06",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1535527"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0001535527"
+    },
+    {
+      "code": "panw",
+      "name": "Palo Alto Networks",
+      "nameEn": "Palo Alto Networks",
+      "ticker": "PANW",
+      "exchange": "Nasdaq PANW",
+      "sector": "軟體與網路服務",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "panw/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "Palo Alto Networks財報追蹤板",
+      "description": "Palo Alto Networks（PANW）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "PANW",
+        "from": "2012-07",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1327567"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0001327567"
     }
   ]
 }
