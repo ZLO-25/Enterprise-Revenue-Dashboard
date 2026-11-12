@@ -92,6 +92,12 @@ const LT = (() => {
       { label: '自由現金流率（近四季）', value: pc(M.ttmFcfM), unit: '', delta: M.ttmFcfNow == null ? '現金流資料不足四季' : `自由現金流 ${f0(M.ttmFcfNow)} ${u} · 3 年前 ${pc(M.ttmFcfM3y)}`, sp: spark(tail(M.ttmFcf), { zero: true }) },
       { label: '連續營收年增季數', value: String(M.streak), unit: '季', delta: `近 ${M.posN} 季有 ${pc(M.posShare, 0)} 的季度年增為正`, sp: spark(tail(N.Q.map(q => q.yoy)), { zero: true }) },
     ];
+    const V = N.D && N.D.valuation;
+    if (V && V.monthly.length) {
+      const st = V.stats, la = V.monthly[V.monthly.length - 1];
+      tiles.push({ label: '本益比（每月，月底）', value: la.pe != null ? la.pe.toFixed(1) : '—', unit: la.pe != null ? '倍' : '', delta: la.pe != null ? `近 5 年中位數 ${st.med5 == null ? '—' : st.med5.toFixed(1)} 倍${st.pct10 == null ? '' : ' · 近 10 年第 ' + st.pct10 + ' 百分位'}` : ({ loss: '近四季虧損，不適用', short: '已公布未滿四季', missing: '公布日或 EPS 待確認', price: '股價待確認' }[la.why] || ''),
+        sp: spark(tail(V.monthly.map(r => r.pe)), {}) });
+    }
     el.innerHTML = `<div class="lt-grid">${tiles.map(t => `
       <div class="kpi lt">
         <span class="label">${t.label}</span>
@@ -106,6 +112,7 @@ const LT = (() => {
   }
 
   const DISCLAIMER = '本站為公開資料的整理與計算，不構成任何投資建議、推薦或要約；數字以各公司公告與主管機關申報文件為準，整理過程可能有誤或延遲，使用前請自行核對。' +
+    '本益比是歷史資料的計算（月底收盤價 ÷ 當時已公布的近四季 EPS），高低不代表貴或便宜，不是買賣建議；預估本益比使用分析師預估，預估會被修正、口徑常為調整後，僅供參考。' +
     '「調整後」（non-GAAP）指標為各公司自訂口徑，不同公司間不可直接比較；標「待確定」的事件只是媒體報導、公司尚未證實。過去的財務表現不代表未來結果。';
 
   return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };

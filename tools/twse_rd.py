@@ -26,7 +26,7 @@ def month_rows(stock, ym):
             for row in j["data"]:
                 m = re.match(r"(\d+)年(\d+)月(\d+)日", row[0])
                 d = f"{int(m[1]) + 1911:04d}-{int(m[2]):02d}-{int(m[3]):02d}"
-                out.append((d, row[3], row[5]))
+                out.append((d, row[3] if len(row) > 3 else "-", row[5] if len(row) > 5 and row[5] else None))
             return out
         except Exception as e:  # noqa: BLE001
             err = e
@@ -50,8 +50,11 @@ def main():
             m += 1
             if m == 13:
                 y, m = y + 1, 1
+        print(code, "有「財報年／季」欄位的第一天：", next((d for d, _, fq in rows if fq), None), "；總筆數", len(rows))
         seen, trans, prev = set(), [], None
         for d, pe, fq in rows:
+            if fq is None:
+                continue
             if fq != prev:
                 if fq not in seen:
                     trans.append({"fq": fq, "q": label(fq), "first": d, "initial": prev is None})

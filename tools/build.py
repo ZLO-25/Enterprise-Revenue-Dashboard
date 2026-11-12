@@ -21,6 +21,9 @@
 """
 import json, os, re, sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import pe as PE
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if "--root" in sys.argv:
     ROOT = os.path.abspath(sys.argv[sys.argv.index("--root") + 1])
@@ -188,13 +191,16 @@ def main():
     cfg = json.loads(read("companies.json"))
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "valuation.js")
     FUTJS = read("assets", "futures.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
     datasets = {}
     for c in companies:
         data = json.loads(read("data", c["code"] + ".json"))
+        pf = os.path.join(ROOT, "data", "prices", c["code"] + ".json")
+        prices = json.load(open(pf, encoding="utf8")) if (c.get("price") and os.path.exists(pf)) else None
+        data["valuation"] = PE.compute(data["quarters"], prices)   # 本益比只在建置時算，不存檔
         datasets[c["code"]] = data
         frag = read("templates", c["template"] + ".frag.html")
         for key in REQUIRED:

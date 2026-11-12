@@ -23,7 +23,8 @@
    "ocf": null,
    "capex": null,
    "fcf": null,
-   "dps": null
+   "dps": null,
+   "rd": null
   },
   {
    "q": "4Q19",
@@ -37,7 +38,8 @@
    "ocf": null,
    "capex": null,
    "fcf": null,
-   "dps": null
+   "dps": null,
+   "rd": null
   },
   {
    "q": "1Q20",
@@ -51,7 +53,8 @@
    "ocf": -287.2,
    "capex": 3.0,
    "fcf": -290.2,
-   "dps": null
+   "dps": null,
+   "rd": null
   },
   {
    "q": "2Q20",
@@ -65,7 +68,8 @@
    "ocf": 60.9,
    "capex": 2.9,
    "fcf": 57.9,
-   "dps": null
+   "dps": null,
+   "rd": null
   },
   {
    "q": "3Q20",
@@ -79,7 +83,9 @@
    "ocf": -52.0,
    "capex": 1.5,
    "fcf": -53.5,
-   "dps": null
+   "dps": null,
+   "rd": "2020-11-13",
+   "rdB": "f"
   },
   {
    "q": "4Q20",
@@ -93,7 +99,9 @@
    "ocf": -18.3,
    "capex": 4.8,
    "fcf": -23.0,
-   "dps": null
+   "dps": null,
+   "rd": "2021-02-26",
+   "rdB": "f"
   },
   {
    "q": "1Q21",
@@ -107,7 +115,9 @@
    "ocf": 116.9,
    "capex": 0.7,
    "fcf": 116.2,
-   "dps": null
+   "dps": null,
+   "rd": "2021-05-12",
+   "rdB": "f"
   },
   {
    "q": "2Q21",
@@ -121,7 +131,9 @@
    "ocf": 22.8,
    "capex": 0.7,
    "fcf": 22.1,
-   "dps": null
+   "dps": null,
+   "rd": "2021-08-12",
+   "rdB": "f"
   },
   {
    "q": "3Q21",
@@ -135,7 +147,9 @@
    "ocf": 100.8,
    "capex": 5.4,
    "fcf": 95.4,
-   "dps": null
+   "dps": null,
+   "rd": "2021-11-09",
+   "rdB": "f"
   },
   {
    "q": "4Q21",
@@ -149,7 +163,9 @@
    "ocf": 93.4,
    "capex": 5.8,
    "fcf": 87.6,
-   "dps": null
+   "dps": null,
+   "rd": "2022-02-24",
+   "rdB": "f"
   },
   {
    "q": "1Q22",
@@ -163,7 +179,9 @@
    "ocf": 35.5,
    "capex": 15.2,
    "fcf": 20.3,
-   "dps": null
+   "dps": null,
+   "rd": "2022-05-09",
+   "rdB": "f"
   },
   {
    "q": "2Q22",
@@ -177,7 +195,9 @@
    "ocf": 62.4,
    "capex": 5.5,
    "fcf": 57.0,
-   "dps": null
+   "dps": null,
+   "rd": "2022-08-08",
+   "rdB": "f"
   },
   {
    "q": "3Q22",
@@ -191,7 +211,9 @@
    "ocf": 47.1,
    "capex": 14.4,
    "fcf": 32.6,
-   "dps": null
+   "dps": null,
+   "rd": "2022-11-07",
+   "rdB": "f"
   },
   {
    "q": "4Q22",
@@ -205,7 +227,9 @@
    "ocf": 78.8,
    "capex": 4.9,
    "fcf": 73.8,
-   "dps": null
+   "dps": null,
+   "rd": "2023-02-21",
+   "rdB": "f"
   },
   {
    "q": "1Q23",
@@ -219,7 +243,9 @@
    "ocf": 187.4,
    "capex": 4.8,
    "fcf": 182.6,
-   "dps": null
+   "dps": null,
+   "rd": "2023-05-09",
+   "rdB": "f"
   },
   {
    "q": "2Q23",
@@ -233,7 +259,9 @@
    "ocf": 90.2,
    "capex": 3.9,
    "fcf": 86.3,
-   "dps": null
+   "dps": null,
+   "rd": "2023-08-08",
+   "rdB": "f"
   },
   {
    "q": "3Q23",
@@ -247,7 +275,9 @@
    "ocf": 133.4,
    "capex": 1.6,
    "fcf": 131.9,
-   "dps": null
+   "dps": null,
+   "rd": "2023-11-03",
+   "rdB": "f"
   },
   {
    "q": "4Q23",
@@ -261,7 +291,9 @@
    "ocf": 301.2,
    "capex": 4.9,
    "fcf": 296.3,
-   "dps": null
+   "dps": null,
+   "rd": "2024-02-20",
+   "rdB": "f"
   },
   {
    "q": "1Q24",
@@ -275,7 +307,9 @@
    "ocf": 129.6,
    "capex": 2.7,
    "fcf": 126.9,
-   "dps": null
+   "dps": null,
+   "rd": "2024-05-07",
+   "rdB": "f"
   },
   {
    "q": "2Q24",
@@ -289,7 +323,9 @@
    "ocf": 144.2,
    "capex": 2.9,
    "fcf": 141.3,
-   "dps": null
+   "dps": null,
+   "rd": "2024-08-06",
+   "rdB": "f"
   },
   {
    "q": "3Q24",
@@ -303,7 +339,9 @@
    "ocf": 419.8,
    "capex": 4.0,
    "fcf": 415.8,
-   "dps": null
+   "dps": null,
+   "rd": "2024-11-05",
+   "rdB": "f"
   },
   {
    "q": "4Q24",
@@ -317,7 +355,9 @@
    "ocf": 460.3,
    "capex": 3.1,
    "fcf": 457.2,
-   "dps": null
+   "dps": null,
+   "rd": "2025-02-18",
+   "rdB": "f"
   },
   {
    "q": "1Q25",
@@ -331,7 +371,9 @@
    "ocf": 310.3,
    "capex": 6.2,
    "fcf": 304.1,
-   "dps": null
+   "dps": null,
+   "rd": "2025-05-06",
+   "rdB": "f"
   },
   {
    "q": "2Q25",
@@ -345,7 +387,9 @@
    "ocf": 539.3,
    "capex": 7.6,
    "fcf": 531.6,
-   "dps": null
+   "dps": null,
+   "rd": "2025-08-05",
+   "rdB": "f"
   },
   {
    "q": "3Q25",
@@ -359,7 +403,9 @@
    "ocf": 507.7,
    "capex": 6.8,
    "fcf": 500.9,
-   "dps": null
+   "dps": null,
+   "rd": "2025-11-04",
+   "rdB": "f"
   },
   {
    "q": "4Q25",
@@ -373,7 +419,9 @@
    "ocf": 777.3,
    "capex": 13.3,
    "fcf": 764.0,
-   "dps": null
+   "dps": null,
+   "rd": "2026-02-17",
+   "rdB": "f"
   },
   {
    "q": "1Q26",
@@ -387,7 +435,9 @@
    "ocf": 899.2,
    "capex": 7.4,
    "fcf": 891.8,
-   "dps": null
+   "dps": null,
+   "rd": "2026-05-05",
+   "rdB": "f"
   },
   {
    "q": "2Q26",
@@ -401,7 +451,9 @@
    "ocf": 1216.2,
    "capex": 14.6,
    "fcf": 1201.6,
-   "dps": null
+   "dps": null,
+   "rd": "2026-08-04",
+   "rdB": "f"
   },
   {
    "q": "3Q26",
@@ -415,7 +467,9 @@
    "ocf": 1204.6,
    "capex": 8.0,
    "fcf": 1196.6,
-   "dps": null
+   "dps": null,
+   "rd": "2026-11-03",
+   "rdB": "p"
   }
  ],
  "annual": {
@@ -1288,6 +1342,11 @@
     "n": "TIKR：PLTR 選後下跌 10%",
     "url": "https://www.tikr.com/blog/palantir-sinks-10-as-democratic-sweep-deepens-ai-and-defense-stock-sell-off"
    }
+  ]
+ },
+ "notes": {
+  "unavailable": [
+   "待確認：3Q19、4Q19、1Q20、2Q20 的財報公布日（rd）：原始申報日／公告日讀不到。SEC XBRL 只有後期財報的比較欄位（申報日晚於期末超過 100 天，不是原始申報日），或公司當時尚未上市／來源未公開；P/E 在這些季度前後的月份顯示「待確認」，不拿其他日期推算"
   ]
  }
 }

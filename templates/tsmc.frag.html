@@ -13,6 +13,7 @@
     <a href="#monthly">月營收</a>
     <a href="#profit">獲利能力</a>
     <a href="#eps">EPS 與股利</a>
+    <a href="#pe">本益比</a>
     <a href="#capex">資本支出與現金流</a>
     <a href="#mix">營收結構</a>
     <a href="#tech">技術里程碑</a>
@@ -143,6 +144,8 @@
       </div>
     </div>
   </section>
+
+  <section id="pe" hidden></section>
 
   <section id="capex">
     <div class="sec-head">
@@ -934,5 +937,6 @@ if (window.Chart) build(); else drawWF();
 let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(() => { if (window.Chart) build(); else drawWF(); }, 60); };
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
 new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+PEV.mount(D);
 </script>
 

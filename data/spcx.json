@@ -43,7 +43,9 @@
    "ocf": null,
    "capex": 18369.0,
    "fcf": null,
-   "dps": null
+   "dps": null,
+   "rd": "2026-08-04",
+   "rdB": "p"
   },
   {
    "q": "3Q26",
@@ -57,7 +59,9 @@
    "ocf": 9631.0,
    "capex": 19593.0,
    "fcf": -9962.0,
-   "dps": null
+   "dps": null,
+   "rd": "2026-10-20",
+   "rdB": "p"
   }
  ],
  "annual": {},

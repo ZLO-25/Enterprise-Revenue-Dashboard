@@ -10,6 +10,8 @@
 """
 import calendar, datetime as dt, json, os, re, sys
 
+MARK = "待確認："  # 之後接「<季度> 的財報公布日」
+REASON = "SEC XBRL 只有後期財報的比較欄位（申報日晚於期末超過 100 天，不是原始申報日），或公司當時尚未上市／來源未公開"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -82,6 +84,10 @@ def main():
                 q["rdB"] = b
             else:
                 q.pop("rdB", None)
+        un = D.setdefault("notes", {}).setdefault("unavailable", [])
+        un[:] = [t for t in un if "的財報公布日（rd）" not in t]
+        if nulls:
+            un.append(f"{MARK}{'、'.join(nulls)} 的財報公布日（rd）：原始申報日／公告日讀不到。{REASON}；P/E 在這些季度前後的月份顯示「待確認」，不拿其他日期推算")
         out = json.dumps(D, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else "")
         open(path, "w", encoding="utf8").write(out)
 

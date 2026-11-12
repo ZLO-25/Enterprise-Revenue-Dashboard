@@ -13,6 +13,7 @@
     <a href="#revenue">營收</a>
     <a href="#profit">獲利能力</a>
     <a href="#eps">每股盈餘</a>
+    <a href="#pe">本益比</a>
     <a href="#cash">現金流</a>
     <a href="#deals">客戶與合約</a>
     <a href="#guidance">財測</a>
@@ -129,6 +130,8 @@
       </div>
     </div>
   </section>
+
+  <section id="pe" hidden></section>
 
   <section id="cash">
     <div class="sec-head">
@@ -601,4 +604,5 @@ if (window.Chart) build(); else drawWaterfall(W, '#wf');
 let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(() => { if (window.Chart) build(); else drawWaterfall(W, '#wf'); }, 60); };
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
 new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+PEV.mount(D);
 </script>

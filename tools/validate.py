@@ -9,7 +9,11 @@
      - schema v1 → 通用核對 v1_generic（季度順序、毛利率／營益率自洽、FCF、四季＝全年、segments 加總、waterfall 加總、財測區間）
      - 另外若 CHECKS 有該公司的專屬函式（例：tsmc、pltr）就再多做一層
 """
-import json, os, re, sys
+import datetime as dt, json, os, re, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import pe as PE
+import rd_import as RDI
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATE_RE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?|-Q[1-4]|-H[12])?$")
@@ -52,6 +56,22 @@ def check_config(cfg, err):
         for rel in (("data", tag + ".json"), ("templates", c.get("template", "") + ".frag.html"), ("companies", tag, "SOURCES.md")):
             if not os.path.exists(os.path.join(ROOT, *rel)):
                 err.append(f"[{tag}] 找不到 {'/'.join(rel)}")
+        if "price" not in c:
+            err.append(f"companies.json [{tag}] 缺 price（有股價填 {{yahoo, from, currency}}；未上市填 null）")
+        elif c["price"] is not None:
+            pc = c["price"]
+            for k in ("yahoo", "from", "currency"):
+                if not pc.get(k):
+                    err.append(f"companies.json [{tag}] price 缺 {k}")
+            pf = os.path.join(ROOT, "data", "prices", tag + ".json")
+            if not os.path.exists(pf):
+                err.append(f"[{tag}] 找不到 data/prices/{tag}.json（先手動觸發 prices-monthly 工作流程）")
+            else:
+                try:
+                    if json.load(open(pf, encoding="utf8")).get("symbol") != pc.get("yahoo"):
+                        err.append(f"[{tag}] data/prices/{tag}.json 的 symbol 與 companies.json price.yahoo 不一致")
+                except Exception as e:  # noqa: BLE001
+                    err.append(f"[{tag}] data/prices/{tag}.json 讀取失敗：{e!r}")
         if not c.get("primarySource", {}).get("url"):
             err.append(f"companies.json [{tag}] 缺 primarySource {{n, url}}（首頁「資料新鮮度與來源」要用）")
 
@@ -241,6 +261,110 @@ def pltr(D, err):
         err.append("guidance 區間上下限顛倒")
 
 
+# ---------- 本益比：公布日 rd、股價、預估 ----------
+def month_of(d):
+    return d[:7]
+
+
+def check_valuation(code, D, cfg_c, err, warn):
+    pc = (cfg_c or {}).get("price")
+    Q = D.get("quarters", [])
+    if pc is None and "price" in (cfg_c or {}):
+        return
+    fye = (D.get("company") or {}).get("fiscalYearEnd") or "12-31"
+    un = (D.get("notes") or {}).get("unavailable", []) if isinstance(D.get("notes"), dict) else []
+    last = None
+    for q in Q:
+        if "rd" not in q:
+            err.append(f"{q['q']} 缺 rd（財報公布日 YYYY-MM-DD；讀不到填 null 並在 notes.unavailable 寫待確認）")
+            continue
+        rd = q["rd"]
+        if rd is None:
+            if not any(q["q"] in t and "公布日" in t and t.startswith("待確認") for t in un):
+                err.append(f"{q['q']} rd 是 null，但 notes.unavailable 沒有對應的「待確認：{q['q']} 的財報公布日…」")
+            continue
+        if not DAY_RE.match(rd):
+            err.append(f"{q['q']} rd 格式錯誤：{rd}"); continue
+        if q.get("rdB") not in ("f", "p", "c", "t"):
+            err.append(f"{q['q']} 有 rd 但 rdB 不是 f／p／c／t（申報日／新聞稿日／法說會日／證交所生效日）")
+        if last and rd < last:
+            err.append(f"{q['q']} rd {rd} 早於前一季的 {last}（公布日要依季度遞增）")
+        last = rd
+        ne = RDI.nominal_end(q["q"], fye)
+        days = (dt.date.fromisoformat(rd) - ne).days
+        if not 5 <= days <= 120:
+            err.append(f"{q['q']} rd {rd} 與推得季度結束日 {ne} 相差 {days} 天，不在 5～120 天內")
+    if Q and Q[-1].get("rd") is None and "rd" in Q[-1]:
+        err.append(f"最新一季 {Q[-1]['q']} 的 rd 不可為 null")
+    if pc is None:
+        return
+    try:
+        P = json.load(open(os.path.join(ROOT, "data", "prices", code + ".json"), encoding="utf8"))
+    except Exception as e:  # noqa: BLE001
+        err.append(f"股價檔讀取失敗：{e!r}"); return
+    M = P.get("monthly", [])
+    ms = [r["m"] for r in M]
+    if len(ms) != len(set(ms)):
+        err.append("股價檔月份重複")
+    if ms != sorted(ms):
+        err.append("股價檔月份沒有依時間排序")
+    for a, b in zip(ms, ms[1:]):
+        y, m = map(int, a.split("-")); nxt = f"{y + (m == 12):04d}-{m % 12 + 1:02d}"
+        if nxt != b:
+            err.append(f"股價檔月份不連續：{a} 後面是 {b}")
+    for i, r in enumerate(M):
+        if not r["d"].startswith(r["m"]):
+            err.append(f"{r['m']} 的日期 {r['d']} 不在該月")
+        if i > 0 and int(r["d"][8:]) < 23:
+            err.append(f"{r['m']} 的日期 {r['d']} 不是月底（應為 23 日以後的最後交易日）")
+        if r.get("c") is None:
+            if not str(r.get("why", "")).startswith("待確認："):
+                err.append(f"{r['m']} 股價是 null 但沒有以「待確認：」開頭的 why")
+        elif not r["c"] > 0:
+            err.append(f"{r['m']} 股價必須大於 0")
+    F = P.get("forward", [])
+    fm = [f["m"] for f in F]
+    if len(fm) != len(set(fm)):
+        err.append("forward 月份重複")
+    for f in F:
+        if f["m"] not in ms:
+            err.append(f"forward {f['m']} 在股價檔沒有對應月份")
+            continue
+        if f.get("why"):
+            if not str(f["why"]).startswith("待確認："):
+                err.append(f"forward {f['m']} why 要以「待確認：」開頭")
+            continue
+        for k in ("asOf", "fy1End", "fy2End", "eps1", "eps2", "n1", "n2"):
+            if k not in f:
+                err.append(f"forward {f['m']} 缺 {k}")
+        if all(k in f for k in ("asOf", "fy1End", "fy2End")):
+            mrow = next(r for r in M if r["m"] == f["m"])
+            ds = (dt.date.fromisoformat(f["asOf"]) - dt.date.fromisoformat(mrow["d"])).days
+            me = PE_month_end(f["m"])
+            ds = (dt.date.fromisoformat(f["asOf"]) - me).days
+            if not 0 <= ds <= 10:
+                err.append(f"forward {f['m']} asOf {f['asOf']} 不在月底後 0～10 天內")
+            if f["fy1End"] <= me.isoformat():
+                err.append(f"forward {f['m']} fy1End {f['fy1End']} 沒有晚於月底")
+            if f["fy2End"] <= f["fy1End"]:
+                err.append(f"forward {f['m']} fy2End 沒有晚於 fy1End")
+    V = PE.compute(Q, P)
+    mo = V["monthly"]
+    for a, b in zip(mo, mo[1:]):
+        if a["pe"] and b["pe"] and a["eps4"] == b["eps4"]:
+            ratio = b["pe"] / a["pe"]
+            if ratio > 3 or ratio < 1 / 3:
+                err.append(f"{b['m']} 與 {a['m']} 用同樣四季 EPS，但本益比 {a['pe']}→{b['pe']} 變動超過 3 倍：股價與 EPS 的股數基準可能不一致（股票分割？）")
+    stale_m = (dt.date.today().replace(day=1) - dt.timedelta(days=1)).strftime("%Y-%m")
+    if dt.date.today().day > 12 and ms and ms[-1] < stale_m:
+        warn.append(f"股價檔最新只到 {ms[-1]}，上個月 {stale_m} 還沒進來（頁面會顯示「股價待更新」）")
+
+
+def PE_month_end(m):
+    y, mo = map(int, m.split("-"))
+    return dt.date(y + (mo == 12), mo % 12 + 1, 1) - dt.timedelta(days=1)
+
+
 CHECKS = {"tsmc": tsmc, "pltr": pltr}
 SCHEMA_CHECKS = {"v1": v1_generic}
 
@@ -250,6 +374,11 @@ def main():
     bycode = {c["code"]: c for c in cfg["companies"]}
     codes = sys.argv[1:] or [c["code"] for c in cfg["companies"] if c.get("enabled")]
     failed = False
+    t = PE.selftest()
+    print("[pe.py 測試案例] " + ("通過（9 項）" if not t else f"{len(t)} 項未通過"))
+    for e in t:
+        print("   -", e)
+    failed |= bool(t)
     if not sys.argv[1:]:
         err = []
         check_config(cfg, err)
@@ -269,6 +398,10 @@ def main():
                 CHECKS[code](D, err)
             elif schema not in SCHEMA_CHECKS:
                 print(f"[{code}] 注意：schema {schema} 沒有通用核對，也沒有專屬核對函式（tools/validate.py 的 CHECKS），只做共通檢查")
+            warn = []
+            check_valuation(code, D, bycode.get(code), err, warn)
+            for w in warn:
+                print(f"[{code}] 警告：{w}")
         except Exception as e:  # noqa
             err.append(f"讀取失敗：{e!r}")
         print(f"[{code}] " + ("通過" if not err else f"{len(err)} 項未通過"))
