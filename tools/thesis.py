@@ -2,11 +2,13 @@
 
 資料：data/thesis/<代號>.json
   {"code","status":"draft|approved","updated":"YYYY-MM-DD","updatedBy":"Claude 草稿|ZL","oneLiner":"…",
-   "metrics":[{"k":"revYoy","name":"營收年增（近四季）","op":">=|<=","thr":20,"note":"為什麼是這個門檻","by":"draft|ZL"}],
+   "type":"compounder|growth|cyclical|turnaround","caveat":"卡片固定加註（選填）",
+   "metrics":[{"k":"revYoy","name":"營收年增（近四季）","op":">=|<=","thr":20,"group":"biz|val","note":"現況、近五年中位數、近五年達標季數","by":"draft|ZL|analyst"}],
    "breakWhen":"看到什麼就該重新考慮持有","risks":["…"],"history":[{"q":"3Q26","lights":{"revYoy":"g"}}]}
   **status 不是 approved 的一律不上線**（build.py 只注入 approved；草稿只存在這個檔案，等使用者確認）。
 可用的指標 key（來源都是網站已有數字，對應 tools/health.py 與 assets/longterm.js 的定義）：
   revYoy 營收年增（近四季） epsYoy EPS 年增（近四季） gm 毛利率（近四季） om 營業利益率（近四季） fcfRate 自由現金流率（近四季）
+  revYoyQ 單季營收年增 gmQchg 單季毛利率減前一季（百分點）
   roic roe buybackTtm（近四季回購金額，單位同公司金額） dilYoy 稀釋股數年增 pe 本益比 fpe 預估本益比 peg fcfY 自由現金流殖利率 evS EV/Sales
 燈號：g 綠＝最新一點達標；y 黃＝最新一點沒達標、但前一點有達標（或前一點算不出來）；r 紅＝連續兩點都沒達標（季指標看最近兩季、月指標看最近兩個月）；n 灰＝這個指標目前算不出來（寫原因）。
 排程只更新燈號與 history，絕不改論點文字或門檻。
@@ -20,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import health as H, pe as PE  # noqa
 
-KEYS = ("revYoy", "epsYoy", "gm", "om", "fcfRate", "roic", "roe", "buybackTtm", "dilYoy", "pe", "fpe", "peg", "fcfY", "evS")
+KEYS = ("revYoyQ", "gmQchg", "revYoy", "epsYoy", "gm", "om", "fcfRate", "roic", "roe", "buybackTtm", "dilYoy", "pe", "fpe", "peg", "fcfY", "evS")
 MONTHLY = ("pe", "fpe", "peg", "fcfY", "evS")
 
 
@@ -49,7 +51,9 @@ def series(Q, val, health):
         om.append((lab[i], round(sum(q["om"] * q["rev"] for q in w) / r, 2) if w and r and all(q.get("om") is not None for q in w) else None))
     ocf, cap = ttm(Q, "ocf"), ttm(Q, "capex")
     fcfr = [(lab[i], round((ocf[i] - cap[i]) / rev[i] * 100, 2) if None not in (ocf[i], cap[i], rev[i]) and rev[i] else None) for i in range(len(Q))]
-    S = {"revYoy": yoy(rev), "epsYoy": yoy(eps), "gm": gm, "om": om, "fcfRate": fcfr}
+    revq = [(lab[i], (Q[i]["rev"] / Q[i - 4]["rev"] - 1) * 100 if i >= 4 and Q[i].get("rev") and Q[i - 4].get("rev") and Q[i]["rev"] > 0 and Q[i - 4]["rev"] > 0 else None) for i in range(len(Q))]
+    gmq = [(lab[i], round(Q[i]["gm"] - Q[i - 1]["gm"], 2) if i >= 1 and Q[i].get("gm") is not None and Q[i - 1].get("gm") is not None else None) for i in range(len(Q))]
+    S = {"revYoyQ": revq, "gmQchg": gmq, "revYoy": yoy(rev), "epsYoy": yoy(eps), "gm": gm, "om": om, "fcfRate": fcfr}
     if health:
         S["roic"] = [(x["q"], x["roic"]) for x in health["quarterly"]]
         S["roe"] = [(x["q"], x["roe"]) for x in health["quarterly"]]
@@ -73,7 +77,7 @@ def lights(th, Q, val, health):
     out = {}
     for m in th.get("metrics", []):
         s = [p for p in S.get(m["k"], [])]
-        if m["k"] in ("dilYoy", "buybackTtm", "roe", "roic"):   # 季度指標：最新一季算不出來時，改取最近算得出來的季度（label 會標明季別）
+        if m["k"] in ("dilYoy", "buybackTtm", "roe", "roic", "gmQchg", "revYoyQ"):   # 季度指標：最新一季算不出來時，改取最近算得出來的季度（label 會標明季別）
             while len(s) > 1 and s[-1][1] is None:
                 s = s[:-1]
         if not s or s[-1][1] is None:

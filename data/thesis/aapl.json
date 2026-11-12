@@ -1,56 +1,62 @@
 {
  "code": "aapl",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-12",
- "updatedBy": "Claude 草稿（等 ZL 確認，確認前不上線）",
+ "updatedBy": "ZL（體質門檻）；分析師建議（估值門檻，ZL 可改）",
  "oneLiner": "龐大的裝置基礎帶動服務收入，維持穩定現金流與大量回購。",
  "metrics": [
   {
-   "k": "revYoy",
-   "name": "營收年增（近四季）",
+   "k": "epsYoy",
+   "name": "EPS 年增（近四季）",
    "op": ">=",
-   "thr": 5,
-   "note": "成長底線",
-   "by": "draft"
+   "thr": 8,
+   "group": "biz",
+   "note": "現況 20.1；近五年中位數 9.1；近 20 季達標 12/20",
+   "by": "ZL"
   },
   {
    "k": "gm",
    "name": "毛利率（近四季）",
    "op": ">=",
    "thr": 45,
-   "note": "服務占比提升帶動",
-   "by": "draft"
-  },
-  {
-   "k": "om",
-   "name": "營業利益率（近四季）",
-   "op": ">=",
-   "thr": 30,
-   "note": "營運效率",
-   "by": "draft"
+   "group": "biz",
+   "note": "服務占比提升帶動。現況 48.8；近五年中位數 45.8；近 20 季達標 12/20",
+   "by": "ZL"
   },
   {
    "k": "fcfRate",
    "name": "自由現金流率（近四季）",
    "op": ">=",
-   "thr": 25,
-   "note": "現金轉換",
-   "by": "draft"
+   "thr": 22,
+   "group": "biz",
+   "note": "現金轉換。現況 28.4；近五年中位數 27.0；近 20 季達標 20/20",
+   "by": "ZL"
+  },
+  {
+   "k": "dilYoy",
+   "name": "稀釋股數年增",
+   "op": "<=",
+   "thr": -1.5,
+   "group": "biz",
+   "note": "現況 -1.6；近五年中位數 -3.0；近 20 季達標 20/20",
+   "by": "ZL"
   },
   {
    "k": "pe",
    "name": "本益比",
    "op": "<=",
-   "thr": 40,
-   "note": "估值上限",
-   "by": "draft"
+   "thr": 25,
+   "group": "val",
+   "note": "估值上限。現況 39.5；近五年中位數 31.8；近 60 個月達標 7/60",
+   "by": "analyst"
   }
  ],
- "breakWhen": "營收年增連續兩季低於 5%，或毛利率連續兩季低於 45%。",
+ "breakWhen": "EPS 年增連兩季低於 8%，或毛利率連兩季低於 45%。",
  "risks": [
   "iPhone 單一產品依賴",
   "App Store 監管",
   "供應鏈與關稅"
  ],
- "history": []
+ "history": [],
+ "type": "compounder"
 }

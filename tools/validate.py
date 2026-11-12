@@ -206,8 +206,16 @@ def check_thesis(code, D, err):
         err.append("thesis 缺一句話論點 oneLiner")
     if t.get("status") == "approved" and not t.get("updatedBy"):
         err.append("thesis approved 但沒有 updatedBy（誰確認的）")
-    if t.get("status") == "approved" and any(m.get("by") != "ZL" for m in t.get("metrics", [])):
-        err.append("thesis approved 但有門檻不是使用者定的／確認的（metrics[].by 要是 ZL）：草稿門檻確認後請改 by")
+    if t.get("status") == "approved":
+        for m in t.get("metrics", []):
+            if m.get("by") == "ZL" or (m.get("by") == "analyst" and m.get("group") == "val"):
+                continue
+            err.append(f"thesis approved 但 {m.get('k')} 門檻不是使用者確認的（metrics[].by 要是 ZL；估值門檻 group=val 可用 analyst＝分析師建議、ZL 可改）")
+        if t.get("type") not in ("compounder", "growth", "cyclical", "turnaround"):
+            err.append("thesis approved 要有 type：compounder／growth／cyclical／turnaround")
+    for m in t.get("metrics", []):
+        if t.get("status") == "approved" and m.get("group") not in ("biz", "val"):
+            err.append(f"thesis {m.get('k')} 要有 group：biz（體質）或 val（估值）")
     ks = set()
     for m in t.get("metrics", []):
         if m.get("k") not in TH.KEYS:

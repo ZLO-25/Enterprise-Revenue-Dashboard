@@ -246,3 +246,9 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 - 欄位：`oneLiner`、`metrics[{k,name,op,thr,note,by}]`（k 為 tools/thesis.py 認得的指標）、`breakWhen`、`risks[]`、`history[]`。
 - 燈號 g／y／r／n 由 `python3 tools/thesis.py` 依最新資料算出，不手填；每日排程用 `--record` 把燈號變化寫進 history 並在回報提及。
 - 新增公司：先寫 draft，等 ZL 確認再改 approved。
+
+### 論點卡的分類與規則（2026-11-12 定案）
+- 卡片 `type`：compounder（穩健複利）／growth（高成長）／cyclical（循環股）／turnaround（轉機／早期）；`caveat` 是固定加註（循環股：「綠燈代表景氣在上半場，不代表便宜或安全」；特斯拉：只檢查汽車與能源本業）。
+- 每個指標有 `group`：`biz`（體質）或 `val`（估值）；卡片分兩區顯示，`breakWhen` 只引用體質指標。`by`：體質門檻 `ZL`；估值門檻可用 `analyst`（分析師建議，ZL 可改，validate 只允許 group=val 使用）。
+- 新指標 key：`revYoyQ`（單季營收年增）、`gmQchg`（單季毛利率減前一季，百分點）。
+- 估值門檻：本益比上限＝A、B 取低者（A＝近五年月本益比中位數，若 本益比÷g<1 放寬到 75 百分位；B＝g×1.5 高成長／g×2.5 穩健複利；g＝3、5 年 EPS CAGR 取低者、上限 25%）；循環股用 EV/Sales ≤ 近五年 75 百分位；轉機／早期不放估值指標。
