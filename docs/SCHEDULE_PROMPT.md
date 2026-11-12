@@ -45,6 +45,7 @@
 - 公布日（`events` 裡早於今天的項目）已過 → 讀財報新聞稿（8-K 附件 99.1／公司公告），寫入新的一季（或月營收），填 `rd`／`rdB`、更新 `guidance`（**財測保留歷史**，見 DATA_SCHEMA）、`waterfall`、`annual`、`events`（處理完的公布日從 `events` 移除，加入下一個公布日）。
 - 預估日（`est`）已過但公司還沒公告：**不算失敗**。美股看 `sec-feed.json`；其他公司搜尋一次是否已公告新日期，更新 `events`；仍沒有就下一天再查。
 - 快報只收書面來源（新聞稿、申報文件）。電話會議留給「補完」。
+- **資產負債表 8 欄位**（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）：新的一季每個 key 都要有（validate 會擋缺 key）。美股：手動觸發 GitHub Actions 的 `bs-fetch`（mode `build`，等它跑完會 commit `data/bs-raw/`），再 `python3 tools/bs_merge.py <代號>`（只在該季的值讀得到時才會有值）；新一季若 SEC 資料還沒進來，值為 null，merge 會自動寫「待確認」，10-Q 出來後在「③ 核對」重跑。非美股（台積電、台達電、三星）：從財報 PDF／簡報手動讀，口徑照該公司 SOURCES.md「資產負債表欄位」一節；讀不到填 null 並寫待確認，不估計。
 - 財測有新的：先把舊的整份 `guidance` append 進 `guidanceHistory`，再寫新的（DATA_SCHEMA「guidanceHistory」）。
 - 寫 `summary`（`status:"flash"`、`flashDate` ＝ 今天）：`headline`、`scorecard`（市場預期從 `data/consensus/<代號>.json` 最後一張 ≤ 公布日的快照抄；沒有快照就不放 `cons`，不要補）、`outlook`（只寫書面財測的變化）；`mgmt`、`qa` 先空著，`pending` 寫「電話會議重點待補完」。上一季的 `summary` 先精簡進 `summaryHistory`。
 - 做完：`python3 tools/validate.py <代號>` → 過了才算成功：`python3 tools/daily.py set <代號> flash --target <季度>`。沒過／來源讀不到：`git checkout -- data/<代號>.json`，`python3 tools/daily.py try <代號> --note "原因"`。
@@ -96,4 +97,4 @@
 - 手動觸發同一個排程（`fire_trigger`）等於多跑一天，`daily.py` 的判斷不受影響。
 
 ## 論點卡（有 approved 的公司才做）
-每日 ③ 核對後執行 `python3 tools/thesis.py`：燈號由綠轉黃／紅，或觸及 `breakWhen`，要寫進每日回報「需要你注意」一節。`status:"draft"` 的不上線、不改燈號，只能由 ZL 確認後改 approved。
+每日 ③ 核對後執行 `python3 tools/thesis.py`：燈號由綠轉黃／紅，或觸及 `breakWhen`，要寫進每日回報「⑤ 未完成」一段（置頂標明）。`status:"draft"` 的不上線、不改燈號，只能由 ZL 確認後改 approved。
