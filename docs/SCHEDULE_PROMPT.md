@@ -45,11 +45,13 @@
 - 公布日（`events` 裡早於今天的項目）已過 → 讀財報新聞稿（8-K 附件 99.1／公司公告），寫入新的一季（或月營收），填 `rd`／`rdB`、更新 `guidance`（**財測保留歷史**，見 DATA_SCHEMA）、`waterfall`、`annual`、`events`（處理完的公布日從 `events` 移除，加入下一個公布日）。
 - 預估日（`est`）已過但公司還沒公告：**不算失敗**。美股看 `sec-feed.json`；其他公司搜尋一次是否已公告新日期，更新 `events`；仍沒有就下一天再查。
 - 快報只收書面來源（新聞稿、申報文件）。電話會議留給「補完」。
+- 財測有新的：先把舊的整份 `guidance` append 進 `guidanceHistory`，再寫新的（DATA_SCHEMA「guidanceHistory」）。
+- 寫 `summary`（`status:"flash"`、`flashDate` ＝ 今天）：`headline`、`scorecard`（市場預期從 `data/consensus/<代號>.json` 最後一張 ≤ 公布日的快照抄；沒有快照就不放 `cons`，不要補）、`outlook`（只寫書面財測的變化）；`mgmt`、`qa` 先空著，`pending` 寫「電話會議重點待補完」。上一季的 `summary` 先精簡進 `summaryHistory`。
 - 做完：`python3 tools/validate.py <代號>` → 過了才算成功：`python3 tools/daily.py set <代號> flash --target <季度>`。沒過／來源讀不到：`git checkout -- data/<代號>.json`，`python3 tools/daily.py try <代號> --note "原因"`。
 - 公司頁的季度總結（階段 2 完成後）標「初版」；快報先寫「成績單」「展望變化」兩格，其餘寫「待補完」。
 
 ### ② 補完（狀態 flash 的公司，快報的隔天起）
-- 讀電話會議逐字稿（公司官方優先，其次第三方並註明網站），寫「管理層說法」「問答重點」，把一頁總結定稿；內容規則見 DATA_SCHEMA「summary」：每句標來源類別（書面／口頭／分析師預估／觀點），口頭內容附逐字稿連結與發言人，只摘要不整段照抄。
+- 讀電話會議逐字稿（SOURCES.md 的「逐字稿來源」；公司官方優先，其次第三方並在 `src.n` 註明網站），寫 `mgmt`（3～5 點）、`qa`（2～3 題）、`outlook.items` 補口頭展望、`risks`、`next`；把 `status` 改 `final`、填 `finalDate`、清掉 `pending`。內容規則見 DATA_SCHEMA「summary」：每句標來源類別，口頭內容附逐字稿連結與發言人，只摘要不整段照抄，口頭數字不寫進 `guidance`。
 - 讀不到逐字稿：該格寫「待確認：逐字稿尚未取得」，`try` 一次，明天再試；**不要用新聞報導代替**。
 - 成功：`python3 tools/daily.py set <代號> completed`。
 

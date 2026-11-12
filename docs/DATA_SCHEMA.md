@@ -186,3 +186,49 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 
 ### `data/sec-feed.json`
 `{"fetched","companies":{"<代號>":{"earnings8k":[{date,acc,doc}],"periodic":[{date,form,period,acc,doc}]}}}`：最近 3 筆 8-K Item 2.02（財報新聞稿）與 10-Q／10-K 申報，由 `.github/workflows/sec-feed.yml` 每週二至六 07:05（台北）寫入，Claude 不手填。已實測 GitHub Actions 讀得到 data.sec.gov（容器內讀不到）。
+
+## 一頁季度摘要、財測歷史、市場預期（2026-11 新增，階段 2）
+
+```
+ 公布日隔天（快報）          補完（1～3 天內）            核對（10-Q 出來後）
+ ───────┬──────────────────┬──────────────────────────┬─────────────────────
+        ▼                  ▼                          ▼
+ summary.status="flash"   summary.status="final"      解除 notes.unavailable
+ 成績單、展望（書面）     ＋管理層說法、問答（口頭）   的待確認
+ 頁面標「初版 MM/DD」     頁面標「定稿 MM/DD」
+```
+
+### 四種來源標籤（每一句都要標，驗證會擋）
+| tag | 名稱 | 意思 | 附帶要求 |
+| --- | --- | --- | --- |
+| `w` | 書面 | 申報文件或公司新聞稿 | 可附 `src:{n,url}` |
+| `o` | 口頭 | 電話會議上講的 | **必附** `src:{n,url,speaker}`（逐字稿連結與發言人） |
+| `e` | 分析師預估 | 市場共識 | 附快照日；只能用事前快照（`data/consensus/`），不可事後補 |
+| `v` | 觀點 | Claude 的判斷，不是事實 | 不附來源；風險、論點燈號都用這個 |
+
+口頭內容只放 `summary`（`mgmt`、`qa`、`outlook.items`），**不寫進 `guidance`（書面財測欄位）、不參與核對**。只摘要、不整段照抄，重要原話最多引一兩句。讀不到逐字稿：`pending` 寫「待確認：逐字稿尚未取得」，不用新聞報導代替。
+
+### `summary`（只放最新一季；每家公司一份）
+```json
+"summary": {
+  "q": "3Q27", "status": "flash|final", "flashDate": "2026-11-18", "finalDate": null,
+  "headline": { "t": "一句話結論", "tag": "w" },
+  "scorecard": [ { "k": "rev|gm|om|eps", "guideLabel": "下一季營收",
+                   "cons": { "v": 109006.8, "snap": "2026-11-16", "n": 44, "basis": "調整後", "actualAlt": null } } ],
+  "scorecardNote": "口徑說明",
+  "outlook": { "dir": "up|flat|down|na", "items": [ { "t": "…", "tag": "w" } ] },
+  "mgmt": [ { "t": "…", "tag": "o", "src": { "n": "逐字稿來源", "url": "https://…", "speaker": "CFO" } } ],
+  "qa":   [ { "q": "分析師最在意的問題", "a": "回答摘要", "tag": "o", "src": { … } } ],
+  "risks": [ { "t": "…", "tag": "v" } ], "next": "下一季要看什麼（觀點）",
+  "pending": [ "待確認：逐字稿尚未取得" ]
+}
+```
+- 「實際」直接讀 `quarters[]`；「公司上季財測」由程式從 `guidanceHistory` 找 `period == q` 的項目，**不用手填**；「市場預期」`cons` 從 `data/consensus/<代號>.json` 的快照抄，`snap` 必須是檔案裡存在的日期且不晚於 `flashDate`，`v` 的單位和 `quarters` 一樣（營收百萬）。
+- 口徑：Yahoo 的 EPS 預估 `epsBasis` 是 `normalized`（調整後／非 GAAP）或 `gaap`。網站 EPS 是 GAAP 稀釋，所以 `normalized` 時要在 `cons.actualAlt` 填公司公布的非 GAAP EPS（新聞稿來的）來比，`basis` 寫「調整後」；沒有非 GAAP 數字的公司才直接比 GAAP，並在 `scorecardNote` 寫明。營收沒有口徑問題。
+- 下一次財報進來時：把舊的 `summary` 精簡成 `{q,status,flashDate,finalDate,headline}` 放進 `summaryHistory[]`（由舊到新），再寫新的 `summary`。舊季度不回補。
+
+### `guidanceHistory[]`
+公司每次發布新財測時，**先把舊的整份 `guidance`（`issued`＋`items`）原封不動 append 進 `guidanceHistory`，再寫新的 `guidance`**。由舊到新排序，且每筆 `issued` 早於目前 `guidance.issued`。從 2026-11 開始累積，不回補更早的（資料檔原本只存最新一份，舊的已經找不回）。
+
+### `data/consensus/<代號>.json`（GitHub Actions 寫，Claude 不手填）
+`{"code","snapshots":[{date,period,epsAvg,epsLow,epsHigh,epsN,epsBasis,revAvg,revLow,revHigh,revN,cur}]}`。`tools/consensus.py` 每週二至六 07:40（台北，`consensus-daily.yml`）在「財報公布日前 14 天內」存一張；公布日（台北時間）當天早上為止。營收是原幣「元」（不是百萬）。舊快照不改、不補、不用今天的預估填過去。公司還沒公布但資料沒更新、或已有更新的 8-K Item 2.02 時不拍。分析師少於 3 位照存，頁面標「預估人數少」。已實測 Yahoo 有當季（`0q`）預估。

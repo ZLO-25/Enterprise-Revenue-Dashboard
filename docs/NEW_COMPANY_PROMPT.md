@@ -58,7 +58,7 @@ add new company: NVDA, AMD
 - GitHub repo：ZLO-25/Enterprise-Revenue-Dashboard（main 分支，GitHub Pages 從根目錄發佈）
 - 先用 add_repo（owner ZLO-25、repo Enterprise-Revenue-Dashboard、access push）附加 repo 並 clone。
 - 讀這三份文件再動手，照著做：docs/ADDING_A_COMPANY.md（流程）、docs/DATA_SCHEMA.md（資料格式）、companies/pltr/SOURCES.md（範例）。
-- 全程用繁體中文；先用你自己的話重述要加哪幾家公司，並列一張表：代號、交易所、產業分頁、幣別、會計年度、公布頻率、預計資料期間、專屬指標。會影響做法的問題一次問完；能用合理預設就直接做，最後告訴我選了什麼。
+- 全程用繁體中文；先用你自己的話重述要加哪幾家公司，並列一張表：代號、交易所、產業分頁、幣別、會計年度、公布頻率、預計資料期間、專屬指標、逐字稿來源、公司有無非 GAAP EPS（市場預期口徑要對齊）。會影響做法的問題一次問完；能用合理預設就直接做，最後告訴我選了什麼。
 - 超過 3 家時，先做前 3 家，其餘列在回報裡等我說「繼續」。
 
 ## 步驟（每家公司各做一次 1–4，全部做完再做 5–8）
@@ -72,6 +72,7 @@ add new company: NVDA, AMD
    - 第四季 = 全年 − 前三季累計（EPS 除外，取公司公布的 Q4）。
    - annual 只放公司公布的全年數字；guidance 用 items[] 形式；events 放下一個公布日（公司未公告的加 est:1；這是每日排程判斷「誰到期」的唯一依據，一定要有）；waterfall 換成最新一季；milestones 列上市、重大產品、合約、併購、指數納入；sources 列頁面要顯示的來源連結；notes.unavailable 列「待確認」與取不到的欄位。
    - 有分部營收就放 segments（分部加總＝營收）；公司專屬指標放 extra（keys 指定哪些要畫圖）。
+3a. 文字摘要：新公司只做「最新一季」的 summary（不回補舊季度）；guidanceHistory 從目前財測開始累積；市場預期不回補，下個公布日前 14 天起由 GitHub Actions（consensus-daily）自動拍照（需要 events 有「財報」公布日）。SOURCES.md 要寫「電話會議（逐字稿）來源」與「公司有無非 GAAP EPS」。美股用 --cik 填 SEC CIK。
 3b. 本益比資料：每一季都要填 rd（EPS 第一次公開的日期）與 rdB，讀不到填 null 並寫待確認（不可推算）；companies.json 的 price 設好後，手動觸發 GitHub Actions 的 prices-monthly 並等它完成（股價只由它寫，Claude 不手填）；回補後每家抽查 3 個月底股價（最早、最近一次分割前、最新）對第二個獨立來源，結果寫進 SOURCES.md，確認分割前後本益比沒有斷崖。預估本益比不回填。確認表多兩欄：Yahoo 代碼、股價起點。
 4. 核對：python3 tools/validate.py <代號>。沒過就回到來源修資料，不要放寬核對、不要改數字去湊。修不好的公司保持 enabled:false，在回報說明卡在哪一項、差多少。
 5. 通過核對的公司：companies.json 把 enabled 改成 true，確認 primarySource {n, url}；python3 tools/validate.py && python3 tools/build.py。
