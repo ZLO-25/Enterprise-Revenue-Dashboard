@@ -1,8 +1,8 @@
 {
  "code": "amd",
- "status": "draft",
- "updated": "2026-11-12",
- "updatedBy": "Claude 草稿",
+ "status": "approved",
+ "updated": "2026-11-13",
+ "updatedBy": "ZL（體質門檻）；分析師建議（估值門檻，ZL 可改）",
  "type": "growth",
  "oneLiner": "資料中心（Instinct AI 加速器＋EPYC 伺服器處理器）帶動營收年增維持 20% 以上，GAAP 毛利率站上 50%、營業利益率守住兩位數。",
  "metrics": [
@@ -13,7 +13,7 @@
    "thr": 20,
    "group": "biz",
    "note": "需求強度：撐住成長股估值所需的成長。現況 41.9；近五年中位數 29.5；近 20 季達標 13/20",
-   "by": "draft"
+   "by": "ZL"
   },
   {
    "k": "gm",
@@ -22,7 +22,7 @@
    "thr": 50,
    "group": "biz",
    "note": "產品組合往資料中心移動（含 Xilinx 攤銷）。現況 53.7；近五年中位數 48.1；近 20 季達標 4/20",
-   "by": "draft"
+   "by": "ZL"
   },
   {
    "k": "om",
@@ -31,7 +31,7 @@
    "thr": 12,
    "group": "biz",
    "note": "論點核心：攤銷之後仍有兩位數獲利。現況 17.8；近五年中位數 8.2；近 20 季達標 5/20",
-   "by": "draft"
+   "by": "ZL"
   },
   {
    "k": "fcfRate",
@@ -40,7 +40,7 @@
    "thr": 12,
    "group": "biz",
    "note": "現金轉換（不受攤銷影響）。現況 15.5；近五年中位數 13.4；近 20 季達標 11/20",
-   "by": "draft"
+   "by": "ZL"
   },
   {
    "k": "evS",
