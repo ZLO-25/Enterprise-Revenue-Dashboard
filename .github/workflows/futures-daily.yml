@@ -1,19 +1,19 @@
 # 小道瓊、小那指期貨日 K 每日更新（不經過 Claude）
 #
 # 確認 + 重試機制：
-#   ① 每小時的 17 分都會醒來一次（台北 07:17 ～ 17:17，週二～六）。GitHub 免費排程偶爾會漏跑，
-#      班次多，漏掉一兩班也沒關係。
+#   ① 每 15 分鐘醒來一次（台北 07:07 ～ 22:52，週二～六，一天 64 班）。GitHub 免費排程常常
+#      漏跑或延後（實測一天 11 班只跑約 3 班），所以班次排得很密，漏掉很多班也沒關係。
 #   ② 每次先「確認」：網站上的資料是否已經到最新交易日（跳過週末、美國假日）。
 #      已是最新 → 約 10 秒就結束，不抓資料。
 #   ③ 落後才抓 Yahoo；抓完再確認一次。還沒到最新 → 同一班內等 10 分鐘再試，最多 3 次。
-#   ④ 台北 17:17 最後一班仍失敗 → 這次執行標成紅燈，GitHub 會寄信通知你。
+#   ④ 台北 22:00 以後的班次仍失敗 → 這次執行標成紅燈，GitHub 會寄信通知你。
 # CME 收盤：芝加哥 16:00 = UTC 21:00（美國夏令）／22:00（冬令），第一班在收盤後 1～2 小時。
 # 密碼放在 Settings → Secrets and variables → Actions → FUTURES_PASSWORD。
 name: futures-daily
 on:
   schedule:
-    - cron: "17 23 * * 1-5"     # 台北 07:17（週二～六）
-    - cron: "17 0-9 * * 2-6"    # 台北 08:17 ～ 17:17
+    - cron: "7,22,37,52 23 * * 1-5"     # 台北 07:07 ～ 07:52（週二～六）
+    - cron: "7,22,37,52 0-14 * * 2-6"   # 台北 08:07 ～ 22:52
   workflow_dispatch:
 permissions:
   contents: write
@@ -43,14 +43,14 @@ jobs:
         run: |
           H=$(date -u +%H)
           for i in 1 2 3; do
-            # 台北 17:17 那一班（UTC 09 點）的最後一次嘗試：失敗就讓這次執行變紅燈
-            if [ "$H" = "09" ] && [ "$i" = "3" ]; then export FINAL_TRY=1; fi
+            # 台北 22:00 以後（UTC 14 點以後，含被 GitHub 延後的班次）的最後一次嘗試：失敗就變紅燈
+            if [ "$((10#$H))" -ge 14 ] && [ "$((10#$H))" -lt 23 ] && [ "$i" = "3" ]; then export FINAL_TRY=1; fi
             set +e; python3 tools/futures_update.py; rc=$?; set -e
             if [ $rc -eq 0 ]; then echo "✓ 確認已更新到最新"; exit 0; fi
             if [ $rc -ne 75 ]; then exit $rc; fi
             if [ $i -lt 3 ]; then echo "第 $i 次還沒到最新，10 分鐘後重試"; sleep 600; fi
           done
-          echo "這一班 3 次都還沒到最新，交給下一班（每小時 17 分）"
+          echo "這一班 3 次都還沒到最新，交給下一班（每 15 分鐘一班）"
       - name: 有新資料才提交
         if: steps.chk.outputs.stale == 'true'
         run: |
