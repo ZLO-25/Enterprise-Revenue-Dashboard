@@ -1,0 +1,19 @@
+{
+ "code": "panw",
+ "snapshots": [
+  {
+   "date": "2026-11-13",
+   "period": "1Q27",
+   "epsAvg": 0.97062,
+   "epsLow": 0.95,
+   "epsHigh": 0.98,
+   "epsN": 44,
+   "epsBasis": "normalized",
+   "revAvg": 3307502500.0,
+   "revLow": 3292425750.0,
+   "revHigh": 3367100000.0,
+   "revN": 45,
+   "cur": "USD"
+  }
+ ]
+}
