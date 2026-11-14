@@ -34,6 +34,14 @@ quant/tickers.json ──▶ .github/workflows/quant-prices.yml（每個平日�
 「⚙️ 管理標的」改的是本 repo 的 `quant/tickers.json`；加密 Token 存在 `quant/config/admin-key.json`
 （第一次在網站上設定時產生；Token 需要本 repo 的 Contents: Read and write）。
 
+**網站沒更新？** GitHub Pages 偶爾會漏掉某次推送（2026-11-14 合併 #3 後就發生過：
+Actions 裡沒有出現新的「pages build and deployment」）。檢查方式與補救：
+```
+線上 quant/data/manifest.json 是 404 或舊日期？
+  └─▶ Actions 看最新一筆 pages build 的 commit 是不是 main 最新那筆
+        └─ 不是 ─▶ 對 main 隨便推一個小 commit（或合併一個小 PR），Pages 就會重新部署
+```
+
 ## 回測站程式有更新時（舊 repo 已封存，通常不會再用到）
 ```
 python3 tools/quant_sync.py <Lump-Sum-v.s.-DCA 的本機路徑>   # 對不上會直接報錯
