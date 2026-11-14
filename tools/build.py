@@ -76,11 +76,43 @@ def icon_links(rel):
             f'<link rel="apple-touch-icon" href="{d}apple-touch-icon.png">')
 
 
-def page(title, desc, frag, rel=""):
+# 左側全域導覽欄（App Shell）：companies.json 的 site.sidebar 為 true 才注入。
+# false（或沒有這個欄位）時 page() 的輸出跟加入側邊欄以前一個 byte 都不差 → 這就是 rollback 開關。
+SIDEBAR = None   # main() 依 companies.json 設定；None = 不注入
+
+
+def asset_ver(*p):
+    # 靜態檔的版本號（內容雜湊），改檔後瀏覽器才不會一直用舊的快取
+    import hashlib
+    path = os.path.join(ROOT, *p)
+    return hashlib.sha1(open(path, "rb").read()).hexdigest()[:8] if os.path.exists(path) else ""
+
+
+def quant_ver():
+    # quant/ 底下所有檔案一起算一個版本號：任何一個改了，瀏覽器就會重新下載
+    import hashlib
+    h, base = hashlib.sha1(), os.path.join(ROOT, "quant")
+    for d, _, files in sorted(os.walk(base)):
+        for f in sorted(files):
+            h.update(f.encode()); h.update(open(os.path.join(d, f), "rb").read())
+    return h.hexdigest()[:8] if os.path.isdir(base) else ""
+
+
+def page(title, desc, frag, rel="", kind=None, code=""):
+    head, tail = "", ""
+    if SIDEBAR is not None and kind:
+        cfg = dict(SIDEBAR, root=rel, page=kind, code=code)
+        head = f'<link rel="stylesheet" href="{rel}assets/sidebar.css?v={asset_ver("assets", "sidebar.css")}">'
+        tail = (f'\n<script id="sb-cfg" type="application/json">{js_json(cfg)}</script>'
+                f'<script src="{rel}assets/sidebar.js?v={asset_ver("assets", "sidebar.js")}"></script>')
+        if kind == "home":
+            # 首頁兩個平行視圖：原主站整包放進 #main-dashboard-view（display:contents，排版不受影響）
+            frag = ('<div id="main-dashboard-view">\n' + frag + '\n</div>\n'
+                    '<div id="quant-dca-view" hidden></div>')
     return ('<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">'
             f"<title>{title}</title><meta name=\"description\" content=\"{desc}\">"
             '<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            f"{icon_links(rel)}{BASE_STYLE}</head><body>\n{frag}\n</body></html>\n")
+            f"{icon_links(rel)}{BASE_STYLE}{head}</head><body>\n{frag}{tail}\n</body></html>\n")
 
 
 SHELL_CSS = """
@@ -189,8 +221,12 @@ FUTJS = ""
 
 
 def main():
-    global LONGTERM, FUTJS
+    global LONGTERM, FUTJS, SIDEBAR
     cfg = json.loads(read("companies.json"))
+    if cfg["site"].get("sidebar"):
+        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(),
+                   "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
+                                 for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
     LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
@@ -217,7 +253,7 @@ def main():
         depth = c["path"].count("/")
         build = lambda home, chart: fill(frag, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM),
                                                ("{{CHARTJS}}", chart), ("{{DATA}}", js_json(data)), ("{{HOME}}", home)])
-        write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth)), "../" * depth), c["path"], "index.html")
+        write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth)), "../" * depth, "company", c["code"]), c["path"], "index.html")
         write(f"<title>{c['title']}</title>\n" + build(pages_url, CDN_CHART), "dist", "artifacts", c["code"] + ".html")
         print(f"{c['code']}: {c['path']}index.html（資料截至 {data['asOf']}）")
     home_t = read("templates", "home.frag.html")
@@ -227,14 +263,14 @@ def main():
                                        ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
                                        ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl), ("{{LWC}}", lwc)])
     fb, fl, lwc = "data/futures/", "futures/", LOCAL_LWC
-    write(page(cfg["site"]["title"], "多家公司財報與營收追蹤總覽：最新一季、近四季、年化成長、利潤率與自由現金流比較。", home(LOCAL_CHART.format(rel=""))), "index.html")
+    write(page(cfg["site"]["title"], "多家公司財報與營收追蹤總覽：最新一季、近四季、年化成長、利潤率與自由現金流比較。", home(LOCAL_CHART.format(rel="")), "", "home"), "index.html")
     fb, fl, lwc = pages_url + "data/futures/", pages_url + "futures/", CDN_LWC
     write(f"<title>{cfg['site']['title']}</title>\n" + home(CDN_CHART), "dist", "artifacts", "home.html")
     # 指數期貨 K 棒頁（資料加密；頁面本身公開，解鎖後才有內容）
     ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS),
               ("{{LWC}}", '<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>'),
               ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/")])
-    write(page("指數期貨 K 棒", "小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../"), "futures", "index.html")
+    write(page("指數期貨 K 棒", "小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../", "futures"), "futures", "index.html")
     print("futures/index.html（指數期貨 K 棒頁）")
     print("index.html（首頁）")
     build_combined(cfg, companies, datasets, theme, common)
