@@ -1,8 +1,8 @@
 {
  "code": "mu",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "Micron FY2026 10-K（2026-10-09 申報）第 1 項 Business",
   "url": "https://www.sec.gov/Archives/edgar/data/0000723125/000072312526000023/mu-20260903.htm",
@@ -43,5 +43,41 @@
   "HBM 認證：AI 用高頻寬記憶體需要客戶長期驗證，打進去後較穩定。",
   "較弱的一面：記憶體是標準品、景氣循環明顯，價格跌時獲利會大幅下滑。"
  ],
- "notes": []
+ "notes": [],
+ "mix": {
+  "period": "FY2026（2025-08-29 至 2026-09-03，53 週）",
+  "unit": "百萬美元",
+  "total": 133188,
+  "items": [
+   {
+    "n": "雲端記憶體事業部（CMBU）",
+    "v": 43085
+   },
+   {
+    "n": "核心資料中心事業部（CDBU）",
+    "v": 37592
+   },
+   {
+    "n": "行動與用戶端事業部（MCBU）",
+    "v": 36601
+   },
+   {
+    "n": "汽車與嵌入式事業部（AEBU）",
+    "v": 15886
+   },
+   {
+    "n": "其他",
+    "v": 24
+   }
+  ],
+  "src": {
+   "n": "Micron FY2026 10-K 部門營收（XBRL R82 Results by Segment）",
+   "url": "https://www.sec.gov/Archives/edgar/data/0000723125/000072312526000023/R82.htm"
+  },
+  "notes": [
+   "10-K 主文件：https://www.sec.gov/Archives/edgar/data/0000723125/000072312526000023/mu-20260903.htm（Item 1 文字亦寫 CMBU 43.09、CDBU 37.59、MCBU 36.60、AEBU 15.89 十億美元，與表一致）。",
+   "五項（含 All Other 24）加總 133,188 = 總營收；未分配營收為 0。",
+   "FY2026 為 53 週，比較時注意。"
+  ]
+ }
 }

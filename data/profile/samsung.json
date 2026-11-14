@@ -1,8 +1,8 @@
 {
  "code": "samsung",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "三星電子 2025 Business Report（英文版，會計年度截至 2025-12-31）事業概況",
   "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf",
@@ -11,7 +11,7 @@
  "products": [
   {
    "n": "DX 裝置體驗（手機、電視、家電）",
-   "d": "手機、平板、穿戴、電視、冰箱等；2025 年報：占營收 56.3%"
+   "d": "手機、平板、穿戴、電視、冰箱等"
   },
   {
    "n": "DS 半導體（記憶體、System LSI、晶圓代工）",
@@ -45,5 +45,39 @@
  ],
  "notes": [
   "待確認：三星未在年報此段明列「客戶痛點」，pains 依產品描述整理；報告發布日未讀到，date 暫填 2026-03；營收占比含部門間交易"
- ]
+ ],
+ "mix": {
+  "period": "2025 年度（2025-01-01 至 2025-12-31）",
+  "unit": "億韓元",
+  "total": 3336059,
+  "items": [
+   {
+    "n": "DX（裝置體驗）",
+    "v": 1879673
+   },
+   {
+    "n": "DS（裝置解決方案，半導體）",
+    "v": 1301282
+   },
+   {
+    "n": "SDC（三星顯示器）",
+    "v": 298417
+   },
+   {
+    "n": "Harman",
+    "v": 157833
+   },
+   {
+    "n": "部門間內部交易抵銷",
+    "v": -301146
+   }
+  ],
+  "src": {
+   "n": "Samsung Electronics 2025 Business Report（英文）II. Businesses Overview／A. Revenue，第 23 頁",
+   "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_Interim_Report.pdf"
+  },
+  "notes": [
+   "各事業部數字含部門間銷售，比例以四個事業部加總為分母（不扣部門間抵銷）"
+  ]
+ }
 }

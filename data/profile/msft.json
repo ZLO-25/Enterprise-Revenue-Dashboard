@@ -1,8 +1,8 @@
 {
  "code": "msft",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "Microsoft FY2026 10-K（2026-07-29 申報）第 1 項 Business",
   "url": "https://microsoft.gcs-web.com/static-files/8a9beeed-0e9e-48e6-b4fb-593d558e2693",
@@ -50,5 +50,33 @@
  "notes": [
   "年報數字（FY2026 10-K）：截至 2026-06-30 全職員工約 22.3 萬人",
   "申報日 2026-07-29 取自 Quartr/Fortune 檔名時間戳，待確認：EDGAR 正式日期"
- ]
+ ],
+ "mix": {
+  "period": "FY2026（2025-07-01 至 2026-06-30）",
+  "unit": "百萬美元",
+  "total": 331839,
+  "items": [
+   {
+    "n": "生產力與業務流程",
+    "v": 139996
+   },
+   {
+    "n": "智慧雲",
+    "v": 137791
+   },
+   {
+    "n": "更多個人運算",
+    "v": 54052
+   }
+  ],
+  "src": {
+   "n": "Microsoft FY2026 10-K 部門營收（XBRL R107）",
+   "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/R107.htm"
+  },
+  "notes": [
+   "同一份申報：10-K（R1 封面確認 Document Type 10-K、期末 2026-06-30），主文件 msft-20260630.htm。",
+   "三項加總 331,839 = 總營收。",
+   "同表 FY2025 為 120,810／106,265／54,649（合計 281,724），屬該 10-K 中的比較數字，可能已依新部門架構重編，與 FY2025 原始 10-K 數字不一定相同。"
+  ]
+ }
 }

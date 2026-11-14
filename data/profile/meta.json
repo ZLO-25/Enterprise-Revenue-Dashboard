@@ -1,8 +1,8 @@
 {
  "code": "meta",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "Meta Platforms FY2025 10-K（2026-01-29 申報）第 1 項 Business",
   "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
@@ -46,5 +46,28 @@
   "Item 1 未明列競爭優勢，上述為公司對產品的自述",
   "年報數字（FY2025 10-K）：2025 年成本費用 82% 在 FoA、18% 在 RL；員工 78,865 人",
   "申報日 2026-01-29 取自 Quartr/Fortune 檔名時間戳，待確認：EDGAR 正式日期"
- ]
+ ],
+ "mix": {
+  "period": "FY2025（2025-01-01 至 2025-12-31）",
+  "unit": "百萬美元",
+  "total": 200966,
+  "items": [
+   {
+    "n": "應用程式家族（Family of Apps）",
+    "v": 198759
+   },
+   {
+    "n": "Reality Labs",
+    "v": 2207
+   }
+  ],
+  "src": {
+   "n": "Meta 2025 10-K 部門營收（XBRL R90）",
+   "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/R90.htm"
+  },
+  "notes": [
+   "10-K 主文件：https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+   "兩項加總 200,966 = 總營收。"
+  ]
+ }
 }

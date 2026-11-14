@@ -99,6 +99,13 @@ table.co-tbl { font-size: 0.84rem; }
 .chips button:hover { color: var(--ink); }
 .cmp-clear { font: inherit; font-size: 0.78rem; border: 0; background: none; color: var(--accent); cursor: pointer; padding: 2px 4px; }
 @media (max-width: 560px) { .co-tbl .sub2 .sec-tag { display: none; } }
+.pf-mix { grid-column: 1 / -1; }
+.pf-mix h4 .pf-per { font-weight: 400; font-size: 0.72rem; color: var(--muted); }
+.mix-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--grid); gap: 2px; }
+.mix-bar span { display: block; min-width: 2px; }
+.mix-lg { list-style: none; padding: 0 !important; margin: 8px 0 0 !important; display: flex !important; flex-wrap: wrap; gap: 4px 18px !important; }
+.mix-lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.mix-lg b { font-family: var(--font-data); margin-left: 4px; }
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -265,16 +272,51 @@ const nGrp = (g) => COLS.filter(c => c.g === g).length;
 let colG = 'q', sortK = null, sortDir = -1;
 const tblEl = $('#coTbl');
 const esc = (x) => String(x == null ? '' : x).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+/* 營收比例（書面）：依序用
+   1) data 的 segments（最近 4 季加總；資料少於 4 季就用有的季數）
+   2) 台積電：最新一季 HPC、智慧型手機占營收 %（其餘平台合計 ＝ 100 − 兩者）；PLTR：最近 4 季政府／商業營收
+   3) data/profile 的 mix（最新年報的全年部門營收）
+   都是網站裡已經讀到的公司申報數字，只在這裡換算成百分比。 */
+function mixOf({ c, D }) {
+  const pct = (items) => { const pos = items.filter(i => i.v > 0), tot = pos.reduce((a, i) => a + i.v, 0); return tot > 0 ? pos.map(i => ({ ...i, p: i.v / tot * 100 })).sort((a, b) => b.p - a.p) : null; };
+  const seg = D.segments;
+  if (seg && seg.quarters && seg.quarters.length) {
+    const Q = seg.quarters.slice(-4);
+    const items = seg.keys.map(k => ({ n: k.n, v: Q.reduce((a, q) => a + (q[k.k] || 0), 0) }));
+    const neg = items.filter(i => i.v < 0);
+    return { items: pct(items), period: `${Q[0].q}–${Q[Q.length - 1].q}（${Q.length === 4 ? '近四季' : '近 ' + Q.length + ' 季'}加總）`, src: '各季財報（本站營收拆分）', note: neg.length ? '不含' + neg.map(i => i.n).join('、') : '' };
+  }
+  if (c.code === 'tsmc') {
+    const q = [...D.quarters].reverse().find(r => r.hpc != null && r.sp != null);
+    if (q) return { items: [{ n: '高效能運算（HPC）', p: q.hpc }, { n: '智慧型手機', p: q.sp }, { n: '其他平台合計（物聯網、車用、消費電子等）', p: 100 - q.hpc - q.sp }], period: `${q.q} 單季`, src: '台積電季度管理報告（營收依平台）', note: '' };
+  }
+  if (c.code === 'pltr' && D.pltr && D.pltr.quarters) {
+    const Q = D.pltr.quarters.filter(r => r.gov != null && r.com != null).slice(-4);
+    if (Q.length) return { items: pct([{ n: '政府', v: Q.reduce((a, r) => a + r.gov, 0) }, { n: '商業', v: Q.reduce((a, r) => a + r.com, 0) }]), period: `${Q[0].q}–${Q[Q.length - 1].q}（近四季加總）`, src: '各季財報新聞稿', note: '' };
+  }
+  const m = D.profile && D.profile.mix;
+  if (m && m.items && m.items.length) return { items: pct(m.items), period: m.period, src: m.src ? `<a href="${esc(m.src.url)}" target="_blank" rel="noopener">${esc(m.src.n)}</a>` : '年報', note: (m.notes || []).join('　') };
+  return null;
+}
+function mixHtml(x) {
+  const M = mixOf(x);
+  if (!M || !M.items) return `<div class="pf-mix"><h4>營收比例</h4><p class="pf-sub">待確認：尚未整理這家公司的部門營收。</p></div>`;
+  const C = (i) => T('--s' + ((i % 8) + 1));
+  return `<div class="pf-mix"><h4>營收比例 <span class="tag-src" title="公司申報的數字，只換算成百分比">書面</span><span class="pf-per">${esc(M.period)} · 來源：${M.src}</span></h4>
+    <div class="mix-bar" role="img" aria-label="${M.items.map(i => i.n + ' ' + i.p.toFixed(0) + '%').join('，')}">${M.items.map((i, k) => `<span style="width:${i.p}%;background:${C(k)}" title="${esc(i.n)} ${i.p.toFixed(1)}%"></span>`).join('')}</div>
+    <ul class="mix-lg">${M.items.map((i, k) => `<li><i style="background:${C(k)}"></i>${esc(i.n)} <b>${i.p.toFixed(1)}%</b></li>`).join('')}</ul>${M.note ? `<p class="pf-sub">${esc(M.note)}</p>` : ''}</div>`;
+}
 /* 展開列：主力產品／解決的痛點／護城河（data/profile/<代號>.json，由 build.py 放進 D.profile） */
-function profileHtml({ c, D, N, M, s }) {
+function profileHtml(x) {
+  const { c, D, N, M, s } = x;
   const R = D.profile;
   const kv = `<div class="pf-k"><span>${s.revLabel} <b>${f0(s.rev)}</b> ${s.revUnit}</span><span>${s.qLabel} EPS <b>${f2(s.eps)}</b> ${s.epsUnit}（近四季 ${f2(M.ttmEpsNow)}）</span><span>近四季營收 <b>${f0(M.ttmRev)}</b> ${N.unitShort}</span><span>資料截至 ${D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${nextTxt({ s })}${s.next ? '（' + s.next.t.split('（')[0] + '）' : ''}</span></div>`;
   const go = `<a class="go" href="${c.path}">看 ${c.name} 追蹤板 →</a>`;
-  if (!R) return `<div class="pf">${kv}<div class="pf-foot"><span>主力產品、痛點、護城河：待確認（尚未整理）</span>${go}</div></div>`;
+  if (!R) return `<div class="pf">${kv}${mixHtml(x)}<div class="pf-foot"><span>主力產品、痛點、護城河：待確認（尚未整理）</span>${go}</div></div>`;
   const draft = R.status !== 'approved' ? '<span class="tag-src tag-draft" title="Claude 整理的草稿，ZL 確認後才算定稿">草稿・待 ZL 確認</span>' : '';
   const W = '<span class="tag-src" title="依公司年報／公開說明書整理">書面</span>', V = '<span class="tag-src tag-v" title="Claude 的判斷，不是事實">觀點</span>';
   const li = (arr) => (arr || []).map(x => `<li>${x.n ? `<b>${esc(x.n)}</b>：${esc(x.d)}` : esc(x)}</li>`).join('');
-  return `<div class="pf">${kv}
+  return `<div class="pf">${kv}${mixHtml(x)}
     <div><h4>主力產品 ${W}</h4><ul>${li(R.products)}</ul></div>
     <div><h4>解決什麼痛點 ${W}</h4><ul>${li(R.pains)}</ul></div>
     <div><h4>護城河</h4><p class="pf-sub">我的判斷 ${V}</p><ul>${li(R.moat)}</ul><p class="pf-sub">公司自述的優勢 ${W}</p><ul>${li(R.claims)}</ul></div>
