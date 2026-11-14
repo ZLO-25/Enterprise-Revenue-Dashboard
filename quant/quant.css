@@ -239,3 +239,18 @@
 
 /* 3. 量化視圖容器 */
 #quant-dca-view { display: block; margin: 0 -16px; min-height: 100vh; }
+
+/* 4. 整合進主站後的可讀性調整 */
+#quant-dca-view { font-family: var(--font-ui, "IBM Plex Sans", "Noto Sans TC", system-ui, sans-serif); font-size: 16px; -webkit-font-smoothing: antialiased; }
+#quant-dca-view .hint, #quant-dca-view .picker-msg, #quant-dca-view .data-status, #quant-dca-view .card .s, #quant-dca-view .card .k { font-size: .86rem; }
+#quant-dca-view .how-to-read, #quant-dca-view header.site .sub { font-size: .92rem; }
+#quant-dca-view table.data { font-size: .92rem; }
+#quant-dca-view table.data .sub, #quant-dca-view .table-wrap.scrollable::before { font-size: .8rem; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #quant-dca-view { --muted: #b4bfcc; --text: #f0f3f7; } }
+:root[data-theme="dark"] #quant-dca-view { --muted: #b4bfcc; --text: #f0f3f7; }
+#quant-dca-view .qplus-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0 6px; }
+#quant-dca-view .qplus-lab { font-size: .82rem; color: var(--muted); margin-right: 2px; }
+#quant-dca-view .qplus-bar button { font: inherit; font-size: .85rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--panel); color: var(--text); }
+#quant-dca-view .qplus-bar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+#quant-dca-view .qplus-tip { font-size: .8rem; color: var(--muted); margin-top: 4px; }

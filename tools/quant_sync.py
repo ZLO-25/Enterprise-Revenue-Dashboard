@@ -104,6 +104,27 @@ RESET = f"""/* ===== 由 tools/quant_sync.py 產生，請不要手改；要改�
 """
 
 
+# 4. 整合進主站後的可讀性調整（ZL 2026-11-14：「字體不明顯」）
+#    字型改用主站同一套（IBM Plex Sans + Noto Sans TC，Windows 上比微軟正黑體清楚）、基本字級 15→16px、
+#    小字（提示、說明）放大一點、深色模式的灰字調亮；以及 chart-plus.js 的工具列樣式。
+READABILITY = f"""
+/* 4. 整合進主站後的可讀性調整 */
+{SCOPE} {{ font-family: var(--font-ui, "IBM Plex Sans", "Noto Sans TC", system-ui, sans-serif); font-size: 16px; -webkit-font-smoothing: antialiased; }}
+{SCOPE} .hint, {SCOPE} .picker-msg, {SCOPE} .data-status, {SCOPE} .card .s, {SCOPE} .card .k {{ font-size: .86rem; }}
+{SCOPE} .how-to-read, {SCOPE} header.site .sub {{ font-size: .92rem; }}
+{SCOPE} table.data {{ font-size: .92rem; }}
+{SCOPE} table.data .sub, {SCOPE} .table-wrap.scrollable::before {{ font-size: .8rem; }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {SCOPE} {{ --muted: #b4bfcc; --text: #f0f3f7; }} }}
+:root[data-theme="dark"] {SCOPE} {{ --muted: #b4bfcc; --text: #f0f3f7; }}
+{SCOPE} .qplus-bar {{ display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0 6px; }}
+{SCOPE} .qplus-lab {{ font-size: .82rem; color: var(--muted); margin-right: 2px; }}
+{SCOPE} .qplus-bar button {{ font: inherit; font-size: .85rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--panel); color: var(--text); }}
+{SCOPE} .qplus-bar button[aria-pressed="true"] {{ background: var(--accent); border-color: var(--accent); color: #fff; }}
+{SCOPE} .qplus-tip {{ font-size: .8rem; color: var(--muted); margin-top: 4px; }}
+"""
+
+
 def main():
     if len(sys.argv) < 2:
         sys.exit(__doc__)
@@ -118,7 +139,7 @@ def main():
     css = rd(src, "assets", "css", "style.css")
     css = css.replace("animation: spin ", "animation: quant-spin ")
     # 3. 容器本身：滿版（抵銷主站 body 左右 16px 留白）
-    tail = f"\n/* 3. 量化視圖容器 */\n{SCOPE} {{ display: block; margin: 0 -16px; min-height: 100vh; }}\n"
+    tail = f"\n/* 3. 量化視圖容器 */\n{SCOPE} {{ display: block; margin: 0 -16px; min-height: 100vh; }}\n" + READABILITY
     wr(RESET + scope_css(css) + tail, "quant.css")
 
     # engine.js：原封不動
@@ -148,6 +169,9 @@ def main():
         ('history.replaceState(null, "", `#${b.dataset.tab}`);\n',
          'history.replaceState(null, "", `#${b.dataset.tab}`);\n'
          '  window.dispatchEvent(new CustomEvent("quant:tab", { detail: b.dataset.tab }));\n'),
+        # ⑦ 畫完圖交給 chart-plus.js 加強（提示框配色、快速縮放、縱軸切換）
+        ('modeBarButtonsToRemove: ["lasso2d", "select2d"] });\n}\n',
+         'modeBarButtonsToRemove: ["lasso2d", "select2d"] });\n  window.__quantChartPlus?.after(el, traces, c);   // [主站]\n}\n'),
         ("\ninit();\n", "\n// [主站] loader.js 用：等初始化完成、依網址切分頁、離開時停掉看盤牆\n"
                         "const ready = init();\nwindow.__quantApp = { ready, loadHash, showTab, deactivate: () => Wall.deactivate() };\n"),
     ], "app.js")

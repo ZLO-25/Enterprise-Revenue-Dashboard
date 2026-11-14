@@ -267,6 +267,7 @@ function plot(el, traces, layout = {}) {
     xaxis: { gridcolor: c.border, linecolor: c.border, zerolinecolor: c.border, automargin: true, ...layout.xaxis },
     yaxis: { gridcolor: c.border, linecolor: c.border, zerolinecolor: c.border, automargin: true, ...layout.yaxis },
   }, { responsive: true, displaylogo: false, modeBarButtonsToRemove: ["lasso2d", "select2d"] });
+  window.__quantChartPlus?.after(el, traces, c);   // [主站]
 }
 
 function busy(out, msg = "計算中…") {
