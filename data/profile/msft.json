@@ -1,0 +1,54 @@
+{
+ "code": "msft",
+ "status": "draft",
+ "updated": "2026-11-14",
+ "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "src": {
+  "n": "Microsoft FY2026 10-K（2026-07-29 申報）第 1 項 Business",
+  "url": "https://microsoft.gcs-web.com/static-files/8a9beeed-0e9e-48e6-b4fb-593d558e2693",
+  "date": "2026-07-29"
+ },
+ "products": [
+  {
+   "n": "Azure 與雲端服務",
+   "d": "按用量計費的雲端運算與 AI 服務（含 Azure AI Foundry），賣給各種企業與開發者"
+  },
+  {
+   "n": "Microsoft 365（含 Copilot）",
+   "d": "企業與個人的 AI 辦公協作工具，如 Office、Teams、Outlook、OneDrive"
+  },
+  {
+   "n": "LinkedIn",
+   "d": "職場社群，向企業收費提供徵才、行銷、業務與進階會員服務"
+  },
+  {
+   "n": "Dynamics 365 與 Power 平台",
+   "d": "給企業的雲端 ERP、CRM 與低程式碼開發工具"
+  },
+  {
+   "n": "Windows、Surface 與 Xbox",
+   "d": "電腦作業系統授權、自家硬體，以及遊戲主機、遊戲與 Game Pass 訂閱"
+  }
+ ],
+ "pains": [
+  "自管機房軟硬體費時費錢 → 改用 Azure 雲端，減少維運負擔",
+  "企業想導入 AI 提升生產力 → Copilot 與 Azure AI 服務協助落地",
+  "身分、裝置、資料安全分散難管 → 提供整合的 AI 資安與合規產品",
+  "企業招募、業務開發不易 → LinkedIn 幫忙找人、行銷與銷售"
+ ],
+ "claims": [
+  "雲端三種規模經濟：大型機房單位成本低、需求彙整利用率高、多租戶維運省",
+  "混合雲：Azure 可把客戶自有機房與公有雲結合",
+  "AI 基礎設施：超級運算能力、自研晶片與晶片廠夥伴",
+  "公司稱「安全優先於一切」，並以直銷、夥伴與 OEM 預裝擴大通路"
+ ],
+ "moat": [
+  "轉換成本：企業的帳號、文件、權限都在 Microsoft 365 與 Azure 上，搬家成本極高。",
+  "產品捆綁＋通路：Office、Windows、Azure、Copilot 可以一起賣給同一個 IT 部門。",
+  "規模經濟：全球資料中心的單位成本優勢，小雲端業者難以複製。"
+ ],
+ "notes": [
+  "年報數字（FY2026 10-K）：截至 2026-06-30 全職員工約 22.3 萬人",
+  "申報日 2026-07-29 取自 Quartr/Fortune 檔名時間戳，待確認：EDGAR 正式日期"
+ ]
+}

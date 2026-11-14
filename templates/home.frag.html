@@ -15,30 +15,66 @@
 .co-search input:focus { outline: 2px solid var(--chip-ink); outline-offset: 1px; }
 .co-search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
 .co-status { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
-/* 公司卡片自動換行：選到的產業一次全部顯示，不用左右滑 */
-.cos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
-.cos > .co[hidden] { display: none; }
-@media (max-width: 640px) { .cos { gap: 12px; } .co-search { max-width: none; } .sec-tabs { flex-wrap: wrap; } }
+/* 公司列表：一行一家公司（2026-11 由卡片改成表格，一個畫面可比較 15～20 家）
+   寬螢幕（≥1100px）三組欄位全部顯示；較窄時用「最新一季｜長期｜估值」切換，一次一組，不需要左右滑。 */
+@media (max-width: 640px) { .co-search { max-width: none; } }
 .co-empty { padding: 28px 16px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; }
 .co-empty[hidden] { display: none; }
-.co .co-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.co .sec-tag { font: inherit; font-size: 0.72rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--wash); color: var(--ink-2); border: 0; cursor: pointer; }
-.co .sec-tag:hover { color: var(--ink); }
-.co { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
-.co h2 { font-size: var(--step-2); font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.co h2 .code { font-family: var(--font-data); font-size: 0.7rem; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; }
-.co .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin: 0; }
-.co .stats div { display: grid; gap: 2px; min-width: 0; }
-.co dt { font-size: 0.78rem; color: var(--muted); }
-.co dd { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
-.co dd small { font-size: 0.72rem; font-weight: 500; color: var(--ink-2); margin-left: 3px; }
-.co dd.sub { font-size: 0.8rem; font-weight: 400; color: var(--ink-2); font-family: var(--font-data); }
-.co .lt-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
-.co .lt-row div { display: grid; gap: 2px; min-width: 0; }
-.co .lt-row dt { font-size: 0.72rem; }
-.co .lt-row dd { font-size: 0.98rem; }
-.co .foot { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: space-between; font-size: 0.82rem; color: var(--muted); font-family: var(--font-data); }
-.go { display: inline-block; text-decoration: none; background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border-radius: 8px; font-family: var(--font-ui); }
+.co-colseg { display: none; }
+.co-box { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table.co-tbl { font-size: 0.84rem; }
+.co-tbl thead th { top: env(safe-area-inset-top, 0px); z-index: 2; vertical-align: bottom; line-height: 1.3; padding: 8px 8px; font-size: 0.76rem; border-bottom: 1px solid var(--line); }
+.co-tbl thead tr.grp th { position: static; padding: 6px 8px 0; font-size: 0.7rem; color: var(--muted); font-weight: 700; letter-spacing: 0.04em; border-bottom: 0; text-align: center; }
+.co-tbl thead tr.grp th span { display: block; border-bottom: 2px solid var(--grid); padding-bottom: 3px; }
+.co-tbl thead th:first-child { border-top-left-radius: 10px; }
+.co-tbl th.sortable { cursor: pointer; user-select: none; }
+.co-tbl th.sortable:hover { color: var(--ink); }
+.co-tbl th .ar { display: inline-block; width: 0.8em; color: var(--accent); }
+.co-tbl td { padding: 4px 8px; vertical-align: middle; line-height: 1.35; }
+.co-tbl td.nm { font-family: var(--font-cjk); min-width: 12.5rem; white-space: normal; }
+.co-tbl tr.row:hover td { background: var(--wash); }
+.co-tbl .nm-in { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; column-gap: 4px; }
+.co-tbl .exp { width: 22px; height: 22px; border: 0; background: none; padding: 0; color: var(--muted); cursor: pointer; border-radius: 5px; font-size: 0.8rem; transition: transform .15s; }
+.co-tbl .exp:hover { background: var(--wash); color: var(--ink); }
+.co-tbl tr.open .exp { transform: rotate(90deg); color: var(--accent); }
+.co-tbl .nm a { color: var(--ink); font-weight: 600; text-decoration: none; font-size: 0.92rem; }
+.co-tbl .nm a:hover { color: var(--accent); text-decoration: underline; }
+.co-tbl .nm .tk { font-family: var(--font-data); font-size: 0.7rem; color: var(--muted); margin-left: 6px; }
+.co-tbl .nm .sub2 { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font-size: 0.7rem; color: var(--muted); }
+.co-tbl .sec-tag { font: inherit; font-size: 0.68rem; padding: 0 7px; border-radius: 999px; background: var(--wash); color: var(--ink-2); border: 0; cursor: pointer; }
+.co-tbl .fresh { font-size: 0.64rem; padding: 0 6px; }
+.co-tbl td.gs { border-left: 1px solid var(--grid); }
+.co-tbl td small { display: block; font-size: 0.66rem; color: var(--muted); }
+.co-tbl td.nx { font-size: 0.78rem; }
+.co-tbl tr.det td { background: var(--page); white-space: normal; text-align: left; font-family: var(--font-cjk); padding: 14px 16px 18px; position: static; }
+.co-tbl tr.det[hidden] { display: none; }
+.pf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 22px; }
+.pf h4 { margin: 0 0 6px; font-size: 0.82rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.pf ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 0.82rem; color: var(--ink-2); line-height: 1.5; }
+.pf ul b { color: var(--ink); font-weight: 600; }
+.pf .pf-k { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 0.78rem; color: var(--ink-2); font-family: var(--font-data); border-bottom: 1px dashed var(--line); padding-bottom: 10px; }
+.pf .pf-k b { color: var(--ink); font-weight: 600; }
+.pf .pf-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; justify-content: space-between; font-size: 0.74rem; color: var(--muted); }
+.pf .pf-sub { font-size: 0.72rem; color: var(--muted); font-weight: 500; margin: 6px 0 4px; }
+.tag-src { font-size: 0.64rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--wash); color: var(--ink-2); }
+.tag-v { background: #f3e8c6; color: #6b4e00; }
+.tag-draft { background: #fbe3d9; color: #8a3210; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag-v { background: #4a3c12; color: #f2d98a; } :root:not([data-theme="light"]) .tag-draft { background: #4d2414; color: #f6b79c; } }
+:root[data-theme="dark"] .tag-v { background: #4a3c12; color: #f2d98a; } :root[data-theme="dark"] .tag-draft { background: #4d2414; color: #f6b79c; }
+@media (max-width: 1099.98px) {
+  .co-colseg { display: inline-flex; }
+  .co-tbl .gc:not(.on) { display: none; }
+  .co-tbl thead tr.grp { display: none; }
+  .co-tbl td.gs { border-left: 0; }
+  .pf { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  table.co-tbl { font-size: 0.8rem; }
+  .co-tbl td.nm { min-width: 0; }
+  .co-tbl td, .co-tbl thead th { padding-inline: 5px; }
+  .co-tbl .nx-col { display: none; }
+}
+.go { display: inline-block; text-decoration: none; background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; font-size: 0.86rem; padding: 6px 14px; border-radius: 8px; font-family: var(--font-ui); }
 .go:hover { filter: brightness(0.96); }
 .howto code { font-family: var(--font-data); font-size: 0.82rem; background: var(--wash); padding: 1px 6px; border-radius: 4px; }
 .score th, .score td { text-align: right; }
@@ -52,6 +88,17 @@
 .fresh-tbl td.txt { min-width: 10rem; }
 .cmp-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 4px; }
 .cmp-note { font-size: 0.82rem; color: var(--muted); font-family: var(--font-data); }
+.cmp-filter { display: grid; gap: 8px; margin-top: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.cmp-row { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+.cmp-row .chips { grid-column: 2 / -1; }
+.cmp-lbl { font-size: 0.76rem; font-weight: 700; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font: inherit; font-size: 0.8rem; border: 1px solid var(--line); background: var(--page); color: var(--ink-2); padding: 3px 10px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chips button i { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--line); }
+.chips button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); border-color: transparent; font-weight: 600; }
+.chips button:hover { color: var(--ink); }
+.cmp-clear { font: inherit; font-size: 0.78rem; border: 0; background: none; color: var(--accent); cursor: pointer; padding: 2px 4px; }
+@media (max-width: 560px) { .co-tbl .sub2 .sec-tag { display: none; } }
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -71,13 +118,14 @@
   </section>
 
   <section id="companies">
-    <div class="sec-head"><h2>公司</h2><p class="sub">用產業分頁籤或搜尋框找公司，選到的公司會一次全部列出。卡片上半部是最新一期，虛線以下是長期數字；左上角是產業，右上角的小徽章是資料新鮮度。</p></div>
+    <div class="sec-head"><h2>公司</h2><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點與護城河，點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
     </div>
-    <div class="co-status"><span id="coCount" aria-live="polite"></span></div>
-    <div class="cos" id="cos"></div>
+    <div class="co-status"><span id="coCount" aria-live="polite"></span>
+      <div class="seg co-colseg" id="colSeg" role="group" aria-label="欄位"><button type="button" data-g="q" aria-pressed="true">最新一季</button><button type="button" data-g="lt" aria-pressed="false">長期</button><button type="button" data-g="val" aria-pressed="false">估值</button></div></div>
+    <div class="co-box"><table class="co-tbl" id="coTbl"></table></div>
     <p class="co-empty" id="coEmpty" hidden></p>
   </section>
 
@@ -102,7 +150,13 @@
         </div>
         <span class="cmp-note" id="winNote"></span>
       </div>
+      <div class="cmp-filter" aria-label="比較哪些公司">
+        <div class="cmp-row"><span class="cmp-lbl">產業</span><div class="chips" id="cmpSec"></div></div>
+        <div class="cmp-row"><span class="cmp-lbl">公司</span><div class="chips" id="cmpCos"></div></div>
+        <div class="cmp-row"><span class="cmp-lbl"></span><span class="cmp-note" id="cmpCount"></span><button type="button" class="cmp-clear" id="cmpClear">全部取消</button></div>
+      </div>
     </div>
+    <p class="co-empty" id="cmpEmpty" hidden>還沒選公司。點上面的產業或公司按鈕，選要比較的公司。</p>
     <div class="grid2">
       <div class="card">
         <h3>營收指數化（起點 ＝ 100，近四季加總）</h3>
@@ -186,31 +240,63 @@ $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';
 $('#promptLink').href = REPO + '/blob/main/docs/NEW_COMPANY_PROMPT.md';
 
-/* ---------- 公司卡片 ---------- */
+/* ---------- 公司列表（表格：一行一家公司） ----------
+   欄位分三組：q 最新一季、lt 長期、val 估值。寬螢幕全部顯示；窄螢幕用 #colSeg 一次顯示一組。
+   每一欄的 v(s) 給排序用的數字，h(s) 給畫面用的 HTML。 */
 const nextTxt = (s) => s.s.next ? s.s.next.date.replace(/-/g, '/') + (s.s.next.est ? '（預估）' : '') : '—';
-$('#cos').innerHTML = S.map(({ c, D, N, M, F, s, P }) => `
-  <article class="co" data-code="${c.code}">
-    <div class="co-top"><button type="button" class="sec-tag" data-sector="${c.sector}" title="只看${c.sector}">${c.sector}</button>${LT.badge(F)}</div>
-    <h2>${c.name}<span class="code">${c.exchange}</span></h2>
-    <dl class="stats">
-      <div><dt>${s.revLabel}</dt><dd>${f0(s.rev)}<small>${s.revUnit}</small></dd><dd class="sub"><span class="${cls(s.yoy)}">年增 ${sp(s.yoy)}</span></dd></div>
-      <div><dt>${s.qLabel} EPS</dt><dd>${f2(s.eps)}<small>${s.epsUnit}</small></dd><dd class="sub">近四季 ${f2(M.ttmEpsNow)}</dd></div>
-      <div><dt>${s.qLabel} 毛利率</dt><dd>${pc(s.gm)}</dd></div>
-      <div><dt>${s.qLabel} 營業利益率</dt><dd>${pc(s.om)}</dd></div>
-    </dl>
-    <dl class="stats lt-row">
-      <div><dt>近四季營收</dt><dd>${f0(M.ttmRev)}<small>${N.unitShort}</small></dd><dd class="sub"><span class="${cls(M.ttmRevYoy)}">${sp(M.ttmRevYoy)}</span></dd></div>
-      <div><dt>3 年年化成長</dt><dd>${pc(M.cagr3)}</dd><dd class="sub">5 年 ${pc(M.cagr5)}</dd></div>
-      <div><dt>自由現金流率</dt><dd>${pc(M.ttmFcfM)}</dd><dd class="sub">淨利率 ${pc(M.ttmNm)}</dd></div>
-    </dl>
-    <dl class="stats lt-row pe-row">
-      <div><dt>本益比（月底）</dt><dd>${P.pe}</dd><dd class="sub">${P.sub || '&nbsp;'}</dd></div>
-      <div><dt>預估本益比</dt><dd>${P.fpe}</dd><dd class="sub">${P.fpeSub || '&nbsp;'}</dd></div>
-      <div><dt>10 年百分位</dt><dd>${P.pct}</dd><dd class="sub">中位數 ${P.med10 || '—'}</dd></div>
-    </dl>
-    <div class="foot"><span>資料截至 ${D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${nextTxt({ s })}${s.next ? '（' + s.next.t.split('（')[0] + '）' : ''}</span></div>
-    <div><a class="go" href="${c.path}">看 ${c.name} 追蹤板 →</a></div>
-  </article>`).join('');
+const num = (v) => v == null || !isFinite(v) ? null : v;
+const pctCell = (v) => v == null || !isFinite(v) ? '—' : pc(v);
+const spCell = (v) => v == null || !isFinite(v) ? '—' : `<span class="${cls(v)}">${sp(v)}</span>`;
+const COLS = [
+  { g: 'q', k: 'yoy', t: '營收年增<br>（單季）', v: s => num(s.s.yoy), h: s => spCell(s.s.yoy) },
+  { g: 'q', k: 'gm', t: '毛利率', v: s => num(s.s.gm), h: s => pctCell(s.s.gm) },
+  { g: 'q', k: 'om', t: '營業<br>利益率', v: s => num(s.s.om), h: s => pctCell(s.s.om) },
+  { g: 'lt', k: 'ttmYoy', t: '近四季<br>營收年增', v: s => num(s.M.ttmRevYoy), h: s => spCell(s.M.ttmRevYoy) },
+  { g: 'lt', k: 'cagr3', t: '3 年<br>年化成長', v: s => num(s.M.cagr3), h: s => pctCell(s.M.cagr3) },
+  { g: 'lt', k: 'cagr5', t: '5 年<br>年化成長', v: s => num(s.M.cagr5), h: s => pctCell(s.M.cagr5) },
+  { g: 'lt', k: 'nm', t: '淨利率<br>（近四季）', v: s => num(s.M.ttmNm), h: s => pctCell(s.M.ttmNm) },
+  { g: 'lt', k: 'fcf', t: '自由現金<br>流率', v: s => num(s.M.ttmFcfM), h: s => pctCell(s.M.ttmFcfM) },
+  { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => s.P.has && s.P.latestPe != null ? s.P.pe : `<small>${s.P.pe}</small>` },
+  { g: 'val', k: 'fpe', t: '預估<br>本益比', v: s => { const x = parseFloat(s.P.fpe); return isFinite(x) ? x : null; }, h: s => isFinite(parseFloat(s.P.fpe)) ? s.P.fpe : `<small>${s.P.fpe}</small>` },
+  { g: 'val', k: 'pct', t: '10 年<br>百分位', v: s => { const x = parseFloat(s.P.pct); return isFinite(x) ? x : null; }, h: s => s.P.pct },
+];
+const GRP = { q: '最新一季', lt: '長期（近四季、幾年）', val: '估值' };
+const nGrp = (g) => COLS.filter(c => c.g === g).length;
+let colG = 'q', sortK = null, sortDir = -1;
+const tblEl = $('#coTbl');
+const esc = (x) => String(x == null ? '' : x).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+/* 展開列：主力產品／解決的痛點／護城河（data/profile/<代號>.json，由 build.py 放進 D.profile） */
+function profileHtml({ c, D, N, M, s }) {
+  const R = D.profile;
+  const kv = `<div class="pf-k"><span>${s.revLabel} <b>${f0(s.rev)}</b> ${s.revUnit}</span><span>${s.qLabel} EPS <b>${f2(s.eps)}</b> ${s.epsUnit}（近四季 ${f2(M.ttmEpsNow)}）</span><span>近四季營收 <b>${f0(M.ttmRev)}</b> ${N.unitShort}</span><span>資料截至 ${D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${nextTxt({ s })}${s.next ? '（' + s.next.t.split('（')[0] + '）' : ''}</span></div>`;
+  const go = `<a class="go" href="${c.path}">看 ${c.name} 追蹤板 →</a>`;
+  if (!R) return `<div class="pf">${kv}<div class="pf-foot"><span>主力產品、痛點、護城河：待確認（尚未整理）</span>${go}</div></div>`;
+  const draft = R.status !== 'approved' ? '<span class="tag-src tag-draft" title="Claude 整理的草稿，ZL 確認後才算定稿">草稿・待 ZL 確認</span>' : '';
+  const W = '<span class="tag-src" title="依公司年報／公開說明書整理">書面</span>', V = '<span class="tag-src tag-v" title="Claude 的判斷，不是事實">觀點</span>';
+  const li = (arr) => (arr || []).map(x => `<li>${x.n ? `<b>${esc(x.n)}</b>：${esc(x.d)}` : esc(x)}</li>`).join('');
+  return `<div class="pf">${kv}
+    <div><h4>主力產品 ${W}</h4><ul>${li(R.products)}</ul></div>
+    <div><h4>解決什麼痛點 ${W}</h4><ul>${li(R.pains)}</ul></div>
+    <div><h4>護城河</h4><p class="pf-sub">我的判斷 ${V}</p><ul>${li(R.moat)}</ul><p class="pf-sub">公司自述的優勢 ${W}</p><ul>${li(R.claims)}</ul></div>
+    <div class="pf-foot"><span>${draft} 來源：${R.src ? `<a href="${esc(R.src.url)}" target="_blank" rel="noopener">${esc(R.src.n)}</a>` : '待確認'}${(R.notes || []).length ? '　' + R.notes.map(esc).join('　') : ''}</span>${go}</div></div>`;
+}
+function renderTbl() {
+  const order = sortK ? [...S].sort((a, b) => { const C = COLS.find(x => x.k === sortK); const va = C.v(a), vb = C.v(b); if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return (va - vb) * sortDir; }) : S;
+  const open = new Set([...tblEl.querySelectorAll('tr.row.open')].map(r => r.dataset.code));
+  const hidden = new Set([...tblEl.querySelectorAll('tr.row[hidden]')].map(r => r.dataset.code));
+  const gc = (g) => `gc g-${g}${g === colG ? ' on' : ''}`;
+  const head = `<thead><tr class="grp"><th></th>${['q', 'lt', 'val'].map(g => `<th colspan="${nGrp(g)}" class="${gc(g)}"><span>${GRP[g]}</span></th>`).join('')}<th class="nx-col"></th></tr>
+    <tr><th>公司</th>${COLS.map((C, i) => `<th class="sortable ${gc(C.g)}" data-k="${C.k}" aria-sort="${sortK === C.k ? (sortDir < 0 ? 'descending' : 'ascending') : 'none'}" title="點一下排序">${C.t}<span class="ar">${sortK === C.k ? (sortDir < 0 ? '↓' : '↑') : ''}</span></th>`).join('')}<th class="nx-col">下一個<br>公布日</th></tr></thead>`;
+  const body = order.map(x => { const { c, F, s } = x; const op = open.has(c.code);
+    return `<tr class="row${op ? ' open' : ''}" data-code="${c.code}"${hidden.has(c.code) ? ' hidden' : ''}>
+      <td class="nm"><div class="nm-in"><button type="button" class="exp" aria-expanded="${op}" aria-label="展開 ${c.name} 的主力產品與護城河">▶</button><span><a href="${c.path}">${c.name}</a><span class="tk">${c.ticker}</span></span>
+        <span class="sub2"><button type="button" class="sec-tag" data-sector="${c.sector}" title="只看${c.sector}">${c.sector}</button><span>${s.qLabel}</span>${LT.badge(F)}</span></div></td>
+      ${COLS.map((C, i) => `<td class="${gc(C.g)}${i && COLS[i - 1].g !== C.g ? ' gs' : ''}">${C.h(x)}</td>`).join('')}
+      <td class="nx nx-col">${s.next ? s.next.date.slice(5).replace('-', '/') + (s.next.est ? '<small>預估</small>' : '') : '—'}</td></tr>
+      <tr class="det" data-for="${c.code}"${op && !hidden.has(c.code) ? '' : ' hidden'}><td colspan="${COLS.length + 2}">${op ? profileHtml(x) : ''}</td></tr>`; }).join('');
+  tblEl.innerHTML = head + '<tbody>' + body + '</tbody>';
+}
+renderTbl();
 
 /* ---------- 產業分頁籤＋搜尋 ----------
    分頁籤由 companies.json 的 sector 自動產生（依第一次出現的順序），新產業會自動多一個分頁。
@@ -220,7 +306,7 @@ const SECTORS = [...new Set(S.map(s => s.c.sector || '其他'))];
 /* 首頁一打開預設顯示「半導體」；沒有這個產業時退回「全部」 */
 const DEFAULT_SEC = SECTORS.includes('半導體') ? '半導體' : ALL;
 let curSec = DEFAULT_SEC;
-const tabsEl = $('#secTabs'), qEl = $('#coQ'), cosEl = $('#cos');
+const tabsEl = $('#secTabs'), qEl = $('#coQ');
 const cnt = (sec) => sec === ALL ? S.length : S.filter(s => (s.c.sector || '其他') === sec).length;
 tabsEl.innerHTML = [ALL, ...SECTORS].map(t => `<button type="button" role="tab" data-sec="${t}" aria-selected="${t === DEFAULT_SEC}">${t}<span class="n">${cnt(t)}</span></button>`).join('');
 const norm = (t) => String(t || '').toLowerCase().replace(/[\s·.\-]/g, '');
@@ -230,7 +316,8 @@ function applyFilter() {
   let shown = 0;
   S.forEach(({ c }) => {
     const ok = q ? hay[c.code].includes(q) : (curSec === ALL || (c.sector || '其他') === curSec);
-    cosEl.querySelector(`[data-code="${c.code}"]`).hidden = !ok; if (ok) shown++;
+    const r = tblEl.querySelector(`tr.row[data-code="${c.code}"]`), d = tblEl.querySelector(`tr.det[data-for="${c.code}"]`);
+    r.hidden = !ok; d.hidden = !ok || !r.classList.contains('open'); if (ok) shown++;
   });
   tabsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(!q && b.dataset.sec === curSec || (!!q && b.dataset.sec === ALL))));
   $('#coEmpty').hidden = shown > 0;
@@ -238,7 +325,19 @@ function applyFilter() {
   $('#coCount').textContent = shown ? `顯示 ${shown} / ${S.length} 家` + (q ? `（搜尋「${qEl.value.trim()}」）` : curSec === ALL ? '' : `（${curSec}）`) : '';
 }
 tabsEl.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; curSec = b.dataset.sec; qEl.value = ''; applyFilter(); });
-cosEl.addEventListener('click', e => { const b = e.target.closest('.sec-tag'); if (!b) return; curSec = b.dataset.sector; qEl.value = ''; applyFilter(); tabsEl.querySelector(`[data-sec="${curSec}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); });
+tblEl.addEventListener('click', e => {
+  const tag = e.target.closest('.sec-tag');
+  if (tag) { curSec = tag.dataset.sector; qEl.value = ''; applyFilter(); return; }
+  const th = e.target.closest('th.sortable');
+  if (th) { const k = th.dataset.k; if (sortK === k) { if (sortDir < 0) sortDir = 1; else { sortK = null; sortDir = -1; } } else { sortK = k; sortDir = -1; } renderTbl(); applyFilter(); return; }
+  const ex = e.target.closest('.exp');
+  if (ex) { const r = ex.closest('tr.row'), d = r.nextElementSibling, op = !r.classList.contains('open');
+    r.classList.toggle('open', op); ex.setAttribute('aria-expanded', String(op));
+    if (op && !d.firstElementChild.innerHTML) d.firstElementChild.innerHTML = profileHtml(S.find(x => x.c.code === r.dataset.code));
+    d.hidden = !op; }
+});
+$('#colSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; colG = b.dataset.g; syncSeg('colSeg', 'g', colG);
+  tblEl.querySelectorAll('.gc').forEach(el => el.classList.toggle('on', el.classList.contains('g-' + colG))); });
 qEl.addEventListener('input', () => { curSec = qEl.value.trim() ? ALL : DEFAULT_SEC; applyFilter(); });
 qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = ''; curSec = DEFAULT_SEC; applyFilter(); } });
 applyFilter();
@@ -277,45 +376,64 @@ const allQ = [...new Set(S.flatMap(s => s.N.Q.map(q => q.q)))].sort((a, b) => qK
 const qLong = (q) => `20${q.slice(2)} Q${q[0]}`;
 /* 每家公司各自以「季 → 值」查表，再攤到共同的季度軸上；沒有的季填 null */
 const onAxis = (s, arr, labels) => { const m = {}; s.N.Q.forEach((q, i) => { m[q.q] = arr[i]; }); return labels.map(q => m[q] == null ? null : r1(m[q])); };
+/* ---------- 比較圖的公司篩選 ----------
+   產業按鈕 → 只選該產業的公司（「全部」＝ 20 家都選）；公司按鈕 → 單獨加入或拿掉一家。
+   預設跟公司列表一樣是「半導體」。線超過 8 條時顏色會重複，畫面會提醒。 */
+const cmpSel = new Set(S.filter(s => DEFAULT_SEC === ALL || s.c.sector === DEFAULT_SEC).map(s => s.c.code));
+$('#cmpSec').innerHTML = [ALL, ...SECTORS].map(t => `<button type="button" data-sec="${t}">${t}</button>`).join('');
+$('#cmpCos').innerHTML = S.map(s => `<button type="button" data-code="${s.c.code}" aria-pressed="false"><i></i>${s.c.name}</button>`).join('');
+function paintCmpChips(SS) {
+  const on = new Set(SS.map(s => s.c.code));
+  $('#cmpCos').querySelectorAll('button').forEach(b => { const i = SS.findIndex(s => s.c.code === b.dataset.code); b.setAttribute('aria-pressed', String(on.has(b.dataset.code))); b.querySelector('i').style.background = i >= 0 ? COL(i) : 'transparent'; });
+  $('#cmpSec').querySelectorAll('button').forEach(b => { const m = S.filter(s => b.dataset.sec === ALL || s.c.sector === b.dataset.sec).map(s => s.c.code); b.setAttribute('aria-pressed', String(m.length === on.size && m.every(c => on.has(c)))); });
+  $('#cmpCount').textContent = `已選 ${SS.length} 家` + (SS.length > 8 ? '（超過 8 家，顏色會重複，建議少選幾家）' : '');
+}
+$('#cmpSec').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; cmpSel.clear(); S.forEach(s => { if (b.dataset.sec === ALL || s.c.sector === b.dataset.sec) cmpSel.add(s.c.code); }); build(); });
+$('#cmpCos').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const k = b.dataset.code; cmpSel.has(k) ? cmpSel.delete(k) : cmpSel.add(k); build(); });
+$('#cmpClear').addEventListener('click', () => { cmpSel.clear(); build(); });
 let winN = 12, mKey = 'gm', charts = [];
 const COL = (i) => T('--s' + ((i % 8) + 1));
 function build() {
   if (!window.Chart) return;
+  const SS = S.filter(s => cmpSel.has(s.c.code));   /* 篩選後的公司；顏色依篩選後的順序分配，8 家以內不會重複 */
+  paintCmpChips(SS);
+  $('#cmpEmpty').hidden = SS.length > 0; document.querySelectorAll('#compare .grid2').forEach(g => g.hidden = !SS.length);
+  if (!SS.length) return;
   charts.forEach(c => c.destroy()); charts = [];
   Chart.defaults.font.family = 'IBM Plex Sans, Noto Sans TC, system-ui, sans-serif';
   Chart.defaults.color = T('--tick');
   /* 1. 期間：近 N 季；「全部」= 從最早算得出近四季的那一季起（近四季需要 4 季資料）。期間不會因為某家公司資料短而被縮短 */
-  const firstTtmQ = S.map(s => s.N.Q[s.M.ttm.findIndex(v => v != null)]?.q).filter(Boolean).sort((a, b) => qKey(a) < qKey(b) ? -1 : 1)[0];
+  const firstTtmQ = SS.map(s => s.N.Q[s.M.ttm.findIndex(v => v != null)]?.q).filter(Boolean).sort((a, b) => qKey(a) < qKey(b) ? -1 : 1)[0];
   const from = winN ? Math.max(0, allQ.length - winN) : Math.max(0, allQ.indexOf(firstTtmQ));
   const labels = allQ.slice(from);
   /* 2. 指數化：每家公司在「期間第一季」的近四季營收設為 100；資料較晚才開始的公司，從它自己的第一季設為 100，並在上方註明 */
   const late = [];
-  const idxSeries = S.map(s => { const m = {}; s.N.Q.forEach((q, i) => { m[q.q] = s.M.ttm[i]; }); const bq = labels.find(q => m[q] != null); const base = bq ? m[bq] : null; if (bq && bq !== labels[0]) late.push(`${s.c.name} 資料從 ${qLong(bq)} 起，該季 ＝ 100`); return labels.map(q => base > 0 && m[q] != null ? Math.round(m[q] / base * 1000) / 10 : null); });
+  const idxSeries = SS.map(s => { const m = {}; s.N.Q.forEach((q, i) => { m[q.q] = s.M.ttm[i]; }); const bq = labels.find(q => m[q] != null); const base = bq ? m[bq] : null; if (bq && bq !== labels[0]) late.push(`${s.c.name} 資料從 ${qLong(bq)} 起，該季 ＝ 100`); return labels.map(q => base > 0 && m[q] != null ? Math.round(m[q] / base * 1000) / 10 : null); });
   $('#winNote').textContent = `${qLong(labels[0])} – ${qLong(labels[labels.length - 1])}，起點 ${qLong(labels[0])} ＝ 100` + (late.length ? '；' + late.join('；') : '');
-  const lg = S.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 }));
+  const lg = SS.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 }));
   legend('#lgIdx', lg); legend('#lgM', lg); legend('#lgY', lg);
   const xt = qTicks(labels);
   const sortDesc = { itemSort: (a, b) => (b.raw ?? -Infinity) - (a.raw ?? -Infinity), callbacks: { title: (it) => it.length ? qLong(it[0].label) : '' } };
   /* 對數刻度：每格翻一倍 */
   const lt = logTicks(idxSeries.flat());
   const xMul = (v) => v == null ? '—' : (v / 100).toFixed(2) + '×';
-  charts.push(new Chart($('#cIdx'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: idxSeries[i], borderColor: COL(i), backgroundColor: COL(i) })) },
+  charts.push(new Chart($('#cIdx'), { data: { labels, datasets: SS.map((s, i) => cmpLine({ label: s.c.name, data: idxSeries[i], borderColor: COL(i), backgroundColor: COL(i) })) },
     options: baseOpts({ ...endPad(), scales: {
       y: { type: 'logarithmic', min: lt.min, max: lt.max, border: { display: false }, grid: gridWithBase(100), afterBuildTicks: (sc) => { sc.ticks = lt.ticks.map(v => ({ value: v })); }, ticks: { color: T('--tick'), padding: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: v => v } },
       x: xAxis({}, xt) }, plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${c.raw}（起點的 ${xMul(c.raw)}）` } }), endLabels: { fmt: xMul } } }) }));
   /* 3. 利潤率：近四季加權 */
   const mArr = { gm: s => s.M.ttmGm, om: s => s.M.ttmOm, nm: s => s.M.ttm.map((v, i) => v && s.M.ttmNi[i] != null ? s.M.ttmNi[i] / v * 100 : null) };
-  charts.push(new Chart($('#cM'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, mArr[mKey](s), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
+  charts.push(new Chart($('#cM'), { data: { labels, datasets: SS.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, mArr[mKey](s), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
     options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
       plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${pc(c.raw)}` } }), endLabels: { fmt: v => pc(v) } } }) }));
   /* 4. 單季年增率 */
-  charts.push(new Chart($('#cY'), { data: { labels, datasets: S.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, s.N.Q.map(q => q.yoy), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
+  charts.push(new Chart($('#cY'), { data: { labels, datasets: SS.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, s.N.Q.map(q => q.yoy), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
     options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
       plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }), endLabels: { fmt: v => sp(v) } } }) }));
   /* 5. 本益比：月度資料。期間與上面三張圖連動（近 N 季 ＝ 近 3N 個月）；「全部」＝從最早有本益比的月份起 */
   (() => {
     const mk = (m) => m.slice(0, 4) + m.slice(5, 7);
-    const have = S.map(s => s.D.valuation ? s.D.valuation.monthly : []);
+    const have = SS.map(s => s.D.valuation ? s.D.valuation.monthly : []);
     const monthsAll = [...new Set(have.flat().map(r => r.m))].sort();
     const firstPe = monthsAll.find(m => have.some(arr => arr.some(r => r.m === m && r.pe != null)));
     if (!firstPe) { $('#cPE').closest('.card').hidden = true; return; }
@@ -323,9 +441,9 @@ function build() {
     const mLabels = monthsAll.slice(i0);
     const series = have.map(arr => { const m = {}; arr.forEach(r => { m[r.m] = r; }); return mLabels.map(l => m[l] && m[l].pe != null ? m[l] : null); });
     const CAPV = PEV.CAP;
-    const dsP = S.map((s, i) => cmpLine({ label: s.c.name, data: series[i].map(r => r ? Math.min(r.pe, CAPV) : null), raw: series[i].map(r => r ? r.pe : null), borderColor: COL(i), backgroundColor: COL(i), spanGaps: false, segment: undefined,
+    const dsP = SS.map((s, i) => cmpLine({ label: s.c.name, data: series[i].map(r => r ? Math.min(r.pe, CAPV) : null), raw: series[i].map(r => r ? r.pe : null), borderColor: COL(i), backgroundColor: COL(i), spanGaps: false, segment: undefined,
       pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; return c.dataIndex === k ? 3 : 0; } }));
-    legend('#lgPE', S.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 })));
+    legend('#lgPE', SS.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 })));
     const mx = Math.max(10, ...series.flat().filter(Boolean).map(r => Math.min(r.pe, CAPV)));
     const lab = mLabels;
     charts.push(new Chart($('#cPE'), { data: { labels: lab, datasets: dsP }, options: baseOpts({ ...endPad(), scales: { y: yAxis({ min: 0, max: Math.min(CAPV, Math.ceil(mx * 1.08 / 10) * 10) }, { callback: v => v + '×' }),

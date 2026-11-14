@@ -1,0 +1,54 @@
+{
+ "code": "panw",
+ "status": "draft",
+ "updated": "2026-11-14",
+ "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "src": {
+  "n": "Palo Alto Networks FY2026 10-K（2026-09-10 申報）第 1 項 Business",
+  "url": "https://mayafiles.tase.co.il/rpdf/1770001-1771000/P1770274-00.pdf",
+  "date": "2026-09-10"
+ },
+ "products": [
+  {
+   "n": "網路與 AI 安全",
+   "d": "新一代防火牆、Prisma SASE、Prisma AIRS，保護企業網路、遠端連線與 AI 應用"
+  },
+  {
+   "n": "Cortex 資安維運",
+   "d": "Cortex XSIAM／XDR／XSOAR，替資安中心（SOC）自動化偵測與回應"
+  },
+  {
+   "n": "Cortex Cloud",
+   "d": "從程式碼到執行環境保護多雲；另含 Chronosphere 可觀測性"
+  },
+  {
+   "n": "Idira 身分安全",
+   "d": "併購 CyberArk 後的身分平台，管特權帳號、機器身分與 AI 代理"
+  },
+  {
+   "n": "Unit 42",
+   "d": "威脅情資、事件應變、資安顧問與代管偵測回應服務"
+  }
+ ],
+ "pains": [
+  "資安產品太多太零散 → 「平台化」把單點工具整合到少數平台",
+  "SOC 警報量過大 → XSIAM 大幅減少需人工處理的警報",
+  "企業導入 AI 帶來新風險 → Prisma AIRS 保護 AI 應用、模型與代理",
+  "特權與非人類身分難控管 → Idira 管理特權存取與機器身分"
+ ],
+ "claims": [
+  "公司稱在產品功能、整合容易度、較低總持有成本上具競爭力",
+  "平台廣度加 AI 能力，以及 Unit 42 威脅研究",
+  "Prisma Access 全球超過 100 個據點",
+  "超過 8,700 家通路夥伴（截至 2026-07-31）"
+ ],
+ "moat": [
+  "平台綁定：防火牆、雲端、資安維運整合在一起，客戶整併供應商後很難再拆。",
+  "品牌與通路：大型企業的資安首選之一，加上龐大的經銷夥伴網路。",
+  "風險：產品線很廣，各領域都有專精型對手（如 CrowdStrike）。"
+ ],
+ "notes": [
+  "src.url 為以色列證交所（TASE）轉載的 10-K PDF；SEC 原件：https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/panw-20260731.htm（未直接讀取）",
+  "申報日 2026-09-10 取自第三方彙整（autobound），待確認：EDGAR 正式日期"
+ ]
+}

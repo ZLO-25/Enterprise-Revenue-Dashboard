@@ -247,6 +247,10 @@ def main():
             if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
                 th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
                 data["thesis"] = th
+        pp = os.path.join(ROOT, "data", "profile", c["code"] + ".json")
+        if os.path.exists(pp):
+            # 主力產品／痛點／護城河：草稿也放進首頁展開列，但頁面會標「草稿・待 ZL 確認」（status:"approved" 才拿掉標籤）
+            data["profile"] = json.load(open(pp, encoding="utf8"))
         datasets[c["code"]] = data
         frag = read("templates", c["template"] + ".frag.html")
         for key in REQUIRED:
