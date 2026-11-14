@@ -122,3 +122,38 @@ const LT = (() => {
 
   return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };
 })();
+
+/* 章節目錄的「你在這裡」：捲動時把目前這一節的連結加上 .on。
+   寬螢幕目錄在右側（直的），窄螢幕在頂端（橫的，會自動把目前那一格捲進可見範圍）。
+   放在 longterm.js 是因為每個公司頁模板（含台積電、PLTR 舊模板）都一定會載入它。
+   論點卡、體質總覽等區塊是程式後來才插進目錄的，所以每次都重新讀目錄裡的連結。 */
+function secnavSpy() {
+  const nav = document.querySelector('.secnav .scroller');   // 台積電、PLTR 舊模板的目錄沒有 id，所以用 class 找
+  if (!nav || nav.dataset.spy) return;
+  nav.dataset.spy = '1';
+  let raf = 0, last = null;
+  const upd = () => {
+    raf = 0;
+    let cur = null, best = -Infinity;
+    nav.querySelectorAll('a[href^="#"]').forEach(a => {
+      const id = a.getAttribute('href').slice(1); if (!id) return;
+      const s = document.getElementById(id); if (!s || s.hidden || !s.offsetParent) return;
+      const top = s.getBoundingClientRect().top;
+      if (top < 140 && top > best) { best = top; cur = a; }
+    });
+    if (cur === last) return;
+    if (last) last.classList.remove('on');
+    if (cur) {
+      cur.classList.add('on');
+      const sc = nav;   // 橫條：把目前那一格捲到看得到（只捲目錄本身，不捲整頁）
+      if (sc.scrollWidth > sc.clientWidth + 4) { const l = cur.offsetLeft - sc.clientWidth / 2 + cur.offsetWidth / 2; sc.scrollTo({ left: Math.max(0, l) }); }
+      const box = nav.parentElement;   // 直欄：目錄比畫面高時，讓目前那一格留在看得到的範圍
+      if (box.scrollHeight > box.clientHeight + 4) { const r = cur.getBoundingClientRect(), b = box.getBoundingClientRect(); if (r.top < b.top || r.bottom > b.bottom) box.scrollTop += r.top - b.top - b.height / 2; }
+    }
+    last = cur;
+  };
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(upd); }, { passive: true });
+  window.addEventListener('resize', () => { last = null; upd(); });
+  setTimeout(upd, 300);
+}
+setTimeout(secnavSpy, 0);

@@ -1,0 +1,54 @@
+{
+ "code": "aapl",
+ "status": "draft",
+ "updated": "2026-11-14",
+ "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "src": {
+  "n": "Apple FY2026 10-K（2026-11 初申報）第 1 項 Business",
+  "url": "https://www.sec.gov/Archives/edgar/data/0000320193/000032019326000026/aapl-20260926.htm",
+  "date": "2026-11-03"
+ },
+ "products": [
+  {
+   "n": "iPhone",
+   "d": "搭載 iOS 的智慧型手機，賣給全球消費者與企業"
+  },
+  {
+   "n": "服務",
+   "d": "App Store、iCloud、Apple Music／TV+、AppleCare、Apple Pay 與廣告"
+  },
+  {
+   "n": "Mac",
+   "d": "搭載 macOS 的筆電與桌機，如 MacBook Air／Pro、iMac、Mac mini"
+  },
+  {
+   "n": "iPad",
+   "d": "搭載 iPadOS 的多用途平板，從 iPad mini 到 iPad Pro"
+  },
+  {
+   "n": "穿戴、居家與配件",
+   "d": "Apple Watch、AirPods、Vision Pro、Apple TV、HomePod 等"
+  }
+ ],
+ "pains": [
+  "資料散在多台裝置 → 雲端服務讓內容在各 Apple 裝置與 PC 保持同步",
+  "裝置故障或意外損壞 → AppleCare 提供優先技術支援與維修保障",
+  "想要好用又安全的裝置 → 自家整合硬體、作業系統、軟體與服務"
+ ],
+ "claims": [
+  "自行設計開發幾乎整套方案：硬體、作業系統、應用程式與服務",
+  "持續推出創新產品、服務與技術是競爭關鍵",
+  "重視安全功能，並有強大第三方軟體與配件生態系",
+  "大舉投資 AI 功能與基礎設施"
+ ],
+ "moat": [
+  "生態系與轉換成本：iPhone、Mac、手錶、iCloud 互相串連，換品牌就失去這些便利。",
+  "品牌定價權：消費者願意為品牌與體驗付較高價格。",
+  "服務收入：App Store 等服務建立在龐大的裝機量上，毛利高且穩定。"
+ ],
+ "notes": [
+  "Apple 在年報中承認其手機、電腦、平板、穿戴裝置全球市占屬少數",
+  "年報數字（FY2026 10-K）：間接通路約占總營收 60%",
+  "申報日 2026-11-03 取自第三方彙整，封面股數日期為 2026-10-23，待確認：EDGAR 正式日期"
+ ]
+}

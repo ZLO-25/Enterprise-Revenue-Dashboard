@@ -5,6 +5,8 @@
 {{THEME}}
 </style>
 
+<!-- .pg：寬螢幕時章節目錄是右側固定欄，窄螢幕時是頂端橫條（見 assets/theme.css） -->
+<div class="pg">
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
@@ -310,6 +312,7 @@
   <footer id="footer"></footer>
   <p class="disclaimer-box" id="disclaimer"></p>
 </main>
+</div>
 
 <script type="application/json" id="tsmc-data">{{DATA}}</script>
 {{CHARTJS}}

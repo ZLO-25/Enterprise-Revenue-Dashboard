@@ -1,0 +1,50 @@
+{
+ "code": "meta",
+ "status": "draft",
+ "updated": "2026-11-14",
+ "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "src": {
+  "n": "Meta Platforms FY2025 10-K（2026-01-29 申報）第 1 項 Business",
+  "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+  "date": "2026-01-29"
+ },
+ "products": [
+  {
+   "n": "應用程式家族（Family of Apps）",
+   "d": "Facebook、Instagram、Messenger、WhatsApp、Threads，免費給用戶，靠廣告賺錢"
+  },
+  {
+   "n": "廣告平台",
+   "d": "幾乎全部營收來源；多數廣告主用自助式平台自行投放"
+  },
+  {
+   "n": "Meta AI",
+   "d": "AI 助理，可在各 App、獨立 App、AI 眼鏡與網頁使用"
+  },
+  {
+   "n": "Reality Labs",
+   "d": "Ray-Ban／Oakley Meta AI 眼鏡、Quest VR 頭戴裝置等硬體與內容，目前虧損"
+  }
+ ],
+ "pains": [
+  "人們想與親友連結、找同好社群 → 打造「天生社交」的 App",
+  "用戶想發現有興趣的內容 → AI 推薦引擎推送相關內容",
+  "廣告主要找潛在客戶、打品牌 → 以 AI 改善投放、鎖定與成效衡量",
+  "想隨時取得 AI 協助 → Meta AI 內建於各 App 與眼鏡"
+ ],
+ "claims": [
+  "多數廣告主使用自助式廣告平台，方便自行投放管理",
+  "以 AI 驅動內容排序與推薦，並提升廣告投放與成效衡量",
+  "自行設計興建資料中心與關鍵技術基礎設施"
+ ],
+ "moat": [
+  "網路效應：數十億使用者都在 Facebook、Instagram、WhatsApp 上，朋友在哪人就在哪。",
+  "資料與 AI 規模：廣告投放靠大量行為資料與推薦系統，小平台難以匹敵成效。",
+  "風險：法規、隱私限制與新平台（短影音）搶使用時間。"
+ ],
+ "notes": [
+  "Item 1 未明列競爭優勢，上述為公司對產品的自述",
+  "年報數字（FY2025 10-K）：2025 年成本費用 82% 在 FoA、18% 在 RL；員工 78,865 人",
+  "申報日 2026-01-29 取自 Quartr/Fortune 檔名時間戳，待確認：EDGAR 正式日期"
+ ]
+}

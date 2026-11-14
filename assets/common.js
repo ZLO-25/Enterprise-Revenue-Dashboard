@@ -161,3 +161,4 @@ function drawWaterfall(W, el) {
   });
   $(el).innerHTML = rows.join('');
 }
+

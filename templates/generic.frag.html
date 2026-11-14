@@ -7,6 +7,8 @@
 
 <!-- 通用公司頁（schema v1）：任何符合 docs/DATA_SCHEMA.md 的 data/<代號>.json 都能直接用這個模板，
      不必為每家公司另寫頁面。有資料才顯示的區塊：segments（營收拆分）、extra（公司專屬指標）、guidance、milestones、notes。 -->
+<!-- .pg：寬螢幕時章節目錄是右側固定欄，窄螢幕時是頂端橫條（見 assets/theme.css） -->
+<div class="pg">
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller" id="secnav">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
@@ -224,6 +226,7 @@
   <footer id="footer"></footer>
   <p class="disclaimer-box" id="disclaimer"></p>
 </main>
+</div>
 
 <script type="application/json" id="company-data">{{DATA}}</script>
 {{CHARTJS}}
