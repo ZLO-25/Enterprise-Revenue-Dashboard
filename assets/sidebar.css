@@ -98,4 +98,7 @@ html.sb-open .sb-backdrop { display: block; }
   background: var(--surface, #fcfcfb); color: var(--ink-2, #4f4e4a); font-family: var(--font-ui, system-ui, sans-serif); }
 .sb-placeholder h2 { margin: 0 0 8px; color: var(--ink, #121211); }
 
+/* 量化視圖：回測站的版頭貼齊左邊，寬螢幕收合時讓出左上角按鈕的位置 */
+@media (min-width: 1280px) { html.sb-quant:not(.sb-open) #quant-dca-view header.site { padding-left: 60px; } }
+
 @media print { .sb-panel, .sb-fab, .sb-topbar, .sb-mini, .sb-backdrop { display: none !important; } html.sb-open body { margin-left: 0 !important; } }

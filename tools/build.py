@@ -88,6 +88,16 @@ def asset_ver(*p):
     return hashlib.sha1(open(path, "rb").read()).hexdigest()[:8] if os.path.exists(path) else ""
 
 
+def quant_ver():
+    # quant/ 底下所有檔案一起算一個版本號：任何一個改了，瀏覽器就會重新下載
+    import hashlib
+    h, base = hashlib.sha1(), os.path.join(ROOT, "quant")
+    for d, _, files in sorted(os.walk(base)):
+        for f in sorted(files):
+            h.update(f.encode()); h.update(open(os.path.join(d, f), "rb").read())
+    return h.hexdigest()[:8] if os.path.isdir(base) else ""
+
+
 def page(title, desc, frag, rel="", kind=None, code=""):
     head, tail = "", ""
     if SIDEBAR is not None and kind:
@@ -214,7 +224,7 @@ def main():
     global LONGTERM, FUTJS, SIDEBAR
     cfg = json.loads(read("companies.json"))
     if cfg["site"].get("sidebar"):
-        SIDEBAR = {"title": cfg["site"]["title"], "qv": asset_ver("quant", "loader.js"),
+        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(),
                    "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")

@@ -133,7 +133,10 @@
 
   // 底部快捷：交給量化模組（第三步）處理
   panel.querySelectorAll("[data-act]").forEach(function (b) {
-    b.addEventListener("click", function () { window.dispatchEvent(new CustomEvent("quant:action", { detail: b.getAttribute("data-act") })); });
+    b.addEventListener("click", function () {
+      if (window.QuantDCA && window.QuantDCA.action) window.QuantDCA.action(b.getAttribute("data-act"));
+      if (!WIDE.matches) setOpen(false, false);
+    });
   });
 
   if (!isHome) {
@@ -178,14 +181,15 @@
     var tab = quantTab(location.hash);
     if (tab) {
       if (current === "main") mainScroll = window.scrollY;
-      mainView.hidden = true; quantView.hidden = false; current = tab;
+      mainView.hidden = true; quantView.hidden = false; current = tab; HTML.classList.add("sb-quant");
       mark(tab);
       document.title = (QUANT.filter(function (q) { return q.id === tab; })[0].label) + "｜量化回測｜" + (CFG.title || "");
       ensureQuant().then(function (Q) { if (Q && Q.show) Q.show(tab, location.hash); });
       window.scrollTo(0, 0);
     } else {
       var wasQuant = current !== "main";
-      quantView.hidden = true; mainView.hidden = false; current = "main";
+      if (wasQuant && window.QuantDCA && window.QuantDCA.hide) window.QuantDCA.hide();   // 停掉看盤牆輪播
+      quantView.hidden = true; mainView.hidden = false; current = "main"; HTML.classList.remove("sb-quant");
       mark(null);
       document.title = CFG.title || document.title;
       if (wasQuant) {
@@ -213,6 +217,13 @@
       if (current !== "main") { history.pushState(null, "", "#" + a.getAttribute("data-anchor")); route(); }
       else { history.pushState(null, "", "#" + a.getAttribute("data-anchor")); t.scrollIntoView({ behavior: "smooth", block: "start" }); }
     });
+  });
+  // 量化工具內部的分頁按鈕被點時，同步側邊欄的亮起項目
+  window.addEventListener("quant:tab", function (e) {
+    if (current === "main") return;
+    current = e.detail; mark(e.detail);
+    var q = QUANT.filter(function (x) { return x.id === e.detail; })[0];
+    if (q) document.title = q.label + "｜量化回測｜" + (CFG.title || "");
   });
   window.addEventListener("hashchange", route);
   window.addEventListener("popstate", route);
