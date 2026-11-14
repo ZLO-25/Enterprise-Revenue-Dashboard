@@ -122,6 +122,19 @@ READABILITY = f"""
   border: 1px solid var(--border); background: var(--panel); color: var(--text); }}
 {SCOPE} .qplus-bar button[aria-pressed="true"] {{ background: var(--accent); border-color: var(--accent); color: #fff; }}
 {SCOPE} .qplus-tip {{ font-size: .8rem; color: var(--muted); margin-top: 4px; }}
+{SCOPE} .qplus-t {{ display: inline-flex; align-items: center; gap: 6px; }}
+{SCOPE} .qplus-sw {{ display: inline-block; width: 10px; height: 10px; border-radius: 50%; }}
+{SCOPE} .qplus-tick button[aria-pressed="true"] {{ background: var(--panel); border-color: var(--accent); color: var(--text); }}
+{SCOPE} .qplus-tick button[aria-pressed="false"] {{ opacity: .5; text-decoration: line-through; }}
+{SCOPE} .qplus-pnl-wrap {{ margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border); }}
+{SCOPE} .qplus-pnl-h {{ font-weight: 700; font-size: .95rem; }}
+{SCOPE} .qplus-pnl-sub {{ font-size: .82rem; color: var(--muted); margin: 2px 0 4px; }}
+{SCOPE} .qplus-pnl {{ width: 100%; min-height: 240px; }}
+@media (max-width: 767.98px) {{
+  {SCOPE} .chart {{ min-height: 540px; }}
+  {SCOPE} .chart.short {{ min-height: 420px; }}
+  {SCOPE} .qplus-pnl {{ min-height: 320px; }}
+}}
 """
 
 
