@@ -41,7 +41,8 @@
         addScript(BASE + "vendor/plotly-basic-2.35.2.min.js")
       ]).then(function (res) {
         container.innerHTML = res[1];
-        return Promise.all([import(BASE + "js/app.js" + q), import(BASE + "js/admin.js" + q)]);
+        return import(BASE + "js/chart-plus.js" + q)   // 先載入圖表加強，app.js 畫圖時才找得到
+          .then(function () { return Promise.all([import(BASE + "js/app.js" + q), import(BASE + "js/admin.js" + q)]); });
       }).then(function () {
         app = window.__quantApp;
         return app && app.ready;
