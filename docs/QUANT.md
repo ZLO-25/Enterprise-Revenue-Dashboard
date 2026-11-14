@@ -23,12 +23,18 @@ quant/
 `#dca` `#rolling` `#alloc` `#vol` `#wall` `#learn`（別名 `#winrate` `#edu`）→ 量化視圖；
 `#dca?t=SPY,QQQ&a=…` 這類分享參數照舊還原。其他 hash（`#companies` 等錨點）或沒有 hash → 原主站。
 
-## 資料
-價格資料仍由舊回測站（Lump-Sum-v.s.-DCA）的 GitHub Actions 每個平日更新；兩站同在
-`https://zlo-25.github.io/` 網域，瀏覽器直接讀 `/Lump-Sum-v.s.-DCA/data/`。主 repo 沒有新增排程。
-「⚙️ 管理標的」改的也是舊 repo 的 `scripts/tickers.json`，沿用原本的加密 Token。
+## 資料（2026-11-14 起搬進主 repo）
+舊回測 repo 已設為私人並封存、網站下線，所以價格資料改由主 repo 自己產生：
+```
+quant/tickers.json ──▶ .github/workflows/quant-prices.yml（每個平日台北 06:30、改 tickers.json 時、手動）
+                         單元測試 → quant/scripts/fetch_data.py（yfinance）→ 只 git add quant/data
+                                   ↓
+                       quant/data/manifest.json、quant/data/prices/*.json ──▶ 網頁讀取
+```
+「⚙️ 管理標的」改的是本 repo 的 `quant/tickers.json`；加密 Token 存在 `quant/config/admin-key.json`
+（第一次在網站上設定時產生；Token 需要本 repo 的 Contents: Read and write）。
 
-## 回測站有更新時
+## 回測站程式有更新時（舊 repo 已封存，通常不會再用到）
 ```
 python3 tools/quant_sync.py <Lump-Sum-v.s.-DCA 的本機路徑>   # 對不上會直接報錯
 python3 tools/build.py
