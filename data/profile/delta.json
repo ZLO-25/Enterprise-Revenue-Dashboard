@@ -1,8 +1,8 @@
 {
  "code": "delta",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "台達電子 2025 年報（民國 115 年 3 月 30 日刊印）",
   "url": "https://filecenter.deltaww.com/IR/download/annual_report/ch/2025 Annual Report_chi.pdf",
@@ -46,5 +46,36 @@
  "notes": [
   "2025 年合併營收新台幣 5,549 億元、年增 32%，毛利率 34.3%（2025 年報）",
   "待確認：年報「營運概況」章各事業群營收占比未讀到，故未列"
- ]
+ ],
+ "mix": {
+  "period": "2025 年度（2025-01-01 至 2025-12-31）",
+  "unit": "百萬新台幣",
+  "total": 554885.168,
+  "items": [
+   {
+    "n": "電源及零組件",
+    "v": 280032
+   },
+   {
+    "n": "基礎設施",
+    "v": 181996
+   },
+   {
+    "n": "自動化",
+    "v": 54943
+   },
+   {
+    "n": "交通",
+    "v": 37011
+   }
+  ],
+  "src": {
+   "n": "台達電 4Q25 法說會簡報「主要部門表現」2025 全年（第 15 頁）",
+   "url": "https://filecenter.deltaww.com/ir/download/calendar/4Q25_Analyst Meeting.pdf"
+  },
+  "notes": [
+   "四個事業群加總比合併營收少約 9 億元（法說簡報未列「其他」），比例以四個事業群加總為分母",
+   "待確認：事業群營收是否含群間銷售（經會計師查核財報附註尚未讀到）"
+  ]
+ }
 }

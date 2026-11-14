@@ -1,8 +1,8 @@
 {
  "code": "crwd",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "CrowdStrike FY2026 10-K（2026-03-04 申報）第 1 項 Business",
   "url": "https://ir.crowdstrike.com/static-files/717b7579-e6fc-4864-af98-9523d5d4fecb",
@@ -50,5 +50,29 @@
  "notes": [
   "年報數字（FY2026 10-K）：33 個雲端模組；82% 偵測為無惡意程式；淨留存率 115%",
   "申報日 2026-03-04 取自第三方彙整（autobound），與封面日期相符，待確認：EDGAR 正式日期"
- ]
+ ],
+ "mix": {
+  "period": "FY2026（2025-02-01 至 2026-01-31）",
+  "unit": "百萬美元",
+  "total": 4812.005,
+  "items": [
+   {
+    "n": "訂閱",
+    "v": 4564.683
+   },
+   {
+    "n": "專業服務",
+    "v": 247.322
+   }
+  ],
+  "src": {
+   "n": "CrowdStrike FY2026 10-K 合併損益表營收（XBRL R5）",
+   "url": "https://www.sec.gov/Archives/edgar/data/1535527/000153552726000010/R5.htm"
+  },
+  "notes": [
+   "原表單位為千美元（4,564,683／247,322／4,812,005），僅移小數點換成百萬美元。",
+   "10-K 主文件：https://www.sec.gov/Archives/edgar/data/1535527/000153552726000010/crwd-20260131.htm",
+   "兩項加總 4,812.005 = 總營收。"
+  ]
+ }
 }

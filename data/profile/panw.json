@@ -1,8 +1,8 @@
 {
  "code": "panw",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "Palo Alto Networks FY2026 10-K（2026-09-10 申報）第 1 項 Business",
   "url": "https://mayafiles.tase.co.il/rpdf/1770001-1771000/P1770274-00.pdf",
@@ -50,5 +50,28 @@
  "notes": [
   "src.url 為以色列證交所（TASE）轉載的 10-K PDF；SEC 原件：https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/panw-20260731.htm（未直接讀取）",
   "申報日 2026-09-10 取自第三方彙整（autobound），待確認：EDGAR 正式日期"
- ]
+ ],
+ "mix": {
+  "period": "FY2026（2025-08-01 至 2026-07-31）",
+  "unit": "百萬美元",
+  "total": 11480,
+  "items": [
+   {
+    "n": "訂閱與支援",
+    "v": 9200
+   },
+   {
+    "n": "產品",
+    "v": 2280
+   }
+  ],
+  "src": {
+   "n": "Palo Alto Networks FY2026 10-K 合併損益表營收（XBRL R5）",
+   "url": "https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/R5.htm"
+  },
+  "notes": [
+   "10-K 主文件為 panw-20260731.htm（同一申報 0001327567-26-000023）。",
+   "兩項加總 11,480 = 總營收。"
+  ]
+ }
 }

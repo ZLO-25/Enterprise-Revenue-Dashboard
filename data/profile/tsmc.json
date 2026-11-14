@@ -1,8 +1,8 @@
 {
  "code": "tsmc",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "台積電 2025 年年報（英文版）第 2 章 公司簡介與市場概況",
   "url": "https://investor.tsmc.com/static/annualReports/2025/english/pdf/2025_tsmc_ar_e_ch2.pdf",

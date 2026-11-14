@@ -1,8 +1,8 @@
 {
  "code": "nvda",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "NVIDIA FY2026 10-K（會計年度截至 2026-01-25）第 1 項 Business",
   "url": "https://sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
@@ -45,5 +45,41 @@
  ],
  "notes": [
   "待確認：申報日 2026-02-25 取自第三方檔名，SEC 頁面本身未顯示"
- ]
+ ],
+ "mix": {
+  "period": "FY2026（2025-01-27 至 2026-01-25）",
+  "unit": "百萬美元",
+  "total": 215938,
+  "items": [
+   {
+    "n": "資料中心",
+    "v": 193737
+   },
+   {
+    "n": "遊戲",
+    "v": 16042
+   },
+   {
+    "n": "專業視覺化",
+    "v": 3191
+   },
+   {
+    "n": "汽車",
+    "v": 2349
+   },
+   {
+    "n": "OEM 及其他",
+    "v": 619
+   }
+  ],
+  "src": {
+   "n": "NVIDIA FY2026 10-K 營收按市場平台（Segment Information 附註，XBRL R85）",
+   "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/R85.htm"
+  },
+  "notes": [
+   "10-K 主文件：https://sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm；主文件超長，讀取工具讀不到附註，改讀同一份申報的 XBRL 報表頁 R85（Schedule of Revenue by Market）。",
+   "資料中心再分：運算 162,361、網路 31,376（百萬美元），合計 193,737。",
+   "五項加總 215,938 = 總營收。"
+  ]
+ }
 }

@@ -1,8 +1,8 @@
 {
  "code": "rklb",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-14",
- "updatedBy": "Claude 草稿（待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-15）",
  "src": {
   "n": "Rocket Lab FY2025 10-K（2026-02-26 申報）第 1 項 Business",
   "url": "https://investors.rocketlabcorp.com/static-files/57a8d0da-27ff-499c-8d85-18907743b7a8",
@@ -44,5 +44,29 @@
  ],
  "notes": [
   "累計交付逾 200 顆太空船、員工逾 2,600 人（10-K）"
- ]
+ ],
+ "mix": {
+  "period": "FY2025（2025-01-01 至 2025-12-31）",
+  "unit": "百萬美元",
+  "total": 601.799,
+  "items": [
+   {
+    "n": "太空系統",
+    "v": 402.757
+   },
+   {
+    "n": "發射服務",
+    "v": 199.042
+   }
+  ],
+  "src": {
+   "n": "Rocket Lab 2025 10-K 部門資訊（XBRL R104）",
+   "url": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000013/R104.htm"
+  },
+  "notes": [
+   "原表單位為千美元（402,757／199,042／601,799），僅移小數點換成百萬美元。",
+   "10-K 主文件 rklb-20251231.htm（申報 0001819994-26-000013，2026-02-26 提交）。",
+   "兩項加總 601.799 = 總營收。"
+  ]
+ }
 }
