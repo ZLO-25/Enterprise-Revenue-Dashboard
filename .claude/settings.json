@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 tools/daily.py*)",
+      "Bash(python3 tools/validate.py*)",
+      "Bash(python3 tools/build.py*)",
+      "Bash(python3 tools/bs_merge.py*)",
+      "Bash(python3 tools/rd_import.py*)",
+      "Bash(python3 tools/thesis.py*)",
+      "Bash(python3 tools/pe.py*)",
+      "Bash(python3 tools/prices_update.py --check*)"
+    ]
+  }
+}
