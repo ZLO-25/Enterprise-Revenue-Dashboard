@@ -92,8 +92,8 @@ def quant_ver():
     # quant/ 底下所有檔案一起算一個版本號：任何一個改了，瀏覽器就會重新下載
     import hashlib
     h, base = hashlib.sha1(), os.path.join(ROOT, "quant")
-    for d, dirs, files in sorted(os.walk(base)):
-        dirs[:] = [x for x in dirs if x not in ("data", "__pycache__")]   # 價格資料每天變，不算進程式版本號
+    for d, dirs, files in os.walk(base):   # 不能寫 sorted(os.walk())：那樣會先走完全部，下面的排除就失效
+        dirs[:] = sorted(x for x in dirs if x not in ("data", "__pycache__"))   # 價格資料每天變，不算進程式版本號
         for f in sorted(files):
             h.update(f.encode()); h.update(open(os.path.join(d, f), "rb").read())
     return h.hexdigest()[:8] if os.path.isdir(base) else ""
