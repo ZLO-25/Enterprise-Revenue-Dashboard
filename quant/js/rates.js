@@ -135,7 +135,9 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
   });
   const shapes = phases.map((p) => ({ type: "rect", xref: "x", yref: "paper", x0: p.start, x1: p.end, y0: 0, y1: 1,
     fillcolor: PCOLOR[p.type], line: { width: 0 }, layer: "below" }));
-  const annotations = phases.filter((p) => daysBetween(p.start, p.end) > 330).map((p) => ({
+  const plotW = Math.max(240, ($("#chart-rates")?.clientWidth || 900) - 80);
+  const minDays = (daysBetween(MIN_DATE, endDate) * 60) / plotW;   // 標籤約 60px 寬：階段太窄就不寫字，免得疊在一起
+  const annotations = phases.filter((p) => daysBetween(p.start, p.end) > minDays).map((p) => ({
     xref: "x", yref: "paper", x: p.start, xanchor: "left", y: 1.0, yanchor: "bottom", showarrow: false,
     text: PHASE[p.type].label, font: { size: 10, color: c.muted },
   }));
@@ -148,7 +150,7 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
     hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
     xaxis: { anchor: "y2", range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
     yaxis: { domain: [0.60, 1], title: { text: "利率 %" }, gridcolor: c.border, zerolinecolor: c.border, rangemode: "tozero", automargin: true },
-    yaxis2: { domain: [0, 0.52], title: { text: "累積報酬指數（起點＝100，對數軸）" }, type: "log", gridcolor: c.border, automargin: true,
+    yaxis2: { domain: [0, 0.52], title: { text: "報酬指數（對數）", standoff: 8 }, type: "log", gridcolor: c.border, automargin: true,
       ...(tv.length >= 2 ? { tickmode: "array", tickvals: tv, ticktext: tv.map(String) } : {}) },
     shapes, annotations,
   };
