@@ -48,15 +48,24 @@ def write(text, *p):
         f.write(text)
 
 
-# 首頁只讀這幾個欄位（用 Proxy 記錄首頁所有互動實際讀到的欄位得出；見 tools/perf/home_access.js）。
+# 首頁只讀這幾個欄位（用 Proxy 記錄首頁所有互動實際讀到的欄位得出；做法見 tools/perf/README.md）。
 # 其餘（health、notes、annual、milestones、thesis、summary、sources…）只有個股頁用，不放進首頁，首頁因此小一半。
 # 新增首頁功能若要讀別的欄位，把欄位名加進來（companies.json site.homeSlim=false 可整個關掉瘦身）。
-HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly")
+HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr")
+
+
+def check_home_keys():
+    # 防呆：首頁範本裡讀到的欄位（D.xxx、DATA[...].xxx）都必須在 HOME_KEYS 內，否則瘦身會「靜默」把它拿掉
+    src = read("templates", "home.frag.html")
+    used = set(re.findall(r"(?<![\w.])D\.(\w+)", src)) | set(re.findall(r"DATA\[[^\]]+\]\.(\w+)", src))
+    missing = sorted(k for k in used if k not in HOME_KEYS)
+    assert not missing, "首頁讀了 HOME_KEYS 沒有的欄位：" + ", ".join(missing) + "（加進 tools/build.py 的 HOME_KEYS，或把 companies.json 的 site.homeSlim 設 false）"
 
 
 def home_data(datasets, slim):
     if not slim:
         return datasets
+    check_home_keys()
     return {c: {k: v for k, v in d.items() if k in HOME_KEYS} for c, d in datasets.items()}
 
 
@@ -92,6 +101,9 @@ def icon_links(rel):
 # false（或沒有這個欄位）時 page() 的輸出跟加入側邊欄以前一個 byte 都不差 → 這就是 rollback 開關。
 EARLY_SB = ('<script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)'
             'document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script>')
+SPEC_RULES = ('<script type="speculationrules">{"prerender":[{"where":{"selector_matches":"#sb-panel a[data-co]:not([aria-current])"},'
+              '"eagerness":"moderate"}]}</script>')
+PRERENDER = False   # main() 依 companies.json 的 site.prerender 設定
 SIDEBAR = None   # main() 依 companies.json 設定；None = 不注入
 
 
@@ -121,6 +133,10 @@ def page(title, desc, frag, rel="", kind=None, code=""):
         if SIDEBAR.get("early"):
             # 寬螢幕且上次是展開的：在第一次繪製前就套用展開狀態，內容不會先全寬再被推窄（少一次版面跳動）
             head += EARLY_SB
+        if PRERENDER and kind == "company":
+            # 游標停在（或按下）側邊欄公司連結時，Chrome／Edge 先在背景載入那一頁，點下去幾乎立刻出現。
+            # Safari、Firefox 不支援，會直接忽略（等於沒做）；用 moderate：只在 hover/按下時才預載，一次一頁
+            head += SPEC_RULES
         tail = (f'\n<script id="sb-cfg" type="application/json">{js_json(cfg)}</script>'
                 f'<script src="{rel}assets/sidebar.js?v={asset_ver("assets", "sidebar.js")}"></script>')
         if kind == "home":
@@ -239,8 +255,10 @@ FUTJS = ""
 
 
 def main():
-    global LONGTERM, FUTJS, SIDEBAR
+    global LONGTERM, FUTJS, SIDEBAR, PRERENDER
+    PRERENDER = False
     cfg = json.loads(read("companies.json"))
+    PRERENDER = bool(cfg["site"].get("prerender"))
     if cfg["site"].get("sidebar"):
         SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")),
                    "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
