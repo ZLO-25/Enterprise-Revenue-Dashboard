@@ -131,10 +131,7 @@ def probe():
     """台灣來源試探：每個網址印出標題、疑似下載連結、含「重貼現」或「公債」的文字行（只在 Actions 上跑，用來找官方資料來源）"""
     import re
     urls = [
-        "https://data.gov.tw/dataset/10783",
-        "https://cpx.cbc.gov.tw/",
-        "https://www.cbc.gov.tw/tw/mp-1.html",
-        "https://www.cbc.gov.tw/tw/np-1127-1.html",
+        "https://www.cbc.gov.tw/public/data/OpenData/%E7%B6%93%E7%A0%94%E8%99%95/EG28D01.csv",
     ]
     for url in urls:
         print(f"\n===== {url}")
@@ -142,6 +139,12 @@ def probe():
             text = http_get(url, timeout=40)
         except Exception as e:  # noqa: BLE001
             print(f"失敗：{type(e).__name__}: {e}")
+            continue
+        if url.endswith(".csv"):
+            lines = text.splitlines()
+            print(f"CSV 共 {len(lines)} 行；前 6 行與最後 6 行：")
+            for l in lines[:6] + ["..."] + lines[-6:]:
+                print("  ", l[:300])
             continue
         t = re.search(r"<title>(.*?)</title>", text, re.S)
         print("標題：", (t.group(1).strip() if t else "?")[:120], f"[{len(text)} chars]")

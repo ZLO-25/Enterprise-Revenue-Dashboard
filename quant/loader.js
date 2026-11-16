@@ -42,7 +42,7 @@
         fetch(BASE + "view.html" + q).then(function (r) { if (!r.ok) throw new Error("view.html " + r.status); return r.text(); }),
         addScript(BASE + "vendor/plotly-basic-2.35.2.min.js")
       ]).then(function (res) {
-        container.innerHTML = res[1];
+        container.innerHTML = res[2];   // res[0]=quant.css res[1]=rates.css(或 null) res[2]=view.html
         // 升降息週期分頁：要在 app.js 載入「之前」放進去，app.js 才會幫它綁分頁切換與標的選擇器
         var pre = useRates ? import(BASE + "js/rates.js" + q).then(function (m) { m.inject(); }) : Promise.resolve();
         return pre.then(function () { return import(BASE + "js/chart-plus.js" + q); })   // 先載入圖表加強，app.js 畫圖時才找得到
