@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16 11:41 UTC",
+ "updated": "2026-11-16 15:41 UTC",
  "source": "Yahoo Finance（透過 yfinance，Adj Close 還原權息價）",
  "groups": [
   {
@@ -12,8 +12,8 @@
      "file": "prices/_GSPC.json",
      "currency": "USD",
      "start": "1927-12-30",
-     "end": "2026-11-13",
-     "rows": 24836
+     "end": "2026-11-16",
+     "rows": 24837
     },
     {
      "symbol": "SPY",
@@ -21,8 +21,8 @@
      "file": "prices/SPY.json",
      "currency": "USD",
      "start": "1993-01-29",
-     "end": "2026-11-13",
-     "rows": 8507
+     "end": "2026-11-16",
+     "rows": 8508
     },
     {
      "symbol": "VOO",
@@ -30,8 +30,8 @@
      "file": "prices/VOO.json",
      "currency": "USD",
      "start": "2010-09-09",
-     "end": "2026-11-13",
-     "rows": 4071
+     "end": "2026-11-16",
+     "rows": 4072
     },
     {
      "symbol": "VTI",
@@ -39,8 +39,8 @@
      "file": "prices/VTI.json",
      "currency": "USD",
      "start": "2001-06-15",
-     "end": "2026-11-13",
-     "rows": 6392
+     "end": "2026-11-16",
+     "rows": 6393
     },
     {
      "symbol": "QQQ",
@@ -48,8 +48,8 @@
      "file": "prices/QQQ.json",
      "currency": "USD",
      "start": "1999-03-10",
-     "end": "2026-11-13",
-     "rows": 6965
+     "end": "2026-11-16",
+     "rows": 6966
     },
     {
      "symbol": "DIA",
@@ -57,8 +57,8 @@
      "file": "prices/DIA.json",
      "currency": "USD",
      "start": "1998-01-20",
-     "end": "2026-11-13",
-     "rows": 7251
+     "end": "2026-11-16",
+     "rows": 7252
     }
    ]
   },
@@ -71,8 +71,8 @@
      "file": "prices/VT.json",
      "currency": "USD",
      "start": "2008-06-26",
-     "end": "2026-11-13",
-     "rows": 4626
+     "end": "2026-11-16",
+     "rows": 4627
     },
     {
      "symbol": "VXUS",
@@ -80,8 +80,8 @@
      "file": "prices/VXUS.json",
      "currency": "USD",
      "start": "2011-01-28",
-     "end": "2026-11-13",
-     "rows": 3973
+     "end": "2026-11-16",
+     "rows": 3974
     },
     {
      "symbol": "EFA",
@@ -89,8 +89,8 @@
      "file": "prices/EFA.json",
      "currency": "USD",
      "start": "2001-08-27",
-     "end": "2026-11-13",
-     "rows": 6342
+     "end": "2026-11-16",
+     "rows": 6343
     },
     {
      "symbol": "EEM",
@@ -98,8 +98,8 @@
      "file": "prices/EEM.json",
      "currency": "USD",
      "start": "2003-04-14",
-     "end": "2026-11-13",
-     "rows": 5936
+     "end": "2026-11-16",
+     "rows": 5937
     }
    ]
   },
@@ -112,8 +112,8 @@
      "file": "prices/BND.json",
      "currency": "USD",
      "start": "2007-04-10",
-     "end": "2026-11-13",
-     "rows": 4933
+     "end": "2026-11-16",
+     "rows": 4934
     },
     {
      "symbol": "AGG",
@@ -121,8 +121,8 @@
      "file": "prices/AGG.json",
      "currency": "USD",
      "start": "2003-09-29",
-     "end": "2026-11-13",
-     "rows": 5820
+     "end": "2026-11-16",
+     "rows": 5821
     },
     {
      "symbol": "TLT",
@@ -130,8 +130,8 @@
      "file": "prices/TLT.json",
      "currency": "USD",
      "start": "2002-07-30",
-     "end": "2026-11-13",
-     "rows": 6114
+     "end": "2026-11-16",
+     "rows": 6115
     },
     {
      "symbol": "IEF",
@@ -139,8 +139,8 @@
      "file": "prices/IEF.json",
      "currency": "USD",
      "start": "2002-07-30",
-     "end": "2026-11-13",
-     "rows": 6114
+     "end": "2026-11-16",
+     "rows": 6115
     },
     {
      "symbol": "SHY",
@@ -148,8 +148,8 @@
      "file": "prices/SHY.json",
      "currency": "USD",
      "start": "2002-07-30",
-     "end": "2026-11-13",
-     "rows": 6114
+     "end": "2026-11-16",
+     "rows": 6115
     },
     {
      "symbol": "GLD",
@@ -157,8 +157,8 @@
      "file": "prices/GLD.json",
      "currency": "USD",
      "start": "2004-11-18",
-     "end": "2026-11-13",
-     "rows": 5532
+     "end": "2026-11-16",
+     "rows": 5533
     }
    ]
   },
@@ -271,8 +271,8 @@
      "file": "prices/AAPL.json",
      "currency": "USD",
      "start": "1980-12-12",
-     "end": "2026-11-13",
-     "rows": 11574
+     "end": "2026-11-16",
+     "rows": 11575
     },
     {
      "symbol": "MSFT",
@@ -280,8 +280,8 @@
      "file": "prices/MSFT.json",
      "currency": "USD",
      "start": "1986-03-13",
-     "end": "2026-11-13",
-     "rows": 10248
+     "end": "2026-11-16",
+     "rows": 10249
     },
     {
      "symbol": "NVDA",
@@ -289,8 +289,8 @@
      "file": "prices/NVDA.json",
      "currency": "USD",
      "start": "1999-01-22",
-     "end": "2026-11-13",
-     "rows": 6997
+     "end": "2026-11-16",
+     "rows": 6998
     },
     {
      "symbol": "GOOGL",
@@ -298,8 +298,8 @@
      "file": "prices/GOOGL.json",
      "currency": "USD",
      "start": "2004-08-19",
-     "end": "2026-11-13",
-     "rows": 5596
+     "end": "2026-11-16",
+     "rows": 5597
     },
     {
      "symbol": "AMZN",
@@ -307,8 +307,8 @@
      "file": "prices/AMZN.json",
      "currency": "USD",
      "start": "1997-05-15",
-     "end": "2026-11-13",
-     "rows": 7422
+     "end": "2026-11-16",
+     "rows": 7423
     },
     {
      "symbol": "META",
@@ -316,8 +316,8 @@
      "file": "prices/META.json",
      "currency": "USD",
      "start": "2012-05-18",
-     "end": "2026-11-13",
-     "rows": 3644
+     "end": "2026-11-16",
+     "rows": 3645
     },
     {
      "symbol": "TSLA",
@@ -325,8 +325,8 @@
      "file": "prices/TSLA.json",
      "currency": "USD",
      "start": "2010-06-29",
-     "end": "2026-11-13",
-     "rows": 4121
+     "end": "2026-11-16",
+     "rows": 4122
     },
     {
      "symbol": "BRK-B",
@@ -334,8 +334,8 @@
      "file": "prices/BRK-B.json",
      "currency": "USD",
      "start": "1996-05-09",
-     "end": "2026-11-13",
-     "rows": 7679
+     "end": "2026-11-16",
+     "rows": 7680
     },
     {
      "symbol": "TSM",
@@ -343,8 +343,8 @@
      "file": "prices/TSM.json",
      "currency": "USD",
      "start": "1997-10-09",
-     "end": "2026-11-13",
-     "rows": 7320
+     "end": "2026-11-16",
+     "rows": 7321
     }
    ]
   },
