@@ -57,7 +57,7 @@ HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "
 def check_home_keys():
     # 防呆：首頁範本裡讀到的欄位（D.xxx、DATA[...].xxx）都必須在 HOME_KEYS 內，否則瘦身會「靜默」把它拿掉
     src = read("templates", "home.frag.html")
-    used = set(re.findall(r"(?<![\w.])D\.(\w+)", src)) | set(re.findall(r"DATA\[[^\]]+\]\.(\w+)", src))
+    used = set(re.findall(r"(?<!\w)D\.(\w+)", src)) | set(re.findall(r"DATA\[[^\]]+\]\.(\w+)", src))
     missing = sorted(k for k in used if k not in HOME_KEYS)
     assert not missing, "首頁讀了 HOME_KEYS 沒有的欄位：" + ", ".join(missing) + "（加進 tools/build.py 的 HOME_KEYS，或把 companies.json 的 site.homeSlim 設 false）"
 
