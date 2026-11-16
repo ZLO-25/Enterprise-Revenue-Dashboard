@@ -1,36 +1,7 @@
-fs 6187 2013 1 2026 3
-post 6187/mops/t100sb07_1_102.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=102
-post 6187/mops/t05st01_102.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=102&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_103.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=103
-post 6187/mops/t05st01_103.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=103&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_104.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=104
-post 6187/mops/t05st01_104.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=104&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_105.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=105
-post 6187/mops/t05st01_105.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=105&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_106.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=106
-post 6187/mops/t05st01_106.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=106&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_107.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=107
-post 6187/mops/t05st01_107.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=107&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_108.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=108
-post 6187/mops/t05st01_108.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=108&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_109.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=109
-post 6187/mops/t05st01_109.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=109&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_110.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=110
-post 6187/mops/t05st01_110.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=110&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_111.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=111
-post 6187/mops/t05st01_111.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=111&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_112.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=112
-post 6187/mops/t05st01_112.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=112&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_113.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=113
-post 6187/mops/t05st01_113.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=113&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_114.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=114
-post 6187/mops/t05st01_114.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=114&month=&b_date=&e_date=
-post 6187/mops/t100sb07_1_115.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=115
-post 6187/mops/t05st01_115.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=6187&year=115&month=&b_date=&e_date=
-url 6187/web/investor.htm https://www.allring-tech.com.tw/investor.htm
-url 6187/web/investor9-4.htm https://www.allring-tech.com.tw/investor9-4.htm
-url 6187/web/investor10-10.htm https://www.allring-tech.com.tw/investor10-10.htm
-url 6187/web/investor11-11.htm https://www.allring-tech.com.tw/investor11-11.htm
-url 6187/web/investor12-15.htm https://www.allring-tech.com.tw/investor12-15.htm
-url 6187/web/about1.htm https://www.allring-tech.com.tw/about1.htm
-url 6187/web/product.htm https://www.allring-tech.com.tw/product.htm
+# 股價核對：櫃買中心個股日成交
+url 6187/px/tpex_new_202501.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2025/01/01&response=json
+url 6187/px/tpex_new_201301.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2013/01/01&response=json
+url 6187/px/tpex_new_201505.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2015/05/01&response=json
+url 6187/px/tpex_new_201506.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2015/06/01&response=json
+url 6187/px/tpex_new_202610.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2026/10/01&response=json
+url 6187/px/tpex_old_202501.json https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?l=zh-tw&d=114/01&stkno=6187
