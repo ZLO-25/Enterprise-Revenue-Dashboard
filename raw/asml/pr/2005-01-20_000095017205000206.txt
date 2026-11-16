@@ -1,0 +1,264 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000095017205000206/exh992.htm
+
+EX-99
+3
+exh992.htm
+EXHIBIT 99.2 - FINANCIALS
+ Form 6-k
+ASML — Summary Consolidated Statements of Operations1
+Three months ended December 31, | Twelve months ended December 31,
+2003 | 2004 | 2003 | 2004
+(Amounts in thousands EUR except per share data)
+Net sales | 525,510 | 785,162 | 1,542,737 | 2,465,377
+Cost of sales | 375,506 | 477,326 | 1,173,955 | 1,559,738
+Gross profit on sales | 150,004 | 307,836 | 368,782 | 905,639
+Research and development costs | 81,407 | 81,232 | 305,839 | 352,9202
+Research and development credits | (5,332) | (6,413) | (19,119) | (21,961)
+Selling, general and administrative expenses | 46,336 | 52,116 | 212,609 | 201,629
+Restructuring expenses | -- | -- | 24,485 | (5,862)
+Total expenses | 122,411 | 126,935 | 523,814 | 526,726
+Operating income (loss) from continuing operations | 27,593 | 180,901 | (155,032) | 378,9132
+Interest expense, net | (4,325) | (4,565) | (29,149) | (16,073)
+Income (loss) from continuing operations before
+income taxes | 23,268 | 176,336 | (184,181) | 362,840
+Benefits from (provision for) income taxes on
+income from continuing operations | (7,560) | (67,699) | 59,675 | (127,380)
+Net income (loss) from continuing operations | 15,708 | 108,637 | (124,506) | 235,4602
+Loss from discontinued operations
+before income tax | -- | -- | (59,026) | --
+Benefits from income taxes on discontinued
+operations | -- | -- | 23,316 | --
+Net loss from discontinued operations | -- | -- | (35,710) | --
+Net income (loss) | 15,708 | 108,637 | (160,216) | 235,4602
+Basic net income (loss) per ordinary share: | 0.03 | 0.22 | (0.33) | 0.492
+Diluted net income (loss) per ordinary share: | 0.033 | 0.21 | (0.33)3 | 0.492,3
+Number of ordinary shares used in computing per share amounts (in thousands):
+Basic | 482,371 | 483,633 | 482,240 | 483,380
+Diluted | 484,5303 | 541,564 | 482,2403 | 484,6613
+1.) | Except for consolidated statement of operations for the year ended December 31, 2003 and balance sheet data as of December 31, 2003, all figures are unaudited.
+2.) | ASML, Nikon Corporation and Carl Zeiss SMT AG agreed to a comprehensive settlement of legal proceedings and cross-license of patents related to lithography equipment. This agreement resulted in:
+— | an increase of EUR 48.8 million in our Research and Development costs and consequently a decrease in Operating income from continuing operations.
+— | a decrease of EUR 33.1 million in Net income or EUR 0.07 per ordinary share.
+3.) | The calculation of the diluted net income per ordinary shares does not assume conversion of ASML’s outstanding Convertible Subordinated Bonds, as such conversions would have an anti-dilutive effect.
+ASML — Ratios and Other Data1
+Three months ended December 31, | Twelve months ended,
+2003 | 2004 | 2003 | 2004
+Gross profit on sales of continuing operations
+as a % of net sales | 28.5 | 39.2 | 23.9 | 36.7
+Operating income (loss) from continuing
+operations as a % of net sales | 5.3 | 23.0 | (10.0) | 15.4
+Net income (loss) from continuing operations
+as a % of net sales | 3.0 | 13.8 | (8.1) | 9.6
+Shareholders' equity as a % of total assets | 39.8 | 42.9 | 39.8 | 42.9
+Sales of new systems (units) | 43 | 62 | 126 | 216
+Sales of used systems (units) | 18 | 19 | 43 | 66
+Sales of systems total (units) | 61 | 81 | 169 | 282
+Backlog Sales of new systems (units) | 103 | 119 | 103 | 119
+Backlog Sales of used systems (units) | 21 | 12 | 21 | 12
+Backlog Sales of systems total (units) | 124 | 131 | 124 | 131
+Number of employees in continuing operations | 5,059 | 5,071 | 5,059 | 5,071
+Number of employees in discontinued operations | 119 | -- | 119 | --
+Number of employees total | 5,178 | 5,071 | 5,178 | 5,071
+ASML — Summary Consolidated Balance Sheets1
+Dec. 31, | March 28, | June 27, | Sep. 26, | Dec. 31,
+2003 | 2004 | 2004 | 2004 | 2004
+(Amounts in thousands EUR)
+ASSETS
+Cash and cash equivalents | 1,027,806 | 1,152,022 | 1,235,611 | 1,315,758 | 1,228,130
+Accounts receivable, net | 314,495 | 317,368 | 396,721 | 397,064 | 503,153
+Inventories, net | 595,017 | 599,110 | 591,146 | 685,969 | 717,688
+Other current assets | 212,509 | 237,919 | 198,972 | 165,276 | 230,346
+Total current assets | 2,149,827 | 2,306,419 | 2,422,450 | 2,564,067 | 2,679,317
+Deferred tax asset | 325,271 | 335,262 | 336,059 | 330,784 | 201,100
+Other assets | 30,711 | 32,274 | 31,358 | 30,071 | 27,840
+Intangible assets | 14,590 | 13,660 | 12,727 | 34,919 | 31,818
+Property, plant and equipment | 347,883 | 326,135 | 321,577 | 315,487 | 303,691
+Total assets | 2,868,282 | 3,013,750 | 3,124,171 | 3,275,328 | 3,243,766
+LIABILITIES AND SHAREHOLDERS' EQUITY
+Current liabilities | 686,519 | 776,389 | 832,980 | 923,080 | 813,141
+Convertible subordinated bonds | 842,543 | 862,292 | 856,038 | 848,350 | 802,810
+Long term debt and deferred liabilities | 198,013 | 196,280 | 194,736 | 215,611 | 236,213
+Shareholders' equity | 1,141,207 | 1,178,789 | 1,240,417 | 1,288,287 | 1,391,602
+Total liabilities and Shareholders' equity | 2,868,282 | 3,013,750 | 3,124,171 | 3,275,328 | 3,243,766
+ASML — Summary Consolidated Statements of Cash Flows1
+Three months ended, | Twelve months ended
+Dec. 31, | Dec. 31, | Dec 31, | Dec. 31,
+2003 | 2004 | 2003 | 2004
+(Amounts in thousands EUR)
+CASH FLOWS FROM OPERATING ACTIVITIES:
+Net income (loss) from continuing operations | 15,708 | 108,637 | (124,506) | 235,460
+Depreciation and amortization | 45,012 | 20,774 | 156,900 | 93,144
+Change in tax assets and liabilities | 6,000 | 64,522 | 85,249 | 115,538
+Change in assets and liabilities | 193,271 | (241,944) | 415,016 | (192,875)
+Net cash provided by (used in) operating
+activities from continuing operations4 | 259,991 | (48,011) | 532,659 | 251,267
+CASH FLOWS FROM INVESTING ACTIVITIES:
+Capital expenditures | (15,194) | (28,607) | (51,666) | (75,535)
+Disposals | 289 | 1,610 | 2,638 | 15,137
+Net cash used in investing activities
+from continuing operations4 | (14,905) | (26,997) | (49,028) | (60,398)
+Net cash provided by operating and
+investing activities from continuing operations | 245,086 | (75,008) | 483,631 | 190,869
+CASH FLOWS FROM FINANCING ACTIVITIES:
+Proceeds from issuance of convertible
+subordinated loans, net | -- | -- | 371,450 | --
+Redemption and/or repayment of loans | (319,775) | (331) | (445,966) | (1,159)
+Proceeds from share issuance | 6,360 | 1,077 | 6,360 | 20,030
+Net cash provided by (used in) financing
+activities from continuing operations | (313,415) | 746 | (68,156) | 18,871
+Net cash flow from continuing operations | (68,329) | (74,262) | 415,475 | 209,740
+Effect of changes in exchange rates on cash | (34,396) | (13,366) | (69,165) | (9,416)
+Net cash flow provided by (used in)
+discontinued operations | 26,683 | -- | 12,736 | --
+Net increase (decrease) in cash
+and cash equivalents | (76,042) | (87,628) | 359,046 | 200,324
+4.) | ASML has re-evaluated its cash flow presentation and has concluded that the presentation under cash flows from investing activities of both capitalization and disposals in fixed assets from / to inventory of machinery and equipment relating to demonstration and training systems is inconsistent with the fact that the actual initial cash outflow (being the purchase of inventory items), and the ultimate cash inflow (receiving the proceeds from the sale that occurs in the ordinary course of business), have the nature of operating cash transactions. The Company therefore has amended its classification of these cash flows, for all periods presented, to classify both the initial cash outflows and ultimate cash inflows entirely as cash flows from operations. The net effect of these amendments on ASML’s cash flow from operating and investing activities in the aggregate is zero. In prior year, ASML reported, respectively, for the year and for the three month period ended December 31, 2003, EUR 509,335 and EUR 251,681 of cash flows provided by operating activities and EUR 25,702 and EUR 6,593 of cash used in investing activities.
+ASML — Quarterly Summary Consolidated Statements of operations1
+Three months ended,
+Dec. 31, | March 28, | June 27, | Sep. 26, | Dec. 31,
+2003 | 2004 | 2004 | 2004 | 2004
+(Amounts in millions EUR)
+Net Sales | 525.5 | 453.5 | 616.2 | 610.5 | 785.1
+Cost of Sales | 375.5 | 307.5 | 396.7 | 378.2 | 477.3
+Gross profit on sales | 150.0 | 146.0 | 219.5 | 232.3 | 307.8
+Research and development costs, net of credits | 76.1 | 69.8 | 68.7 | 117.62 | 74.8
+Selling, general and administrative expenses | 46.3 | 47.7 | 50.3 | 51.5 | 52.1
+Restructuring expenses | -- | (5.8) | -- | -- | --
+Total expenses | 122.4 | 111.7 | 119.0 | 169.1 | 126.9
+Operating income | 27.6 | 34.3 | 100.5 | 63.22 | 180.9
+Interest income (expense), net | (4.3) | (4.1) | (4.4) | (3.0) | (4.6)
+Income before Income taxes | 23.3 | 30.2 | 96.1 | 60.2 | 176.3
+Provision for income taxes | (7.6) | (9.7) | (30.7) | (19.3) | (67.7)
+Net income | 15.7 | 20.5 | 65.4 | 40.92 | 108.6
+ASML — Quarterly Summary
+Ratios and other data1 
+Three months ended,
+Dec. 31, | March 28, | June 27, | Sep. 26, | Dec. 31,
+2003 | 2004 | 2004 | 2004 | 2004
+Gross profit on sales of continuing operations as
+a % of net sales | 28.5 | 32.2 | 35.6 | 38.1 | 39.2
+Operating income from continuing
+operations as a % of net sales | 5.3 | 7.6 | 16.3 | 10.4 | 23.0
+Net income from continuing operations as
+a % of net sales | 3.0 | 4.5 | 10.6 | 6.7 | 13.8
+Shareholders' equity as a % of total assets | 39.8 | 39.1 | 39.7 | 39.3 | 42.9
+Sales of new systems (units) | 43 | 42 | 57 | 55 | 62
+Sales of used systems (units) | 18 | 16 | 15 | 16 | 19
+Sales of systems total (units) | 61 | 58 | 72 | 71 | 81
+Backlog Sales of new systems (units) | 103 | 135 | 147 | 162 | 119
+Backlog of Sales used systems (units) | 21 | 28 | 27 | 21 | 12
+Backlog Sales of systems total (units) | 124 | 163 | 174 | 183 | 131
+Value of backlog new systems (EUR million) | 946 | 1,293 | 1,723 | 2,000 | 1,664
+Value of backlog used systems (EUR million) | 47 | 64 | 77 | 53 | 27
+Value of backlog systems total (EUR million) | 993 | 1,357 | 1,800 | 2,053 | 1,691
+Number of employees in continuing operations | 5,059 | 5,005 | 5,043 | 5,042 | 5,071
+Number of employees in discontinuing operations | 119 | -- | -- | -- | --
+Number of employees total | 5,178 | 5,005 | 5,043 | 5,042 | 5,071
+ASML — Notes to the
+Summary Consolidated Financial Statements 
+Basis of Presentation 
+ASML follows accounting principles
+generally accepted in the United States of America (“U.S. GAAP”). Further
+disclosures, as required under U.S. GAAP in annual reports, are not included in the
+summary consolidated financial statements. The accompanying consolidated financial
+statements are stated in thousands of euros (‘EUR’). 
+Principles of
+consolidation 
+The consolidated financial statements
+include the accounts of ASML Holding N.V. and all of its majority-owned subsidiaries. All
+inter-company profits, transactions and balances have been eliminated in the
+consolidation. 
+Recognition of revenues 
+ASML recognizes revenue when all four
+revenue recognition criteria are met: persuasive evidence of an arrangement exists;
+delivery has occurred or services have been rendered; seller’s price to buyer is
+fixed or determinable; and collectibility is reasonably assured. At ASML, this policy
+generally results in revenue recognition from the sale of a system upon shipment and the
+revenue from the installation of a system upon completion of that installation at the
+customer site. Each system undergoes, prior to shipment, a “Factory Acceptance
+Test” in ASML’s clean room facilities, effectively replicating the operating
+conditions that will be present on the customer’s site, in order to verify whether
+the system will meet its standard specifications and any additional technical and
+performance criteria agreed with the customer. A system is shipped, and revenue
+recognized, only after all specifications are met and customer sign-off is received or
+waived. Although each system’s performance is re-tested upon installation at the
+customer’s site, ASML has never failed to successfully complete installation of a
+system at a customer premises. 
+The fair value of installation
+services provided to the customers is initially deferred and is recognized when the
+installation is completed. Sales from service contracts are recognized when performed.
+Revenue from prepaid service contracts is recognized over the life of the contract. 
+Use of estimates 
+The preparation of ASML’s
+consolidated financial statements in conformity with U.S. GAAP requires management to make
+estimates and assumptions that affect the reported amounts of assets and liabilities and
+the disclosure of contingent assets and liabilities on the balance sheet dates and the
+reported amounts of revenue and expense during the reported periods. Actual results could
+differ from those estimates. 
+“Safe Harbor” Statement
+under the U.S. Private Securities Litigation Reform Act of 1995: The matters discussed in
+this document may include forward-looking statements that are subject to risks and
+uncertainties including, but not limited to, economic conditions, product demand and
+semiconductor equipment industry capacity, worldwide demand and manufacturing capacity
+utilization for semiconductors, the principal product of our customer base, competitive
+products and pricing, manufacturing efficiencies, new product development, ability to
+enforce patents, the outcome of intellectual property litigation, availability of raw
+materials and critical manufacturing equipment, trade environment and other risks
+indicated in the risk factors included in ASML’s Annual Report on Form 20-F and other
+filings with the U.S. Securities and Exchange Commission. 
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000095017205000206/lon401648_ex99-1.htm
+
+EX-99
+2
+lon401648_ex99-1.htm
+EXHIBIT 99.1 - 2004 4TH QTR & ANNUAL RESULTS
+ ASML EX 99.1
+ASML Announces 2004 Fourth Quarter and Annual Results
+VELDHOVEN, the Netherlands, January 19, 2005 — ASML Holding NV (ASML) today announced 2004 fourth quarter and annual financial results as follows:
+• | 2004 net sales of EUR 2,465 million, Q4 2004 net sales of EUR 785 million 2003 net sales of EUR 1,543 million, Q3 2004 net sales of EUR 610 million
+• | 2004 net profit of EUR 235 million, Q4 2004 net profit of EUR 109 million 2003 net loss of EUR 160 million, Q3 2004 net profit of EUR 41 million
+• | Order backlog of 131 lithography systems valued at EUR 1,691 million as of December 31, 2004
+“Q4 2004 was a quarter that showed strong momentum as sales increased 29 percent from the previous quarter and 60 percent year-to-year,” said Eric Meurice, president and CEO, ASML. “For the first time, ASML shipped more 300 mm systems in a quarter than 200 mm tools. Our technology leadership moved up another notch in Q4 2004 when customers announced the production on ASML tools of the world’s first complex devices using immersion lithography.”
+Operations Update
+Net sales for 2004 included the shipment of 216 new and 66 refurbished machines and revenue from field and service options of EUR 290 million. Net sales for Q4 2004 included the shipment of 62 new and 19 refurbished machines and revenue from field and service options of EUR 75 million.
+In 2004, ASML generated a net profit of EUR 235 million, approximately 46 percent of which was generated in Q4 2004 in the amount of EUR 109 million or EUR 0.22 per ordinary share. The Q4 2004 net profit reflects a year-on-year sevenfold increase and a quarter-on-quarter more than twofold increase. The company’s net profit in Q3 2004 was EUR 41 million or EUR 0.08 per ordinary share.
+ASML concluded 2004 with EUR 1,228 million in cash as compared with EUR 1,028 million in cash at the end of 2003, an increase of EUR 200 million. In Q4 2004, the company used EUR 75 million in cash from operating and investing activities, in part due to the initial payment for the Nikon cross license agreement, which is not recurrent.
+The Q4 2004 average selling price for an ASML system was EUR 8.8 million, while the average selling price for a new system was EUR 10.7 million. The prices reflect increases of 17 percent and 22 percent from the Q3 2004 average selling price for all and new systems of EUR 7.5 million and EUR 8.8 million, respectively.
+Research and development (R&D) expenditures for Q4 2004 were EUR 75 million net of credit as compared with Q3 2004 R&D expenditures of EUR 69 million net of credit and excluding the previously mentioned cross license payment.
+As previously disclosed, a corporate income tax rate reduction in the Netherlands has been enacted in Q4 2004. As a consequence, the company had to re-assess the valuation of its tax assets and liabilities accordingly, resulting in a one-time tax charge in Q4 2004 of approximately EUR 15 million.
+Outlook
+Regarding 2005 outlook, Meurice continued: “We have accumulated a significant backlog for deliveries in Q1 and Q2 2005: our unit backlog is larger than that of December 2003, and the average selling price is significantly higher, thanks to a richer 300 mm product mix. However, we remain cautious in our forecast as customer order push-outs are always possible, if overall semiconductor demand were not to materialize as expected.”
+The order backlog as of December 31, 2004 comprises 131 lithography systems with an average selling price of EUR 12.9 million. Of that backlog, ASML plans to ship 60 systems in Q1 2005 with an expected average selling price of approximately EUR 10.7 million, in addition to quarterly recurring service revenue. The company has limited visibility for Q3 and Q4 2005.
+The company’s Q4 gross margin was 39.2 percent. It is expected to be in the 38-40 percent range in Q1 and Q2 2005 per the current backlog.
+ASML expects R&D expenses to be in the EUR 70-75 million range for Q1 2005 as the company prepares to launch, within a year, its third and fourth generation immersion tools, including systems with hyper-numerical aperture lenses.
+The enactment of the Dutch Corporate income tax rate reduction will lead to a decrease of the effective tax rate of approximately 3 percentage points to an expected tax rate of approximately 28 percent.
+About ASML
+ASML is the world’s leading provider of lithography systems for the semiconductor industry, manufacturing complex machines that are critical to the production of integrated circuits or chips. Headquartered in Veldhoven, the Netherlands, ASML is traded on Euronext Amsterdam and NASDAQ under the symbol ASML.
+Conference Call
+A conference call hosted by ASML CEO Eric Meurice and CFO Peter Wennink to discuss the 2004 Q4 and annual financial results will begin today, January 19, 2005, at 16.30 Central European Time / 10.30 Eastern US Time. Dial in numbers are as follows: the Netherlands – +31 20 531 5828; and the US – +1 706 679 0473.
+The conference call will be Web cast on ASML.com and available for replay from January 20-27, 2005 by dialing +1 706 645 9291, pass code #3213275.
+Forward Looking Statements
+“Safe Harbor” Statement under the U.S. Private Securities Litigation Reform Act of 1995: The matters discussed in this document may include forward-looking statements that are subject to risks and uncertainties including, but not limited to, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors, the principal product of our customer base, competitive products and pricing, manufacturing efficiencies, new product development, ability to enforce patents, the outcome of intellectual property litigation, availability of raw materials and critical manufacturing equipment, trade environment and other risks indicated in the risk factors included in ASML’s Annual Report on Form 20-F and other filings with the U.S. Securities and Exchange Commission.
+ASML
+Tom McGuire
+Vice President Communications
+corpcom@asml.com
+tel: +31.40.268.5758fax: +31.40.268.3655
+ASML
+Elizabeth Kitchener
+Director Corporate Communications
+corpcom@asml.com
+tel: +1.203.761.6300fax: +1.203.761.4207
+ASML
+Craig DeYoung
+Vice President Investor Relations
+craig.deyoung@asml.com
+tel: +1.480.383.4005fax: +1.480.383.3976
+ASML
+Franki D’Hoore
+Director European Investor Relations & EU Affairs
+franki.dhoore@asml.com
+tel: +31.40.268.6494fax: +31.40.268.3655

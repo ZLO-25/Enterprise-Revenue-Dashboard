@@ -1,0 +1,292 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/1288776/000128877615000021/googq12015exhibit991.htm
+
+EX-99.1
+2
+googq12015exhibit991.htm
+EXHIBIT 99.1
+ GOOG Q1 2015 Exhibit 99.1
+Exhibit 99.1
+Google Inc. Announces First Quarter 2015 Results
+MOUNTAIN VIEW, Calif. – April 23, 2015 - Google Inc. (NASDAQ: GOOG, GOOGL) today announced financial results for the quarter ended March 31, 2015. 
+“Google’s first quarter revenue was $17.3 billion, up 12% year on year. Excluding the net impact of foreign currency headwinds, revenue grew a healthy 17% year on year,” said Patrick Pichette, CFO of Google. “We continue to see great momentum in our mobile advertising business and opportunities with brand advertisers.”
+Q1 2015 Financial Summary
+Operating income, operating margin, net income, and earnings per share (EPS) are reported on a GAAP and non-GAAP basis. Non-GAAP operating income and non-GAAP operating margin exclude stock-based compensation (SBC) expense from continuing operations. Non-GAAP net income and non-GAAP diluted EPS exclude SBC expense from continuing operations, net of the related tax benefits, as well as Net Loss from Discontinued Operations. These non-GAAP measures, as well as free cash flow, an alternative non-GAAP measure of liquidity, and non-GAAP constant currency revenues and growth, are described and reconciled to the corresponding GAAP measures at the end of this release. The following summarizes our consolidated financial results for the quarter ended March 31, 2015 (in millions, except for per share and shares outstanding information; unaudited):
+Three Months Ended March 31, 2014 | Three Months Ended March 31, 2015
+Revenues | $ | 15,420 | $ | 17,258
+Increase in revenues year over year | 19 | % | 12 | %
+Traffic acquisition costs (TAC) | $ | 3,232 | $ | 3,345
+GAAP operating income | $ | 4,115 | $ | 4,447
+GAAP operating margin | 27 | % | 26 | %
+Non-GAAP operating income | $ | 4,954 | $ | 5,650
+Non-GAAP operating margin | 32 | % | 33 | %
+GAAP net income* | $ | 3,452 | $ | 3,586
+Non-GAAP net income | $ | 4,299 | $ | 4,532
+GAAP diluted EPS* | $ | 5.04 | $ | 5.20
+Non-GAAP diluted EPS | $ | 6.27 | $ | 6.57
+Diluted shares (in thousands) | 685,212 | 689,498
+*GAAP net income and diluted EPS include Net Loss from Discontinued Operations for the three months ended March 31, 2014.
+Q1 2015 Financial Highlights
+Revenues and Monetization
+Revenues by source are presented in the table below (in millions; unaudited):
+Three Months Ended March 31, 2015 | Change from Q1 2014 to Q1 2015 (YoY) | Change from Q4 2014 to Q1 2015 (QoQ)
+Google websites | $ | 11,932 | 14 | % | (4 | )%
+Google Network Members' websites* | 3,576 | 1 | % | (8 | )%
+Total advertising revenues** | 15,508 | 11 | % | (5 | )%
+Other revenues* | 1,750 | 23 | % | (2 | )%
+Revenues | $ | 17,258 | 12 | % | (5 | )%
+*Prior period amounts have been adjusted to reflect the reclassification primarily related to DoubleClick ad serving software revenues from Other Revenues to Advertising Revenues from Google Network Members' Websites to conform with our current period presentation.
+**Advertising revenues are generally reported on a gross basis, consistent with GAAP, without deducting TAC.
+Excluding hedging gains of $311 million related to our foreign exchange risk management program, had foreign exchange rates remained constant from the first quarter of 2014 through the first quarter of 2015, our revenues in the first quarter of 2015 would have been $795 million higher. Additionally, our constant currency revenue growth in the first quarter of 2015 was 17% year over 
+year. Our constant currency revenues, which exclude the foreign exchange impact on our current period revenues and hedging gains, are presented in the financial tables following this release as well as in the accompanying materials on the Investor Relations website.
+Paid clicks and cost-per-click information is in the table below (unaudited):
+Change from Q1 2014 to Q1 2015 (YoY) | Change from Q4 2014 to Q1 2015 (QoQ)
+Aggregate paid clicks | 13 | % | (1 | )%
+Paid clicks on Google websites | 25 | % | (3 | )%
+Paid clicks on Google Network Members' websites | (12 | )% | 4 | %
+Aggregate cost-per-click | (7 | )% | (5 | )%
+Cost-per-click on Google websites | (13 | )% | (3 | )%
+Cost-per-click on Google Network Members' websites | 2 | % | (11 | )%
+Costs and Expenses
+Traffic acquisition costs (TAC), other cost of revenues, operating expenses, stock-based compensation expense, and depreciation and amortization expense are presented in the table below (in millions; unaudited):
+Three Months Ended March 31, 2014 | Three Months Ended March 31, 2015
+TAC to Google Network Members | $ | 2,387 | $ | 2,432
+TAC to distribution partners | $ | 845 | $ | 913
+Total TAC | $ | 3,232 | $ | 3,345
+TAC to Google Network Members as % of Google Network Members' revenues* | 68 | % | 68 | %
+TAC to distribution partners as % of Google Website revenues | 8 | % | 8 | %
+Total TAC as % of advertising revenues* | 23 | % | 22 | %
+Other cost of revenues | $ | 2,729 | $ | 3,011
+Other cost of revenue as % of revenues | 18 | % | 17 | %
+Operating expenses (other than cost of revenues) | $ | 5,344 | $ | 6,455
+Operating expenses as % of revenues | 35 | % | 37 | %
+Stock-based compensation expense** | $ | 839 | $ | 1,203
+Tax benefit related to stock-based compensation expense | $ | (190 | ) | $ | (257 | )
+Depreciation, amortization, and impairment charges** | $ | 1,086 | $ | 1,177
+*Prior period amounts have been adjusted to reflect the reclassification primarily related to DoubleClick ad serving software revenues from Other Revenues to Advertising Revenues from Google Network Members' Websites to conform with our current period presentation.
+**Included in Cost of revenues and Operating expenses. Excludes impact from discontinued operations for the three months ended March 31, 2014.
+Supplemental Information (in millions except for headcount data; unaudited)
+Three Months Ended March 31, 2014 | Three Months Ended March 31, 2015
+Cash, cash equivalents, and marketable securities | $ | 59,379 | $ | 65,436
+Net cash provided by operating activities | $ | 4,391 | $ | 6,617
+Capital expenditures* | $ | 2,345 | $ | 2,927
+Free cash flow | $ | 2,046 | $ | 3,690
+Effective tax rate | 18 | % | 22 | %
+Headcount | 46,170 | 55,419
+*For Q1 2015, our capital expenditures are primarily related to production equipment, data center construction, and facilities. We expect to continue to make significant capital expenditures.
+Adjustment Payment in relation to Class C Capital Stock Distribution
+In January 2014, our board of directors approved the distribution of shares of Class C capital stock as a dividend to our holders of Class A and Class B common stock (the Stock Split). The Stock Split had a record date of March 27, 2014 and a payment date of April 2, 2014. In accordance with a settlement of litigation involving the authorization to distribute Class C capital stock, at the close of trading on April 2, 2015, the last trading day of the 365 day period following the first date the Class C shares traded on NASDAQ (Lookback Period), we determined that a payment (the Adjustment Payment) in the amount of $522 million was due. The amount of the Adjustment Payment was based on the percentage difference that developed between the volume-weighted average price of Class A and Class C shares during the Lookback Period, as supplied by NASDAQ Data-on-Demand, and is payable to holders of Class C capital stock as of the end of the Lookback Period in cash, Class A common stock, Class C capital stock, or a combination thereof, at the discretion of our board of directors. On April 22, 2015, our board of directors approved the Adjustment Payment to be paid on or about May 4, 2015 in shares of Class C capital stock, and cash in lieu of any fractional shares of Class C capital stock.
+WEBCAST AND CONFERENCE CALL INFORMATION
+A live audio webcast of Google’s first quarter 2015 earnings release call will be available at http://investor.google.com/webcast.html. The call begins today at 1:30 PM (PT) / 4:30 PM (ET). This press release, the financial tables, as well as other supplemental information including the reconciliations of certain non-GAAP measures to their nearest comparable GAAP measures, are also available on that site. 
+We also announce investor information, including news and commentary about our business and financial performance, SEC filings, notices of investor events and our press and earnings releases, on our investor relations website (http://investor.google.com).
+FORWARD-LOOKING STATEMENTS 
+This press release contains forward-looking statements that involve risks and uncertainties. These statements include statements regarding our investments in areas of strategic focus and our plans to make significant capital expenditures. Actual results may differ materially from the results predicted, and reported results should not be considered as an indication of future performance. The potential risks and uncertainties that could cause actual results to differ from the results predicted include, among others, unforeseen changes in our hiring patterns and our need to expend capital to accommodate the growth of the business, as well as those risks and uncertainties included under the captions “Risk Factors” and “Management’s Discussion and Analysis of Financial Condition and Results of Operations” in our Annual Report on Form 10-K for the year ended December 31, 2014, which is on file with the SEC and are available on our investor relations website at investor.google.com and on the SEC website at www.sec.gov. Additional information will also be set forth in our Quarterly Report on Form 10-Q for the quarter ended March 31, 2015. All information provided in this release and in the attachments is as of April 23, 2015, and we undertake no duty to update this information unless required by law.
+ABOUT NON-GAAP FINANCIAL MEASURES
+To supplement our consolidated financial statements, which are prepared and presented in accordance with GAAP, we use the following non-GAAP financial measures: non-GAAP operating income, non-GAAP operating margin, non-GAAP net income, non-GAAP diluted EPS, free cash flow, non-GAAP constant currency revenues, and non-GAAP constant currency revenue growth. The presentation of this financial information is not intended to be considered in isolation or as a substitute for, or superior to, the financial information prepared and presented in accordance with GAAP. 
+We use these non-GAAP financial measures for financial and operational decision-making and as a means to evaluate period-to-period comparisons. Our management believes that these non-GAAP financial measures provide meaningful supplemental information regarding our performance and liquidity by excluding certain expenses and expenditures that may not be indicative of our recurring core business operating results, such as our revenues excluding the impact for foreign currency fluctuations or our operating performance excluding not only non-cash charges, such as SBC, but also discrete cash charges that are infrequent in nature. We believe that both management and investors benefit from referring to these non-GAAP financial measures in assessing our performance and when planning, forecasting, and analyzing future periods. These non-GAAP financial measures also facilitate management's internal comparisons to our historical performance and liquidity as well as comparisons to our competitors' operating results. We believe these non-GAAP financial measures are useful to investors both because (1) they allow for greater transparency with respect to key metrics used by management in its financial and operational decision-making and (2) they are used by our institutional investors and the analyst community to help them analyze the health of our business.
+For more information on these non-GAAP financial measures, please see the tables captioned "Reconciliations of non-GAAP results of operations to the nearest comparable GAAP measures," "Reconciliation from net cash provided by operating activities to free cash flow," and "Reconciliation from GAAP revenues to non-GAAP constant currency revenues" included at the end of this release.
+Contact:
+Investor Relations Media
+investor-relations@google.com press@google.com
+Google Inc.
+CONSOLIDATED BALANCE SHEETS
+(In millions, except share and par value amounts which are reflected in thousands,
+and par value per share amounts)
+As of December 31, 2014 | As of March 31, 2015
+(unaudited)
+Assets
+Current assets:
+Cash and cash equivalents | $ | 18,347 | $ | 16,976
+Marketable securities | 46,048 | 48,460
+Total cash, cash equivalents, and marketable securities (including securities loaned of $4,058 and $2,574) | 64,395 | 65,436
+Accounts receivable, net of allowance of $225 and $200 | 9,383 | 8,584
+Receivable under reverse repurchase agreements | 875 | 825
+Deferred income taxes, net | 1,322 | 847
+Income taxes receivable, net | 1,298 | 901
+Prepaid revenue share, expenses and other assets | 3,412 | 3,720
+Total current assets | 80,685 | 80,313
+Prepaid revenue share, expenses and other assets, non-current | 3,280 | 3,596
+Non-marketable investments | 3,079 | 4,090
+Property and equipment, net | 23,883 | 25,448
+Intangible assets, net | 4,607 | 4,380
+Goodwill | 15,599 | 15,573
+Total assets | $ | 131,133 | $ | 133,400
+Liabilities and Stockholders’ Equity
+Current liabilities:
+Accounts payable | $ | 1,715 | $ | 1,688
+Short-term debt | 2,009 | 2,009
+Accrued compensation and benefits | 3,069 | 1,911
+Accrued expenses and other current liabilities | 4,434 | 4,494
+Accrued revenue share | 1,952 | 1,755
+Securities lending payable | 2,778 | 1,657
+Deferred revenue | 752 | 699
+Income taxes payable, net | 96 | 123
+Total current liabilities | 16,805 | 14,336
+Long-term debt | 3,228 | 3,226
+Deferred revenue, non-current | 104 | 93
+Income taxes payable, non-current | 3,407 | 3,717
+Deferred income taxes, net, non-current | 1,971 | 1,845
+Other long-term liabilities | 1,118 | 1,735
+Commitments and contingencies
+Stockholders’ equity:
+Convertible preferred stock, $0.001 par value per share, 100,000 shares authorized; no shares issued and outstanding | 0 | 0
+Class A and Class B common stock, and Class C capital stock and additional paid-in capital, $0.001 par value per share: 15,000,000 shares authorized (Class A 9,000,000, Class B 3,000,000, Class C 3,000,000); 680,172 (Class A 286,560, Class B 53,213, Class C 340,399) and par value of $680 (Class A $287, Class B $53, Class C $340) and 682,330 (Class A 288,198, Class B 52,480, Class C 341,652) and par value of $682 (Class A $288, Class B $52, Class C $342) shares issued and outstanding | 28,767 | 29,527
+Accumulated other comprehensive income (loss) | 27 | (371 | )
+Retained earnings | 75,706 | 79,292
+Total stockholders’ equity | 104,500 | 108,448
+Total liabilities and stockholders’ equity | $ | 131,133 | $ | 133,400
+Google Inc.
+CONSOLIDATED STATEMENTS OF INCOME
+(In millions, except share amounts which are reflected in thousands and per share amounts)
+Three Months Ended
+March 31,
+2014 | 2015
+(unaudited)
+Revenues | $ | 15,420 | $ | 17,258
+Costs and expenses:
+Cost of revenues (1) | 5,961 | 6,356
+Research and development (1) | 2,126 | 2,753
+Sales and marketing (1) | 1,729 | 2,065
+General and administrative (1) | 1,489 | 1,637
+Total costs and expenses | 11,305 | 12,811
+Income from operations | 4,115 | 4,447
+Interest and other income, net | 357 | 157
+Income from continuing operations before income taxes | 4,472 | 4,604
+Provision for income taxes | 822 | 1,018
+Net income from continuing operations | 3,650 | 3,586
+Net loss from discontinued operations (1) | (198 | ) | 0
+Net income | $ | 3,452 | $ | 3,586
+Net income (loss) per share - basic:
+Continuing operations | $ | 5.42 | $ | 5.27
+Discontinued operations | (0.29 | ) | 0.00
+Net income per share - basic | $ | 5.13 | $ | 5.27
+Net income (loss) per share - diluted:
+Continuing operations | $ | 5.33 | $ | 5.20
+Discontinued operations | (0.29 | ) | 0.00
+Net income per share - diluted | $ | 5.04 | $ | 5.20
+Shares used in per share calculation - basic | 672,587 | 680,915
+Shares used in per share calculation - diluted | 685,212 | 689,498
+(1) Includes stock-based compensation expense as follows:
+Cost of revenues | $ | 95 | $ | 160
+Research and development | 456 | 615
+Sales and marketing | 147 | 205
+General and administrative | 141 | 223
+Discontinued operations | 48 | 0
+Total stock-based compensation expense | $ | 887 | $ | 1,203
+Google Inc.
+CONSOLIDATED STATEMENTS OF CASH FLOWS
+(In millions)
+Three Months Ended
+March 31,
+2014 | 2015
+(unaudited)
+Operating activities
+Net income | $ | 3,452 | $ | 3,586
+Adjustments:
+Depreciation expense and impairment of property and equipment | 816 | 938
+Amortization and impairment of intangible and other assets | 270 | 239
+Stock-based compensation expense | 887 | 1,203
+Excess tax benefits from stock-based award activities | (155 | ) | (105 | )
+Deferred income taxes | 144 | 71
+Gain on equity interest | (103 | ) | 0
+Gain on sale of non-marketable investments | (117 | ) | 0
+Other | (14 | ) | 77
+Changes in assets and liabilities, net of effects of acquisitions:
+Accounts receivable | 267 | 698
+Income taxes, net | 201 | 756
+Prepaid revenue share, expenses and other assets | (308 | ) | 43
+Accounts payable | 177 | (24 | )
+Accrued expenses and other liabilities | (1,079 | ) | (601 | )
+Accrued revenue share | (70 | ) | (205 | )
+Deferred revenue | 23 | (59 | )
+Net cash provided by operating activities | 4,391 | 6,617
+Investing activities
+Purchases of property and equipment | (2,345 | ) | (2,927 | )
+Purchases of marketable securities | (12,082 | ) | (12,558 | )
+Maturities and sales of marketable securities | 9,406 | 10,389
+Purchases of non-marketable investments | (168 | ) | (1,074 | )
+Cash collateral related to securities lending | 779 | (1,120 | )
+Investments in reverse repurchase agreements | 50 | 50
+Acquisitions, net of cash acquired, and purchases of intangibles and other assets | (2,947 | ) | (64 | )
+Net cash used in investing activities | (7,307 | ) | (7,304 | )
+Financing activities
+Net payments related to stock-based award activities | (326 | ) | (493 | )
+Excess tax benefits from stock-based award activities | 155 | 105
+Proceeds from issuance of debt, net of costs | 3,416 | 3,305
+Repayments of debt | (2,423 | ) | (3,308 | )
+Net cash provided by (used in) financing activities | 822 | (391 | )
+Effect of exchange rate changes on cash and cash equivalents | (5 | ) | (293 | )
+Net decrease in cash and cash equivalents | (2,099 | ) | (1,371 | )
+Cash and cash equivalents at beginning of period | 18,898 | 18,347
+Reclassification of assets previously held for sale | (160 | ) | 0
+Cash and cash equivalents at end of period | $ | 16,639 | $ | 16,976
+Reconciliations of non-GAAP results of operations to the nearest comparable GAAP measures
+The following table presents certain non-GAAP consolidated results before certain items (in millions, except share amounts which are reflected in thousands and per share amounts, unaudited):
+Three Months Ended March 31, 2014 | Three Months Ended March 31, 2015
+GAAP Actual | Operating Margin (a) | Adjustments | Non-GAAP Results | Non-GAAP Operating Margin (e) | GAAP Actual | Operating Margin (a) | Adjustments | Non-GAAP Results | Non-GAAP Operating Margin (e)
+$ | 839 | (b) | $ | 1,203 | (b)
+Income from operations | $ | 4,115 | 26.7 | % | $ | 839 | $ | 4,954 | 32.1 | % | $ | 4,447 | 25.8 | % | $ | 1,203 | $ | 5,650 | 32.7 | %
+$ | 839 | (b) | $ | 1,203 | (b)
+(190 | ) | (c) | (257 | ) | (c)
+198 | (d) | 0 | (d)
+Net income | $ | 3,452 | $ | 847 | $ | 4,299 | $ | 3,586 | $ | 946 | $ | 4,532
+Net income per share - diluted | $ | 5.04 | $ | 6.27 | $ | 5.20 | $ | 6.57
+Shares used in per share calculation - diluted | 685,212 | 685,212 | 689,498 | 689,498
+(a) Operating margin is defined as income from operations divided by revenues.
+(b) To eliminate stock-based compensation expense from continuing operations.
+(c) To eliminate income tax effects related to expense noted in (b).
+(d) To eliminate net loss from discontinued operations.
+(e) Non-GAAP operating margin is defined as non-GAAP income from operations divided by revenues.
+Non-GAAP operating income and operating margin. We define non-GAAP operating income as operating income excluding expenses related to SBC, and, as applicable, other special items. Non-GAAP operating margin is defined as non-GAAP operating income divided by revenues. Google considers these non-GAAP financial measures to be useful metrics for management and investors because they exclude the effect of SBC, and as applicable, other special items so that Google's management and investors can compare Google's recurring core business operating results over multiple periods. Because of varying available valuation methodologies, subjective assumptions and the variety of award types that companies can use under FASB ASC Topic 718, Google's management believes that providing a non-GAAP financial measure that excludes SBC allows investors to make meaningful comparisons between Google's recurring core business operating results and those of other companies, as well as providing Google's management with an important tool for financial and operational decision making and for evaluating Google's own recurring core business operating results over different periods of time. There are a number of limitations related to the use of non-GAAP operating income versus operating income calculated in accordance with GAAP. First, non-GAAP operating income excludes some costs, namely, SBC, that are recurring. SBC has been and will continue to be for the foreseeable future a significant recurring expense in Google's business. Second, SBC is an important part of our employees' compensation. Third, the components of the costs that we exclude in our calculation of non-GAAP operating income may differ from the components that our peer companies exclude when they report their results of operations. Management compensates for these limitations by providing specific information regarding the GAAP amounts excluded from non-GAAP operating income and evaluating non-GAAP operating income together with operating income calculated in accordance with GAAP.
+Non-GAAP net income and diluted EPS. We define non-GAAP net income as net income excluding expenses related to SBC and, as applicable, other special items less the related tax effects, as well as net income (loss) from discontinued operations. The tax effects of SBC and, as applicable, other special items are calculated using the tax-deductible portion of SBC, and, as applicable, other special items, and applying the entity-specific, U.S. federal and blended state tax rates. We define non-GAAP diluted EPS as non-GAAP net income divided by the weighted average outstanding shares, on a fully-diluted basis. We consider these non-GAAP financial measures to be useful metrics for management and investors for the same reasons that Google uses non-GAAP operating income and non-GAAP operating margin. However, in order to provide a complete picture of our recurring core business operating results, we exclude from non-GAAP net income and non-GAAP diluted EPS the tax effects associated with SBC and, as applicable, other special items. Without excluding these tax effects, investors would only see the gross effect that excluding these expenses had on our operating results. The same limitations described above regarding Google's use of non-GAAP operating income and non-GAAP operating margin apply to our use of non-GAAP net income and non-GAAP diluted EPS. Management compensates for these limitations by providing specific information regarding the GAAP amounts excluded from non-GAAP net income and non-GAAP diluted EPS and evaluating non-GAAP net income and non-GAAP diluted EPS together with net income and diluted EPS calculated in accordance with GAAP.
+Reconciliation from net cash provided by operating activities to free cash flow (in millions, unaudited):
+Three Months Ended March 31, 2015
+Net cash provided by operating activities | $ | 6,617
+Less: purchases of property and equipment | (2,927 | )
+Free cash flow | $ | 3,690
+Net cash used in investing activities (a) | $ | (7,304 | )
+Net cash used in financing activities | $ | (391 | )
+(a) Includes purchases of property and equipment.
+Free cash flow. We define free cash flow as net cash provided by operating activities less capital expenditures. We consider free cash flow to be a liquidity measure that provides useful information to management and investors about the amount of cash generated by the business that, after the acquisition of property and equipment, including information technology assets and land and buildings, can be used for strategic opportunities, including investing in our business, making strategic acquisitions, and strengthening the balance sheet. Analysis of free cash flow also facilitates management's comparisons of our operating results to competitors' operating results. A limitation of using free cash flow versus the GAAP measure of net cash provided by operating activities as a means for evaluating Google is that free cash flow does not represent the total increase or decrease in the cash balance from operations for the period because it excludes cash used for capital expenditures during the period. Our management compensates for this limitation by providing information about our capital expenditures on the face of the statement of cash flows and under the caption “Management's Discussion and Analysis of Financial Condition and Results of Operations” in our Quarterly Report on Form 10-Q and Annual Report on Form 10-K. Google has computed free cash flow using the same consistent method from quarter to quarter and year to year.
+Reconciliation from GAAP revenues to non-GAAP constant currency revenues (in millions):
+Three Months Ended March 31, 2015 | Three Months Ended March 31, 2015
+(using Q1'14's FX rates) | (using Q4'14's FX rates)
+(unaudited)
+United Kingdom revenues (GAAP) | $ | 1,675 | $ | 1,675
+Exclude foreign exchange impact on Q1'15 revenues using Q1'14 rates | 116 | N/A
+Exclude foreign exchange impact on Q1'15 revenues using Q4'14 rates | N/A | 62
+Exclude hedging gains recognized in Q1'15 | (20 | ) | (20 | )
+United Kingdom revenues excluding foreign exchange and hedging impact (Non-GAAP) | $ | 1,771 | $ | 1,717
+Rest of the world revenues (GAAP) | $ | 8,195 | $ | 8,195
+Exclude foreign exchange impact on Q1'15 revenues using Q1'14 rates | 990 | N/A
+Exclude foreign exchange impact on Q1'15 revenues using Q4'14 rates | N/A | 512
+Exclude hedging gains recognized in Q1'15 | (291 | ) | (291 | )
+Rest of the world revenues excluding foreign exchange and hedging impact (Non-GAAP) | $ | 8,894 | $ | 8,416
+United States revenues (GAAP) | $ | 7,388 | $ | 7,388
+Constant currency revenues (Non-GAAP) | $ | 18,053 | $ | 17,521
+Prior period revenues, excluding hedging gains (Non-GAAP) | $ | 15,412 | $ | 17,955
+Constant currency revenue growth (Non-GAAP) | 17 | % | (2 | )%
+Non-GAAP constant currency revenues and growth. We define non-GAAP constant currency revenues as total revenues excluding the impact of foreign exchange rate movements and hedging activities, and use it to determine the constant currency revenue growth on year-on-year and quarter-on-quarter bases. Non-GAAP constant currency revenues are calculated by translating current quarter revenues using prior period exchange rates, as well as excluding any hedging gains realized in the current quarter. Constant currency revenue growth (expressed as a percentage) is calculated by determining the increase in current quarter revenues over prior period revenues, where current quarter international revenues are translated using prior period exchange rates and hedging benefits are excluded from revenues of both periods. We consider non-GAAP constant currency revenues and growth as useful metrics as they facilitate management's internal comparison to our historical performance because they exclude the effects of foreign currency volatility that are not indicative of our core operating results.
+The following table presents our revenues by revenue source (in millions):
+Three Months Ended
+March 31,
+2014 | 2015
+(unaudited)
+Advertising revenues:
+Google websites | $ | 10,469 | $ | 11,932
+Google Network Members' websites* | 3,528 | 3,576
+Total advertising revenues | 13,997 | 15,508
+Other revenues* | 1,423 | 1,750
+Revenues | $ | 15,420 | $ | 17,258
+*Prior period amounts have been adjusted to reflect the reclassification primarily related to DoubleClick ad serving software revenues from Other Revenues to Advertising Revenues from Google Network Members' Websites to conform with our current period presentation.
+The following table presents our revenues, by revenue source, as a percentage of revenues:
+Three Months Ended
+March 31,
+2014 | 2015
+(unaudited)
+Advertising revenues:
+Google websites | 68 | % | 69 | %
+Google Network Members' websites* | 23 | % | 21 | %
+Total advertising revenues | 91 | % | 90 | %
+Other revenues* | 9 | % | 10 | %
+Revenues | 100 | % | 100 | %
+*Prior period amounts have been adjusted to reflect the reclassification primarily related to DoubleClick ad serving software revenues from Other Revenues to Advertising Revenues from Google Network Members' Websites to conform with our current period presentation.

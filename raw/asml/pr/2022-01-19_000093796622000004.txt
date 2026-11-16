@@ -1,0 +1,347 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796622000004/financialstatementsusgaapq.htm
+
+EX-99.3
+4
+financialstatementsusgaapq.htm
+EX-99.3
+Document
+Exhibit 99.3
+ASML - Summary US GAAP Consolidated Statements of Operations
+Three months ended, | Twelve months ended,
+Dec 31, | Dec 31, | Dec 31, | Dec 31,
+(unaudited, in millions €, except per share data) | 2020 | 2021 | 2020 | 2021
+Net system sales | 3,198.3 | 3,463.2 | 10,316.6 | 13,652.8
+Net service and field option sales | 1,055.8 | 1,522.4 | 3,661.9 | 4,958.2
+Total net sales | 4,254.1 | 4,985.6 | 13,978.5 | 18,611.0
+Total cost of sales | (2,043.0) | (2,285.0) | (7,181.3) | (8,802.0)
+Gross profit | 2,211.1 | 2,700.6 | 6,797.2 | 9,809.0
+Other income 1 | — | 213.7 | — | 213.7
+Research and development costs | (555.9) | (680.6) | (2,200.8) | (2,547.0)
+Selling, general and administrative costs | (151.5) | (202.5) | (544.9) | (725.6)
+Income from operations | 1,503.7 | 2,031.2 | 4,051.5 | 6,750.1
+Interest and other, net | (8.0) | (12.2) | (34.9) | (44.6)
+Income before income taxes | 1,495.7 | 2,019.0 | 4,016.6 | 6,705.5
+Income tax expense | (170.2) | (316.0) | (551.5) | (1,021.4)
+Income after income taxes | 1,325.5 | 1,703.0 | 3,465.1 | 5,684.1
+Profit related to equity method investments | 25.0 | 70.4 | 88.6 | 199.1
+Net income | 1,350.5 | 1,773.4 | 3,553.7 | 5,883.2
+Basic net income per ordinary share | 3.23 | 4.39 | 8.49 | 14.36
+Diluted net income per ordinary share | 3.23 | 4.38 | 8.48 | 14.34
+Weighted average number of ordinary shares used in computing per share amounts (in millions):
+Basic | 417.5 | 404.3 | 418.3 | 409.8
+Diluted | 418.4 | 405.0 | 419.1 | 410.4
+ASML - Ratios and Other Data
+Three months ended, | Twelve months ended,
+Dec 31, | Dec 31, | Dec 31, | Dec 31,
+(unaudited, in millions €, except otherwise indicated) | 2020 | 2021 | 2020 | 2021
+Gross profit as a percentage of net sales | 52.0 | % | 54.2 | % | 48.6 | % | 52.7 | %
+Income from operations as a percentage of net sales | 35.3 | % | 40.7 | % | 29.0 | % | 36.3 | %
+Net income as a percentage of net sales | 31.7 | % | 35.6 | % | 25.4 | % | 31.6 | %
+Income taxes as a percentage of income before income taxes | 11.4 | % | 15.7 | % | 13.7 | % | 15.2 | %
+Shareholders’ equity as a percentage of total assets | 50.8 | % | 33.5 | % | 50.8 | % | 33.5 | %
+Sales of lithography systems (in units) 2 | 80 | 82 | 258 | 309
+Value of booked systems (EUR millions) 3 | 4,238 | 7,050 | 11,292 | 26,240
+Net bookings lithography systems (in units) 2, 3 | 123 | 191 | 303 | 656
+Number of payroll employees in FTEs | 26,614 | 29,861 | 26,614 | 29,861
+Number of temporary employees in FTEs | 1,459 | 2,155 | 1,459 | 2,155
+1. Other income includes the gain on sale of Berliner Glas subsidiaries.
+2. Lithography systems do not include metrology and inspection systems. 
+3. Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. 
+ASML - Summary US GAAP Consolidated Balance Sheets
+Dec 31, | Dec 31,
+(unaudited, in millions €) | 2020 | 2021
+ASSETS
+Cash and cash equivalents | 6,049.4 | 6,951.8
+Short-term investments | 1,302.2 | 638.5
+Accounts receivable, net | 1,310.3 | 3,028.0
+Finance receivables, net | 1,710.5 | 1,185.6
+Current tax assets | 67.3 | 42.0
+Contract assets | 119.2 | 164.6
+Inventories, net | 4,569.4 | 5,179.2
+Other assets | 801.7 | 1,000.5
+Total current assets | 15,930.0 | 18,190.2
+Finance receivables, net | 400.5 | 383.0
+Deferred tax assets | 671.5 | 1,098.7
+Other assets | 951.4 | 1,011.4
+Equity method investments | 820.7 | 892.5
+Goodwill | 4,629.1 | 4,555.6
+Other intangible assets, net | 1,049.0 | 952.1
+Property, plant and equipment, net | 2,470.3 | 2,982.7
+Right-of-use assets - Operating | 180.1 | 159.5
+Right-of-use assets - Finance | 164.8 | 5.3
+Total non-current assets | 11,337.4 | 12,040.8
+Total assets | 27,267.4 | 30,231.0
+LIABILITIES AND SHAREHOLDERS’ EQUITY
+Current liabilities | 6,603.5 | 12,298.0
+Total current liabilities | 6,603.5 | 12,298.0
+Long-term debt | 4,662.8 | 4,075.0
+Deferred and other tax liabilities | 238.3 | 240.6
+Contract liabilities | 1,639.9 | 3,225.7
+Accrued and other liabilities | 257.5 | 251.1
+Total non-current liabilities | 6,798.5 | 7,792.4
+Total liabilities | 13,402.0 | 20,090.4
+Total shareholders’ equity | 13,865.4 | 10,140.6
+Total liabilities and shareholders’ equity | 27,267.4 | 30,231.0
+ASML - Summary US GAAP Consolidated Statements of Cash Flows
+Three months ended, | Twelve months ended,
+Dec 31, | Dec 31, | Dec 31, | Dec 31,
+(unaudited, in millions €) | 2020 | 2021 | 2020 | 2021
+CASH FLOWS FROM OPERATING ACTIVITIES
+Net income | 1,350.6 | 1,773.4 | 3,553.7 | 5,883.2
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 125.4 | 124.2 | 490.8 | 471.0
+Impairment and loss (gain) on disposal | 0.8 | 17.5 | 5.5 | (15.9)
+Share-based compensation expense | 6.2 | 33.5 | 53.9 | 117.5
+Gain on sale of subsidiaries | — | (213.7) | — | (213.7)
+Inventory reserves | 77.6 | 49.4 | 192.4 | 180.7
+Deferred tax expense (benefit) | (60.7) | (106.2) | (211.3) | (419.6)
+Equity method investments | 95.8 | 91.4 | 11.0 | (49.8)
+Changes in assets and liabilities | 3,074.7 | 4,647.5 | 531.6 | 4,892.4
+Net cash provided by (used in) operating activities | 4,670.4 | 6,417.0 | 4,627.6 | 10,845.8
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchase of property, plant and equipment | (292.9) | (273.2) | (962.0) | (900.7)
+Purchase of intangible assets | (12.2) | (17.5) | (38.8) | (39.6)
+Purchase of short-term investments | (820.8) | (504.2) | (1,475.5) | (1,162.7)
+Maturity of short-term investments | 394.8 | 2.7 | 1,359.1 | 1,826.4
+Loans issued and other investments | (2.2) | — | (12.2) | (124.4)
+Proceeds from sale of subsidiaries (net of cash disposed) | — | 316.1 | — | 329.0
+Acquisition of subsidiaries (net of cash acquired) | (222.8) | — | (222.8) | —
+Net cash provided by (used in) investing activities | (956.1) | (476.1) | (1,352.2) | (72.0)
+CASH FLOWS FROM FINANCING ACTIVITIES
+Dividend paid | (501.6) | (729.2) | (1,066.4) | (1,368.3)
+Purchase of treasury shares | (700.0) | (2,607.2) | (1,207.5) | (8,560.3)
+Net proceeds from issuance of shares | 7.9 | 12.0 | 37.9 | 48.9
+Net proceeds from issuance of notes, net of issuance costs | — | — | 1,486.3 | —
+Repayment of debt and finance lease obligations | (0.7) | (2.6) | (3.3) | (12.0)
+Net cash provided by (used in) financing activities | (1,194.4) | (3,327.0) | (753.0) | (9,891.7)
+Net cash flows | 2,519.9 | 2,613.9 | 2,522.4 | 882.1
+Effect of changes in exchange rates on cash | (2.0) | 19.2 | (5.3) | 20.3
+Net increase (decrease) in cash and cash equivalents | 2,517.9 | 2,633.1 | 2,517.1 | 902.4
+Cash and cash equivalents at beginning of the period | 3,531.5 | 4,318.7 | 3,532.3 | 6,049.4
+Cash and cash equivalents at end of the period | 6,049.4 | 6,951.8 | 6,049.4 | 6,951.8
+ ASML - Quarterly Summary US GAAP Consolidated Statements of Operations
+Three months ended,
+Dec 31, | Apr 4, | Jul 4, | Oct 3, | Dec 31,
+(unaudited, in millions €, except per share data) | 2020 | 2021 | 2021 | 2021 | 2021
+Net system sales | 3,198.3 | 3,128.8 | 2,949.6 | 4,111.1 | 3,463.2
+Net service and field option sales | 1,055.8 | 1,235.1 | 1,070.6 | 1,130.2 | 1,522.4
+Total net sales | 4,254.1 | 4,363.9 | 4,020.2 | 5,241.3 | 4,985.6
+Total cost of sales | (2,043.0) | (2,011.5) | (1,975.6) | (2,529.9) | (2,285.0)
+Gross profit | 2,211.1 | 2,352.4 | 2,044.6 | 2,711.4 | 2,700.6
+Other income 1 | — | — | — | — | 213.7
+Research and development costs | (555.9) | (623.4) | (633.8) | (609.2) | (680.6)
+Selling, general and administrative costs | (151.5) | (168.4) | (171.8) | (182.9) | (202.5)
+Income from operations | 1,503.7 | 1,560.6 | 1,239.0 | 1,919.3 | 2,031.2
+Interest and other, net | (8.0) | (12.1) | (9.8) | (10.5) | (12.2)
+Income before income taxes | 1,495.7 | 1,548.5 | 1,229.2 | 1,908.8 | 2,019.0
+Benefit from (provision for) income taxes | (170.2) | (230.3) | (204.2) | (270.9) | (316.0)
+Income after income taxes | 1,325.5 | 1,318.2 | 1,025.0 | 1,637.9 | 1,703.0
+Profit related to equity method investments | 25.0 | 13.2 | 13.2 | 102.3 | 70.4
+Net income | 1,350.5 | 1,331.4 | 1,038.2 | 1,740.2 | 1,773.4
+Basic net income per ordinary share | 3.23 | 3.21 | 2.52 | 4.27 | 4.39
+Diluted net income per ordinary share | 3.23 | 3.20 | 2.52 | 4.26 | 4.38
+Weighted average number of ordinary shares used in computing per share amounts (in millions):
+Basic | 417.5 | 415.3 | 411.5 | 407.9 | 404.3
+Diluted | 418.4 | 415.8 | 412.0 | 408.6 | 405.0
+ASML - Quarterly Summary Ratios and other data
+Dec 31, | Apr 4, | Jul 4, | Oct 3, | Dec 31,
+(unaudited, in millions €, except otherwise indicated) | 2020 | 2021 | 2021 | 2021 | 2021
+Gross profit as a percentage of net sales | 52.0 | % | 53.9 | % | 50.9 | % | 51.7 | % | 54.2 | %
+Income from operations as a percentage of net sales | 35.3 | % | 35.8 | % | 30.8 | % | 36.6 | % | 40.7 | %
+Net income as a percentage of net sales | 31.7 | % | 30.5 | % | 25.8 | % | 33.2 | % | 35.6 | %
+Income taxes as a percentage of income before income taxes | 11.4 | % | 14.9 | % | 16.6 | % | 14.2 | % | 15.7 | %
+Shareholders’ equity as a percentage of total assets | 50.8 | % | 50.1 | % | 43.5 | % | 42.1 | % | 33.5 | %
+Sales of lithography systems (in units) 2 | 80 | 76 | 72 | 79 | 82
+Value of booked systems (EUR millions) 3 | 4,238 | 4,740 | 8,271 | 6,179 | 7,050
+Net bookings lithography systems (in units) 2, 3 | 123 | 120 | 167 | 178 | 191
+Number of payroll employees in FTEs | 26,614 | 27,248 | 27,777 | 29,025 | 29,861
+Number of temporary employees in FTEs | 1,459 | 1,561 | 1,609 | 1,659 | 2,155
+1. Other income includes the gain on sale of Berliner Glas subsidiaries. 
+2. Lithography systems do not include metrology and inspection systems. 
+3. Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. 
+ASML - Quarterly Summary US GAAP Consolidated Balance Sheets
+Dec 31, | Apr 4, | Jul 4, | Oct 3, | Dec 31,
+(unaudited, in millions €) | 2020 | 2021 | 2021 | 2021 | 2021
+ASSETS
+Cash and cash equivalents | 6,049.4 | 3,243.8 | 5,186.6 | 4,318.7 | 6,951.8
+Short-term investments | 1,302.2 | 1,411.6 | 186.7 | 137.0 | 638.5
+Accounts receivable, net | 1,310.3 | 2,239.2 | 2,782.0 | 3,383.3 | 3,028.0
+Finance receivables, net | 1,710.5 | 2,218.6 | 1,637.4 | 1,185.9 | 1,185.6
+Current tax assets | 67.3 | 809.7 | 608.2 | 289.5 | 42.0
+Contract assets | 119.2 | 107.4 | 178.9 | 272.0 | 164.6
+Inventories, net | 4,569.4 | 4,748.1 | 5,086.3 | 4,944.2 | 5,179.2
+Other assets | 801.7 | 915.7 | 922.9 | 995.0 | 1,000.5
+Held for sale assets | — | 165.5 | 150.2 | 152.7 | —
+Total current assets | 15,930.0 | 15,859.6 | 16,739.2 | 15,678.3 | 18,190.2
+Finance receivables, net | 400.5 | 66.6 | 6.2 | 139.0 | 383.0
+Deferred tax assets | 671.5 | 700.8 | 710.5 | 986.0 | 1,098.7
+Other assets | 951.4 | 1,313.4 | 1,016.4 | 1,120.9 | 1,011.4
+Equity method investments | 820.7 | 842.5 | 864.9 | 963.2 | 892.5
+Goodwill | 4,629.1 | 4,555.5 | 4,555.5 | 4,555.6 | 4,555.6
+Other intangible assets, net | 1,049.0 | 1,014.2 | 987.7 | 963.8 | 952.1
+Property, plant and equipment, net | 2,470.3 | 2,521.6 | 2,609.4 | 2,730.3 | 2,982.7
+Right-of-use assets - Operating | 180.1 | 179.7 | 161.8 | 155.0 | 159.5
+Right-of-use assets - Finance | 164.8 | 164.8 | 163.9 | 5.9 | 5.3
+Total non-current assets | 11,337.4 | 11,359.1 | 11,076.3 | 11,619.7 | 12,040.8
+Total assets | 27,267.4 | 27,218.7 | 27,815.5 | 27,298.0 | 30,231.0
+LIABILITIES AND SHAREHOLDERS’ EQUITY
+Current liabilities | 6,603.5 | 6,829.1 | 8,707.5 | 9,114.7 | 12,298.0
+Held for sale liabilities | — | 47.2 | 46.6 | 47.9 | —
+Total current liabilities | 6,603.5 | 6,876.3 | 8,754.1 | 9,162.6 | 12,298.0
+Long-term debt | 4,662.8 | 4,634.2 | 4,619.9 | 4,105.8 | 4,075.0
+Deferred and other tax liabilities | 238.3 | 245.2 | 247.7 | 282.6 | 240.6
+Contract liabilities | 1,639.9 | 1,583.2 | 1,860.2 | 2,001.7 | 3,225.7
+Accrued and other liabilities | 257.5 | 250.9 | 240.3 | 242.9 | 251.1
+Total non-current liabilities | 6,798.5 | 6,713.5 | 6,968.1 | 6,633.0 | 7,792.4
+Total liabilities | 13,402.0 | 13,589.8 | 15,722.2 | 15,795.6 | 20,090.4
+Total shareholders’ equity | 13,865.4 | 13,628.9 | 12,093.3 | 11,502.4 | 10,140.6
+Total liabilities and shareholders’ equity | 27,267.4 | 27,218.7 | 27,815.5 | 27,298.0 | 30,231.0
+ASML - Quarterly Summary US GAAP Consolidated Statements of Cash Flows
+Three months ended,
+Dec 31, | Apr 4, | Jul 4, | Oct 3, | Dec 31,
+(unaudited, in millions €) | 2020 | 2021 | 2021 | 2021 | 2021
+CASH FLOWS FROM OPERATING ACTIVITIES
+Net income | 1,350.6 | 1,331.4 | 1,038.2 | 1,740.2 | 1,773.4
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 125.4 | 117.9 | 112.7 | 116.2 | 124.2
+Impairment and loss (gain) on disposal | 0.8 | 6.2 | 0.2 | (39.8) | 17.5
+Share-based compensation expense | 6.2 | 21.0 | 29.0 | 34.0 | 33.5
+Gain on sale of subsidiaries | — | — | — | — | (213.7)
+Inventory reserves | 77.6 | 34.4 | 44.0 | 52.9 | 49.4
+Deferred tax expense (benefit) | (60.7) | (35.8) | (7.5) | (270.1) | (106.2)
+Equity method investments | 95.8 | (21.5) | (22.5) | (97.3) | 91.4
+Changes in assets and liabilities | 3,074.7 | (2,395.3) | 2,374.8 | 265.5 | 4,647.5
+Net cash provided by (used in) operating activities | 4,670.4 | (941.7) | 3,568.9 | 1,801.6 | 6,417.0
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchase of property, plant and equipment | (292.9) | (189.4) | (241.1) | (197.0) | (273.2)
+Purchase of intangible assets | (12.2) | (7.9) | (6.3) | (7.9) | (17.5)
+Purchase of short-term investments | (820.8) | (608.5) | — | (50.0) | (504.2)
+Maturity of short-term investments | 394.8 | 499.1 | 1,224.9 | 99.7 | 2.7
+Loans issued and other investments | (2.2) | — | — | (124.4) | —
+Proceeds from sale of subsidiaries (net of cash disposed) | — | — | 12.9 | — | 316.1
+Acquisition of subsidiaries (net of cash acquired) | (222.8) | — | — | — | —
+Net cash provided by (used in) investing activities | (956.1) | (306.7) | 990.4 | (279.6) | (476.1)
+CASH FLOWS FROM FINANCING ACTIVITIES
+Dividend paid | (501.6) | — | (639.1) | — | (729.2)
+Purchase of treasury shares | (700.0) | (1,567.6) | (1,983.9) | (2,401.6) | (2,607.2)
+Net proceeds from issuance of shares | 7.9 | 11.0 | 13.6 | 12.3 | 12.0
+Repayment of debt and finance lease obligations | (0.7) | (3.6) | (3.2) | (2.6) | (2.6)
+Net cash provided by (used in) financing activities | (1,194.4) | (1,560.2) | (2,612.6) | (2,391.9) | (3,327.0)
+Net cash flows | 2,519.9 | (2,808.6) | 1,946.7 | (869.9) | 2,613.9
+Effect of changes in exchange rates on cash | (2.0) | 3.0 | (3.9) | 2.0 | 19.2
+Net increase (decrease) in cash and cash equivalents | 2,517.9 | (2,805.6) | 1,942.8 | (867.9) | 2,633.1
+Cash and cash equivalents at beginning of the period | 3,531.5 | 6,049.4 | 3,243.8 | 5,186.6 | 4,318.7
+Cash and cash equivalents at end of the period | 6,049.4 | 3,243.8 | 5,186.6 | 4,318.7 | 6,951.8
+Notes to the Summary US GAAP Consolidated Financial Statements
+Basis of preparation 
+The accompanying unaudited Summary Consolidated Financial Statements have been prepared in conformity with the accounting principles generally accepted in the United States of America ("US GAAP"). 
+For further details on our annual disclosure requirements under US GAAP, including our significant accounting policies, these interim unaudited Summary Consolidated Financial Statements should be read in conjunction with the Consolidated Financial Statements and Notes included within our 2020 Annual Report based on US GAAP, which is available on www.asml.com. 
+Forward Looking Statements
+This document contains statements that are forward-looking, including statements with respect to expected trends, including trends in end markets and technology, industry and business environment trends, outlook and expected financial results, including expected net sales, gross margin, R&D costs, SG&A costs and estimated annualized effective tax rate, bookings, expected growth in net sales, revenue and gross margin opportunity for 2025 and growth opportunities beyond 2025, expected annual revenue growth rate, expected revenue recognition, including estimates of revenue to be recognized in periods after shipment, expected shipments and performance expectation of new products, the expected impact of the fire at our Berlin site, plans and strategies, customer demand and plans to support customers, ESG strategy, statements with respect to dividends and share buybacks and financial policy including the total dividend for 2021 and statements with respect to the 2021-2023 share buyback program, including the amount of shares intended to be repurchased under the program and other non-historical statements. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue", "target", "future", "progress", "goal" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about our business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve a number of substantial known and unknown risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors, the impact of general economic conditions on consumer confidence and demand for our customers’ products, performance of our systems, the impact of the COVID-19 outbreak and measures taken to contain it on us, our suppliers, the global economy and financial markets, and other factors that may impact ASML’s financial results, including customer demand and ASML’s ability to obtain parts and components for its products and otherwise meet demand, the success of technology advances and the pace of new product development and customer acceptance of and demand for new products, production capacity and our ability to increase capacity to meet demand, the impact of the fire at our facility in Berlin on our production, the number and timing of systems ordered, shipped and recognized in revenue, and the risk of order cancellation or push out, production capacity for our systems including delays in system production, risks relating to supply chain capacity and logistics, trends in the semi-conductor industry, our ability to enforce patents and protect intellectual property rights and the outcome of intellectual property disputes and litigation, availability of raw materials, critical manufacturing equipment and qualified employees, trade environment, import/export and national security regulations and orders and their impact on us, changes in exchange and tax rates, available liquidity and liquidity requirements, our ability to refinance our indebtedness, available cash and distributable reserves for, and other factors impacting, dividend payments and share repurchases, results of the share repurchase programs and other risks indicated in the risk factors included in ASML’s Annual Report on Form 20-F for the year ended December 31, 2020 and other filings with and submissions to the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We undertake no obligation to update any forward-looking statements after the date of this report or to conform such statements to actual results or revised expectations, except as required by law.
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796622000004/pressreleasequarterlyresul.htm
+
+EX-99.1
+2
+pressreleasequarterlyresul.htm
+EX-99.1
+Document
+Exhibit 99.1
+ASML reports €18.6 billion net sales and €5.9 billion net income in 2021
+Sales growth of around 20% expected for 2022
+VELDHOVEN, the Netherlands, January 19, 2022 – today ASML Holding NV (ASML) has published its 2021 fourth-quarter and full-year results. 
+•Q4 net sales of €5.0 billion, gross margin of 54.2%, net income of €1.8 billion
+•Q4 net bookings of €7.1 billion2 
+•2021 net sales of €18.6 billion, gross margin of 52.7%, net income of €5.9 billion
+•ASML expects Q1 2022 net sales between €3.3 billion and €3.5 billion and a gross margin of around 49% 
+•Approximately €2 billion worth of sales that are expected to ship in the first quarter are not included in this number, and will be recognized in subsequent quarters after formal customer acceptance tests are completed in the field
+•ASML expects 2022 net sales to grow around 20% compared to 2021. The expected impact of the fire in part of a building at our Berlin site is included in this. Based on our current insights, we believe we can manage the consequences of this fire without significant impact on our system output for 2022
+•ASML intends to declare a total dividend over 2021 of €5.50 per ordinary share (100% increase compared to previous year)
+(Figures in millions of euros unless otherwise indicated) | Q3 2021 | Q4 2021 | FY 2020 | FY 2021
+Net sales | 5,241 | 4,986 | 13,979 | 18,611
+...of which Installed Base Management sales 1 | 1,130 | 1,522 | 3,662 | 4,958
+New lithography systems sold (units) | 72 | 72 | 236 | 286
+Used lithography systems sold (units) | 7 | 10 | 22 | 23
+Net bookings 2 | 6,179 | 7,050 | 11,292 | 26,240
+Gross profit | 2,711 | 2,701 | 6,798 | 9,809
+Gross margin (%) | 51.7 | 54.2 | 48.6 | 52.7
+Net income | 1,740 | 1,774 | 3,554 | 5,883
+EPS (basic; in euros) | 4.27 | 4.39 | 8.49 | 14.36
+End-quarter cash and cash equivalents and short-term investments | 4,456 | 7,590 | 7,351 | 7,590
+(1) Installed Base Management sales equals our net service and field option sales.
+(2) Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. 
+Numbers have been rounded for readers' convenience. A complete summary of US GAAP Consolidated Statements of Operations is published on www.asml.com
+CEO statement and outlook
+"Our fourth-quarter net sales came in at €5.0 billion which is within our guidance. The gross margin of 54.2%, is higher than guided due to strong Installed Base revenue. Our fourth-quarter net bookings came in at €7.1 billion, including €2.6 billion from 0.33 NA and 0.55 NA EUV systems.
+"The total net sales for the year was €18.6 billion, including €6.3 billion from 42 EUV systems. For ASML, 2021 was a strong growth year in a dynamic environment. 
+1
+"We experience higher demand for our systems than our production capacity can accommodate. Very strong demand in end markets puts pressure on our customers for more wafer output. In order to support our customers, we are providing them with high-productivity upgrade solutions for their installed base, and we are reducing cycle time in our factory to ship more systems. One way to reduce cycle time is through a fast shipment process that skips some of the testing in our factory. Final testing and formal acceptance then takes place at the customer site. This leads to a deferral of revenue recognition for those shipments until formal customer acceptance, but does provide our customers with earlier access to wafer output capacity.
+"ASML expects first-quarter net sales between €3.3 billion and €3.5 billion with a gross margin of around 49%. ASML expects R&D costs of around €760 million and SG&A costs of around €210 million. The lower net sales guidance for the first quarter is due to a significant number of fast shipments, translating to approximately €2 billion of expected revenue shift from the first quarter to subsequent quarters. Looking at the full year – even taking into account our current expectation of fast-shipment-related revenue shifts of six EUV systems into 2023 – we expect a revenue growth of around 20%," said ASML President and Chief Executive Officer Peter Wennink. 
+Products and business highlights
+•In our EUV business, we received one order for the TWINSCAN EXE:5000 in the fourth quarter. We already received four orders in 2018.
+Early 2022, we received the first order for the next generation, TWINSCAN EXE:5200, marking the next step on the path to 0.55 NA EUV introduction. 
+•In our DUV business, the XT:860N was shipped to its first customer at the end of 2021. This KrF system offers improved performance and a lower cost per exposure. 
+In 2022 we will add KrF to the NXT platform with the introduction of the NXT:870, allowing us to make a significant step in productivity and cost of ownership, building on the existing experience on this platform in ArFi and ArF dry.
+•In our Applications business, shipment of the first eScan1100 multibeam inspection system designed for high-volume manufacturing is planned in the coming weeks. With 25 beams (5x5), we expect the eScan1100 to increase throughput up to 15 times compared to single e-beam inspection tools for targeted in-line defect inspection applications.
+Dividend proposal and share buyback program update 
+ASML intends to declare a total dividend in respect of 2021 of €5.50 per ordinary share. Recognizing the interim dividend of €1.80 per ordinary share paid in November 2021, this leads to a final dividend proposal to the General Meeting of €3.70 per ordinary share. The total 2021 dividend is a 100% increase compared to the 2020 total dividend of €2.75 per ordinary share.
+As part of its financial policy to return excess cash to its shareholders through growing annualized dividends and regularly timed share buybacks, ASML executes a share buyback program which started on July 22, 2021, and is to be closed by December 31, 2023. As part of this program, ASML intends to repurchase shares up to an amount of €9 billion, of which we expect a total of up to 0.45 million shares will be used to cover employee share plans. ASML intends to cancel the remainder of the shares repurchased. In the fourth quarter, we purchased around €2.5 billion of shares under the current program.
+The share buyback program will be executed within the limitations of the existing authority granted by the Annual General Meeting of Shareholders (AGM) on April 29, 2021, and of the authority to be granted by future AGMs. The share buyback program may be suspended, modified or discontinued at any time. All transactions under this program will be published on ASML's website (www.asml.com/investors) on a weekly basis.
+2
+Media Relations contacts | Investor Relations contacts
+Monique Mols +31 6 5284 4418 | Skip Miller +1 480 235 0934
+Brittney Wolff Zatezalo +1 408 483 3207 | Marcel Kemp +31 40 268 6494
+Karen Lo +886 36 23 6639 | Peter Cheang +886 3 659 6771
+Quarterly video interview, press conference and investor call
+With this press release, ASML has published a video interview in which CEO Peter Wennink discusses the 2021 fourth-quarter and full-year results and outlook for 2022. This video and the transcript can be viewed on www.asml.com.
+CEO Peter Wennink and CFO Roger Dassen will host a virtual press conference in Veldhoven on January 19, 2022, at 11:00 Central European Time, which will be accessible via live webcast on www.asml.com.
+An investor call for both investors and the media will be hosted by CEO Peter Wennink and CFO Roger Dassen on January 19, 2022 at 15:00 Central European Time / 09:00 US Eastern Time. Details can be found on our website. 
+About ASML 
+ASML is a leading supplier to the semiconductor industry. The company provides chipmakers with hardware, software and services to mass produce the patterns of integrated circuits (microchips). Together with its partners, ASML drives the advancement of more affordable, more powerful, more energy-efficient microchips. ASML enables groundbreaking technology to solve some of humanity's toughest challenges, such as in healthcare, energy use and conservation, mobility and agriculture. ASML is a multinational company headquartered in Veldhoven, the Netherlands, with offices across Europe, the US and Asia. Every day, ASML’s more than 32,000 employees (FTE) challenge the status quo and push technology to new limits. ASML is traded on Euronext Amsterdam and NASDAQ under the symbol ASML. Discover ASML – our products, technology and career opportunities – at www.asml.com.
+US GAAP and IFRS Financial Reporting 
+ASML's primary accounting standard for quarterly earnings releases and annual reports is US GAAP, the accounting principles generally accepted in the United States of America. Quarterly US GAAP consolidated statements of operations, consolidated statements of cash flows and consolidated balance sheets are available on www.asml.com.
+The consolidated balance sheets of ASML Holding N.V. as of December 31, 2021, the related consolidated statements of operations and consolidated statements of cash flows for the quarter and twelve months ended December 31, 2021 as presented in this press release are unaudited.
+In addition to reporting financial figures in accordance with US GAAP, ASML also reports financial figures in accordance with International Financial Reporting Standards as adopted by the European Union ('IFRS') for statutory purposes. The most significant differences between US GAAP and IFRS that affect ASML concerns the capitalization of certain product development costs and accounting for income taxes.
+2021 Annual Reports
+ASML will publish its 2021 Annual Report based on US GAAP and its 2021 Annual Report based on IFRS on February 9, 2022. The reports will be published on our website, www.asml.com.
+Regulated information
+This press release contains inside information within the meaning of Article 7(1) of the EU Market Abuse Regulation.
+3
+Forward Looking Statements
+This document contains statements that are forward-looking, including statements with respect to expected trends, including trends in end markets and technology, industry and business environment trends, outlook and expected financial results, including expected net sales, gross margin, R&D costs, SG&A costs and estimated annualized effective tax rate, bookings, expected growth in net sales, revenue and gross margin opportunity for 2025 and growth opportunities beyond 2025, expected annual revenue growth rate, expected revenue recognition, including estimates of revenue to be recognized in periods after shipment, expected shipments and performance expectation of new products, the expected impact of the fire at our Berlin site, plans and strategies, customer demand and plans to support customers, ESG strategy, statements with respect to dividends and share buybacks and financial policy including the total dividend for 2021 and statements with respect to the 2021-2023 share buyback program, including the amount of shares intended to be repurchased under the program and other non-historical statements. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue", "target", "future", "progress", "goal" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about our business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve a number of substantial known and unknown risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors, the impact of general economic conditions on consumer confidence and demand for our customers’ products, performance of our systems, the impact of the COVID-19 outbreak and measures taken to contain it on us, our suppliers, the global economy and financial markets, and other factors that may impact ASML’s financial results, including customer demand and ASML’s ability to obtain parts and components for its products and otherwise meet demand, the success of technology advances and the pace of new product development and customer acceptance of and demand for new products, production capacity and our ability to increase capacity to meet demand, the impact of the fire at our facility in Berlin on our production, the number and timing of systems ordered, shipped and recognized in revenue, and the risk of order cancellation or push out, production capacity for our systems including delays in system production, risks relating to supply chain capacity and logistics, trends in the semi-conductor industry, our ability to enforce patents and protect intellectual property rights and the outcome of intellectual property disputes and litigation, availability of raw materials, critical manufacturing equipment and qualified employees, trade environment, import/export and national security regulations and orders and their impact on us, changes in exchange and tax rates, available liquidity and liquidity requirements, our ability to refinance our indebtedness, available cash and distributable reserves for, and other factors impacting, dividend payments and share repurchases, results of the share repurchase programs and other risks indicated in the risk factors included in ASML’s Annual Report on Form 20-F for the year ended December 31, 2020 and other filings with and submissions to the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We undertake no obligation to update any forward-looking statements after the date of this report or to conform such statements to actual results or revised expectations, except as required by law.
+4
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796622000004/q4presentationfromwebsit.htm
+
+EX-99.2
+3
+q4presentationfromwebsit.htm
+EX-99.2
+q4presentationfromwebsit
+Public ASML 2021 Fourth-Quarter and Full-Year results Veldhoven, the Netherlands January 19, 2022 ASML reports €18.6 billion net sales and €5.9 billion net income in 2021 Sales growth of around 20% expected for 2022 Exhibit 99.2 
+Public Page 2January 19, 2022 • Investor key messages • Business summary • Outlook • Financial statements Agenda 
+Public Page 3January 19, 2022 Investor key messages 
+Public Page 4January 19, 2022 Investor key messages • Global megatrends in the electronics industry, supported by a highly profitable and fiercely innovative ecosystem, are expected to continue to fuel growth across the semiconductor market • Growth in semiconductor end markets and increasing lithography intensity are driving demand for our products and services • ASML’s comprehensive product portfolio is aligned with our customers’ roadmaps, delivering cost effective solutions in support of all applications from leading edge to mature nodes • Based on different market scenarios, we have an opportunity to reach annual revenue in 2025 between approximately €24 billion and €30 billion, with a gross margin between approximately 54% and 56%1 • We see significant growth opportunities beyond 2025. We expect our systems and Installed Base Management2 could provide an annual revenue growth rate of around 11% for the period 2020- 2030, based on third party research and our assumptions1 • ASML and its supply chain partners are actively adding and improving capacity to meet current and future customer demand • We are continuously striving to improve our performance on ESG Sustainability KPIs and are upgrading our ESG Sustainability strategy to accelerate progress • We expect to continue to return significant amounts of cash to our shareholders through a combination of growing dividends and share buybacks 1 as presented at Investor day on 29 September 2021; 2 Installed Base Management equals our net service and field option sales 
+Public Page 5January 19, 2022 Business summary 
+Public Page 6January 19, 2022 2021 - Highlights ASML delivered a sales growth of 33%, reflecting the continued strong global demand for a digital infrastructure: • Net sales grew to €18.6 billion at 52.7% gross margin • Net income at €5.9 billion resulted in an EPS of €14.36 Installed Base1: • Our Installed Base business grew around 35% to €5.0 billion providing our customers services and upgrade capabilities in order to get more wafer capacity out of their installed base systems EUV lithography: • EUV system sales grew 41% to €6.3 billion, in support of high volume manufacturing for both Logic and Memory • High-NA program in R&D and Manufacturing progressing well, one EUV 0.55 NA (EXE:5000) order received DUV lithography: • DUV system sales grew by 25% to €6.9 billion, as part of our continued capacity ramp Applications: • Our Metrology & Inspection systems sales grew 47% to €514 million • Finalized our first eScan 1100 Multibeam system (5x5 beams) and shipment is planned in the coming weeks Capital allocation: • Returned €9.9 billion to shareholders through dividends and share buybacks 1 Installed Base Management equals our net service and field option sales 
+Public Page 7January 19, 2022 1 Installed Base Management equals our net service and field option sales 2 Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. Q4 results summary • Net sales of €5.0 billion, net systems sales of €3.5 billion, Installed Base Management1 sales of €1.5 billion • Gross margin of 54.2% • Operating margin of 40.7% • Net income as a percentage of net sales of 35.6% • Earnings per share (basic) of €4.39 • Net bookings2 of €7.1 billion, including €2.6 billion of EUV 0.33 NA systems and 1 EUV 0.55 NA (EXE:5000) system 
+Public Page 8January 19, 2022 Net system sales breakdown (Quarterly) Q4’21 total system sales €3,464 million Q3’21 total system sales €4,111 million 
+Public Page 9January 19, 2022 2021 total system sales €13,653 million 2020 total system sales €10,317 million Net system sales breakdown (Yearly) 1 2021: Excluding EMEA region which represents negative 1% as we bought back two unused systems previously sold to a customer, which we counted for as a revenue reversal. 1 
+Public Page 10January 19, 2022 Logic Memory Installed Base Management1 As of January 1, 2018, ASML has adopted the new Revenue Recognition Standard (ASC 606) and Lease Standard (ASC 842). The comparative 2017 numbers presented above have not been adjusted to reflect these changes in accounting policy. 1 Installed Base Management equals our net service and field option sales Total net sales € million by End-use 
+Public Page 11January 19, 2022 Litho systems bookings activity by End-use Q4’21 total system value €7,050 million Q3’21 total system value €6,179 million Lithography systems New Used Units 182 9 Lithography systems New Used Units 168 10 Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. 
+Public Page 12January 19, 2022 • Paid total dividends of €1.4 billion, consisting of FY2020 final dividend and FY2021 interim dividend, and purchased €8.6 billion of shares in 2021 • ASML intends to declare a total dividend in respect of 2021 of €5.50 per ordinary share. Recognizing the interim dividend of €1.80 per ordinary share paid in November 2021, this leads to a final dividend proposal to the General Meeting of Shareholders of €3.70 per ordinary share • Total 2021 dividend is a 100% increase compared to the 2020 total dividend of €2.75 per ordinary share Capital return to shareholders Capital return is cumulative dividend + share buyback Share buyback Dividend paid The dividend for a year is paid in the subsequent year, except interim Total dividend Interim dividend Proposed final dividend 
+Public Page 13January 19, 2022 Outlook 
+Public Page 14January 19, 2022 Outlook Q1 • Net sales between €3.3 billion and €3.5 billion, ◦ including, Installed Base Management1 sales of around €1.2 billion ◦ excluding, revenue shift of approximately €2 billion due to fast shipments to subsequent quarters • Gross margin of around 49% • R&D costs of around €760 million • SG&A costs of around €210 million 2022 • Strong demand drives expected net sales growth of around 20% • Estimated annualized effective tax rate between 15% and 16% 1 Installed Base Management equals our net service and field option sales 
+Public Page 15January 19, 2022 Financial Statements 
+Public Page 16January 19, 2022 2017 2018 2019 2020 2021 Net sales 8,963 10,944 11,820 13,979 18,611 Gross profit 4,020 5,029 5,280 6,798 9,809 Gross margin % 44.9 46.0 44.7 48.6 52.7 Other income 1 96 — — — 214 R&D costs (1,260) (1,576) (1,968) (2,201) (2,547) SG&A costs (417) (488) (521) (545) (726) Income from operations 2,440 2,965 2,791 4,051 6,750 Operating income as a % of net sales 27.2 27.1 23.6 29.0 36.3 Net income 2,067 2,592 2,592 3,554 5,883 Net income as a % of net sales 23.1 23.7 21.9 25.4 31.6 Earnings per share (basic) € 4.81 6.10 6.16 8.49 14.36 Earnings per share (diluted) € 4.79 6.08 6.15 8.48 14.34 Lithography systems sold (units) 2 197 224 229 258 309 Net booking value 3 9,358 8,181 11,740 11,292 26,240 These numbers have been prepared in accordance with US GAAP. Numbers have been rounded for readers' convenience. Consolidated statements of operations € million Year on Year 1 Other income in 2017 relates to the Customer Co-Investment Program. In 2021, Other income includes the gain on the sale of Berliner Glas subsidiaries. 2 Lithography systems do not include metrology and inspection systems. 3 Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. Our 2018 and 2019 systems net bookings include 1 EUV and 1 DUV order shipped to our collaborative Research Center (Imec). These systems were not recognized in revenue. 
+Public Page 17January 19, 2022 Consolidated statements of operations € million Quarter on Quarter Q4 2020 Q1 2021 Q2 2021 Q3 2021 Q4 2021 Net sales 4,254 4,364 4,020 5,241 4,986 Gross profit 2,212 2,352 2,045 2,711 2,701 Gross margin % 52.0 53.9 50.9 51.7 54.2 Other income 1 — — — — 214 R&D costs (556) (623) (634) (609) (681) SG&A costs (152) (168) (172) (183) (203) Income from operations 1,504 1,561 1,239 1,919 2,031 Operating income as a % of net sales 35.3 35.8 30.8 36.6 40.7 Net income 1,351 1,331 1,038 1,740 1,774 Net income as a % of net sales 31.7 30.5 25.8 33.2 35.6 Earnings per share (basic) € 3.23 3.21 2.52 4.27 4.39 Earnings per share (diluted) € 3.23 3.20 2.52 4.26 4.38 Lithography systems sold (units) 2 80 76 72 79 82 Net bookings 3 4,238 4,740 8,271 6,179 7,050 1 Other income includes the gain on the sale of Berliner Glas subsidiaries. 2 Lithography systems do not include metrology and inspection systems. 3 Our systems net bookings include all system sales orders for which written authorizations have been accepted. As of Q4 2021 and for FY 2021, this includes EUV 0.55 NA (High-NA) systems. We have not restated comparable periods for previously received EUV 0.55 NA (High-NA) sales orders. These numbers have been prepared in accordance with US GAAP. Numbers have been rounded for readers' convenience. 
+Public Page 18January 19, 2022 2017 2018 2019 2020 2021 Cash and cash equivalents, beginning of period 2,907 2,259 3,121 3,532 6,049 Net cash provided by (used in) operating activities 1,818 3,073 3,276 4,628 10,847 Net cash provided by (used in) investing activities (1,229) (492) (1,158) (1,352) (72) Net cash provided by (used in) financing activities (1,209) (1,724) (1,712) (753) (9,892) Effect of changes in exchange rates on cash (28) 5 5 (5) 20 Net increase (decrease) in cash and cash equivalents (648) 862 411 2,517 903 Cash and cash equivalents, end of period 2,259 3,121 3,532 6,049 6,952 Short-term investments 1,029 913 1,186 1,302 638 Cash and cash equivalents and short-term investments 3,288 4,034 4,718 7,351 7,590 Purchases of property, plant and equipment and intangible assets (358) (610) (885) (1,001) (940) Free cash flow 1 1,460 2,463 2,391 3,627 9,906 1 Free cash flow, which is a non-GAAP measure, is defined as net cash provided by (used in) operating activities minus purchases of Property, plant and equipment and intangible assets), see US GAAP Consolidated Financial Statements. These numbers have been prepared in accordance with US GAAP. Numbers have been rounded for readers' convenience. Consolidated statements of cash flows € million Year on Year 
+Public Page 19January 19, 2022 Consolidated statements of cash flows € million Quarter on Quarter Q4 2020 Q1 2021 Q2 2021 Q3 2021 Q4 2021 Cash and cash equivalents, beginning of period 3,532 6,049 3,244 5,187 4,319 Net cash provided by (used in) operating activities 4,670 (942) 3,569 1,802 6,417 Net cash provided by (used in) investing activities (956) (307) 991 (280) (476) Net cash provided by (used in) financing activities (1,194) (1,560) (2,613) (2,392) (3,327) Effect of changes in exchange rates on cash (2) 3 (4) 2 19 Net increase (decrease) in cash and cash equivalents 2,518 (2,806) 1,943 (868) 2,633 Cash and cash equivalents, end of period 6,049 3,244 5,187 4,319 6,952 Short-term investments 1,302 1,412 187 137 638 Cash and cash equivalents and short-term investments 7,351 4,656 5,374 4,456 7,590 Purchases of property, plant and equipment and intangible assets (305) (197) (247) (205) (291) Free cash flow 1 4,365 (1,139) 3,322 1,597 6,126 1 Free cash flow, which is a non-GAAP measure, is defined as net cash provided by (used in) operating activities minus purchases of Property, plant and equipment and intangible assets, see US GAAP Consolidated Financial Statements. These numbers have been prepared in accordance with US GAAP. Numbers have been rounded for readers' convenience. 
+Public Page 20January 19, 2022 Assets 2017 2018 2019 2020 2021 Cash & cash equivalents and short-term investments 3,288 4,034 4,718 7,352 7,590 Net accounts receivable and finance receivables 1,958 2,384 2,773 3,421 4,597 Contract assets 270 96 231 119 165 Inventories, net 2,956 3,440 3,809 4,569 5,179 Other assets 1,219 1,579 1,673 1,753 2,010 Tax assets 94 316 624 739 1,141 Equity method investments 982 916 833 821 893 Goodwill 4,541 4,541 4,541 4,629 4,556 Other intangible assets 1,166 1,104 1,105 1,049 952 Property, plant and equipment 1,601 1,589 1,999 2,470 2,983 Right-of-use assets 114 138 324 345 165 Total assets 18,189 20,137 22,630 27,267 30,231 Liabilities and shareholders' equity Current liabilities 3,170 3,792 4,694 6,604 12,298 Non-current liabilities 4,243 4,704 5,344 6,798 7,792 Shareholders' equity 10,776 11,641 12,592 13,865 10,141 Total liabilities and shareholders' equity 18,189 20,137 22,630 27,267 30,231 These numbers have been prepared in accordance with US GAAP. Numbers have been rounded for readers' convenience. Consolidated balance sheets € million Year on Year 
+Public Page 21January 19, 2022 Consolidated balance sheets € million Quarter on Quarter Assets Q4 2020 Q1 2021 Q2 2021 Q3 2021 Q4 2021 Cash & cash equivalents and short-term investments 7,352 4,656 5,374 4,456 7,590 Net accounts receivable and finance receivables 3,421 4,524 4,426 4,708 4,597 Contract assets 119 107 179 272 165 Inventories, net 4,569 4,748 5,086 4,944 5,179 Other assets and Held for sale assets 1,753 2,396 2,088 2,268 2,010 Tax assets 739 1,510 1,319 1,276 1,141 Equity method investments 821 842 865 963 893 Goodwill 4,629 4,556 4,556 4,556 4,556 Other intangible assets 1,049 1,014 988 964 952 Property, plant and equipment 2,470 2,522 2,609 2,730 2,983 Right-of-use assets 345 344 326 161 165 Total assets 27,267 27,219 27,816 27,298 30,231 Liabilities and shareholders' equity Current liabilities 6,604 6,876 8,754 9,163 12,298 Non-current liabilities 6,798 6,714 6,969 6,633 7,792 Shareholders' equity 13,865 13,629 12,093 11,502 10,141 Total liabilities and shareholders' equity 27,267 27,219 27,816 27,298 30,231 These numbers have been prepared in accordance with US GAAP. Numbers have been rounded for readers' convenience. 
+Public Page 22January 19, 2022 This document contains statements that are forward-looking, including statements with respect to expected trends, including trends in end markets and technology, industry and business environment trends, outlook and expected financial results, including expected net sales, gross margin, R&D costs, SG&A costs and estimated annualized effective tax rate, bookings, expected growth in net sales, revenue and gross margin opportunity for 2025 and growth opportunities beyond 2025, expected annual revenue growth rate, expected revenue recognition, including estimates of revenue to be recognized in periods after shipment, expected shipments and performance expectation of new products, the expected impact of the fire at our Berlin site, plans and strategies, customer demand and plans to support customers, ESG strategy, statements with respect to dividends and share buybacks and financial policy including the total dividend for 2021 and statements with respect to the 2021-2023 share buyback program, including the amount of shares intended to be repurchased under the program and other non-historical statements. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue", "target", "future", "progress", "goal" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about our business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve a number of substantial known and unknown risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors, the impact of general economic conditions on consumer confidence and demand for our customers’ products, performance of our systems, the impact of the COVID-19 outbreak and measures taken to contain it on us, our suppliers, the global economy and financial markets, and other factors that may impact ASML’s financial results, including customer demand and ASML’s ability to obtain parts and components for its products and otherwise meet demand, the success of technology advances and the pace of new product development and customer acceptance of and demand for new products, production capacity and our ability to increase capacity to meet demand, the impact of the fire at our facility in Berlin on our production, the number and timing of systems ordered, shipped and recognized in revenue, and the risk of order cancellation or push out, production capacity for our systems including delays in system production, risks relating to supply chain capacity and logistics, trends in the semi-conductor industry, our ability to enforce patents and protect intellectual property rights and the outcome of intellectual property disputes and litigation, availabili ty of raw materials, critical manufacturing equipment and qualified employees, trade environment, import/export and national security regulations and orders and their impact on us, changes in exchange and tax rates, available liquidity and liquidity requirements, our ability to refinance our indebtedness, available cash and distributable reserves for, and other factors impacting, dividend payments and share repurchases, results of the share repurchase programs and other risks indicated in the risk factors included in ASML’s Annual Report on Form 20-F for the year ended December 31, 2020 and other filings with and submissions to the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We undertake no obligation to update any forward-looking statements after the date of this report or to conform such statements to actual results or revised expectations, except as required by law. Forward looking statements 
+Public 

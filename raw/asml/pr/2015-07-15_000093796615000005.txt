@@ -1,0 +1,1286 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796615000005/asml20150715presentation.htm
+
+EX-99.2
+3
+asml20150715presentation.htm
+EXHIBIT 99.2
+asml20150715presentation
+ASML 2015 Second Quarter Results July 15, 2015 ASML reports Q2 results in line with guidance on track for record 2015 sales Veldhoven, the Netherlands Public 
+15 July 2015 Slide 2 Public Forward looking statements This document contains statements relating to certain projections and business trends that are forward-looking, including statements with respect to our outlook, including expectations for the third quarter and second half of 2015, backlog, expected customer demand in specified market segments including memory, logic and foundry, expected trends, expected levels of service sales, systems backlog, expected financial results, including expected sales, other income, gross margin, earnings per share and R&D and SG&A expenses and effective tax rate, annual revenue opportunity for ASML, productivity of our tools and systems performance, TWINSCAN and EUV system performance (such as endurance tests), expected industry trends, statements with respect to expected system shipments, including the number of EUV systems expected to be shipped and timing of shipments and other EUV targets (including availability, productivity and shipments), the expected continuation of Moore's law, expected annual revenue growth and goals for holistic lithography, intention to return excess cash to shareholders, and statements about our dividend policy and intention to repurchase shares. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about the business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors (the principal product of our customer base), including the impact of general economic conditions on consumer confidence and demand for our customers' products, competitive products and pricing, the impact of manufacturing efficiencies and capacity constraints, performance of our systems, the continuing success of technology advances and the related pace of new product development and customer acceptance of new products, the number and timing of EUV systems expected to be shipped and recognized in revenue, our ability to enforce patents and protect intellectual property rights, the risk of intellectual property litigation, availability of raw materials and critical manufacturing equipment, trade environment, changes in exchange rates, changes in tax rates, available cash, distributable reserves for dividend payments and share repurchases, and other risks indicated in the risk factors included in ASML's Annual Report on Form 20-F and other filings with the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We do not undertake to update or revise the forward-looking statements, whether as a result of new information, future events or otherwise. 
+• Investor key messages • Business highlights • Business environment • Outlook • Technology highlights • Financial statements Agenda 15 July 2015 Slide 3 Public 
+Investor key messages 15 July 2015 Slide 4 Public 
+Investor key messages • Shrink is the key industry driver supporting innovation and providing long term industry growth • Moore’s Law will continue and be affordable • Lithography enables affordable shrink and therefore delivers compelling value for our customers • ASML’s strategy of large R&D investments in lithography product roadmaps supports future industry needs • DUV product improvement roadmaps and Holistic Litho enable multi-pass immersion patterning today, with Holistic Litho supporting EUV in future. These highly differentiated products provide unique value drivers for us and our customers • EUV faces normal new technology introduction challenges but its adoption is now a matter of WHEN not IF. EUV will continue to enable Moore’s Law and will drive long term value for ASML • ASML models an annual revenue opportunity of €10 billion by 2020 and given the significant leverage in our financial model this will allow a potential tripling of EPS by the end of this decade thereby creating significant value for all stakeholders • We expect to continue to return excess cash to our shareholders through dividends that are stable or growing and regularly timed share buybacks in line with our policy Slide 5 Public 15 July 2015 
+Business highlights 15 July 2015 Slide 6 Public 
+15 July 2015 Slide 7 Public Q2 results • Net sales of € 1,654 million, 41 litho systems sold, valued at € 1,134 million, net service and field option sales at € 520 million • Average selling price of € 27.7 million per system • Gross margin of 45.6% • Operating margin of 25.3% • Net bookings of € 1,523 million, including 6 EUV systems • Backlog at € 3,015 million Numbers have been rounded for readers’convenience 
+15 July 2015 Slide 8 Public Net system sales breakdown in value Foundry 40% Memory 47% IDM 13% End-Use Numbers have been rounded for readers’convenience Korea 27% Taiwan 31% USA 22% Region (ship to location) Japan 13% Technology ArF Immersion 79% KrF 12% i-line 2% ArF dry 1% Q2’15 total value € 1,134 million EUV ArF i ArFdry KrF I-Line Sales in Units 19 14 1 2 5 Europe 4% China 3% Foundry 33% Memory 55% IDM 12% China 11% Korea 37% Taiwan 19% USA 17% Rest of Asia 2% Japan 11% ArF Immersion 83% KrF 12% i-line 2% ArF dry 3% Q1’15 total value € 1,247 million EUV ArF i ArFdry KrF I-Line 23 16 0 2 EUV 6% Europe 3% 6 
+742 1,452 1,252 892 1,397 1,650 1,069 1,529 1,228 1,187 1,644 1,654 1,176 1,459 1,229 1,318 1,322 1,521 1,211 1,023 1,848 1,494 0 1000 2000 3000 4000 5000 6000 7000 2010 2011 2012 2013 2014 2015 Ne t S a le s 3,304 YTD 15 July 2015 Slide 9 Public Total net sales million € by quarter Numbers have been rounded for readers’convenience 4,508 5,651 Q4 Q3 Q2 Q1 4,732 5,245 5,856 
+2,585 2,184 935 1,489 2,225 1,208 366 844 588 440 831 301 944 1,856 2,279 2,064 1,186 872 613 767 930 1,252 1,614 923 0 1000 2000 3000 4000 5000 6000 7000 2010 2011 2012 2013 2014 2015 Ne t S a le s 3,304 YTD 15 July 2015 Slide 10 Public Total net sales million € by End-use Numbers have been rounded for readers’ convenience 4,508 5,651 Service & Options Foundry IDM Memory 4,732 5,245 5,856 
+15 July 2015 Slide 11 Public Bookings activity by sector IDM 39% Memory 38% Foundry 23% Q2’15 total value € 1,523 million New systems Used systems Units 41 5 Value M€ 1,494 29 IDM 16% Memory 53% Foundry 31% Q1’15 total value € 1,028 million New systems Used systems Units 35 5 Value M€ 998 30 As of Q2 2015, our systems backlog and net bookings include all system sales orders for which written authorizations have been accepted (for EUV starting as of the NXE:3350B). This change has no impact on the comparative figures. Numbers have been rounded for readers’convenience 
+New systems Used Systems Units 68 13 Value M€ 2,946 69 15 July 2015 Slide 12 Public Systems backlog in value Backlog definition see page 11 Numbers have been rounded for readers’convenience End-use Foundry 26% Memory 37% IDM 37% Technology ArF immersion 58% KrF 14% ArF dry 3% i-line 1% EUV 24% Q2’15 total value € 3,015 million Region (ship to location) USA 41% Korea 30% China 6% Japan 6% Taiwan 16% New systems Used systems Units 60 15 Value M€ 2,531 71 Foundry 35% Memory 42% IDM 23% ArF immersion 76% KrF 14% ArF dry 2% i-line 1% EUV 7% Q1’15 total value € 2,602 million USA 26% Korea 38% Europe 2% China 1% Japan 8% Taiwan 25% Rest of Asia 1% 
+Capital return to shareholders • ASML paid € 302 million in dividend or € 0.70 per ordinary share • Purchased € 285 million worth of shares in Q1 and Q2 as part of our 2015/2016 approx. € 1 billion share buy back program 15 July 2015 Public Slide 13 0.25 0.20 0.20 0.40 0.46 0.53 0.61 0.70 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 2007 2008 2009 2010 2011 2012 2013 2014 D iv id e n d ( e u ro ) Dividend history 0 1000 2000 3000 4000 5000 6000 7000 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 €m illio ns Cumulative capital return Dividend Share buyback 
+Business environment 15 July 2015 Slide 14 Public 
+Business environment 15 July 2015 Public Slide 15 • 2 new foundry fabs accepting equipment in H2 • Stable business throughout 2015 • Modest tool shipments at 28nm node continue • 20nm node conversions to 16nm node started • 16/14nm nodes shipments ongoing • Next node process development accelerating with initial tools delivered/planned • 2 new DRAM fabs ramping capacity into H2 • 2xH and 2xL nm DRAM node transitions progressing • Increased NAND litho tool demand in H2 supporting planar 1xM nm shrinks and 3D capacity increases • 2 new NAND fabs under construction Memory Service & field options • High demand for service and field options continues driven by Holistic litho and upgrade products which allows for improved process control and capital efficiency Logic 
+Outlook 15 July 2015 Slide 16 Public 
+15 July 2015 Slide 17 Public Outlook • Q3 net sales between € 1.5 and €1.6 billion • Gross margin around 45% • R&D costs of about € 275 million • SG&A costs of about € 90 million • Other income (Customer Co-Investment Program) of about € 20 million • Effective tax rate approx. 11% 
+Technology highlights 15 July 2015 Slide 18 Public 
+EUV program: priorities for 2015 15 July 2015 Slide 19 Public In 2015, we will focus on: • Improving stability and availability • Continuing progress on productivity • Shipping the NXE:3350B, our 4th generation EUV tool 
+EUV 2015 targets and status at a glance • 1022 wafers exposed in 24 hours at customer site • Upgrade to same configuration completed at multiple customer sites, in progress at others • 130W dose-controlled source power demonstrated at ASML Productivity – Target: 1000 wafers per day • 55% availability on average for all NXE:3300B sites • Multiple sites achieved average availability of >70% for 1 week • One customer has achieved a 4-week average availability of 70% Availability – Target: 70% • Integration of multiple NXE:3350B systems ongoing at ASML • 4 NXE:3350B systems on order for production use • Discussions with several customers are ongoing NXE:3350B shipments – Target: 6 15 July 2015 Public Slide 20 
+15 July 2015 Slide 21 Public Shipment, orders, factory opened New EUV factory opened, enabling an output of 24 systems in 2017 NXE:3300B #7 passed site acceptance NXE:3300B #8 recognized in Q2 revenue = Total of 8 NXE:3300B installed 6 orders received in Q2 for EUV systems as part of volume purchase agreement with U.S. customer NXE:3350B: first shipment in Q3 
+15 July 2015 Slide 22 Public EUV shipments and revenue recognition EUV shipments & revenue 2015 Shipment plan 2 Revenue 1 Shipment plan 0 Revenue 0 Shipment plan 5 Revenue 0 NXE:3300B NXE:3300B → 3350B NXE:3350B • 1 NXE:3300B shipped in Q1, revenue recognized in Q2 
+Customers have different decision processes for new technology adoption → differences in timing of “WHEN” Time T ec h n o lo g y A d o p tio n 15 July 2015 Public Slide 23 Technology champion in R&D Value demonstration “Should we go for this?” Manufacturing readiness? Tough criteria, entrance hurdles Dynamics of progress to performance requirements Decision for production ramp with 1– 2 year lead time Performance improvements with cycles of learning in volume Full technology adoption in volume production 1 2 3 4 5 6 7 8 Typical customer steps towards new technology adoption: 1 2 3 4 5 6 7 Early Adopter Late Adopter 8 Different adoption drivers & risk appetite per application/customer Today’s range of adoption 
+15 July 2015 Slide 24 Public Q2 product highlights DUV and Holistic Litho DUV • We have demonstrated a 30% overlay improvement with our TWINSCAN NXT:1980Di system, which will ship this year. The system will also offer a step up in productivity from 250 to 275 wafers per hour • Average availability of our world-wide installed base of more than 300 TWINSCAN NXT tools increased to above 96%, demonstrating ASML’s focus on extending the performance of systems already in production Holistic Litho • All immersion systems shipped during the quarter had one or several Holistic Lithography products attached. The integrated YieldStar metrology system is well established, contributing to a total installed base of more than 250 YieldStar systems • ASML application experts are engaged at all major customers to assist with the production ramp of 10nm logic node and 1x nm memory nodes 
+Holistic Lithography: Image, Measure, Model • Adoption continues across all market segments • YieldStar installed base now >250 systems • EUV will continue to drive Holistic Litho as we move to 7nm node & below • Annual revenue growth >20%, on track towards goal ~1B€ by 2017 Public Slide 25 Image NXT - ArFi NXE - EUV Measure YieldStar Model Computational Litho Holistic Lithography 15 July 2015 
+Financial statements 15 July 2015 Slide 26 Public 
+Consolidated statements of operations M€ Numbers have been rounded for readers’convenience * Customer Co-Investment Program (CCIP) ** As of Q2 2015, our systems backlog and net bookings include all system sales orders for which written authorizations have been accepted (for EUV starting as of the NXE:3350B). This change has no impact on the comparative figures. Q2 14 Q3 14 Q4 14 Q1 15 Q2 15 Net sales 1,644 1,322 1,494 1,650 1,654 Gross profit 752 578 657 779 754 Gross margin % 45.7% 43.7% 44.0% 47.2% 45.6% Other income* 20 20 20 21 21 R&D costs (267) (260) (268) (261) (267) SG&A costs (80) (77) (79) (82) (88) Income from operations 425 261 330 456 419 Operating income % 25.9% 19.8% 22.1% 27.6% 25.3% Net income 399 244 305 403 370 Net income as a % of net sales 24.3% 18.5% 20.4% 24.4% 22.4% Earnings per share (basic) € 0.91 0.56 0.70 0.93 0.86 Earnings per share (diluted) € 0.90 0.56 0.70 0.93 0.85 Litho units sold 31 30 35 47 41 ASP new litho systems 45.2 35.9 34.7 30.8 32.5 Net booking value** 1,048 1,397 1,387 1,028 1,523 15 July 2015 Public Slide 27 
+15 July 2015 Slide 28 Public Cash flows M€ * Free cash flow is defined as net cash provided by (used in) operating activities minus investments in Capex (Purchase of PPE and intangibles), see US GAAP Consolidated Financial Statements Numbers have been rounded for readers’convenience Q2 14 Q3 14 Q4 14 Q1 15 Q2 15 Net income 399 244 305 403 370 Net cash provided by (used in) operating activities 198 214 409 337 284 Net cash provided by (used in) investing activities (74) (24) 77 124 (107) Net cash provided by (used in) financing activities (414) (161) (213) (112) (458) Net increase (decrease) in cash & cash equivalents (287) 34 275 359 (284) Free cash flow * 125 130 281 250 205 
+Balance sheets M€ Numbers have been rounded for readers’convenience Assets Q2 14 Q3 14 Q4 14 Q1 15 Q2 15 Cash & cash equivalents and short-term investments 2,711 2,685 2,754 2,838 2,520 Net accounts receivable and finance receivables 1,429 1,336 1,304 1,510 1,589 Inventories, net 2,616 2,677 2,550 2,607 2,592 Other assets 727 712 835 929 871 Tax assets 329 337 232 299 264 Goodwill 2,116 2,265 2,358 2,611 2,569 Other intangible assets 686 713 724 774 751 Property, plant and equipment 1,275 1,372 1,447 1,523 1,519 Total assets 11,889 12,097 12,204 13,091 12,675 Liabilities and shareholders’ equity Current liabilities 3,065 2,926 2,889 3,194 2,854 Non-current liabilities 1,743 1,847 1,802 1,820 1,859 Shareholders’ equity 7,081 7,324 7,513 8,077 7,962 Total liabilities and shareholders’ equity 11,889 12,097 12,204 13,091 12,675 15 July 2015 Public Slide 29 
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796615000005/asmlq22015pressrelease.htm
+
+EX-99.1
+2
+asmlq22015pressrelease.htm
+EXHIBIT 99.1
+ ASML Q2 2015 press release
+Exhibit 99.1
+Media Relations Contacts
+Lucas van Grinsven - Corporate Communications - +31 6 101 99 532 - Veldhoven, the Netherlands
+Niclas Mika – Corporate Communications - +31 6 201 528 63 – Veldhoven, the Netherlands
+Investor Relations Contacts
+Craig DeYoung - Investor Relations - +1 480 696 2762 - Chandler, Arizona, USA
+Marcel Kemp - Investor Relations - +31 40 268 6494 - Veldhoven, the Netherlands 
+ASML reports Q2 results in line with guidance, on track for record 2015 sales 
+VELDHOVEN, the Netherlands, 15 July 2015 - ASML Holding N.V. (ASML) today publishes its 2015 second-quarter results.
+• | Q2 net sales of EUR 1.65 billion, gross margin 45.6 percent
+• | ASML guides Q3 2015 net sales at between EUR 1.5 and 1.6 billion and a gross margin of around 45 percent
+(Figures in millions of euros unless otherwise indicated) | Q1 2015 | Q2 2015
+Net sales | 1,650 | 1,654
+...of which service and field option sales | 403 | 520
+Other income (Co-Investment Program) | 21 | 21
+New systems sold (units) | 39 | 34
+Used systems sold (units) | 8 | 7
+Average Selling Price (ASP) of net system sales | 26.5 | 27.7
+Net bookings | 1,028 | 1,523*
+Systems backlog | 2,602 | 3,015*
+Gross profit | 779 | 754
+Gross margin (%) | 47.2 | 45.6
+Net income | 403 | 370
+EPS (basic; in euros) | 0.93 | 0.86
+End-quarter cash and cash equivalents and short-term investments | 2,839 | 2,520
+*) For the adjusted definition of our net bookings and systems backlog see footnote 4 of our US GAAP Consolidated Financial Statements.
+A complete summary of US GAAP Consolidated Statements of Operations is published on www.asml.com
+1
+CEO Statement
+“We posted second-quarter sales and gross margin that were slightly above our guidance. Sales were balanced between memory and logic customers. As part of a previously announced volume purchasing agreement with a major U.S. customer, we took orders for six EUV systems in the quarter. Of those, two are expected to be shipped this year, and four from next year. As a result, the backlog for EUV systems now stands at eight systems,” ASML President and Chief Executive Officer Peter Wennink said. 
+“Given the recent advances in EUV productivity and availability, we believe that EUV is moving closer to volume production. In preparation for pilot production, several customers have run or are running marathon tests on their NXE:3300B systems. In parallel, customers are evaluating how far they can stretch immersion multiple patterning technology. The decision on when to introduce EUV into production and the timing of the corresponding orders will be determined by the production readiness of EUV systems versus the complexity of multiple patterning. System availability is our main focus in increasing production readiness of EUV,” Wennink said.
+“We expect to see continued overall business strength in the second half of 2015 due to increased demand from memory and foundry customers compared with our previous expectations. Underpinned by an anticipated strong service business, this will allow for a stable business outlook at expected Q3 levels for the balance of the year with some upside opportunity.” 
+Q2 Product Highlights 
+• | In deep-UV immersion, we have demonstrated a 30 percent overlay improvement with our TWINSCAN NXT:1980Di system, which is expected to ship this year. The system will also offer a step up in productivity from 250 wafers per hour to 275 wafers per hour.
+• | The average availability of our world-wide installed base of more than 300 TWINSCAN NXT tools increased to above 96 percent, demonstrating ASML’s focus on extending the performance of systems already in production.
+• | All immersion systems shipped during the quarter had one or several Holistic Lithography products attached. The integrated YieldStar metrology system is well established, contributing to a total installed base of more than 250 YieldStar systems.
+• | ASML application experts are engaged at all major customers to assist with the production ramp of 10nm logic node and 1x memory nodes.
+• | In EUV, the number of NXE:3300B systems in use at customer sites rose to eight.
+• | With regards to EUV productivity, which is driven by source power and system availability, we demonstrated dose-controlled source power of 130 Watts at ASML and average availability of above 70 percent at multiple customer sites for one-week periods, with one customer achieving 70 percent over four weeks.
+• | ASML opened a new EUV factory in Veldhoven, enabling us to ship in volume when customers begin their production ramps.
+Outlook
+For the third quarter of 2015, ASML expects net sales at between EUR 1.5 and 1.6 billion, a gross margin of around 45 percent, R&D costs of about EUR 275 million, other income of about EUR 20 million -- which consists of contributions from participants of the Customer Co-Investment Program --, SG&A costs of about EUR 90 million and an effective tax rate of approximately 11 percent.
+2
+Update Share Buyback Program 
+As part of ASML's policy to return excess cash to shareholders through dividend and regularly timed share buybacks, ASML announced its intention to purchase up to 3.3 million shares in 2015-2016 to cover employee stock and stock option plans (ESOPs). In addition, ASML announced its intention to purchase up to EUR 750 million of shares in 2015-2016 under this program, which it intends to cancel upon repurchase.
+Through 28 June 2015, ASML has acquired 3.0 million shares under this program for a total consideration of EUR 285 million. These shares have been purchased to cover ESOPs. 
+All transactions under this share buyback program are published on ASML's website (www.asml.com/investors). This program may be suspended, modified or discontinued at any time.
+About ASML
+ASML makes possible affordable microelectronics that improve the quality of life. ASML invents and develops advanced technology for high-tech lithography, metrology and software solutions for the semiconductor industry. ASML's guiding principle is continuing Moore's Law towards ever smaller, cheaper, more powerful and energy-efficient semiconductors. Our success is based on three pillars: technology leadership combined with customer and supplier intimacy, highly efficient processes and entrepreneurial people. We are a multinational company with over 70 locations in 16 countries, headquartered in Veldhoven, the Netherlands. We employ more than 14,000 people on payroll and flexible contracts (expressed in full time equivalents). Our company is an inspiring place where employees work, meet, learn and share. ASML is traded on Euronext Amsterdam and NASDAQ under the symbol ASML. More information about ASML, our products and technology, and career opportunities is available on: www.asml.com
+Investor and Media Conference Call
+A conference call for investors and media will be hosted by CEO Peter Wennink and CFO Wolfgang Nickl at 15:00 PM Central European Time / 09:00 AM U.S. Eastern time. To register for the call and receive dial-in information, go to www.asml.com/resultscall. Listen-only access is also available via www.asml.com.
+US GAAP and IFRS Financial Reporting 
+ASML's primary accounting standard for quarterly earnings releases and annual reports is US GAAP, the accounting principles generally accepted in the United States of America. Quarterly US GAAP consolidated statements of operations, consolidated statements of cash flows and consolidated balance sheets, and a reconciliation of net income and equity from US GAAP to IFRS as adopted by the EU (‘IFRS’) are available on www.asml.com
+In addition to reporting financial figures in accordance with US GAAP, ASML also reports financial figures in accordance with IFRS for statutory purposes. The most significant differences between US GAAP and IFRS that affect ASML concern the capitalization of certain product development costs, the accounting of share-based payment plans and the accounting of income taxes. ASML’s quarterly IFRS consolidated statement of profit or loss, consolidated statement of cash flows, consolidated statement of financial position and a reconciliation of net income and equity from US GAAP to IFRS are available on www.asml.com
+Today, 15 July 2015, ASML has also published the Statutory Interim Report for the six-month period ended 28 June 2015. This report is in accordance with the requirements of the EU Transparency Directive as implemented in the Netherlands, and includes consolidated condensed interim financial statements prepared in accordance with IAS 34, ‘Interim Financial Reporting’, an Interim Management Board Report and a Managing Directors' Statement and is available on www.asml.com.
+3
+The consolidated balance sheets of ASML Holding N.V. as of 28 June 2015, the related consolidated statements of operations and consolidated statements of cash flows for the quarter ended 28 June 2015 as presented in this press release are unaudited.
+Regulated Information
+This press release constitutes regulated information within the meaning of the Dutch Financial Markets Supervision Act (Wet op het financieel toezicht).
+Forward Looking Statements
+This document contains statements relating to certain projections and business trends that are forward-looking, including statements with respect to our outlook, including expectations for the third quarter and second half of 2015, backlog, expected customer demand in specified market segments including memory, logic and foundry, expected trends, expected levels of service sales, systems backlog, expected financial results, including expected sales, other income, gross margin, earnings per share and R&D and SG&A expenses and effective tax rate, annual revenue opportunity for ASML, productivity of our tools and systems performance, TWINSCAN and EUV system performance (such as endurance tests), expected industry trends, statements with respect to expected system shipments, including the number of EUV systems expected to be shipped and timing of shipments and other EUV targets (including availability, productivity and shipments), the expected continuation of Moore's law, expected annual revenue growth and goals for holistic lithography, intention to return excess cash to shareholders, and statements about our dividend policy and intention to repurchase shares. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about the business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors (the principal product of our customer base), including the impact of general economic conditions on consumer confidence and demand for our customers' products, competitive products and pricing, the impact of manufacturing efficiencies and capacity constraints, performance of our systems, the continuing success of technology advances and the related pace of new product development and customer acceptance of new products, the number and timing of EUV systems expected to be shipped and recognized in revenue, our ability to enforce patents and protect intellectual property rights, the risk of intellectual property litigation, availability of raw materials and critical manufacturing equipment, trade environment, changes in exchange rates, changes in tax rates, available cash, distributable reserves for dividend payments and share repurchases, and other risks indicated in the risk factors included in ASML's Annual Report on Form 20-F and other filings with the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We do not undertake to update or revise the forward-looking statements, whether as a result of new information, future events or otherwise.
+4
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796615000005/ifrsfinancialstatementsq22.htm
+
+EX-99.4
+5
+ifrsfinancialstatementsq22.htm
+EXHIBIT 99.4
+ IFRS Financial statements Q2 2015 - IFRS PROCESS
+Exhibit 99.4
+ASML - Summary IFRS Consolidated Statement of Profit or Loss 1,2 
+Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR)
+Net system sales | 1,243.0 | 1,134.5 | 2,273.0 | 2,381.0
+Net service and field option sales | 400.6 | 519.6 | 767.1 | 923.0
+Total net sales | 1,643.6 | 1,654.1 | 3,040.1 | 3,304.0
+Total cost of sales | (923.1 | ) | (916.7 | ) | (1,742.0 | ) | (1,802.1 | )
+Gross profit | 720.5 | 737.4 | 1,298.1 | 1,501.9
+Other income | 20.3 | 20.8 | 40.5 | 41.6
+Research and development costs | (188.7 | ) | (176.8 | ) | (401.5 | ) | (340.9 | )
+Selling, general and administrative costs | (78.3 | ) | (87.9 | ) | (164.7 | ) | (170.6 | )
+Operating income | 473.8 | 493.5 | 772.4 | 1,032.0
+Interest and other, net | 1.2 | (1.1 | ) | (1.4 | ) | (2.0 | )
+Income before income taxes | 475.0 | 492.4 | 771.0 | 1,030.0
+Benefit from (provision for) income taxes | (23.2 | ) | (71.1 | ) | (35.9 | ) | (138.7 | )
+Net income | 451.8 | 421.3 | 735.1 | 891.3
+ASML - Summary IFRS Consolidated Statement of Financial Position 1,2 
+Dec 31, | Jun 28,
+2014 | 2015
+(in millions EUR)
+ASSETS
+Property, plant and equipment | 1,447.5 | 1,518.9
+Goodwill | 2,378.4 | 2,592.2
+Other intangible assets | 1,670.1 | 1,881.9
+Deferred tax assets | 142.7 | 146.8
+Finance receivables | 55.3 | 55.7
+Derivative financial instruments | 115.5 | 87.0
+Other assets | 329.3 | 348.0
+Total non-current assets | 6,138.8 | 6,630.5
+Inventories | 2,549.8 | 2,592.1
+Current tax assets | 43.9 | 52.3
+Derivative financial instruments | 38.3 | 51.0
+Finance receivables | 196.1 | 251.2
+Accounts receivable | 1,052.5 | 1,282.3
+Other assets | 293.6 | 320.4
+Short-term investments | 334.9 | 25.0
+Cash and cash equivalents | 2,419.5 | 2,495.0
+Total current assets | 6,928.6 | 7,069.3
+Total assets | 13,067.4 | 13,699.8
+EQUITY AND LIABILITIES
+Equity | 8,365.9 | 8,951.6
+Long-term debt | 1,149.9 | 1,115.8
+Derivative financial instruments | 2.8 | 2.3
+Deferred and other tax liabilities | 249.3 | 305.2
+Provisions | 3.6 | 3.2
+Accrued and other liabilities | 408.9 | 468.0
+Total non-current liabilities | 1,814.5 | 1,894.5
+Provisions | 2.4 | 2.4
+Derivative financial instruments | 64.9 | 38.1
+Current portion of long-term debt | 4.3 | 4.2
+Current and other tax liabilities | 36.3 | 18.1
+Accrued and other liabilities | 2,282.9 | 2,069.2
+Accounts payable | 496.2 | 721.7
+Total current liabilities | 2,887.0 | 2,853.7
+Total equity and liabilities | 13,067.4 | 13,699.8
+ASML - Summary IFRS Consolidated Statement of Cash Flows 1,2 
+Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR)
+CASH FLOWS FROM OPERATING ACTIVITIES
+Net income | 451.8 | 421.3 | 735.1 | 891.3
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 98.8 | 89.3 | 195.4 | 169.6
+Impairment | 2.5 | 0.6 | 6.4 | 0.6
+Loss on disposal of property, plant and equipment | 0.5 | 0.4 | 1.2 | 1.3
+Share-based payments | 7.4 | 14.2 | 30.5 | 27.6
+Allowance for doubtful receivables | 0.1 | 1.7 | 0.2 | 2.1
+Allowance for obsolete inventory | 45.2 | 60.3 | 86.7 | 97.3
+Deferred income taxes | (11.8 | ) | 14.8 | (42.5 | ) | 54.9
+Changes in assets and liabilities | (316.1 | ) | (223.8 | ) | (462.7 | ) | (426.4 | )
+Net cash provided by (used in) operating activities | 278.4 | 378.8 | 550.3 | 818.3
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchase of property, plant and equipment | (70.7 | ) | (79.2 | ) | (146.2 | ) | (164.8 | )
+Purchase of intangible assets | (81.1 | ) | (94.4 | ) | (149.6 | ) | (196.0 | )
+Purchase of available for sale securities | (174.9 | ) | — | (369.7 | ) | —
+Maturity of available for sale securities | 175.0 | 35.0 | 450.0 | 309.9
+Cash from (used for) derivative financial instruments | — | (63.0 | ) | — | (127.0 | )
+Net cash provided by (used in) investing activities | (151.7 | ) | (201.6 | ) | (215.5 | ) | (177.9 | )
+CASH FLOWS FROM FINANCING ACTIVITIES
+Dividend paid | (268.0 | ) | (302.3 | ) | (268.0 | ) | (302.3 | )
+Purchase of shares | (154.9 | ) | (165.6 | ) | (299.9 | ) | (282.7 | )
+Net proceeds from issuance of shares | 8.1 | 10.1 | 13.6 | 14.5
+Repayment of debt | (1.0 | ) | (0.7 | ) | (2.1 | ) | (1.5 | )
+Net cash provided by (used in) financing activities | (415.8 | ) | (458.5 | ) | (556.4 | ) | (572.0 | )
+Net cash flows | (289.1 | ) | (281.3 | ) | (221.6 | ) | 68.4
+Effect of changes in exchange rates on cash | 2.0 | (2.2 | ) | 1.9 | 7.1
+Net increase (decrease) in cash and cash equivalents | (287.1 | ) | (283.5 | ) | (219.7 | ) | 75.5
+ASML - Quarterly Summary IFRS Consolidated Statement of Profit or Loss 1,2 
+Three months ended,
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+Net system sales | 1,243.0 | 884.5 | 1,085.3 | 1,246.5 | 1,134.5
+Net service and field option sales | 400.6 | 437.7 | 408.7 | 403.4 | 519.6
+Total net sales | 1,643.6 | 1,322.2 | 1,494.0 | 1,649.9 | 1,654.1
+Total cost of sales | (923.1 | ) | (762.0 | ) | (854.9 | ) | (885.4 | ) | (916.7 | )
+Gross profit | 720.5 | 560.2 | 639.1 | 764.5 | 737.4
+Other income | 20.3 | 20.3 | 20.2 | 20.8 | 20.8
+Research and development costs | (188.7 | ) | (184.6 | ) | (149.8 | ) | (164.1 | ) | (176.8 | )
+Selling, general and administrative costs | (78.3 | ) | (75.1 | ) | (78.9 | ) | (82.7 | ) | (87.9 | )
+Operating income | 473.8 | 320.8 | 430.6 | 538.5 | 493.5
+Interest and other, net | 1.2 | 2.1 | 1.9 | (0.9 | ) | (1.1 | )
+Income before income taxes | 475.0 | 322.9 | 432.5 | 537.6 | 492.4
+Benefit from (provision for) income taxes | (23.2 | ) | (24.7 | ) | (47.5 | ) | (67.6 | ) | (71.1 | )
+Net income | 451.8 | 298.2 | 385.0 | 470.0 | 421.3
+ASML - Quarterly Summary IFRS Consolidated Statement of Financial Position 1,2 
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+ASSETS
+Property, plant and equipment | 1,275.1 | 1,372.4 | 1,447.5 | 1,523.4 | 1,518.9
+Goodwill | 2,136.3 | 2,285.0 | 2,378.4 | 2,633.9 | 2,592.2
+Other intangible assets | 1,449.0 | 1,547.4 | 1,670.1 | 1,831.4 | 1,881.9
+Deferred tax assets | 317.2 | 344.1 | 142.7 | 151.5 | 146.8
+Finance receivables | 46.4 | 119.3 | 55.3 | 55.3 | 55.7
+Derivative financial instruments | 85.4 | 88.7 | 115.5 | 130.3 | 87.0
+Other assets | 258.4 | 257.2 | 329.3 | 342.0 | 348.0
+Total non-current assets | 5,567.8 | 6,014.1 | 6,138.8 | 6,667.8 | 6,630.5
+Inventories | 2,615.5 | 2,676.8 | 2,549.8 | 2,607.5 | 2,592.1
+Current tax assets | 94.0 | 76.7 | 43.9 | 94.3 | 52.3
+Derivative financial instruments | 28.9 | 38.1 | 38.3 | 41.1 | 51.0
+Finance receivables | 297.3 | 255.9 | 196.1 | 184.0 | 251.2
+Accounts receivable | 1,085.6 | 961.2 | 1,052.5 | 1,270.6 | 1,282.3
+Other assets | 276.9 | 258.1 | 293.6 | 353.8 | 320.4
+Short-term investments | 599.7 | 539.8 | 334.9 | 60.0 | 25.0
+Cash and cash equivalents | 2,111.0 | 2,144.8 | 2,419.5 | 2,778.5 | 2,495.0
+Total current assets | 7,108.9 | 6,951.4 | 6,928.6 | 7,389.8 | 7,069.3
+Total assets | 12,676.7 | 12,965.5 | 13,067.4 | 14,057.6 | 13,699.8
+EQUITY AND LIABILITIES
+Equity | 7,781.1 | 8,090.9 | 8,365.9 | 9,019.4 | 8,951.6
+Long-term debt | 1,114.3 | 1,133.4 | 1,149.9 | 1,155.5 | 1,115.8
+Derivative financial instruments | 3.1 | 3.0 | 2.8 | 2.6 | 2.3
+Deferred and other tax liabilities | 412.0 | 413.8 | 249.3 | 295.3 | 305.2
+Provisions | 4.1 | 4.0 | 3.6 | 3.7 | 3.2
+Accrued and other liabilities | 299.3 | 397.4 | 408.9 | 388.9 | 468.0
+Total non-current liabilities | 1,832.8 | 1,951.6 | 1,814.5 | 1,846.0 | 1,894.5
+Provisions | 2.1 | 2.3 | 2.4 | 2.4 | 2.4
+Derivative financial instruments | 10.4 | 63.5 | 64.9 | 118.4 | 38.1
+Current portion of long-term debt | 4.3 | 4.3 | 4.3 | 4.3 | 4.2
+Current and other tax liabilities | 88.9 | 71.1 | 36.3 | 32.4 | 18.1
+Accrued and other liabilities | 2,283.9 | 2,065.0 | 2,282.9 | 2,299.4 | 2,069.2
+Accounts payable | 673.2 | 716.8 | 496.2 | 735.3 | 721.7
+Total current liabilities | 3,062.8 | 2,923.0 | 2,887.0 | 3,192.2 | 2,853.7
+Total equity and liabilities | 12,676.7 | 12,965.5 | 13,067.4 | 14,057.6 | 13,699.8
+ASML - Quarterly Summary IFRS Consolidated Statement of Cash Flows 1,2 
+Three months ended,
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+CASH FLOWS FROM OPERATING ACTIVITIES
+Net income | 451.8 | 298.2 | 385.0 | 470.0 | 421.3
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 98.8 | 77.6 | 80.1 | 80.3 | 89.3
+Impairment | 2.5 | 3.6 | 0.5 | — | 0.6
+Loss on disposal of property, plant and equipment | 0.5 | 0.9 | 1.4 | 0.9 | 0.4
+Share-based payments | 7.4 | 12.9 | 12.3 | 13.4 | 14.2
+Allowance for doubtful receivables | 0.1 | 0.1 | (0.2 | ) | 0.4 | 1.7
+Allowance for obsolete inventory | 45.2 | 35.8 | 40.3 | 37.0 | 60.3
+Deferred income taxes | (11.8 | ) | (20.9 | ) | 33.3 | 40.1 | 14.8
+Changes in assets and liabilities | (316.1 | ) | (115.4 | ) | (21.5 | ) | (202.6 | ) | (223.8 | )
+Net cash provided by (used in) operating activities | 278.4 | 292.8 | 531.2 | 439.5 | 378.8
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchase of property, plant and equipment | (70.7 | ) | (84.2 | ) | (127.9 | ) | (85.6 | ) | (79.2 | )
+Purchase of intangible assets | (81.1 | ) | (77.7 | ) | (120.8 | ) | (101.6 | ) | (94.4 | )
+Purchase of available for sale securities | (174.9 | ) | (110.0 | ) | (25.0 | ) | — | —
+Maturity of available for sale securities | 175.0 | 169.9 | 229.9 | 274.9 | 35.0
+Cash from (used for) derivative financial instruments | — | — | — | (64.0 | ) | (63.0 | )
+Net cash provided by (used in) investing activities | (151.7 | ) | (102.0 | ) | (43.8 | ) | 23.7 | (201.6 | )
+CASH FLOWS FROM FINANCING ACTIVITIES
+Dividend paid | (268.0 | ) | — | — | — | (302.3 | )
+Purchase of shares | (154.9 | ) | (171.1 | ) | (229.0 | ) | (117.1 | ) | (165.6 | )
+Net proceeds from issuance of shares | 8.1 | 10.6 | 15.5 | 4.4 | 10.1
+Repayment of debt | (1.0 | ) | (1.2 | ) | (0.8 | ) | (0.8 | ) | (0.7 | )
+Net cash provided by (used in) financing activities | (415.8 | ) | (161.7 | ) | (214.3 | ) | (113.5 | ) | (458.5 | )
+Net cash flows | (289.1 | ) | 29.1 | 273.1 | 349.7 | (281.3 | )
+Effect of changes in exchange rates on cash | 2.0 | 4.7 | 1.6 | 9.3 | (2.2 | )
+Net increase (decrease) in cash and cash equivalents | (287.1 | ) | 33.8 | 274.7 | 359.0 | (283.5 | )
+Notes to the Summary IFRS Consolidated Financial Statements
+Basis of Presentation 
+The accompanying summary consolidated financial statements are stated in millions of euros (“EUR”) unless otherwise indicated. ASML has prepared the accompanying summary consolidated financial statements in accordance with International Financial Reporting Standards as adopted by the EU (“IFRS”) accounting principles generally accepted in the Netherlands for companies quoted on Euronext Amsterdam. Further disclosures, as required under IFRS in annual reports and interim reporting (IAS 34), are not included in the summary consolidated financial statements. 
+For internal and external reporting purposes, we apply accounting principles generally accepted in the United States of America (“US GAAP”). US GAAP is our primary accounting standard for the setting of financial and operational performance targets.
+Use of estimates
+The preparation of our consolidated financial statements in conformity with IFRS requires management to make estimates and assumptions that affect the reported amounts of assets and liabilities and the disclosure of contingent assets and liabilities on the dates of the consolidated statement of financial position and the reported amounts of net sales and costs during the reported periods. Actual results could differ from those estimates.
+Basis of consolidation
+The consolidated financial statements include the financial statements of ASML Holding N.V. and all of its subsidiaries and the special purpose entity of which ASML is the primary beneficiary (referred to as “ASML”). All intercompany profits, balances and transactions have been eliminated in the consolidation. Subsidiaries are all entities over which ASML has the power to govern the financial and operating policies generally accompanying a shareholding of more than 50 percent of the voting rights. 
+Revenue recognition
+In general, we recognize the revenue from the sale of a system upon shipment and the revenue from the installation of a system upon completion of that installation at the customer site. Each system undergoes, prior to shipment, a "Factory Acceptance Test" in ASML’s cleanroom facilities, effectively replicating the operating conditions that will be present on the customer's site, in order to verify whether the system will meet its standard specifications and any additional technical and performance criteria agreed with the customer, if any. A system is shipped, and revenue is recognized, only after all specifications are met and customer sign-off is received or waived. In case not all specifications are met and the remaining performance obligation is not essential to the functionality of the system but is substantive rather than inconsequential or perfunctory, a portion of the sales price is deferred. Although each system's performance is re-tested upon installation at the customer's site, we have never failed to successfully complete installation of a system at a customer’s premises.
+In connection with the introduction of new technology, such as NXE:3300B, we initially defer revenue recognition until acceptance of the new technology based system and completion of installation at the customer's premises. As our systems are based largely on two product platforms that permit incremental, modular upgrades, the introduction of genuinely “new” technology occurs infrequently, and in the past 15 years, has occurred on only two occasions: 2000 (TWINSCAN) and 2010 (EUV).
+The main portion of our revenue is derived from contractual arrangements with our customers that have multiple deliverables, which mainly include the sale of our systems, installation and training services and prepaid extended and enhanced (optic) warranty contracts. The revenue relating to the undelivered elements of the arrangements is deferred until delivery of these elements. Revenue from installation and training services is recognized when the services are completed. Revenue from prepaid extended and enhanced (optic) warranty contracts is recognized over the term of the contract.
+Foreign currency risk management
+Our sales are predominately denominated in euros. Exceptions may occur on a customer by customer basis. Our cost of sales and other expenses are mainly denominated in euros, to a certain extent in US dollars, Taiwanese dollars and Japanese yen and to a limited extent in other currencies. Therefore, we are exposed to foreign currency exchange risk.
+It is our policy to hedge material transaction exposures, such as forecasted sales and purchase transactions, and material net remeasurement exposures, such as accounts receivable and payable. We hedge these exposures through the use of foreign exchange contracts. 
+ASML – Reconciliation US GAAP – IFRS 1,2 
+Net income | Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR)
+Net income based on US GAAP | 398.7 | 369.7 | 647.8 | 772.4
+Development expenditures (see Note 1) | 35.6 | 62.9 | 63.1 | 132.4
+Share-based payments (see Note 2) | 3.5 | 0.8 | 4.2 | 2.0
+Income taxes (see Note 3) | 14.0 | (12.1 | ) | 20.0 | (15.5 | )
+Net income based on IFRS | 451.8 | 421.3 | 735.1 | 891.3
+Shareholders' equity | Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+Shareholders' equity based on US GAAP | 7,080.4 | 7,324.1 | 7,512.6 | 8,076.8 | 7,962.6
+Development expenditures (see Note 1) | 646.9 | 702.3 | 792.1 | 878.1 | 937.9
+Share-based payments (see Note 2) | 20.1 | 20.7 | 21.0 | 22.4 | 22.0
+Income taxes (see Note 3) | 33.7 | 43.8 | 40.2 | 42.1 | 29.1
+Equity based on IFRS | 7,781.1 | 8,090.9 | 8,365.9 | 9,019.4 | 8,951.6
+Notes to the reconciliation from US GAAP to IFRS
+Note 1 Development expenditures
+Under US GAAP, ASML applies ASC 730, “Research and Development”. In accordance with ASC 730, ASML charges costs relating to research and development to operating expense as incurred.
+Under IFRS, ASML applies IAS 38, “Intangible Assets”. In accordance with IAS 38, ASML capitalizes certain development expenditures that are amortized over the expected useful life of the related product generally ranging between one and five years. Amortization starts when the developed product is ready for volume production.
+Note 2 Share-based Payments
+Under US GAAP, ASML applies ASC 718 “Compensation - Stock Compensation” which requires companies to recognize the cost of employee services received in exchange for awards of equity instruments based upon the grant-date fair value of those instruments. ASC 718’s general principle is that a deferred tax asset is established as we recognize compensation costs for commercial purposes for awards that are expected to result in a tax deduction under existing tax law. Under US GAAP, the deferred tax recorded on share-based compensation is computed on the basis of the expense recognized in the financial statements. Therefore, changes in ASML’s share price do not affect the deferred tax asset recorded in our financial statements.
+Under IFRS, ASML applies IFRS 2, “Share-based Payments”. In accordance with IFRS 2, ASML records as an expense the fair value of its share-based payments with respect to stock options and shares granted to its employees. Under IFRS, at period end a deferred tax asset is computed on the basis of the tax deduction for the share-based payments under the applicable tax law and is recognized to the extent it is probable that future taxable profit will be available against which these deductible temporary differences will be utilized. Therefore, changes in ASML’s share price do affect the deferred tax asset at period-end and result in adjustments to the deferred tax asset.
+Note 3 Income taxes
+Under US GAAP, the elimination of unrealized net income from intercompany transactions that are eliminated from the carrying amount of assets in consolidation give rise to a temporary difference for which prepaid taxes must be recognized in consolidation. Contrary to IFRS, the prepaid taxes under US GAAP are calculated based on the tax rate applicable in the seller’s rather than the purchaser’s tax jurisdiction.
+Under IFRS, ASML applies IAS 12, “Income Taxes”. In accordance with IAS 12 unrealized net income resulting from intercompany transactions that are eliminated from the carrying amount of assets in consolidation give rise to a temporary difference for which deferred taxes must be recognized in consolidation. The deferred taxes are calculated based on the tax rate applicable in the purchaser’s tax jurisdiction.
+This document contains statements relating to certain projections and business trends that are forward-looking, including statements with respect to our outlook, including expectations for the third quarter and second half of 2015, backlog, expected customer demand in specified market segments including memory, logic and foundry, expected trends, expected levels of service sales, systems backlog, expected financial results, including expected sales, other income, gross margin, earnings per share and R&D and SG&A expenses and effective tax rate, annual revenue opportunity for ASML, productivity of our tools and systems performance, TWINSCAN and EUV system performance (such as endurance tests), expected industry trends, statements with respect to expected system shipments, including the number of EUV systems expected to be shipped and timing of shipments and other EUV targets (including availability, productivity and shipments), the expected continuation of Moore's law, expected annual revenue growth and goals for holistic lithography, intention to return excess cash to shareholders, and statements about our dividend policy and intention to repurchase shares. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about the business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors (the principal product of our customer base), including the impact of general economic conditions on consumer confidence and demand for our customers' products, competitive products and pricing, the impact of manufacturing efficiencies and capacity constraints, performance of our systems, the continuing success of technology advances and the related pace of new product development and customer acceptance of new products, the number and timing of EUV systems expected to be shipped and recognized in revenue, our ability to enforce patents and protect intellectual property rights, the risk of intellectual property litigation, availability of raw materials and critical manufacturing equipment, trade environment, changes in exchange rates, changes in tax rates, available cash, distributable reserves for dividend payments and share repurchases, and other risks indicated in the risk factors included in ASML's Annual Report on Form 20-F and other filings with the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We do not undertake to update or revise the forward-looking statements, whether as a result of new information, future events or otherwise.
+1 | These financial statements are unaudited.
+2 | Numbers have been rounded.
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796615000005/statutoryinterimreport2015.htm
+
+EX-99.5
+6
+statutoryinterimreport2015.htm
+EXHIBIT 99.5
+ Statutory Interim Report 2015 IFRS PROCESS
+Exhibit 99.5
+ASML Holding N.V. 
+Statutory Interim Report 
+for the six-month period ended June 28, 2015 
+Contents
+6 | Introduction
+7 | Interim Management Board Report
+12 | Managing Directors’ Statement
+13 | Consolidated Condensed Interim Financial Statements
+29 | Other Information
+32 | Definitions
+A summary of all abbreviations, technical terms and definitions (of capitalized terms) used in this Statutory Interim Report is set forth on page 32. 
+This report comprises regulated information within the meaning of articles 1:1 and 5:25d of the Dutch Financial Markets Supervision Act (Wet op het Financieel Toezicht).
+In this report the name "ASML" is sometimes used for convenience in contexts where reference is made to ASML Holding N.V. and/or any of its subsidiaries in general. The name is also used where no useful purpose is served by identifying the particular company or companies. 
+© 2015, ASML Holding N.V. All Rights Reserved
+ASML Statutory Interim Report 2015 
+Introduction
+Dear Stakeholder, 
+On July 15, 2015, we published our Statutory Interim Report for the six-month period ended June 28, 2015. This includes an Interim Management Board Report, a Managing Directors' Statement and Consolidated Condensed Interim Financial Statements prepared in accordance with IAS 34. 
+We also published our 2015 second-quarter results in accordance with US GAAP and IFRS-EU on July 15, 2015. 
+Cautionary Statement Regarding Forward-Looking Statements
+This document contains statements relating to certain projections and business trends that are forward-looking, including statements with respect to our outlook, including expectations for the third quarter and second half of 2015, backlog, expected customer demand in specified market segments including memory, logic and foundry, expected trends, expected levels of service sales, systems backlog, expected financial results, including expected sales, other income, gross margin, earnings per share and R&D and SG&A expenses and effective tax rate, annual revenue opportunity for ASML, productivity of our tools and systems performance, TWINSCAN and EUV system performance (such as endurance tests), expected industry trends, statements with respect to expected system shipments, including the number of EUV systems expected to be shipped and timing of shipments and other EUV targets (including availability, productivity and shipments), the expected continuation of Moore's law, expected annual revenue growth and goals for holistic lithography, intention to return excess cash to shareholders, and statements about our dividend policy and intention to repurchase shares. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about the business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors (the principal product of our customer base), including the impact of general economic conditions on consumer confidence and demand for our customers' products, competitive products and pricing, the impact of manufacturing efficiencies and capacity constraints, performance of our systems, the continuing success of technology advances and the related pace of new product development and customer acceptance of new products, the number and timing of EUV systems expected to be shipped and recognized in revenue, our ability to enforce patents and protect intellectual property rights, the risk of intellectual property litigation, availability of raw materials and critical manufacturing equipment, trade environment, changes in exchange rates, changes in tax rates, available cash, distributable reserves for dividend payments and share repurchases, and other risks indicated in the risk factors included in ASML's Annual Report on Form 20-F and other filings with the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We do not undertake to update or revise the forward-looking statements, whether as a result of new information, future events or otherwise.
+ASML Statutory Interim Report 2015 6
+Interim Management Board Report
+About ASML
+ASML makes possible affordable microelectronics that improve the quality of life. ASML invents and develops advanced technology for high-tech lithography, metrology and software solutions for the semiconductor industry. ASML’s guiding principle is continuing Moore’s Law towards ever smaller, cheaper, more powerful and energy-efficient semiconductors. Our success is based on three pillars: technology leadership combined with customer and supplier intimacy, highly efficient processes and entrepreneurial people. We are a multinational company with over 70 locations in 16 countries, headquartered in Veldhoven, the Netherlands. As of June 28, 2015, we employed 11,676 payroll employees and 2,527 employees on flexible contracts (expressed in FTEs). ASML is traded on Euronext Amsterdam and NASDAQ under the symbol ASML. 
+As per our AGM held on April 22, 2015 Mr. Fröhlich retired from our Supervisory Board and Ms. Aris, Mr. Kleisterlee and Mr. Schwalb were appointed as new members.
+In the first half year of 2015, we generated net sales of EUR 3,304.0 million and an operating income of EUR 1,032.0 million or 31.2 percent of net sales. Net income for the first half year of 2015 amounted to EUR 891.3 million or 27.0 percent of net sales, representing basic net income per ordinary share of EUR 2.06. 
+Below we provide an update of the risks and uncertainties we face in the second half year of 2015, followed by the ASML Operations Update, Auditor's Involvement and 2015 Second Half Year Perspectives. 
+Risk Factors
+In conducting our business, we face many risks that may interfere with our business objectives. Some of these risks relate to our operational processes, while others relate to our business environment. It is important to understand the nature of these risks and the impact they may have on our business, financial condition and results of operations. Some of the more relevant risks are defined below. These risks are not the only ones that we face. Some risks may not yet be known to us and certain risks that we do not currently believe to be material could become material in the future. 
+We have assessed the risks for the second half year of 2015 and believe that the risks identified are in line with those presented in our Statutory Annual Report 2014. For a detailed description of the risks defined below, we refer to our Statutory Annual Report 2014. 
+Summary
+Strategic Risk 
+• | We derive most of our revenues from the sale of a relatively small number of products.
+Risks Related to the Semiconductor Industry 
+• | The semiconductor industry is highly cyclical and we may be adversely affected by any downturn;
+• | Our business will suffer if we or the industry do not respond rapidly to commercial and technological changes in the semiconductor industry; and
+• | We face intense competition.
+Governmental, Legal and Compliance Risks 
+• | Failure to adequately protect the intellectual property rights upon which we depend could harm our business;
+• | Defending against intellectual property claims brought by others could harm our business;
+• | We are subject to risks in our international operations; and
+• | Because of labor laws and practices, any workforce reductions that we may seek to implement in order to reduce costs company-wide may be delayed or suspended.
+Operational Risks 
+• | The number of systems we can produce is limited by our dependence on a limited number of suppliers of key components;
+• | The time window for new product introduction is shorter and is accompanied by potential design and production delays and by significant costs;
+• | As lithography technologies become more complex, the success of our R&D programs becomes more uncertain and more expensive;
+• | We are dependent on the continued operation of a limited number of manufacturing facilities;
+• | We may be unable to make desirable acquisitions or to integrate successfully any businesses we acquire;
+• | Our business and future success depend on our ability to attract and retain a sufficient number of adequately educated and skilled employees;
+• | A disruption in our information technology systems, including those related to cybersecurity, could adversely affect our business operations; and
+• | Hazardous substances are used in the production and operation of our systems, and failure to comply with applicable regulations or failure to implement appropriate practices for customer and employee environment, health and safety could subject us to significant liabilities.
+ASML Statutory Interim Report 2015 7
+Financial Risks 
+• | A high percentage of net sales is derived from a few customers; and
+• | Fluctuations in foreign exchange rates could harm our results of operations.
+Risks Related to our Ordinary Shares 
+• | We may not declare cash dividends at all or in any particular amounts in any given year;
+• | Restrictions on shareholder rights may dilute voting power; and
+• | Participating customers in our CCIP together own a significant amount of our ordinary shares and their interests may not coincide with the interests of our other shareholders.
+ASML Statutory Interim Report 2015 8
+ASML Operations Update
+The Consolidated Condensed Interim Financial Statements for the six-month period ended June 28, 2015 included in this Statutory Interim Report have been prepared in accordance with IAS 34. For internal and external reporting purposes, we apply US GAAP, which is our primary accounting standard for setting financial and operational performance targets. 
+Based on US GAAP, net income, as explained in the table below, is measured differently from net income based on IFRS-EU. 
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in millions) | EUR | EUR
+Net income based on US GAAP | 647.8 | 772.4
+Development expenditures | 63.1 | 132.4
+Share-based payments | 4.2 | 2.0
+Income taxes | 20.0 | (15.5 | )
+Net income based on IFRS-EU | 735.1 | 891.3
+Set forth below are certain extracts of our Consolidated Condensed Statement of Profit or Loss data on a semi-annual basis (based on IFRS-EU): 
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in millions) | EUR | EUR
+Total net sales | 3,040.1 | 3,304.0
+Cost of sales | (1,742.0 | ) | (1,802.1 | )
+Gross profit | 1,298.1 | 1,501.9
+Other income | 40.5 | 41.6
+Research and development costs | (401.5 | ) | (340.9 | )
+Selling, general and administrative costs | (164.7 | ) | (170.6 | )
+Operating income | 772.4 | 1,032.0
+Finance income (costs), net | (1.4 | ) | (2.0 | )
+Income before income taxes | 771.0 | 1,030.0
+Provision for income taxes | (35.9 | ) | (138.7 | )
+Net income | 735.1 | 891.3
+The following table shows a summary of key financial figures on a semi-annual basis:
+For the six-month period ended June 29, 2014 and June 28, 2015 | Unaudited | Unaudited
+(in millions EUR, unless otherwise indicated) | 2014 | 2015
+Total net sales | 3,040.1 | 3,304.0
+Net system sales | 2,273.0 | 2,381.0
+Net service and field option sales | 767.1 | 923.0
+Total sales of systems (in units) | 71 | 88
+Total sales of new systems (in units) | 62 | 73
+Total sales of used systems (in units) | 9 | 15
+Gross profit as a percentage of total net sales | 42.7 | 45.5
+ASP of system sales | 32.0 | 27.1
+ASP of new system sales | 35.9 | 31.6
+ASP of used system sales | 5.5 | 5.1
+Consolidated Sales and Gross Profit 
+Net sales increased by EUR 263.9 million to EUR 3,304.0 million for the first half year of 2015 from EUR 3,040.1 million for the first half year of 2014. This increase is caused by increased net system sales (EUR 108.0 million) and increased net service and field option sales (EUR 155.9 million). The increase in net system sales is primary caused by a higher number of systems sold, partly offset by the decrease in the ASP of new systems sold. The increase in net service and field options sales is mainly caused by a growing installed base. 
+The decrease of the ASP of our systems sold was the result of a higher number of KrF system sales compared to ArF immersion system sales.
+ASML Statutory Interim Report 2015 9
+Gross profit on sales increased by EUR 203.8 million to EUR 1,501.9 million for the first half year of 2015 from EUR 1,298.1 million for the first half year of 2014. This is driven by higher system sales and net service and field option sales. The gross margin increased to 45.5 percent for the first half year of 2015 from 42.7 percent for the first half year of 2014. The increase is partly caused by lower depreciation on capitalized development expenditures. In addition, the gross margin in the first half year of 2014 was negatively impacted by the sale of two NXE:3300B systems, whereas the first half year of 2015 only includes one NXE:3300B system.
+We started 2015 with a systems backlog of 82 systems. During the first half year of 2015, we booked orders for 86 systems and recognized sales for 87 systems (excluding one NXE:3300B). This resulted in a systems backlog of 81 systems as of June 28, 2015. 
+As of June 28, 2015, our systems backlog was valued at EUR 3,014.6 million and includes 81 systems with an ASP of EUR 37.2 million. As of December 31, 2014, the systems backlog was valued at EUR 2,772.4 million and included 82 systems with an ASP of EUR 33.8 million. The ASP of our systems backlog as of June 28, 2015 increased compared to December 31, 2014 as a result of a shift in the mix of systems towards more high-end system types including orders for 6 EUV systems. 
+As part of a previously announced volume purchasing agreement with a major U.S. customer (to deliver a minimum of 15 ASML EUV lithography systems), we took orders for 6 EUV systems. Of those, 2 are expected to be shipped in the second half of 2015, and 4 from next year. As a result, our systems backlog for EUV systems now stands at 8 EUV systems. For further details regarding our backlog, we refer to 2015 Second Half Year Perspectives - Financial Outlook. 
+Other Income 
+Other income consists of contributions for R&D programs under the NRE Funding Agreements from certain Participating Customers in the CCIP and amounted to EUR 41.6 million for the first half year of 2015 (first half year of 2014: EUR 40.5 million). 
+Research and Development 
+R&D investments for the first half year of 2015 of EUR 535.8 million are in line with the first half year of 2014 (EUR 543.0 million). The R&D investments comprise of R&D costs net of credits (including net development costs not eligible for capitalization), of EUR 340.9 million (first half year of 2014: EUR 401.5 million) and capitalization of development expenditures of EUR 194.9 million (first half year of 2014: EUR 141.5 million). Overall R&D investments related mainly to EUV and next-generation immersion. 
+Selling, General and Administrative Costs 
+Selling, general and administrative costs of EUR 170.6 million for the first half year of 2015 are in line with the first half year of 2014 (EUR 164.7 million). 
+Related Party Transactions 
+For disclosure regarding related party transactions see Note 13 to the Consolidated Condensed Interim Financial Statements. 
+ASML Statutory Interim Report 2015 10
+Auditor's Involvement
+This Statutory Interim Report for the six-month period ended June 28, 2015 and the Consolidated Condensed Interim Financial Statements included herein have not been audited or reviewed by an external auditor. 
+2015 Second Half Year Perspectives
+Operational Outlook 
+Given the recent advances in EUV productivity and availability, we believe that EUV is moving closer to volume production. In preparation for pilot production, several customers have run or are running marathon tests on their NXE:3300B systems. In parallel, customers are evaluating how far they can stretch immersion multiple patterning technology. The decision on when to introduce EUV into production and the timing of the corresponding orders will be determined by the production readiness of EUV systems versus the complexity of multiple patterning. System availability is our main focus in increasing production readiness of EUV.
+We expect to see continued overall business strength in the second half of 2015 due to increased demand from memory and foundry customers compared with our previous expectations. Underpinned by an anticipated strong service business, this will allow for a stable business outlook at expected Q3 levels for the balance of the year with some upside opportunity.
+Financial Outlook
+The following table sets forth our systems backlog as of December 31, 2014 and June 28, 2015:
+Unaudited | Unaudited
+(in millions EUR, unless otherwise indicated) | December 31, 2014 | June 28, 2015
+New systems backlog (in units) | 64 | 68
+Used systems backlog (in units) | 18 | 13
+Total systems backlog (in units) | 82 | 81
+Value of new systems backlog | 2,687.0 | 2,946.0
+Value of used systems backlog | 85.4 | 68.6
+Value of total systems backlog | 2,772.4 | 3,014.6
+ASP of new systems backlog | 42.0 | 43.3
+ASP of used systems backlog | 4.7 | 5.3
+ASP of total systems backlog | 33.8 | 37.2
+As of Q2 2015, our systems backlog and net bookings include all system sales orders for which written authorizations have been accepted (for EUV starting as of the NXE:3350B), whereas our systems backlog and net bookings as per December 31, 2014 included sales orders for which written authorizations had been accepted and shipment and/or revenue recognition was expected within 12 months. 
+This change has no impact on the comparative figures. Historically, orders have been subject to cancellation or delay by the customer. Due to possible customer changes in delivery schedules and to cancellation of orders, our systems backlog at any particular date is not necessarily indicative of actual sales for any succeeding period. 
+For the third quarter of 2015, we expect net sales at between EUR 1.5 and 1.6 billion.
+The Board of Management,
+Peter T.F.M. Wennink, President and Chief Executive Officer 
+Martin A. van den Brink, President and Chief Technology Officer 
+Wolfgang U. Nickl, Executive Vice President and Chief Financial Officer 
+Frits J. van Hout, Executive Vice President and Chief Program Officer 
+Frédéric J.M. Schneider-Maunoury, Executive Vice President and Chief Operations Officer 
+Veldhoven, July 14, 2015 
+ASML Statutory Interim Report 2015 11
+Managing Directors’ Statement
+The Board of Management hereby declares that, to the best of its knowledge, the Consolidated Condensed Interim Financial Statements prepared in accordance with IAS 34, "Interim Financial Reporting", provide a true and fair view of the assets, liabilities, financial position and profit or loss of ASML Holding N.V. and the undertakings included in the consolidation taken as a whole and that the Interim Management Board Report includes a fair review of the information required pursuant to section 5:25d(8)/(9) of the Dutch Act on Financial Supervision (Wet op het Financieel Toezicht). 
+The Board of Management,
+Peter T.F.M. Wennink, President and Chief Executive Officer 
+Martin A. van den Brink, President and Chief Technology Officer 
+Wolfgang U. Nickl, Executive Vice President and Chief Financial Officer 
+Frits J. van Hout, Executive Vice President and Chief Program Officer 
+Frédéric J.M. Schneider-Maunoury, Executive Vice President and Chief Operations Officer 
+Veldhoven, July 14, 2015 
+ASML Statutory Interim Report 2015 12
+Consolidated Condensed 
+Interim Financial Statements
+ASML Statutory Interim Report 2015 13
+Consolidated Condensed Interim Financial Statements
+15 | Consolidated Condensed Statement of Profit or Loss
+16 | Consolidated Condensed Statement of Comprehensive Income
+17 | Consolidated Condensed Statement of Financial Position
+18 | Consolidated Condensed Statement of Changes in Equity
+20 | Consolidated Condensed Statement of Cash Flows
+21 | Notes to the Consolidated Condensed Interim Financial Statements
+ASML Statutory Interim Report 2015 14
+Consolidated Condensed Statement of Profit or Loss
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+Notes | (in thousands, except per share data) | EUR | EUR
+11 | Net system sales | 2,273,014 | 2,381,037
+11 | Net service and field option sales | 767,058 | 922,918
+Total net sales | 3,040,072 | 3,303,955
+Cost of system sales | (1,315,787 | ) | (1,260,848 | )
+Cost of service and field option sales | (426,196 | ) | (541,246 | )
+Total cost of sales | (1,741,983 | ) | (1,802,094 | )
+Gross profit | 1,298,089 | 1,501,861
+Other income | 40,495 | 41,600
+Research and development costs | (401,492 | ) | (340,852 | )
+Selling, general and administrative costs | (164,680 | ) | (170,577 | )
+Operating income | 772,412 | 1,032,032
+Finance income | 7,420 | 4,579
+Finance costs | (8,846 | ) | (6,581 | )
+Income before income taxes | 770,986 | 1,030,030
+10 | Provision for income taxes | (35,884 | ) | (138,775 | )
+Net income | 735,102 | 891,255
+7 | Basic net income per ordinary share | 1.67 | 2.06
+7 | Diluted net income per ordinary share1 | 1.66 | 2.05
+Number of ordinary shares used in computing per share amounts (in thousands):
+7 | Basic | 439,221 | 431,985
+7 | Diluted1 | 442,311 | 434,429
+1. | The calculation of diluted net income per ordinary share assumes the exercise of options issued under our stock option plans and the issuance of shares under our share plans for periods in which exercises or issuances would have a dilutive effect. The calculation of diluted net income per ordinary share does not assume exercise of such options or issuance of shares when such exercises or issuance would be anti-dilutive.
+ASML Statutory Interim Report 2015 15
+Consolidated Condensed Statement of Comprehensive Income
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in thousands) | EUR | EUR
+Net income | 735,102 | 891,255
+Other comprehensive income:
+Foreign currency translation, net of taxes:
+Gain (loss) on translation of foreign operations | 31,147 | 239,790
+Financial instruments, net of taxes:
+Gain (loss) on derivative financial instruments | 674 | 8,390
+Transfers to net income | 7,436 | (10,384 | )
+Other comprehensive income, net of taxes1 | 39,257 | 237,796
+Total comprehensive income, net of taxes | 774,359 | 1,129,051
+Attributable to Equity holders | 774,359 | 1,129,051
+1. | All items in accumulated other comprehensive income as at June 28, 2015, comprising of the hedging reserve of EUR 9.9 million gains (June 29, 2014: EUR 4.1 million losses) and the currency translation reserve of EUR 238.4 million gains (June 29, 2014: EUR 182.8 million losses), will be reclassified subsequently to profit or loss when specific conditions are met.
+ASML Statutory Interim Report 2015 16
+Consolidated Condensed Statement of Financial Position
+(Before appropriation of net income)
+Unaudited
+December 31, 2014 | June 28, 2015
+Notes | (in thousands) | EUR | EUR
+Assets
+Property, plant and equipment | 1,447,523 | 1,518,866
+Goodwill | 2,378,421 | 2,592,188
+Other intangible assets | 1,670,098 | 1,881,891
+Deferred tax assets | 142,746 | 146,813
+Finance receivables | 55,261 | 55,657
+4 | Derivative financial instruments | 115,546 | 86,968
+Other assets | 329,274 | 348,074
+Total non-current assets | 6,138,869 | 6,630,457
+Inventories | 2,549,837 | 2,592,120
+Current tax assets | 43,876 | 52,299
+4 | Derivative financial instruments | 38,257 | 51,028
+Finance receivables | 196,087 | 251,236
+Accounts receivable | 1,052,504 | 1,282,321
+Other assets | 293,630 | 320,356
+4,5 | Short-term investments | 334,864 | 25,014
+4,5 | Cash and cash equivalents | 2,419,487 | 2,494,957
+Total current assets | 6,928,542 | 7,069,331
+Total assets | 13,067,411 | 13,699,788
+Equity and liabilities
+Equity | 8,365,930 | 8,951,566
+Long-term debt | 1,149,876 | 1,115,758
+4 | Derivative financial instruments | 2,808 | 2,271
+Deferred and other tax liabilities | 249,369 | 305,173
+Provisions | 3,638 | 3,228
+8 | Accrued and other liabilities | 408,847 | 468,006
+Total non-current liabilities | 1,814,538 | 1,894,436
+Provisions | 2,354 | 2,389
+4 | Derivative financial instruments | 64,947 | 38,144
+Current portion of long-term debt | 4,261 | 4,232
+Current tax liabilities | 36,293 | 18,104
+8 | Accrued and other liabilities | 2,282,852 | 2,069,169
+Accounts payable | 496,236 | 721,748
+Total current liabilities | 2,886,943 | 2,853,786
+Total equity and liabilities | 13,067,411 | 13,699,788
+ASML Statutory Interim Report 2015 17
+Consolidated Condensed Statement of Changes in Equity
+(Before appropriation of net income)
+(in thousands) | Issued and outstanding shares | TreasuryShares atcostEUR
+Number1 | AmountEUR | SharePremiumEUR | RetainedEarningsEUR | OtherReserves2EUR | Net IncomeEUR | TotalEUR
+Balance at January 1, 2014 | 440,852 | 40,214 | 3,383,105 | (365,782 | ) | 2,841,636 | 451,778 | 1,193,844 | 7,544,795
+Appropriation of net income | — | — | — | — | 1,193,844 | — | (1,193,844 | ) | —
+Components of statement of comprehensive income
+Net income | — | — | — | — | — | — | 735,102 | 735,102
+Foreign currency translation | — | — | — | — | — | 31,147 | — | 31,147
+Gain / (Loss) on financial instruments, net of taxes | — | — | — | — | — | 8,110 | — | 8,110
+Total comprehensive income | — | — | — | — | — | 39,257 | 735,102 | 774,359
+CCIP:
+Fair value differences3 | — | — | 9,288 | — | — | — | — | 9,288
+Purchases of treasury shares4 | (4,850 | ) | — | — | (310,698 | ) | — | — | — | (310,698 | )
+Share-based payments | — | — | 25,073 | — | — | — | — | 25,073
+Issuance of shares | 1,196 | — | (48,021 | ) | 57,098 | (2,809 | ) | — | — | 6,268
+Dividend paid | — | — | — | — | (267,962 | ) | — | — | (267,962 | )
+Development expenditures | — | — | — | — | (84,600 | ) | 84,600 | — | —
+Balance at June 29, 2014 (unaudited) | 437,198 | 40,214 | 3,369,445 | (619,382 | ) | 3,680,109 | 575,635 | 735,102 | 7,781,123
+Appropriation of net income | — | — | — | — | — | — | — | —
+Components of statement of comprehensive income
+Net income | — | — | — | — | — | — | 683,218 | 683,218
+Foreign currency translation | — | — | — | — | — | 223,312 | — | 223,312
+Gain / (Loss) on financial instruments, net of taxes | — | — | — | — | — | 15,956 | — | 15,956
+Total comprehensive income | — | — | — | — | — | 239,268 | 683,218 | 922,486
+CCIP:
+Fair value differences3 | — | — | 18,798 | — | — | — | — | 18,798
+Purchases of treasury shares4 | (5,131 | ) | — | — | (389,302 | ) | — | — | — | (389,302 | )
+Cancellation of treasury shares | — | (852 | ) | — | 610,698 | (609,846 | ) | — | — | —
+Share-based payments | — | — | 23,528 | — | — | — | — | 23,528
+Issuance of shares | 868 | 64 | 44,785 | 8,543 | (44,095 | ) | — | — | 9,297
+Dividend paid | — | — | — | — | — | — | — | —
+Development expenditures | — | — | — | — | (162,143 | ) | 162,143 | — | —
+Balance at December 31, 2014 | 432,935 | 39,426 | 3,456,556 | (389,443 | ) | 2,864,025 | 977,046 | 1,418,320 | 8,365,930
+Appropriation of net income | — | — | — | — | 1,418,320 | — | (1,418,320 | ) | —
+Components of statement of comprehensive income
+Net income | — | — | — | — | — | — | 891,255 | 891,255
+Foreign currency translation | — | — | — | — | — | 239,790 | — | 239,790
+Gain / (Loss) on financial instruments, net of taxes | — | — | — | — | — | (1,994 | ) | — | (1,994 | )
+Total comprehensive income | — | — | — | — | — | 237,796 | 891,255 | 1,129,051
+CCIP:
+Fair value differences3 | — | — | 5,616 | — | — | — | — | 5,616
+Purchases of treasury shares4 | (2,976 | ) | (268 | ) | — | (284,448 | ) | — | — | — | (284,716 | )
+Cancellation of treasury shares | — | (462 | ) | — | 389,302 | (388,840 | ) | — | — | —
+Share-based payments | — | — | 26,690 | — | — | — | — | 26,690
+Issuance of shares | 694 | 62 | 16,702 | 28,208 | (33,667 | ) | — | — | 11,305
+Dividend paid | — | — | — | — | (302,310 | ) | — | — | (302,310 | )
+Development expenditures | — | — | — | — | (164,143 | ) | 164,143 | — | —
+Balance at June 28, 2015 (unaudited) | 430,653 | 38,758 | 3,505,564 | (256,381 | ) | 3,393,385 | 1,378,985 | 891,255 | 8,951,566
+ASML Statutory Interim Report 2015 18
+1. | As of June 28, 2015, the number of issued shares was 433,332,427. This includes the number of issued and outstanding shares of 430,652,782 and the number of treasury shares of 2,679,645. As of December 31, 2014, the number of issued shares was 438,073,643. This included the number of issued and outstanding shares of 432,935,288 and the number of treasury shares of 5,138,355. As of June 29, 2014, the number of issued shares was 446,823,836. This included the number of issued and outstanding shares of 437,197,559 and the number of treasury shares of 9,626,277.
+2. | Other reserves consist of the hedging reserve, the currency translation reserve and the reserve for capitalized development expenditures.
+3. | In the first half year of 2015, EUR 5.6 million (second half year of 2014: EUR 18.8 million; first half year of 2014: EUR 9.3 million) is recognized to increase equity to the fair value of the shares issued to the Participating Customers in the CCIP. The portion of the NRE funding allocable to the shares is recognized over the NRE Funding Agreement period (2013-2017).
+4. | In the first half year of 2015, ASML repurchased shares for an amount of EUR 284.7 million (second half year of 2014: EUR 389.3 million; first half year of 2014: EUR 310.7 million). As of June 28, 2015, EUR 2.0 million of the total repurchased amount remained unpaid and is recorded in accrued and other current liabilities (December 31, 2014: nil; June 29, 2014: EUR 10.8 million).
+ASML Statutory Interim Report 2015 19
+Consolidated Condensed Statement of Cash Flows
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+Notes | (in thousands) | EUR | EUR
+Cash Flows from Operating Activities
+Net income | 735,102 | 891,255
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 195,435 | 169,644
+Impairment | 6,433 | 615
+Loss on disposal of property, plant and equipment1 | 1,171 | 1,320
+Share-based payments | 30,488 | 27,568
+Allowance for doubtful receivables | 153 | 2,078
+Allowance for obsolete inventory | 86,720 | 97,322
+Deferred income taxes | (42,480 | ) | 54,856
+Changes in assets and liabilities:
+Accounts receivable | (208,563 | ) | (212,789 | )
+Finance receivables | (46,563 | ) | (51,820 | )
+Inventories1,2 | (326,291 | ) | 6,378
+Other assets | (12,869 | ) | (110,933 | )
+8 | Accrued and other liabilities | 64,891 | (254,764 | )
+Accounts payable | 55,491 | 221,895
+10 | Current income taxes | 11,249 | (24,316 | )
+Net cash provided by operating activities | 550,367 | 818,309
+Cash Flows from Investing Activities
+Purchase of property, plant and equipment2 | (146,190 | ) | (164,784 | )
+Purchase of intangible assets | (149,556 | ) | (195,993 | )
+4 | Purchase of available-for-sale securities | (369,734 | ) | —
+4 | Maturity of available-for-sale securities | 449,954 | 309,850
+Cash from (used for) derivative financial instruments | — | (127,022 | )
+Net cash used in investing activities | (215,526 | ) | (177,949 | )
+Cash Flows from Financing Activities
+12 | Dividend paid | (267,962 | ) | (302,310 | )
+12 | Purchase of shares3 | (299,854 | ) | (282,702 | )
+Net proceeds from issuance of shares | 13,623 | 14,535
+Repayment of debt | (2,248 | ) | (1,510 | )
+Net cash used in financing activities | (556,441 | ) | (571,987 | )
+Net cash flows | (221,600 | ) | 68,373
+Effect of changes in exchange rates on cash | 1,899 | 7,097
+Net increase (decrease) in cash and cash equivalents | (219,701 | ) | 75,470
+Cash and cash equivalents at beginning of the year | 2,330,694 | 2,419,487
+Cash and cash equivalents at June 29, 2014 and June 28, 2015 | 2,110,993 | 2,494,957
+Supplemental Disclosures of Cash Flow Information:
+Interest received | 8,604 | 8,276
+Interest and other paid | (15,081 | ) | (15,141 | )
+10 | Income taxes paid | (71,427 | ) | (112,293 | )
+1. | An amount of EUR 24.5 million (June 29, 2014: EUR 23.9 million) of the disposals of property, plant and equipment relates to non-cash transfers to inventory. Since the transfers between inventory and property, plant and equipment are non-cash events, these are not reflected in this Consolidated Condensed Statement of Cash Flows.
+2. | An amount of EUR 17.5 million (June 29, 2014: EUR 62.7 million) of the additions in property, plant and equipment relates to non-cash transfers from inventory. Since the transfers between inventory and property, plant and equipment are non-cash events, these are not reflected in this Consolidated Condensed Statement of Cash Flows. Other movements include EUR 2.0 million (June 29, 2014: EUR 9.3 million), relating to a decrease in additions not yet paid.
+3. | In the first half year of 2015, ASML repurchased shares for an amount of EUR 284.7 million (first half year of 2014: EUR 310.7 million). As of June 28, 2015, EUR 2.0 million of the total repurchased amount remained unpaid and is recorded in accrued and other current liabilities (June 29, 2014: EUR 10.8 million).
+ASML Statutory Interim Report 2015 20
+Notes to the Consolidated Condensed Interim Financial Statements 
+1. General Information 
+Our ordinary shares are listed for trading in the form of registered shares on NASDAQ and in the form of registered shares on Euronext Amsterdam. The principal trading market of our ordinary shares is Euronext Amsterdam.
+The Consolidated Condensed Interim Financial Statements include the financial statements of ASML Holding N.V. and its subsidiaries and the special purpose entities over which ASML Holding N.V. has control (together referred to as "ASML"). All intercompany profits, balances and transactions have been eliminated in the consolidation. 
+The Consolidated Condensed Interim Financial Statements were authorized for issuance by the Board of Management on July 14, 2015 and have not been audited or reviewed by an external auditor.
+2. Basis of Preparation
+The Consolidated Condensed Interim Financial Statements for the six-month period ended June 28, 2015 have been prepared in accordance with IAS 34, "Interim Financial Reporting". The Consolidated Condensed Interim Financial Statements do not include all the information and disclosures as required in the Statutory Annual Report and should be read in conjunction with the Statutory Annual Report 2014, which has been prepared in accordance with IFRS-EU. 
+The Consolidated Condensed Interim Financial Statements are stated in thousands of EUR unless indicated otherwise. 
+3. Summary of Significant Accounting Policies 
+The accounting policies adopted in the preparation of the Consolidated Condensed Interim Financial Statements are consistent with those applied in the preparation of the Consolidated Financial Statements 2014, except for income tax expense which is recognized based on management’s best estimate of the annual income tax rate for the full financial year. Implementation of new and revised IFRS-EU over the six-month period ended June 28, 2015 did not have a material impact on our Consolidated Condensed Interim Financial Statements. 
+On June 28, 2015 the following Standards and Interpretations have been issued however are not yet effective and/or have not yet been adopted by the EU and us 
+IFRS 15 "Revenue from Contracts with Customers", was issued in May 2014. In May 2015, the IASB proposed to defer the effective date of IFRS 15 by one year to January 1, 2018. The Standard is subject to endorsement by the EU. IFRS 15 is a joint project of the IASB and the FASB, to clarify the principles for recognizing revenue and to develop a common revenue standard for IFRS and US GAAP that would: 
+• | Remove inconsistencies and weaknesses in previous revenue requirements;
+• | Provide a more robust framework for addressing revenue issues;
+• | Improve comparability of revenue recognition practices across entities, industries, jurisdictions and capital markets;
+• | Provide more useful information to users of financial statements through improved disclosure requirements; and
+• | Simplify the preparation of financial statements by reducing the number of requirements to which an entity must refer.
+In July 2014, the IASB finalized the reform of financial instruments accounting and issued IFRS 9 (as revised in 2014), which will supersede IAS 39 "Financial Instruments: Recognition and Measurement" in its entirety (the IASB tentatively decided that the mandatory effective date of IFRS 9 will be no earlier than annual periods beginning on or after January 1, 2018). Compared to IFRS 9 (as revised in 2013), the 2014 version includes limited amendments to the classification and measurement requirements by introducing a 'fair value through other comprehensive income' measurement category for simple debt instruments. It also adds the impairment requirements relating to the accounting for an entity's expected credit losses on its financial assets and commitments to extend credit. The completed IFRS 9 (as revised in 2014) contains the requirements for a) the classification and measurement of financial assets and financial liabilities, b) impairment methodology, and c) general hedge accounting. 
+We are currently in the process of determining the impact of implementing these Standards on our Consolidated (Condensed Interim) Financial Statements. 
+We believe that the effect of all other IFRSs not yet adopted by the EU is not expected to be material. 
+ASML Statutory Interim Report 2015 21
+4. Fair Value Measurements
+Fair value is the price that would be received to sell an asset or paid to transfer a liability in an orderly transaction between market participants at the measurement date. The fair value measurement hierarchy prioritizes the inputs to valuation techniques used to measure fair value as follows: 
+• | Level 1: Valuations based on inputs such as quoted prices for identical assets or liabilities in active markets that the entity has the ability to access.
+• | Level 2: Valuations based on inputs other than level 1 inputs such as quoted prices for similar assets or liabilities, quoted prices in markets that are not active, or other inputs that are observable or can be corroborated by observable data for substantially the full term of the assets or liabilities.
+• | Level 3: Valuations based on inputs that are supported by little or no market activity and that are significant to the fair value of the assets or liabilities.
+The fair value hierarchy gives the highest priority to quoted prices (unadjusted) in active markets for identical assets or liabilities (Level 1) and the lowest priority to unobservable inputs (Level 3). A financial instrument’s fair value classification is based on the lowest level of any input that is significant in the fair value measurement hierarchy. 
+Financial assets and financial liabilities measured at fair value on a recurring basis 
+Investments in money market funds (as part of our cash and cash equivalents) have fair value measurements which are all based on quoted prices for identical assets or liabilities. 
+Our available-for-sale financial instruments consist of Dutch Treasury Certificates. Dutch Treasury Certificates are traded in an active market and the fair value is determined based on quoted market prices for identical assets or liabilities. 
+The principal market in which we execute our derivative contracts is the institutional market in an over-the-counter environment with a high level of price transparency. The market participants usually are large commercial banks. The valuation inputs for our derivative contracts are based on quoted prices and quoting pricing intervals from public data sources; they do not involve management judgment. 
+The valuation technique used to determine the fair value of forward foreign exchange contracts (used for hedging purposes) approximates the NPV technique which is the estimated amount that a bank would receive or pay to terminate the forward foreign exchange contracts at the reporting date, taking into account current interest rates and current exchange rates. 
+The valuation technique used to determine the fair value of interest rate swaps (used for hedging purposes) is the NPV technique, which is the estimated amount that a bank would receive or pay to terminate the swap agreements at the reporting date, taking into account current interest rates, discounted at a rate that reflects the credit risk of various counterparties or our own credit risk. 
+Our Eurobonds serve as hedged items in fair value hedge relationships in which we hedge the variability of changes in the fair value of our Eurobonds due to changes in market interest rates with interest rate swaps. The fair value changes of these interest rate swaps are recorded on the Consolidated Condensed Statement of Financial Position under derivative financial instruments (within other current assets and other non-current assets) and the carrying amounts of the Eurobonds are adjusted for the effective portion of these fair value changes only. 
+ASML Statutory Interim Report 2015 22
+The following table presents our financial assets and financial liabilities that are measured at fair value on a recurring basis: 
+Unaudited
+As of June 28, 2015 | Level 1 | Level 2 | Level 3 | Total
+(in thousands) | EUR | EUR | EUR | EUR
+Assets measured at fair value
+Derivative financial instruments 1 | — | 137,996 | — | 137,996
+Money market funds 2 | 319,139 | — | — | 319,139
+Short-term investments 3 | 25,014 | — | — | 25,014
+Total | 344,153 | 137,996 | — | 482,149
+Liabilities measured at fair value
+Derivative financial instruments 1 | — | 40,415 | — | 40,415
+Assets and Liabilities for which fair values are disclosed
+Long-term debt | 1,103,470 | — | — | 1,103,470
+As of December 31, 2014 | Level 1 | Level 2 | Level 3 | Total
+(in thousands) | EUR | EUR | EUR | EUR
+Assets measured at fair value
+Derivative financial instruments 1 | — | 153,803 | — | 153,803
+Money market funds 2 | 426,742 | — | — | 426,742
+Short-term investments 3 | 334,864 | — | — | 334,864
+Total | 761,606 | 153,803 | — | 915,409
+Liabilities measured at fair value
+Derivative financial instruments 1 | — | 67,755 | — | 67,755
+Assets and Liabilities for which fair values are disclosed
+Long-term debt | 1,139,628 | — | — | 1,139,628
+1 Derivative financial instruments consist of forward foreign exchange contracts and interest rate swaps. 
+2 Money market funds are part of our cash and cash equivalents.
+3 Short-term investments consist of Dutch Treasury Certificates 
+There were no transfers between levels during the first half year of 2015 and 2014. 
+Financial assets and financial liabilities that are not measured at fair value 
+The carrying amount of cash and cash equivalents, accounts payable, and other current financial assets and liabilities approximate their fair value because of the short-term nature of these instruments. Accounts receivable and finance receivables also approximate their fair value because of the fact that any recoverability loss is reflected in an impairment loss. 
+Assets and liabilities measured at fair value on a nonrecurring basis 
+In 2015, we recognized no significant impairment charges on our property, plant and equipment. Valuation of these assets is classified as Level 3 in the fair value hierarchy since their fair values were determined based on unobservable inputs. An impairment charge is determined based on the difference between the assets’ estimated fair value and their carrying amount. We did not recognize any impairment charges for goodwill and other intangible assets during the first half year of 2015. 
+5. Liquidity
+Our principal sources of liquidity consist of cash flows from operations, cash and cash equivalents as of June 28, 2015 of EUR 2,495.0 million (December 31, 2014: EUR 2,419.5 million), short-term investments as of June 28, 2015 of EUR 25.0 million (December 31, 2014: EUR 334.9 million) and available credit facilities as of June 28, 2015 of EUR 700.0 million (December 31, 2014: EUR 700.0 million). In addition, we may from time to time raise additional capital in debt and equity markets. Our goal is to remain an investment grade rated company and maintain a capital structure that supports this. 
+6. Critical Accounting Judgments and Key sources of Estimation Uncertainty 
+In the process of applying our accounting policies, management has made some judgments that have a significant effect on the amounts recognized in the Consolidated Condensed Interim Financial Statements. The critical accounting judgments and key sources of estimation uncertainty are consistent with those described in the Statutory Annual Report 2014. 
+ASML Statutory Interim Report 2015 23
+7. Earnings per Share
+The EPS data have been calculated as follows:
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in thousands, except per share data) | EUR | EUR
+Net income | 735,102 | 891,255
+Weighted average number of shares outstanding during the year | 439,221 | 431,985
+Basic net income per ordinary share | 1.67 | 2.06
+Weighted average number of shares: | 439,221 | 431,985
+Plus shares applicable to:
+Options and conditional shares1 | 3,090 | 2,444
+Dilutive potential ordinary shares | 3,090 | 2,444
+Adjusted weighted average number of shares | 442,311 | 434,429
+Diluted net income per ordinary share1 | 1.66 | 2.05
+1. | The calculation of diluted net income per ordinary share assumes the exercise of options issued under our stock option plans and the issuance of shares under our share plans for periods in which exercises or issuances would have a dilutive effect. The calculation of diluted net income per ordinary share does not assume exercise of such options or issuance of shares when such exercises or issuance would be anti-dilutive.
+8. Accrued and Other Liabilities 
+Accrued and other liabilities consist of the following:
+Unaudited
+December 31, 2014 | June 28, 2015
+(in thousands) | EUR | EUR
+Deferred revenue | 1,268,633 | 1,384,475
+Costs to be paid | 411,725 | 370,042
+Down payments from customers | 647,317 | 485,372
+Personnel related items | 301,075 | 269,346
+Standard warranty reserve | 41,508 | 27,337
+Other | 21,441 | 603
+Total accrued and other liabilities | 2,691,699 | 2,537,175
+Less: non-current portion of accrued and other liabilities 1 | 408,847 | 468,006
+Current portion of accrued and other liabilities | 2,282,852 | 2,069,169
+1. | The main part of the non-current portion of accrued and other liabilities relates to down payments received from customers regarding future shipments of EUV systems and deferrals with respect to services.
+The decrease in accrued and other liabilities mainly relates to the decrease in costs to be paid, down payments from customers, and personnel related items, which is partly offset by an increase in deferred revenue. 
+Deferred revenue as of June 28, 2015 mainly consists of credits regarding free or discounted products as part of volume purchase agreements amounting to EUR 972.9 million (December 31, 2014: EUR 925.2 million) and extended and enhanced (optic) warranty contracts amounting to EUR 373.3 million (December 31, 2014: EUR 313.8 million). Both include deferrals with respect to our third-generation EUV systems, NXE:3300B. The total deferred revenue of the third-generation EUV systems, NXE:3300B, is EUR 128.8 million (December 31, 2014: EUR 102.5 million). 
+Costs to be paid include an amount of EUR 110.4 million (December 31, 2014: EUR 124.0 million) relating to the expected losses to upgrade the first 11 EUV sources in the field, which was assumed by ASML as a result of the acquisition of Cymer. In addition, costs to be paid include accrued cost for unbilled services provided by suppliers including contracted labor, outsourced services and consultancy. 
+We receive down payments from customers prior to shipment of systems included in our current product portfolio or systems currently under development. The decrease in down payments from customers is caused by the shipments of such systems. 
+Personnel related items decreased mainly as result of payments of the annual profit sharing 2014 and the Board of Management and senior management bonus 2014.
+ASML Statutory Interim Report 2015 24
+9. Commitments, Contingencies and Guarantees
+The nature, scale and scope of the commitments, contingencies and guarantees are in line with those disclosed in the Statutory Annual Report 2014. 
+10. Income Taxes
+Income tax expense is recognized based on management’s best estimate of the annual income tax rate for the full financial year. The estimated annual tax rate for the six-month period ended June 28, 2015 is 13.5 percent compared to 4.7 percent for the six-month period ended June 29, 2014. The increase in the estimated annual tax rate is mainly explained by the fact that the estimated annual tax rate for the six-month period ended June 29, 2014 was favorably impacted by: 
+• | Settling agreements entered into by ASML Netherlands B.V. and Cymer LLC., prior to our acquisition of Cymer in 2013, at different tax rates; and
+• | Changes in the mix of income before income taxes in the Netherlands and foreign jurisdictions.
+11. Segment Disclosure
+ASML has one reportable segment, for the development, production, marketing, sale and servicing of advanced semiconductor equipment systems exclusively consisting of lithography related systems. Its operating results are regularly reviewed by the CODM in order to make decisions about resource allocation and assess performance. Management reporting includes net system sales figures of new and used systems and includes net system sales by technology. Net system sales for new and used systems were as follows:
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in thousands) | EUR | EUR
+New systems | 2,223,461 | 2,304,960
+Used systems | 49,553 | 76,077
+Net system sales | 2,273,014 | 2,381,037
+Net system sales per technology were as follows:
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | Net system sales | Net system sales
+(in thousands) | in units | in EUR
+For the six-month period ended June 28, 2015
+EUV | 1 | 70,473
+ArFi | 42 | 1,943,786
+ArF dry | 4 | 52,886
+KrF | 30 | 277,430
+I-line | 11 | 36,462
+Total | 88 | 2,381,037
+For the six-month period ended June 29, 2014
+EUV | 2 | 120,676
+ArFi | 43 | 1,919,284
+ArF dry | 2 | 15,010
+KrF | 18 | 193,948
+I-line | 6 | 24,096
+Total | 71 | 2,273,014
+The increase in net system sales is primary caused by a higher number of systems sold, partly offset by the decrease in the ASP of new systems sold. The decrease of the ASP of our systems sold was the result of a higher number of KrF system sales compared to ArF immersion system sales.
+ASML Statutory Interim Report 2015 25
+Segment performance is evaluated by our CODM based on the US GAAP Consolidated Statements of Operations which is measured differently from the Consolidated Statement of Profit or Loss reported in our Consolidated Financial Statements based on IFRS-EU.
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in thousands) | EUR | EUR
+Net system sales | 2,273,014 | 2,381,037
+Net service and field option sales | 767,058 | 922,918
+Total net sales | 3,040,072 | 3,303,955
+Cost of system sales | (1,252,518 | ) | (1,230,324 | )
+Cost of service and field option sales | (426,196 | ) | (541,246 | )
+Total cost of sales | (1,678,714 | ) | (1,771,570 | )
+Gross profit | 1,361,358 | 1,532,385
+Other income | 40,495 | 41,600
+Research and development costs | (546,024 | ) | (528,805 | )
+Selling, general and administrative costs | (164,744 | ) | (170,570 | )
+Income from operations | 691,085 | 874,610
+Interest and other, net | (3,985 | ) | (7,685 | )
+Income before income taxes | 687,100 | 866,925
+Provision for income taxes | (39,302 | ) | (94,495 | )
+Net income for management reporting purposes | 647,798 | 772,430
+Differences US GAAP and IFRS-EU | 87,304 | 118,825
+Net income based on IFRS-EU | 735,102 | 891,255
+Segment performance is also evaluated by our CODM based on US GAAP for total assets. The table below presents the measurements and the reconciliation to total assets in the Consolidated Statement of Financial Position: 
+Unaudited
+December 31, 2014 | June 28, 2015
+(in thousands) | EUR | EUR
+Total assets for management reporting purposes | 12,203,945 | 12,675,296
+Differences US GAAP and IFRS-EU | 863,466 | 1,024,492
+Total assets based on IFRS-EU | 13,067,411 | 13,699,788
+For geographical reporting, total net sales are attributed to the geographic location in which the customers’ facilities are located. Non-current assets are attributed to the geographic location in which these assets are located and exclude deferred tax assets, financial instruments, post-employment benefit assets and rights arising under insurance contracts. 
+Total net sales by geographic region were as follows:
+Unaudited | Unaudited
+For the six-month period ended June 29, 2014 and June 28, 2015 | 2014 | 2015
+(in thousands) | EUR | EUR
+United States | 1,008,273 | 693,012
+Korea | 897,054 | 1,020,088
+Taiwan | 491,010 | 778,270
+Japan | 194,193 | 368,724
+Singapore | 42,705 | 58,467
+Rest of Asia | 348,395 | 243,904
+Netherlands | 217 | 1,708
+Rest of Europe | 58,225 | 139,782
+Total | 3,040,072 | 3,303,955
+ASML Statutory Interim Report 2015 26
+Non-current assets by geographic region were as follows: 
+Unaudited
+December 31, 2014 | June 28, 2015
+(in thousands) | EUR | EUR
+United States | 3,403,907 | 3,745,885
+Korea | 18,021 | 16,970
+Taiwan | 64,575 | 70,178
+Japan | 3,990 | 4,135
+Singapore | 879 | 730
+Rest of Asia | 3,826 | 3,472
+Netherlands | 2,287,968 | 2,457,703
+Rest of Europe | 6,479 | 1,173
+Total | 5,789,645 | 6,300,246
+For the six-month period ended June 28, 2015, net sales to the largest customer accounted for EUR 837.3 million or 25.3 percent of total net sales (June 29, 2014: EUR 884.8 million or 29.1 percent). Our three largest customers (based on net sales) accounted for EUR 815.9 million or 51.3 percent of accounts receivable and finance receivables at June 28, 2015 (December 31, 2014 EUR 643.2 million or 49.3 percent). 
+Substantially all of our sales were export sales during the six-month periods ended June 28, 2015 and June 29, 2014. 
+12. Dividends and Share Buybacks
+As part of our financing policy, we aim to pay an annual dividend that will be stable or growing over time. Annually, the Board of Management will, upon prior approval from the Supervisory Board, submit a proposal to the AGM with respect to the amount of dividend to be declared with respect to the prior year. The dividend proposal in any given year will be subject to the availability of distributable profits or retained earnings and may be affected by, among other factors, the Board of Management’s views on our potential future liquidity requirements, including for investments in production capacity, the funding of our R&D programs and for acquisition opportunities that may arise from time to time, and by future changes in applicable income tax and corporate laws. Accordingly, it may be decided to propose not to pay a dividend or to pay a lower dividend with respect to any particular year in the future. 
+In the AGM of April 22, 2015, a dividend of EUR 0.70 per ordinary share of EUR 0.09 nominal value was adopted for 2014. As a result, a total dividend amount of EUR 302.3 million was paid to our shareholders on May 11, 2015. 
+In addition to dividend payments, we intend to return cash to our shareholders on a regular basis through share buybacks or capital repayment, subject to our actual and anticipated level of liquidity requirements, our current share price, other market conditions and other relevant factors. 
+As part of our policy to return excess cash to shareholders through dividend and regularly timed share buybacks, we announced our intention to purchase up to 3.3 million shares in 2015-2016 to cover ESOPs. In addition, we announced our intention to purchase up to EUR 750 million of shares in 2015-2016 under this program, which we intend to cancel upon repurchase.
+Through June 28, 2015 we acquired 3.0 million shares under this program for a total consideration of EUR 284.7 million. These shares have been purchased to cover ESOPs.
+13. Related Party Transactions
+On July 9, 2012, we announced our CCIP to accelerate our development of EUV technology beyond the current generation and our development of future 450mm silicon wafer technology. One of the Participating Customers, Intel, agreed to fund EUR 829 million for our R&D projects. In addition Intel also agreed to invest in ordinary shares equal to 15 percent of our issued share capital (calculated giving effect to our Synthetic Share Buyback in November 2012). Due to the equity investment, Intel is considered a related party of ASML as of July 9, 2012. 
+The total net sales to Intel (and its affiliates) for the first half year of 2015 amounted to EUR 357.1 million compared with EUR 544.8 million for the first half year of 2014, whereas the outstanding liability as of June 28, 2015 amounted to EUR 433.6 million (December 31, 2014: EUR 386.8 million). 
+There have been no transactions during the first half year of 2015, and there are currently no transactions, between ASML or any of its subsidiaries, and any other significant shareholder and any director or officer or any relative or spouse thereof other than ordinary course compensation arrangements. During the first half year of 2015, there has been no, and at present there is no, outstanding indebtedness to ASML owed or owing by any director or officer of ASML or any associate thereof. 
+ASML Statutory Interim Report 2015 27
+14. Subsequent Events
+We have evaluated subsequent events up to July 14, 2015 which is the issuance date of this Statutory Interim Report for the six-month period ended June 28, 2015. There are no subsequent events to report. 
+Veldhoven, the Netherlands 
+July 14, 2015 
+Prepared by the Board of Management:
+Peter T.F.M. Wennink 
+Wolfgang U. Nickl 
+Martin A. van den Brink 
+Frits J. van Hout 
+Frédéric J.M. Schneider-Maunoury 
+ASML Statutory Interim Report 2015 28
+Other Information
+ASML Statutory Interim Report 2015 29
+Information and Investor Relations
+Financial Calendar 
+October 14, 2015 
+Announcement of Third Quarter Results for 2015 
+January 20, 2016 
+Announcement of Fourth Quarter Results for 2015 and Annual Results for 2015 
+April 29, 2016 
+AGM
+Fiscal Year 
+ASML’s fiscal year ends on December 31, 2015 
+Listing 
+Our ordinary shares are listed for trading in the form of registered shares on NASDAQ and in the form of registered shares on Euronext Amsterdam. The principal trading market of our ordinary shares is Euronext Amsterdam.
+Investor Relations 
+ASML Investor Relations will answer questions related to our Annual Report on Form 20-F filed with the US Securities and Exchange Commission and our Statutory Annual and Interim Report filed with the AFM. Annual Reports, Interim Reports, quarterly releases and other information are available on and can be downloaded from our website (www.asml.com). 
+ASML Statutory Interim Report 2015 30
+ASML Worldwide Contact Information
+Corporate Headquarters 
+De Run 6501 
+5504 DR Veldhoven 
+The Netherlands 
+Mailing Address 
+P.O. Box 324 
+5500 AH Veldhoven 
+The Netherlands 
+United States Main Office 
+2650 W Geronimo Place 
+Chandler, AZ 85224 
+U.S.A. 
+Asia Main Office 
+Suite 1702-3, 17F 
+100 Queens Road Central 
+Hong Kong 
+Corporate Communications 
+phone: +31 40 268 7870 
+email: corpcom@asml.com 
+Investor Relations 
+phone: +31 40 268 3938 
+email: investor.relations@asml.com
+For more information please visit our website www.asml.com
+ASML Statutory Interim Report 2015 31
+Definitions
+Name | Description
+AFM | Autoriteit Financiële Markten; Authority for the Financial Markets of the Netherlands
+AGM | Annual General Meeting of Shareholders
+ASML | ASML Holding N.V. and its Subsidiaries
+ASP | Average Selling Price
+CCIP | Customer Co-Investment Program
+CODM | Chief Operating Decision Maker
+Cymer | Cymer and its Subsidiaries
+EPS | Earnings per Share
+ESOPs | Employee Stock and Stock Option Plans
+EU | European Union
+Eurobonds | Our 5.75 percent senior notes due 2017 and our 3.375 percent senior notes due 2023
+EUV | Extreme Ultraviolet
+FASB | Financial Accounting Standards Board
+FTEs | Full-Time Equivalents
+Holistic Lithography | Optimize the scanner performance by taking into account the entire chip creation process, from design to volume marketing
+IAS | International Accounting Standard
+IASB | International Accounting Standards Board
+IC | Integrated Circuit
+IFRS | International Financial Reporting Standards
+IFRS-EU | International Financial Reporting Standards as adopted by the European Union
+Intel | Intel Corporation
+Logic | Integrated Device Manufacturers and Foundries
+Memory | NAND-Flash Memory and DRAM Memory Chip Makers
+NASDAQ | NASDAQ Stock Market LLC
+NPV | Net Present Value
+NRE | Non Recurring Engineering
+NRE FundingAgreements | The Intel NRE Funding Agreements, the TSMC NRE Funding Agreement and the Samsung NRE Funding Agreement
+Participating Customers | The participants in the Customer Co-Investment Program: Intel Corporation ("Intel"), Taiwan Semiconductor Manufacturing Company Ltd. ("TSMC") and Samsung Electronics Corporation ("Samsung")
+R&D | Research and Development
+US GAAP | Generally Accepted Accounting Principles of the United States of America
+ASML Statutory Interim Report 2015 32
+
+
+=====
+SOURCE https://www.sec.gov/Archives/edgar/data/937966/000093796615000005/usgaapfinancialstatementsq.htm
+
+EX-99.3
+4
+usgaapfinancialstatementsq.htm
+EXHIBIT 99.3
+ US GAAP Financial statements Q2 2015 - US GAAP PROCESS
+Exhibit 99.3
+ASML - Summary US GAAP Consolidated Statements of Operations 1,2 
+Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR, except per share data)
+Net system sales | 1,243.0 | 1,134.5 | 2,273.0 | 2,381.0
+Net service and field option sales | 400.6 | 519.6 | 767.1 | 923.0
+Total net sales | 1,643.6 | 1,654.1 | 3,040.1 | 3,304.0
+Total cost of sales | (891.7 | ) | (900.3 | ) | (1,678.7 | ) | (1,771.6 | )
+Gross profit | 751.9 | 753.8 | 1,361.4 | 1,532.4
+Other income | 20.3 | 20.8 | 40.5 | 41.6
+Research and development costs | (266.9 | ) | (267.4 | ) | (546.0 | ) | (528.8 | )
+Selling, general and administrative costs | (79.9 | ) | (88.3 | ) | (164.8 | ) | (170.6 | )
+Income from operations | 425.4 | 418.9 | 691.1 | 874.6
+Interest and other, net | (1.4 | ) | (4.2 | ) | (4.0 | ) | (7.7 | )
+Income before income taxes | 424.0 | 414.7 | 687.1 | 866.9
+Benefit from (provision for) income taxes | (25.3 | ) | (45.0 | ) | (39.3 | ) | (94.5 | )
+Net income | 398.7 | 369.7 | 647.8 | 772.4
+Basic net income per ordinary share | 0.91 | 0.86 | 1.47 | 1.79
+Diluted net income per ordinary share | 3 | 0.90 | 0.85 | 1.46 | 1.78
+Weighted average number of ordinary shares used in computing per share amounts (in millions):
+Basic | 438.5 | 431.4 | 439.2 | 432.0
+Diluted | 3 | 441.6 | 433.8 | 442.3 | 434.4
+ASML - Ratios and Other Data 1,2 
+Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR, except otherwise indicated)
+Gross profit as a percentage of net sales | 45.7 | 45.6 | 44.8 | 46.4
+Income from operations as a percentage of net sales | 25.9 | 25.3 | 22.7 | 26.5
+Net income as a percentage of net sales | 24.3 | 22.4 | 21.3 | 23.4
+Income taxes as a percentage of income before income taxes | 6.0 | 10.8 | 5.7 | 10.9
+Shareholders’ equity as a percentage of total assets | 59.6 | 62.8 | 59.6 | 62.8
+Sales of systems (in units) | 31 | 41 | 71 | 88
+Average selling price of system sales (EUR millions) | 40.1 | 27.7 | 32.0 | 27.1
+Value of systems backlog (EUR millions) | 1,763 | 3,015 | 4 | 1,763 | 3,015 | 4
+Systems backlog (in units) | 46 | 81 | 4 | 46 | 81 | 4
+Average selling price of systems backlog (EUR millions) | 38.3 | 37.2 | 4 | 38.3 | 37.2 | 4
+Value of booked systems (EUR millions) | 1,048 | 1,523 | 4 | 2,118 | 2,551 | 4
+Net bookings (in units) | 29 | 46 | 4 | 59 | 86 | 4
+Average selling price of booked systems (EUR millions) | 36.1 | 33.1 | 4 | 35.9 | 29.7 | 4
+Number of payroll employees in FTEs | 10,786 | 11,676 | 10,786 | 11,676
+Number of temporary employees in FTEs | 2,820 | 2,527 | 2,820 | 2,527
+ASML - Summary US GAAP Consolidated Balance Sheets 1,2 
+Dec 31, | Jun 28,
+2014 | 2015
+(in millions EUR)
+ASSETS
+Cash and cash equivalents | 2,419.5 | 2,495.0
+Short-term investments | 334.9 | 25.0
+Accounts receivable, net | 1,052.5 | 1,282.3
+Finance receivables, net | 196.1 | 251.2
+Current tax assets | 43.9 | 52.3
+Inventories, net | 2,549.8 | 2,592.1
+Deferred tax assets | 159.5 | 178.1
+Other assets | 390.0 | 435.8
+Total current assets | 7,146.2 | 7,311.8
+Finance receivables, net | 55.3 | 55.7
+Deferred tax assets | 28.8 | 33.3
+Other assets | 444.8 | 435.0
+Goodwill | 2,357.5 | 2,569.4
+Other intangible assets, net | 723.8 | 751.2
+Property, plant and equipment, net | 1,447.5 | 1,518.9
+Total non-current assets | 5,057.7 | 5,363.5
+Total assets | 12,203.9 | 12,675.3
+LIABILITIES AND SHAREHOLDERS’ EQUITY
+Total current liabilities | 2,888.8 | 2,853.9
+Long-term debt | 1,149.9 | 1,115.8
+Deferred and other tax liabilities | 237.3 | 269.5
+Provisions | 3.6 | 3.2
+Accrued and other liabilities | 411.7 | 470.3
+Total non-current liabilities | 1,802.5 | 1,858.8
+Total liabilities | 4,691.3 | 4,712.7
+Total shareholders’ equity | 7,512.6 | 7,962.6
+Total liabilities and shareholders’ equity | 12,203.9 | 12,675.3
+ASML - Summary US GAAP Consolidated Statements of Cash Flows 1,2 
+Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR)
+CASH FLOWS FROM OPERATING ACTIVITIES
+Net income | 398.7 | 369.7 | 647.8 | 772.4
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 67.0 | 72.8 | 131.7 | 138.9
+Impairment | 2.5 | 0.6 | 6.4 | 0.6
+Loss on disposal of property, plant and equipment | 0.5 | 0.4 | 1.2 | 1.3
+Share-based payments | 13.5 | 15.0 | 36.6 | 29.6
+Allowance for doubtful receivables | 0.1 | 1.7 | 0.2 | 2.1
+Allowance for obsolete inventory | 45.2 | 60.3 | 86.7 | 97.3
+Deferred income taxes | 11.0 | (9.4 | ) | (18.9 | ) | 7.1
+Changes in assets and liabilities | (340.1 | ) | (227.3 | ) | (489.9 | ) | (428.3 | )
+Net cash provided by (used in) operating activities | 198.4 | 283.8 | 401.8 | 621.0
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchase of property, plant and equipment | (70.7 | ) | (79.2 | ) | (146.2 | ) | (164.8 | )
+Purchase of intangible assets | (3.0 | ) | — | (3.0 | ) | (1.1 | )
+Purchase of available for sale securities | (174.9 | ) | — | (369.7 | ) | —
+Maturity of available for sale securities | 175.0 | 35.0 | 450.0 | 309.9
+Cash from (used for) derivative financial instruments | — | (63.0 | ) | — | (127.0 | )
+Net cash provided by (used in) investing activities | (73.6 | ) | (107.2 | ) | (68.9 | ) | 17.0
+CASH FLOWS FROM FINANCING ACTIVITIES
+Dividend paid | (268.0 | ) | (302.3 | ) | (268.0 | ) | (302.3 | )
+Purchase of shares | (154.9 | ) | (165.6 | ) | (299.9 | ) | (282.7 | )
+Net proceeds from issuance of shares | 8.1 | 10.1 | 13.6 | 14.5
+Repayment of debt | (1.0 | ) | (0.7 | ) | (2.1 | ) | (1.5 | )
+Tax benefit from share-based payments | 1.9 | 0.6 | 1.9 | 2.4
+Net cash provided by (used in) financing activities | (413.9 | ) | (457.9 | ) | (554.5 | ) | (569.6 | )
+Net cash flows | (289.1 | ) | (281.3 | ) | (221.6 | ) | 68.4
+Effect of changes in exchange rates on cash | 2.0 | (2.2 | ) | 1.9 | 7.1
+Net increase (decrease) in cash and cash equivalents | (287.1 | ) | (283.5 | ) | (219.7 | ) | 75.5
+ASML - Quarterly Summary US GAAP Consolidated Statements of Operations 1,2 
+Three months ended,
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR, except per share data)
+Net system sales | 1,243.0 | 884.5 | 1,085.3 | 1,246.5 | 1,134.5
+Net service and field option sales | 400.6 | 437.7 | 408.7 | 403.4 | 519.6
+Total net sales | 1,643.6 | 1,322.2 | 1,494.0 | 1,649.9 | 1,654.1
+Total cost of sales | (891.7 | ) | (744.1 | ) | (837.1 | ) | (871.3 | ) | (900.3 | )
+Gross profit | 751.9 | 578.1 | 656.9 | 778.6 | 753.8
+Other income | 20.3 | 20.3 | 20.2 | 20.8 | 20.8
+Research and development costs | (266.9 | ) | (260.1 | ) | (268.0 | ) | (261.4 | ) | (267.4 | )
+Selling, general and administrative costs | (79.9 | ) | (76.9 | ) | (79.4 | ) | (82.3 | ) | (88.3 | )
+Income from operations | 425.4 | 261.4 | 329.7 | 455.7 | 418.9
+Interest and other, net | (1.4 | ) | (2.0 | ) | (2.6 | ) | (3.5 | ) | (4.2 | )
+Income before income taxes | 424.0 | 259.4 | 327.1 | 452.2 | 414.7
+Benefit from (provision for) income taxes | (25.3 | ) | (15.4 | ) | (22.3 | ) | (49.5 | ) | (45.0 | )
+Net income | 398.7 | 244.0 | 304.8 | 402.7 | 369.7
+Basic net income per ordinary share | 0.91 | 0.56 | 0.70 | 0.93 | 0.86
+Diluted net income per ordinary share | 3 | 0.90 | 0.56 | 0.70 | 0.93 | 0.85
+Weighted average number of ordinary shares used in computing per share amounts (in millions):
+Basic | 438.5 | 436.1 | 434.1 | 432.6 | 431.4
+Diluted | 3 | 441.6 | 439.0 | 436.7 | 435.3 | 433.8
+ASML - Quarterly Summary Ratios and other data 1,2 
+Three months ended,
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR, except otherwise indicated)
+Gross profit as a percentage of net sales | 45.7 | 43.7 | 44.0 | 47.2 | 45.6
+Income from operations as a percentage of net sales | 25.9 | 19.8 | 22.1 | 27.6 | 25.3
+Net income as a percentage of net sales | 24.3 | 18.5 | 20.4 | 24.4 | 22.4
+Income taxes as a percentage of income before income taxes | 6.0 | 5.9 | 6.8 | 11.0 | 10.8
+Shareholders’ equity as a percentage of total assets | 59.6 | 60.5 | 61.6 | 61.7 | 62.8
+Sales of systems (in units) | 31 | 30 | 35 | 47 | 41
+Average selling price of system sales (EUR millions) | 40.1 | 29.5 | 31.0 | 26.5 | 27.7
+Value of systems backlog (EUR millions) | 1,763 | 2,406 | 2,772 | 4 | 2,602 | 4 | 3,015 | 4
+Systems backlog (in units) | 46 | 65 | 82 | 4 | 75 | 4 | 81 | 4
+Average selling price of systems backlog (EUR millions) | 38.3 | 37.0 | 33.8 | 4 | 34.7 | 4 | 37.2 | 4
+Value of booked systems (EUR millions) | 1,048 | 1,397 | 1,387 | 4 | 1,028 | 4 | 1,523 | 4
+Net bookings (in units) | 29 | 47 | 51 | 4 | 40 | 4 | 46 | 4
+Average selling price of booked systems (EUR millions) | 36.1 | 29.7 | 27.2 | 4 | 25.7 | 4 | 33.1 | 4
+Number of payroll employees in FTEs | 10,786 | 11,076 | 11,318 | 11,533 | 11,676
+Number of temporary employees in FTEs | 2,820 | 2,771 | 2,754 | 2,644 | 2,527
+ASML - Quarterly Summary US GAAP Consolidated Balance Sheets 1,2 
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+ASSETS
+Cash and cash equivalents | 2,111.0 | 2,144.8 | 2,419.5 | 2,778.5 | 2,495.0
+Short-term investments | 599.7 | 539.8 | 334.9 | 60.0 | 25.0
+Accounts receivable, net | 1,085.6 | 961.2 | 1,052.5 | 1,270.6 | 1,282.3
+Finance receivables, net | 297.3 | 255.9 | 196.1 | 184.0 | 251.2
+Current tax assets | 94.0 | 76.7 | 43.9 | 94.3 | 52.3
+Inventories, net | 2,615.5 | 2,676.8 | 2,549.8 | 2,607.5 | 2,592.1
+Deferred tax assets | 108.6 | 144.2 | 159.5 | 173.8 | 178.1
+Other assets | 378.6 | 362.2 | 390.0 | 456.4 | 435.8
+Total current assets | 7,290.3 | 7,161.6 | 7,146.2 | 7,625.1 | 7,311.8
+Finance receivables, net | 46.4 | 119.3 | 55.3 | 55.3 | 55.7
+Deferred tax assets | 126.2 | 115.8 | 28.8 | 30.5 | 33.3
+Other assets | 347.9 | 349.9 | 444.8 | 472.2 | 435.0
+Goodwill | 2,116.1 | 2,264.9 | 2,357.5 | 2,610.8 | 2,569.4
+Other intangible assets, net | 686.5 | 712.7 | 723.8 | 773.8 | 751.2
+Property, plant and equipment, net | 1,275.1 | 1,372.4 | 1,447.5 | 1,523.4 | 1,518.9
+Total non-current assets | 4,598.2 | 4,935.0 | 5,057.7 | 5,466.0 | 5,363.5
+Total assets | 11,888.5 | 12,096.6 | 12,203.9 | 13,091.1 | 12,675.3
+LIABILITIES AND SHAREHOLDERS’ EQUITY
+Total current liabilities | 3,065.2 | 2,926.0 | 2,888.8 | 3,194.3 | 2,853.9
+Long-term debt | 1,118.4 | 1,137.4 | 1,149.9 | 1,155.5 | 1,115.8
+Deferred and other tax liabilities | 318.0 | 304.7 | 237.3 | 269.3 | 269.5
+Provisions | 4.1 | 4.0 | 3.6 | 3.7 | 3.2
+Accrued and other liabilities | 302.4 | 400.4 | 411.7 | 391.5 | 470.3
+Total non-current liabilities | 1,742.9 | 1,846.5 | 1,802.5 | 1,820.0 | 1,858.8
+Total liabilities | 4,808.1 | 4,772.5 | 4,691.3 | 5,014.3 | 4,712.7
+Total shareholders’ equity | 7,080.4 | 7,324.1 | 7,512.6 | 8,076.8 | 7,962.6
+Total liabilities and shareholders’ equity | 11,888.5 | 12,096.6 | 12,203.9 | 13,091.1 | 12,675.3
+ASML - Quarterly Summary US GAAP Consolidated Statements of Cash Flows 1,2 
+Three months ended,
+Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+CASH FLOWS FROM OPERATING ACTIVITIES
+Net income | 398.7 | 244.0 | 304.8 | 402.7 | 369.7
+Adjustments to reconcile net income to net cash flows from operating activities:
+Depreciation and amortization | 67.0 | 60.4 | 62.5 | 66.1 | 72.8
+Impairment | 2.5 | 3.6 | 0.5 | — | 0.6
+Loss on disposal of property, plant and equipment | 0.5 | 0.9 | 1.4 | 0.9 | 0.4
+Share-based payments | 13.5 | 13.7 | 13.1 | 14.6 | 15.0
+Allowance for doubtful receivables | 0.1 | 0.1 | (0.2 | ) | 0.4 | 1.7
+Allowance for obsolete inventory | 45.2 | 35.8 | 40.3 | 37.0 | 60.3
+Deferred income taxes | 11.0 | (39.0 | ) | (1.2 | ) | 16.5 | (9.4 | )
+Changes in assets and liabilities | (340.1 | ) | (105.3 | ) | (12.0 | ) | (201.0 | ) | (227.3 | )
+Net cash provided by (used in) operating activities | 198.4 | 214.2 | 409.2 | 337.2 | 283.8
+CASH FLOWS FROM INVESTING ACTIVITIES
+Purchase of property, plant and equipment | (70.7 | ) | (84.2 | ) | (127.9 | ) | (85.6 | ) | (79.2 | )
+Purchase of intangible assets | (3.0 | ) | — | — | (1.1 | ) | —
+Purchase of available for sale securities | (174.9 | ) | (110.0 | ) | (25.0 | ) | — | —
+Maturity of available for sale securities | 175.0 | 169.9 | 229.9 | 274.9 | 35.0
+Cash from (used for) derivative financial instruments | — | — | — | (64.0 | ) | (63.0 | )
+Net cash provided by (used in) investing activities | (73.6 | ) | (24.3 | ) | 77.0 | 124.2 | (107.2 | )
+CASH FLOWS FROM FINANCING ACTIVITIES
+Dividend paid | (268.0 | ) | — | — | — | (302.3 | )
+Purchase of shares | (154.9 | ) | (171.1 | ) | (229.0 | ) | (117.1 | ) | (165.6 | )
+Net proceeds from issuance of shares | 8.1 | 10.6 | 15.5 | 4.4 | 10.1
+Repayment of debt | (1.0 | ) | (1.2 | ) | (0.8 | ) | (0.8 | ) | (0.7 | )
+Tax benefit from share-based payments | 1.9 | 0.9 | 1.2 | 1.8 | 0.6
+Net cash provided by (used in) financing activities | (413.9 | ) | (160.8 | ) | (213.1 | ) | (111.7 | ) | (457.9 | )
+Net cash flows | (289.1 | ) | 29.1 | 273.1 | 349.7 | (281.3 | )
+Effect of changes in exchange rates on cash | 2.0 | 4.7 | 1.6 | 9.3 | (2.2 | )
+Net increase (decrease) in cash and cash equivalents | (287.1 | ) | 33.8 | 274.7 | 359.0 | (283.5 | )
+Notes to the Summary US GAAP Consolidated Financial Statements
+Basis of Presentation 
+The accompanying summary consolidated financial statements are stated in millions of euros (“EUR”) unless otherwise indicated. ASML follows accounting principles generally accepted in the United States of America (“US GAAP”). Further disclosures, as required under US GAAP in annual reports, are not included in the summary consolidated financial statements. 
+Use of estimates
+The preparation of our consolidated financial statements in conformity with US GAAP requires management to make estimates and assumptions that affect the reported amounts of assets and liabilities and the disclosure of contingent assets and liabilities on the balance sheet dates, and the reported amounts of net sales and costs during the reported periods. Actual results could differ from those estimates.
+Principles of consolidation
+The consolidated financial statements include the financial statements of ASML Holding N.V. and all of its subsidiaries and the variable interest entity of which ASML is the primary beneficiary (referred to as “ASML”). All intercompany profits, balances and transactions have been eliminated in the consolidation. Subsidiaries are all entities over which ASML has the power to govern the financial and operating policies generally accompanying a shareholding of more than 50 percent of the voting rights. 
+Revenue recognition
+In general, ASML recognizes revenue when all four revenue recognition criteria are met: persuasive evidence of an arrangement exists; delivery has occurred or services have been rendered; seller’s price to buyer is fixed or determinable; and collectability is reasonably assured. At ASML this policy generally results in revenue recognition from the sale of a system upon shipment. The revenue from the installation of a system is generally recognized upon completion of that installation at the customer site. Each system undergoes, prior to shipment, a "Factory Acceptance Test" in ASML’s cleanroom facilities, effectively replicating the operating conditions that will be present on the customer's site, in order to verify whether the system will meet its standard specifications and any additional technical and performance criteria agreed with the customer, if any. A system is shipped, and revenue is recognized, only after all specifications are met and customer sign-off is received or waived. In case not all specifications are met and the remaining performance obligation is not essential to the functionality of the system but is substantive rather than inconsequential or perfunctory, a portion of the sales price is deferred. Although each system's performance is re-tested upon installation at the customer's site, we have never failed to successfully complete installation of a system at a customer’s premises.
+In connection with the introduction of new technology, such as NXE:3300B, we initially defer revenue recognition until acceptance of the new technology based system and completion of installation at the customer's premises. As our systems are based largely on two product platforms that permit incremental, modular upgrades, the introduction of genuinely “new” technology occurs infrequently, and in the past 15 years, has occurred on only two occasions: 2000 (TWINSCAN) and 2010 (EUV).
+The main portion of our revenue is derived from contractual arrangements with our customers that have multiple deliverables, which mainly include the sale of our systems, installation and training services and prepaid extended and enhanced (optic) warranty contracts. For each of the specified deliverables ASML determines the selling price by using either vendor specific objective evidence (‘VSOE’), third party evidence (‘TPE’) or by best estimate of the selling price (‘BESP’). When we are unable to establish relative selling price using VSOE or TPE, ASML uses BESP in its allocation of arrangement consideration. The total arrangement consideration is allocated at inception of the arrangement to all deliverables on the basis of their relative selling price. The revenue relating to the undelivered elements of the arrangements is deferred at their relative selling prices until delivery of these elements. Revenue from installation and training services is recognized when the services are completed. Revenue from prepaid extended and enhanced (optic) warranty contracts is recognized over the term of the contract. 
+For our NXE:3300B systems, we are unable to determine VSOE for prepaid extended, enhanced (optic) warranty contracts and installation. We determined for NXE:3300B systems that BESP is the appropriate reference in the fair value hierarchy for prepaid extended and enhanced (optic) warranty contracts. We review selling prices periodically and maintain internal controls over the establishment and updates of these elements.
+Foreign currency risk management
+Our sales are predominately denominated in euros. Exceptions may occur on a customer by customer basis. Our cost of sales and other expenses are mainly denominated in euros, to a certain extent in US dollars, Taiwanese dollars and Japanese yen and to a limited extent in other currencies. Therefore, we are exposed to foreign currency exchange risk.
+It is our policy to hedge material transaction exposures, such as forecasted sales and purchase transactions, and material net remeasurement exposures, such as accounts receivable and payable. We hedge these exposures through the use of foreign exchange contracts. 
+ASML – Reconciliation US GAAP – IFRS 1,2 
+Net income | Three months ended, | Six months ended,
+Jun 29, | Jun 28, | Jun 29, | Jun 28,
+2014 | 2015 | 2014 | 2015
+(in millions EUR)
+Net income based on US GAAP | 398.7 | 369.7 | 647.8 | 772.4
+Development expenditures (see Note 1) | 35.6 | 62.9 | 63.1 | 132.4
+Share-based payments (see Note 2) | 3.5 | 0.8 | 4.2 | 2.0
+Income taxes (see Note 3) | 14.0 | (12.1 | ) | 20.0 | (15.5 | )
+Net income based on IFRS | 451.8 | 421.3 | 735.1 | 891.3
+Shareholders' equity | Jun 29, | Sep 28, | Dec 31, | Mar 29, | Jun 28,
+2014 | 2014 | 2014 | 2015 | 2015
+(in millions EUR)
+Shareholders' equity based on US GAAP | 7,080.4 | 7,324.1 | 7,512.6 | 8,076.8 | 7,962.6
+Development expenditures (see Note 1) | 646.9 | 702.3 | 792.1 | 878.1 | 937.9
+Share-based payments (see Note 2) | 20.1 | 20.7 | 21.0 | 22.4 | 22.0
+Income taxes (see Note 3) | 33.7 | 43.8 | 40.2 | 42.1 | 29.1
+Equity based on IFRS | 7,781.1 | 8,090.9 | 8,365.9 | 9,019.4 | 8,951.6
+Notes to the reconciliation from US GAAP to IFRS
+Note 1 Development expenditures
+Under US GAAP, ASML applies ASC 730, “Research and Development”. In accordance with ASC 730, ASML charges costs relating to research and development to operating expense as incurred.
+Under IFRS, ASML applies IAS 38, “Intangible Assets”. In accordance with IAS 38, ASML capitalizes certain development expenditures that are amortized over the expected useful life of the related product generally ranging between one and five years. Amortization starts when the developed product is ready for volume production. 
+Note 2 Share-based Payments
+Under US GAAP, ASML applies ASC 718 “Compensation - Stock Compensation” which requires companies to recognize the cost of employee services received in exchange for awards of equity instruments based upon the grant-date fair value of those instruments. ASC 718’s general principle is that a deferred tax asset is established as we recognize compensation costs for commercial purposes for awards that are expected to result in a tax deduction under existing tax law. Under US GAAP, the deferred tax recorded on share-based compensation is computed on the basis of the expense recognized in the financial statements. Therefore, changes in ASML’s share price do not affect the deferred tax asset recorded in our financial statements.
+Under IFRS, ASML applies IFRS 2, “Share-based Payments”. In accordance with IFRS 2, ASML records as an expense the fair value of its share-based payments with respect to stock options and shares granted to its employees. Under IFRS, at period end a deferred tax asset is computed on the basis of the tax deduction for the share-based payments under the applicable tax law and is recognized to the extent it is probable that future taxable profit will be available against which these deductible temporary differences will be utilized. Therefore, changes in ASML’s share price do affect the deferred tax asset at period-end and result in adjustments to the deferred tax asset.
+Note 3 Income taxes
+Under US GAAP, the elimination of unrealized net income from intercompany transactions that are eliminated from the carrying amount of assets in consolidation give rise to a temporary difference for which prepaid taxes must be recognized in consolidation. Contrary to IFRS, the prepaid taxes under US GAAP are calculated based on the tax rate applicable in the seller’s rather than the purchaser’s tax jurisdiction.
+Under IFRS, ASML applies IAS 12, “Income Taxes”. In accordance with IAS 12 unrealized net income resulting from intercompany transactions that are eliminated from the carrying amount of assets in consolidation give rise to a temporary difference for which deferred taxes must be recognized in consolidation. The deferred taxes are calculated based on the tax rate applicable in the purchaser’s tax jurisdiction.
+This document contains statements relating to certain projections and business trends that are forward-looking, including statements with respect to our outlook, including expectations for the third quarter and second half of 2015, backlog, expected customer demand in specified market segments including memory, logic and foundry, expected trends, expected levels of service sales, systems backlog, expected financial results, including expected sales, other income, gross margin, earnings per share and R&D and SG&A expenses and effective tax rate, annual revenue opportunity for ASML, productivity of our tools and systems performance, TWINSCAN and EUV system performance (such as endurance tests), expected industry trends, statements with respect to expected system shipments, including the number of EUV systems expected to be shipped and timing of shipments and other EUV targets (including availability, productivity and shipments), the expected continuation of Moore's law, expected annual revenue growth and goals for holistic lithography, intention to return excess cash to shareholders, and statements about our dividend policy and intention to repurchase shares. You can generally identify these statements by the use of words like "may", "will", "could", "should", "project", "believe", "anticipate", "expect", "plan", "estimate", "forecast", "potential", "intend", "continue" and variations of these words or comparable words. These statements are not historical facts, but rather are based on current expectations, estimates, assumptions and projections about the business and our future financial results and readers should not place undue reliance on them. Forward-looking statements do not guarantee future performance and involve risks and uncertainties. These risks and uncertainties include, without limitation, economic conditions, product demand and semiconductor equipment industry capacity, worldwide demand and manufacturing capacity utilization for semiconductors (the principal product of our customer base), including the impact of general economic conditions on consumer confidence and demand for our customers' products, competitive products and pricing, the impact of manufacturing efficiencies and capacity constraints, performance of our systems, the continuing success of technology advances and the related pace of new product development and customer acceptance of new products, the number and timing of EUV systems expected to be shipped and recognized in revenue, our ability to enforce patents and protect intellectual property rights, the risk of intellectual property litigation, availability of raw materials and critical manufacturing equipment, trade environment, changes in exchange rates, changes in tax rates, available cash, distributable reserves for dividend payments and share repurchases, and other risks indicated in the risk factors included in ASML's Annual Report on Form 20-F and other filings with the US Securities and Exchange Commission. These forward-looking statements are made only as of the date of this document. We do not undertake to update or revise the forward-looking statements, whether as a result of new information, future events or otherwise.
+1 | These financial statements are unaudited.
+2 | Numbers have been rounded.
+3 | The calculation of diluted net income per ordinary share assumes the exercise of options issued under ASML stock option plans and the issuance of shares under ASML share plans for periods in which exercises or issuances would have a dilutive effect. The calculation of diluted net income per ordinary share does not assume exercise of such options or issuance of shares when such exercises or issuance would be anti-dilutive.
+4 | As of Q2 2015, our systems backlog and net bookings include all system sales orders for which written authorizations have been accepted (for EUV starting as of the NXE:3350B). This change has no impact on the comparative figures.
