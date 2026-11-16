@@ -173,7 +173,7 @@
         "<div class='mc-bar' style='background:" + catC(r.cat || r.type) + ";width:" + Math.max(2, r.cap / max * 100).toFixed(1) + "%'></div></td>" +
         "<td class='cat'>" + tag(r.cat || r.type || "待確認") + (r.industry ? "<br><small class='hide-s' title='Yahoo industry'>" + esc(r.industry) + "</small>" : "") +
           (r.catNote ? "<br><span class='mc-flag warn' title='" + esc(r.catNote) + "'>待確認</span>" : "") + "</td>" +
-        "<td class='n' title='" + esc(chk) + "'>" + capTxt(r.cap) + "<span class='show-s'><br>" + pct(r.c30) + "</span></td>" +
+        "<td class='n' title='" + esc(chk) + "'>" + capTxt(r.cap) + "<span class='show-s'><br><small>30天 </small>" + pct(r.c30) + "</span></td>" +
         "<td class='n hide-s'" + (r.priceSrc ? " title='價格來源：" + esc(r.priceSrc) + "'" : "") + ">" + priceTxt(r.price) + "</td>" +
         "<td class='hide-s p30'" + (r.p30 ? " title='" + esc(r.p30[0] + " → " + r.p30[1] + "（Yahoo 日收盤，漲跌以掛牌貨幣計）") + "'" : "") + ">" +
           (r.spark ? spark30(r.spark) + " " + pct(r.c30) : "<small>待確認</small>") + "</td>" + (hasPrev ? "<td class='n hide-s'>" + mv + "</td>" : "") + "</tr>";
