@@ -1,0 +1,58 @@
+# 市值排名每週更新（不經過 Claude）：每週六台北清晨，美股週五收盤之後
+#
+#   ① 台北週六 05:37 ～ 09:07 之間排了 6 班（GitHub 免費排程常漏跑，所以多排幾班）
+#   ② 每班先確認「這週六抓過了沒」：抓過 → 約 10 秒結束，不抓
+#   ③ 沒抓過才抓：companiesmarketcap（主）＋ Yahoo／CoinGecko／WGC（核對）→ data/mcap/latest.json
+#   ④ 抓失敗：不覆蓋舊檔、這次標紅燈（GitHub 會寄信）；下一班再試
+# 台北 07:00 的 Claude 每週檢查（docs/MCAP_WEEKLY_PROMPT.md）只跑 tools/mcap_check.py 看結果。
+name: mcap-weekly
+on:
+  schedule:
+    - cron: "37 21 * * 5"          # 台北週六 05:37
+    - cron: "7,37 22 * * 5"        # 台北週六 06:07、06:37
+    - cron: "7 23 * * 5"           # 台北週六 07:07（備援）
+    - cron: "7 1 * * 6"            # 台北週六 09:07（備援）
+    - cron: "7 5 * * 6"            # 台北週六 13:07（備援）
+  push:
+    branches: [mcap-ranking]
+    paths: [tools/mcap_fetch.py, .github/workflows/mcap-weekly.yml]
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "就算這週抓過也重抓"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: mcap-weekly
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: 確認這週是否已抓過
+        id: chk
+        run: |
+          if [ "${{ inputs.force }}" = "true" ] || [ "${{ github.event_name }}" = "push" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else python3 tools/mcap_fetch.py --check; fi
+      - uses: actions/setup-python@v5
+        if: steps.chk.outputs.stale == 'true'
+        with:
+          python-version: "3.12"
+      - name: 安裝套件
+        if: steps.chk.outputs.stale == 'true'
+        run: pip install --quiet yfinance
+      - name: 抓資料、核對、寫檔
+        if: steps.chk.outputs.stale == 'true'
+        run: python3 tools/mcap_fetch.py
+      - name: 有新資料才提交
+        if: steps.chk.outputs.stale == 'true'
+        run: |
+          git config user.name "mcap-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/mcap
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -m "市值排名每週更新 $(TZ=Asia/Taipei date +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break || sleep 5; done
