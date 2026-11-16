@@ -61,7 +61,7 @@ const endLabels = {
       let k = ds.data.length - 1; while (k >= 0 && ds.data[k] == null) k--;
       if (k < 0 || !meta.data[k]) return;
       const pt = meta.data[k];
-      items.push({ x: pt.x, y: pt.y, c: ds.borderColor, t: narrow ? ds.label : `${ds.label} ${fmt(ds.data[k])}` });
+      items.push({ x: pt.x, y: pt.y, c: ds.borderColor, t: (narrow ? ds.label : `${ds.label} ${fmt(ds.data[k])}`) + ((narrow ? ds.endSufN : ds.endSuf) || '') });
     });
     items.sort((a, b) => a.y - b.y);
     const h = 14;
