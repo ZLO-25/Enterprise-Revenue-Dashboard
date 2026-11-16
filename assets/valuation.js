@@ -84,7 +84,7 @@ const PEV = (() => {
       const nul = A.filter(r => r.pe == null).length;
       sec.querySelector('#peHow').innerHTML = `${ym(A[0].m)} – ${ym(A[A.length - 1].m)} 共 ${A.length} 個月，其中 <b>${A.length - nul}</b> 個月算得出本益比` + (nul ? `，<b>${nul}</b> 個月留白（虧損、累積未滿四季，或 EPS／公布日待確認，原因見數據表）` : '') + (over ? `；<b>${over}</b> 個月超過 ${CAP} 倍（貼在頂端，▲ 標記）` : '') + '。';
       const grid = css('--grid'), tick = css('--tick');
-      chart = new Chart(sec.querySelector('#cPE'), { type: 'line', data: { labels, datasets: ds }, options: {
+      chart = LT.lazyChart(sec.querySelector('#cPE'), { type: 'line', data: { labels, datasets: ds }, options: {
         responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
         plugins: { legend: { display: false }, tooltip: { backgroundColor: css('--surface'), titleColor: css('--ink'), bodyColor: css('--ink-2'), borderColor: css('--axis'), borderWidth: 1, padding: 10, cornerRadius: 8,
           callbacks: { title: (it) => it.length ? ym(it[0].label) + ' 月底' : '', label: (c) => { const v = c.dataset.raw ? c.dataset.raw[c.dataIndex] : c.raw; if (v == null) return null; return ` ${c.dataset.label} ${x1(v)}`; }, afterBody: (it) => { const r = A[it[0].dataIndex]; return r.pe == null && r.why ? ' 歷史本益比：' + (WHY[r.why] || '') : ''; } } } },

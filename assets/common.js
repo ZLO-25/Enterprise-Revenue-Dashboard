@@ -21,7 +21,7 @@ function legend(el, items) {
 function baseOpts(extra = {}) {
   return Object.assign({
     responsive: true, maintainAspectRatio: false,
-    animation: reduce ? false : { duration: 350 },
+    animation: (reduce || window.__PERF) ? false : { duration: 350 },
     interaction: { mode: 'index', intersect: false },
     plugins: {
       legend: { display: false },

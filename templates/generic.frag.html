@@ -411,7 +411,7 @@ function build() {
   const S = [T('--s1'), T('--s2'), T('--s3'), T('--s4'), T('--s5'), T('--s6'), T('--s7'), T('--s8')];
   if (D.waterfall) drawWaterfall(D.waterfall, '#wf'); else $('#wf').closest('.card').hidden = true;
   const xt = { maxTicksLimit: 10 };
-  const mk = (id, cfg) => { const el = $('#' + id); if (el) charts.push(new Chart(el, cfg)); };
+  const mk = (id, cfg) => { const el = $('#' + id); if (el) charts.push(LT.lazyChart(el, cfg)); };
 
   legend('#lgRev', [{ t: '營收', c: S[0] }]);
   mk('cRev', { data: { labels: qLabels, datasets: [bar({ label: '營收', data: Q.map(q => r1(q.rev)), backgroundColor: S[0] })] },

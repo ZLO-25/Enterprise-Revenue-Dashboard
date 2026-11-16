@@ -78,6 +78,8 @@ def icon_links(rel):
 
 # 左側全域導覽欄（App Shell）：companies.json 的 site.sidebar 為 true 才注入。
 # false（或沒有這個欄位）時 page() 的輸出跟加入側邊欄以前一個 byte 都不差 → 這就是 rollback 開關。
+EARLY_SB = ('<script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)'
+            'document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script>')
 SIDEBAR = None   # main() 依 companies.json 設定；None = 不注入
 
 
@@ -104,6 +106,9 @@ def page(title, desc, frag, rel="", kind=None, code=""):
     if SIDEBAR is not None and kind:
         cfg = dict(SIDEBAR, root=rel, page=kind, code=code)
         head = f'<link rel="stylesheet" href="{rel}assets/sidebar.css?v={asset_ver("assets", "sidebar.css")}">'
+        if SIDEBAR.get("early"):
+            # 寬螢幕且上次是展開的：在第一次繪製前就套用展開狀態，內容不會先全寬再被推窄（少一次版面跳動）
+            head += EARLY_SB
         tail = (f'\n<script id="sb-cfg" type="application/json">{js_json(cfg)}</script>'
                 f'<script src="{rel}assets/sidebar.js?v={asset_ver("assets", "sidebar.js")}"></script>')
         if kind == "home":
@@ -225,12 +230,15 @@ def main():
     global LONGTERM, FUTJS, SIDEBAR
     cfg = json.loads(read("companies.json"))
     if cfg["site"].get("sidebar"):
-        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(),
+        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")),
                    "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
     LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
+    if cfg["site"].get("perf"):
+        # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
+        LONGTERM = "window.__PERF = true;\n" + LONGTERM
     FUTJS = read("assets", "futures.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
