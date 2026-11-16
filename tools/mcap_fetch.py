@@ -135,6 +135,32 @@ def gold_price():
     return yf.Ticker("GC=F").fast_info.last_price   # COMEX 黃金期貨近月，美元／金衡盎司
 
 
+def metals(cfg, assets_all):
+    """AI 相關金屬：每週收盤（近 1 年）＋ 1 週／4 週／52 週漲跌；市值有在 companiesmarketcap 資產頁才附上"""
+    import yfinance as yf
+    caps = {r["symbol"]: r["cap"] for r in (assets_all or [])}
+    out = []
+    for m in cfg["metals"]["items"]:
+        row = {k: m[k] for k in ("code", "name", "unit", "why", "yahoo")}
+        try:
+            h = yf.Ticker(m["yahoo"]).history(period="1y", interval="1wk", auto_adjust=False)["Close"].dropna()
+            pts = [[i.strftime("%Y-%m-%d"), round(float(v), 4)] for i, v in h.items()]
+        except Exception as e:  # noqa: BLE001
+            pts = []
+            print(f"  Yahoo {m['yahoo']} 讀不到：{e}")
+        if len(pts) >= 2:
+            last = pts[-1][1]
+            ch = lambda n: round((last / pts[-1 - n][1] - 1) * 100, 1) if len(pts) > n else None
+            row.update(last=last, lastDate=pts[-1][0], w1=ch(1), w4=ch(4), w52=round((last / pts[0][1] - 1) * 100, 1), closes=pts)
+        else:
+            row.update(last=None, flag="待確認：Yahoo 這週讀不到價格")
+        cap = caps.get(m["code"])
+        row["cap"] = round(cap) if cap else None
+        row["capSrc"] = "companiesmarketcap（估算：價格 × 地上存量）" if cap else "沒有可靠的市值數字，只看價格"
+        out.append(row)
+    return out
+
+
 def mark(row, chk_src, chk_cap, tol):
     row["chk"] = {"src": chk_src, "cap": round(chk_cap) if chk_cap else None}
     if not chk_cap:
@@ -232,6 +258,7 @@ def main():
         "tolerancePct": tol,
         "prev": prev if prev != t.date().isoformat() else None,   # 上一次的檔名（history/<prev>.json），頁面用來算「比上週」
         "links": cfg["links"],
+        "metals": metals(cfg, assets),
         "warnings": warn,
         "assetsAsOf": assets_asof,   # 不是 None ＝ 資產榜這週讀不到，沿用這一天的
         "lists": lists,

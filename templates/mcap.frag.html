@@ -31,15 +31,16 @@
   <div class="scroller">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
     <a href="#rank">排名</a>
+    <a href="#metals">AI 相關金屬</a>
     <a href="#sources">資料來源與口徑</a>
   </div>
 </div>
 
 <main class="wrap">
   <header class="masthead" id="top">
-    <div class="eyebrow">Market Cap Ranking · Top 30</div>
+    <div class="eyebrow">Market Cap Ranking · Top 50</div>
     <h1>市值排名</h1>
-    <p class="lede">全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司…）前 30 名。每週六台北清晨自動更新一次（美股週五收盤後）。想看更多名次與細節，下方附 TradingView、companiesmarketcap 等網站連結。</p>
+    <p class="lede">全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司…）前 50 名，以及 AI 相關金屬（銅、白銀、白金、鈀金）的價格走勢。每週六台北清晨自動更新一次（美股週五收盤後）。想看更多名次與細節，下方附 TradingView、companiesmarketcap 等網站連結。</p>
     <div class="meta-row"><span id="mcSub">讀取中…</span></div>
   </header>
 
@@ -57,6 +58,12 @@
       <div class="tbl-wrap"><table class="mc-tbl" id="mcTbl"></table></div>
       <div class="mc-links" id="mcLinks"></div>
     </div>
+  </section>
+
+  <section id="metals">
+    <div class="sec-head"><h2>AI 相關金屬</h2><p class="sub">想看這些金屬會不會因為 AI（資料中心、電力、電子元件）需求持續上漲。價格是每週收盤，黃金放著當對照組。</p></div>
+    <div class="tbl-wrap"><table class="mc-tbl" id="mtTbl"></table></div>
+    <p class="note">價格來源：Yahoo Finance 的 COMEX／NYMEX 期貨近月（單一來源，期貨換月時會有小跳動）。「為什麼和 AI 有關」是<b>觀點</b>（Claude 的整理），不是公司或機構的數字。市值只有 companiesmarketcap 有估算的才顯示。</p>
   </section>
 
   <section id="sources">
@@ -80,6 +87,26 @@
   var TITLE = { global: "全球公司", us: "美國公司", assets: "全球資產" };
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function capTxt(v) { if (v == null) return "—"; return v >= 1e12 ? (v / 1e12).toFixed(2) + " 兆" : (v / 1e8).toFixed(0) + " 億"; }
+  function spark(pts) {
+    if (!pts || pts.length < 2) return "";
+    var v = pts.map(function (p) { return p[1]; }), lo = Math.min.apply(null, v), hi = Math.max.apply(null, v), W = 120, H = 30;
+    var d = v.map(function (y, i) { return (i ? "L" : "M") + (i / (v.length - 1) * W).toFixed(1) + " " + (H - 2 - (y - lo) / ((hi - lo) || 1) * (H - 4)).toFixed(1); }).join("");
+    var up = v[v.length - 1] >= v[0];
+    return "<svg width='" + W + "' height='" + H + "' viewBox='0 0 " + W + " " + H + "' aria-hidden='true'><path d='" + d + "' fill='none' stroke='var(" + (up ? "--good-text" : "--bad-text") + ")' stroke-width='1.5'/></svg>";
+  }
+  function pct(x) { return x == null ? "—" : "<span class='" + (x >= 0 ? "mc-chg-up" : "mc-chg-dn") + "'>" + (x > 0 ? "+" : "") + x + "%</span>"; }
+  function renderMetals() {
+    var M = D.metals || [], el = document.getElementById("mtTbl");
+    if (!M.length) { el.innerHTML = "<tbody><tr><td>下次每週更新後才會有資料。</td></tr></tbody>"; return; }
+    el.innerHTML = "<thead><tr><th>金屬</th><th class='n'>最新價</th><th class='n'>1 週</th><th class='n hide-s'>4 週</th><th class='n'>52 週</th><th class='hide-s'>近 1 年</th></tr></thead><tbody>" +
+      M.map(function (m) {
+        return "<tr><td><b>" + esc(m.name) + "</b> <small>" + esc(m.yahoo) + "</small><br><small>觀點：" + esc(m.why) + "</small>" +
+          (m.cap ? "<br><small>市值約 " + capTxt(m.cap) + " 美元（" + esc(m.capSrc) + "）</small>" : "") +
+          (m.flag ? "<br><span class='mc-flag warn' title='" + esc(m.flag) + "'>待確認</span>" : "") + "</td>" +
+          "<td class='n'>" + (m.last == null ? "—" : m.last.toLocaleString("en-US", { maximumFractionDigits: 2 }) + "<br><small>" + esc(m.unit) + "</small>") + "</td>" +
+          "<td class='n'>" + pct(m.w1) + "</td><td class='n hide-s'>" + pct(m.w4) + "</td><td class='n'>" + pct(m.w52) + "</td><td class='hide-s'>" + spark(m.closes) + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
   function key(r) { return (r.symbol || "") + "|" + r.name; }
 
   function render() {
@@ -131,7 +158,7 @@
     document.getElementById("mcSub").textContent = "資料抓取：" + d.fetchedAt + "　·　" + d.basis;
     document.getElementById("mcTol").textContent = d.tolerancePct;
     if (d.warnings && d.warnings.length) document.getElementById("mcWarn").innerHTML = d.warnings.map(function (w) { return "<p class='callout'>" + esc(w) + "</p>"; }).join("");
-    render();
+    render(); renderMetals();
     if (d.prev) return fetch(BASE + "history/" + d.prev + ".json", { cache: "force-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (p) { PREV = p; render(); }).catch(function () {});
   }).catch(function (e) {
     document.getElementById("mcSub").textContent = "讀不到市值資料（" + e.message + "）。第一次更新前這裡會是空的。";

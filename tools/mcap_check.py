@@ -34,6 +34,12 @@ def main():
         if any(not r.get("src") for r in rows): bad.append(f"{TITLE[k]}有列沒有來源")
         pend = [f"{r['rank']}.{r['name']}" for r in rows if (r.get("flag") or "").startswith("待確認")]
         if pend: info.append(f"{TITLE[k]}待確認 {len(pend)} 筆：" + "、".join(pend))
+    for m in d.get("metals") or []:
+        if m.get("last") is None: bad.append(f"AI 相關金屬 {m['name']} 這週沒有價格")
+    if d.get("metals"):
+        info.append("AI 相關金屬（1 週／52 週）：" + "、".join(f"{m['name']} {m.get('w1')}%／{m.get('w52')}%" for m in d["metals"]))
+    else:
+        bad.append("latest.json 沒有 AI 相關金屬（metals）")
     if d.get("assetsAsOf"): bad.append(f"全球資產榜沿用 {d['assetsAsOf']} 的舊資料")
     for w in d.get("warnings") or []: bad.append(w)
     gs = cfg["goldStock"]
