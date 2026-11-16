@@ -162,11 +162,11 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
  "monthly":[{"m":"2026-10","d":"2026-10-30","c":123.45,"x":"twse"}],
  "forward":[{"m":"2026-11","asOf":"2026-12-02","fy1End":"2027-09-25","fy2End":"2028-09-25","eps1":8.1,"eps2":9.0,"n1":30,"n2":28}]}
 ```
-- `c`：分割調整後、不含股利調整的收盤價；`c:null` 必須有 `why:"待確認：…"`。`x:"twse"` 表示已對證交所收盤價核對（差 ≤ 0.5%）。
+- `c`：分割調整後、不含股利調整的收盤價；`c:null` 必須有 `why:"待確認：…"`。`x:"twse"` 表示已對證交所收盤價核對（差 ≤ 0.5%）；`x:"tpex"` 表示已對櫃買中心收盤價核對（上櫃股票）。
 - `forward[]`：`why` 有值代表那個月沒有可用預估（待確認）；一旦寫入不再覆寫。數字只是格式範例，不是真實股價。
 
 ### `companies.json` 的 `price`
-`{"yahoo":"AAPL","from":"2008-10","currency":"USD","twse":"2330"}`（`twse` 只有台股填）；未上市填 `null`。
+`{"yahoo":"AAPL","from":"2008-10","currency":"USD","twse":"2330"}`（`twse` 只有上市台股填；上櫃股票改填 `tpex`）；未上市填 `null`。
 
 ### valuation（`tools/pe.py` 輸出）
 `monthly[] = {m,d,c,eps4,pe,why,ntm,fpe,fwhy,few}`；`why`：`loss` 近四季 EPS ≤ 0、`short` 已公布未滿四季、`missing` EPS 或公布日待確認、`price` 股價待確認。

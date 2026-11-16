@@ -690,7 +690,8 @@
       "price": {
         "yahoo": "6187.TWO",
         "from": "2013-01",
-        "currency": "TWD"
+        "currency": "TWD",
+        "tpex": "6187"
       },
       "primarySource": {
         "n": "公開資訊觀測站：萬潤 IFRS 合併財務報告（t164sb01）",
