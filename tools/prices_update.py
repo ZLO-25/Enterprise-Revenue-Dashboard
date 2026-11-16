@@ -6,6 +6,7 @@
   3. 每次重抓全部歷史並與舊檔比對：舊月份改變超過 0.5% ＝ 有分割或資料修正 → 這家不覆寫、印出差異並失敗，
      等 Claude 依 SOURCES.md 同步重編 EPS 後，再用 --accept-restatement <代號> 覆寫
   4. 有 twse 設定的台股：對證交所官方個股日成交資訊（STOCK_DAY）交叉核對，差超過 0.5% 的月份 c 改 null、寫待確認
+     有 tpex 設定的上櫃股：對櫃買中心個股日成交資訊（tradingStock）交叉核對，規則相同（x:"tpex"）
   5. forward[]：月底後 10 天內，抓 Yahoo 分析師 EPS 預估（今年度、下年度）存一筆當月快照；已寫入的月份不覆寫，不回填
 資料誠實規則：價格與預估只來自來源原值，不估計、不內插。
 
@@ -164,24 +165,46 @@ def twse_month(stock, ym):
     raise RuntimeError(f"證交所 {stock} {ym} 抓取失敗：{err}")
 
 
-def twse_check(stock, rows):
+def tpex_month(stock, ym):
+    """櫃買中心個股日成交資訊（上櫃股票）；欄位：日期、成交張數、成交金額、開、高、低、收…"""
+    url = f"https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code={stock}&date={ym.replace('-', '/')}/01&response=json"
+    for i in range(4):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 Enterprise-Revenue-Dashboard price check"}), timeout=40) as r:
+                j = json.loads(r.read())
+            t = (j.get("tables") or [{}])[0]
+            out = {}
+            for row in t.get("data") or []:
+                y, mo, d = row[0].split("/")
+                if row[6] in ("", "--", "---"):
+                    continue
+                out[f"{int(y) + 1911:04d}-{mo}-{d}"] = float(row[6].replace(",", ""))
+            return out
+        except Exception as e:  # noqa: BLE001
+            err = e
+            time.sleep(5 * (i + 1))
+    raise RuntimeError(f"櫃買中心 {stock} {ym} 抓取失敗：{err}")
+
+
+def twse_check(stock, rows, kind="twse"):
     bad = 0
+    name, fetch = ("證交所", twse_month) if kind == "twse" else ("櫃買中心", tpex_month)
     for r in rows:
         if r.get("x") or r["c"] is None:
             continue
-        time.sleep(3.2)                         # 證交所限速：約每 5 秒 3 次
-        days = twse_month(stock, r["m"])
+        time.sleep(3.2)                         # 證交所／櫃買中心限速：約每 5 秒 3 次
+        days = fetch(stock, r["m"])
         t = days.get(r["d"])
         if t is None:
-            r["x"] = "twse-no-data"
+            r["x"] = kind + "-no-data"
             continue
         diff = abs(r["c"] / t - 1)
         if diff > TOL:
             bad += 1
-            r["why"] = f"待確認：與證交所收盤價差 {diff * 100:.2f}%"
+            r["why"] = f"待確認：與{name}收盤價差 {diff * 100:.2f}%"
             r["c"] = None
         else:
-            r["x"] = "twse"
+            r["x"] = kind
     return bad
 
 
@@ -252,6 +275,9 @@ def main():
         if pc.get("twse"):
             bad = twse_check(pc["twse"], new)
             log(f"[{code}] 證交所交叉核對完成，{bad} 個月份差超過 0.5%（已標待確認）")
+        if pc.get("tpex"):
+            bad = twse_check(pc["tpex"], new, "tpex")
+            log(f"[{code}] 櫃買中心交叉核對完成，{bad} 個月份差超過 0.5%（已標待確認）")
         fwd = list((old or {}).get("forward", []))
         if forward_window_open(last) and not any(f["m"] == last for f in fwd):
             f = fetch_forward(pc, last, pc["currency"])
@@ -260,6 +286,8 @@ def main():
         out = {"symbol": pc["yahoo"], "currency": pc["currency"], "source": SOURCE, "fetched": today().isoformat(), "monthly": new, "forward": fwd}
         if pc.get("twse"):
             out["crossCheck"] = "臺灣證券交易所 STOCK_DAY 收盤價（差 0.5% 以內才收）"
+        if pc.get("tpex"):
+            out["crossCheck"] = "證券櫃檯買賣中心 個股日成交資訊 收盤價（差 0.5% 以內才收）"
         save_prices(code, out)
         log(f"[{code}] {new[0]['m']} ～ {new[-1]['m']}，共 {len(new)} 個月")
     if rc == 0 and os.environ.get("FINAL_TRY") != "1":

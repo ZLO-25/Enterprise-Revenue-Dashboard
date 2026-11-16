@@ -673,6 +673,34 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0000937966"
+    },
+    {
+      "code": "allring",
+      "name": "萬潤",
+      "nameEn": "All Ring Tech",
+      "ticker": "6187",
+      "exchange": "TPEx 6187",
+      "sector": "半導體",
+      "currency": "TWD",
+      "frequency": "quarterly",
+      "path": "allring/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "萬潤財報追蹤板",
+      "description": "萬潤（6187，上櫃）2013 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
+      "price": {
+        "yahoo": "6187.TWO",
+        "from": "2013-01",
+        "currency": "TWD",
+        "tpex": "6187"
+      },
+      "primarySource": {
+        "n": "公開資訊觀測站：萬潤 IFRS 合併財務報告（t164sb01）",
+        "url": "https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=6187&SYEAR=2026&SSEASON=3&REPORT_ID=C"
+      },
+      "tz": "TW",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true
     }
   ]
 }
