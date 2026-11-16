@@ -13,9 +13,6 @@ on:
     - cron: "7 23 * * 5"           # 台北週六 07:07（備援）
     - cron: "7 1 * * 6"            # 台北週六 09:07（備援）
     - cron: "7 5 * * 6"            # 台北週六 13:07（備援）
-  push:
-    branches: [mcap-ranking]
-    paths: [tools/mcap_fetch.py, .github/workflows/mcap-weekly.yml]
   workflow_dispatch:
     inputs:
       force:
@@ -36,7 +33,7 @@ jobs:
       - name: 確認這週是否已抓過
         id: chk
         run: |
-          if [ "${{ inputs.force }}" = "true" ] || [ "${{ github.event_name }}" = "push" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else python3 tools/mcap_fetch.py --check; fi
+          if [ "${{ inputs.force }}" = "true" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else python3 tools/mcap_fetch.py --check; fi
       - uses: actions/setup-python@v5
         if: steps.chk.outputs.stale == 'true'
         with:

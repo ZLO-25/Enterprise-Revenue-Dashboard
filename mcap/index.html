@@ -392,10 +392,11 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .mc-flag.warn{background:#fff1d6;color:#7a4b00}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mc-flag.warn{background:#3a2a08;color:#f2c46b}}
 :root[data-theme="dark"] .mc-flag.warn{background:#3a2a08;color:#f2c46b}
+.mt-cap{font-size:.78rem;color:var(--muted)}
 .mc-move{font-size:.75rem;font-family:var(--font-data)}
 .mc-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0}
 .mc-chg-up{color:var(--good-text)} .mc-chg-dn{color:var(--bad-text)}
-@media (max-width:640px){.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
+@media (max-width:640px){#mtTbl th.n,#mtTbl td.n{width:4.3em}#mtTbl th:first-child{width:auto}.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}#mcTbl{table-layout:fixed}#mcTbl .rk{width:2.2em}#mcTbl th.n,#mcTbl td.n{width:5.6em}#mtTbl td.n small{white-space:normal;display:block}#mtTbl td{overflow-wrap:anywhere}#mtTbl{table-layout:fixed}#mtTbl th.n,#mtTbl td.n{width:5em}#mtTbl td small{font-family:var(--font-cjk);white-space:normal}#mtTbl td:first-child,#mcTbl td:nth-child(2){white-space:normal}.mc-tbl td{overflow-wrap:anywhere}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
 </style>
 
 <!-- 市值排名頁：資料 data/mcap/latest.json 由 GitHub Actions（mcap-weekly）每週六台北清晨寫入，本頁只讀不算。 -->
@@ -473,7 +474,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     el.innerHTML = "<thead><tr><th>金屬</th><th class='n'>最新價</th><th class='n'>1 週</th><th class='n hide-s'>4 週</th><th class='n'>52 週</th><th class='hide-s'>近 1 年</th></tr></thead><tbody>" +
       M.map(function (m) {
         return "<tr><td><b>" + esc(m.name) + "</b> <small>" + esc(m.yahoo) + "</small><br><small>觀點：" + esc(m.why) + "</small>" +
-          (m.cap ? "<br><small>市值約 " + capTxt(m.cap) + " 美元（" + esc(m.capSrc) + "）</small>" : "") +
+          (m.cap ? "<br><span class='mt-cap' title='" + esc(m.capSrc) + "'>市值約 " + capTxt(m.cap) + " 美元（估算）</span>" : "") +
           (m.flag ? "<br><span class='mc-flag warn' title='" + esc(m.flag) + "'>待確認</span>" : "") + "</td>" +
           "<td class='n'>" + (m.last == null ? "—" : m.last.toLocaleString("en-US", { maximumFractionDigits: 2 }) + "<br><small>" + esc(m.unit) + "</small>") + "</td>" +
           "<td class='n'>" + pct(m.w1) + "</td><td class='n hide-s'>" + pct(m.w4) + "</td><td class='n'>" + pct(m.w52) + "</td><td class='hide-s'>" + spark(m.closes) + "</td></tr>";

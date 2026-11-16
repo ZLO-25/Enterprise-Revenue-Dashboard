@@ -156,7 +156,7 @@ def metals(cfg, assets_all):
             row.update(last=None, flag="待確認：Yahoo 這週讀不到價格")
         cap = caps.get(m["code"])
         row["cap"] = round(cap) if cap else None
-        row["capSrc"] = "companiesmarketcap（估算：價格 × 地上存量）" if cap else "沒有可靠的市值數字，只看價格"
+        row["capSrc"] = "companiesmarketcap（估算：價格 × 地上存量）" if cap else "companiesmarketcap 資產頁沒有這項，只看價格"
         out.append(row)
     return out
 
