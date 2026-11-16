@@ -33,15 +33,19 @@
 
   var app = null;
   window.QuantDCA = {
-    mount: function (container) {
+    mount: function (container, opts) {
+      var useRates = !!(opts && opts.rates);   // site.rates 開關（companies.json）：false 時完全不載入升降息週期分頁
       container.innerHTML = '<div style="padding:48px 24px;text-align:center;color:#6c6a64">載入量化回測工具…</div>';
       return Promise.all([
         addCss(BASE + "quant.css" + q),
+        useRates ? addCss(BASE + "rates.css" + q) : null,
         fetch(BASE + "view.html" + q).then(function (r) { if (!r.ok) throw new Error("view.html " + r.status); return r.text(); }),
         addScript(BASE + "vendor/plotly-basic-2.35.2.min.js")
       ]).then(function (res) {
-        container.innerHTML = res[1];
-        return import(BASE + "js/chart-plus.js" + q)   // 先載入圖表加強，app.js 畫圖時才找得到
+        container.innerHTML = res[2];   // res[0]=quant.css res[1]=rates.css(或 null) res[2]=view.html
+        // 升降息週期分頁：要在 app.js 載入「之前」放進去，app.js 才會幫它綁分頁切換與標的選擇器
+        var pre = useRates ? import(BASE + "js/rates.js" + q).then(function (m) { m.inject(); }) : Promise.resolve();
+        return pre.then(function () { return import(BASE + "js/chart-plus.js" + q); })   // 先載入圖表加強，app.js 畫圖時才找得到
           .then(function () { return Promise.all([import(BASE + "js/app.js" + q), import(BASE + "js/admin.js" + q)]); });
       }).then(function () {
         app = window.__quantApp;
@@ -57,6 +61,7 @@
       var h = location.hash.replace(/^#/, ""), name = h.split("?")[0];
       if (ALIAS[name]) history.replaceState(null, "", "#" + ALIAS[name] + h.slice(name.length));   // 別名改成正式名稱
       app.loadHash();
+      if (name === "rates" && window.__quantRates) window.__quantRates.activate(location.hash);   // 升降息週期分頁
       setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 50);   // 圖表重新量尺寸
     },
     hide: function () { if (app) app.deactivate(); },

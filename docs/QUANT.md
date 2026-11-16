@@ -42,6 +42,27 @@ Actions 裡沒有出現新的「pages build and deployment」）。檢查方式�
         └─ 不是 ─▶ 對 main 隨便推一個小 commit（或合併一個小 PR），Pages 就會重新部署
 ```
 
+## 🏦 升降息週期分頁（#rates，2026-11-16 起）
+回測的第 7 個分頁：Fed／台灣央行升降息的每一輪週期，各標的（股票、ETF）的報酬。
+```
+.github/workflows/rates-weekly.yml（每週，不經過 Claude；改 fetch_rates.py 時也會跑）
+   quant/scripts/fetch_rates.py
+      美國：FRED DFEDTAR＋DFEDTARU（政策利率，只存「有變動」的日子）、DGS10（10 年期，月底值）
+      台灣：中央銀行開放資料 EG28D01.csv（重貼現率，每次調整的日期與利率）
+          └─▶ quant/data/rates.json（只有 Actions 寫，Claude 不手填；某序列抓不到 → 沿用舊的並寫進 unavailable）
+quant/loader.js ── site.rates 開著時：載入 rates.css、在 app.js 之前呼叫 js/rates.js 的 inject()（放分頁按鈕與內容）
+quant/js/rates-core.js  週期切分＋報酬計算（純函式）   測試：node --test quant/tests/rates-core.test.mjs
+quant/js/rates.js       畫面（Plotly：上圖利率階梯＋背景階段色，下圖累積報酬，共用時間軸）＋表格
+```
+- 不要手改 view.html / js/app.js / quant.css（它們是 quant_sync.py 產生的）；這個分頁完全靠手寫檔外掛。
+- 總開關：`companies.json` 的 `site.rates`。false（或沒有這個欄位）→ 側邊欄沒有這一項、不載入 rates.js／rates.css／rates.json。
+- 週期規則：連續同方向的調整併成一輪；升息期＝首次到最後一次升息，高檔停留＝最後一次升息到下一次降息，降息期、低檔停留同理；
+  只調一次的輪長度 0 天（列出、不算報酬）；最後一段標「進行中」；只顯示 2000 年起（跨過的階段起點截在 2000-01-01）。
+- 報酬：還原權息價，起點＝階段起日當天或之後第一個交易日，終點＝階段迄日當天或之前最後一個交易日；滿 1 年才顯示年化。
+- 網址：`#rates?t=SPY,QQQ&c=us&y=0`（t 標的、c us／tw、y 是否畫 10 年期殖利率）。
+- 待確認：台灣 10 年期公債殖利率還沒有可自動下載的官方來源，頁面顯示「待確認」，不用任何未驗證的數字。
+- 在分支上測試：推到分支會觸發 rates-weekly（paths 含 fetch_rates.py），資料會提交回同一個分支；手動執行可勾「probe」只試探來源。
+
 ## 回測站程式有更新時（舊 repo 已封存，通常不會再用到）
 ```
 python3 tools/quant_sync.py <Lump-Sum-v.s.-DCA 的本機路徑>   # 對不上會直接報錯

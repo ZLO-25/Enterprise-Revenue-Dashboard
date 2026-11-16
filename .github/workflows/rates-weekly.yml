@@ -1,0 +1,80 @@
+# 升降息週期（回測的 #rates 分頁）的利率資料：每週自動更新（不經過 Claude）
+#
+#   觸發：① 每週一～二台北清晨排了 3 班（GitHub 免費排程常漏跑，多排幾班）② fetch_rates.py 改了 ③ 手動
+#   每班先看 quant/data/rates.json 是不是 5 天內抓過 → 抓過就約 10 秒結束，不重抓
+#   資料：美國＝FRED（免金鑰）；台灣＝官方來源（確認中，抓不到的序列在頁面標「待確認」）
+#   只會 git add quant/data/rates.json，不會動到其他任何檔案。
+name: rates-weekly
+on:
+  schedule:
+    - cron: "17 22 * * 0"     # 台北週一 06:17
+    - cron: "47 0 * * 1"      # 台北週一 08:47（備援）
+    - cron: "47 5 * * 1"      # 台北週一 13:47（備援）
+  push:
+    paths:
+      - "quant/scripts/fetch_rates.py"
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: "只試探台灣候選來源、印出回應（不寫檔）"
+        type: boolean
+        default: false
+      force:
+        description: "就算 5 天內抓過也重抓"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: rates-weekly
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 單元測試（週期切分、利率整理規則）
+        run: |
+          python -m unittest discover -s quant/tests -p 'test_rates.py'
+          node --test quant/tests/rates-core.test.mjs
+      - name: 試探來源
+        if: ${{ inputs.probe }}
+        run: python quant/scripts/fetch_rates.py --probe
+      - name: 是否需要抓取
+        id: need
+        if: ${{ !inputs.probe }}
+        run: |
+          need=1
+          if [ "${{ github.event_name }}" = "schedule" ] && [ -f quant/data/rates.json ]; then
+            python - <<'PY' && need=0
+          import json, sys
+          from datetime import datetime, timezone
+          u = json.load(open("quant/data/rates.json", encoding="utf8"))["updated"]
+          age = datetime.now(timezone.utc) - datetime.strptime(u, "%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc)
+          sys.exit(0 if age.days < 5 else 1)
+          PY
+          fi
+          echo "need=$need" >> "$GITHUB_OUTPUT"
+      - name: 下載利率
+        if: ${{ !inputs.probe && steps.need.outputs.need == '1' }}
+        run: python quant/scripts/fetch_rates.py
+      - name: 有變動才提交
+        if: ${{ !inputs.probe && steps.need.outputs.need == '1' }}
+        run: |
+          git config user.name "rates-weekly-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add quant/data/rates.json
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -q -m "升降息週期利率資料自動更新 $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "推送失敗（可能別的排程剛好也在推），第 $i 次重試"; sleep 15
+          done
+          exit 1
