@@ -55,10 +55,13 @@
   var isHome = PAGE === "home";
   function homeHref(hash) { return isHome ? (hash ? "#" + hash : "./") : ROOT + (hash ? "#" + hash : ""); }
   var companies = CFG.companies || [];
+  var SEC_C = { "半導體": "#2a78d6", "軟體與網路服務": "#7c5cd6", "硬體與網通": "#0ea5b7", "電動車與太空": "#eb6834", "能源與電力": "#8d5524" };
   var sectors = [];
   companies.forEach(function (c) { if (sectors.indexOf(c.sector) < 0) sectors.push(c.sector); });
   var coList = sectors.map(function (s) {
-    return '<div class="sb-sector">' + esc(s) + "</div>" + companies.filter(function (c) { return c.sector === s; }).map(function (c) {
+    var list = companies.filter(function (c) { return c.sector === s; });
+    // 類別標題（有色點＋家數）和底下的公司分開兩層，一眼看得出哪個是類別、哪個是公司
+    return '<div class="sb-sector" data-sec style="--c:' + (SEC_C[s] || "#9ca3af") + '"><span>' + esc(s) + '</span><small>' + list.length + "</small></div>" + list.map(function (c) {
       var cur = PAGE === "company" && CFG.code === c.code;
       return '<a class="sb-item" data-co="' + esc(c.code + " " + c.name + " " + (c.ticker || "")).toLowerCase() + '" href="' + esc(ROOT + c.path) + '"' + (cur ? ' aria-current="page"' : "") + ">" + esc(c.name) + (c.ticker ? ' <small style="color:var(--muted)">' + esc(c.ticker) + "</small>" : "") + "</a>";
     }).join("");
@@ -127,6 +130,12 @@
   filter.addEventListener("input", function () {
     var q = filter.value.trim().toLowerCase();
     panel.querySelectorAll("a[data-co]").forEach(function (a) { a.hidden = q && a.getAttribute("data-co").indexOf(q) < 0; });
+    // 某個類別底下的公司全被篩掉時，類別標題也一起藏起來
+    panel.querySelectorAll("[data-sec]").forEach(function (h) {
+      var n = h.nextElementSibling, any = false;
+      while (n && !n.hasAttribute("data-sec")) { if (!n.hidden) any = true; n = n.nextElementSibling; }
+      h.hidden = !any;
+    });
   });
 
   // 點側邊欄的連結後，窄螢幕自動收起抽屜

@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>市值排名</title><meta name="description" content="全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=647ca6ea"></head><body>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>市值排名</title><meta name="description" content="全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=992da559"></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
@@ -397,11 +397,16 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .mc-cats button{font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:4px 10px;border-radius:999px;cursor:pointer}
 .mc-cats button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
 .mc-cats button small{color:inherit;opacity:.7;margin-left:3px;font-family:var(--font-data)}
-#mcTbl .cat{width:7.5em}
+#mcTbl .cat{width:8.5em}
+.cat-tag{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;padding:2px 8px 2px 7px;border-radius:999px;white-space:nowrap;
+  color:var(--ink);background:color-mix(in srgb,var(--c) 16%,transparent);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.cat-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
+.mc-cats button i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:5px;vertical-align:1px}
+.mc-cats button[aria-pressed="true"][style]{background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--ink);border-color:var(--c)}
 .mc-move{font-size:.75rem;font-family:var(--font-data)}
 .mc-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0}
 .mc-chg-up{color:var(--good-text)} .mc-chg-dn{color:var(--bad-text)}
-@media (max-width:640px){#mtTbl th.n,#mtTbl td.n{width:4.3em}#mcTbl .cat{width:5.2em}#mtTbl th:first-child{width:auto}.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}#mcTbl{table-layout:fixed}#mcTbl .rk{width:2.2em}#mcTbl th.n,#mcTbl td.n{width:5.6em}#mtTbl td.n small{white-space:normal;display:block}#mtTbl td{overflow-wrap:anywhere}#mtTbl{table-layout:fixed}#mtTbl th.n,#mtTbl td.n{width:5em}#mtTbl td small{font-family:var(--font-cjk);white-space:normal}#mtTbl td:first-child,#mcTbl td:nth-child(2){white-space:normal}.mc-tbl td{overflow-wrap:anywhere}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
+@media (max-width:640px){#mtTbl th.n,#mtTbl td.n{width:4.3em}#mcTbl .cat{width:6.2em}.cat-tag{font-size:.72rem;padding:1px 6px}#mtTbl th:first-child{width:auto}.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}#mcTbl{table-layout:fixed}#mcTbl .rk{width:2.2em}#mcTbl th.n,#mcTbl td.n{width:5.6em}#mtTbl td.n small{white-space:normal;display:block}#mtTbl td{overflow-wrap:anywhere}#mtTbl{table-layout:fixed}#mtTbl th.n,#mtTbl td.n{width:5em}#mtTbl td small{font-family:var(--font-cjk);white-space:normal}#mtTbl td:first-child,#mcTbl td:nth-child(2){white-space:normal}.mc-tbl td{overflow-wrap:anywhere}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
 </style>
 
 <!-- 市值排名頁：資料 data/mcap/latest.json 由 GitHub Actions（mcap-weekly）每週六台北清晨寫入，本頁只讀不算。 -->
@@ -452,6 +457,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
       <li><b>核對</b>：公司用 Yahoo Finance（非美元報價換成美元）、比特幣等用 CoinGecko、黃金用 <a href="https://www.gold.org/goldhub/data/above-ground-stocks" target="_blank" rel="noopener">World Gold Council 地上存量</a> × COMEX 金價。兩邊差超過 <span id="mcTol">10</span>% 標「待確認」；沒有第二來源標「單一來源」。數字一律照主來源顯示，不自己修正。</li>
       <li><b>核對的限制</b>：公司的兩個來源通常幾乎一樣（兩邊可能用同一份股數資料），所以核對主要是抓「抓錯、格式壞掉、換算錯」，不能保證股數本身正確。</li>
       <li><b>全球資產不含 ETF</b>：ETF（例如追蹤 S&amp;P 500 的基金）持有的就是榜上的公司，放進來等於重複計算，所以拿掉後再取前 30。</li>
+      <li><b>單位</b>：市值都是美元，用美國常見寫法：<b>T</b>＝兆（trillion，10¹²），<b>B</b>＝十億（billion，10⁹）。例如 $5.18T ＝ 5.18 兆美元、$880.6B ＝ 8,806 億美元。</li>
       <li><b>類別</b>：公司用 Yahoo Finance 的產業分類（sector／industry）翻成中文，「科技」再拆成半導體、軟體、科技硬體三類；貴金屬、加密貨幣直接用資產類型。Yahoo 沒有分類的公司標「待確認」。</li>
       <li><b>貴金屬是估算</b>：市值＝價格 × 估計的地上存量（已開採、還在世上的總量），不是交易所掛牌市值。</li>
       <li><b>時間點</b>：每週六台北清晨抓取；美股是週五收盤價，加密貨幣是抓取當下的價格。滑鼠移到「待確認」上可看原因。</li>
@@ -466,7 +472,14 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   var BASE = "../data/mcap/", cur = "global", CAT = "", D = null, PREV = null;
   var TITLE = { global: "全球公司", us: "美國公司", assets: "全球資產" };
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-  function capTxt(v) { if (v == null) return "—"; return v >= 1e12 ? (v / 1e12).toFixed(2) + " 兆" : (v / 1e8).toFixed(0) + " 億"; }
+  // 美式寫法：T = 兆（trillion）、B = 十億（billion），單位美元
+  function capTxt(v) { if (v == null) return "—"; return v >= 1e12 ? "$" + (v / 1e12).toFixed(2) + "T" : "$" + (v / 1e9).toFixed(1) + "B"; }
+  // 類別顏色：固定對應，換週、換榜顏色都不變（文字一定跟著顏色出現，不只靠顏色辨識）
+  var CATC = { "半導體": "#2a78d6", "軟體": "#7c5cd6", "科技硬體": "#0ea5b7", "通訊服務": "#d6409f", "非必需消費": "#eb6834",
+    "必需消費": "#8fa31e", "金融": "#1f9d55", "醫療保健": "#e34948", "能源": "#8d5524", "工業": "#64748b", "原物料": "#b7791f",
+    "公用事業": "#0f766e", "房地產": "#a855f7", "貴金屬": "#d4a017", "加密貨幣": "#f59e0b", "待確認": "#9ca3af" };
+  function catC(c) { return CATC[c] || "#9ca3af"; }
+  function tag(c) { return "<span class='cat-tag' style='--c:" + catC(c) + "'>" + esc(c) + "</span>"; }
   function spark(pts) {
     if (!pts || pts.length < 2) return "";
     var v = pts.map(function (p) { return p[1]; }), lo = Math.min.apply(null, v), hi = Math.max.apply(null, v), W = 120, H = 30;
@@ -481,7 +494,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     el.innerHTML = "<thead><tr><th>金屬</th><th class='n'>最新價</th><th class='n'>1 週</th><th class='n hide-s'>4 週</th><th class='n'>52 週</th><th class='hide-s'>近 1 年</th></tr></thead><tbody>" +
       M.map(function (m) {
         return "<tr><td><b>" + esc(m.name) + "</b> <small>" + esc(m.yahoo) + "</small><br><small>觀點：" + esc(m.why) + "</small>" +
-          (m.cap ? "<br><span class='mt-cap' title='" + esc(m.capSrc) + "'>市值約 " + capTxt(m.cap) + " 美元（估算）</span>" : "") +
+          (m.cap ? "<br><span class='mt-cap' title='" + esc(m.capSrc) + "'>市值約 " + capTxt(m.cap) + "（估算）</span>" : "") +
           (m.flag ? "<br><span class='mc-flag warn' title='" + esc(m.flag) + "'>待確認</span>" : "") + "</td>" +
           "<td class='n'>" + (m.last == null ? "—" : m.last.toLocaleString("en-US", { maximumFractionDigits: 2 }) + "<br><small>" + esc(m.unit) + "</small>") + "</td>" +
           "<td class='n'>" + pct(m.w1) + "</td><td class='n hide-s'>" + pct(m.w4) + "</td><td class='n'>" + pct(m.w52) + "</td><td class='hide-s'>" + spark(m.closes) + "</td></tr>";
@@ -498,14 +511,14 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     var cats = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a] || a.localeCompare(b); });
     if (CAT && !cnt[CAT]) CAT = "";
     document.getElementById("mcCats").innerHTML = "<button type='button' data-cat='' aria-pressed='" + (!CAT) + "'>全部<small>" + all.length + "</small></button>" +
-      cats.map(function (c) { return "<button type='button' data-cat='" + esc(c) + "' aria-pressed='" + (CAT === c) + "'>" + esc(c) + "<small>" + cnt[c] + "</small></button>"; }).join("");
+      cats.map(function (c) { return "<button type='button' data-cat='" + esc(c) + "' aria-pressed='" + (CAT === c) + "' style='--c:" + catC(c) + "'><i></i>" + esc(c) + "<small>" + cnt[c] + "</small></button>"; }).join("");
     var rows = CAT ? all.filter(function (r) { return (r.cat || r.type || "待確認") === CAT; }) : all;
     var prevRank = {};
     if (PREV && PREV.lists && PREV.lists[cur]) PREV.lists[cur].forEach(function (r) { prevRank[key(r)] = r.rank; });
     var hasPrev = PREV && PREV.lists && PREV.lists[cur];
     var isA = cur === "assets";
     var h = "<thead><tr><th class='rk'>#</th><th>名稱</th><th class='cat'>類別</th>" +
-      "<th class='n' title='單位：美元'>市值 $</th>" + (hasPrev ? "<th class='n hide-s'>比上週</th>" : "") + "</tr></thead><tbody>";
+      "<th class='n' title='T = 兆美元、B = 十億美元'>市值<span class='hide-s'>（USD）</span></th>" + (hasPrev ? "<th class='n hide-s'>比上週</th>" : "") + "</tr></thead><tbody>";
     rows.forEach(function (r) {
       var mv = "";
       if (hasPrev) {
@@ -516,9 +529,9 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
       var fl = r.flag ? "<br><span class='mc-flag" + (r.flag.indexOf("待確認") === 0 ? " warn" : "") + "' title='" + esc(r.flag) + "'>" + esc(r.flag.split("：")[0]) + "</span>" : "";
       var est = r.est ? "<br><small>" + esc(r.est) + "</small>" : "";
       var chk = r.chk && r.chk.cap ? "核對 " + r.chk.src + "：" + capTxt(r.chk.cap) + (r.chk.diff != null ? "（" + (r.chk.diff > 0 ? "+" : "") + r.chk.diff + "%）" : "") : "沒有第二來源";
-      h += "<tr data-type='" + esc(r.type) + "'><td class='rk'>" + r.rank + "</td><td><b>" + esc(r.name) + "</b> <small>" + esc(r.symbol) + (r.country ? "・" + esc(r.country) : "") + "</small>" + fl + est +
-        "<div class='mc-bar' style='width:" + Math.max(2, r.cap / max * 100).toFixed(1) + "%'></div></td>" +
-        "<td class='cat'>" + esc(r.cat || r.type || "") + (r.industry ? "<br><small class='hide-s' title='Yahoo industry'>" + esc(r.industry) + "</small>" : "") +
+      h += "<tr data-type='" + esc(r.type) + "'><td class='rk'>" + r.rank + "</td><td><b>" + esc(r.name) + "</b> <small>" + esc(r.symbol) + (r.country ? "<span class='hide-s'>・" + esc(r.country) + "</span>" : "") + "</small>" + fl + est +
+        "<div class='mc-bar' style='background:" + catC(r.cat || r.type) + ";width:" + Math.max(2, r.cap / max * 100).toFixed(1) + "%'></div></td>" +
+        "<td class='cat'>" + tag(r.cat || r.type || "待確認") + (r.industry ? "<br><small class='hide-s' title='Yahoo industry'>" + esc(r.industry) + "</small>" : "") +
           (r.catNote ? "<br><span class='mc-flag warn' title='" + esc(r.catNote) + "'>待確認</span>" : "") + "</td>" +
         "<td class='n' title='" + esc(chk) + "'>" + capTxt(r.cap) + "</td>" + (hasPrev ? "<td class='n hide-s'>" + mv + "</td>" : "") + "</tr>";
     });
@@ -559,5 +572,5 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 })();
 </script>
 
-<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"6b680014","companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"}],"root":"../","page":"mcap","code":""}</script><script src="../assets/sidebar.js?v=c5c7a627"></script>
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"6b680014","companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"}],"root":"../","page":"mcap","code":""}</script><script src="../assets/sidebar.js?v=a9fc3079"></script>
 </body></html>
