@@ -48,6 +48,27 @@ def write(text, *p):
         f.write(text)
 
 
+# 首頁只讀這幾個欄位（用 Proxy 記錄首頁所有互動實際讀到的欄位得出；做法見 tools/perf/README.md）。
+# 其餘（health、notes、annual、milestones、thesis、summary、sources…）只有個股頁用，不放進首頁，首頁因此小一半。
+# 新增首頁功能若要讀別的欄位，把欄位名加進來（companies.json site.homeSlim=false 可整個關掉瘦身）。
+HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr")
+
+
+def check_home_keys():
+    # 防呆：首頁範本裡讀到的欄位（D.xxx、DATA[...].xxx）都必須在 HOME_KEYS 內，否則瘦身會「靜默」把它拿掉
+    src = read("templates", "home.frag.html")
+    used = set(re.findall(r"(?<!\w)D\.(\w+)", src)) | set(re.findall(r"DATA\[[^\]]+\]\.(\w+)", src))
+    missing = sorted(k for k in used if k not in HOME_KEYS)
+    assert not missing, "首頁讀了 HOME_KEYS 沒有的欄位：" + ", ".join(missing) + "（加進 tools/build.py 的 HOME_KEYS，或把 companies.json 的 site.homeSlim 設 false）"
+
+
+def home_data(datasets, slim):
+    if not slim:
+        return datasets
+    check_home_keys()
+    return {c: {k: v for k, v in d.items() if k in HOME_KEYS} for c, d in datasets.items()}
+
+
 def js_json(obj):
     # 放進 <script> 內：避免 </script> 提前結束
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
@@ -201,7 +222,7 @@ def build_combined(cfg, companies, datasets, theme, common):
     views = []
     home = read("templates", "home.frag.html")
     home = fill(home, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", CDN_CHART),
-                       ("{{COMPANIES}}", js_json(companies)), ("{{DATASETS}}", js_json(datasets)),
+                       ("{{COMPANIES}}", js_json(companies)), ("{{DATASETS}}", js_json(home_data(datasets, cfg["site"].get("homeSlim")))),
                        ("{{SITE_TITLE}}", title), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
                        ("{{FUT_BASE}}", cfg["site"]["pagesUrl"] + "data/futures/"), ("{{FUT_LINK}}", cfg["site"]["pagesUrl"] + "futures/"), ("{{LWC}}", CDN_LWC)])
     html, code = split_frag(home)
@@ -281,7 +302,7 @@ def main():
     home_t = read("templates", "home.frag.html")
     pub = [{k: v for k, v in c.items()} for c in companies]
     home = lambda chart: fill(home_t, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", chart),
-                                       ("{{COMPANIES}}", js_json(pub)), ("{{DATASETS}}", js_json(datasets)),
+                                       ("{{COMPANIES}}", js_json(pub)), ("{{DATASETS}}", js_json(home_data(datasets, cfg["site"].get("homeSlim")))),
                                        ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
                                        ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl), ("{{LWC}}", lwc)])
     fb, fl, lwc = "data/futures/", "futures/", LOCAL_LWC

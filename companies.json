@@ -6,7 +6,8 @@
     "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
     "sidebar": true,
     "perf": true,
-    "prerender": true
+    "prerender": true,
+    "homeSlim": true
   },
   "companies": [
     {
