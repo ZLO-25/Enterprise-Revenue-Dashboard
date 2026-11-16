@@ -261,6 +261,7 @@ def main():
     PRERENDER = bool(cfg["site"].get("prerender"))
     if cfg["site"].get("sidebar"):
         SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")),
+                   "rates": bool(cfg["site"].get("rates")),   # 回測的「🏦 升降息週期」分頁；false 或沒有這個欄位 = 完全不出現
                    "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")

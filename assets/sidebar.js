@@ -33,6 +33,8 @@
     { id: "wall", ico: "🖥️", label: "看盤牆" },
     { id: "learn", ico: "📚", label: "觀念教室" }
   ];
+  // site.rates 開著時才有「升降息週期」（放在波動與風險後面）
+  if (CFG.rates) QUANT.splice(4, 0, { id: "rates", ico: "🏦", label: "升降息週期" });
   var ALIAS = { winrate: "rolling", edu: "learn" };
   function quantTab(hash) {
     var t = (hash || "").replace(/^#/, "").split("?")[0];
@@ -189,7 +191,7 @@
       s.onerror = function () { resolve(null); };
       document.head.appendChild(s);
     }).then(function (Q) {
-      if (Q && Q.mount) return Promise.resolve(Q.mount(quantView, { root: ROOT })).then(function () { return Q; });
+      if (Q && Q.mount) return Promise.resolve(Q.mount(quantView, { root: ROOT, rates: !!CFG.rates })).then(function () { return Q; });
       quantView.innerHTML = '<div class="sb-placeholder"><h2>量化回測（建置中）</h2><p>這裡會放入「單筆 vs 定期定額」回測工具的 6 個分頁。</p></div>';
       return null;
     });

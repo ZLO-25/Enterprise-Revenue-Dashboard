@@ -76,9 +76,10 @@ def stitch(old, new, cut):
     return [p for p in old if p[0] < cut] + [p for p in new if p[0] >= cut]
 
 
-def series_meta(name, unit, source, url, points, **extra):
+def series_meta(name, unit, source, url, points, through, **extra):
+    """through＝原始資料最後一個有值的日期（「利率沒變」的日子也算；asOf 只是最後一次變動日）"""
     return {"name": name, "unit": unit, "source": source, "url": url,
-            "asOf": points[-1][0] if points else None, "points": points, **extra}
+            "asOf": points[-1][0] if points else None, "through": through, "points": points, **extra}
 
 
 def fetch_us():
@@ -86,17 +87,19 @@ def fetch_us():
     try:
         old = parse_fred_csv(http_get(FRED.format(id="DFEDTAR")))
         new = parse_fred_csv(http_get(FRED.format(id="DFEDTARU")))
-        pts = compress_changes(stitch(old, new, "2008-12-16"))
+        merged = stitch(old, new, "2008-12-16")
+        pts = compress_changes(merged)
         series["us_policy"] = series_meta(
             "美國聯邦基金利率目標（上限）", "%",
             "FRED DFEDTAR（至 2008-12-15，單一目標）＋ DFEDTARU（2008-12-16 起，目標區間上限）",
-            "https://fred.stlouisfed.org/series/DFEDTARU", pts, kind="changes")
+            "https://fred.stlouisfed.org/series/DFEDTARU", pts, merged[-1][0], kind="changes")
     except Exception as e:  # noqa: BLE001
         unavailable.append(f"待確認：美國政策利率（FRED DFEDTAR/DFEDTARU）：抓取失敗（{type(e).__name__}: {e}）")
     try:
-        pts = month_end(parse_fred_csv(http_get(FRED.format(id="DGS10"))))
+        raw = parse_fred_csv(http_get(FRED.format(id="DGS10")))
+        pts = month_end(raw)
         series["us_10y"] = series_meta("美國 10 年期公債殖利率", "%", "FRED DGS10（每月最後一個有資料的日子）",
-                                        "https://fred.stlouisfed.org/series/DGS10", pts, kind="monthly")
+                                        "https://fred.stlouisfed.org/series/DGS10", pts, raw[-1][0], kind="monthly")
     except Exception as e:  # noqa: BLE001
         unavailable.append(f"待確認：美國 10 年期公債殖利率（FRED DGS10）：抓取失敗（{type(e).__name__}: {e}）")
     return series, unavailable
@@ -125,15 +128,32 @@ def fetch_tw():
 
 
 def probe():
-    for key, cands in TW_CANDIDATES.items():
-        for label, url in cands:
-            print(f"\n===== {key} | {label} | {url}")
-            try:
-                text = http_get(url, timeout=40)
-                print(f"[{len(text)} chars]")
-                print("\n".join(text.splitlines()[:12])[:1500])
-            except Exception as e:  # noqa: BLE001
-                print(f"失敗：{type(e).__name__}: {e}")
+    """台灣來源試探：每個網址印出標題、疑似下載連結、含「重貼現」或「公債」的文字行（只在 Actions 上跑，用來找官方資料來源）"""
+    import re
+    urls = [
+        "https://data.gov.tw/dataset/10783",
+        "https://cpx.cbc.gov.tw/",
+        "https://www.cbc.gov.tw/tw/mp-1.html",
+        "https://www.cbc.gov.tw/tw/np-1127-1.html",
+    ]
+    for url in urls:
+        print(f"\n===== {url}")
+        try:
+            text = http_get(url, timeout=40)
+        except Exception as e:  # noqa: BLE001
+            print(f"失敗：{type(e).__name__}: {e}")
+            continue
+        t = re.search(r"<title>(.*?)</title>", text, re.S)
+        print("標題：", (t.group(1).strip() if t else "?")[:120], f"[{len(text)} chars]")
+        links = sorted(set(re.findall(r"""(?:href|src|data-[a-z-]+)=["']([^"']*(?:csv|json|xml|download|api|odata|\.xls|file)[^"']*)["']""", text, re.I)))
+        print("疑似下載/API 連結：", len(links))
+        for l in links[:30]:
+            print("  ", l[:200])
+        plain = re.sub(r"<[^>]+>", "\n", text)
+        hits = [x.strip() for x in plain.splitlines() if re.search("重貼現|公債|殖利率|rediscount", x) and x.strip()]
+        print("相關文字行：", len(hits))
+        for h in hits[:15]:
+            print("  ", h[:200])
 
 
 def main():
