@@ -16,6 +16,9 @@
     "tvCrypto": "https://www.tradingview.com/markets/cryptocurrencies/prices-all/",
     "cmcGlobal": "https://companiesmarketcap.com/",
     "cmcUS": "https://companiesmarketcap.com/usa/largest-companies-in-the-usa-by-market-cap/",
-    "cmcAssets": "https://companiesmarketcap.com/assets-by-market-cap/"
+    "cmcAssets": "https://companiesmarketcap.com/assets-by-market-cap/",
+    "8mcAssets": "https://8marketcap.com/",
+    "coingecko": "https://www.coingecko.com/",
+    "wgc": "https://www.gold.org/goldhub/data/above-ground-stocks"
   }
 }

@@ -170,7 +170,7 @@ def main():
 
     if assets:
         comp = {r["symbol"]: r for r in g}
-        lst = assets[:top + 15]   # 多拿幾列：拿掉 ETF 後還要湊滿 30
+        lst = assets[:top + 25]   # 多拿幾列：拿掉 ETF 後還要湊滿
         cg_ids = [CRYPTO[r["symbol"]] for r in lst if r["symbol"] in CRYPTO]
         cg = coingecko(cg_ids) if cg_ids else {}
         gp = gold_price()

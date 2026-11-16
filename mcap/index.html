@@ -411,7 +411,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <header class="masthead" id="top">
     <div class="eyebrow">Market Cap Ranking · Top 30</div>
     <h1>市值排名</h1>
-    <p class="lede">全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司…）前 30 名。每週六台北清晨自動更新一次（美股週五收盤後）。想看更多名次與細節，請到 TradingView。</p>
+    <p class="lede">全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司…）前 30 名。每週六台北清晨自動更新一次（美股週五收盤後）。想看更多名次與細節，下方附 TradingView、companiesmarketcap 等網站連結。</p>
     <div class="meta-row"><span id="mcSub">讀取中…</span></div>
   </header>
 
@@ -480,9 +480,11 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     });
     document.getElementById("mcTbl").innerHTML = h + "</tbody>";
     var L = D.links || {};
-    var links = cur === "global" ? [["TradingView：全球最大公司", L.tvGlobal], ["companiesmarketcap：全球", L.cmcGlobal]] :
+    // 「看更多」不限 TradingView：每張榜附幾個常用的排名網站（網址在 data/mcap/config.json links，改那裡就好）
+    var links = cur === "global" ? [["TradingView：全球最大公司", L.tvGlobal], ["companiesmarketcap：全球", L.cmcGlobal], ["8marketcap：公司與資產", L["8mcAssets"]]] :
       cur === "us" ? [["TradingView：美股大型股", L.tvUS], ["companiesmarketcap：美國", L.cmcUS]] :
-      [["TradingView：全球最大公司", L.tvGlobal], ["TradingView：加密貨幣", L.tvCrypto], ["companiesmarketcap：全球資產", L.cmcAssets]];
+      [["companiesmarketcap：全球資產", L.cmcAssets], ["8marketcap：公司與資產", L["8mcAssets"]], ["TradingView：全球最大公司", L.tvGlobal],
+       ["TradingView：加密貨幣", L.tvCrypto], ["CoinGecko：加密貨幣", L.coingecko], ["World Gold Council：黃金存量", L.wgc]];
     document.getElementById("mcLinks").innerHTML = "看更多 →" + links.filter(function (x) { return x[1]; }).map(function (x) { return "<a href='" + esc(x[1]) + "' target='_blank' rel='noopener'>" + esc(x[0]) + " ↗</a>"; }).join("");
     var n = rows.filter(function (r) { return r.flag && r.flag.indexOf("待確認") === 0; }).length;
     document.getElementById("mcNote").textContent = TITLE[cur] + "前 " + rows.length + " 名" + (n ? "，" + n + " 筆待確認" : "") +
