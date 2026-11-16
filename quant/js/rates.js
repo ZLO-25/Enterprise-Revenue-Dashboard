@@ -106,7 +106,7 @@ function applyHash(hash) {
 }
 function writeHash() {
   if (!$("#tab-rates").classList.contains("active")) return;
-  history.replaceState(null, "", `#rates?t=${encodeURIComponent(chipSyms().join(","))}&c=${S.country}&y=${S.show10y ? 1 : 0}`);
+  history.replaceState(null, "", `#rates?t=${chipSyms().map(encodeURIComponent).join(",")}&c=${S.country}&y=${S.show10y ? 1 : 0}`);
 }
 
 // ---------- 畫圖 ----------
@@ -135,17 +135,21 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
   });
   const shapes = phases.map((p) => ({ type: "rect", xref: "x", yref: "paper", x0: p.start, x1: p.end, y0: 0, y1: 1,
     fillcolor: PCOLOR[p.type], line: { width: 0 }, layer: "below" }));
-  const annotations = phases.filter((p) => daysBetween(p.start, p.end) > 150).map((p) => ({
+  const annotations = phases.filter((p) => daysBetween(p.start, p.end) > 330).map((p) => ({
     xref: "x", yref: "paper", x: p.start, xanchor: "left", y: 1.0, yanchor: "bottom", showarrow: false,
-    text: `${PBADGE[p.type]}${PHASE[p.type].label}`, font: { size: 10, color: c.muted },
+    text: PHASE[p.type].label, font: { size: 10, color: c.muted },
   }));
+  let lo = Infinity, hi = 0;
+  for (const sym of syms) { const s = perSym[sym]; if (s) for (const v of s.y) { if (v < lo) lo = v; if (v > hi) hi = v; } }
+  const tv = [10, 20, 30, 50, 70, 100, 150, 200, 300, 500, 700, 1000, 2000, 3000, 5000, 10000].filter((v) => v >= lo * 0.8 && v <= hi * 1.25);
   const layout = {
     paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, size: 12 },
     margin: { l: 56, r: 16, t: 34, b: 40 }, hovermode: "x unified", showlegend: true, legend: { orientation: "h", y: -0.12, x: 0 },
     hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
     xaxis: { anchor: "y2", range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
     yaxis: { domain: [0.60, 1], title: { text: "利率 %" }, gridcolor: c.border, zerolinecolor: c.border, rangemode: "tozero", automargin: true },
-    yaxis2: { domain: [0, 0.52], title: { text: "累積報酬指數（起點＝100，對數軸）" }, type: "log", gridcolor: c.border, automargin: true },
+    yaxis2: { domain: [0, 0.52], title: { text: "累積報酬指數（起點＝100，對數軸）" }, type: "log", gridcolor: c.border, automargin: true,
+      ...(tv.length >= 2 ? { tickmode: "array", tickvals: tv, ticktext: tv.map(String) } : {}) },
     shapes, annotations,
   };
   return { traces, layout };

@@ -105,25 +105,47 @@ def fetch_us():
     return series, unavailable
 
 
-# ---- 台灣：來源尚在確認中（見 --probe），確認前一律標「待確認」，不用任何未驗證的數字 ----
-TW_CANDIDATES = {
-    "tw_policy": [
-        ("FRED 轉載 IMF 貼現率", FRED.format(id="INTDSRTWM193N")),
-        ("央行 重貼現率", "https://www.cbc.gov.tw/tw/lp-645-1.html"),
-        ("央行 統計資料庫", "https://cpx.cbc.gov.tw/"),
-        ("政府資料開放平臺", "https://data.gov.tw/dataset/10783"),
-    ],
-    "tw_10y": [
-        ("FRED 長期利率（OECD）", FRED.format(id="IRLTLT01TWM156N")),
-        ("央行 統計資料庫", "https://cpx.cbc.gov.tw/"),
-    ],
-}
+# ---- 台灣 ----
+# 重貼現率：中央銀行「中央銀行利率」開放資料（政府資料開放平臺 dataset 10783），CSV 就是「每次調整的日期＋調整後利率」清單。
+CBC_RATES_URL = "https://www.cbc.gov.tw/public/data/OpenData/%E7%B6%93%E7%A0%94%E8%99%95/EG28D01.csv"
+
+
+def parse_cbc_rediscount(text):
+    """央行 CSV：第一列 "日","重貼現(%)",…；之後每列 "YYYYMMDD","利率"。回傳 [(YYYY-MM-DD, 利率)]（依日期排序）。
+    格式不符、日期不遞增、利率不在 0～20 之間 → 丟錯（寧可標待確認，也不收來路不明的數字）。"""
+    rows = list(csv.reader(io.StringIO(text)))
+    if not rows or len(rows[0]) < 2 or rows[0][0].strip() != "日" or "重貼現" not in rows[0][1]:
+        raise ValueError("不是預期的央行利率 CSV 格式：" + (",".join(rows[0]) if rows else "空檔"))
+    out = []
+    for r in rows[1:]:
+        if len(r) < 2 or not r[0].strip():
+            continue
+        d = r[0].strip()
+        if len(d) != 8 or not d.isdigit():
+            raise ValueError(f"日期格式不對：{d!r}")
+        iso, v = f"{d[:4]}-{d[4:6]}-{d[6:]}", float(r[1])
+        if not 0 < v < 20:
+            raise ValueError(f"利率超出合理範圍：{iso} {v}")
+        if out and iso <= out[-1][0]:
+            raise ValueError(f"日期沒有遞增：{iso}")
+        out.append((iso, v))
+    if len(out) < 20:
+        raise ValueError(f"資料列太少（{len(out)}）")
+    return out
 
 
 def fetch_tw():
     series, unavailable = {}, []
-    for key, label in (("tw_policy", "台灣央行重貼現率"), ("tw_10y", "台灣 10 年期公債殖利率")):
-        unavailable.append(f"待確認：{label}：尚未找到可自動下載的官方來源")
+    try:
+        rows = parse_cbc_rediscount(http_get(CBC_RATES_URL))
+        pts = compress_changes(rows)
+        # 官方清單列出「每一次」調整；清單最後一次調整之後利率沒變，所以資料截至日＝抓取日
+        series["tw_policy"] = series_meta(
+            "台灣中央銀行重貼現率", "%", "中央銀行「中央銀行利率」開放資料（EG28D01.csv，每次調整的日期與利率）",
+            "https://data.gov.tw/dataset/10783", pts, datetime.now(timezone.utc).strftime("%Y-%m-%d"), kind="changes")
+    except Exception as e:  # noqa: BLE001
+        unavailable.append(f"待確認：台灣央行重貼現率：抓取失敗（{type(e).__name__}: {e}）")
+    unavailable.append("待確認：台灣 10 年期公債殖利率：尚未找到可自動下載的官方來源（央行／櫃買中心）")
     return series, unavailable
 
 

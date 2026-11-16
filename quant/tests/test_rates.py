@@ -4,7 +4,7 @@ import sys, unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-from fetch_rates import parse_fred_csv, compress_changes, month_end, stitch  # noqa: E402
+from fetch_rates import parse_fred_csv, compress_changes, month_end, stitch, parse_cbc_rediscount  # noqa: E402
 
 CSV = "observation_date,DFEDTAR\n1997-12-31,5.50\n1998-01-02,5.50\n1998-01-05,.\n1998-01-06,5.50\n1998-01-07,5.25\n1998-01-08,5.25\n"
 
@@ -32,6 +32,16 @@ class RatesTest(unittest.TestCase):
         new = [("2008-12-15", 8.8), ("2008-12-16", 0.25)]
         self.assertEqual(stitch(old, new, "2008-12-16"), [("2008-12-15", 1.0), ("2008-12-16", 0.25)])
 
+    def test_cbc_rediscount(self):
+        head = '"日","重貼現(%)","擔保放款融通(%)","短期融通(%)"\n'
+        rows = "".join(f'"{1990 + i // 2}{(i % 2) * 6 + 1:02d}01","{2 + (i % 5) * 0.125:.3f}","3.0","4.0"\n' for i in range(30))
+        pts = parse_cbc_rediscount(head + rows)
+        self.assertEqual(len(pts), 30)
+        self.assertEqual(pts[0], ("1990-01-01", 2.0))
+        with self.assertRaises(ValueError):
+            parse_cbc_rediscount("<html>x</html>")
+        with self.assertRaises(ValueError):
+            parse_cbc_rediscount(head + '"20200101","2.0"\n' * 25)   # 日期沒遞增
 
 if __name__ == "__main__":
     unittest.main()
