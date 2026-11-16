@@ -150,6 +150,7 @@ section { display: grid; gap: 18px; scroll-margin-top: 64px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 .legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+.legend small.m5 { font-size: 0.72rem; color: var(--tick); font-family: "IBM Plex Mono", monospace; }
 
 /* controls */
 .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }

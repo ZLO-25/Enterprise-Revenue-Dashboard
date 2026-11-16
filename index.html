@@ -156,6 +156,7 @@ section { display: grid; gap: 18px; scroll-margin-top: 64px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
 .legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+.legend small.m5 { font-size: 0.72rem; color: var(--tick); font-family: "IBM Plex Mono", monospace; }
 
 /* controls */
 .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -565,7 +566,7 @@ table.co-tbl { font-size: 0.84rem; }
       </div>
       <div class="card wide">
         <h3>本益比比較（每月月底，倍）</h3>
-        <p class="how">本益比是倍數，幣別會約掉，可以跨公司直接看「市場用幾倍的價格買一年獲利」。虧損期間斷線；超過 200 倍的點貼在頂端。期間跟上面三張圖的開關連動。<b>口徑：</b>美股為稀釋 EPS，台積電、台達電、三星為基本 EPS，都是公認會計準則數字。本益比高低不代表貴或便宜，不是買賣建議。</p>
+        <p class="how">本益比是倍數，幣別會約掉，可以跨公司直接看「市場用幾倍的價格買一年獲利」。虧損期間斷線；超過 200 倍的點貼在頂端。期間跟上面三張圖的開關連動。圖例公司名後面的「近5年中位數」跟各公司深度頁同一個數字（只算有本益比的月份，不足 12 個月顯示 —）。<b>口徑：</b>美股為稀釋 EPS，台積電、台達電、三星為基本 EPS，都是公認會計準則數字。本益比高低不代表貴或便宜，不是買賣建議。</p>
         <div class="legend" id="lgPE"></div>
         <div class="chartbox"><canvas id="cPE" aria-label="本益比比較"></canvas></div>
       </div>
@@ -2011,7 +2012,9 @@ function build() {
     const CAPV = PEV.CAP;
     const dsP = SS.map((s, i) => cmpLine({ label: s.c.name, data: series[i].map(r => r ? Math.min(r.pe, CAPV) : null), raw: series[i].map(r => r ? r.pe : null), borderColor: COL(i), backgroundColor: COL(i), spanGaps: false, segment: undefined,
       pointRadius: (c) => { const d = c.dataset.data; let k = d.length - 1; while (k >= 0 && d[k] == null) k--; return c.dataIndex === k ? 3 : 0; } }));
-    legend('#lgPE', SS.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 })));
+    /* 圖例：公司名後面接「近 5 年中位數」，直接用公司深度頁同一個數字（tools/pe.py 的 stats.med5），不在這裡重算 */
+    const m5txt = (s) => { const v = s.D.valuation; if (!v || !v.monthly.length) return '股價尚未收錄'; const m = v.stats.med5; return m == null ? '近5年中位數 —（月份不足）' : `近5年中位數 ${m.toFixed(1)}×`; };
+    legend('#lgPE', SS.map((s, i) => ({ t: `${s.c.name} <small class="m5">${m5txt(s)}</small>`, c: COL(i), line: 1 })));
     const mx = Math.max(10, ...series.flat().filter(Boolean).map(r => Math.min(r.pe, CAPV)));
     const lab = mLabels;
     charts.push(new Chart($('#cPE'), { data: { labels: lab, datasets: dsP }, options: baseOpts({ ...endPad(), scales: { y: yAxis({ min: 0, max: Math.min(CAPV, Math.ceil(mx * 1.08 / 10) * 10) }, { callback: v => v + '×' }),
