@@ -43,7 +43,16 @@ html.sb-open .sb-panel { transform: none; visibility: visible; }
 .sb-panel details > summary::-webkit-details-marker { display: none; }
 .sb-panel details > summary::after { content: "▸"; margin-left: auto; color: var(--muted, #6c6a64); transition: transform .15s; }
 .sb-panel details[open] > summary::after { transform: rotate(90deg); }
-.sb-sector { padding: 6px 8px 2px; font-size: 11px; color: var(--muted, #6c6a64); }
+/* 個股清單兩層：類別標題（粗體、色點、家數、上方分隔線）／公司（一般字重、縮排、左側色條） */
+.sb-sector { display: flex; align-items: center; gap: 6px; margin: 10px 0 2px; padding: 6px 8px 4px; font-size: 12px; font-weight: 700;
+  color: var(--ink, #121211); letter-spacing: .02em; border-top: 1px solid var(--line, rgba(11,11,11,.1)); }
+.sb-sector:first-of-type { margin-top: 2px; border-top: 0; }
+.sb-sector::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--c, #9ca3af); flex: none; }
+.sb-sector small { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--muted, #6c6a64); }
+.sb-sector[hidden] { display: none; }
+.sb-sector ~ a.sb-item[data-co] { margin-left: 4px; width: calc(100% - 4px); }
+.sb-panel .sb-sub a.sb-item[data-co] { padding-left: 14px; position: relative; color: var(--ink-2, #4f4e4a); }
+.sb-panel .sb-sub a.sb-item[data-co]::before { content: ""; position: absolute; left: 4px; top: 7px; bottom: 7px; width: 2px; border-radius: 1px; background: var(--line, rgba(11,11,11,.12)); }
 .sb-filter { display: block; width: calc(100% - 8px); box-sizing: border-box; margin: 4px 0 6px; padding: 5px 8px; font: inherit; font-size: 13px;
   color: var(--ink, #121211); background: var(--page, #f3f3ef); border: 1px solid var(--line, rgba(11,11,11,.1)); border-radius: 6px; }
 
