@@ -58,9 +58,27 @@ for code, cik in want:
     for x in sub["filings"].get("files",[]):
         f=get("https://data.sec.gov/submissions/"+x["name"]);
         if f: add(f)
-    keep=[r for r in rows if r["form"] in ("10-Q","10-K","10-Q/A","10-K/A","8-K","8-K/A","S-1","424B4","10-KT")]
+    keep=[r for r in rows if r["form"] in ("10-Q","10-K","10-Q/A","10-K/A","8-K","8-K/A","S-1","424B4","10-KT","20-F","20-F/A","6-K")]
     json.dump(keep, open(d+"/filings.json","w"), indent=0)
     for r in keep:
+        if r["form"]=="6-K":
+            fd=r["filingDate"]; m=int(fd[5:7]); dd=int(fd[8:10])
+            if m not in (1,4,7,10) or dd<8: continue
+            acc=r["accessionNumber"].replace("-","")
+            fn=f"{d}/pr/{fd}_{acc}.txt"
+            if os.path.exists(fn): continue
+            idx=get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/index.json")
+            if not idx: continue
+            items=[i["name"] for i in idx["directory"]["item"] if i["name"].lower().endswith((".htm",".html",".txt")) and "index" not in i["name"].lower() and not re.match(r"^\d{10}-\d{2}-\d{6}\.txt$", i["name"])]
+            parts=[]
+            for n in items:
+                b=get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{n}", raw=True)
+                if not b: continue
+                t=text(b); tl=t.lower()
+                if "net sales" in tl and "gross" in tl and ("quarter" in tl or "q1" in tl or "q2" in tl or "q3" in tl or "q4" in tl):
+                    parts.append(f"SOURCE https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{n}\n"+t)
+            if parts: open(fn,"w").write("\n\n=====\n".join(parts))
+            continue
         q_days={x["filingDate"] for x in keep if x["form"] in ("10-Q","10-K")}
         if not r["form"].startswith("8-K") or not ("2.02" in (r.get("items") or "") or (r["filingDate"] in q_days and EXTRA_SAMEDAY)): continue
         acc=r["accessionNumber"].replace("-","")
