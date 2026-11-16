@@ -10,6 +10,15 @@ UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 os.makedirs("raw", exist_ok=True)
 
 
+N = [0]
+
+
+def checkpoint(force=False):
+    N[0] += 1
+    if force or N[0] % 8 == 0:
+        os.system('git add raw && git commit -qm "台股原始資料（進度）" && (git pull --rebase -q origin tw-raw; git push -q)')
+
+
 def fetch(url, data=None, name=None):
     path = os.path.join("raw", name)
     if os.path.exists(path) and os.path.getsize(path) > 3000:
@@ -17,16 +26,19 @@ def fetch(url, data=None, name=None):
     for i in range(4):
         try:
             req = urllib.request.Request(url, data=data.encode() if data else None, headers={"User-Agent": UA, "Referer": "https://mopsov.twse.com.tw/mops/web/index"})
-            with urllib.request.urlopen(req, timeout=60) as r:
+            with urllib.request.urlopen(req, timeout=30) as r:
                 b = r.read()
+            if b"SECURITY" in b[:3000] or b"\xb9L\xa9\xf3\xc0W\xc1c" in b or len(b) < 400:
+                raise RuntimeError("blocked/short %d %r" % (len(b), b[:200]))
             os.makedirs(os.path.dirname(path), exist_ok=True)
             open(path, "wb").write(b)
             print("OK", name, len(b), url, flush=True)
-            time.sleep(2.5)
+            time.sleep(4)
+            checkpoint()
             return
         except Exception as e:  # noqa
             print("ERR", name, i, e, url, flush=True)
-            time.sleep(8 * (i + 1))
+            time.sleep(20 * (i + 1))
     open(path + ".err", "w").write("failed " + url)
 
 
@@ -46,3 +58,5 @@ for line in open("want.txt", encoding="utf-8"):
         fetch(p[2], name=p[1])
     elif p[0] == "post":
         fetch(p[2], data=p[3], name=p[1])
+
+checkpoint(True)
