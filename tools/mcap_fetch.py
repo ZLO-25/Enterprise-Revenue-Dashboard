@@ -161,6 +161,41 @@ def metals(cfg, assets_all):
     return out
 
 
+SECTOR_ZH = {"Technology": "科技硬體", "Financial Services": "金融", "Healthcare": "醫療保健", "Consumer Cyclical": "非必需消費",
+             "Consumer Defensive": "必需消費", "Communication Services": "通訊服務", "Energy": "能源", "Industrials": "工業",
+             "Basic Materials": "原物料", "Real Estate": "房地產", "Utilities": "公用事業"}
+
+
+def category(sector, industry):
+    """Yahoo 的 sector／industry → 頁面的中文類別。科技再拆成 半導體／軟體／科技硬體，因為這個網站最關心這三塊。"""
+    ind = industry or ""
+    if "Semiconductor" in ind:
+        return "半導體"
+    if sector == "Technology" and ind.startswith("Software"):
+        return "軟體"
+    return SECTOR_ZH.get(sector)
+
+
+def sectors(symbols):
+    """產業分類很少變：存在 data/mcap/sectors.json，只查快取沒有的或超過 180 天的代號"""
+    import yfinance as yf
+    path = os.path.join(DIR, "sectors.json")
+    cache = json.load(open(path, encoding="utf8")) if os.path.exists(path) else {}
+    today = now_tpe().date()
+    for sym in symbols:
+        c = cache.get(sym)
+        if c and c.get("sector") and (today - dt.date.fromisoformat(c["checked"])).days < 180:
+            continue
+        try:
+            info = yf.Ticker(sym).info
+            cache[sym] = {"sector": info.get("sector"), "industry": info.get("industry"), "checked": today.isoformat()}
+        except Exception as e:  # noqa: BLE001
+            print(f"  Yahoo 分類 {sym} 讀不到：{e}")
+            cache.setdefault(sym, {"sector": None, "industry": None, "checked": today.isoformat()})
+    open(path, "w", encoding="utf8").write(json.dumps(dict(sorted(cache.items())), ensure_ascii=False, indent=1) + "\n")
+    return cache
+
+
 def mark(row, chk_src, chk_cap, tol):
     row["chk"] = {"src": chk_src, "cap": round(chk_cap) if chk_cap else None}
     if not chk_cap:
@@ -252,6 +287,7 @@ def main():
     out = {
         "runDate": t.date().isoformat(),
         "fetchedAt": t.strftime("%Y-%m-%d %H:%M") + "（台北）",
+        "catSource": "Yahoo Finance 的 sector／industry（科技再拆成半導體、軟體、科技硬體）",
         "basis": "抓取當下的最新報價；週六台北清晨抓 → 美股為週五收盤、加密貨幣為抓取當下",
         "sources": {"companiesmarketcap": "https://companiesmarketcap.com/", "Yahoo": "https://finance.yahoo.com/（yfinance）",
                     "CoinGecko": "https://www.coingecko.com/", "WGC": cfg["goldStock"]["url"]},
@@ -263,6 +299,19 @@ def main():
         "assetsAsOf": assets_asof,   # 不是 None ＝ 資產榜這週讀不到，沿用這一天的
         "lists": lists,
     }
+    # 產業分類（只有公司有；貴金屬、加密貨幣用 type 當類別）
+    co_syms = sorted({r["symbol"] for k in ("global", "us", "assets") for r in lists.get(k) or [] if r.get("type") == "公司" and r["symbol"]})
+    sec = sectors(co_syms)
+    for k in ("global", "us", "assets"):
+        for r in lists.get(k) or []:
+            if r.get("type") == "公司":
+                c = sec.get(r["symbol"]) or {}
+                r["cat"] = category(c.get("sector"), c.get("industry")) or "待確認"
+                r["industry"] = c.get("industry")
+                if r["cat"] == "待確認":
+                    r["catNote"] = "待確認：Yahoo 沒有這家公司的產業分類"
+            else:
+                r["cat"] = r.get("type")
     for k in ("global", "us", "assets"):
         for r in lists.get(k) or []:
             r["cap"] = round(r["cap"])
