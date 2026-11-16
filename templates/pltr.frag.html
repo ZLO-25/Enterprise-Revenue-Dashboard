@@ -418,7 +418,7 @@ function build() {
   drawWaterfall(W, '#wf');
   const xt = { maxTicksLimit: 10 };
 
-  charts.push(new Chart($('#cRev'), {
+  charts.push(LT.lazyChart($('#cRev'), {
     data: { labels: qLabels, datasets: [
       bar({ label: '政府', data: Q.map(q => r1(q.gov)), backgroundColor: S[0], stack: 's' }),
       bar({ label: '商業', data: Q.map(q => r1(q.com)), backgroundColor: S[1], stack: 's' })] },
@@ -427,12 +427,12 @@ function build() {
       plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)}`, afterBody: it => { const q = Q[it[0].dataIndex]; return [` 合計 ${f0(q.rev)}`, ` 年增 ${sp(q.yoy)}　季增 ${sp(q.qoq)}`]; } } }),
     }),
   }));
-  charts.push(new Chart($('#cYoY'), {
+  charts.push(LT.lazyChart($('#cYoY'), {
     data: { labels: qLabels, datasets: [bar({ label: '年增率', data: Q.map(q => q.yoy == null ? null : r1(q.yoy)), backgroundColor: Q.map(q => (q.yoy ?? 0) >= 0 ? S[0] : T('--neg')), borderSkipped: false })] },
     options: baseOpts({ scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, xt) }, plugins: tip({ callbacks: { label: c => ` 年增 ${sp(c.raw)}` } }) }),
   }));
   const uq = Q.filter(q => q.usCom != null);
-  charts.push(new Chart($('#cUS'), {
+  charts.push(LT.lazyChart($('#cUS'), {
     data: { labels: uq.map(q => q.q), datasets: [
       bar({ label: '美國商業', data: uq.map(q => q.usCom), backgroundColor: S[1] }),
       bar({ label: '美國政府', data: uq.map(q => q.usGov), backgroundColor: S[0] })] },
@@ -442,7 +442,7 @@ function build() {
     }),
   }));
 
-  charts.push(new Chart($('#cMargin'), {
+  charts.push(LT.lazyChart($('#cMargin'), {
     data: { labels: qLabels, datasets: [
       line({ label: '毛利率', data: Q.map(q => q.gm), borderColor: S[0], backgroundColor: S[0] }),
       line({ label: 'GAAP 營業利益率', data: Q.map(q => q.om), borderColor: S[1], backgroundColor: S[1] }),
@@ -452,7 +452,7 @@ function build() {
       plugins: tip({ callbacks: { label: c => ` ${c.dataset.label} ${c.raw == null ? '—' : c.raw.toFixed(1) + '%'}` } }),
     }),
   }));
-  charts.push(new Chart($('#cNi'), {
+  charts.push(LT.lazyChart($('#cNi'), {
     data: { labels: qLabels, datasets: [
       bar({ label: '淨利', data: Q.map(q => r1(q.ni)), backgroundColor: S[0] }),
       bar({ label: '調整後營業利益', data: Q.map(q => r1(q.adjOpInc)), backgroundColor: S[2] })] },
@@ -462,13 +462,13 @@ function build() {
     }),
   }));
   const rq = Q.filter(q => q.r40 != null);
-  charts.push(new Chart($('#cR40'), {
+  charts.push(LT.lazyChart($('#cR40'), {
     data: { labels: rq.map(q => q.q), datasets: [line({ label: 'Rule of 40', data: rq.map(q => r1(q.r40)), borderColor: S[0], backgroundColor: tint(S[0], 0.12), fill: 'origin', tension: 0.25 })] },
     options: baseOpts({ scales: { y: yAxis({ beginAtZero: true }, { callback: v => v + '%' }), x: xAxis({}, xt) },
       plugins: tip({ callbacks: { label: c => ` Rule of 40 ${c.raw.toFixed(0)}%`, afterBody: it => { const q = rq[it[0].dataIndex]; return ` 年增 ${sp(q.yoy)} ＋ 調整後營益率 ${pc(q.adjOm)}`; } } }) }),
   }));
 
-  charts.push(new Chart($('#cEps'), {
+  charts.push(LT.lazyChart($('#cEps'), {
     data: { labels: qLabels, datasets: [
       bar({ label: 'GAAP', data: Q.map(q => q.eps), backgroundColor: S[0] }),
       bar({ label: '調整後', data: Q.map(q => q.adjEps), backgroundColor: S[2] })] },
@@ -478,7 +478,7 @@ function build() {
     }),
   }));
 
-  charts.push(new Chart($('#cCash'), {
+  charts.push(LT.lazyChart($('#cCash'), {
     data: { labels: qLabels, datasets: [
       bar({ label: '營業現金流', data: Q.map(q => r1(q.ocf)), backgroundColor: S[0] }),
       bar({ label: '調整後自由現金流', data: Q.map(q => r1(q.adjFcf)), backgroundColor: S[2] })] },
@@ -487,7 +487,7 @@ function build() {
       plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)}`, afterBody: it => { const q = Q[it[0].dataIndex]; return q.capex == null ? '' : ` 資本支出 ${f1(q.capex)}（占營收 ${pc(q.capex / q.rev * 100)}）`; } } }),
     }),
   }));
-  charts.push(new Chart($('#cSbc'), {
+  charts.push(LT.lazyChart($('#cSbc'), {
     data: { labels: qLabels, datasets: [
       bar({ label: 'SBC', data: Q.map(q => r1(q.sbc)), backgroundColor: S[0], yAxisID: 'y' }),
       line({ label: '占營收', data: Q.map(q => q.q === '3Q20' ? null : r1(q.sbcPct)), borderColor: S[1], backgroundColor: S[1], yAxisID: 'y1' })] },
@@ -498,7 +498,7 @@ function build() {
     }),
   }));
 
-  charts.push(new Chart($('#cDeals'), {
+  charts.push(LT.lazyChart($('#cDeals'), {
     data: { labels: qLabels, datasets: [
       bar({ label: '≥100 萬美元', data: Q.map(q => q.deals1m), backgroundColor: S[0] }),
       bar({ label: '≥500 萬美元', data: Q.map(q => q.deals5m), backgroundColor: S[1] }),
@@ -507,21 +507,21 @@ function build() {
   }));
   legend('#lgDeals', [{ t: '≥100 萬美元', c: S[0] }, { t: '≥500 萬美元', c: S[1] }, { t: '≥1,000 萬美元', c: S[2] }]);
   legend('#lgTcv', [{ t: '全部 TCV', c: S[0] }, { t: '美國商業 TCV', c: S[1] }]);
-  charts.push(new Chart($('#cTcv'), {
+  charts.push(LT.lazyChart($('#cTcv'), {
     data: { labels: qLabels, datasets: [
       bar({ label: '全部 TCV', data: Q.map(q => q.tcv), backgroundColor: S[0] }),
       bar({ label: '美國商業 TCV', data: Q.map(q => q.usComTcv), backgroundColor: S[1] })] },
     options: baseOpts({ scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, xt) }, plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)}` } }) }),
   }));
   legend('#lgRdv', [{ t: '美國商業 RDV', c: S[1], line: 1 }, { t: 'RPO', c: S[0], line: 1 }]);
-  charts.push(new Chart($('#cRdv'), {
+  charts.push(LT.lazyChart($('#cRdv'), {
     data: { labels: qLabels, datasets: [
       line({ label: '美國商業 RDV', data: Q.map(q => q.usComRdv), borderColor: S[1], backgroundColor: S[1] }),
       line({ label: 'RPO', data: Q.map(q => q.rpo), borderColor: S[0], backgroundColor: S[0] })] },
     options: baseOpts({ scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, xt) }, plugins: tip({ filter: it => it.raw != null, callbacks: { label: c => ` ${c.dataset.label} ${f0(c.raw)}` } }) }),
   }));
   const cq = Q.filter(q => q.usComCustomers != null);
-  charts.push(new Chart($('#cCust'), {
+  charts.push(LT.lazyChart($('#cCust'), {
     data: { labels: cq.map(q => q.q), datasets: [bar({ label: '美國商業客戶數', data: cq.map(q => q.usComCustomers), backgroundColor: S[1] })] },
     options: baseOpts({ scales: { y: yAxis({ beginAtZero: true }), x: xAxis() }, plugins: tip({ callbacks: { label: c => ` ${c.raw} 家` } }) }),
   }));

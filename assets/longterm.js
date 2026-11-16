@@ -120,7 +120,20 @@ const LT = (() => {
     '本益比是歷史資料的計算（月底收盤價 ÷ 當時已公布的近四季 EPS），高低不代表貴或便宜，不是買賣建議；預估本益比使用分析師預估，預估會被修正、口徑常為調整後，僅供參考。' +
     '「調整後」（non-GAAP）指標為各公司自訂口徑，不同公司間不可直接比較；標「待確定」的事件只是媒體報導、公司尚未證實。過去的財務表現不代表未來結果。';
 
-  return { metrics, freshness, badge, spark, render, DISCLAIMER, f0, f2, pc, sp, pp, cls };
+  // 圖表延後建立：捲到離畫面 400px 以內才真的畫（site.perf 為 true 時；否則照舊立刻畫）。
+  // 回傳的物件只保證有 destroy()，跟 Chart 實例一樣可以放進 charts 陣列。
+  const pendingCharts = new Set();
+  function lazyChart(el, cfg) {
+    if (!window.__PERF || !window.IntersectionObserver) return new Chart(el, cfg);
+    let real = null, dead = false, io = null;
+    const make = () => { if (dead || real) return; pendingCharts.delete(make); io.disconnect(); real = new Chart(el, cfg); };
+    io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) make(); }, { rootMargin: '400px 0px' });
+    pendingCharts.add(make); io.observe(el);
+    return { destroy() { dead = true; pendingCharts.delete(make); io.disconnect(); if (real) real.destroy(); } };
+  }
+  // 列印時沒捲到的圖也要畫出來
+  window.addEventListener('beforeprint', () => { [...pendingCharts].forEach(f => f()); });
+  return { metrics, freshness, badge, spark, render, lazyChart, DISCLAIMER, f0, f2, pc, sp, pp, cls };
 })();
 
 /* 章節目錄的「你在這裡」：捲動時把目前這一節的連結加上 .on。

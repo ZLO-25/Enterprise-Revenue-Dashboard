@@ -525,7 +525,7 @@ try { range = localStorage.getItem('tsmc-range') || 'all'; ovMode = localStorage
 function baseOpts(extra = {}) {
   return Object.assign({
     responsive: true, maintainAspectRatio: false,
-    animation: reduce ? false : { duration: 350 },
+    animation: (reduce || window.__PERF) ? false : { duration: 350 },
     interaction: { mode: 'index', intersect: false },
     plugins: {
       legend: { display: false },
@@ -571,14 +571,14 @@ function build() {
   const mLab = ms.map(ymTxt);
   const yStep = ms.length > 300 ? 3 : 1;
   const mTicks = { autoSkip: !all, maxTicksLimit: 12, callback(v) { const l = mLab[v]; return all ? (l.endsWith('/01') && Number(l.slice(0, 4)) % yStep === 0 ? l.slice(0, 4) : '') : l; } };
-  charts.push(new Chart($('#cMonthly'), {
+  charts.push(LT.lazyChart($('#cMonthly'), {
     data: { labels: mLab, datasets: [bar({ label: '營收', data: ms.map(m => r1(m.rev)), backgroundColor: S[0], categoryPercentage: 0.9, barPercentage: 0.85 })] },
     options: baseOpts({
       scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, mTicks) },
       plugins: tip({ callbacks: { label: (c) => { const m = ms[c.dataIndex]; return [` 營收 ${f1(m.rev)} 億`, ` 年增 ${sp(m.yoy)}　月增 ${sp(m.mom)}`]; } } }),
     }),
   }));
-  charts.push(new Chart($('#cYoY'), {
+  charts.push(LT.lazyChart($('#cYoY'), {
     data: { labels: mLab, datasets: [bar({ label: '年增率', data: ms.map(m => m.yoy == null ? null : r1(m.yoy)), backgroundColor: ms.map(m => (m.yoy ?? 0) >= 0 ? S[0] : T('--neg')), borderSkipped: false, categoryPercentage: 0.9, barPercentage: 0.85 })] },
     options: baseOpts({
       scales: { y: yAxis({}, { callback: v => v + '%' }), x: xAxis({}, mTicks) },
@@ -592,7 +592,7 @@ function build() {
   const yColor = {}, ly0 = years[0], isOld = (y) => ly0 - y >= 6; years.forEach(y => { yColor[y] = isOld(y) ? T('--axis') : S8[ly0 - y]; });
   const oldY = years.filter(isOld);
   legend('#ovLegend', years.filter(y => !isOld(y)).map(y => ({ t: String(y), c: yColor[y], line: 1 })).concat(oldY.length ? [{ t: `${oldY[oldY.length - 1]}–${oldY[0]}（灰線）`, c: T('--axis'), line: 1 }] : []));
-  charts.push(new Chart($('#cOverlay'), {
+  charts.push(LT.lazyChart($('#cOverlay'), {
     data: { labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'], datasets: years.map((y, i) => {
       const arr = D.monthly[String(y)].map(v => v / 100); let acc = 0; const cum = arr.map(v => (acc += v));
       return line({ label: String(y), data: (ovMode === 'c' ? cum : arr).map(r1), borderColor: yColor[y], backgroundColor: yColor[y], borderWidth: i === 0 ? 3 : (isOld(y) ? 1.25 : 2), order: isOld(y) ? 2 : 1, tension: 0.25 });
@@ -605,7 +605,7 @@ function build() {
 
   /* quarterly revenue & NI */
   legend('#lgRevNi', [{ t: '營收', c: S[0] }, { t: '淨利', c: S[1] }]);
-  charts.push(new Chart($('#cRevNi'), {
+  charts.push(LT.lazyChart($('#cRevNi'), {
     data: { labels: qLabels, datasets: [bar({ label: '營收', data: Q.map(q => r1(q.rev)), backgroundColor: S[0] }), bar({ label: '淨利', data: Q.map(q => r1(q.ni)), backgroundColor: S[1] })] },
     options: baseOpts({
       scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, { maxTicksLimit: 8 }) },
@@ -625,7 +625,7 @@ function build() {
   if (g) mSets.push(
     bar({ label: '毛利率財測', data: Q.map(() => null).concat([[g.gmLo, g.gmHi]]), backgroundColor: tint(S[0], 0.3), borderSkipped: false, grouped: false, barPercentage: 0.7, categoryPercentage: 1 }),
     bar({ label: '營益率財測', data: Q.map(() => null).concat([[g.omLo, g.omHi]]), backgroundColor: tint(S[1], 0.3), borderSkipped: false, grouped: false, barPercentage: 0.7, categoryPercentage: 1 }));
-  charts.push(new Chart($('#cMargin'), {
+  charts.push(LT.lazyChart($('#cMargin'), {
     data: { labels: mLabels, datasets: mSets },
     options: baseOpts({
       scales: { y: yAxis({ min: 20, max: 75 }, { stepSize: 10, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 8 }) },
@@ -635,7 +635,7 @@ function build() {
 
   /* EPS & DPS */
   legend('#lgEps', [{ t: '每股盈餘 EPS', c: S[0] }, { t: '每股現金股利', c: S[1] }]);
-  charts.push(new Chart($('#cEps'), {
+  charts.push(LT.lazyChart($('#cEps'), {
     data: { labels: qLabels, datasets: [bar({ label: 'EPS', data: Q.map(q => q.eps), backgroundColor: S[0] }), bar({ label: '股利', data: Q.map(q => q.dps), backgroundColor: S[1] })] },
     options: baseOpts({
       scales: { y: yAxis({ beginAtZero: true }, { callback: v => v + ' 元' }), x: xAxis({}, { maxTicksLimit: 9 }) },
@@ -649,7 +649,7 @@ function build() {
   const actual = cyrs.map(y => y === capB.y && D.capexUsd[String(y)] == null ? r1(capB.ytd * 10) : r1(D.capexUsd[String(y)] * 10));
   const budget = cyrs.map(y => y === capB.y ? [capB.lo * 10, capB.hi * 10] : null);
   legend('#lgCapexY', [{ t: `實際支出（${capB.y} 為${capB.ytdLabel}）`, c: S[0] }, { t: `${capB.y} 全年預算區間`, c: tint(S[0], 0.28) }]);
-  charts.push(new Chart($('#cCapexY'), {
+  charts.push(LT.lazyChart($('#cCapexY'), {
     data: { labels: cyrs.map(String), datasets: [
       bar({ label: '實際支出', data: actual, backgroundColor: S[0], grouped: false, order: 1, barPercentage: 0.55 }),
       bar({ label: '全年預算', data: budget, backgroundColor: tint(S[0], 0.28), grouped: false, order: 2, borderSkipped: false, barPercentage: 0.55 }),
@@ -661,14 +661,14 @@ function build() {
   }));
 
   /* quarterly capex NT$ + intensity */
-  charts.push(new Chart($('#cCapexQ'), {
+  charts.push(LT.lazyChart($('#cCapexQ'), {
     data: { labels: qLabels, datasets: [bar({ label: '資本支出', data: Q.map(q => r1(q.capex)), backgroundColor: S[0] })] },
     options: baseOpts({
       scales: { y: yAxis({ beginAtZero: true }, { callback: v => nf0.format(v) }), x: xAxis({}, { maxTicksLimit: 7 }) },
       plugins: tip({ callbacks: { label: c => ` 資本支出 ${f0(c.raw)} 億`, afterBody: it => ` 占營收 ${Q[it[0].dataIndex].capexPct.toFixed(1)}%` } }),
     }),
   }));
-  charts.push(new Chart($('#cCapexPct'), {
+  charts.push(LT.lazyChart($('#cCapexPct'), {
     data: { labels: qLabels, datasets: [line({ label: '資本密集度', data: Q.map(q => r1(q.capexPct)), borderColor: S[0], backgroundColor: tint(S[0], 0.12), fill: 'origin', tension: 0.25 })] },
     options: baseOpts({
       scales: { y: yAxis({ beginAtZero: true, max: 80 }, { stepSize: 20, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 7 }) },
@@ -679,7 +679,7 @@ function build() {
   /* cash flow */
   const QC = Q.filter(q => q.ocf != null);
   legend('#lgCash', [{ t: '營業現金流', c: S[0] }, { t: '資本支出', c: S[1] }, { t: '自由現金流', c: S[2] }]);
-  charts.push(new Chart($('#cCash'), {
+  charts.push(LT.lazyChart($('#cCash'), {
     data: { labels: QC.map(q => q.q), datasets: [
       bar({ label: '營業現金流', data: QC.map(q => r1(q.ocf)), backgroundColor: S[0] }),
       bar({ label: '資本支出', data: QC.map(q => r1(q.capex)), backgroundColor: S[1] }),
@@ -694,7 +694,7 @@ function build() {
   /* node mix */
   const N = [{ k: 'n7', t: '7 奈米', c: T('--n7') }, { k: 'n5', t: '5 奈米', c: T('--n5') }, { k: 'n3', t: '3 奈米', c: T('--n3') }, { k: 'n2', t: '2 奈米', c: T('--n2') }];
   legend('#lgNodes', N.map(n => ({ t: n.t, c: n.c })));
-  charts.push(new Chart($('#cNodes'), {
+  charts.push(LT.lazyChart($('#cNodes'), {
     data: { labels: qLabels, datasets: N.map((n, i) => line({ label: n.t, data: Q.map(q => q[n.k]), borderColor: T('--surface'), borderWidth: 1, backgroundColor: n.c, fill: i === 0 ? 'origin' : '-1', pointHoverRadius: 3 })) },
     options: baseOpts({
       scales: { y: yAxis({ stacked: true, min: 0, max: 100 }, { stepSize: 25, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 8 }) },
@@ -704,7 +704,7 @@ function build() {
 
   /* platform */
   legend('#lgPlat', [{ t: 'HPC 高效能運算', c: S[0], line: 1 }, { t: '智慧型手機', c: S[1], line: 1 }]);
-  charts.push(new Chart($('#cPlat'), {
+  charts.push(LT.lazyChart($('#cPlat'), {
     data: { labels: qLabels, datasets: [line({ label: 'HPC', data: Q.map(q => q.hpc), borderColor: S[0], backgroundColor: S[0] }), line({ label: '手機', data: Q.map(q => q.sp), borderColor: S[1], backgroundColor: S[1] })] },
     options: baseOpts({
       scales: { y: yAxis({ min: 0, max: 80 }, { stepSize: 20, callback: v => v + '%' }), x: xAxis({}, { maxTicksLimit: 8 }) },
@@ -713,7 +713,7 @@ function build() {
   }));
   if (QE.length) {
     legend('#lgEarly', [{ t: '營收（億）', c: S[0] }, { t: '淨利（億）', c: S[1] }, { t: '毛利率', c: S[2], line: 1 }]);
-    charts.push(new Chart($('#cEarly'), {
+    charts.push(LT.lazyChart($('#cEarly'), {
       data: { labels: QE.map(q => q.q), datasets: [
         bar({ label: '營收', data: QE.map(q => r1(q.rev)), backgroundColor: S[0] }),
         bar({ label: '淨利', data: QE.map(q => r1(q.ni)), backgroundColor: S[1] }),
@@ -894,7 +894,7 @@ function buildTech() {
     g.save(); g.strokeStyle = T('--s8'); g.lineWidth = 1.5; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(x, top); g.lineTo(x, bottom); g.stroke();
     g.setLineDash([]); g.fillStyle = T('--s8'); g.font = '11px "IBM Plex Sans", "Noto Sans TC", sans-serif'; g.textAlign = 'right'; g.fillText('今天', x - 4, top + 10); g.restore();
   } };
-  charts.push(new Chart($('#cTech'), {
+  charts.push(LT.lazyChart($('#cTech'), {
     type: 'scatter',
     data: { datasets: [
       { label: '量產', data: done.map(pt), backgroundColor: S1, borderColor: S1, pointRadius: 6, pointHoverRadius: 8 },

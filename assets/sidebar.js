@@ -103,15 +103,22 @@
   HTML.classList.add("sb-push");
 
   // ---- 展開 / 收合
-  function setOpen(v, remember) {
+  function setOpen(v, remember, initial) {
     HTML.classList.toggle("sb-open", v);
     [fab, mini].concat([].slice.call(topbar.querySelectorAll("[data-sb]"))).forEach(function (b) { b.setAttribute("aria-expanded", String(v)); });
     if (remember) save(v);
-    // 寬螢幕推擠內容後，讓圖表重新量尺寸
-    setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 230);
+    // 寬螢幕推擠內容後，讓圖表重新量尺寸（頁面載入時的初始狀態不用：版面本來就是對的，不要多觸發一輪重畫）
+    if (!(initial && CFG.early)) setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 230);
   }
   // 窄螢幕是抽屜：不記住「展開」，每次進來都收著，避免蓋住內容
-  setOpen(WIDE.matches && load(), false);
+  setOpen(WIDE.matches && load(), false, true);
+  // 公司清單很長：換頁後把「目前這家」捲到側邊欄中間，不用每次重新往下找
+  (function () {
+    var sc = panel.querySelector(".sb-scroll"), cur = panel.querySelector("a[aria-current=page][data-co]");
+    if (!sc || !cur) return;
+    var det = cur.closest("details"); if (det && !det.open) return;
+    sc.scrollTop = Math.max(0, cur.offsetTop - sc.offsetTop - sc.clientHeight / 2 + cur.offsetHeight / 2);
+  })();
   WIDE.addEventListener && WIDE.addEventListener("change", function (e) { setOpen(e.matches && load(), false); });
 
   document.addEventListener("click", function (e) {
