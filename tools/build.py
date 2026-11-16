@@ -80,8 +80,9 @@ def icon_links(rel):
 # false（或沒有這個欄位）時 page() 的輸出跟加入側邊欄以前一個 byte 都不差 → 這就是 rollback 開關。
 EARLY_SB = ('<script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)'
             'document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script>')
-SPEC_RULES = ('<script type="speculationrules">{"prerender":[{"where":{"selector_matches":"#sb-panel a[data-co]"},'
+SPEC_RULES = ('<script type="speculationrules">{"prerender":[{"where":{"selector_matches":"#sb-panel a[data-co]:not([aria-current])"},'
               '"eagerness":"moderate"}]}</script>')
+PRERENDER = False   # main() 依 companies.json 的 site.prerender 設定
 SIDEBAR = None   # main() 依 companies.json 設定；None = 不注入
 
 
@@ -111,7 +112,7 @@ def page(title, desc, frag, rel="", kind=None, code=""):
         if SIDEBAR.get("early"):
             # 寬螢幕且上次是展開的：在第一次繪製前就套用展開狀態，內容不會先全寬再被推窄（少一次版面跳動）
             head += EARLY_SB
-        if SIDEBAR.get("prerender") and kind == "company":
+        if PRERENDER and kind == "company":
             # 游標停在（或按下）側邊欄公司連結時，Chrome／Edge 先在背景載入那一頁，點下去幾乎立刻出現。
             # Safari、Firefox 不支援，會直接忽略（等於沒做）；用 moderate：只在 hover/按下時才預載，一次一頁
             head += SPEC_RULES
@@ -233,10 +234,12 @@ FUTJS = ""
 
 
 def main():
-    global LONGTERM, FUTJS, SIDEBAR
+    global LONGTERM, FUTJS, SIDEBAR, PRERENDER
+    PRERENDER = False
     cfg = json.loads(read("companies.json"))
+    PRERENDER = bool(cfg["site"].get("prerender"))
     if cfg["site"].get("sidebar"):
-        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")), "prerender": bool(cfg["site"].get("prerender")),
+        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")),
                    "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
