@@ -1,0 +1,44 @@
+{
+ "code": "googl",
+ "status": "draft",
+ "updated": "2026-11-16",
+ "updatedBy": "Claude 整理（草稿，待 ZL 確認）",
+ "src": {
+  "n": "Alphabet FY2025 10-K（2026-02-05 申報）第 1 項 Business",
+  "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+  "date": "2026-02-05"
+ },
+ "products": [
+  {
+   "n": "Google Services",
+   "d": "Search、YouTube、Android、Chrome、Gmail、Maps、Play、Pixel 等；主要靠搜尋、YouTube 與聯播網廣告賺錢，另有 YouTube 訂閱、Google One、Play 抽成與裝置銷售"
+  },
+  {
+   "n": "Google Cloud",
+   "d": "Google Cloud Platform 與 Workspace，按用量或訂閱收費；包含 AI 基礎設施（GPU 與自研 TPU）、Vertex AI 開發平台、資安、資料分析與 Gemini Enterprise"
+  },
+  {
+   "n": "Other Bets",
+   "d": "Waymo 自動駕駛叫車、X 實驗室、Isomorphic Labs 等，收入主要來自自動駕駛載客與網路服務，規模很小"
+  }
+ ],
+ "pains": [
+  "人要找資訊、理解世界 → Search 每年處理數兆次搜尋",
+  "企業要找到客戶、讓生意成長 → 廣告平台幫「數百萬家公司」觸及使用者",
+  "企業要用 AI 提升生產力、降低成本 → Google Cloud 提供算力、模型與工具"
+ ],
+ "claims": [
+  "過去五年投入研發超過 2,000 億美元",
+  "旗下 15 個用戶破 5 億的產品（其中 7 個破 20 億）都用上 Gemini 模型",
+  "從 AI 基礎設施（自研第七代 TPU Ironwood）、研究模型到產品一條龍的「全端」做法",
+  "Vertex AI 提供超過 200 個基礎模型"
+ ],
+ "moat": [
+  "規模與資料：數十億用戶的 Search、YouTube、Android 帶來廣告主離不開的流量與資料。",
+  "自研算力：TPU 讓 AI 訓練與推論成本可以自己掌握，也是 Cloud 的賣點。",
+  "較弱的一面：2025 年超過 70% 營收來自線上廣告，AI 對話式搜尋若改變使用習慣，核心生意會被直接挑戰；反壟斷訴訟也是長期風險。"
+ ],
+ "notes": [
+  "待確認：10-K 第 1A 項風險因素只讀到第一條標題（廣告佔營收比重高），其餘標題未讀完"
+ ]
+}

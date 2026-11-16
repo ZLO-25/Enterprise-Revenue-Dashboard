@@ -588,6 +588,90 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0001996810"
+    },
+    {
+      "code": "googl",
+      "name": "Google",
+      "nameEn": "Alphabet",
+      "ticker": "GOOGL",
+      "exchange": "Nasdaq GOOGL · GOOG",
+      "sector": "軟體與網路服務",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "googl/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "Google財報追蹤板",
+      "description": "Google（GOOGL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "GOOGL",
+        "from": "2009-03",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=1652044"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0001652044"
+    },
+    {
+      "code": "csco",
+      "name": "思科",
+      "nameEn": "Cisco Systems",
+      "ticker": "CSCO",
+      "exchange": "Nasdaq CSCO",
+      "sector": "硬體與網通",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "csco/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "思科財報追蹤板",
+      "description": "思科（CSCO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "CSCO",
+        "from": "2009-10",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR（10-Q、10-K、8-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=858877"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0000858877"
+    },
+    {
+      "code": "asml",
+      "name": "艾司摩爾",
+      "nameEn": "ASML Holding",
+      "ticker": "ASML",
+      "exchange": "Euronext Amsterdam ASML · Nasdaq ASML",
+      "sector": "半導體",
+      "currency": "EUR",
+      "frequency": "quarterly",
+      "path": "asml/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "艾司摩爾財報追蹤板",
+      "description": "艾司摩爾（ASML）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "ASML.AS",
+        "from": "2009-03",
+        "currency": "EUR"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR（20-F、6-K）",
+        "url": "https://www.sec.gov/edgar/browse/?CIK=937966"
+      },
+      "tz": "EU",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0000937966"
     }
   ]
 }
