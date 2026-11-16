@@ -1,0 +1,8 @@
+# 萬潤 6187：先試 3 季，確認讀得到再跑全部
+fs 6187 2024 1 2024 1
+fs 6187 2013 1 2013 1
+url 6187/probe/tpex_pera_20240520.json https://www.tpex.org.tw/web/stock/aftertrading/peratio_analysis/pera_result.php?l=zh-tw&o=json&d=113/05/20&c=6187
+url 6187/probe/tpex_pera_new_20240520.json https://www.tpex.org.tw/www/zh-tw/afterTrading/peQryDate?date=2024/05/20&code=6187&response=json
+post 6187/probe/mops_t100sb07_1.html https://mopsov.twse.com.tw/mops/web/ajax_t100sb07_1 encodeURIComponent=1&step=1&firstin=1&off=1&queryName=co_id&inpuType=co_id&TYPEK=all&isnew=false&co_id=6187&year=113
+post 6187/probe/mops_t163sb04_2024Q4.html https://mopsov.twse.com.tw/mops/web/ajax_t163sb04 encodeURIComponent=1&step=1&firstin=1&off=1&isQuery=Y&TYPEK=otc&year=113&season=04
+url 6187/probe/allring_home.html https://www.allring-tech.com.tw/

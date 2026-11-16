@@ -1,0 +1,23 @@
+# 一次性：新增台股公司時從公開資訊觀測站（MOPS）／櫃買中心讀原始財報頁面，存到這個分支（不進 main）。
+name: tw-raw
+on:
+  push:
+    branches: [tw-raw]
+    paths: [".github/workflows/tw-raw.yml", "tools/tw_raw.py", "want.txt"]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python3 tools/tw_raw.py
+      - run: |
+          git config user.name "tw-raw-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw
+          git commit -m "台股原始資料 $(date -u +%Y-%m-%dT%H:%M)" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin tw-raw && git push && break || sleep 5; done
