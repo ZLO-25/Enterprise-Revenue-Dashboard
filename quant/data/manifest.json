@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14 14:39 UTC",
+ "updated": "2026-11-16 11:36 UTC",
  "source": "Yahoo Finance（透過 yfinance，Adj Close 還原權息價）",
  "groups": [
   {
@@ -172,8 +172,8 @@
      "file": "prices/0050.TW.json",
      "currency": "TWD",
      "start": "2009-01-02",
-     "end": "2026-11-13",
-     "rows": 4372
+     "end": "2026-11-16",
+     "rows": 4373
     },
     {
      "symbol": "006208.TW",
@@ -182,8 +182,8 @@
      "file": "prices/006208.TW.json",
      "currency": "TWD",
      "start": "2012-06-22",
-     "end": "2026-11-13",
-     "rows": 3512
+     "end": "2026-11-16",
+     "rows": 3513
     },
     {
      "symbol": "^TWII",
@@ -192,8 +192,8 @@
      "file": "prices/_TWII.json",
      "currency": "TWD",
      "start": "1997-07-02",
-     "end": "2026-11-13",
-     "rows": 7196
+     "end": "2026-11-16",
+     "rows": 7197
     },
     {
      "symbol": "2330.TW",
@@ -202,8 +202,8 @@
      "file": "prices/2330.TW.json",
      "currency": "TWD",
      "start": "2000-01-04",
-     "end": "2026-11-13",
-     "rows": 6678
+     "end": "2026-11-16",
+     "rows": 6679
     },
     {
      "symbol": "2317.TW",
@@ -212,8 +212,8 @@
      "file": "prices/2317.TW.json",
      "currency": "TWD",
      "start": "1993-01-05",
-     "end": "2026-11-13",
-     "rows": 8503
+     "end": "2026-11-16",
+     "rows": 8504
     },
     {
      "symbol": "2454.TW",
@@ -222,8 +222,8 @@
      "file": "prices/2454.TW.json",
      "currency": "TWD",
      "start": "2001-07-23",
-     "end": "2026-11-13",
-     "rows": 6274
+     "end": "2026-11-16",
+     "rows": 6275
     },
     {
      "symbol": "00631L.TW",
@@ -232,8 +232,8 @@
      "file": "prices/00631L.TW.json",
      "currency": "TWD",
      "start": "2014-10-23",
-     "end": "2026-11-13",
-     "rows": 2940
+     "end": "2026-11-16",
+     "rows": 2941
     }
    ]
   },
@@ -247,8 +247,8 @@
      "file": "prices/0005.HK.json",
      "currency": "HKD",
      "start": "2000-01-03",
-     "end": "2026-11-13",
-     "rows": 6697
+     "end": "2026-11-16",
+     "rows": 6698
     },
     {
      "symbol": "2800.HK",
@@ -257,8 +257,8 @@
      "file": "prices/2800.HK.json",
      "currency": "HKD",
      "start": "2008-01-02",
-     "end": "2026-11-13",
-     "rows": 4649
+     "end": "2026-11-16",
+     "rows": 4650
     }
    ]
   },
@@ -358,8 +358,8 @@
      "file": "prices/BTC-USD.json",
      "currency": "USD",
      "start": "2014-09-17",
-     "end": "2026-11-14",
-     "rows": 4442
+     "end": "2026-11-16",
+     "rows": 4444
     },
     {
      "symbol": "ETH-USD",
@@ -368,8 +368,8 @@
      "file": "prices/ETH-USD.json",
      "currency": "USD",
      "start": "2017-11-09",
-     "end": "2026-11-14",
-     "rows": 3293
+     "end": "2026-11-16",
+     "rows": 3295
     }
    ]
   }
