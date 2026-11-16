@@ -1,0 +1,64 @@
+{
+  "_說明": "市值排名的設定。只有 goldStock 需要人工（Claude 每週排程）更新：World Gold Council 每季公布一次地上存量。",
+  "top": 50,
+  "tolerancePct": 10,
+  "goldStock": {
+    "tonnes": 224200,
+    "asOf": "2026-09-30",
+    "label": "end-Q3 2026",
+    "source": "World Gold Council, Above-ground stocks",
+    "url": "https://www.gold.org/goldhub/data/above-ground-stocks",
+    "checked": "2026-11-16"
+  },
+  "links": {
+    "tvGlobal": "https://www.tradingview.com/markets/world-stocks/worlds-largest-companies/",
+    "tvUS": "https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/",
+    "tvCrypto": "https://www.tradingview.com/markets/cryptocurrencies/prices-all/",
+    "cmcGlobal": "https://companiesmarketcap.com/",
+    "cmcUS": "https://companiesmarketcap.com/usa/largest-companies-in-the-usa-by-market-cap/",
+    "cmcAssets": "https://companiesmarketcap.com/assets-by-market-cap/",
+    "8mcAssets": "https://8marketcap.com/",
+    "coingecko": "https://www.coingecko.com/",
+    "wgc": "https://www.gold.org/goldhub/data/above-ground-stocks"
+  },
+  "metals": {
+    "_說明": "AI 相關金屬觀察：價格來自 Yahoo 的期貨近月（單一來源）。why 是 Claude 的觀點，頁面會標「觀點」。",
+    "items": [
+      {
+        "code": "COPPER",
+        "yahoo": "HG=F",
+        "name": "銅",
+        "unit": "美元／磅",
+        "why": "資料中心供電、電網、冷卻管線大量用銅"
+      },
+      {
+        "code": "SILVER",
+        "yahoo": "SI=F",
+        "name": "白銀",
+        "unit": "美元／盎司",
+        "why": "導電性最好的金屬，用在電子元件與太陽能板"
+      },
+      {
+        "code": "PLATINUM",
+        "yahoo": "PL=F",
+        "name": "白金",
+        "unit": "美元／盎司",
+        "why": "用在硬碟、玻璃纖維製程與氫燃料電池"
+      },
+      {
+        "code": "PALLADIUM",
+        "yahoo": "PA=F",
+        "name": "鈀金",
+        "unit": "美元／盎司",
+        "why": "用在積層陶瓷電容（MLCC）等電子元件"
+      },
+      {
+        "code": "GOLD",
+        "yahoo": "GC=F",
+        "name": "黃金（對照組）",
+        "unit": "美元／盎司",
+        "why": "避險資產，當作比較基準"
+      }
+    ]
+  }
+}

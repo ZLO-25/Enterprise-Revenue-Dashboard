@@ -277,6 +277,10 @@ def main():
               ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/")])
     write(page("指數期貨 K 棒", "小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../", "futures"), "futures", "index.html")
     print("futures/index.html（指數期貨 K 棒頁）")
+    # 市值排名頁（資料 data/mcap/latest.json 由 Actions 每週寫入；頁面執行時才讀，所以每週更新不必重建網站）
+    mt = fill(read("templates", "mcap.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MCAP_BASE}}", "../data/mcap/")])
+    write(page("市值排名", "全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。", mt, "../", "mcap"), "mcap", "index.html")
+    print("mcap/index.html（市值排名頁）")
     print("index.html（首頁）")
     build_combined(cfg, companies, datasets, theme, common)
 

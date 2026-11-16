@@ -1,0 +1,168 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+.mc-ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.mc-tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.mc-tbl td{font-family:var(--font-cjk)}
+.mc-tbl td small{font-family:var(--font-data)}
+.mc-tbl th,.mc-tbl td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.mc-tbl th{font-size:.8rem;color:var(--muted);font-weight:600}
+.mc-tbl td.n{text-align:right;font-family:var(--font-data);white-space:nowrap}
+.mc-tbl th.n{text-align:right}
+.mc-tbl .rk{width:2.5em;color:var(--muted);font-family:var(--font-data)}
+.mc-tbl small{color:var(--muted)}
+.mc-bar{height:6px;border-radius:3px;background:var(--s1);margin-top:4px}
+.mc-tbl tr[data-type="貴金屬"] .mc-bar{background:var(--s4)}
+.mc-tbl tr[data-type="加密貨幣"] .mc-bar{background:var(--s7)}
+.mc-flag{display:inline-block;font-size:.75rem;padding:1px 6px;border-radius:999px;background:var(--wash);color:var(--ink-2);margin-top:2px;cursor:help}
+.mc-flag.warn{background:#fff1d6;color:#7a4b00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mc-flag.warn{background:#3a2a08;color:#f2c46b}}
+:root[data-theme="dark"] .mc-flag.warn{background:#3a2a08;color:#f2c46b}
+.mt-cap{font-size:.78rem;color:var(--muted)}
+.mc-move{font-size:.75rem;font-family:var(--font-data)}
+.mc-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0}
+.mc-chg-up{color:var(--good-text)} .mc-chg-dn{color:var(--bad-text)}
+@media (max-width:640px){#mtTbl th.n,#mtTbl td.n{width:4.3em}#mtTbl th:first-child{width:auto}.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}#mcTbl{table-layout:fixed}#mcTbl .rk{width:2.2em}#mcTbl th.n,#mcTbl td.n{width:5.6em}#mtTbl td.n small{white-space:normal;display:block}#mtTbl td{overflow-wrap:anywhere}#mtTbl{table-layout:fixed}#mtTbl th.n,#mtTbl td.n{width:5em}#mtTbl td small{font-family:var(--font-cjk);white-space:normal}#mtTbl td:first-child,#mcTbl td:nth-child(2){white-space:normal}.mc-tbl td{overflow-wrap:anywhere}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
+</style>
+
+<!-- 市值排名頁：資料 data/mcap/latest.json 由 GitHub Actions（mcap-weekly）每週六台北清晨寫入，本頁只讀不算。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="{{HOME}}">← 所有公司</a>
+    <a href="#rank">排名</a>
+    <a href="#metals">AI 相關金屬</a>
+    <a href="#sources">資料來源與口徑</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Market Cap Ranking · Top 50</div>
+    <h1>市值排名</h1>
+    <p class="lede">全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司…）前 50 名，以及 AI 相關金屬（銅、白銀、白金、鈀金）的價格走勢。每週六台北清晨自動更新一次（美股週五收盤後）。想看更多名次與細節，下方附 TradingView、companiesmarketcap 等網站連結。</p>
+    <div class="meta-row"><span id="mcSub">讀取中…</span></div>
+  </header>
+
+  <section id="rank">
+    <div class="card wide">
+      <div class="mc-ctrl">
+        <div class="seg" role="group" aria-label="榜單">
+          <button type="button" data-list="global" aria-pressed="true">全球公司</button>
+          <button type="button" data-list="us" aria-pressed="false">美國公司</button>
+          <button type="button" data-list="assets" aria-pressed="false">全球資產</button>
+        </div>
+        <span id="mcNote" class="note"></span>
+      </div>
+      <div id="mcWarn"></div>
+      <div class="tbl-wrap"><table class="mc-tbl" id="mcTbl"></table></div>
+      <div class="mc-links" id="mcLinks"></div>
+    </div>
+  </section>
+
+  <section id="metals">
+    <div class="sec-head"><h2>AI 相關金屬</h2><p class="sub">想看這些金屬會不會因為 AI（資料中心、電力、電子元件）需求持續上漲。價格是每週收盤，黃金放著當對照組。</p></div>
+    <div class="tbl-wrap"><table class="mc-tbl" id="mtTbl"></table></div>
+    <p class="note">價格來源：Yahoo Finance 的 COMEX／NYMEX 期貨近月（單一來源，期貨換月時會有小跳動）。「為什麼和 AI 有關」是<b>觀點</b>（Claude 的整理），不是公司或機構的數字。市值只有 companiesmarketcap 有估算的才顯示。</p>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head"><h2>資料來源與口徑</h2></div>
+    <ul class="fut-src">
+      <li><b>主來源</b>：<a href="https://companiesmarketcap.com/" target="_blank" rel="noopener">companiesmarketcap.com</a>（全球、美國公司 CSV 與資產頁）。排名以主來源為準。</li>
+      <li><b>核對</b>：公司用 Yahoo Finance（非美元報價換成美元）、比特幣等用 CoinGecko、黃金用 <a href="https://www.gold.org/goldhub/data/above-ground-stocks" target="_blank" rel="noopener">World Gold Council 地上存量</a> × COMEX 金價。兩邊差超過 <span id="mcTol">10</span>% 標「待確認」；沒有第二來源標「單一來源」。數字一律照主來源顯示，不自己修正。</li>
+      <li><b>核對的限制</b>：公司的兩個來源通常幾乎一樣（兩邊可能用同一份股數資料），所以核對主要是抓「抓錯、格式壞掉、換算錯」，不能保證股數本身正確。</li>
+      <li><b>全球資產不含 ETF</b>：ETF（例如追蹤 S&amp;P 500 的基金）持有的就是榜上的公司，放進來等於重複計算，所以拿掉後再取前 30。</li>
+      <li><b>貴金屬是估算</b>：市值＝價格 × 估計的地上存量（已開採、還在世上的總量），不是交易所掛牌市值。</li>
+      <li><b>時間點</b>：每週六台北清晨抓取；美股是週五收盤價，加密貨幣是抓取當下的價格。滑鼠移到「待確認」上可看原因。</li>
+      <li>本頁是個人研究整理，不構成投資建議。</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var BASE = "{{MCAP_BASE}}", cur = "global", D = null, PREV = null;
+  var TITLE = { global: "全球公司", us: "美國公司", assets: "全球資產" };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function capTxt(v) { if (v == null) return "—"; return v >= 1e12 ? (v / 1e12).toFixed(2) + " 兆" : (v / 1e8).toFixed(0) + " 億"; }
+  function spark(pts) {
+    if (!pts || pts.length < 2) return "";
+    var v = pts.map(function (p) { return p[1]; }), lo = Math.min.apply(null, v), hi = Math.max.apply(null, v), W = 120, H = 30;
+    var d = v.map(function (y, i) { return (i ? "L" : "M") + (i / (v.length - 1) * W).toFixed(1) + " " + (H - 2 - (y - lo) / ((hi - lo) || 1) * (H - 4)).toFixed(1); }).join("");
+    var up = v[v.length - 1] >= v[0];
+    return "<svg width='" + W + "' height='" + H + "' viewBox='0 0 " + W + " " + H + "' aria-hidden='true'><path d='" + d + "' fill='none' stroke='var(" + (up ? "--good-text" : "--bad-text") + ")' stroke-width='1.5'/></svg>";
+  }
+  function pct(x) { return x == null ? "—" : "<span class='" + (x >= 0 ? "mc-chg-up" : "mc-chg-dn") + "'>" + (x > 0 ? "+" : "") + x + "%</span>"; }
+  function renderMetals() {
+    var M = D.metals || [], el = document.getElementById("mtTbl");
+    if (!M.length) { el.innerHTML = "<tbody><tr><td>下次每週更新後才會有資料。</td></tr></tbody>"; return; }
+    el.innerHTML = "<thead><tr><th>金屬</th><th class='n'>最新價</th><th class='n'>1 週</th><th class='n hide-s'>4 週</th><th class='n'>52 週</th><th class='hide-s'>近 1 年</th></tr></thead><tbody>" +
+      M.map(function (m) {
+        return "<tr><td><b>" + esc(m.name) + "</b> <small>" + esc(m.yahoo) + "</small><br><small>觀點：" + esc(m.why) + "</small>" +
+          (m.cap ? "<br><span class='mt-cap' title='" + esc(m.capSrc) + "'>市值約 " + capTxt(m.cap) + " 美元（估算）</span>" : "") +
+          (m.flag ? "<br><span class='mc-flag warn' title='" + esc(m.flag) + "'>待確認</span>" : "") + "</td>" +
+          "<td class='n'>" + (m.last == null ? "—" : m.last.toLocaleString("en-US", { maximumFractionDigits: 2 }) + "<br><small>" + esc(m.unit) + "</small>") + "</td>" +
+          "<td class='n'>" + pct(m.w1) + "</td><td class='n hide-s'>" + pct(m.w4) + "</td><td class='n'>" + pct(m.w52) + "</td><td class='hide-s'>" + spark(m.closes) + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
+  function key(r) { return (r.symbol || "") + "|" + r.name; }
+
+  function render() {
+    document.querySelectorAll("[data-list]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-list") === cur)); });
+    var rows = (D.lists[cur] || []), max = rows.length ? rows[0].cap : 1;
+    var prevRank = {};
+    if (PREV && PREV.lists && PREV.lists[cur]) PREV.lists[cur].forEach(function (r) { prevRank[key(r)] = r.rank; });
+    var hasPrev = PREV && PREV.lists && PREV.lists[cur];
+    var isA = cur === "assets";
+    var h = "<thead><tr><th class='rk'>#</th><th>名稱</th>" + (isA ? "<th class='hide-s'>類型</th>" : "<th class='hide-s'>國家</th>") +
+      "<th class='n'>市值（美元）</th>" + (hasPrev ? "<th class='n hide-s'>比上週</th>" : "") + "</tr></thead><tbody>";
+    rows.forEach(function (r) {
+      var mv = "";
+      if (hasPrev) {
+        var p = prevRank[key(r)];
+        mv = p == null ? "<span class='mc-move'>新進榜</span>" : p === r.rank ? "<span class='mc-move'>–</span>" :
+          "<span class='mc-move " + (p > r.rank ? "mc-chg-up'>▲" + (p - r.rank) : "mc-chg-dn'>▼" + (r.rank - p)) + "</span>";
+      }
+      var fl = r.flag ? "<br><span class='mc-flag" + (r.flag.indexOf("待確認") === 0 ? " warn" : "") + "' title='" + esc(r.flag) + "'>" + esc(r.flag.split("：")[0]) + "</span>" : "";
+      var est = r.est ? "<br><small>" + esc(r.est) + "</small>" : "";
+      var chk = r.chk && r.chk.cap ? "核對 " + r.chk.src + "：" + capTxt(r.chk.cap) + (r.chk.diff != null ? "（" + (r.chk.diff > 0 ? "+" : "") + r.chk.diff + "%）" : "") : "沒有第二來源";
+      h += "<tr data-type='" + esc(r.type) + "'><td class='rk'>" + r.rank + "</td><td><b>" + esc(r.name) + "</b> <small>" + esc(r.symbol) + "</small>" + fl + est +
+        "<div class='mc-bar' style='width:" + Math.max(2, r.cap / max * 100).toFixed(1) + "%'></div></td>" +
+        "<td class='hide-s'>" + esc(isA ? r.type : r.country) + "</td>" +
+        "<td class='n' title='" + esc(chk) + "'>" + capTxt(r.cap) + "</td>" + (hasPrev ? "<td class='n hide-s'>" + mv + "</td>" : "") + "</tr>";
+    });
+    document.getElementById("mcTbl").innerHTML = h + "</tbody>";
+    var L = D.links || {};
+    // 「看更多」不限 TradingView：每張榜附幾個常用的排名網站（網址在 data/mcap/config.json links，改那裡就好）
+    var links = cur === "global" ? [["TradingView：全球最大公司", L.tvGlobal], ["companiesmarketcap：全球", L.cmcGlobal], ["8marketcap：公司與資產", L["8mcAssets"]]] :
+      cur === "us" ? [["TradingView：美股大型股", L.tvUS], ["companiesmarketcap：美國", L.cmcUS]] :
+      [["companiesmarketcap：全球資產", L.cmcAssets], ["8marketcap：公司與資產", L["8mcAssets"]], ["TradingView：全球最大公司", L.tvGlobal],
+       ["TradingView：加密貨幣", L.tvCrypto], ["CoinGecko：加密貨幣", L.coingecko], ["World Gold Council：黃金存量", L.wgc]];
+    document.getElementById("mcLinks").innerHTML = "看更多 →" + links.filter(function (x) { return x[1]; }).map(function (x) { return "<a href='" + esc(x[1]) + "' target='_blank' rel='noopener'>" + esc(x[0]) + " ↗</a>"; }).join("");
+    var n = rows.filter(function (r) { return r.flag && r.flag.indexOf("待確認") === 0; }).length;
+    document.getElementById("mcNote").textContent = TITLE[cur] + "前 " + rows.length + " 名" + (n ? "，" + n + " 筆待確認" : "") +
+      (cur === "assets" && D.assetsAsOf ? "（資產榜本週讀不到，沿用 " + D.assetsAsOf + "）" : "");
+    try { localStorage.setItem("erd.mcap.list", cur); } catch (e) { /* 忽略 */ }
+  }
+
+  document.querySelectorAll("[data-list]").forEach(function (b) {
+    b.addEventListener("click", function () { cur = b.getAttribute("data-list"); if (D) render(); });
+  });
+  try { var s = localStorage.getItem("erd.mcap.list"); if (s && TITLE[s]) cur = s; } catch (e) { /* 忽略 */ }
+  if (/^#(global|us|assets)$/.test(location.hash)) cur = location.hash.slice(1);
+
+  fetch(BASE + "latest.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
+    D = d;
+    document.getElementById("mcSub").textContent = "資料抓取：" + d.fetchedAt + "　·　" + d.basis;
+    document.getElementById("mcTol").textContent = d.tolerancePct;
+    if (d.warnings && d.warnings.length) document.getElementById("mcWarn").innerHTML = d.warnings.map(function (w) { return "<p class='callout'>" + esc(w) + "</p>"; }).join("");
+    render(); renderMetals();
+    if (d.prev) return fetch(BASE + "history/" + d.prev + ".json", { cache: "force-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (p) { PREV = p; render(); }).catch(function () {});
+  }).catch(function (e) {
+    document.getElementById("mcSub").textContent = "讀不到市值資料（" + e.message + "）。第一次更新前這裡會是空的。";
+  });
+})();
+</script>
