@@ -31,10 +31,12 @@
 .cat-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}
 .mc-cats button i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:5px;vertical-align:1px}
 .mc-cats button[aria-pressed="true"][style]{background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--ink);border-color:var(--c)}
+.mc-tbl td.p30{white-space:nowrap}.mc-tbl td.p30 svg{vertical-align:middle;margin-right:6px}.mc-tbl td.p30 span{font-family:var(--font-data);font-size:.85rem}
+.show-s{display:none}.show-s span{font-size:.75rem;font-family:var(--font-data)}
 .mc-move{font-size:.75rem;font-family:var(--font-data)}
 .mc-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0}
 .mc-chg-up{color:var(--good-text)} .mc-chg-dn{color:var(--bad-text)}
-@media (max-width:640px){#mtTbl th.n,#mtTbl td.n{width:4.3em}#mcTbl .cat{width:6.2em}.cat-tag{font-size:.72rem;padding:1px 6px}#mtTbl th:first-child{width:auto}.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}#mcTbl{table-layout:fixed}#mcTbl .rk{width:2.2em}#mcTbl th.n,#mcTbl td.n{width:5.6em}#mtTbl td.n small{white-space:normal;display:block}#mtTbl td{overflow-wrap:anywhere}#mtTbl{table-layout:fixed}#mtTbl th.n,#mtTbl td.n{width:5em}#mtTbl td small{font-family:var(--font-cjk);white-space:normal}#mtTbl td:first-child,#mcTbl td:nth-child(2){white-space:normal}.mc-tbl td{overflow-wrap:anywhere}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
+@media (max-width:640px){.show-s{display:inline}#mtTbl th.n,#mtTbl td.n{width:4.3em}#mcTbl .cat{width:6.2em}.cat-tag{font-size:.72rem;padding:1px 6px}#mtTbl th:first-child{width:auto}.mc-tbl .hide-s{display:none}.mc-tbl th,.mc-tbl td{padding:7px 6px}.mc-tbl{font-size:.85rem}#mcTbl{table-layout:fixed}#mcTbl .rk{width:2.2em}#mcTbl th.n,#mcTbl td.n{width:5.6em}#mtTbl td.n small{white-space:normal;display:block}#mtTbl td{overflow-wrap:anywhere}#mtTbl{table-layout:fixed}#mtTbl th.n,#mtTbl td.n{width:5em}#mtTbl td small{font-family:var(--font-cjk);white-space:normal}#mtTbl td:first-child,#mcTbl td:nth-child(2){white-space:normal}.mc-tbl td{overflow-wrap:anywhere}.mc-tbl td:last-child,.mc-tbl th:last-child{padding-right:10px}.wrap .card.wide{padding:10px}}
 </style>
 
 <!-- 市值排名頁：資料 data/mcap/latest.json 由 GitHub Actions（mcap-weekly）每週六台北清晨寫入，本頁只讀不算。 -->
@@ -86,6 +88,7 @@
       <li><b>核對的限制</b>：公司的兩個來源通常幾乎一樣（兩邊可能用同一份股數資料），所以核對主要是抓「抓錯、格式壞掉、換算錯」，不能保證股數本身正確。</li>
       <li><b>全球資產不含 ETF</b>：ETF（例如追蹤 S&amp;P 500 的基金）持有的就是榜上的公司，放進來等於重複計算，所以拿掉後再取前 30。</li>
       <li><b>單位</b>：市值都是美元，用美國常見寫法：<b>T</b>＝兆（trillion，10¹²），<b>B</b>＝十億（billion，10⁹）。例如 $5.18T ＝ 5.18 兆美元、$880.6B ＝ 8,806 億美元。</li>
+      <li><b>Price／Price (30 days)</b>：Price 是 companiesmarketcap 的美元股價（金屬、加密貨幣用 Yahoo 最新收盤）；30 天走勢線與漲跌用 Yahoo 近 30 天日收盤，以掛牌貨幣計（例如三星是韓元），所以跟美元報酬會有匯率差。手機版只顯示 30 天漲跌 %。</li>
       <li><b>類別</b>：公司用 Yahoo Finance 的產業分類（sector／industry）翻成中文，「科技」再拆成半導體、軟體、科技硬體三類；貴金屬、加密貨幣直接用資產類型。Yahoo 沒有分類的公司標「待確認」。</li>
       <li><b>貴金屬是估算</b>：市值＝價格 × 估計的地上存量（已開採、還在世上的總量），不是交易所掛牌市值。</li>
       <li><b>時間點</b>：每週六台北清晨抓取；美股是週五收盤價，加密貨幣是抓取當下的價格。滑鼠移到「待確認」上可看原因。</li>
@@ -115,6 +118,14 @@
     var up = v[v.length - 1] >= v[0];
     return "<svg width='" + W + "' height='" + H + "' viewBox='0 0 " + W + " " + H + "' aria-hidden='true'><path d='" + d + "' fill='none' stroke='var(" + (up ? "--good-text" : "--bad-text") + ")' stroke-width='1.5'/></svg>";
   }
+  // 近 30 天走勢線（只有數值陣列）＋ 價格格式（美元）
+  function spark30(v) {
+    if (!v || v.length < 2) return "";
+    var lo = Math.min.apply(null, v), hi = Math.max.apply(null, v), W = 90, H = 24;
+    var d = v.map(function (y, i) { return (i ? "L" : "M") + (i / (v.length - 1) * W).toFixed(1) + " " + (H - 2 - (y - lo) / ((hi - lo) || 1) * (H - 4)).toFixed(1); }).join("");
+    return "<svg class='sp30' width='" + W + "' height='" + H + "' viewBox='0 0 " + W + " " + H + "' aria-hidden='true'><path d='" + d + "' fill='none' stroke='var(" + (v[v.length - 1] >= v[0] ? "--good-text" : "--bad-text") + ")' stroke-width='1.5'/></svg>";
+  }
+  function priceTxt(x) { return x == null ? "—" : "$" + x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   function pct(x) { return x == null ? "—" : "<span class='" + (x >= 0 ? "mc-chg-up" : "mc-chg-dn") + "'>" + (x > 0 ? "+" : "") + x + "%</span>"; }
   function renderMetals() {
     var M = D.metals || [], el = document.getElementById("mtTbl");
@@ -146,7 +157,8 @@
     var hasPrev = PREV && PREV.lists && PREV.lists[cur];
     var isA = cur === "assets";
     var h = "<thead><tr><th class='rk'>#</th><th>名稱</th><th class='cat'>類別</th>" +
-      "<th class='n' title='T = 兆美元、B = 十億美元'>市值<span class='hide-s'>（USD）</span></th>" + (hasPrev ? "<th class='n hide-s'>比上週</th>" : "") + "</tr></thead><tbody>";
+      "<th class='n' title='T = 兆美元、B = 十億美元'>市值<span class='hide-s'>（USD）</span></th>" +
+      "<th class='n hide-s'>Price</th><th class='hide-s p30'>Price (30 days)</th>" + (hasPrev ? "<th class='n hide-s'>比上週</th>" : "") + "</tr></thead><tbody>";
     rows.forEach(function (r) {
       var mv = "";
       if (hasPrev) {
@@ -161,7 +173,10 @@
         "<div class='mc-bar' style='background:" + catC(r.cat || r.type) + ";width:" + Math.max(2, r.cap / max * 100).toFixed(1) + "%'></div></td>" +
         "<td class='cat'>" + tag(r.cat || r.type || "待確認") + (r.industry ? "<br><small class='hide-s' title='Yahoo industry'>" + esc(r.industry) + "</small>" : "") +
           (r.catNote ? "<br><span class='mc-flag warn' title='" + esc(r.catNote) + "'>待確認</span>" : "") + "</td>" +
-        "<td class='n' title='" + esc(chk) + "'>" + capTxt(r.cap) + "</td>" + (hasPrev ? "<td class='n hide-s'>" + mv + "</td>" : "") + "</tr>";
+        "<td class='n' title='" + esc(chk) + "'>" + capTxt(r.cap) + "<span class='show-s'><br><small>30天 </small>" + pct(r.c30) + "</span></td>" +
+        "<td class='n hide-s'" + (r.priceSrc ? " title='價格來源：" + esc(r.priceSrc) + "'" : "") + ">" + priceTxt(r.price) + "</td>" +
+        "<td class='hide-s p30'" + (r.p30 ? " title='" + esc(r.p30[0] + " → " + r.p30[1] + "（Yahoo 日收盤，漲跌以掛牌貨幣計）") + "'" : "") + ">" +
+          (r.spark ? spark30(r.spark) + " " + pct(r.c30) : "<small>待確認</small>") + "</td>" + (hasPrev ? "<td class='n hide-s'>" + mv + "</td>" : "") + "</tr>";
     });
     document.getElementById("mcTbl").innerHTML = h + "</tbody>";
     var L = D.links || {};

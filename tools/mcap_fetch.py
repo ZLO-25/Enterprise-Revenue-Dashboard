@@ -125,6 +125,32 @@ def yahoo_caps(symbols):
     return out
 
 
+YSYM = {"GOLD": "GC=F", "SILVER": "SI=F", "PLATINUM": "PL=F", "PALLADIUM": "PA=F", "COPPER": "HG=F", "BTC": "BTC-USD", "ETH": "ETH-USD"}
+
+
+def ysym(r):
+    return YSYM.get(r["symbol"]) if r.get("type") != "公司" else r["symbol"]
+
+
+def last30(symbols):
+    """近 30 天日收盤（Yahoo，一次批次下載）。用在走勢線與 30 天漲跌；漲跌以掛牌貨幣計。"""
+    import yfinance as yf
+    out = {}
+    if not symbols:
+        return out
+    df = yf.download(sorted(symbols), period="1mo", interval="1d", group_by="ticker", auto_adjust=False, threads=True, progress=False)
+    for sym in symbols:
+        try:
+            c = (df[sym]["Close"] if len(symbols) > 1 else df["Close"]).dropna()
+            pts = [float(v) for v in c.values]
+            if len(pts) >= 5:
+                out[sym] = {"spark": [float(f"{v:.4g}") for v in pts], "c30": round((pts[-1] / pts[0] - 1) * 100, 1),
+                            "from": c.index[0].strftime("%Y-%m-%d"), "to": c.index[-1].strftime("%Y-%m-%d"), "last": pts[-1]}
+        except Exception as e:  # noqa: BLE001
+            print(f"  Yahoo 30 天 {sym} 讀不到：{e}")
+    return out
+
+
 def coingecko(ids):
     url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=" + ",".join(ids)
     return {r["id"]: r["market_cap"] for r in json.loads(get(url)) if r.get("market_cap")}
@@ -299,6 +325,18 @@ def main():
         "assetsAsOf": assets_asof,   # 不是 None ＝ 資產榜這週讀不到，沿用這一天的
         "lists": lists,
     }
+    # 價格與近 30 天走勢：價格優先用 companiesmarketcap CSV（美元）；資產（金屬、加密貨幣）用 Yahoo 最新收盤
+    comp_price = {r["symbol"]: r.get("price") for r in g + us}
+    p30 = last30({ysym(r) for k in ("global", "us", "assets") for r in lists.get(k) or [] if ysym(r)})
+    for k in ("global", "us", "assets"):
+        for r in lists.get(k) or []:
+            y = p30.get(ysym(r) or "")
+            if r.get("price") is None and r.get("type") == "公司":
+                r["price"] = comp_price.get(r["symbol"])
+            if r.get("price") is None and y and r.get("type") != "公司":
+                r["price"], r["priceSrc"] = y["last"], "Yahoo " + ysym(r)
+            if y:
+                r["spark"], r["c30"], r["p30"] = y["spark"], y["c30"], [y["from"], y["to"]]
     # 產業分類（只有公司有；貴金屬、加密貨幣用 type 當類別）
     co_syms = sorted({r["symbol"] for k in ("global", "us", "assets") for r in lists.get(k) or [] if r.get("type") == "公司" and r["symbol"]})
     sec = sectors(co_syms)
