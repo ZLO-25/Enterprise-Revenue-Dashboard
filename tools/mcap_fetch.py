@@ -170,7 +170,7 @@ def main():
 
     if assets:
         comp = {r["symbol"]: r for r in g}
-        lst = assets[:top]
+        lst = assets[:top + 15]   # 多拿幾列：拿掉 ETF 後還要湊滿 30
         cg_ids = [CRYPTO[r["symbol"]] for r in lst if r["symbol"] in CRYPTO]
         cg = coingecko(cg_ids) if cg_ids else {}
         gp = gold_price()
@@ -198,10 +198,11 @@ def main():
                 r["country"] = comp[s]["country"]
                 mark(r, "Yahoo", yc.get(s), tol)
             else:
-                r["type"] = "其他（ETF 等）"
-                r["chk"] = None
-                r["flag"] = "單一來源"
-        lists["assets"] = lst
+                r["type"] = "ETF"     # 下面拿掉：ETF 持有的就是榜上的公司，放進來等於重複計算
+        lst = [r for r in lst if r["type"] != "ETF"]
+        for i, r in enumerate(lst):
+            r["rank"] = i + 1
+        lists["assets"] = lst[:top]
     else:
         old = json.load(open(LATEST, encoding="utf8")) if os.path.exists(LATEST) else {}
         if old.get("lists", {}).get("assets"):
@@ -221,6 +222,7 @@ def main():
         raise SystemExit(f"兩來源對不起來的列數太多（{bad} 列），可能有一邊壞掉，不寫檔")
 
     t = now_tpe()
+    prev = json.load(open(LATEST, encoding="utf8")).get("runDate") if os.path.exists(LATEST) else None
     out = {
         "runDate": t.date().isoformat(),
         "fetchedAt": t.strftime("%Y-%m-%d %H:%M") + "（台北）",
@@ -228,6 +230,8 @@ def main():
         "sources": {"companiesmarketcap": "https://companiesmarketcap.com/", "Yahoo": "https://finance.yahoo.com/（yfinance）",
                     "CoinGecko": "https://www.coingecko.com/", "WGC": cfg["goldStock"]["url"]},
         "tolerancePct": tol,
+        "prev": prev if prev != t.date().isoformat() else None,   # 上一次的檔名（history/<prev>.json），頁面用來算「比上週」
+        "links": cfg["links"],
         "warnings": warn,
         "assetsAsOf": assets_asof,   # 不是 None ＝ 資產榜這週讀不到，沿用這一天的
         "lists": lists,
