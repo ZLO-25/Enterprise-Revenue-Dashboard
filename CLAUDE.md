@@ -27,12 +27,15 @@ python3 tools/new_company.py …  # 新增公司腳手架（本益比需要 --ya
 python3 tools/pe.py             # 本益比計算的固定測試案例
 python3 tools/prices_update.py --check  # 股價是否已到最新（只有 GitHub Actions 會真的抓）
 python3 tools/daily.py          # 每日排程今天的工作清單與狀態（set／try／done 改 data/calendar.json）
+python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
+python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json）
 ```
 
 ## 文件
 - `docs/ADDING_A_COMPANY.md` 新增公司流程
 - `docs/DATA_SCHEMA.md` 資料格式 v1
 - `docs/SCHEDULE_PROMPT.md` 每日排程指令（公司無關，新增公司不用改）。排程本身只是一句「照這份做」，所以改這份就等於改排程，改之前先問使用者
+- `docs/schedule/core.md` 每日排程新版（核心＋附件 flash／complete／verify／profile，安靜日只讀核心）；並行測試通過後取代 SCHEDULE_PROMPT.md
 - `docs/TREND_PROMPT.md` 世界科技趨勢月報排程指令（每月 2 日；輸出 reports/trend/）
 - `companies/<代號>/SOURCES.md` 各公司來源與更新步驟
 

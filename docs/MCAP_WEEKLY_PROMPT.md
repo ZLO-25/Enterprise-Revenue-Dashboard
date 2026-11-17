@@ -1,6 +1,8 @@
 # 市值排名每週檢查（排程：每週六 台北 07:00 左右，建議模型 Sonnet 5.5、effort medium）
 
 > 這份就是排程的指令全文。排程本身只是一句「照 docs/MCAP_WEEKLY_PROMPT.md 做」，所以改這份＝改排程，不用重建排程。
+> **2026-11 起**：GitHub Actions 抓完會自己跑 `tools/mcap_check.py`，結果寫在該次執行的 Summary；有 ✗ 或黃金存量該更新時開一個 GitHub issue「市值排名每週檢查：…」（GitHub 會寄信）。正常的週不需要 Claude。Claude 只在使用者轉來 issue 時，照下面第 4、5 步處理，處理完關閉 issue。每週的 Claude 排程在 Actions 版穩定後停用。
+>
 > 設計原則：**數字由 GitHub Actions（mcap-weekly，台北週六 05:37 起）抓，Claude 只檢查**。正常的一週只要 git pull ＋ 跑一個腳本＋回報幾行。
 
 ```
