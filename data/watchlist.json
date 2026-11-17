@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "note": "要等日期或等外部事件的待辦。每日排程由 tools/daily.py 列出「今天該看」的項目（from ≤ 今天 且未 done）；做完用 python3 tools/daily.py watch-done <id> --note 結果。新增項目直接編這個檔。",
+ "items": [
+  {
+   "id": "anthropic-ipo",
+   "from": "2026-11-17",
+   "until": null,
+   "auto": "ipo",
+   "code": "anthropic",
+   "what": "Anthropic 上市觀察：S-1 已公開（2026-10-26），尚未定價",
+   "how": "看 data/sec-feed.json 的 anthropic.ipo（Actions 每天抓 SEC）。出現 424B4 → 回報置頂「Anthropic 已定價上市（日期）」，在 data/anthropic.json 的 milestones 加一筆（書面，附 424B4 連結），不改 enabled。出現第一份 10-Q 或 8-K Item 2.02 → 回報置頂「Anthropic 第一份季報已出，等 ZL 說『繼續 Anthropic』上架」，附申報連結與上架前要 ZL 決定的毛利口徑（見 companies/anthropic/SOURCES.md）。排程不自己上架。上架完成後 watch-done。"
+  },
+  {
+   "id": "fpe-first-snapshot",
+   "from": "2026-12-01",
+   "until": "2026-12-10",
+   "auto": "forward",
+   "month": "2026-11",
+   "what": "第一次真正的分析師預估本益比快照（2026-11 月底）",
+   "how": "prices-monthly（每月 1～6 日）會在 data/prices/<代號>.json 的 forward[] 存 m=2026-11 的快照。daily.py 會列出還缺快照的公司。12/06 之後仍缺 → 手動觸發 prices-monthly 一次（mcp__github__actions_run_trigger），還是缺就在回報列為「待確認：<公司> 2026-11 預估本益比：Yahoo 沒有預估」，不補、不估。全部有了（或到 12/10）→ 回報列各公司第一筆預估本益比，watch-done。"
+  },
+  {
+   "id": "futures-cron-check",
+   "from": "2026-11-18",
+   "until": "2026-11-21",
+   "what": "期貨 K 棒排程（每 15 分鐘）準時度觀察",
+   "how": "用 mcp__github__actions_list 看 futures-daily.yml 前一天的執行紀錄：前一個美股交易日的 K 棒是幾點（台北）第一次寫進 main。回報一行「期貨 K 棒 MM/DD 於 HH:MM 到位」。11/21 做總結：四天都在 10:00 前到位 → watch-done；有晚到 → 回報建議改用外部排程（cron-job.org 觸發 workflow_dispatch），由 ZL 決定。"
+  },
+  {
+   "id": "delete-old-routines",
+   "from": "2026-11-20",
+   "until": null,
+   "what": "提醒 ZL 刪除已停用的舊排程",
+   "how": "每日排程穩定滿一週後，回報「⑤ 未完成」加一行：可以到 claude.ai 刪除已停用的舊排程（每月 trig_01Wq3dypVA9U6dR57h7T9wpm、trig_01T3hgijJsrcW1aNGPyDQSZU、每週 trig_01Y6pSGjYZBcLrAWF3HDCLbc），排程工具不能幫忙刪。提醒一次後 watch-done。"
+  },
+  {
+   "id": "spcx-thesis",
+   "from": "2027-04-15",
+   "until": null,
+   "what": "SpaceX 論點卡重寫（上市滿四季後）",
+   "how": "data/spcx.json 有 4 季以上（預計 1Q27 財報後）時，照 docs/NEW_COMPANY_PROMPT.md 的論點卡步驟重寫 data/thesis/spcx.json（補 type、每個指標的 group、估值指標，門檻不用「現況減一點」），維持 status draft，回報請 ZL 核可。資料還不到 4 季 → 不動，明天再看。寫好草稿後 watch-done。"
+  }
+ ]
+}

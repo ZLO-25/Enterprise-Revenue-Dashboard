@@ -12,6 +12,7 @@
   python3 tools/daily.py set CODE flash --target 3Q27 [--note ...]
   python3 tools/daily.py set CODE completed|verified|waiting|stuck
   python3 tools/daily.py try CODE [--note 原因]   記一次失敗重試（滿 5 次自動轉 stuck）
+  python3 tools/daily.py watch-done ID [--note 結果]   data/watchlist.json 的日期待辦做完了
   python3 tools/daily.py done                  整個排程成功跑完 → 記 lastSuccess ＝ 今天（台北）
   --today YYYY-MM-DD 可指定日期（測試用）
 公布日一律從 data/<代號>.json 的 events[] 讀（唯一來源）。events 裡「早於今天」的項目還在，就代表還沒處理。
@@ -112,7 +113,56 @@ def status(today):
     print("\n② 進行中（補完／核對）：\n" + ("\n".join(prog) or "  無"))
     print("\n④ 接下來 7 天公布日：\n" + ("\n".join(s for _, s in sorted(soon)) or "  無"))
     print("\n⑤ 卡住（連續 5 次失敗）：\n" + ("\n".join(stuck) or "  無"))
+    watch(today, feed)
     print("\n提醒：每家「進行中」或「到期」才開網頁；其餘公司只做一次標題層級的新聞搜尋。")
+
+
+def watch(today, feed):
+    """data/watchlist.json：要等日期或外部事件的待辦（Anthropic 上市、預估本益比第一次快照…）。"""
+    W = jload("data", "watchlist.json", default={"items": []})
+    t, rows = today.isoformat(), []
+    for w in W["items"]:
+        if w.get("done") or w["from"] > t:
+            continue
+        late = w.get("until") and t > w["until"]
+        line = f"  [{w['id']}] {w['what']}" + (f"（期限 {w['until']} 已過：做總結後 watch-done）" if late else "")
+        if w.get("auto") == "ipo":
+            f = feed["companies"].get(w["code"], {})
+            ipo = f.get("ipo", [])
+            if not f:
+                line += "\n      sec-feed 還沒有這家（等 Actions 的 sec-feed 下一次執行）"
+            else:
+                priced = [x for x in ipo if x["form"] in ("424B4", "424B1")]
+                line += "\n      SEC：" + ("已定價上市 " + priced[0]["date"] + " → 照 how 處理" if priced else
+                                         "尚未定價（最近：" + ("、".join(f"{x['form']} {x['date']}" for x in ipo[:3]) or "無") + "）")
+                if f.get("earnings8k") or f.get("periodic"):
+                    x = (f.get("earnings8k") or f.get("periodic"))[0]
+                    line += f"；已有季報申報 {x.get('form', '8-K 2.02')} {x['date']} → 回報置頂，等 ZL 說「繼續 Anthropic」"
+        elif w.get("auto") == "forward":
+            miss = []
+            for c in enabled():
+                if not c.get("price"):
+                    continue
+                P = jload("data", "prices", c["code"] + ".json", default={})
+                if not any(x.get("m") == w["month"] for x in P.get("forward", [])):
+                    miss.append(c["code"])
+            line += "\n      " + (f"還缺 {w['month']} 快照：{'、'.join(miss)}" if miss else f"全部公司都有 {w['month']} 快照 → 回報列出後 watch-done")
+        rows.append(line + f"\n      做法：{w['how']}")
+    print("\n⑥ 日期待辦（data/watchlist.json）：\n" + ("\n".join(rows) or "  無"))
+
+
+def cmd_watch_done(wid, note, today):
+    p = os.path.join(ROOT, "data", "watchlist.json")
+    W = jload("data", "watchlist.json")
+    for w in W["items"]:
+        if w["id"] == wid:
+            w["done"] = today.isoformat()
+            if note:
+                w["result"] = note
+            with open(p, "w", encoding="utf8") as f:
+                json.dump(W, f, ensure_ascii=False, indent=1); f.write("\n")
+            print(f"{wid} → done"); return
+    sys.exit(f"找不到 {wid}")
 
 
 def cmd_set(code, state, target=None, note=None, today=None):
@@ -166,6 +216,8 @@ def main():
         return cmd_set(a[1], a[2], target, note, today)
     if a[0] == "try":
         return cmd_try(a[1], note, today)
+    if a[0] == "watch-done":
+        return cmd_watch_done(a[1], note, today)
     if a[0] == "done":
         cal = load_cal(); cal["lastRun"] = cal["lastSuccess"] = today.isoformat(); save_cal(cal); print("lastSuccess =", today); return
     sys.exit(__doc__)

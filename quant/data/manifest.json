@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17 04:40 UTC",
+ "updated": "2026-11-17 09:06 UTC",
  "source": "Yahoo Finance（透過 yfinance，Adj Close 還原權息價）",
  "groups": [
   {
@@ -359,7 +359,7 @@
      "currency": "USD",
      "start": "2014-09-17",
      "end": "2026-11-17",
-     "rows": 4444
+     "rows": 4445
     },
     {
      "symbol": "ETH-USD",
@@ -369,7 +369,7 @@
      "currency": "USD",
      "start": "2017-11-09",
      "end": "2026-11-17",
-     "rows": 3295
+     "rows": 3296
     }
    ]
   }

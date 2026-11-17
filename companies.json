@@ -366,6 +366,8 @@
       },
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": false,
+      "ipoWatch": true,
+      "cik": "0002130357",
       "price": null,
       "tz": "US"
     },
