@@ -23,6 +23,8 @@ const MODES = [["value", "金額"], ["pct", "報酬率 %"], ["log", "對數"]];
 const KEY = "quant.chart.mode.";
 const PNL_CHARTS = new Set(["chart-dca-value"]);   // 有「總投入金額」那條水平線的圖
 const isDate = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}/.test(v);
+// 日期軸一律用 yyyy/mm（拉近到一個月內才顯示日），不要英文月份；提示框的日期顯示 yyyy/mm/dd
+const TICKFMT = [{ dtickrange: [null, 86400000 * 28], value: "%Y/%m/%d" }, { dtickrange: [86400000 * 28, null], value: "%Y/%m" }];
 
 function loadMode(id) { try { return localStorage.getItem(KEY + id) || "value"; } catch { return "value"; } }
 function saveMode(id, m) { try { localStorage.setItem(KEY + id, m); } catch { /* 無痕模式 */ } }
@@ -209,7 +211,7 @@ function pnlChart(el, traces, c) {
     margin: { l: 60, r: 16, t: 8, b: 30 }, showlegend: false, hovermode: "x unified",
     hoverlabel: { bgcolor: c.panel, bordercolor: c.border, font: { color: c.text, size: el.clientWidth && el.clientWidth < 560 ? 12 : 13 } },
     xaxis: { gridcolor: c.border, linecolor: c.border, automargin: true, range: xr, autorange: !xr,
-      spikecolor: c.muted, spikethickness: 1, spikedash: "dot" },
+      tickformatstops: TICKFMT, hoverformat: "%Y/%m/%d", spikecolor: c.muted, spikethickness: 1, spikedash: "dot" },
     yaxis: { gridcolor: c.border, linecolor: c.border, automargin: true, tickformat: ",.0f",
       zeroline: true, zerolinecolor: c.muted, zerolinewidth: 2, title: { text: "帳面損益" } },
   }, { responsive: true, displaylogo: false, displayModeBar: false });
@@ -249,6 +251,7 @@ window.__quantChartPlus = {
     if (timeSeries) {
       // ② 快速縮放按鈕放在圖的左上方；圖例移到圖的下方，才不會跟右上角的工具列疊在一起
       upd["xaxis.rangeselector"] = rangeButtons(c);
+      upd["xaxis.tickformatstops"] = TICKFMT; upd["xaxis.hoverformat"] = "%Y/%m/%d";
       upd["margin.t"] = 44;
       upd["margin.b"] = 40 + 22 * Math.ceil(traces.length / 4);
       upd["legend.orientation"] = "h"; upd["legend.x"] = 0; upd["legend.y"] = -0.08; upd["legend.yanchor"] = "top";
