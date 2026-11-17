@@ -31,7 +31,7 @@
 | `eps` | Diluted net income per ordinary share（歐元，照公告值；公司未回溯調整） |
 | `ocf` | Net cash provided by (used in) operating activities（單季欄） |
 | `capex` | Purchase of property, plant and equipment（正數） |
-| `dps` | 本次未收錄（`null`）：股利是「某年度的期中股利」在之後的季度發放，還沒決定逐季對應方式 |
+| `dps` | **當季實際發放**的每股股利（歐元）：2009–2018 年每年第二季發放上一年度股利；2019–2021 年第二季（期末）＋第四季（期中）；2022 年第三季起每季發放。金額取各季新聞稿／隔年 1 月新聞稿的股利提案，每季都用「現金流量表股利支付 ÷ 每股股利 ≈ 流通股數」核對過 |
 | `rd`、`rdB` | 財報新聞稿 6-K 申報日，`rdB:"p"` |
 
 ### 版本規則
@@ -46,13 +46,13 @@
 毛利率／營益率自洽、`fcf=ocf−capex`、四季加總＝全年、分部加總＝營收、waterfall 自洽、淨利÷稀釋股數≈EPS、`rd` 遞增在季末後 5–120 天。**沒過不發佈**，不放寬核對。
 
 ## 資產負債表欄位（都取自季度彙總表）
-- `shOut`：季度表沒有 → 全部 `null`（20-F 附註才有，尚未讀）。
-- `dilSh`：損益表下方「Diluted」加權股數（百萬股；早年單位是千股，已換算）。2009 年沒有。
-- `cash`：Cash and cash equivalents ＋ Short-term investments（2011 年以前季度表沒有短期投資 → `null`）。
+- `shOut`：第四季取 20-F XBRL `CommonStockSharesOutstanding`（12/31）；第二季取 7 月半年報（Statutory Interim Report）的期末流通股數（不含庫藏股）。**第一、三季 ASML 沒有揭露 → `null`**；2Q10 的半年報 6-K 沒有股數表 → `null`。
+- `dilSh`：損益表下方「Diluted」加權股數（百萬股；早年單位是千股，已換算）。2009 年取各季新聞稿的四欄表。
+- `cash`：Cash and cash equivalents ＋ Short-term investments（2009–2011 年資產負債表沒有短期投資一列、流動資產各項加總等於合計 → 短期投資為 0）。
 - `debt`：Long-term debt（不含一年內到期部分，季度表沒分開列）。
-- `buyback`：Purchase of treasury shares（正數）。
+- `buyback`：Purchase of treasury shares（正數）；2009–2010 年籌資活動各項加總等於合計、沒有買回列 → 0。
 - `equity`：Total shareholders' equity。
-- `pretax`：Income before income taxes；`tax`：所得稅（正數＝費用）。
+- `pretax`：Income before income taxes；`tax`：所得稅（正數＝費用）。2009–2010 年稅前取 1 月季度表的「Income (loss) from operations before income taxes」；2011–2012 年所得稅取各季新聞稿與隔年 1 月季度表（1Q11＝上半年 − 第二季）。
 - 讀不到的見 `notes.unavailable`。
 
 ## 電話會議（逐字稿）來源
@@ -88,6 +88,8 @@
 | 2026-10（2026-10-30） | 1412.8 | — | 待確認：尚未對第二個獨立來源核對（沒有找到能讀到這一天的免費歷史股價來源） |
 
 ## 已知缺口
-- 2008 年以前未收錄；`shOut`、`dps` 全部未收錄；早年 `dilSh`、`cash`、`buyback`、`pretax`、`tax` 部分季度見 `notes.unavailable`。
+- 2008 年以前未收錄；每年第一、三季與 2Q10 的 `shOut` 公司沒揭露（這些季度的 EV/Sales 顯示缺資料）。
 
 本益比連續性：2012-09～2013-01 為 18.6、20.3、17.7、17.6、20.6 倍；2012-11 月底股價比 10 月底低約 13%，和資本返還同時發生。待確認：這是實際股價變動，還是 Yahoo 調整方式造成，要找第二來源核對。
+
+第二來源核對（2026-11-17 再試一次）：Stooq 的月線 CSV 擋自動讀取（robots），Macrotrends 只有年資料或擋讀取，ASML 頁也擋。三個抽查月份仍是「待確認」。股價本身照 Yahoo（prices-monthly）保留，不改成 null，因為股價有讀到，只是還沒有第二來源可以比對。

@@ -54,7 +54,7 @@
 - `debt`：`LongTermDebtNoncurrent`／`LongTermDebtAndCapitalLeaseObligations` ＋ 一年內到期 ＋ 商業本票。
 - `buyback`：`PaymentsForRepurchaseOfCommonStock`（或 `…OfEquity`），年初累計相減；2015 年以前讀不到。
 - `equity`：`StockholdersEquity`；`pretax`、`tax`：稅前淨利、`IncomeTaxExpenseBenefit`。
-- 季度對齊用曆年季末日（Alphabet 有重編季度）。讀不到的見 `notes.unavailable`。
+- 季度對齊用曆年季末日（Alphabet 有重編季度）。XBRL 沒有的改讀申報文件：1Q09、2Q14、3Q14、1Q15–3Q15 `shOut` 取 10-Q 資產負債表股東權益列的季底各類股合計（換算到今天股數）；1Q09 `cash`、`equity` 與 2009–2011 `debt` 取新聞稿資產負債表（2Q10 以前沒有借款科目＝0）；1Q09–3Q09、1Q12–4Q14 `buyback`＝0（新聞稿籌資活動沒有買回科目、各項加總等於合計）。2Q15 `dilSh` 公司沒有合併數字（A／B 與 C 股 EPS 不同），維持 `null`。
 
 ## 電話會議（逐字稿）來源
 - 官方：`https://abc.xyz/investor/`（網路直播；公司有時會放文字稿）。讀不到寫「待確認：逐字稿尚未取得」。
@@ -90,6 +90,8 @@
 
 ## 已知缺口
 - 2008 年以前未收錄；分部營收 4Q20 以前未讀取。
-- 早期股數、現金、債務、回購等見 `notes.unavailable`。
+- 2Q15 稀釋加權股數：公司沒有合併數字，`null`。
 
 本益比連續性：2014-02～05 為 31.9、29.3、28.0、29.9 倍，2022-05～08 為 20.6、19.7、21.6、20.1 倍，兩次分割前後沒有斷崖。注意 1Q26、2Q26 淨利含 377 億、980 億美元未實現投資利得，近四季 GAAP 本益比因此偏低（2026-10 為 14.6 倍）。
+
+第二來源核對（2026-11-17 再試一次）：Stooq 的月線 CSV 擋自動讀取（robots），Macrotrends 只有年資料或擋讀取，ASML 頁也擋。三個抽查月份仍是「待確認」。股價本身照 Yahoo（prices-monthly）保留，不改成 null，因為股價有讀到，只是還沒有第二來源可以比對。
