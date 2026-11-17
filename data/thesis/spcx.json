@@ -1,8 +1,8 @@
 {
  "code": "spcx",
- "status": "approved",
- "updated": "2026-11-17",
- "updatedBy": "ZL（體質門檻，2026-11-17 核可）",
+ "status": "draft",
+ "updated": "2026-11-12",
+ "updatedBy": "Claude 草稿（等 ZL 確認，確認前不上線）",
  "oneLiner": "低軌衛星通訊與發射服務的規模化，目標是營收高成長並轉為穩定現金流。（上市未滿五季，部分指標先顯示灰色。）",
  "metrics": [
   {
@@ -11,7 +11,7 @@
    "op": ">=",
    "thr": 30,
    "note": "成長",
-   "by": "ZL"
+   "by": "draft"
   },
   {
    "k": "om",
@@ -19,7 +19,7 @@
    "op": ">=",
    "thr": 0,
    "note": "營業利益轉正",
-   "by": "ZL"
+   "by": "draft"
   },
   {
    "k": "fcfRate",
@@ -27,7 +27,7 @@
    "op": ">=",
    "thr": 0,
    "note": "自由現金流轉正",
-   "by": "ZL"
+   "by": "draft"
   }
  ],
  "breakWhen": "營收年增連續兩季低於 30%，或資本支出持續吞噬現金而自由現金流連續兩季為負。",

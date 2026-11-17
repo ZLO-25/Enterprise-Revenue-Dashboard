@@ -33,6 +33,13 @@
    "until": null,
    "what": "提醒 ZL 刪除已停用的舊排程",
    "how": "每日排程穩定滿一週後，回報「⑤ 未完成」加一行：可以到 claude.ai 刪除已停用的舊排程（每月 trig_01Wq3dypVA9U6dR57h7T9wpm、trig_01T3hgijJsrcW1aNGPyDQSZU、每週 trig_01Y6pSGjYZBcLrAWF3HDCLbc），排程工具不能幫忙刪。提醒一次後 watch-done。"
+  },
+  {
+   "id": "spcx-thesis",
+   "from": "2027-04-15",
+   "until": null,
+   "what": "SpaceX 論點卡重寫（上市滿四季後）",
+   "how": "data/spcx.json 有 4 季以上（預計 1Q27 財報後）時，照 docs/NEW_COMPANY_PROMPT.md 的論點卡步驟重寫 data/thesis/spcx.json（補 type、每個指標的 group、估值指標，門檻不用「現況減一點」），維持 status draft，回報請 ZL 核可。資料還不到 4 季 → 不動，明天再看。寫好草稿後 watch-done。"
   }
  ]
 }
