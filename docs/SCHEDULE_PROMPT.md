@@ -59,7 +59,7 @@
 - 成功：`python3 tools/daily.py set <代號> completed`。
 
 ### ②b 公司分析（補完成功的同一天；ZL 2026-11-17 要求）
-- 每天 ⓪ 之後也跑一次 `python3 tools/daily.py brief`，看最後 ⑩ 有沒有「分析待寫：<代號> <季度>」。有的話照 `docs/schedule/analysis.md` 做（每天最多 3 家）：用 `.claude/skills/long-term-company-analysis/` 寫快評，公開版 JSON 用 `python3 tools/analysis_save.py <代號> <檔案>` 存進 `data/analysis/`，網站個股頁標題下方就會出現「分析結論」，按 more 看全文。
+- 每天 ⓪ 之後也跑一次 `python3 tools/daily.py brief`，看最後 ⑪ 有沒有「分析待寫：<代號> <季度>」。有的話照 `docs/schedule/analysis.md` 做（每天最多 3 家）：用 `.claude/skills/long-term-company-analysis/` 寫快評，公開版 JSON 用 `python3 tools/analysis_save.py <代號> <檔案>` 存進 `data/analysis/`，網站個股頁標題下方就會出現「分析結論」，按 more 看全文。
 - 公開版不能有作者觀點（repo 公開）；分析失敗不影響財報資料，不 `try`，回報 ⑤ 寫「分析待補」。
 
 ### ③ 核對（狀態 completed 的公司）

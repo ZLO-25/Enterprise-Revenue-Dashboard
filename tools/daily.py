@@ -15,6 +15,7 @@
   python3 tools/daily.py watch-done ID [--note 結果]   data/watchlist.json 的日期待辦做完了
   python3 tools/daily.py brief                一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
+  python3 tools/daily.py mark extra|trend     記下今天已補觸發過（每天最多一次）
   python3 tools/daily.py done                  整個排程成功跑完 → 記 lastSuccess ＝ 今天（台北）
   --today YYYY-MM-DD 可指定日期（測試用）
 公布日一律從 data/<代號>.json 的 events[] 讀（唯一來源）。events 裡「早於今天」的項目還在，就代表還沒處理。
@@ -224,6 +225,8 @@ def main():
         return cmd_try(a[1], note, today)
     if a[0] == "watch-done":
         return cmd_watch_done(a[1], note, today)
+    if a[0] == "mark":  # 記錄「今天已補觸發過」：extra（每日排程加跑）、trend（趨勢月報補跑），避免重複觸發
+        cal = load_cal(); cal.setdefault("fired", {})[a[1]] = today.isoformat(); save_cal(cal); print(f"fired.{a[1]} =", today); return
     if a[0] == "done":
         cal = load_cal(); cal["lastRun"] = cal["lastSuccess"] = today.isoformat(); save_cal(cal); print("lastSuccess =", today); return
     sys.exit(__doc__)
