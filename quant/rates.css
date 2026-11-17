@@ -4,9 +4,9 @@
 #quant-dca-view #tab-rates ul.hint { margin: 6px 0 0; padding-left: 1.2em; }
 #quant-dca-view #tab-rates table.data td:nth-child(2) { white-space: normal; min-width: 150px; }
 @media (max-width: 767px) { #quant-dca-view .chart.tall { min-height: 560px; } }
-/* 時間區間：快速按鈕＋自訂起迄日 */
+/* 時間區間：圖上方的快速按鈕 */
 #quant-dca-view .rates-range { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
 #quant-dca-view .rates-range button { width: auto; flex: none; padding: 5px 10px; font-size: .84rem; }
 #quant-dca-view .rates-range button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
-#quant-dca-view .rates-dates { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 10px; align-items: center; margin-bottom: 6px; }
-#quant-dca-view .rates-dates label { font-size: .86rem; color: var(--muted); font-weight: 600; }
+
+
