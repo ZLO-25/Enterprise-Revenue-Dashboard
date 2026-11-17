@@ -27,7 +27,7 @@ const fmtPct = (x, signed = true) => (x == null || !isFinite(x) ? "—" : `${sig
 const cls = (x) => (x > 0 ? "pos" : x < 0 ? "neg" : "");
 const fmtLen = (days) => (days < 45 ? `${days} 天` : days < 700 ? `${(days / 30.44).toFixed(0)} 個月` : `${(days / 365.25).toFixed(1)} 年`);
 
-const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, started: false, lastKey: "", obs: null };
+const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", started: false, lastKey: "", obs: null };
 
 // ---------- 把分頁放進畫面（在 app.js 載入前呼叫） ----------
 export function inject() {
@@ -56,6 +56,16 @@ export function inject() {
         <span class="hint">不同國家週期不同；例如看 0050 時，也可以切到台灣週期比較。</span>
       </div>
       <label class="checkbox"><input type="checkbox" id="rates-10y"> 同時畫 10 年期公債殖利率</label>
+      <div class="field" style="margin-top:14px">
+        <label for="rates-layout">圖的排列</label>
+        <select id="rates-layout"><option value="overlay">利率和報酬疊在同一張圖（像 TradingView）</option><option value="split">上下兩張圖</option></select>
+        <span class="hint">疊在一起時：左邊刻度是報酬指數，右邊刻度是利率 %。</span>
+      </div>
+      <div class="field">
+        <label for="rates-scale">報酬指數的刻度</label>
+        <select id="rates-scale"><option value="log">對數（建議）</option><option value="linear">線性</option></select>
+        <span class="hint">對數＝每格代表「漲幾倍」而不是「漲幾點」，長期走勢才不會被後面的大漲壓扁。下方有白話說明。</span>
+      </div>
     </form>
     <div id="out-rates"><div class="panel placeholder"><span class="spinner"></span> 載入利率資料…</div></div>
   </div>`;
@@ -95,6 +105,8 @@ function applyHash(hash) {
   const p = new URLSearchParams(q);
   if (p.get("c") && COUNTRY[p.get("c")]) { S.country = p.get("c"); $("#rates-country").value = S.country; }
   if (p.has("y")) { S.show10y = p.get("y") === "1"; $("#rates-10y").checked = S.show10y; }
+  if (p.get("s") === "lin" || p.get("s") === "log") { S.scale = p.get("s") === "lin" ? "linear" : "log"; $("#rates-scale").value = S.scale; }
+  if (p.get("l") === "s" || p.get("l") === "o") { S.layout = p.get("l") === "s" ? "split" : "overlay"; $("#rates-layout").value = S.layout; }
   if (p.get("t")) {
     const want = p.get("t").split(",").filter(Boolean).slice(0, 5);
     if (want.join() !== chipSyms().join()) {
@@ -106,7 +118,7 @@ function applyHash(hash) {
 }
 function writeHash() {
   if (!$("#tab-rates").classList.contains("active")) return;
-  history.replaceState(null, "", `#rates?t=${chipSyms().map(encodeURIComponent).join(",")}&c=${S.country}&y=${S.show10y ? 1 : 0}`);
+  history.replaceState(null, "", `#rates?t=${chipSyms().map(encodeURIComponent).join(",")}&c=${S.country}&y=${S.show10y ? 1 : 0}&s=${S.scale === "linear" ? "lin" : "log"}&l=${S.layout === "split" ? "s" : "o"}`);
 }
 
 // ---------- 畫圖 ----------
@@ -118,21 +130,26 @@ function colors() {
 
 function chartFig(phases, policy, tenY, perSym, syms, endDate) {
   const c = colors();
-  const traces = [{
-    x: policy.points.map((p) => p[0]).concat([endDate]), y: policy.points.map((p) => p[1]).concat([policy.points[policy.points.length - 1][1]]),
-    type: "scatter", mode: "lines", line: { shape: "hv", width: 2.2, color: c.text }, name: `${COUNTRY[S.country]}政策利率`,
-    xaxis: "x", yaxis: "y", hovertemplate: "%{y:.2f}%",
-  }];
-  if (tenY && tenY.points.length) {
-    traces.push({ x: tenY.points.map((p) => p[0]), y: tenY.points.map((p) => p[1]), type: "scatter", mode: "lines",
-      line: { width: 1.4, dash: "dot", color: c.muted }, name: "10 年期公債殖利率（月底）", xaxis: "x", yaxis: "y", hovertemplate: "%{y:.2f}%" });
-  }
+  const overlay = S.layout === "overlay";
+  const rateAxis = overlay ? "y2" : "y";    // 疊在一起：利率用右邊刻度；上下分開：利率在上圖
+  const idxAxis = overlay ? "y" : "y2";
+  const traces = [];
+  // 先畫報酬（在下層），再畫利率（在上層），疊在一起時利率階梯線才不會被報酬線蓋住
   syms.forEach((sym, i) => {
     const s = perSym[sym];
     if (!s) return;
     traces.push({ x: s.x, y: s.y, type: "scatter", mode: "lines", line: { width: 1.6, color: LINE[i % LINE.length] }, name: sym,
-      xaxis: "x", yaxis: "y2", hovertemplate: "%{y:.0f}" });
+      xaxis: "x", yaxis: idxAxis, hovertemplate: "%{y:.0f}" });
   });
+  traces.push({
+    x: policy.points.map((p) => p[0]).concat([endDate]), y: policy.points.map((p) => p[1]).concat([policy.points[policy.points.length - 1][1]]),
+    type: "scatter", mode: "lines", line: { shape: "hv", width: overlay ? 2 : 2.2, color: c.text }, name: `${COUNTRY[S.country]}政策利率（${overlay ? "右軸 " : ""}%）`,
+    xaxis: "x", yaxis: rateAxis, hovertemplate: "%{y:.2f}%",
+  });
+  if (tenY && tenY.points.length) {
+    traces.push({ x: tenY.points.map((p) => p[0]), y: tenY.points.map((p) => p[1]), type: "scatter", mode: "lines",
+      line: { width: 1.4, dash: "dot", color: c.muted }, name: `10 年期公債殖利率（月底${overlay ? "，右軸 " : ""}%）`, xaxis: "x", yaxis: rateAxis, hovertemplate: "%{y:.2f}%" });
+  }
   const shapes = phases.map((p) => ({ type: "rect", xref: "x", yref: "paper", x0: p.start, x1: p.end, y0: 0, y1: 1,
     fillcolor: PCOLOR[p.type], line: { width: 0 }, layer: "below" }));
   const plotW = Math.max(240, ($("#chart-rates")?.clientWidth || 900) - 80);
@@ -144,15 +161,29 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
   let lo = Infinity, hi = 0;
   for (const sym of syms) { const s = perSym[sym]; if (s) for (const v of s.y) { if (v < lo) lo = v; if (v > hi) hi = v; } }
   const tv = [10, 20, 30, 50, 70, 100, 150, 200, 300, 500, 700, 1000, 2000, 3000, 5000, 10000].filter((v) => v >= lo * 0.8 && v <= hi * 1.25);
-  const layout = {
+  const isLog = S.scale === "log";
+  const idxAxisCfg = {
+    title: { text: isLog ? "報酬指數（起點＝100，對數刻度）" : "報酬指數（起點＝100）", standoff: 18 }, type: isLog ? "log" : "linear",
+    gridcolor: c.border, zerolinecolor: c.border, automargin: true,
+    ...(isLog && tv.length >= 2 ? { tickmode: "array", tickvals: tv, ticktext: tv.map(String) } : {}),
+  };
+  const rateAxisCfg = { title: { text: "利率 %", standoff: 14 }, rangemode: "tozero", automargin: true, ticksuffix: "%" };
+  const base = {
     paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, size: 12 },
-    margin: { l: 56, r: 16, t: 34, b: 40 }, hovermode: "x unified", showlegend: true, legend: { orientation: "h", y: -0.12, x: 0 },
+    margin: { l: 56, r: overlay ? 56 : 16, t: 34, b: 40 }, hovermode: "x unified", showlegend: true, legend: { orientation: "h", y: -0.12, x: 0 },
     hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
-    xaxis: { anchor: "y2", range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
-    yaxis: { domain: [0.60, 1], title: { text: "利率 %" }, gridcolor: c.border, zerolinecolor: c.border, rangemode: "tozero", automargin: true },
-    yaxis2: { domain: [0, 0.52], title: { text: "報酬指數（對數）", standoff: 8 }, type: "log", gridcolor: c.border, automargin: true,
-      ...(tv.length >= 2 ? { tickmode: "array", tickvals: tv, ticktext: tv.map(String) } : {}) },
     shapes, annotations,
+  };
+  const layout = overlay ? {
+    ...base,
+    xaxis: { range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
+    yaxis: idxAxisCfg,                                                                   // 左軸：報酬
+    yaxis2: { ...rateAxisCfg, overlaying: "y", side: "right", showgrid: false, zeroline: false },   // 右軸：利率（和報酬共用同一張圖）
+  } : {
+    ...base,
+    xaxis: { anchor: "y2", range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
+    yaxis: { ...rateAxisCfg, domain: [0.60, 1], gridcolor: c.border, zerolinecolor: c.border },
+    yaxis2: { ...idxAxisCfg, domain: [0, 0.52] },
   };
   return { traces, layout };
 }
@@ -234,6 +265,15 @@ export async function render() {
       <p class="hint">累積報酬＝階段結束價 ÷ 開始價 − 1（含息還原價）；年化只在階段滿 1 年才顯示。＊＝標的在階段開始後才有資料，從它的第一天算。最新一段在最上面。</p></div>
     <div class="panel"><h2>四種階段的整體表現</h2>${summaryHtml(phases, use, perSymRet)}
       <p class="hint">單次調整（長度 0 天）的階段不列入。樣本只有幾輪，只能看歷史傾向，<b>不能當預測</b>。</p></div>` : `<div class="panel placeholder">請在左邊選至少一檔標的。</div>`}
+    <div class="panel"><h2>「對數刻度」是什麼意思？</h2>
+      <p class="hint">一般（線性）刻度：每一格代表<b>漲幾點</b>。對數刻度：每一格代表<b>漲幾倍</b>。</p>
+<pre class="hint" style="white-space:pre;overflow-x:auto;margin:6px 0">
+線性：  0    500   1000  1500  2000      ← 每格 +500
+        │─────│─────│─────│─────│
+對數：  100   200   400   800   1600     ← 每格 ×2
+        │─────│─────│─────│─────│
+</pre>
+      <p class="hint">例子：SPY 從 100 漲到 200（漲 1 倍），和從 800 漲到 1600（也漲 1 倍），在對數圖上<b>爬升的高度一樣</b>；線性圖上後者看起來大很多，前面 20 年的起伏就被壓成一條平線。看 20 年以上的長期走勢、或同時比較漲幅差很多的標的，建議用對數；只看短期、想比較實際點數時用線性。你可以在左邊「報酬指數的刻度」隨時切換比較。</p></div>
     <div class="panel"><h2>怎麼切、資料哪來</h2>
       <ul class="hint">
         <li>只看政策利率「有變動」的日子；連續同方向的調整併成一輪，方向一反轉就開始新的一輪。</li>
@@ -263,12 +303,14 @@ export function activate(hash) {
     S.started = true;
     $("#rates-country").addEventListener("change", (e) => { S.country = e.target.value; render(); });
     $("#rates-10y").addEventListener("change", (e) => { S.show10y = e.target.checked; render(); });
+    $("#rates-scale").addEventListener("change", (e) => { S.scale = e.target.value; render(); });
+    $("#rates-layout").addEventListener("change", (e) => { S.layout = e.target.value; render(); });
     const chips = $('.picker[data-picker="rates"] .chips');
     if (chips) new MutationObserver(schedule).observe(chips, { childList: true });
     matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if ($("#tab-rates").classList.contains("active")) render(); });
   }
   applyHash(hash);
-  const key = `${chipSyms().join()}|${S.country}|${S.show10y}`;
+  const key = `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}`;
   if (key !== S.lastKey || !$("#chart-rates")) { S.lastKey = key; render(); }
   else setTimeout(() => window.dispatchEvent(new Event("resize")), 30);
 }
