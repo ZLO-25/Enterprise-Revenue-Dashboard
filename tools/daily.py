@@ -13,6 +13,8 @@
   python3 tools/daily.py set CODE completed|verified|waiting|stuck
   python3 tools/daily.py try CODE [--note 原因]   記一次失敗重試（滿 5 次自動轉 stuck）
   python3 tools/daily.py watch-done ID [--note 結果]   data/watchlist.json 的日期待辦做完了
+  python3 tools/daily.py brief                一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
+  python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
   python3 tools/daily.py done                  整個排程成功跑完 → 記 lastSuccess ＝ 今天（台北）
   --today YYYY-MM-DD 可指定日期（測試用）
 公布日一律從 data/<代號>.json 的 events[] 讀（唯一來源）。events 裡「早於今天」的項目還在，就代表還沒處理。
@@ -212,6 +214,10 @@ def main():
     target, note = opt("--target"), opt("--note")
     if not a:
         return status(today)
+    if a[0] in ("brief", "save-lights"):  # 一頁摘要（見 tools/daily_brief.py）；走 daily.py 是因為排程的權限白名單已允許它
+        import daily_brief
+        sys.argv = [sys.argv[0], "--today", today.isoformat()] + (["--save-lights"] if a[0] == "save-lights" else [])
+        return daily_brief.main()
     if a[0] == "set":
         return cmd_set(a[1], a[2], target, note, today)
     if a[0] == "try":

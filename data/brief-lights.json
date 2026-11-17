@@ -1,0 +1,162 @@
+{
+ "date": "2026-11-17",
+ "lights": {
+  "tsmc": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "roe": "g",
+   "pe": "g"
+  },
+  "pltr": {
+   "revYoy": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "dilYoy": "g",
+   "pe": "r"
+  },
+  "nvda": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "pe": "g"
+  },
+  "tsla": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "r",
+   "epsYoy": "r",
+   "fcfRate": "g"
+  },
+  "anet": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "pe": "r"
+  },
+  "samsung": {
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "gmQchg": "y"
+  },
+  "delta": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "pe": "r"
+  },
+  "msft": {
+   "revYoy": "g",
+   "om": "g",
+   "fcfRate": "y",
+   "roic": "g",
+   "pe": "g"
+  },
+  "mu": {
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "gmQchg": "g",
+   "evS": "y"
+  },
+  "amzn": {
+   "revYoy": "g",
+   "om": "g",
+   "fcfRate": "y",
+   "roic": "g",
+   "pe": "g"
+  },
+  "aapl": {
+   "epsYoy": "g",
+   "gm": "g",
+   "fcfRate": "g",
+   "dilYoy": "g",
+   "pe": "r"
+  },
+  "meta": {
+   "revYoy": "g",
+   "om": "g",
+   "fcfRate": "y",
+   "pe": "g"
+  },
+  "avgo": {
+   "revYoy": "g",
+   "om": "g",
+   "gm": "g",
+   "fcfRate": "g",
+   "pe": "r"
+  },
+  "mrvl": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "evS": "r"
+  },
+  "amd": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "evS": "r"
+  },
+  "crwd": {
+   "revYoy": "g",
+   "om": "r",
+   "fcfRate": "g",
+   "dilYoy": "y"
+  },
+  "panw": {
+   "revYoy": "g",
+   "gm": "g",
+   "fcfRate": "g",
+   "dilYoy": "r",
+   "evS": "r"
+  },
+  "rklb": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "dilYoy": "r"
+  },
+  "gev": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "evS": "g"
+  },
+  "googl": {
+   "revYoy": "g",
+   "om": "g",
+   "fcfRate": "r",
+   "roic": "r",
+   "evS": "g"
+  },
+  "csco": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "g",
+   "evS": "r"
+  },
+  "asml": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "roic": "g",
+   "pe": "r"
+  },
+  "allring": {
+   "revYoy": "g",
+   "gm": "g",
+   "om": "g",
+   "fcfRate": "y",
+   "pe": "r"
+  }
+ }
+}

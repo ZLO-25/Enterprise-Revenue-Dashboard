@@ -14,7 +14,8 @@ description: 以長期投資人角度分析網站追蹤的公司財報（快評�
 ```
 - 類型：看 `data/thesis/<代號>.json` 的 `type`（compounder 穩健複利／growth 高成長／cyclical 循環股／turnaround 轉機早期）。
 - 數字：只讀 repo 裡已整理好的資料，不重抓財報；缺的才去公司公告。
-  - 財報數字與指引：`data/<代號>.json`
+  - **先跑 `python3 tools/company_brief.py <代號>`**（約 3 千字：近 8 季損益與現金流、財測、本益比位置、論點卡燈號、待確認）。多數分析只靠這頁就夠；不要整份讀 `data/<代號>.json`（約 5 萬字），缺哪個欄位再用 `python3 -c` 印那個欄位。
+  - 財報數字與指引的原始檔：`data/<代號>.json`
   - 論點卡（一句話、指標、何時算論點破了、風險）：`data/thesis/<代號>.json`
   - 本益比、估值上限：`python3 tools/pe.py`（說明見 docs/DATA_SCHEMA.md 的 valuation 段）
   - 分析師預估：`data/consensus/`
