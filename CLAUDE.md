@@ -34,3 +34,6 @@ python3 tools/daily.py          # 每日排程今天的工作清單與狀態（s
 - `docs/DATA_SCHEMA.md` 資料格式 v1
 - `docs/SCHEDULE_PROMPT.md` 每日排程指令（公司無關，新增公司不用改）。排程本身只是一句「照這份做」，所以改這份就等於改排程，改之前先問使用者
 - `companies/<代號>/SOURCES.md` 各公司來源與更新步驟
+
+## 公司分析 skill
+使用者說「分析 X」「X 財報快評」「趨勢分析」時，用 `.claude/skills/long-term-company-analysis/`。作者觀點檔放在專案資料夾，不進 repo（repo 公開、內容含付費文章轉述）。
