@@ -149,11 +149,37 @@ def fetch_tw():
     return series, unavailable
 
 
+def probe_xls(url):
+    """櫃買中心每日 .xls：印出大小、檔頭，能用 xlrd 讀就印出前 25 列"""
+    print(f"\n===== {url}")
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=40) as r:
+            b, ct = r.read(), r.headers.get("Content-Type")
+    except Exception as e:  # noqa: BLE001
+        print(f"失敗：{type(e).__name__}: {e}")
+        return
+    print(f"{len(b)} bytes, Content-Type={ct}, 檔頭={b[:8].hex()}")
+    try:
+        import xlrd
+        book = xlrd.open_workbook(file_contents=b)
+        for sh in book.sheets()[:2]:
+            print(f"  [工作表 {sh.name}] {sh.nrows} 列 x {sh.ncols} 欄")
+            for i in range(min(sh.nrows, 25)):
+                print("   ", [str(c.value)[:18] for c in sh.row(i)][:12])
+    except Exception as e:  # noqa: BLE001
+        print(f"  xlrd 讀不了：{type(e).__name__}: {e}；前 300 字：{b[:300]!r}")
+
+
 def probe():
     """台灣來源試探：每個網址印出標題、疑似下載連結、含「重貼現」或「公債」的文字行（只在 Actions 上跑，用來找官方資料來源）"""
     import re
+    tp = "https://www.tpex.org.tw/storage/bond_zone/tradeinfo/govbond/{y}/{y}{m}/{f}.{y}{m}{d}-C.xls"
+    for y, m, d in (("2026", "11", "13"), ("2026", "10", "30"), ("2015", "06", "30"), ("2006", "01", "27"), ("2005", "12", "30")):
+        for f in ("Curve", "BDdys100", "BDdys01a"):
+            probe_xls(tp.format(y=y, m=m, d=d, f=f))
     urls = [
-        "https://www.cbc.gov.tw/public/data/OpenData/%E7%B6%93%E7%A0%94%E8%99%95/EG28D01.csv",
+        "https://www.tpex.org.tw/zh-tw/bond/info/statistics-gb/day/yield.html",
     ]
     for url in urls:
         print(f"\n===== {url}")
