@@ -1,7 +1,7 @@
 // 執行：node --test quant/tests/rates-core.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { policyEvents, buildPhases, periodReturn, summarize, lowerBound, windowPoints } from "../js/rates-core.js";
+import { policyEvents, buildPhases, periodReturn, summarize, lowerBound, windowPoints, eventPath, eventReturns, firstMoves, shiftDays } from "../js/rates-core.js";
 
 // 人造利率：2 次升、停、1 次降、停、2 次降、再 1 次升（進行中）
 const pts = [
@@ -78,3 +78,26 @@ test("windowPoints：第一點是視窗起點當天的利率水準", () => {
   assert.deepEqual(w, [["2000-06-01", 4.75], ["2001-01-03", 4.5], ["2001-02-01", 4.5]]);   // 測試資料裡 2001-02-01 是重複的點（真實資料只有變動日）
   assert.deepEqual(windowPoints(pts, "1998-01-01", "1999-07-01"), [["1999-01-01", 4.0], ["1999-06-30", 4.25]]);   // 視窗起點之前沒有資料：從第一筆開始
 });
+
+// 事件前後圖
+const px = { dates: ["2000-01-03", "2000-06-01", "2000-12-01", "2001-01-03", "2001-02-01", "2001-07-02", "2001-12-31"], close: [80, 90, 100, 100, 110, 120, 130] };
+test("eventPath：事件日＝100、x 是月數", () => {
+  const e = eventPath(px, "2001-01-03", 365, 365);
+  assert.equal(e.base0, "2001-01-03");
+  assert.equal(e.y[e.x.findIndex((v) => v === 0)], 100);
+  assert.ok(e.y[e.y.length - 1] === 130 && Math.abs(e.x[e.x.length - 1] - 11.9) < 0.1);
+  assert.equal(e.hasBefore, true);
+  assert.equal(e.hasAfter, false);   // 之後只有約 12 個月不到 365 天
+  assert.equal(eventPath(px, "2010-01-01"), null);
+});
+test("eventReturns：資料不夠的那一邊是 null", () => {
+  const r = eventReturns(px, "2001-01-03", 182);
+  assert.equal(r.before, 0);   // 往前 182 天＝2000-07-05，之後第一個交易日 2000-12-01 收 100，事件日收 100
+  assert.equal(eventReturns(px, "2000-03-01", 182).before, null);
+  assert.equal(eventReturns(px, "2001-08-01", 182).after, null);
+});
+test("firstMoves：每輪升息／降息期的起點", () => {
+  const m = firstMoves(buildPhases(pts, "2002-12-31", "1900-01-01"));
+  assert.deepEqual(m.map((x) => x.type + x.date), ["hike1999-06-30", "cut2001-01-03", "hike2002-06-01"]);
+});
+test("shiftDays", () => { assert.equal(shiftDays("2001-01-03", -3), "2000-12-31"); });

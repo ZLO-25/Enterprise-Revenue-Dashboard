@@ -143,3 +143,44 @@ export function summarize(phases, returnsBySym) {
   }
   return out;
 }
+
+/**
+ * 事件前後圖：以某一天（每一輪第一次升息／降息日）為 0，前後各 beforeDays／afterDays 天的價格路徑，事件日當天＝100。
+ *   事件日價格＝事件日當天或之後第一個交易日的收盤（和 periodReturn 的起點規則一樣）。
+ *   x＝距事件日的月數（天數 ÷ 30.4375），y＝收盤 ÷ 事件日收盤 × 100。
+ *   標的在事件日之後才開始有資料 → null；資料只涵蓋一部分前後區間 → 有多少畫多少（hasBefore／hasAfter 標示是否完整）。
+ */
+export function eventPath(series, eventDate, beforeDays = 365, afterDays = 365) {
+  const { dates, close } = series;
+  if (!dates || !dates.length) return null;
+  const i0 = lowerBound(dates, eventDate);
+  if (i0 >= dates.length || daysBetween(eventDate, dates[i0]) > 7 || !(close[i0] > 0)) return null;   // 事件日附近沒有交易資料
+  const base = close[i0];
+  const x = [], y = [];
+  for (let i = Math.max(0, lowerBound(dates, shiftDays(eventDate, -beforeDays))); i < dates.length; i += 1) {
+    const off = daysBetween(dates[i0], dates[i]);
+    if (off > afterDays) break;
+    x.push(off / 30.4375); y.push((close[i] / base) * 100);
+  }
+  return {
+    x, y, base0: dates[i0],
+    hasBefore: daysBetween(dates[0], dates[i0]) >= beforeDays,
+    hasAfter: daysBetween(dates[i0], dates[dates.length - 1]) >= afterDays,
+  };
+}
+
+/** 事件日前、後各 days 天的報酬（前＝事件日往前 days 天到事件日；後＝事件日到往後 days 天）；資料不夠的那一邊是 null */
+export function eventReturns(series, eventDate, days = 182) {
+  const { dates } = series;
+  if (!dates || !dates.length) return { before: null, after: null };
+  const before = daysBetween(dates[0], eventDate) >= days ? periodReturn(series, shiftDays(eventDate, -days), eventDate) : null;
+  const after = daysBetween(eventDate, dates[dates.length - 1]) >= days ? periodReturn(series, eventDate, shiftDays(eventDate, days)) : null;
+  return { before: before ? before.cum : null, after: after ? after.cum : null };
+}
+
+export function shiftDays(iso, n) { return new Date((dayNum(iso) + n) * DAY).toISOString().slice(0, 10); }
+
+/** 每一輪的第一次升息／降息日：升息期、降息期兩種階段的起點（單次調整也算） */
+export function firstMoves(phases) {
+  return phases.filter((p) => (p.type === "hike" || p.type === "cut") && !p.clippedFrom).map((p) => ({ date: p.start, type: p.type }));
+}
