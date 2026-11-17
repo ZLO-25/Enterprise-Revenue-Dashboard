@@ -4,7 +4,7 @@
     python3 tools/company_brief.py <代號> [--n 8]
 
 為什麼有這支：data/<代號>.json 每份約 5 萬字，整份讀進來很花 token，而分析只用得到
-最近幾季的重點數字。這支印出約 3 千字：近 N 季損益與現金流（含年增率）、最新財測、
+最近幾季的重點數字。這支印出約 3～6 千字：近 N 季損益與現金流（含年增率）、分部營收與營運指標（segments／extra）、最新財測、
 本益比位置、論點卡與燈號、最新一季摘要、待確認清單。數字全部照抄資料檔，不另外計算來源以外的東西
 （年增率、TTM 由資料檔的數字直接相除）。需要更細的欄位時，再用 python3 -c 讀那個欄位。
 """
@@ -57,6 +57,16 @@ def main():
     if len(Q) >= 8:
         t = lambda k, a_, b_: sum((x.get(k) or 0) for x in Q[a_:b_])  # noqa: E731
         print(f"TTM 營收 {f(t('rev', -4, None))}（前一年 {f(t('rev', -8, -4))}）；TTM FCF {f(t('fcf', -4, None))}（前一年 {f(t('fcf', -8, -4))}）")
+
+    for key in ("segments", "extra"):
+        blk = D.get(key)
+        if not isinstance(blk, dict) or not blk.get("quarters"):
+            continue
+        ks = blk.get("keys", [])
+        print(f"\n## {blk.get('title', key)}（{blk.get('unit', '見各欄')}；近 {min(n, len(blk['quarters']))} 季，來源 data/{code}.json 的 {key}）")
+        print("季度 | " + " | ".join(k.get("n", k.get("k")) for k in ks))
+        for row in blk["quarters"][-n:]:
+            print(row.get("q") + " | " + " | ".join(f(row.get(k["k"]), 1 if isinstance(row.get(k["k"]), float) and row.get(k["k"]) < 100 else 0) for k in ks))
 
     g = D.get("guidance") or {}
     if g:
