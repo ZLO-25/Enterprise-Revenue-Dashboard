@@ -266,7 +266,7 @@ def main():
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
     if cfg["site"].get("perf"):
         # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
@@ -286,6 +286,10 @@ def main():
             if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
                 th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
                 data["thesis"] = th
+        ap = os.path.join(ROOT, "data", "analysis", c["code"] + ".json")
+        if os.path.exists(ap):
+            # 公司分析（觀點）：個股頁標題下方的「結論＋重點」，more 展開全文。只放個股頁，不進首頁（HOME_KEYS 沒有它）
+            data["analysis"] = json.load(open(ap, encoding="utf8"))
         pp = os.path.join(ROOT, "data", "profile", c["code"] + ".json")
         if os.path.exists(pp):
             # 主力產品／痛點／護城河：草稿也放進首頁展開列，但頁面會標「草稿・待 ZL 確認」（status:"approved" 才拿掉標籤）

@@ -22,7 +22,9 @@ description: 以長期投資人角度分析網站追蹤的公司財報（快評�
 - 作者觀點檔（作者過去的長期論點、預測對錯）：`/mnt/project-files/miula/skill/companies/<代號>.md`。
   - 只有 9 家：AAPL AMZN GOOG(網站代號 googl) META MSFT NVDA PLTR SPCX TSLA。其他公司作者沒寫過，「長期論點對帳」改用論點卡。
   - 這些檔含付費文章的轉述，**不放進 repo**（repo 是公開的）。讀不到時（例如排程環境沒掛專案資料夾）就跳過，並在文末註明「未讀作者觀點檔」。
-- 分析結果存到 `/mnt/project-files/analysis/<代號>/<日期>_快評.md`（或 `_深度.md`）；讀不到專案資料夾時才放 `reports/analysis/`，且不寫作者視角段落。
+- 分析結果存兩份：
+  1. 完整版（含作者視角）：`/mnt/project-files/analysis/<代號>/<日期>_快評.md`（或 `_深度.md`）；讀不到專案資料夾就跳過。
+  2. **網站公開版**（每次都要）：`data/analysis/<代號>.json`，用 `python3 tools/analysis_save.py <代號> <暫存檔>` 存（格式見 docs/DATA_SCHEMA.md「公司分析」）。個股頁標題下方顯示結論＋重點，more 展開 `full`。公開版只留「校正後結論」並改寫成我們自己的判斷，**不能出現「作者」兩字、作者預測或作者觀點檔內容**（validate 會擋）。`full` 用 Markdown，保留 ASCII 圖。
 - 不要讀 Notion 原文。
 
 ## 1. 資料誠實（專案硬規定）

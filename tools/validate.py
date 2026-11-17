@@ -233,6 +233,40 @@ def check_thesis(code, D, err):
         err.append("thesis 缺「論點破了的條件」breakWhen")
 
 
+def check_analysis(code, D, err):
+    """data/analysis/<代號>.json：公司分析（觀點）。repo 是公開的，所以不准出現作者觀點（付費文章轉述）。"""
+    p = os.path.join(ROOT, "data", "analysis", code + ".json")
+    if not os.path.exists(p):
+        return
+    a = json.load(open(p, encoding="utf8"))
+    qs = [q.get("q") for q in D.get("quarters", [])] + [q.get("q") for q in (D.get("pltr") or {}).get("quarters", [])]
+    if a.get("code") != code:
+        err.append("analysis.code 與檔名不符")
+    if a.get("q") not in qs:
+        err.append(f"analysis.q（{a.get('q')}）不是資料裡的季度")
+    if not DAY_RE.match(str(a.get("date", ""))):
+        err.append("analysis.date 要是 YYYY-MM-DD")
+    if a.get("verdict") not in ("加碼", "續抱", "減碼", "觀察"):
+        err.append("analysis.verdict 只能是 加碼／續抱／減碼／觀察")
+    if not a.get("conclusion"):
+        err.append("analysis 缺一句話結論 conclusion")
+    pts = a.get("points") or []
+    if not (3 <= len(pts) <= 7):
+        err.append("analysis.points 要 3～7 點")
+    for x in pts:
+        if x.get("tag", "v") not in ("w", "o", "e", "v", "m") or not x.get("t"):
+            err.append("analysis.points 每點要有 t，tag 只能是 w／o／e／v／m")
+    if len(a.get("full") or "") < 500:
+        err.append("analysis.full（完整分析）太短或沒有")
+    blob = json.dumps(a, ensure_ascii=False)
+    for bad in ("作者", "科技巨頭解碼", "Miula", "miula"):
+        if bad in blob:
+            err.append(f"analysis 出現「{bad}」：作者觀點只能放專案資料夾，不能進公開 repo")
+    for h in a.get("history") or []:
+        if h.get("verdict") not in ("加碼", "續抱", "減碼", "觀察") or not h.get("q"):
+            err.append("analysis.history 每筆要有 q 與 verdict")
+
+
 def common(code, D, err):
     if not DAY_RE.match(D.get("asOf", "")):
         err.append("asOf 格式必須是 YYYY-MM-DD")
@@ -580,6 +614,7 @@ def main():
             check_summary(code, D, err)
             check_bs(code, D, err)
             check_thesis(code, D, err)
+            check_analysis(code, D, err)
             schema = bycode.get(code, {}).get("schema", "v1")
             if schema in SCHEMA_CHECKS:
                 SCHEMA_CHECKS[schema](D, err)

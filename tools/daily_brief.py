@@ -18,6 +18,9 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import daily  # noqa: E402
 
 LIGHTS = os.path.join(ROOT, "data", "brief-lights.json")
+# 公司分析 hook 從這天起生效：最新一季公布日（rd）在這天以後、還沒有該季分析的公司，列進「分析待寫」。
+# 更早的季度不回補（要補由 ZL 指定），免得第一次就一口氣寫 20 家。
+ANALYSIS_FROM = "2026-11-17"
 
 
 def jload(*p, default=None):
@@ -41,11 +44,17 @@ def stages(today):
     """依 daily.status 同一套規則，判斷今天有哪些階段（決定要讀哪些附件）。"""
     cal = daily.load_cal()
     feed = jload("data", "sec-feed.json", default={"companies": {}})
-    need = {"flash": [], "complete": [], "verify": [], "est": [], "stuck": []}
+    need = {"flash": [], "complete": [], "verify": [], "est": [], "stuck": [], "analysis": []}
     for c in daily.enabled():
         code = c["code"]
         D = jload("data", code + ".json")
         st = cal["companies"].get(code, {"state": "waiting"})
+        q_last = D["quarters"][-1] if D.get("quarters") else {}
+        A = jload("data", "analysis", code + ".json", default={}) or {}
+        # 分析待寫：補完之後（completed／waiting），或補完卡了 3 次以上（用快報資料先寫）
+        if (q_last.get("rd") or "") >= ANALYSIS_FROM and A.get("q") != q_last.get("q") and \
+                (st["state"] in ("completed", "waiting") or (st["state"] == "flash" and st.get("tries", 0) >= 3)):
+            need["analysis"].append(code + " " + q_last.get("q", ""))
         if st["state"] == "stuck":
             need["stuck"].append(code); continue
         if st["state"] == "flash":
@@ -152,7 +161,9 @@ def main():
         files.append("docs/schedule/complete.md（" + "、".join(need["complete"]) + "）")
     if need["verify"]:
         files.append("docs/schedule/verify.md（" + "、".join(need["verify"]) + "；用年度申報核對時再讀 docs/schedule/profile.md）")
-    quiet = not (need["flash"] or need["est"] or need["complete"] or need["verify"])
+    if need["analysis"]:
+        files.append("docs/schedule/analysis.md（分析待寫：" + "、".join(need["analysis"]) + "）")
+    quiet = not (need["flash"] or need["est"] or need["complete"] or need["verify"] or need["analysis"])
     print("\n⑩ 今天要讀的指令附件：" + ("無（安靜日：只做 ④ 大新聞 → 回報 → done）" if quiet else ""))
     for f in files:
         print("  · " + f)
