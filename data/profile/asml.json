@@ -1,8 +1,8 @@
 {
  "code": "asml",
- "status": "draft",
+ "status": "approved",
  "updated": "2026-11-16",
- "updatedBy": "Claude 整理（草稿，待 ZL 確認）",
+ "updatedBy": "Claude 整理；ZL 確認（2026-11-17）",
  "src": {
   "n": "ASML 2025 年 20-F（2026-02-25 申報）業務章節（Our products and services、Our marketplace）",
   "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
