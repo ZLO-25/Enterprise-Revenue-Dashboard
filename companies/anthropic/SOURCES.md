@@ -2,7 +2,7 @@
 
 > **狀態（2026-11-02）：待上市，`enabled:false`，網站上不顯示。**
 > 使用者 ZL 在 2026-11-02 選擇「先建骨架，上市後再上架」。上市後第一份季報出來，ZL 說「繼續 Anthropic」時，照下面「上架步驟」做。
-> 每日排程只處理 `enabled:true` 的公司，所以**不會**自動上架。
+> 每日排程只處理 `enabled:true` 的公司，所以**不會**自動上架。2026-11-17 起 companies.json 加了 `ipoWatch:true` 與 CIK：sec-feed（Actions）每天抓 S-1／424B4／10-Q，每日排程透過 `data/watchlist.json` 的 `anthropic-ipo` 項目在回報提醒（出現 424B4＝已上市；出現第一份季報＝等 ZL 說「繼續 Anthropic」）。
 
 - 資料檔：`data/anthropic.json`（schema `v1`）　頁面：`/anthropic/`　模板：`templates/generic.frag.html`（通用模板）
 - 公司：Anthropic, PBC（公益公司），SEC CIK `0002130357`，會計年度 12 月 31 日結束。預計 A 類普通股在 Nasdaq Global Select 掛牌，代號 **ANT**。
