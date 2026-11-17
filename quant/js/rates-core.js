@@ -37,8 +37,10 @@ export function policyEvents(points) {
  * 切成階段。
  *   endDate  最後一段（進行中）的終點，通常是資料截至日
  *   minDate  只顯示這天以後；跨過這天的階段起點會被裁成 minDate，並用 clippedFrom 記下真正的起點
+ *   maxDate  只顯示這天以前（選填）；跨過這天的階段終點會被裁成 maxDate，並用 clippedTo 記下真正的終點
+ *            （被裁掉終點的階段不再算「進行中」）
  */
-export function buildPhases(points, endDate, minDate = "2000-01-01") {
+export function buildPhases(points, endDate, minDate = "2000-01-01", maxDate = null) {
   const events = policyEvents(points);
   const runs = [];
   for (const e of events) {
@@ -65,10 +67,27 @@ export function buildPhases(points, endDate, minDate = "2000-01-01") {
   for (const p of phases) {
     if (p.end <= minDate && !(p.start === p.end && p.start >= minDate)) continue;
     const q = { ...p };
+    if (maxDate && q.start >= maxDate) continue;
     if (q.start < minDate) { q.clippedFrom = q.start; q.start = minDate; }
+    if (maxDate && q.end > maxDate) { q.clippedTo = q.end; q.end = maxDate; q.ongoing = false; }
     shown.push(q);
   }
   return shown;
+}
+
+/**
+ * 把「只存變動日」的階梯線切成 [from, to] 這個視窗：第一點＝視窗起點當天的利率水準（最後一次變動之後），
+ * 之後是視窗內的變動日。這樣視窗起點之前就變動過的利率，階梯線一開始就在正確的高度。
+ */
+export function windowPoints(points, from, to) {
+  const out = [];
+  let level = null;
+  for (const [d, r] of points) {
+    if (d <= from) level = r;
+    else if (d <= to) out.push([d, r]);
+  }
+  if (level !== null) out.unshift([from, level]);
+  return out;
 }
 
 /** 日期排序陣列中，第一個 >= d 的位置（沒有則 length） */

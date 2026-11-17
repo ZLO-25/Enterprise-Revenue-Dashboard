@@ -1,7 +1,7 @@
 // 執行：node --test quant/tests/rates-core.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { policyEvents, buildPhases, periodReturn, summarize, lowerBound } from "../js/rates-core.js";
+import { policyEvents, buildPhases, periodReturn, summarize, lowerBound, windowPoints } from "../js/rates-core.js";
 
 // 人造利率：2 次升、停、1 次降、停、2 次降、再 1 次升（進行中）
 const pts = [
@@ -56,3 +56,25 @@ test("summarize：單次調整的階段不列入", () => {
   assert.equal(sm.cut.X.up, 1);
 });
 test("lowerBound", () => { assert.equal(lowerBound(["a", "c", "e"], "b"), 1); assert.equal(lowerBound(["a"], "z"), 1); });
+
+test("buildPhases maxDate：裁掉視窗之後的階段，跨過的階段終點截在 maxDate、不再算進行中", () => {
+  const ph = buildPhases(pts, "2002-12-31", "2000-01-01", "2001-02-01");
+  assert.deepEqual(ph.map((p) => p.type), ["hike", "holdHigh", "cut"]);
+  const cut = ph[2];
+  assert.equal(cut.start, "2001-01-03");
+  assert.equal(cut.end, "2001-02-01");
+  assert.equal(cut.clippedTo, "2001-03-20");
+  assert.equal(cut.ongoing, false);
+});
+test("buildPhases：視窗只落在一個階段內", () => {
+  const ph = buildPhases(pts, "2002-12-31", "2000-06-01", "2000-12-01");
+  assert.equal(ph.length, 1);
+  assert.equal(ph[0].type, "holdHigh");
+  assert.equal(ph[0].clippedFrom, "2000-02-02");
+  assert.equal(ph[0].clippedTo, "2001-01-03");
+});
+test("windowPoints：第一點是視窗起點當天的利率水準", () => {
+  const w = windowPoints(pts, "2000-06-01", "2001-02-01");
+  assert.deepEqual(w, [["2000-06-01", 4.75], ["2001-01-03", 4.5], ["2001-02-01", 4.5]]);   // 測試資料裡 2001-02-01 是重複的點（真實資料只有變動日）
+  assert.deepEqual(windowPoints(pts, "1998-01-01", "1999-07-01"), [["1999-01-01", 4.0], ["1999-06-30", 4.25]]);   // 視窗起點之前沒有資料：從第一筆開始
+});
