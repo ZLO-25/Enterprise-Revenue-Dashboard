@@ -28,6 +28,20 @@
    "revHigh": 3367100000.0,
    "revN": 45,
    "cur": "USD"
+  },
+  {
+   "date": "2026-11-17",
+   "period": "1Q27",
+   "epsAvg": 0.97056,
+   "epsLow": 0.95,
+   "epsHigh": 0.98,
+   "epsN": 43,
+   "epsBasis": "normalized",
+   "revAvg": 3307457560.0,
+   "revLow": 3292425750.0,
+   "revHigh": 3367100000.0,
+   "revN": 44,
+   "cur": "USD"
   }
  ]
 }
