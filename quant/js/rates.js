@@ -8,13 +8,16 @@
 //
 //   畫面：上圖＝政策利率階梯線（背景色＝四種階段），下圖＝各標的累積報酬（起點 100、對數軸），兩圖共用時間軸
 import { DATA_BASE } from "./config.js";
-import { PHASE, buildPhases, periodReturn, summarize, daysBetween } from "./rates-core.js";
+import { PHASE, buildPhases, periodReturn, summarize, daysBetween, windowPoints, dayNum } from "./rates-core.js";
 
 const QROOT = document.getElementById("quant-dca-view") || document;
 const $ = (sel, root = QROOT) => root.querySelector(sel);
 const $$ = (sel, root = QROOT) => [...root.querySelectorAll(sel)];
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const MIN_DATE = "2000-01-01";
+const PRESETS = [["近 1 年", 1], ["近 3 年", 3], ["近 5 年", 5], ["近 10 年", 10], ["近 20 年", 20], ["全部（2000 起）", 0]];
+const isoDate = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(dayNum(v));
+const addYears = (iso, n) => { const d = new Date(Date.UTC(+iso.slice(0, 4) - n, +iso.slice(5, 7) - 1, +iso.slice(8, 10))); return d.toISOString().slice(0, 10); };
 const COUNTRY = { us: "美國", tw: "台灣" };
 const PCOLOR = {   // 背景色塊；深淺色模式都用半透明，再加文字標籤（不只靠顏色分辨）
   hike: "rgba(226,83,60,0.20)", holdHigh: "rgba(150,150,150,0.20)",
@@ -27,7 +30,7 @@ const fmtPct = (x, signed = true) => (x == null || !isFinite(x) ? "—" : `${sig
 const cls = (x) => (x > 0 ? "pos" : x < 0 ? "neg" : "");
 const fmtLen = (days) => (days < 45 ? `${days} 天` : days < 700 ? `${(days / 30.44).toFixed(0)} 個月` : `${(days / 365.25).toFixed(1)} 年`);
 
-const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", started: false, lastKey: "", obs: null };
+const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", from: null, to: null, started: false, lastKey: "", obs: null };
 
 // ---------- 把分頁放進畫面（在 app.js 載入前呼叫） ----------
 export function inject() {
@@ -54,6 +57,13 @@ export function inject() {
         <label for="rates-country">用哪個國家的升降息週期</label>
         <select id="rates-country"><option value="us">美國（聯準會）</option><option value="tw">台灣（中央銀行）</option></select>
         <span class="hint">不同國家週期不同；例如看 0050 時，也可以切到台灣週期比較。</span>
+      </div>
+      <div class="field">
+        <span class="label">時間區間</span>
+        <div class="rates-range" id="rates-range">${PRESETS.map(([t, n]) => `<button type="button" class="secondary small" data-years="${n}">${t}</button>`).join("")}</div>
+        <div class="rates-dates"><label for="rates-from">起日</label><input type="date" id="rates-from"><label for="rates-to">迄日</label><input type="date" id="rates-to"></div>
+        <span class="hint" id="rates-range-msg" role="status" style="color:var(--bad)"></span>
+        <span class="hint">圖、表都只看這段時間：報酬指數從區間第一天重設為 100，階段超出區間的部分會被截掉（表上用＊標示）。</span>
       </div>
       <label class="checkbox"><input type="checkbox" id="rates-10y"> 同時畫 10 年期公債殖利率</label>
       <div class="field" style="margin-top:14px">
@@ -105,6 +115,8 @@ function applyHash(hash) {
   const p = new URLSearchParams(q);
   if (p.get("c") && COUNTRY[p.get("c")]) { S.country = p.get("c"); $("#rates-country").value = S.country; }
   if (p.has("y")) { S.show10y = p.get("y") === "1"; $("#rates-10y").checked = S.show10y; }
+  if (isoDate(p.get("f"))) S.from = p.get("f");
+  if (isoDate(p.get("e"))) S.to = p.get("e");
   if (p.get("s") === "lin" || p.get("s") === "log") { S.scale = p.get("s") === "lin" ? "linear" : "log"; $("#rates-scale").value = S.scale; }
   if (p.get("l") === "s" || p.get("l") === "o") { S.layout = p.get("l") === "s" ? "split" : "overlay"; $("#rates-layout").value = S.layout; }
   if (p.get("t")) {
@@ -118,7 +130,7 @@ function applyHash(hash) {
 }
 function writeHash() {
   if (!$("#tab-rates").classList.contains("active")) return;
-  history.replaceState(null, "", `#rates?t=${chipSyms().map(encodeURIComponent).join(",")}&c=${S.country}&y=${S.show10y ? 1 : 0}&s=${S.scale === "linear" ? "lin" : "log"}&l=${S.layout === "split" ? "s" : "o"}`);
+  history.replaceState(null, "", `#rates?t=${chipSyms().map(encodeURIComponent).join(",")}&c=${S.country}&y=${S.show10y ? 1 : 0}&s=${S.scale === "linear" ? "lin" : "log"}&l=${S.layout === "split" ? "s" : "o"}${S.from ? `&f=${S.from}` : ""}${S.to ? `&e=${S.to}` : ""}`);
 }
 
 // ---------- 畫圖 ----------
@@ -128,12 +140,13 @@ function colors() {
   return { text: v("--text"), muted: v("--muted"), border: v("--border"), panel: v("--panel") };
 }
 
-function chartFig(phases, policy, tenY, perSym, syms, endDate) {
+function chartFig(phases, policy, tenY, perSym, syms, win) {
   const c = colors();
   const overlay = S.layout === "overlay";
   const rateAxis = overlay ? "y2" : "y";    // 疊在一起：利率用右邊刻度；上下分開：利率在上圖
   const idxAxis = overlay ? "y" : "y2";
   const traces = [];
+  const wp = windowPoints(policy.points, win.from, win.to);
   // 先畫報酬（在下層），再畫利率（在上層），疊在一起時利率階梯線才不會被報酬線蓋住
   syms.forEach((sym, i) => {
     const s = perSym[sym];
@@ -142,7 +155,7 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
       xaxis: "x", yaxis: idxAxis, hovertemplate: "%{y:.0f}" });
   });
   traces.push({
-    x: policy.points.map((p) => p[0]).concat([endDate]), y: policy.points.map((p) => p[1]).concat([policy.points[policy.points.length - 1][1]]),
+    x: wp.map((p) => p[0]).concat([win.to]), y: wp.map((p) => p[1]).concat([wp[wp.length - 1][1]]),
     type: "scatter", mode: "lines", line: { shape: "hv", width: overlay ? 2 : 2.2, color: c.text }, name: `${COUNTRY[S.country]}政策利率（${overlay ? "右軸 " : ""}%）`,
     xaxis: "x", yaxis: rateAxis, hovertemplate: "%{y:.2f}%",
   });
@@ -153,7 +166,7 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
   const shapes = phases.map((p) => ({ type: "rect", xref: "x", yref: "paper", x0: p.start, x1: p.end, y0: 0, y1: 1,
     fillcolor: PCOLOR[p.type], line: { width: 0 }, layer: "below" }));
   const plotW = Math.max(240, ($("#chart-rates")?.clientWidth || 900) - 80);
-  const minDays = (daysBetween(MIN_DATE, endDate) * 60) / plotW;   // 標籤約 60px 寬：階段太窄就不寫字，免得疊在一起
+  const minDays = (daysBetween(win.from, win.to) * 60) / plotW;   // 標籤約 60px 寬：階段太窄就不寫字，免得疊在一起
   const annotations = phases.filter((p) => daysBetween(p.start, p.end) > minDays).map((p) => ({
     xref: "x", yref: "paper", x: p.start, xanchor: "left", y: 1.0, yanchor: "bottom", showarrow: false,
     text: PHASE[p.type].label, font: { size: 10, color: c.muted },
@@ -176,12 +189,12 @@ function chartFig(phases, policy, tenY, perSym, syms, endDate) {
   };
   const layout = overlay ? {
     ...base,
-    xaxis: { range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
+    xaxis: { range: [win.from, win.to], gridcolor: c.border, linecolor: c.border, automargin: true },
     yaxis: idxAxisCfg,                                                                   // 左軸：報酬
     yaxis2: { ...rateAxisCfg, overlaying: "y", side: "right", showgrid: false, zeroline: false },   // 右軸：利率（和報酬共用同一張圖）
   } : {
     ...base,
-    xaxis: { anchor: "y2", range: [MIN_DATE, endDate], gridcolor: c.border, linecolor: c.border, automargin: true },
+    xaxis: { anchor: "y2", range: [win.from, win.to], gridcolor: c.border, linecolor: c.border, automargin: true },
     yaxis: { ...rateAxisCfg, domain: [0.60, 1], gridcolor: c.border, zerolinecolor: c.border },
     yaxis2: { ...idxAxisCfg, domain: [0, 0.52] },
   };
@@ -192,7 +205,8 @@ function tableHtml(phases, syms, perSymRet) {
   const head = `<tr><th>階段</th><th>期間</th><th>長度</th><th>利率</th>${syms.map((s) => `<th>${esc(s)}</th>`).join("")}</tr>`;
   const rows = phases.map((p, i) => {
     const lab = `${PBADGE[p.type]} ${PHASE[p.type].label}${p.ongoing ? "（進行中）" : ""}${p.single ? '<span class="sub">單次調整，無報酬可算</span>' : ""}${p.n > 1 ? `<span class="sub">共 ${p.n} 次調整</span>` : ""}`;
-    const period = `${p.start}${p.clippedFrom ? "＊" : ""} → ${p.end}${p.clippedFrom ? `<span class="sub">＊實際始於 ${p.clippedFrom}，只算 2000 年起</span>` : ""}`;
+    const clip = (p.clippedFrom ? `實際始於 ${p.clippedFrom}` : "") + (p.clippedFrom && p.clippedTo ? "、" : "") + (p.clippedTo ? `實際止於 ${p.clippedTo}` : "");
+    const period = `${p.start}${p.clippedFrom ? "＊" : ""} → ${p.end}${p.clippedTo ? "＊" : ""}${clip ? `<span class="sub">＊${clip}，只算所選區間內</span>` : ""}`;
     const rate = p.type === "hike" || p.type === "cut" ? `${p.rateFrom.toFixed(2)} → ${p.rateTo.toFixed(2)}%` : `${p.rateTo.toFixed(2)}%`;
     const cells = syms.map((s) => {
       const r = perSymRet[s]?.[i];
@@ -214,6 +228,20 @@ function summaryHtml(phases, syms, perSymRet) {
   return `<div class="table-wrap"><table class="data"><thead>${head}</thead><tbody>${rows}</tbody></table></div>`;
 }
 
+// ---------- 時間區間的按鈕與日期欄 ----------
+function syncRangeUi(win, endDate) {
+  const f = $("#rates-from"), t = $("#rates-to");
+  f.min = t.min = MIN_DATE; f.max = t.max = endDate;
+  f.value = win.from; t.value = win.to;
+  const m = $("#rates-range-msg"); if (m) m.textContent = "";
+  $$("#rates-range button").forEach((b) => {
+    const n = +b.dataset.years;
+    const from = n ? addYears(endDate, n) : MIN_DATE;
+    b.setAttribute("aria-pressed", String(win.from === (from < MIN_DATE ? MIN_DATE : from) && win.to === endDate));
+  });
+}
+function endDateNow() { const pol = S.rates?.series?.[`${S.country}_policy`]; return pol?.through || S.rates?.updated?.slice(0, 10) || ""; }
+
 // ---------- 主流程 ----------
 export async function render() {
   const out = $("#out-rates");
@@ -231,7 +259,14 @@ export async function render() {
   if (S.show10y && !(tenY && tenY.points.length)) notes.push(`${COUNTRY[c]} 10 年期公債殖利率目前是待確認，所以沒有畫。`);
   const syms = chipSyms();
   const endDate = policy.through || R.updated.slice(0, 10);
-  const phases = buildPhases(policy.points, endDate, MIN_DATE);
+  // 時間區間（預設＝2000 年起到資料截至日）：起迄日不合理就退回預設並提醒
+  let from = isoDate(S.from) ? S.from : MIN_DATE, to = isoDate(S.to) ? S.to : endDate;
+  if (from < MIN_DATE) from = MIN_DATE;
+  if (to > endDate) to = endDate;
+  if (daysBetween(from, to) < 30) { notes.push("時間區間至少要 30 天、而且起日要早於迄日，已改回預設（2000 年起到最新）。"); from = MIN_DATE; to = endDate; S.from = S.to = null; }
+  const win = { from, to };
+  syncRangeUi(win, endDate);
+  const phases = buildPhases(policy.points, endDate, from, to < endDate ? to : null);
 
   const loaded = {}, missing = [];
   await Promise.all(syms.map(async (s) => {
@@ -244,12 +279,14 @@ export async function render() {
   for (const s of use) {
     const d = loaded[s];
     perSymRet[s] = phases.map((p) => (p.single ? null : periodReturn(d, p.start, p.end)));
-    const i0 = d.dates.findIndex((x) => x >= MIN_DATE);
-    if (i0 >= 0) {
+    const i0 = d.dates.findIndex((x) => x >= from);
+    let i1 = d.dates.length - 1;
+    while (i1 >= 0 && d.dates[i1] > to) i1 -= 1;
+    if (i0 >= 0 && i1 > i0) {
       const base = d.close[i0];
-      perSymLine[s] = { x: d.dates.slice(i0), y: d.close.slice(i0).map((v) => (v / base) * 100) };
-      if (d.dates[i0] > "2000-01-08") notes.push(`${esc(s)} 的資料從 ${d.dates[i0]} 才開始，圖上從那天起算（起點＝100）。`);
-    }
+      perSymLine[s] = { x: d.dates.slice(i0, i1 + 1), y: d.close.slice(i0, i1 + 1).map((v) => (v / base) * 100) };
+      if (daysBetween(from, d.dates[i0]) > 7) notes.push(`${esc(s)} 的資料從 ${d.dates[i0]} 才開始，圖上從那天起算（起點＝100）。`);
+    } else notes.push(`${esc(s)} 在 ${from} → ${to} 這段時間沒有資料。`);
     const cur = S.manifest.get(s)?.note;
     if (cur) notes.push(`${esc(s)}：${esc(cur)}`);
   }
@@ -258,7 +295,7 @@ export async function render() {
   const unav = (R.unavailable || []).map((u) => `<li>${esc(u)}</li>`).join("");
   out.innerHTML = `
     ${notes.map((n) => `<div class="notice">${n}</div>`).join("")}
-    <div class="panel"><h2>${COUNTRY[c]}升降息週期 vs 報酬</h2>
+    <div class="panel"><h2>${COUNTRY[c]}升降息週期 vs 報酬<span class="sub" style="font-weight:400">　${from} → ${to}</span></h2>
       <div id="chart-rates" class="chart tall"></div>
       <p class="hint">背景色＝階段：🔺升息期　⏸高檔停留　🔻降息期　⏸低檔停留。滑鼠移到圖上看數字；拖曳可放大，雙擊還原。</p></div>
     ${use.length ? `<div class="panel"><h2>每一輪週期的報酬</h2>${tableHtml(phases, use, perSymRet)}
@@ -279,16 +316,16 @@ export async function render() {
         <li>只看政策利率「有變動」的日子；連續同方向的調整併成一輪，方向一反轉就開始新的一輪。</li>
         <li>升息期＝首次升息到最後一次升息；高檔停留＝最後一次升息到下一次降息；降息期、低檔停留同理。</li>
         <li>只調一次的輪，長度 0 天，列出但不算報酬。最後一段標「進行中」，到資料截至日為止。</li>
-        <li>只顯示 2000 年以後；跨過 2000-01-01 的階段起點會被截在那天（表上有＊）。</li>
+        <li>資料從 2000 年起；你選的時間區間之外的部分不算，階段跨過區間邊界時會被截斷（表上有＊）。</li>
         <li>報酬用各標的自己的幣別，不換匯。^GSPC、^TWII 是價格指數，不含股息。</li>
         ${srcs}${unav}
       </ul>
       <p class="hint">利率資料更新：${esc(R.updated)}（GitHub Actions 每週自動抓取）。</p></div>`;
   if (use.length) {
-    const fig = chartFig(phases, policy, tenY, perSymLine, use, endDate);
+    const fig = chartFig(phases, policy, tenY, perSymLine, use, win);
     Plotly.react($("#chart-rates"), fig.traces, fig.layout, { responsive: true, displaylogo: false, modeBarButtonsToRemove: ["lasso2d", "select2d"] });
   } else {
-    const fig = chartFig(phases, policy, tenY, {}, [], endDate);
+    const fig = chartFig(phases, policy, tenY, {}, [], win);
     Plotly.react($("#chart-rates"), fig.traces, fig.layout, { responsive: true, displaylogo: false });
   }
   writeHash();
@@ -303,6 +340,22 @@ export function activate(hash) {
     S.started = true;
     $("#rates-country").addEventListener("change", (e) => { S.country = e.target.value; render(); });
     $("#rates-10y").addEventListener("change", (e) => { S.show10y = e.target.checked; render(); });
+    $("#rates-range").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-years]"); if (!b) return;
+      const end = endDateNow(); if (!end) return;
+      const n = +b.dataset.years;
+      S.from = n ? addYears(end, n) : null; S.to = null;
+      render();
+    });
+    const onDate = () => {
+      const f = $("#rates-from").value, t = $("#rates-to").value, msg = $("#rates-range-msg");
+      // 起迄日要同時有效、起日早於迄日至少 30 天；不合理就保留目前的區間，只提醒（不要因為先改了其中一格就整個重設）
+      if (!isoDate(f) || !isoDate(t) || daysBetween(f, t) < 30) { msg.textContent = "起日要早於迄日至少 30 天；目前仍顯示原本的區間，請再調整另一格。"; return; }
+      msg.textContent = "";
+      S.from = f; S.to = t; render();
+    };
+    $("#rates-from").addEventListener("change", onDate);
+    $("#rates-to").addEventListener("change", onDate);
     $("#rates-scale").addEventListener("change", (e) => { S.scale = e.target.value; render(); });
     $("#rates-layout").addEventListener("change", (e) => { S.layout = e.target.value; render(); });
     const chips = $('.picker[data-picker="rates"] .chips');
@@ -310,7 +363,7 @@ export function activate(hash) {
     matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if ($("#tab-rates").classList.contains("active")) render(); });
   }
   applyHash(hash);
-  const key = `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}`;
+  const key = `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}|${S.from}|${S.to}`;
   if (key !== S.lastKey || !$("#chart-rates")) { S.lastKey = key; render(); }
   else setTimeout(() => window.dispatchEvent(new Event("resize")), 30);
 }
