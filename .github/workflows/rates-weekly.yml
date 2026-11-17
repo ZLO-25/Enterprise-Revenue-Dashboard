@@ -2,7 +2,7 @@
 #
 #   觸發：① 每週一～二台北清晨排了 3 班（GitHub 免費排程常漏跑，多排幾班）② fetch_rates.py 改了 ③ 手動
 #   每班先看 quant/data/rates.json 是不是 5 天內抓過 → 抓過就約 10 秒結束，不重抓
-#   資料：美國＝FRED（免金鑰）；台灣＝官方來源（確認中，抓不到的序列在頁面標「待確認」）
+#   資料：美國＝FRED（免金鑰）；台灣＝央行重貼現率（EG28D01.csv）＋櫃買中心 10 年期指標公債殖利率（BDdys100 每日 .xls，取每月最後一個營業日）
 #   只會 git add quant/data/rates.json，不會動到其他任何檔案。
 name: rates-weekly
 on:

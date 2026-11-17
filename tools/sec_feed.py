@@ -1,6 +1,6 @@
 """SEC 新申報清單（GitHub Actions 每天跑，不經過 Claude）。
 
-讀 companies.json 每家有 `cik` 的公司，從 data.sec.gov/submissions 取最近的 8-K（含 Item 2.02＝財報新聞稿）與 10-Q／10-K，
+讀 companies.json 每家有 `cik` 的公司（`enabled:true`，或還沒上架但 `ipoWatch:true` 的公司），從 data.sec.gov/submissions 取最近的 8-K（含 Item 2.02＝財報新聞稿）與 10-Q／10-K，
 寫入 data/sec-feed.json。每日排程用它判斷「公司是不是已經公布財報」，不必開網頁搜尋。
 用法：python3 tools/sec_feed.py        （--check 只印結果、不寫檔）
 """
@@ -26,13 +26,18 @@ def main():
     out = {"fetched": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ"), "source": "SEC EDGAR submissions API", "companies": {}}
     bad = 0
     for c in cfg["companies"]:
-        if not c.get("cik") or not c.get("enabled"):
+        watch = not c.get("enabled") and c.get("ipoWatch")
+        if not c.get("cik") or not (c.get("enabled") or watch):
             continue
         d = get(f"https://data.sec.gov/submissions/CIK{c['cik']}.json")
         if not d:
             print(c["code"], "讀取失敗"); bad += 1; continue
         r = d["filings"]["recent"]
         e = {"earnings8k": [], "periodic": []}
+        if watch:  # 上市觀察：S-1／S-1/A／424B4（424B4＝最終公開說明書＝已定價上市）
+            e["ipoWatch"] = True
+            e["ipo"] = [{"date": r["filingDate"][i], "form": f, "acc": r["accessionNumber"][i], "doc": r["primaryDocument"][i]}
+                        for i, f in enumerate(r["form"]) if f in ("S-1", "S-1/A", "424B4", "424B1", "EFFECT")][:6]
         for i, form in enumerate(r["form"]):
             items = r["items"][i] or ""
             acc = r["accessionNumber"][i]
@@ -41,7 +46,7 @@ def main():
                 e["earnings8k"].append(row)
             elif form in ("10-Q", "10-K") and len(e["periodic"]) < 3:
                 e["periodic"].append(dict(row, form=form, period=r["reportDate"][i]))
-            if len(e["earnings8k"]) >= 3 and len(e["periodic"]) >= 3:
+            if len(e["earnings8k"]) >= 3 and len(e["periodic"]) >= 3 and not watch:
                 break
         out["companies"][c["code"]] = e
         print(c["code"], "8-K 2.02:", [x["date"] for x in e["earnings8k"]], "10-Q/K:", [x["date"] for x in e["periodic"]])

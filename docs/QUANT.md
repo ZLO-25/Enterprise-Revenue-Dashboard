@@ -49,6 +49,7 @@ Actions 裡沒有出現新的「pages build and deployment」）。檢查方式�
    quant/scripts/fetch_rates.py
       美國：FRED DFEDTAR＋DFEDTARU（政策利率，只存「有變動」的日子）、DGS10（10 年期，月底值）
       台灣：中央銀行開放資料 EG28D01.csv（重貼現率，每次調整的日期與利率）
+            櫃買中心 BDdys100.YYYYMMDD-C.xls（10 年期指標公債平均殖利率，每月最後一個營業日；已抓過的月份沿用）
           └─▶ quant/data/rates.json（只有 Actions 寫，Claude 不手填；某序列抓不到 → 沿用舊的並寫進 unavailable）
 quant/loader.js ── site.rates 開著時：載入 rates.css、在 app.js 之前呼叫 js/rates.js 的 inject()（放分頁按鈕與內容）
 quant/js/rates-core.js  週期切分＋報酬計算（純函式）   測試：node --test quant/tests/rates-core.test.mjs
@@ -65,7 +66,7 @@ quant/js/rates.js       畫面（Plotly：上圖利率階梯＋背景階段色�
 - 事件前後圖（分頁下方）：每一輪「第一次升息／降息」為 0、價格＝100，前後各 12 個月（rates-core.js 的 eventPath／eventReturns／firstMoves）；表列出前、後 6 個月（182 天）報酬與平均。標的上市太晚或事件太新的那一邊不算。只看得到股價先動，無法證明是哪則消息造成（沒有利率預期資料，例如 Fed 利率期貨）。
 - 日期顯示：全站（升降息分頁與單筆 vs 定期定額等圖）軸刻度一律 yyyy/mm（拉近到一個月內才顯示日），提示框 yyyy/mm/dd，不出現英文月份（chart-plus.js 的 tickformatstops／hoverformat）。
 - 圖的預設：利率（右軸 %）和各標的報酬指數（左軸，對數）疊在同一張圖，背景色是階段；可切換成上下兩張、或線性刻度。
-- 待確認：台灣 10 年期公債殖利率還沒有可自動下載的官方來源，頁面顯示「待確認」，不用任何未驗證的數字。
+- 台灣 10 年期公債殖利率（2026-11-17 起）：櫃買中心「債券等殖成交系統指標利率行情表」每日 .xls（`https://www.tpex.org.tw/storage/bond_zone/tradeinfo/govbond/YYYY/YYYYMM/BDdys100.YYYYMMDD-C.xls`），取 10 年期那一列的平均殖利率。網站上最早只有約 2005 年底起的檔，更早的月份標「待確認」、不估計。找不到檔時櫃買中心回 HTTP 200 的 HTML 404 頁，程式看檔頭判斷。
 - 在分支上測試：推到分支會觸發 rates-weekly（paths 含 fetch_rates.py），資料會提交回同一個分支；手動執行可勾「probe」只試探來源。
 
 ## 回測站程式有更新時（舊 repo 已封存，通常不會再用到）
