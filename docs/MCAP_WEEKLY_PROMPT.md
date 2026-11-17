@@ -20,7 +20,7 @@
 2. 執行 `python3 tools/mcap_check.py`。
 3. 結果「正常」：把它印出的「· 」行整理成回報（繁體中文、5～8 行），結束。**不要**開網頁、不要讀其他檔、不要改任何檔、不要 push。
 4. 結果「有問題」（✗ 行）：
-   - 「比本週六舊」：Actions 這週還沒成功。若有 GitHub 工具，看 mcap-weekly 最近一次執行的失敗訊息（只看最後 50 行），再用 workflow_dispatch 觸發一次 mcap-weekly（force=true）；不能觸發就在回報寫「待確認：mcap-weekly 本週未成功，原因 …」。台北 09:07、13:07 還有備援班次。
+   - 「比本週六舊」：Actions 這週還沒成功。若有 GitHub 工具，看 mcap-weekly 最近一次執行的失敗訊息（只看最後 50 行），再用 workflow_dispatch 觸發一次 mcap-weekly（force=true）；不能觸發就在回報寫「待確認：mcap-weekly 本週未成功，原因 …」。週六 09:07、13:07 與週日 09:07、15:07 還有備援班次。
    - 列數、排序、來源有問題：多半是 companiesmarketcap 改版。回報原因與 Actions 錯誤訊息，**不要手改 data/mcap 的數字**。
    - 「全球資產榜沿用舊資料」：同上，只回報。
 5. 出現「黃金地上存量…可能已公布新一季」時（約每季一次）：用 WebFetch 讀該網址，只找「Total above-ground stock (end-Qx 20xx)」那一行的公噸數。真的讀到而且比 config 新，才改 `data/mcap/config.json` 的 `goldStock`（tonnes、asOf＝那季最後一天、label、checked＝今天），commit「市值排名：更新黃金地上存量 <label>」並 push main。讀不到就在回報寫「待確認：WGC 地上存量本季未讀到」，不改檔。
