@@ -22,6 +22,8 @@
 ## 測試模式（排程指令裡寫了「測試模式」才適用）
 - 照常做完所有步驟，但 **push 到分支 `shadow/<今天日期>`，不 push main、不 publish Artifact、不觸發任何 Actions**。
 - 回報第一行寫「【測試模式】」，最後附一行 `git diff --stat main` 的結果。
+- 測試模式也**不 fire_trigger**：⑩ 要求加跑或補觸發時，只在回報寫「（測試模式：本來會觸發 …）」。
+- **2026-11-20 這一次模擬「額度用完一週」**：跑摘要前先 `python3 -c "import json;p='data/calendar.json';c=json.load(open(p));c['lastSuccess']='2026-11-13';json.dump(c,open(p,'w'),ensure_ascii=False,indent=1)"`，再照補跑一節做（只處理 ⑩ 列為「今天做」的），回報 ② 列出缺跑日。
 
 ## 專案
 - repo `ZLO-25/Enterprise-Revenue-Dashboard`（main，GitHub Pages）；網站 https://zlo-25.github.io/Enterprise-Revenue-Dashboard/
@@ -32,10 +34,26 @@
 ## ⓪ 準備（一回合）
 1. clone（沒權限先 `add_repo`：owner `ZLO-25`、repo `Enterprise-Revenue-Dashboard`、access `push`）。
 2. `python3 tools/daily.py brief`。**它印的就是今天的工作範圍**，各段意思：
-   ① 到期要快報 ② 進行中（補完／核對） ④ 未來 7 天 ⑤ 卡住 ⑥ 日期待辦（照每項的「做法」做） ⑦ 股價 ⑧ 論點卡轉差 ⑨ 本益比 ⑩ 要讀哪些附件。
+   ① 到期要快報 ② 進行中（補完／核對） ④ 未來 7 天 ⑤ 卡住 ⑥ 日期待辦（照每項的「做法」做） ⑦ 股價 ⑧ 論點卡轉差 ⑨ 本益比 ⑩ 補跑與優先順序（有缺跑或積壓才出現） ⑪ 要讀哪些附件。
    - 「缺跑」有日期 → 回報寫明補了哪幾天（到期判斷會自動包含）。
    - ⑦ 股價有 ✗ → 手動觸發 prices-monthly 一次（`mcp__github__actions_run_trigger`），回報說明；仍然不可自己填股價。
-3. 只讀 ⑩ 列出的附件，照附件做。附件就是舊版指令的原文，一字不改。
+3. 只讀 ⑪ 列出的附件，照附件做。附件就是舊版指令的原文，一字不改。
+
+## 補跑（額度用完、排程缺跑或中途失敗之後）
+摘要 ⑩ 有內容時照它做。設計原則：**狀態存在 repo 裡，不存在 Claude 的記憶裡**，所以任何一次成功的執行都能接著做。
+```
+ 缺跑幾天 ──► ⑩ 列出每個缺跑日（一天一行，沒事寫「無事」）
+            ──► 依優先順序：快報 → 補完 → 核對 → 新聞 → 日期待辦（同類最早到期先做）
+            ──► 每類有上限（快報 2、補完 2、核對 3），超過的「留到下一次」
+            ──► 每家做完：validate → commit → push → daily.py set（做一家存一家）
+            ──► 還有積壓：今天加跑一次（fire_trigger，每天最多一次），其餘明天
+```
+- **做一家存一家**：每家公司 validate 通過就立刻 commit＋push＋`daily.py set`，不要等全部做完。中途額度用完時，做完的不會遺失，下一次也不會重做。
+- **不重複寫**：開始快報前先檢查 `data/<代號>.json` 最後一季是不是已經是目標季度（上一次可能已 push 資料、還沒 set 狀態）。已經有而且 validate 通過 → 只補 `daily.py set`，不重寫。
+- **缺跑期間的新聞**：每家公司仍只做一次標題層級搜尋，但時間範圍用摘要給的整段（例如過去 8 天）。只收達標的，回報 ③ 依日期排。
+- **缺跑日的回報**：② 段照抄 ⑩ 的每日一行，不為每一天各寫一份回報。
+- **加跑與補觸發**：⑩ 說要 fire_trigger 時才做，做完立刻 `python3 tools/daily.py mark extra`（或 `mark trend`）並 push `data/calendar.json`，避免重複觸發。
+- **股價、市場預期快照、SEC 清單、市值、期貨**都是 GitHub Actions 做的，額度用完也照常跑，不需要補；市場預期**不回補**的規則不變。
 
 ## ④ 大新聞檢查（每天，每家公司一次標題層級搜尋）
 - 範圍：摘要第一段的「新聞檢查範圍」。**所有公司的搜尋在同一回合一起送出**。
