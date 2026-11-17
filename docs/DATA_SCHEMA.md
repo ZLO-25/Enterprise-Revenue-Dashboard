@@ -254,6 +254,27 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 - 估值門檻：本益比上限＝A、B 取低者（A＝近五年月本益比中位數，若 本益比÷g<1 放寬到 75 百分位；B＝g×1.5 高成長／g×2.5 穩健複利；g＝3、5 年 EPS CAGR 取低者、上限 25%）；循環股用 EV/Sales ≤ 近五年 75 百分位；轉機／早期不放估值指標。
 
 
+## 公司分析 data/analysis/<代號>.json（2026-11-17 新增）
+
+個股頁標題「XXX 財報追蹤板」正下方的「分析結論」區塊（assets/analysis.js）。平常只顯示結論＋重點，按 more 展開全文。
+由 `.claude/skills/long-term-company-analysis/` 產生，財報補完後每日排程自動寫（docs/schedule/analysis.md）。**整份是觀點**，數字只能來自本站資料（財報、公司公告），新聞標 `m`（媒體，待確定）。
+
+```
+{ "code": "tsmc", "q": "3Q26",                  // 分析的是哪一季（必須是資料裡有的季度）
+  "date": "2026-11-17", "mode": "快評",          // 快評／深度／快評（電話會議待補）
+  "skill": "long-term-company-analysis v7",
+  "verdict": "續抱",                             // 加碼／續抱／減碼／觀察（四選一）
+  "conclusion": "一句話結論",
+  "points": [ {"t": "重點，可用 **粗體**", "tag": "w|o|e|v|m"} ],   // 3～7 點；w 書面 o 口頭 e 分析師預估 v 觀點 m 媒體
+  "verify": ["下一季要驗證的事"],                 // 1～3 點
+  "full": "完整分析（Markdown：標題、清單、表格、``` ASCII 圖）",
+  "pending": ["待確認：…"],
+  "history": [ {"q","date","verdict","conclusion"} ] }   // tools/analysis_save.py 自動接上，不手寫
+```
+- 存檔一律用 `python3 tools/analysis_save.py <代號> <新分析.json>`（舊結論自動收進 history、跑核對）。
+- **不能出現「作者」、作者的預測或作者觀點檔內容**（repo 公開；作者觀點是付費文章轉述，只放專案資料夾的完整版）。validate 會擋。
+- 最新一季比 `q` 新時，頁面自動標「最新一季尚未分析」。
+
 ## 公司簡介 data/profile/<代號>.json（2026-11 新增）
 
 首頁公司列表點 ▸ 展開的「主力產品／解決什麼痛點／護城河」。不參與任何計算。

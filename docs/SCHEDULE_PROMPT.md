@@ -14,6 +14,7 @@
    │
    ├─ ① 快報   公布日已過的公司：數字＋書面財測先上線（狀態 flash）
    ├─ ② 補完   電話會議重點、一頁總結定稿（狀態 completed）
+   ├─ ②b 公司分析  補完後寫快評，結論放個股頁標題下方（docs/schedule/analysis.md）
    ├─ ③ 核對   10-Q／XBRL 對上，解除待確認（verified → 回到 waiting）
    ├─ ④ 大新聞檢查（每家一次標題層級搜尋）
    ├─ ⑥ 日期待辦（data/watchlist.json：Anthropic 上市觀察、預估本益比第一次快照…，到日期才出現）
@@ -56,6 +57,10 @@
 - 讀電話會議逐字稿（SOURCES.md 的「逐字稿來源」；公司官方優先，其次第三方並在 `src.n` 註明網站），寫 `mgmt`（3～5 點）、`qa`（2～3 題）、`outlook.items` 補口頭展望、`risks`、`next`；把 `status` 改 `final`、填 `finalDate`、清掉 `pending`。內容規則見 DATA_SCHEMA「summary」：每句標來源類別，口頭內容附逐字稿連結與發言人，只摘要不整段照抄，口頭數字不寫進 `guidance`。
 - 讀不到逐字稿：該格寫「待確認：逐字稿尚未取得」，`try` 一次，明天再試；**不要用新聞報導代替**。
 - 成功：`python3 tools/daily.py set <代號> completed`。
+
+### ②b 公司分析（補完成功的同一天；ZL 2026-11-17 要求）
+- 每天 ⓪ 之後也跑一次 `python3 tools/daily.py brief`，看最後 ⑪ 有沒有「分析待寫：<代號> <季度>」。有的話照 `docs/schedule/analysis.md` 做（每天最多 3 家）：用 `.claude/skills/long-term-company-analysis/` 寫快評，公開版 JSON 用 `python3 tools/analysis_save.py <代號> <檔案>` 存進 `data/analysis/`，網站個股頁標題下方就會出現「分析結論」，按 more 看全文。
+- 公開版不能有作者觀點（repo 公開）；分析失敗不影響財報資料，不 `try`，回報 ⑤ 寫「分析待補」。
 
 ### ③ 核對（狀態 completed 的公司）
 - 等 10-Q／年報出來（看 `sec-feed.json` 的 periodic，或該公司 SOURCES.md 的核對來源），把快報數字對 XBRL／正式申報，解除 `notes.unavailable` 裡的「待確認：XBRL 核對」類項目；不一致就以 SOURCES.md 指定的來源為準並在回報寫出差多少。
