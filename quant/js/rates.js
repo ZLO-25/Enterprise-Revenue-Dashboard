@@ -9,7 +9,7 @@
 //   畫面：政策利率階梯線（右軸）疊在各標的累積報酬（左軸，起點 100、對數軸）上，背景色＝四種階段
 //   時間區間：直接在圖上拖曳／拉下方滑桿／按快速按鈕；plotly_relayout → updateWindow() 重算表格與報酬起點
 import { DATA_BASE } from "./config.js";
-import { PHASE, buildPhases, periodReturn, summarize, daysBetween, windowPoints, dayNum } from "./rates-core.js";
+import { PHASE, buildPhases, periodReturn, summarize, daysBetween, windowPoints, dayNum, eventPath, eventReturns, firstMoves } from "./rates-core.js";
 
 const QROOT = document.getElementById("quant-dca-view") || document;
 const $ = (sel, root = QROOT) => root.querySelector(sel);
@@ -28,13 +28,15 @@ const PCOLOR = {   // 背景色塊；深淺色模式都用半透明，再加文�
   cut: "rgba(34,160,110,0.20)", holdLow: "rgba(70,120,230,0.16)",
 };
 const PBADGE = { hike: "🔺", holdHigh: "⏸", cut: "🔻", holdLow: "⏸" };
+const MOVE_COLOR = { hike: "rgba(226,83,60,0.95)", cut: "rgba(34,160,110,0.95)" };
+const EVC = ["#2563eb", "#e8590c", "#12805c", "#9c36b5", "#c2255c", "#0891b2", "#a16207", "#5f3dc4"];
 const LINE = ["#2563eb", "#e8590c", "#12805c", "#9c36b5", "#c2255c"];
 
 const fmtPct = (x, signed = true) => (x == null || !isFinite(x) ? "—" : `${signed && x > 0 ? "+" : ""}${(x * 100).toFixed(1)}%`);
 const cls = (x) => (x > 0 ? "pos" : x < 0 ? "neg" : "");
 const fmtLen = (days) => (days < 45 ? `${days} 天` : days < 700 ? `${(days / 30.44).toFixed(0)} 個月` : `${(days / 365.25).toFixed(1)} 年`);
 
-const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", from: null, to: null, started: false, lastKey: "", obs: null };
+const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", evKind: "hike", evSym: null, from: null, to: null, started: false, lastKey: "", obs: null };
 let CTX = null;   // 目前畫面用到的資料（圖上拉區間時，重算表格和報酬起點要用）
 const curKey = () => `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}|${S.from}|${S.to}`;
 
@@ -155,16 +157,31 @@ function logTicks(lo, hi) {
 }
 const idxAxisKey = () => (S.layout === "overlay" ? "yaxis" : "yaxis2");
 
-function phaseLabels(phases, win, c) {
+// 圖上的文字：階段名稱（圖上緣外）、各標的在這個階段的報酬（階段內上緣，用標的線的顏色）、第一次升／降息的 ▲▼
+function phaseLabels(phases, win, c, perSymRet, use, moves) {
   const plotW = Math.max(240, ($("#chart-rates")?.clientWidth || 900) - 80);
-  const minDays = (daysBetween(win.from, win.to) * 60) / plotW;   // 標籤約 60px 寬：階段太窄就不寫字，免得疊在一起
-  return phases
-    .filter((p) => p.end > win.from && p.start < win.to && daysBetween(p.start < win.from ? win.from : p.start, p.end > win.to ? win.to : p.end) > minDays)
-    .map((p) => ({ xref: "x", yref: "paper", x: p.start < win.from ? win.from : p.start, xanchor: "left", y: 1.0, yanchor: "bottom", showarrow: false,
-      text: PHASE[p.type].label, font: { size: 10, color: c.muted } }));
+  const dpp = daysBetween(win.from, win.to) / plotW;   // 每個像素代表幾天
+  const out = [];
+  phases.forEach((p, i) => {
+    if (!(p.end > win.from && p.start < win.to)) return;
+    const x0 = p.start < win.from ? win.from : p.start, x1 = p.end > win.to ? win.to : p.end;
+    const w = daysBetween(x0, x1);
+    if (w > dpp * 60) out.push({ xref: "x", yref: "paper", x: x0, xanchor: "left", y: 1.0, yanchor: "bottom", showarrow: false, text: PHASE[p.type].label, font: { size: 10, color: c.muted } });
+    if (perSymRet && !p.single && w > dpp * (28 + 9 * 7)) {
+      const lines = use.map((s, k) => { const r = perSymRet[s]?.[i]; return r ? `<span style="color:${LINE[k % LINE.length]}">${esc(s)} ${fmtPct(r.cum)}</span>` : null; }).filter(Boolean);
+      if (lines.length) out.push({ xref: "x", yref: "paper", x: x0, xanchor: "left", y: 0.985, yanchor: "top", showarrow: false, align: "left",
+        text: lines.join("<br>"), font: { size: 11, color: c.text }, bgcolor: c.panel, opacity: 0.88, borderpad: 2 });
+    }
+  });
+  for (const m of moves || []) {
+    if (m.date < win.from || m.date > win.to) continue;
+    out.push({ xref: "x", yref: "paper", x: m.date, xanchor: "center", y: 0, yanchor: "bottom", showarrow: false,
+      text: m.type === "hike" ? "▲" : "▼", font: { size: 13, color: MOVE_COLOR[m.type] } });
+  }
+  return out;
 }
 
-function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate) {
+function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate, moves) {
   const c = colors();
   const overlay = S.layout === "overlay";
   const rateAxis = overlay ? "y2" : "y";    // 疊在一起：利率用右邊刻度；上下分開：利率在上圖
@@ -173,7 +190,7 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate) {
   // 先畫報酬（在下層），再畫利率（在上層），疊在一起時利率階梯線才不會被報酬線蓋住
   syms.forEach((sym, i) => {
     const d = loaded[sym], L = lineY(d, win.from);
-    traces.push({ x: d.dates, y: L ? L.y : d.close.map(() => null), type: "scatter", mode: "lines", line: { width: 1.6, color: LINE[i % LINE.length] }, name: sym,
+    traces.push({ x: d.dates, y: L ? L.y : d.close.map(() => null), type: "scatter", mode: "lines", line: { width: 2, color: LINE[i % LINE.length] }, name: sym,
       xaxis: "x", yaxis: idxAxis, hovertemplate: "%{y:.0f}" });
   });
   const pts = policy.points;
@@ -188,6 +205,7 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate) {
   }
   const shapes = phasesAll.map((p) => ({ type: "rect", xref: "x", yref: "paper", x0: p.start, x1: p.end, y0: 0, y1: 1,
     fillcolor: PCOLOR[p.type], line: { width: 0 }, layer: "below" }));
+  for (const m of moves) shapes.push({ type: "line", xref: "x", yref: "paper", x0: m.date, x1: m.date, y0: 0, y1: 1, line: { color: MOVE_COLOR[m.type], width: 1.3, dash: "dot" }, layer: "below" });
   const isLog = S.scale === "log";
   const idxAxisCfg = {
     title: { text: isLog ? "報酬指數（起點＝100，對數刻度）" : "報酬指數（起點＝100）", standoff: 18 }, type: isLog ? "log" : "linear",
@@ -204,7 +222,7 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate) {
     margin: { l: 56, r: overlay ? 56 : 16, t: 64, b: 30 }, hovermode: "x unified", showlegend: true,
     legend: { orientation: "h", yref: "container", y: 1, yanchor: "top", x: 0 },
     hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
-    dragmode: "zoom", shapes, annotations: phaseLabels(phasesAll, win, c),
+    dragmode: "zoom", shapes, annotations: [],
   };
   const layout = overlay ? {
     ...base, xaxis,
@@ -283,19 +301,75 @@ function updateWindow(from, to) {
   const el = $("#chart-rates");
   if (el && el.data) {
     const c = colors(), k = idxAxisKey(), isLog = S.scale === "log";
-    const rl = { annotations: phaseLabels(X.phasesAll, { from, to }, c) };
+    const rl = { annotations: phaseLabels(phases, { from, to }, c, perSymRet, X.use, X.moves) };
     if (X.use.length) Plotly.restyle(el, { y: ys }, X.use.map((_, i) => i));
     if (hi > 0 && isFinite(lo)) {
       rl[`${k}.autorange`] = false;
       if (isLog) {
-        rl[`${k}.range`] = [Math.log10(lo * 0.92), Math.log10(hi * 1.08)];
+        rl[`${k}.range`] = [Math.log10(lo * 0.96), Math.log10(hi * 1.04)];   // 縱軸貼著所選區間的最低、最高點，起伏才看得清楚（數據不動）
         const tv = logTicks(lo, hi);
         if (tv.length >= 2) { rl[`${k}.tickmode`] = "array"; rl[`${k}.tickvals`] = tv; rl[`${k}.ticktext`] = tv.map(String); } else rl[`${k}.tickmode`] = "auto";
-      } else { const pad = (hi - lo) * 0.06 || 1; rl[`${k}.range`] = [lo - pad, hi + pad]; rl[`${k}.tickmode`] = "auto"; }
+      } else { const pad = (hi - lo) * 0.04 || 1; rl[`${k}.range`] = [lo - pad, hi + pad]; rl[`${k}.tickmode`] = "auto"; }
     }
     Plotly.relayout(el, rl);
   }
   writeHash();
+}
+
+// ---------- 事件前後圖：每一輪第一次升息／降息前後 12 個月，股價怎麼走 ----------
+function renderEvents() {
+  const X = CTX, box = $("#rates-events");
+  if (!box) return;
+  if (!X || !X.use.length) { box.innerHTML = ""; return; }
+  if (!X.use.includes(S.evSym)) S.evSym = X.use[0];
+  const kind = S.evKind === "cut" ? "cut" : "hike", kname = kind === "hike" ? "升息" : "降息";
+  const d = X.loaded[S.evSym], c = colors();
+  const traces = [], rows = [], paths = [];
+  X.moves.filter((m) => m.type === kind).forEach((m, i) => {
+    const e = eventPath(d, m.date);
+    if (!e) { rows.push(`<tr><td>${fmtYM(m.date)}</td><td colspan="2" class="hint">${esc(S.evSym)} 那時還沒有資料</td></tr>`); return; }
+    const color = EVC[i % EVC.length];
+    traces.push({ x: e.x, y: e.y, type: "scatter", mode: "lines", line: { width: 1.8, color }, name: `${fmtYM(m.date)}${e.hasBefore ? "" : "（前段資料不全）"}`, hovertemplate: "%{y:.0f}" });
+    paths.push(e);
+    const r = eventReturns(d, m.date, 182);
+    const cell = (v, none) => (v == null ? `<td>${none}</td>` : `<td class="${cls(v)}">${fmtPct(v)}</td>`);
+    rows.push(`<tr><td><span style="color:${color}">●</span> ${fmtYM(m.date)}</td>${cell(r.before, "資料不足")}${cell(r.after, "還沒滿 6 個月")}</tr>`);
+    paths[paths.length - 1].r = r;
+  });
+  // 平均線：每個月份位置上，有涵蓋到那個位置的各輪取平均
+  const grid = [], avg = [];
+  for (let m = -12; m <= 12.001; m += 0.25) {
+    const vals = [];
+    for (const e of paths) {
+      if (m < 0 && !e.hasBefore) continue;
+      if (m > 0 && !e.hasAfter) continue;
+      let k = -1; for (let j = 0; j < e.x.length && e.x[j] <= m; j += 1) k = j;
+      if (k >= 0) vals.push(e.y[k]);
+    }
+    if (vals.length >= 2) { grid.push(m); avg.push(vals.reduce((a, b) => a + b, 0) / vals.length); }
+  }
+  if (grid.length) traces.push({ x: grid, y: avg, type: "scatter", mode: "lines", line: { width: 3.2, color: c.text, dash: "dash" }, name: "各輪平均（只算資料完整的）", hovertemplate: "%{y:.0f}" });
+  const stat = (key) => { const v = paths.map((e) => e.r?.[key]).filter((x) => x != null); return v.length ? { n: v.length, mean: v.reduce((a, b) => a + b, 0) / v.length, up: v.filter((x) => x > 0).length } : null; };
+  const sb = stat("before"), sa = stat("after");
+  const sumCell = (x) => (x ? `<td class="${cls(x.mean)}">平均 ${fmtPct(x.mean)}<span class="sub">${x.up}/${x.n} 次上漲</span></td>` : "<td>—</td>");
+  const symSel = X.use.map((s) => `<option value="${esc(s)}"${s === S.evSym ? " selected" : ""}>${esc(s)}</option>`).join("");
+  box.innerHTML = `<div class="panel"><h2>${kname}前後，股價怎麼走？</h2>
+    <p class="hint">以每一輪「第一次${kname}」那天為 0、價格＝100，往前、往後各看 12 個月，一條線＝一輪。如果市場是「宣布才反應」，線在 0 之前會是平的；如果在 0 之前就先漲或先跌，代表市場已經提前反映。</p>
+    <div class="rates-evctl"><label>事件 <select id="rates-ev-kind"><option value="hike"${kind === "hike" ? " selected" : ""}>第一次升息</option><option value="cut"${kind === "cut" ? " selected" : ""}>第一次降息</option></select></label>
+      <label>標的 <select id="rates-ev-sym">${symSel}</select></label></div>
+    <div id="chart-rates-ev" class="chart"></div>
+    <div class="table-wrap"><table class="data"><thead><tr><th>${COUNTRY[S.country]}第一次${kname}</th><th>${esc(S.evSym)} 前 6 個月</th><th>後 6 個月</th></tr></thead>
+      <tbody>${rows.reverse().join("")}<tr><td><b>平均</b></td>${sumCell(sb)}${sumCell(sa)}</tr></tbody></table></div>
+    <p class="hint">橫軸＝距離事件日的月數（0＝事件日）。前／後 6 個月＝事件日往前／往後 182 天的報酬（含息還原價）；資料不夠（標的上市太晚、或事件太新）的那一格不算。只有幾次樣本，<b>只能看傾向，不是預測</b>。這張圖只看得到「股價先動了」，看不到當時市場預期的利率（需要利率期貨資料），所以不能證明是哪則消息造成的。</p></div>`;
+  const ticks = [-12, -9, -6, -3, 0, 3, 6, 9, 12];
+  Plotly.react($("#chart-rates-ev"), traces, {
+    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, size: 12 },
+    margin: { l: 52, r: 16, t: 20, b: 44 }, hovermode: "x unified", showlegend: true, legend: { orientation: "h", x: 0, y: -0.2 },
+    hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
+    xaxis: { range: [-12, 12], gridcolor: c.border, linecolor: c.border, tickvals: ticks, ticktext: ticks.map((v) => (v === 0 ? "事件日" : v > 0 ? `+${v} 月` : `${v} 月`)), hoverformat: ".1f", fixedrange: true },
+    yaxis: { title: { text: `${S.evSym}（事件日＝100）`, standoff: 8 }, gridcolor: c.border, zerolinecolor: c.border, automargin: true, fixedrange: true },
+    shapes: [{ type: "line", xref: "x", yref: "paper", x0: 0, x1: 0, y0: 0, y1: 1, line: { color: MOVE_COLOR[kind], width: 1.6, dash: "dot" } }],
+  }, { responsive: true, displaylogo: false, displayModeBar: false });
 }
 
 let relayoutTimer;
@@ -339,6 +413,7 @@ export async function render() {
   if (daysBetween(from, to) < 30) { notes.push("網址裡的時間區間不合理（至少要 30 天），已改回預設（2000 年起到最新）。"); from = MIN_DATE; to = endDate; S.from = S.to = null; }
   const win = { from, to };
   const phasesAll = buildPhases(policy.points, endDate);
+  const moves = firstMoves(buildPhases(policy.points, endDate, "1900-01-01"));   // 每一輪第一次升息／降息（含 2000 年以前，事件前後圖要用）
 
   const loaded = {}, missing = [];
   await Promise.all(syms.map(async (s) => {
@@ -355,9 +430,10 @@ export async function render() {
     <div class="panel"><h2>${COUNTRY[c]}升降息週期 vs 報酬<span class="sub" id="rates-win-title" style="font-weight:400"></span></h2>
       <div class="rates-range" id="rates-range" role="group" aria-label="快速選時間區間">${PRESETS.map(([t, n]) => `<button type="button" class="secondary small" data-years="${n}">${t}</button>`).join("")}</div>
       <div id="chart-rates" class="chart tall"></div>
-      <p class="hint">背景色＝階段：🔺升息期　⏸高檔停留　🔻降息期　⏸低檔停留。<b>選時間區間</b>：在圖上按住左右拖曳框選、拉圖下方的滑桿（拖兩端調整範圍、拖中間平移），或按上面的「1 年、3 年…」；雙擊圖面回到上一個範圍。滑鼠移到圖上看數字（日期顯示 年/月/日）。</p></div>
+      <p class="hint">背景色＝階段：🔺升息期　⏸高檔停留　🔻降息期　⏸低檔停留。▲▼ 虛線＝每一輪第一次升息／降息。階段內的數字＝各標的在該階段的報酬；縱軸會貼著所選區間的最高、最低點，所以區間越短，起伏看起來越大（數字不變）。<b>選時間區間</b>：在圖上按住左右拖曳框選、拉圖下方的滑桿（拖兩端調整範圍、拖中間平移），或按上面的「1 年、3 年…」；雙擊圖面回到上一個範圍。滑鼠移到圖上看數字（日期顯示 年/月/日）。</p></div>
     <div id="rates-win-notes"></div>
     <div id="rates-win-panels"></div>
+    <div id="rates-events"></div>
     <div class="panel"><h2>「對數刻度」是什麼意思？</h2>
       <p class="hint">一般（線性）刻度：每一格代表<b>漲幾點</b>。對數刻度：每一格代表<b>漲幾倍</b>。</p>
 <pre class="hint" style="white-space:pre;overflow-x:auto;margin:6px 0">
@@ -377,12 +453,13 @@ export async function render() {
         ${srcs}${unav}
       </ul>
       <p class="hint">利率資料更新：${esc(fmtYM(R.updated))}（GitHub Actions 每週自動抓取）。</p></div>`;
-  CTX = { policy, endDate, use, loaded, phasesAll };
-  const fig = chartFig(phasesAll, policy, tenY, loaded, use, win, endDate);
+  CTX = { policy, endDate, use, loaded, phasesAll, moves };
+  const fig = chartFig(phasesAll, policy, tenY, loaded, use, win, endDate, moves);
   const el = $("#chart-rates");
   await Plotly.react(el, fig.traces, fig.layout, { responsive: true, displaylogo: false, modeBarButtonsToRemove: ["lasso2d", "select2d"] });
   el.on("plotly_relayout", onRelayout);
   updateWindow(from, to);
+  renderEvents();
   setTimeout(() => window.dispatchEvent(new Event("resize")), 30);
 }
 
@@ -398,6 +475,10 @@ export function activate(hash) {
       const b = e.target.closest("#rates-range button[data-years]"); if (!b || !CTX) return;
       const n = +b.dataset.years, f = n ? addYears(CTX.endDate, n) : MIN_DATE;
       Plotly.relayout($("#chart-rates"), { "xaxis.range": [f < MIN_DATE ? MIN_DATE : f, CTX.endDate] });   // 會觸發 plotly_relayout → updateWindow
+    });
+    $("#out-rates").addEventListener("change", (e) => {
+      if (e.target.id === "rates-ev-kind") { S.evKind = e.target.value; renderEvents(); }
+      if (e.target.id === "rates-ev-sym") { S.evSym = e.target.value; renderEvents(); }
     });
     $("#rates-scale").addEventListener("change", (e) => { S.scale = e.target.value; render(); });
     $("#rates-layout").addEventListener("change", (e) => { S.layout = e.target.value; render(); });
