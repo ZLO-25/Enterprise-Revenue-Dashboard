@@ -8,7 +8,8 @@
       "Bash(python3 tools/rd_import.py*)",
       "Bash(python3 tools/thesis.py*)",
       "Bash(python3 tools/pe.py*)",
-      "Bash(python3 tools/prices_update.py --check*)"
+      "Bash(python3 tools/prices_update.py --check*)",
+      "Bash(python3 tools/mcap_check.py*)"
     ]
   }
 }
