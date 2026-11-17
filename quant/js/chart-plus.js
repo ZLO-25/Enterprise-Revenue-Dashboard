@@ -13,6 +13,10 @@
 //   ⑤ 「單筆 vs 定期定額」主圖下方加一張「帳面損益」小圖：每條線 − 總投入金額
 //        > 0 帳面賺、< 0 帳面賠；主圖縮放時小圖跟著縮放
 //   ⑥ 比較 2 檔以上時，圖上方一排「標的開關」：按一下把那一檔的所有線（單筆＋定期定額）一起收起來
+//   ⑦ 提示框「一檔一行」：同一檔的單筆、定期定額合併成一行（主圖和帳面損益小圖都是）
+//        SPY   單筆 123,456 ｜ 定期定額 118,900
+//      做法：單筆那條線的提示文字同時帶出定期定額的數字，定期定額那條線不另外列；
+//      如果單筆那條被隱藏，定期定額那條自己列一行，數字不會消失
 //   （手機版圖表加高寫在 quant.css，由 tools/quant_sync.py 產生）
 const VALUE_CHARTS = new Set(["chart-dca-value", "chart-alloc"]);
 const MODES = [["value", "金額"], ["pct", "報酬率 %"], ["log", "對數"]];
@@ -49,6 +53,8 @@ function applyMode(el, mode, c) {
   });
   const shapes = (orig.shapes || []).map((s) => (mode === "pct" && s.y0 === s.y1 ? { ...s, y0: 0, y1: 0 } : s));
   window.Plotly.restyle(el, { y: ys, hovertemplate: orig.y.map((_, i) => (mode === "pct" ? "%{y:+.1%}" : orig.ht[i])) });
+  el.__qFmt = mode === "pct" ? "+.1%" : ",.0f";
+  pairHover(el);
   window.Plotly.relayout(el, {
     "yaxis.type": mode === "log" ? "log" : "linear",
     "yaxis.tickformat": mode === "pct" ? "+.0%" : orig.tickformat,
@@ -117,6 +123,60 @@ function tickerBar(el, traces) {
     `<button type="button" class="qplus-t" data-g="${esc(g)}" aria-pressed="true"><i class="qplus-sw" style="background:${esc(color)}"></i>${esc(g)}</button>`).join("");
 }
 
+// ⑦ 提示框一檔一行：找出「X 單筆」「X 定期定額」成對的線
+const LS = " 單筆", DCA = " 定期定額";
+const shown = (t) => t.visible !== false && t.visible !== "legendonly";
+function pairs(data) {
+  const out = [];
+  data.forEach((t, i) => {
+    const n = String(t.name || "");
+    if (!n.endsWith(LS)) return;
+    const g = n.slice(0, -LS.length);
+    const j = data.findIndex((u) => u.name === g + DCA);
+    if (j >= 0) out.push({ g, i, j });
+  });
+  return out;
+}
+// el.__qFmt：數字格式（d3-format）；el.__qBase：帳面損益小圖的總投入金額，有的話每個數字後面再帶（報酬率％）
+function pairHover(el) {
+  const data = el.data; if (!data || !data.length) return;
+  const P = pairs(data); if (!P.length) return;
+  const fmt = el.__qFmt || ",.0f";
+  // 手機（圖寬 < 560px）一行放不下「金額＋％」，帳面損益小圖只列金額，避免提示框超出螢幕被切掉
+  const base = el.clientWidth && el.clientWidth < 560 ? null : el.__qBase;
+  const pct = (y) => (base ? y.map((v) => (v == null ? null : v / base)) : null);
+  // 一段數字：「單筆 123,456」或帳面損益的「單筆 +12,345（+12.3%）」；v/p = 數字、百分比在 hovertemplate 裡的位置
+  const part = (lab, v, p) => `${lab} %{${v}:${fmt}}` + (base ? `（%{${p}:+.1%}）` : "");
+  const idx = [], ht = [], cd = [], hi = [];
+  P.forEach(({ g, i, j }) => {
+    const a = data[i], b = data[j], pa = pct(a.y), pb = pct(b.y);
+    const who = `<extra>${g}</extra>`;
+    if (shown(a) && shown(b)) {
+      // 單筆那條負責整行；customdata[k] = [定期定額值, 單筆％, 定期定額％]
+      idx.push(i, j);
+      // 定期定額那條：清掉提示文字＋skip，才真的不會再列一行（有 hovertemplate 時 skip 不會生效）
+      ht.push(part("單筆", "y", "customdata[1]") + "  ｜  " + part("定期定額", "customdata[0]", "customdata[2]") + who, null);
+      cd.push(b.y.map((v, k) => [v, pa ? pa[k] : null, pb ? pb[k] : null]), null);
+      hi.push("all", "skip");
+    } else {   // 其中一條被隱藏：各自列自己的
+      idx.push(i, j);
+      ht.push(part("單筆", "y", "customdata[1]") + who, part("定期定額", "y", "customdata[1]") + who);
+      cd.push(a.y.map((v, k) => [null, pa ? pa[k] : null]), b.y.map((v, k) => [null, pb ? pb[k] : null]));
+      hi.push("all", "all");
+    }
+  });
+  // 和目前一樣就不再 restyle，避免 plotly_restyle → pairHover → restyle 無限迴圈
+  const same = idx.every((k, n) => (data[k].hovertemplate ?? null) === ht[n] && (data[k].hoverinfo || "all") === hi[n])
+    && el.__qPairY && data.every((t, k) => t.y === el.__qPairY[k]);
+  if (same) return;
+  el.__qPairY = data.map((t) => t.y);
+  window.Plotly.restyle(el, { hovertemplate: ht, customdata: cd, hoverinfo: hi }, idx);
+  if (!el.__qPairSync) {   // 點圖例、標的開關隱藏某條線之後，重新決定誰負責列出那一行
+    el.__qPairSync = true;
+    el.on("plotly_restyle", () => pairHover(el));
+  }
+}
+
 // ⑤ 帳面損益小圖：資產價值 − 總投入金額（定期定額還沒投入的現金也算在資產裡，所以兩種策略的「總投入」相同）
 function pnlChart(el, traces, c) {
   const L = el.layout || {};
@@ -147,12 +207,15 @@ function pnlChart(el, traces, c) {
     paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
     font: { color: c.text, family: getComputedStyle(el).fontFamily, size: 12 },
     margin: { l: 60, r: 16, t: 8, b: 30 }, showlegend: false, hovermode: "x unified",
-    hoverlabel: { bgcolor: c.panel, bordercolor: c.border, font: { color: c.text, size: 13 } },
+    hoverlabel: { bgcolor: c.panel, bordercolor: c.border, font: { color: c.text, size: el.clientWidth && el.clientWidth < 560 ? 12 : 13 } },
     xaxis: { gridcolor: c.border, linecolor: c.border, automargin: true, range: xr, autorange: !xr,
       spikecolor: c.muted, spikethickness: 1, spikedash: "dot" },
     yaxis: { gridcolor: c.border, linecolor: c.border, automargin: true, tickformat: ",.0f",
       zeroline: true, zerolinecolor: c.muted, zerolinewidth: 2, title: { text: "帳面損益" } },
   }, { responsive: true, displaylogo: false, displayModeBar: false });
+  box.__qFmt = "+,d";   // 註：這版 Plotly 的 "+,.0f" 不會加千分位，"+,d" 才會
+   box.__qBase = base;
+  pairHover(box);
   el.__qPnl = box;
   if (!el.__qPnlSync) {   // 主圖縮放（拖曳、快速縮放鈕、雙擊還原）→ 小圖跟著
     el.__qPnlSync = true;
@@ -180,7 +243,7 @@ window.__quantChartPlus = {
     const upd = {
       // ① 提示框
       "hoverlabel.bgcolor": c.panel, "hoverlabel.bordercolor": c.border,
-      "hoverlabel.font.color": c.text, "hoverlabel.font.size": 13,
+      "hoverlabel.font.color": c.text, "hoverlabel.font.size": el.clientWidth && el.clientWidth < 560 ? 12 : 13,
       "xaxis.spikecolor": c.muted, "xaxis.spikethickness": 1, "xaxis.spikedash": "dot",
     };
     if (timeSeries) {
@@ -199,6 +262,8 @@ window.__quantChartPlus = {
         shapes: L.shapes || [], tickformat: (L.yaxis && L.yaxis.tickformat) || ",.0f",
         title: (L.yaxis && L.yaxis.title && L.yaxis.title.text) || "",
       };
+      el.__qFmt = ",.0f";
+      pairHover(el);
       toolbar(el, c);
       tickerBar(el, traces);
     }
