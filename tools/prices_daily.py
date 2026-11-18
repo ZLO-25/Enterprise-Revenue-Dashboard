@@ -60,9 +60,11 @@ def fetch_rows(sym):
     err = None
     for i in range(4):
         try:
-            df = yf.Ticker(sym).history(start=(now.date() - dt.timedelta(days=400)).isoformat(), auto_adjust=False, actions=False)
+            df = yf.Ticker(sym).history(start=(now.date() - dt.timedelta(days=400)).isoformat(), end=(now.date() + dt.timedelta(days=2)).isoformat(), auto_adjust=False, actions=False)   # end 明寫到後天：不寫的話 Yahoo 最新一天可能沒包含
             if df is None or df.empty:
                 raise RuntimeError("沒有日線資料")
+            tail = [(str(x.date()), round(float(v), 4)) for x, v in df["Close"].tail(3).items()]
+            log(f"   {sym} Yahoo 最後三天：{tail}（當地 {now:%Y-%m-%d %H:%M}，今天{'已' if done_today else '未'}收盤）")
             rows = []
             for ts, row in df.iterrows():
                 d = ts.date()
