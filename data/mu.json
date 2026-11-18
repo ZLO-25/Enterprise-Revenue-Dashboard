@@ -2034,6 +2034,27 @@
    "t": "首次宣告季配息每股 0.10 美元",
    "src": "https://data.sec.gov/api/xbrl/companyconcept/CIK0000723125/us-gaap/CommonStockDividendsPerShareDeclared.json",
    "st": "p"
+  },
+  {
+   "d": "2024-02-26",
+   "cat": "hbm",
+   "t": "HBM3E（AI 晶片用的高頻寬記憶體）開始量產",
+   "src": "https://micron.gcs-web.com/node/46656",
+   "st": "p"
+  },
+  {
+   "d": "2025-06-10",
+   "cat": "hbm",
+   "t": "HBM4（36GB 12 層）樣品出貨給多家主要客戶，計劃 2026 年量產爬坡",
+   "src": "https://micron.gcs-web.com/node/48886",
+   "st": "p"
+  },
+  {
+   "d": "2025-12-03",
+   "cat": "hbm",
+   "t": "宣布退出 Crucial 消費性品牌業務，出貨到 2026 年 2 月（FQ2-26）為止",
+   "src": "https://micron.gcs-web.com/node/49841",
+   "st": "p"
   }
  ],
  "sources": [
@@ -2078,5 +2099,15 @@
    "待確認：資產負債表欄位 股東權益（equity）：2 季沒有值（2Q10～3Q10）：缺 StockholdersEquity（2 季）"
   ],
   "general": "FY2021–FY2025 第四季的營收、毛利、淨利在 XBRL 沒有單季值，用「全年 − 前三季」推算，並和財報新聞稿核對一致（例：4Q24 營收 7,750、淨利 887）；第四季 EPS 取財報新聞稿。營業現金流與資本支出（Expenditures for property, plant, and equipment）用年初累計相減；FY2013–FY2016 用 XBRL「持續營業單位」營業現金流概念。FY2015、FY2020、FY2026 是 53 週年度，其中一季有 14 週。4Q13 淨利含收購爾必達（Elpida）的廉價購買利益。"
+ },
+ "story": {
+  "t": "HBM 與 AI 資料中心記憶體",
+  "why": "HBM 量產進度與產能，決定能分到多少 AI 晶片訂單、毛利率能不能撐住",
+  "cats": [
+   "hbm"
+  ]
+ },
+ "categories": {
+  "hbm": "HBM／AI 記憶體"
  }
 }
