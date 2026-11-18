@@ -1,0 +1,6 @@
+{
+ "version": 1,
+ "note": "估值訊號狀態與事件（tools/signals.py 寫；提醒，不是買賣建議）",
+ "state": {},
+ "events": []
+}
