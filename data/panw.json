@@ -1749,7 +1749,7 @@
   },
   {
    "d": "2026-06-02",
-   "cat": "ma",
+   "cat": "platform",
    "t": "3Q26 起併入 CyberArk（身分安全）與 Chronosphere，當季貢獻營收 3.88 億美元",
    "src": "https://www.sec.gov/Archives/edgar/data/1327567/000132756726000012/ex991q326earningsrelease.htm",
    "st": "p"
@@ -1773,6 +1773,20 @@
    "cat": "listing",
    "t": "上市後第一份財報（FY2012 第四季）；2012 年 7 月 IPO",
    "src": "https://www.sec.gov/Archives/edgar/data/1327567/000119312512386605/d408809dex991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-02-20",
+   "cat": "platform",
+   "t": "宣布加速「平台化」：用免費期換客戶整合到自家平台，同時下修 FY2024 營收財測到 79.5–80 億美元",
+   "src": "https://www.sec.gov/Archives/edgar/data/1327567/000132756724000003/ex991q224earningsrelease.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-02-11",
+   "cat": "platform",
+   "t": "完成收購 CyberArk（身分安全），每股換 45 美元現金加 2.2005 股",
+   "src": "https://investors.paloaltonetworks.com/news-releases/news-release-details/palo-alto-networks-completes-acquisition-cyberark-secure--ai-era",
    "st": "p"
   }
  ],
@@ -1906,5 +1920,15 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "平台化（整合資安產品）",
+  "why": "把客戶的資安產品整合到一個平台，NGS ARR 成長是成績單",
+  "cats": [
+   "platform"
+  ]
+ },
+ "categories": {
+  "platform": "平台化"
  }
 }

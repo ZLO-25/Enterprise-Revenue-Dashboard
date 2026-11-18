@@ -1786,6 +1786,34 @@
    "t": "Facebook 公告首次公開發行（IPO）定價，在 Nasdaq 掛牌",
    "src": "https://investor.atmeta.com/investor-news/press-release-details/2012/Facebook-Announces-Pricing-of-Initial-Public-Offering/default.aspx",
    "st": "p"
+  },
+  {
+   "d": "2021-10-28",
+   "cat": "rl",
+   "t": "公司改名 Meta，宣布投入元宇宙（Reality Labs）",
+   "src": "https://about.fb.com/news/2021/10/facebook-company-is-now-meta/",
+   "st": "p"
+  },
+  {
+   "d": "2023-07-18",
+   "cat": "ai",
+   "t": "與微軟合作推出開源大型語言模型 Llama 2，可免費用於研究與商業",
+   "src": "https://about.fb.com/news/2023/07/llama-2/",
+   "st": "p"
+  },
+  {
+   "d": "2024-04-18",
+   "cat": "ai",
+   "t": "以 Llama 3 打造的 Meta AI 助理上線",
+   "src": "https://about.fb.com/news/2024/04/meta-ai-assistant/",
+   "st": "p"
+  },
+  {
+   "d": "2025-06-12",
+   "cat": "ai",
+   "t": "大額投資 Scale AI（估值逾 290 億美元，Meta 持少數股權），Scale 執行長轉加入 Meta",
+   "src": "https://www.businesswire.com/news/home/20250612873954/en/Scale-AI-Announces-Next-Phase-of-Companys-Evolution",
+   "st": "p"
   }
  ],
  "sources": [
@@ -1880,5 +1908,17 @@
    "股票酬勞（sbc）占當季營收超過 60% 但已核對 SEC 申報數字、照實收錄的季度：2Q12（10-Q 的單季值 1,106，也等於上半年累計 1,209 − 第一季 103）。單位百萬美元"
   ],
   "general": "重要事件的來源列在事件明細的最後一欄；只有媒體報導、公司沒證實的標「待確定」。3Q25（所得稅 189.5 億美元）與 3Q26（98.9 億美元和解費用）的 EPS 受一次性項目影響，看趨勢時要排除這兩季。"
+ },
+ "story": {
+  "t": "AI 與 Reality Labs",
+  "why": "AI 推薦與廣告工具撐起主業成長，巨額 AI 與元宇宙支出決定未來利潤率",
+  "cats": [
+   "ai",
+   "rl"
+  ]
+ },
+ "categories": {
+  "ai": "AI",
+  "rl": "Reality Labs"
  }
 }
