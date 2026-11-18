@@ -2,7 +2,7 @@
 #
 # 為什麼：這個 repo 的 GitHub 排程固定晚 4～6 小時，而且每個工作一天只被執行 1～3 次（實測 2026-11），
 #        所以「07:05 抓 SEC、08:18 每日檢查讀」常常讀到昨天的清單。改成由每日檢查當鬧鐘，一次叫醒所有前置工作。
-# 做什麼：SEC 新申報清單 → 分析師預估快照 → 叫醒股價與期貨 → 算系統健康狀態（data/status/latest.json）→ 紅燈開 issue。
+# 做什麼：SEC 新申報清單 → SEC 收件匣（tools/sec_inbox.py）→ 分析師預估快照 → 叫醒股價與期貨 → 算系統健康狀態（data/status/latest.json）→ 紅燈開 issue。
 # 備援：下面兩個排程只是「每日檢查沒叫醒時」的保險，晚到也沒關係（有 concurrency，不會和 sec-feed／consensus-daily 同時跑）。
 name: daily-prep
 on:
@@ -34,6 +34,10 @@ jobs:
         id: sec
         continue-on-error: true
         run: python3 tools/sec_feed.py
+      - name: ①b SEC 收件匣（新財報新聞稿預抓、XBRL 核對表、資產負債表提案；失敗不擋後面）
+        continue-on-error: true
+        timeout-minutes: 6
+        run: python3 tools/sec_inbox.py
       - name: ② 分析師預估快照（失敗不擋後面）
         id: cons
         continue-on-error: true
@@ -42,9 +46,9 @@ jobs:
         run: |
           git config user.name "prep-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sec-feed.json data/consensus
+          git add data/sec-feed.json data/consensus data/inbox data/bs-raw
           if ! git diff --cached --quiet; then
-            git commit -q -m "每日準備：SEC 清單與預估快照 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
+            git commit -q -m "每日準備：SEC 清單、收件匣與預估快照 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
             for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q && break || sleep $((i * 4)); done
           fi
       - name: ④ 叫醒股價與期貨（立刻跑，不等排程）

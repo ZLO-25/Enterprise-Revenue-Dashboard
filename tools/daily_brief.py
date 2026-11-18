@@ -366,6 +366,9 @@ def main():
     print("\n⑪ 今天要讀的指令附件：" + ("無（安靜日：不讀附件，直接回報 → done）" if quiet else ""))
     for f in files:
         print("  · " + f)
+    sec_codes = [c for c in need["flash"] + need["verify"] if os.path.isdir(os.path.join(ROOT, "data", "inbox", c))]
+    if sec_codes:
+        print("  · SEC 收件匣（Actions 已預抓新聞稿／XBRL 核對表，先看這個再決定要不要開網頁）：python3 tools/daily.py inbox " + " ".join(sec_codes))
     if need["stuck"]:
         print("  · 卡住的公司（" + "、".join(need["stuck"]) + "）只在回報置頂，不處理")
     print("\n資料誠實：讀不到就 null＋「待確認」；validate 沒過不發佈。")

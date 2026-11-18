@@ -1,9 +1,9 @@
 # 每日排程附件：核對＋論點卡
 
-> 每日排程的附件（由 docs/schedule/core.md 指示才讀）。內容與舊版 docs/SCHEDULE_PROMPT.md 同一節一字不改，只是拆出來，安靜日不用讀。
+> 每日排程的附件（由 docs/schedule/core.md 指示才讀）。內容與舊版 docs/SCHEDULE_PROMPT.md 同一節相同（兩邊同步改），只是拆出來，安靜日不用讀。
 
 ### ③ 核對（狀態 completed 的公司）
-- 等 10-Q／年報出來（看 `sec-feed.json` 的 periodic，或該公司 SOURCES.md 的核對來源），把快報數字對 XBRL／正式申報，解除 `notes.unavailable` 裡的「待確認：XBRL 核對」類項目；不一致就以 SOURCES.md 指定的來源為準並在回報寫出差多少。
+- 等 10-Q／年報出來（看 `sec-feed.json` 的 periodic，或該公司 SOURCES.md 的核對來源），把快報數字對 XBRL／正式申報。**美股先跑 `python3 tools/daily.py inbox <代號>`**：每日準備已讀 SEC XBRL 做好核對表（營收、毛利、營業利益、淨利、稀釋 EPS、營業現金流、資本支出，最近 3 季）。全部 ✓ → 不用開 10-Q，直接解除待確認；有 ✗ 才打開該季 10-Q 查原因（口徑不同就照 SOURCES.md，不是自動以 SEC 為準）；新一季顯示「還沒有」＝10-Q 尚未申報。資產負債表 9 欄位：`python3 tools/bs_merge.py <代號>`（bs-raw 已由每日準備重算，不用觸發 bs-fetch），解除 `notes.unavailable` 裡的「待確認：XBRL 核對」類項目；不一致就以 SOURCES.md 指定的來源為準並在回報寫出差多少。
 - **這次核對用的是年度申報（10-K、20-F、台積電／台達電年報、三星事業報告）時，同一天加做「公司簡介與營收比例」一節。**
 - 完成：`python3 tools/daily.py set <代號> verified`（回到 waiting）。10-Q 還沒出來就維持 completed，**不算失敗、不加 try**，但超過 45 天仍沒有，回報提醒。
 

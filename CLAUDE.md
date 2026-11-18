@@ -30,6 +30,8 @@ python3 tools/daily_calc.py     # 每日估值公式的固定測試案例
 python3 tools/prices_update.py --check  # 股價是否已到最新（只有 GitHub Actions 會真的抓）
 python3 tools/daily.py          # 每日排程今天的工作清單與狀態（set／try／done 改 data/calendar.json）
 python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
+python3 tools/daily.py inbox [代號]      # SEC 收件匣：Actions（daily-prep）預抓的財報新聞稿 data/inbox/<代號>/pr-*.txt＋XBRL 核對表（快報、核對先看，tools/sec_inbox.py）
+python3 tools/daily.py trend-facts    # 世界趨勢月報的事實表（網站財報數字一頁，tools/trend_facts.py）
 python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json；含巴菲特＋蒙格檢查表摘要）
 python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘、股票酬勞與扣酬勞後現金流…）原始輸出
 python3 tools/bs_merge.py --only sbc <代號>…   # 把 data/bs-raw/ 的股票酬勞（sbc）單獨合併（SEC 抓取要用 GitHub Actions 的 bs-fetch，field 填 sbc；非 SEC 公司加 --no-source）
@@ -43,6 +45,7 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 
 ## 每日準備與系統健康
 - GitHub 排程固定晚 4～6 小時、每個工作一天只跑 1～3 次（實測 2026-11），加備援班沒用。每日檢查用 `python3 tools/daily.py brief --wait-prep` 手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、叫醒股價與期貨、算健康狀態）並等它做完。
+- SEC 收件匣：`tools/sec_inbox.py`（只由 Actions 的 daily-prep 跑）寫 `data/inbox/`（新聞稿文字＋XBRL 核對表）並重算 `data/bs-raw/`；只是「準備」與「核對」，不自動改 `data/<代號>.json`。
 - 系統健康：`python3 tools/status.py` → `data/status/latest.json`（只由 Actions 寫，網站「系統健康」頁讀它）；紅燈才開 issue。估值門檻被穿越的訊號：`tools/signals.py` → `data/daily/_signals.json`（只由 Actions 寫）。
 
 ## 文件
