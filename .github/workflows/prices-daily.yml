@@ -1,0 +1,68 @@
+# 每日收盤價＋公式算的本益比、市值…（不經過 Claude，不花 token）
+#
+#   ① 美股收盤後：台北 06:12、06:47、07:22、07:57（週二～六；每日排程 08:18 之前），ASML 也在這幾班
+#      亞股收盤後：台北 14:52、15:27、16:12、17:42（週一～五；台股 13:30、韓股 15:30 收盤）
+#      台北 21:12 最後一班：抓一次並檢查，有公司收盤價落後（美股超過 4 天、台韓股超過 12 天）→ 紅燈，GitHub 寄信通知
+#      GitHub 免費排程常漏跑，所以多排幾班；每班約 1 分鐘，收盤價沒變就不提交。
+#   ② 抓 Yahoo 近 400 天日線 → 台股最新一天對證交所／櫃買中心 → tools/daily_calc.py 公式算本益比等 → data/daily/<代號>.json
+#   ③ 頁面打開時直接讀 data/daily/<代號>.json，所以不必重建網站
+#   ④ 財報季度、論點卡有更新（push 到 data/*.json、data/thesis/、data/prices/）→ 不上網，只用現有收盤價重算一次
+name: prices-daily
+on:
+  schedule:
+    - cron: "12,47 22 * * 1-5"     # 台北 06:12、06:47（週二～六）
+    - cron: "22,57 23 * * 1-5"     # 台北 07:22、07:57
+    - cron: "52 6 * * 1-5"         # 台北 14:52（週一～五）
+    - cron: "27 7 * * 1-5"         # 台北 15:27
+    - cron: "12 8 * * 1-5"         # 台北 16:12
+    - cron: "42 9 * * 1-5"         # 台北 17:42
+    - cron: "12 13 * * 1-5"        # 台北 21:12（最後一班＋落後檢查）
+  push:
+    branches: [main]
+    paths:
+      - "data/*.json"
+      - "data/thesis/*.json"
+      - "data/prices/*.json"
+      - "tools/daily_calc.py"
+  workflow_dispatch:
+    inputs:
+      company:
+        description: "只更新這一家（代號，可空白＝全部）"
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: prices-daily
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安裝套件
+        if: github.event_name != 'push'
+        run: pip install --quiet yfinance
+      - name: 抓收盤價、核對、算本益比
+        env:
+          COMPANY: ${{ github.event.inputs.company }}
+        run: |
+          ARGS=""
+          if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
+          if [ "${{ github.event_name }}" = "push" ]; then ARGS="$ARGS --recalc"; fi
+          python3 tools/prices_daily.py $ARGS
+      - name: 有變動才提交
+        if: always()
+        run: |
+          git config user.name "prices-daily-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/daily
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -q -m "每日收盤價與本益比 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q && break || sleep $((i * 5)); done
+      - name: 落後檢查（只有 21:12 那一班）
+        if: github.event_name == 'schedule' && github.event.schedule == '12 13 * * 1-5'
+        run: python3 tools/prices_daily.py --stale-check

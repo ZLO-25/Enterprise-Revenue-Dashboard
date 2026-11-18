@@ -941,5 +941,6 @@ let rT; const rebuild = () => { clearTimeout(rT); rT = setTimeout(() => { if (wi
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rebuild);
 new MutationObserver(rebuild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 PEV.mount(D);
+DAILY.mount(D);
 </script>
 
