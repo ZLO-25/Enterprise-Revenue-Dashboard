@@ -63,7 +63,7 @@ def stages(today):
             need["verify"].append(code); continue
         last_rd = D["quarters"][-1].get("rd") if D.get("quarters") else None
         f = feed["companies"].get(code)
-        hint = bool(f and f.get("earnings8k") and last_rd and f["earnings8k"][0]["date"] > last_rd)
+        hint = daily.sec_hint(f, last_rd, D.get("events", []), today)
         due = [e for e in D.get("events", []) if e["date"] < today.isoformat()]
         if hint or any(not e.get("est") for e in due):
             dates = [e["date"] for e in due if not e.get("est")] + ([f["earnings8k"][0]["date"]] if hint else [])
@@ -76,7 +76,8 @@ def stages(today):
 
 # 每次排程最多處理幾家（積壓時分次做；剩下的留給下一次，狀態檔會記得）
 CAPS = {"flash": 2, "complete": 2, "verify": 3}
-TRIGGERS = {"daily": "trig_01CpC7MUpPAfrWAZfS4yxSxW", "trend": "trig_014e4JKi6EaLkTFUV2aAVc4U"}
+TRIGGERS = {"daily": "trig_01CpC7MUpPAfrWAZfS4yxSxW", "trend": "trig_014e4JKi6EaLkTFUV2aAVc4U", "news": "trig_01RyLx6r8GG3Zj8MJuboqA8L"}
+NEWS_FIRST = "2026-11-22"  # 每週新聞排程第一次該跑的日子（週日）；沒有紀錄時從這天起算
 
 
 def missed_detail(today):
@@ -122,7 +123,7 @@ def plan_part(today, need):
     md = missed_detail(today)
     lines = []
     if md:
-        lines.append(f"缺跑 {len(md)} 天（每天一行，回報 ② 照抄；新聞檢查範圍已自動涵蓋）：")
+        lines.append(f"缺跑 {len(md)} 天（每天一行，回報 ② 照抄）：")
         lines += ["  " + x for x in md]
     if out:
         lines.append("優先順序（快報 → 補完 → 核對 → 新聞 → 日期待辦；同一類最早到期的先做）：")
@@ -140,6 +141,15 @@ def plan_part(today, need):
             lines.append(f"趨勢月報 {ym} 還沒產出（{last} 已補觸發過，3 天內不重複）")
         else:
             lines.append(f"趨勢月報 {ym} 還沒產出 → fire_trigger {TRIGGERS['trend']} 一次，並 python3 tools/daily.py mark trend；回報 ⑤ 寫一行")
+    # 每週新聞（週日 06:00）超過 9 天沒跑（額度用完等）→ 由每日排程補觸發一次
+    ref = fired.get("news") or NEWS_FIRST
+    days = (today - datetime.date.fromisoformat(ref)).days
+    if days > 9:
+        last = fired.get("newsfire")
+        if last and (today - datetime.date.fromisoformat(last)).days < 3:
+            lines.append(f"每週新聞已 {days} 天沒跑（{last} 已補觸發過，3 天內不重複）")
+        else:
+            lines.append(f"每週新聞已 {days} 天沒跑 → fire_trigger {TRIGGERS['news']} 一次，並 python3 tools/daily.py mark newsfire；回報 ⑤ 寫一行")
     return lines
 
 
@@ -263,7 +273,7 @@ def main():
     if need["analysis"]:
         files.append("docs/schedule/analysis.md（分析待寫：" + "、".join(need["analysis"]) + "）")
     quiet = not (need["flash"] or need["est"] or need["complete"] or need["verify"] or need["analysis"])
-    print("\n⑪ 今天要讀的指令附件：" + ("無（安靜日：只做 ④ 大新聞 → 回報 → done）" if quiet else ""))
+    print("\n⑪ 今天要讀的指令附件：" + ("無（安靜日：不讀附件，直接回報 → done）" if quiet else ""))
     for f in files:
         print("  · " + f)
     if need["stuck"]:

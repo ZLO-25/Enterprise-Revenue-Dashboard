@@ -37,6 +37,8 @@ skill 趨勢方法 ──────┘                                   │
 7. 新預測寫進帳本：每條要有方向、時間點、信心、檢驗方式。時程與量級照 trend.md 的「預測校正」表打折，並寫出用了哪一列。
 8. 只改 `reports/trend/` 底下的檔案。commit「世界趨勢月報 <YYYY-MM>」，push main（遇到衝突就 pull 後重推，最多 3 次）。**不要**改網站資料、skill 或其他文件。
 
+9. **記 token**（最後一步）：`get_session`（不帶 id）讀 `external_metadata.usage`，執行 `python3 tools/daily.py tokens add trend --session <id> --model <model> --input <input_tokens> --cache-read <cache_read_tokens> --cache-write <cache_write_tokens> --output <output_tokens> --cost <cost_usd>`，再 `python3 tools/daily.py tokens report`，commit「token 用量」並 push（這是第 8 步「只改 reports/trend/」唯一的例外：`data/token-usage.json`、`reports/token-usage.md`）。
+
 ## 月報格式
 ```
 # 世界科技趨勢 <YYYY-MM>

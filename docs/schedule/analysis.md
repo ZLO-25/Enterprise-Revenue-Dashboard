@@ -8,7 +8,7 @@
    │
    ▼
  python3 tools/company_brief.py <代號>     ← 只讀這頁，不整份讀 data/<代號>.json
-   │ ＋ 新聞搜尋 3 次（和 ④ 大新聞同一回合送出）
+   │ ＋ 新聞搜尋 3 次（同一回合一起送出）
    ▼
  照 .claude/skills/long-term-company-analysis/SKILL.md 寫「快評」
    │
@@ -23,7 +23,7 @@
 - 補完卡住時先寫的版本，`mode` 寫「快評（電話會議待補）」，電話會議相關的點寫「待確認：逐字稿尚未取得」。之後補完成功也**不重寫**，除非 ZL 指示。
 
 ## 怎麼做
-1. 讀 `.claude/skills/long-term-company-analysis/SKILL.md` 與它指定的那一份 `types/<類型>.md`，照「快評」格式寫（SKILL.md 第 6 節）。外部新聞只搜尋 3 次（不是 5 次），和 ④ 大新聞的搜尋放同一回合。
+1. 讀 `.claude/skills/long-term-company-analysis/SKILL.md` 與它指定的那一份 `types/<類型>.md`，照「快評」格式寫（SKILL.md 第 6 節）。外部新聞只搜尋 3 次（不是 5 次），同一回合一起送出。
 2. 數字只用 `company_brief.py` 印出來的（都是財報或公司公告）；沒有的寫「待確認（季度／欄位／原因）」。新聞標「媒體」，屬待確定。
 3. 寫公開版 JSON（格式見 docs/DATA_SCHEMA.md「公司分析」），存到暫存檔，然後：
    `python3 tools/analysis_save.py <代號> <暫存檔>`（會自動把舊結論收進 history，並核對；沒過不寫入）。

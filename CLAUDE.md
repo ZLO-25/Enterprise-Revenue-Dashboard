@@ -38,6 +38,7 @@ python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不�
 - `docs/DATA_SCHEMA.md` 資料格式 v1
 - `docs/SCHEDULE_PROMPT.md` 每日排程指令（公司無關，新增公司不用改）。排程本身只是一句「照這份做」，所以改這份就等於改排程，改之前先問使用者
 - `docs/schedule/core.md` 每日排程新版（核心＋附件 flash／complete／verify／profile，安靜日只讀核心）；並行測試通過後取代 SCHEDULE_PROMPT.md
+- `docs/WEEKLY_NEWS_PROMPT.md` 每週日 06:00 的大新聞＋token 用量排程（每日檢查不再搜尋新聞）；token 用量紀錄在 `data/token-usage.json`，週報表在 `reports/token-usage.md`（只用 `python3 tools/daily.py tokens ...` 改）
 - `docs/TREND_PROMPT.md` 世界科技趨勢月報排程指令（每月 2 日；輸出 reports/trend/）
 - `companies/<代號>/SOURCES.md` 各公司來源與更新步驟
 
