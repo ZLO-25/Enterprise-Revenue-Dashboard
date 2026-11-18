@@ -62,7 +62,14 @@ jobs:
           mkdir -p data/daily && git add data/daily
           if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
           git commit -q -m "每日收盤價與本益比 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
-          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q && break || sleep $((i * 5)); done
+          # 同時有另一班（例如 push 觸發的重算）先提交了 data/daily：以這一班的新檔為準（rebase 時 -X theirs＝保留這一班的提交）
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase -q -X theirs origin main && git push -q; then ok=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          if [ $ok -ne 1 ]; then echo "推送失敗（重試 5 次）"; exit 1; fi
       - name: 落後檢查（只有 21:12 那一班）
         if: github.event_name == 'schedule' && github.event.schedule == '12 13 * * 1-5'
         run: python3 tools/prices_daily.py --stale-check
