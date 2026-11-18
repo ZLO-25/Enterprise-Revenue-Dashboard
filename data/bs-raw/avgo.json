@@ -1,6 +1,6 @@
 {
 "code": "avgo",
-"fetched": "2026-11-18T07:54Z",
+"fetched": "2026-11-18T07:59Z",
 "splits": [],
 "niCand": {
 "2017-01-29": 239.0,
@@ -137,252 +137,532 @@
 },
 {
 "q": "4Q19",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2019-11-03",
+"vals": {
+"sbc": 544.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-21-000153",
+"filed": "2021-12-17"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q20",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2020-02-02",
+"vals": {
+"sbc": 545.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-21-000045",
+"filed": "2021-03-12"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q20",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2020-05-03",
+"vals": {
+"sbc": 517.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-21-000116",
+"filed": "2021-06-11"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q20",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2020-08-02",
+"vals": {
+"sbc": 465.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-21-000123",
+"filed": "2021-09-09"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q20",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2020-11-01",
+"vals": {
+"sbc": 449.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-22-000118",
+"filed": "2022-12-16"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q21",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2021-01-31",
+"vals": {
+"sbc": 444.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-22-000029",
+"filed": "2022-03-10"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q21",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2021-05-02",
+"vals": {
+"sbc": 425.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-22-000081",
+"filed": "2022-06-09"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q21",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2021-08-01",
+"vals": {
+"sbc": 421.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-22-000094",
+"filed": "2022-09-08"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q21",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2021-10-31",
+"vals": {
+"sbc": 414.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-23-000096",
+"filed": "2023-12-14"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q22",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2022-01-30",
+"vals": {
+"sbc": 387.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-23-000008",
+"filed": "2023-03-08"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q22",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2022-05-01",
+"vals": {
+"sbc": 386.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-23-000064",
+"filed": "2023-06-07"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q22",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2022-07-31",
+"vals": {
+"sbc": 373.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-23-000077",
+"filed": "2023-09-06"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q22",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2022-10-30",
+"vals": {
+"sbc": 387.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-24-000139",
+"filed": "2024-12-20"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q23",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2023-01-29",
+"vals": {
+"sbc": 391.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-24-000023",
+"filed": "2024-03-14"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q23",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2023-04-30",
+"vals": {
+"sbc": 513.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-24-000080",
+"filed": "2024-06-13"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q23",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2023-07-30",
+"vals": {
+"sbc": 629.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-24-000099",
+"filed": "2024-09-11"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q23",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2023-10-29",
+"vals": {
+"sbc": 638.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-25-000121",
+"filed": "2025-12-18"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q24",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2024-02-04",
+"vals": {
+"sbc": 1582.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-25-000021",
+"filed": "2025-03-12"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q24",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2024-05-05",
+"vals": {
+"sbc": 1457.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-25-000064",
+"filed": "2025-06-11"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q24",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2024-08-04",
+"vals": {
+"sbc": 1388.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-25-000098",
+"filed": "2025-09-10"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q24",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2024-11-03",
+"vals": {
+"sbc": 1314.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-25-000121",
+"filed": "2025-12-18"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q25",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2025-02-02",
+"vals": {
+"sbc": 1280.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-26-000016",
+"filed": "2026-03-11"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q25",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2025-05-04",
+"vals": {
+"sbc": 1771.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-26-000054",
+"filed": "2026-06-09"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q25",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2025-08-03",
+"vals": {
+"sbc": 2322.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-26-000080",
+"filed": "2026-09-10"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q25",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2025-11-02",
+"vals": {
+"sbc": 2195.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-25-000121",
+"filed": "2025-12-18"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q26",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2026-02-01",
+"vals": {
+"sbc": 2176.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-26-000016",
+"filed": "2026-03-11"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q26",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2026-05-03",
+"vals": {
+"sbc": 2092.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-26-000054",
+"filed": "2026-06-09"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q26",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2026-08-02",
+"vals": {
+"sbc": 2019.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001730168-26-000080",
+"filed": "2026-09-10"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }

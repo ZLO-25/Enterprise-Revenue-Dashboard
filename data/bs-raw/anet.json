@@ -1,6 +1,6 @@
 {
 "code": "anet",
-"fetched": "2026-11-18T07:53Z",
+"fetched": "2026-11-18T07:59Z",
 "splits": [
 [
 "2021-11-18",
@@ -70,13 +70,14 @@
 "quarters": [
 {
 "q": "1Q14",
-"end": "2013-09-30",
+"end": "2014-03-31",
 "vals": {
 "dilSh": 486.592,
 "pretax": 16.816,
 "tax": 4.96,
 "cash": 120.02,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 4.782
 },
 "prov": {
 "dilSh": [
@@ -107,13 +108,19 @@
 "filed": "2014-11-07"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-15-000013",
+"filed": "2015-05-15"
+}
+]
 },
 "why": {
 "equity": "缺 StockholdersEquity",
 "shOut": "缺 CommonStockSharesOutstanding",
-"buyback": "讀不到單季值",
-"sbc": "讀不到單季值"
+"buyback": "讀不到單季值"
 }
 },
 {
@@ -126,7 +133,8 @@
 "pretax": 31.692,
 "tax": 10.074,
 "cash": 397.198,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 6.705
 },
 "prov": {
 "equity": [
@@ -182,11 +190,17 @@
 "acc": "0001350278-14-000011",
 "filed": "2014-08-08"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-15-000112",
+"filed": "2015-08-07"
+}
 ]
 },
 "why": {
-"buyback": "讀不到單季值",
-"sbc": "讀不到單季值"
+"buyback": "讀不到單季值"
 }
 },
 {
@@ -2364,9 +2378,19 @@
 },
 {
 "q": "4Q21",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2021-12-31",
+"vals": {
+"sbc": 51.243
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-24-000043",
+"filed": "2024-02-13"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
@@ -2613,9 +2637,19 @@
 },
 {
 "q": "4Q22",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2022-12-31",
+"vals": {
+"sbc": 64.954
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-25-000028",
+"filed": "2025-02-19"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
@@ -2862,9 +2896,19 @@
 },
 {
 "q": "4Q23",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2023-12-31",
+"vals": {
+"sbc": 81.402
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-26-000013",
+"filed": "2026-02-17"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
@@ -3111,9 +3155,19 @@
 },
 {
 "q": "4Q24",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2024-12-31",
+"vals": {
+"sbc": 100.8
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-26-000013",
+"filed": "2026-02-17"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
@@ -3360,9 +3414,19 @@
 },
 {
 "q": "4Q25",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2025-12-31",
+"vals": {
+"sbc": 133.1
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001596532-26-000013",
+"filed": "2026-02-17"
+}
+]
+},
 "why": {
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
