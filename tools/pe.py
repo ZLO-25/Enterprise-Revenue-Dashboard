@@ -21,6 +21,21 @@ def _day(s):
     return dt.date.fromisoformat(s)
 
 
+PE_REF_MAX = 200   # 本益比超過這個倍數時，頁面顯示「不適用」（近四季 EPS 接近零，倍數沒有參考價值）。資料值不變、論點卡不動。
+                   # 前端同一個數字：assets/valuation.js 的 CAP（validate.py 會核對兩者相等）
+
+
+def pe_noisy(v):
+    return v is not None and v > PE_REF_MAX
+
+
+def pe_text(v, nd=1):
+    """給排程摘要用：超過 PE_REF_MAX 顯示「不適用（公式值 X 倍）」。"""
+    if v is None:
+        return "—"
+    return f"不適用（公式值 {v:.{nd}f} 倍，EPS 接近零）" if pe_noisy(v) else f"{v:.{nd}f}"
+
+
 def window_at(quarters, d):
     """回傳 (window, why)。window＝d 當天已公布的最近四季（list），或 None 並附原因。"""
     j = -1

@@ -434,7 +434,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   </section>
 
   <section id="companies">
-    <div class="sec-head"><h2>各公司資料</h2><p class="sub">階段：waiting 等待公布、flash 快報完成、completed 補完完成、stuck 卡住。「待確認」是還沒讀到數字的欄位數。</p></div>
+    <div class="sec-head"><h2>各公司資料</h2><p class="sub">階段：waiting 等待公布、flash 快報完成、completed 補完完成、stuck 卡住。「待確認」分三級：近期（最近兩季，現在該處理）／近三年／歷史（多半補不回來）；清單在 reports/pending.md。</p></div>
     <div class="card wide"><div class="tbl-wrap"><table class="st-tbl" id="stCom"></table></div></div>
   </section>
 
@@ -473,11 +473,11 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     $("stSum").innerHTML = '<span class="st-pill ' + (red ? "red" : "") + '">' + (red ? "紅燈 " + red + " 項" : "沒有紅燈") + "</span>" + (yel ? '<span class="st-pill">提醒 ' + yel + " 項</span>" : "");
     tbl($("stAct"), [["", ""], ["工作", ""], ["狀況", ""]], S.actions.map(function (r) { return "<tr><td>" + dot(r.light) + "</td><td>" + esc(r.label) + "</td><td>" + esc(r.note) + "</td></tr>"; }), "沒有資料");
     tbl($("stRou"), [["", ""], ["排程", ""], ["狀況", ""]], S.routines.map(function (r) { return "<tr><td>" + dot(r.light) + "</td><td>" + esc(r.label) + "</td><td>" + esc(r.note) + "</td></tr>"; }), "沒有資料");
-    tbl($("stCom"), [["", ""], ["公司", ""], ["最新季", "hide-s"], ["階段", ""], ["收盤日", ""], ["股價月", "hide-s"], ["下次事件", "hide-s"], ["待確認", "n"], ["問題", ""]],
+    tbl($("stCom"), [["", ""], ["公司", ""], ["最新季", "hide-s"], ["階段", ""], ["收盤日", ""], ["股價月", "hide-s"], ["下次事件", "hide-s"], ["待確認（近期／近三年／歷史）", "n"], ["問題", ""]],
       S.companies.map(function (c) {
         return "<tr><td>" + dot(c.light) + "</td><td><b>" + esc(c.code.toUpperCase()) + "</b></td><td class='hide-s'>" + esc(c.quarter || "—") + "</td><td>" + esc(c.stage) + "</td><td class='n'>" + esc(c.close ? c.close.slice(5) : "—") +
           "</td><td class='n hide-s'>" + esc(c.priceMonth || "—") + "</td><td class='hide-s'>" + (c.next ? esc(c.next.d.slice(5)) + " " + esc(c.next.t) + (c.next.est ? "（預估）" : "") : "—") +
-          "</td><td class='n'>" + c.unavailable + "</td><td>" + (c.problems.length ? esc(c.problems.join("；")) : "") + "</td></tr>";
+          "</td><td class='n'>" + (c.pending ? "<b>" + c.pending.recent + "</b> / " + c.pending.y3 + " / " + c.pending.old : "—") + "</td><td>" + (c.problems.length ? esc(c.problems.join("；")) : "") + "</td></tr>";
       }), "沒有資料");
     tbl($("stSig"), [["日期", ""], ["公司", ""], ["指標", ""], ["發生什麼事", ""]], S.signals.slice().reverse().map(function (e) {
       return "<tr><td class='n'>" + esc(e.d.slice(5)) + "</td><td><b>" + esc(e.code.toUpperCase()) + "</b></td><td>" + esc(e.name) + "</td><td>現值 " + esc(e.now) + "（門檻 " + esc(e.op) + " " + esc(e.thr) + "）" + (e.kind === "exceed" ? "超出估值範圍" : "回到估值範圍") + "</td></tr>";

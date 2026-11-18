@@ -94,6 +94,7 @@ def latest(Q, quarters, rows, prices=None, valuation=None, thesis=None):
     med5 = ((valuation or {}).get("stats") or {}).get("med5")
     L["med5"] = med5
     L["vsMed5"] = r((L["pe"] / med5 - 1) * 100, 1) if L["pe"] is not None and med5 else None
+    L["peNoisy"] = PE.pe_noisy(L["pe"])   # 超過 PE.PE_REF_MAX：頁面顯示「不適用」（資料值不變）
     # 預估本益比（分析師預估，最新一筆有數字的月底快照）
     L["fpe"] = L["ntm"] = L["fSnap"] = None
     fs = [f for f in (prices or {}).get("forward", []) if not f.get("why")]

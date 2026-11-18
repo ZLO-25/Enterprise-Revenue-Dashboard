@@ -33,3 +33,11 @@ class Missed(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AddMonths(unittest.TestCase):
+    def test_basic(self):
+        self.assertEqual(daily.add_months(dt.date(2026, 12, 12), 3), dt.date(2027, 3, 12))
+
+    def test_end_of_month(self):
+        self.assertEqual(daily.add_months(dt.date(2026, 11, 30), 3), dt.date(2027, 2, 28))

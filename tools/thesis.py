@@ -15,6 +15,8 @@
 
 用法：python3 tools/thesis.py             列出所有 approved 論點的目前燈號，紅燈置頂
       python3 tools/thesis.py --record 代號  把最新一季的燈號記進 history（每季快報時做一次）
+      python3 tools/thesis.py review        論點卡季度檢查：每個門檻最近 8 個點達標幾次、連續幾次沒達標，標出「可能破功／門檻太緊／門檻太鬆」，
+                                            寫 reports/thesis-review/<年-月>.md。只產生報告，絕不改門檻或論點文字（那是 ZL 的判斷）。
 """
 import json, os, sys
 
@@ -111,8 +113,69 @@ def context(code):
     return D, val, H.compute(Q, val, prices), Q
 
 
+def review_rows(th, Q, val, health, n=8):
+    """每個門檻：最近 n 個有值的點中達標幾次、現值、連續沒達標次數，加旗標。"""
+    S = series(Q, val, health)
+    out = []
+    for m in th.get("metrics", []):
+        pts = [p for p in S.get(m["k"], []) if p[1] is not None][-n:]
+        if not pts:
+            out.append({"k": m["k"], "name": m["name"], "group": m.get("group", "biz"), "op": m["op"], "thr": m["thr"], "now": None, "label": None, "n": 0, "ok": 0, "miss": 0, "flags": ["算不出來"]})
+            continue
+        oks = [meets(v, m["op"], m["thr"]) for _, v in pts]
+        miss = 0
+        for o in reversed(oks):
+            if o:
+                break
+            miss += 1
+        now = pts[-1][1]
+        flags = []
+        if len(pts) >= 4:
+            if m.get("group", "biz") != "val" and miss >= 2:
+                flags.append("可能破功")
+            if sum(oks) < 3 and m.get("group", "biz") != "val":   # 估值門檻本來就是「等便宜才買」，很少達標是設計，不算太緊
+                flags.append("門檻太緊")
+            if all(oks) and len(pts) == n and m["thr"] > 0 and (now >= m["thr"] * 1.5 if m["op"] == ">=" else now <= m["thr"] * 0.5):
+                flags.append("門檻太鬆")
+        out.append({"k": m["k"], "name": m["name"], "group": m.get("group", "biz"), "op": m["op"], "thr": m["thr"], "now": now, "label": pts[-1][0],
+                    "n": len(pts), "ok": sum(oks), "miss": miss, "flags": flags})
+    return out
+
+
+def review(today=None):
+    import datetime as dt
+    today = today or dt.date.today()
+    lines = [f"# 論點卡季度檢查 {today.isoformat()}", "",
+             "只是報告，**不會改任何門檻或論點文字**（那是 ZL 的判斷）。每個門檻看最近 8 個點（季指標＝8 季、月指標＝8 個月）。", "",
+             "旗標：**可能破功**＝體質指標連續 2 次以上沒達標；**門檻太緊**＝體質指標 8 次裡達標不到 3 次（幾乎一直紅，失去分辨力；估值門檻很少達標是設計，不標）；"
+             "**門檻太鬆**＝8 次全達標而且現值超過門檻 50% 以上（永遠綠，失去分辨力）。", ""]
+    flagged = []
+    body = []
+    for c, th in load_all():
+        if th.get("status") != "approved":
+            continue
+        D, val, hl, Q = context(c["code"])
+        rows = review_rows(th, Q, val, hl)
+        body += ["", f"## {c['code']}（{c.get('name', '')}，{th.get('type', '')}）", "", "| 指標 | 群組 | 門檻 | 現值 | 達標 | 連續沒達標 | 旗標 |", "|---|---|---|---|---|---|---|"]
+        for r in rows:
+            now = "—" if r["now"] is None else f"{r['now']:.1f}（{r['label']}）"
+            body.append(f"| {r['name']} | {'體質' if r['group'] != 'val' else '估值'} | {r['op']} {r['thr']} | {now} | {r['ok']}/{r['n']} | {r['miss']} | {'、'.join(r['flags'])} |")
+            if r["flags"] and r["flags"] != ["算不出來"]:
+                flagged.append(f"- **{c['code']}**　{r['name']}（{r['op']} {r['thr']}，現值 {r['now'] if r['now'] is None else round(r['now'], 1)}，{r['ok']}/{r['n']} 達標）：{'、'.join(r['flags'])}")
+    lines += ["## 要 ZL 看的", ""] + (flagged or ["- 沒有旗標"]) + body
+    d = os.path.join(ROOT, "reports", "thesis-review")
+    os.makedirs(d, exist_ok=True)
+    path = os.path.join(d, today.strftime("%Y-%m") + ".md")
+    open(path, "w", encoding="utf8").write("\n".join(lines) + "\n")
+    print(f"旗標 {len(flagged)} 個 → reports/thesis-review/{today.strftime('%Y-%m')}.md")
+    for x in flagged:
+        print(x)
+
+
 def main():
     a = sys.argv[1:]
+    if a[:1] == ["review"]:
+        return review()
     if a[:1] == ["--record"]:
         code = a[1]
         p = os.path.join(ROOT, "data", "thesis", code + ".json")

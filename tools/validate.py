@@ -588,6 +588,13 @@ CHECKS = {"tsmc": tsmc, "pltr": pltr}
 SCHEMA_CHECKS = {"v1": v1_generic}
 
 
+def check_pe_cap(err):
+    """本益比「不適用」門檻：tools/pe.py 的 PE_REF_MAX 必須等於 assets/valuation.js 的 CAP（兩邊不同步會讓網頁與排程摘要說法不一致）。"""
+    m = re.search(r"const CAP = (\d+);", open(os.path.join(ROOT, "assets", "valuation.js"), encoding="utf8").read())
+    if not m or int(m.group(1)) != PE.PE_REF_MAX:
+        err.append(f"本益比不適用門檻不同步：pe.py PE_REF_MAX={PE.PE_REF_MAX}，valuation.js CAP={m.group(1) if m else '找不到'}")
+
+
 def main():
     cfg = json.load(open(os.path.join(ROOT, "companies.json"), encoding="utf8"))
     bycode = {c["code"]: c for c in cfg["companies"]}
@@ -608,6 +615,7 @@ def main():
         err = []
         check_config(cfg, err)
         check_calendar(cfg, err)
+        check_pe_cap(err)
         print("[companies.json + calendar.json] " + ("通過" if not err else f"{len(err)} 項未通過"))
         for e in err:
             print("   -", e)

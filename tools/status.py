@@ -122,8 +122,9 @@ def routines_block(today):
 def companies_block(today):
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import daily
+    import pending
+    PEND = pending.counts(pending.scan())
     cal = daily.load_cal()
-    feed = jload("data", "sec-feed.json", default={"companies": {}})
     rows = []
     for c in daily.enabled():
         code = c["code"]
@@ -149,10 +150,10 @@ def companies_block(today):
             late = (today - dt.date.fromisoformat(X["d"])).days
             if late > lim:
                 problems.append(f"收盤價落後 {late} 天"); light = "red"
-        n_unav = len((D.get("notes") or {}).get("unavailable", []) or [])
+        pc = PEND.get(code, {})
         rows.append({"code": code, "name": c.get("name") or c.get("title") or code, "quarter": Q[-1]["q"] if Q else None, "stage": st["state"],
                      "close": X.get("d"), "priceMonth": mon, "next": ({"d": nxt["date"], "t": nxt["t"][:24], "est": bool(nxt.get("est"))} if nxt else None),
-                     "unavailable": n_unav, "light": light, "problems": problems})
+                     "pending": pc, "light": light, "problems": problems})
     return rows
 
 

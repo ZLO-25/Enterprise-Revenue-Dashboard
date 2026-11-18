@@ -277,7 +277,7 @@ const COLS = [
   { g: 'lt', k: 'cagr5', t: '5 年<br>年化成長', v: s => num(s.M.cagr5), h: s => pctCell(s.M.cagr5) },
   { g: 'lt', k: 'nm', t: '淨利率<br>（近四季）', v: s => num(s.M.ttmNm), h: s => pctCell(s.M.ttmNm) },
   { g: 'lt', k: 'fcf', t: '自由現金<br>流率', v: s => num(s.M.ttmFcfM), h: s => pctCell(s.M.ttmFcfM) },
-  { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => s.P.has && s.P.latestPe != null ? s.P.pe : `<small>${s.P.pe}</small>` },
+  { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => s.P.has && s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<small title="${s.P.peTip}">${s.P.pe}</small>` : `<small>${s.P.pe}</small>`) },
   { g: 'val', k: 'fpe', t: '預估<br>本益比', v: s => { const x = parseFloat(s.P.fpe); return isFinite(x) ? x : null; }, h: s => isFinite(parseFloat(s.P.fpe)) ? s.P.fpe : `<small>${s.P.fpe}</small>` },
   { g: 'val', k: 'pct', t: '10 年<br>百分位', v: s => { const x = parseFloat(s.P.pct); return isFinite(x) ? x : null; }, h: s => s.P.pct },
 ];
@@ -444,7 +444,7 @@ const ROWS = [
   ['淨利率（近四季）', s => pc(s.M.ttmNm), '近四季淨利 ÷ 近四季營收。'],
   ['自由現金流率（近四季）', s => pc(s.M.ttmFcfM), '（營業現金流 − 資本支出）÷ 營收。接近或高於淨利率，代表獲利有變成現金。'],
   ['近四季 EPS 年增', s => `<span class="${cls(s.M.ttmEpsYoy)}">${sp(s.M.ttmEpsYoy)}</span>`, '近四季 EPS 對前一個四季 EPS。EPS 由負轉正或基期極小時會失真。'],
-  ['本益比（最新月底）', s => s.P.has ? (s.P.latestPe != null ? s.P.pe : `<span class="st-plan">${s.P.pe}</span>`) : '—', '月底收盤價 ÷ 當時已公布的近四季 EPS。虧損或累積未滿四季時不計算。美股為稀釋 EPS，台積電、台達電、三星為基本 EPS。'],
+  ['本益比（最新月底）', s => s.P.has ? (s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<span title="${s.P.peTip}">${s.P.pe}</span>` : `<span class="st-plan">${s.P.pe}</span>`)) : '—', '月底收盤價 ÷ 當時已公布的近四季 EPS。虧損或累積未滿四季時不計算。美股為稀釋 EPS，台積電、台達電、三星為基本 EPS。'],
   ['本益比近 10 年百分位', s => s.P.pct, '最新本益比在近 10 年每月本益比中的位置（只用有本益比的月份，少於 24 個月不算）。數字越小代表歷史上越少月份比現在便宜。高低不代表貴或便宜。'],
   ['預估本益比（分析師預估）', s => s.P.fpe, '月底收盤價 ÷ 未來 12 個月分析師預估 EPS。預估不是財報數字，多為調整後口徑，只能從 2026-11 起逐月累積。'],
   ['資料年數', s => `${s.M.years} 年`, '這個板收錄了幾年的季度資料；年數越長，長期指標越可靠。'],
@@ -453,8 +453,8 @@ $('#scoreTbl').innerHTML = `<thead><tr><th>指標</th>${S.map(s => `<th>${s.c.na
   ROWS.map(r => `<tr><td class="lbl">${r[0]}</td>${S.map(s => `<td>${r[1](s)}</td>`).join('')}</tr><tr class="exp"><td colspan="${S.length + 1}">${r[2]}</td></tr>`).join('') + '</tbody>';
 
 /* ---------- 新鮮度表 ---------- */
-$('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th><th>股價截至</th></tr></thead><tbody>` +
-  S.map(({ c, D, F, s, P }) => `<tr><td style="font-family:var(--font-cjk)">${c.name}</td><td>${D.asOf.replace(/-/g, '/')}</td><td>${LT.badge(F)}</td><td>${s.qLabel}</td><td>${nextTxt({ s })}</td><td class="txt">${s.next ? s.next.t : '公司尚未公告'}</td><td class="txt">${c.primarySource ? `<a href="${c.primarySource.url}" target="_blank" rel="noopener">${c.primarySource.n}</a>` : '—'} · <a href="${REPO}/blob/main/companies/${c.code}/SOURCES.md" target="_blank" rel="noopener">欄位與核對規則</a></td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[c.frequency] || c.frequency}</td><td>${P.has ? PEV.ym(P.priceD) : '—'}</td></tr>`).join('') + '</tbody>';
+$('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th><th>股價截至</th><th title="近期＝最近兩季（現在該處理）／近三年／歷史（多半補不回來）">待確認<br><small>近期／近三年／歷史</small></th></tr></thead><tbody>` +
+  S.map(({ c, D, F, s, P }) => `<tr><td style="font-family:var(--font-cjk)">${c.name}</td><td>${D.asOf.replace(/-/g, '/')}</td><td>${LT.badge(F)}</td><td>${s.qLabel}</td><td>${nextTxt({ s })}</td><td class="txt">${s.next ? s.next.t : '公司尚未公告'}</td><td class="txt">${c.primarySource ? `<a href="${c.primarySource.url}" target="_blank" rel="noopener">${c.primarySource.n}</a>` : '—'} · <a href="${REPO}/blob/main/companies/${c.code}/SOURCES.md" target="_blank" rel="noopener">欄位與核對規則</a></td><td style="font-family:var(--font-cjk)">${{ 'monthly+quarterly': '月營收＋季報', quarterly: '季報' }[c.frequency] || c.frequency}</td><td>${P.has ? PEV.ym(P.priceD) : '—'}</td><td>${c.pending ? `<b>${c.pending.recent}</b> / ${c.pending.y3} / ${c.pending.old}` : '—'}</td></tr>`).join('') + '</tbody>';
 
 /* ---------- 比較圖：三張圖共用同一段期間，時間軸對齊 ---------- */
 const qKey = (q) => q.slice(2) + q[0];                       // '3Q24' → '243'，可直接排序

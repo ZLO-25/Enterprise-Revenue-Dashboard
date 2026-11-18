@@ -40,6 +40,13 @@
    "until": null,
    "what": "SpaceX 論點卡重寫（上市滿四季後）",
    "how": "data/spcx.json 有 4 季以上（預計 1Q27 財報後）時，照 docs/NEW_COMPANY_PROMPT.md 的論點卡步驟重寫 data/thesis/spcx.json（補 type、每個指標的 group、估值指標，門檻不用「現況減一點」），維持 status draft，回報請 ZL 核可。資料還不到 4 季 → 不動，明天再看。寫好草稿後 watch-done。"
+  },
+  {
+   "id": "thesis-review",
+   "from": "2026-12-12",
+   "repeatMonths": 3,
+   "what": "論點卡季度檢查（每 3 個月一次）",
+   "how": "執行 python3 tools/thesis.py review，commit＋push reports/thesis-review/<年-月>.md；回報⑤只寫旗標清單（可能破功／門檻太緊／門檻太鬆）並請 ZL 判斷。絕不改任何門檻或論點文字。做完 python3 tools/daily.py watch-done thesis-review --note \"旗標 N 個\"（週期待辦會自動順延 3 個月）。"
   }
  ]
 }

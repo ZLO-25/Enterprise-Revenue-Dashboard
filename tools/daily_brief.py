@@ -16,6 +16,7 @@ import contextlib, datetime, io, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import daily  # noqa: E402
+import pe as PE  # noqa: E402
 
 LIGHTS = os.path.join(ROOT, "data", "brief-lights.json")
 # 公司分析 hook 從這天起生效：最新一季公布日（rd）在這天以後、還沒有該季分析的公司，列進「分析待寫」。
@@ -186,7 +187,7 @@ def daily_part():
         lim = 12 if c["price"]["yahoo"].endswith((".TW", ".TWO", ".KS")) else 4
         if (today - datetime.date.fromisoformat(L["d"])).days > lim:
             late.append(f"{c['code']}（最後 {L['d']}）")
-        pe = f"{L['pe']:.1f}" if L.get("pe") is not None else "—"
+        pe = PE.pe_text(L.get("pe"))
         rows.append(f"{c['code']} {L['d'][5:]} {L['c']} PE {pe}")
     head = ("✗ 每日收盤價落後：" + "、".join(late) + "（prices-daily 每天多班會自己補，21:12 那班仍落後會寄信；不要自己抓或填）") if late else "每日收盤價都是最新"
     return head, rows
@@ -195,7 +196,7 @@ def daily_part():
 def valuation_and_lights():
     """各公司最新本益比、預估本益比，與論點卡燈號（approved 才算）。"""
     import thesis as T
-    pe_rows, lights = [], {}
+    pe_rows, lights, groups = [], {}, {}
     approved = {c["code"]: th for c, th in T.load_all() if th.get("status") == "approved"}
     for c in daily.enabled():
         code = c["code"]
@@ -208,28 +209,37 @@ def valuation_and_lights():
             pe_rows.append(f"{code} 待確認（計算失敗：{type(e).__name__}）")
             continue
         st = (val or {}).get("stats", {})
-        pe = f"{st['latest']:.1f}" if st.get("latest") is not None else "—"
-        fpe = f"{st['fpeLatest']:.1f}（{st['fpeM']}）" if st.get("fpeLatest") is not None else "待確認：無快照"
+        pe = PE.pe_text(st.get("latest"))
+        fpe = f"{PE.pe_text(st['fpeLatest'])}（{st['fpeM']}）" if st.get("fpeLatest") is not None else "待確認：無快照"
         pe_rows.append(f"{code} {pe}／{fpe}")
         if code in approved:
             L = T.lights(approved[code], Q, val, hl)
             lights[code] = {k: v["light"] for k, v in L.items()}
-    return pe_rows, lights
+            groups[code] = {m["k"]: m.get("group", "biz") for m in approved[code].get("metrics", [])}
+    return pe_rows, lights, groups
 
 
-def lights_part(lights):
+def lights_part(lights, groups):
+    """體質（biz）與估值（val）分開：體質轉差才置頂（那是公司變差了）；估值轉差只放附錄（那是股價變貴了）。"""
     old = jload("data", "brief-lights.json", default={}).get("lights", {})
     order = {"g": 0, "y": 1, "r": 2}
-    worse, red = [], []
+    worse = {"biz": [], "val": []}
+    red = {"biz": [], "val": []}
     for code, L in lights.items():
         for k, v in L.items():
+            g = "val" if groups.get(code, {}).get(k) == "val" else "biz"
             if v == "r":
-                red.append(f"{code}.{k}")
+                red[g].append(f"{code}.{k}")
             o = old.get(code, {}).get(k)
             if o and order.get(v, 0) > order.get(o, 0):
-                worse.append(f"{code}.{k} {o}→{v}")
-    out = ["論點卡：" + ("今天轉差 " + "、".join(worse) + "（回報 ⑤ 置頂）" if worse else ("今天沒有轉黃／轉紅" if old else "第一次記錄，明天起比較"))]
-    out.append("目前紅燈：" + ("、".join(red) if red else "無"))
+                worse[g].append(f"{code}.{k} {o}→{v}")
+    if not old:
+        out = ["論點卡：第一次記錄，明天起比較"]
+    else:
+        out = ["論點卡體質：" + ("今天轉差 " + "、".join(worse["biz"]) + "（回報 ⑤ 置頂）" if worse["biz"] else "今天沒有轉黃／轉紅")]
+        out.append("論點卡估值：" + ("今天轉差 " + "、".join(worse["val"]) + "（只放回報附錄，不置頂；是股價變貴，不是公司變差）" if worse["val"] else "今天沒有轉黃／轉紅"))
+    out.append(f"體質紅燈 {len(red['biz'])}：" + ("、".join(red["biz"]) or "無"))
+    out.append(f"估值紅燈 {len(red['val'])}（附錄）：" + ("、".join(red["val"]) or "無"))
     return out
 
 
@@ -245,7 +255,18 @@ def signals_part(today):
 
 
 def save_lights(today):
-    _, lights = valuation_and_lights()
+    _, lights, _g = valuation_and_lights()
+    # 燈號變化記進 data/lights-log.json（日期、公司、指標、從、到），之後回頭看哪個指標什麼時候轉差
+    old = jload("data", "brief-lights.json", default={}).get("lights", {})
+    log = jload("data", "lights-log.json", default={"version": 1, "note": "論點卡燈號變化紀錄（daily_brief.py --save-lights 寫）", "changes": []})
+    have = {(c["d"], c["code"], c["k"]) for c in log["changes"]}
+    for code, L in lights.items():
+        for k, v in L.items():
+            o = old.get(code, {}).get(k)
+            if o and o != v and (today.isoformat(), code, k) not in have:
+                log["changes"].append({"d": today.isoformat(), "code": code, "k": k, "from": o, "to": v})
+    with open(os.path.join(ROOT, "data", "lights-log.json"), "w", encoding="utf8") as f:
+        json.dump(log, f, ensure_ascii=False, indent=1); f.write("\n")
     with open(LIGHTS, "w", encoding="utf8") as f:
         json.dump({"date": today.isoformat(), "lights": lights}, f, ensure_ascii=False, indent=1)
         f.write("\n")
@@ -314,11 +335,11 @@ def main():
 
     print(calendar_part(today))
     need = stages(today)
-    pe_rows, lights = valuation_and_lights()
+    pe_rows, lights, groups = valuation_and_lights()
     print("\n⑦ 股價：" + prices_part())
     dh, drows = daily_part()
     print("   " + dh + ("\n   收盤／每日本益比：" + "；".join(drows) if drows else ""))
-    print("\n⑧ " + "\n   ".join(lights_part(lights) + [signals_part(today)]))
+    print("\n⑧ " + "\n   ".join(lights_part(lights, groups) + [signals_part(today)]))
     print("\n⑨ 本益比／預估本益比（回報附錄照抄）：\n  " + "；".join(pe_rows))
 
     plan = plan_part(today, need)

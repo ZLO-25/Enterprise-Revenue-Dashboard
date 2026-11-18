@@ -326,7 +326,9 @@ def main():
         write(f"<title>{c['title']}</title>\n" + build(pages_url, CDN_CHART), "dist", "artifacts", c["code"] + ".html")
         print(f"{c['code']}: {c['path']}index.html（資料截至 {data['asOf']}）")
     home_t = read("templates", "home.frag.html")
-    pub = [{k: v for k, v in c.items()} for c in companies]
+    import pending as PEND
+    pend = PEND.counts(PEND.scan())          # 待確認分級（近期／近三年／歷史），首頁「資料新鮮度」表用
+    pub = [dict({k: v for k, v in c.items()}, pending=pend.get(c["code"])) for c in companies]
     home = lambda chart: fill(home_t, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", chart),
                                        ("{{COMPANIES}}", js_json(pub)), ("{{DATASETS}}", js_json(home_data(datasets, cfg["site"].get("homeSlim")))),
                                        ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
