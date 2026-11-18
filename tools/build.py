@@ -25,6 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe as PE
 import health as HEALTH
 import thesis as THESIS
+import daily_calc as DAILY
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if "--root" in sys.argv:
@@ -266,7 +267,7 @@ def main():
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js")
     if cfg["site"].get("perf"):
         # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
@@ -286,6 +287,13 @@ def main():
             if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
                 th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
                 data["thesis"] = th
+        dp = os.path.join(ROOT, "data", "daily", c["code"] + ".json")
+        if c.get("price") and os.path.exists(dp):
+            # 每日收盤價（Actions 每天寫 data/daily/<代號>.json）：建置時用現在的財報重算一次放進頁面當備援；
+            # 頁面打開時另外讀 dailyUrl 的最新檔，取比較新的（所以每天更新收盤價不必重建網站）
+            dd = json.load(open(dp, encoding="utf8"))
+            data["daily"] = DAILY.compute(HEALTH.normq(data, c.get("schema")), data["quarters"], dd, prices, data["valuation"],
+                                          data.get("thesis") if (data.get("thesis") or {}).get("status") == "approved" else None)
         ap = os.path.join(ROOT, "data", "analysis", c["code"] + ".json")
         if os.path.exists(ap):
             # 公司分析（觀點）：個股頁標題下方的「結論＋重點」，more 展開全文。只放個股頁，不進首頁（HOME_KEYS 沒有它）
@@ -301,7 +309,11 @@ def main():
         depth = c["path"].count("/")
         build = lambda home, chart: fill(frag, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM),
                                                ("{{CHARTJS}}", chart), ("{{DATA}}", js_json(data)), ("{{HOME}}", home)])
+        if c.get("price"):
+            data["dailyUrl"] = "../" * depth + "data/daily/" + c["code"] + ".json"
         write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth)), "../" * depth, "company", c["code"]), c["path"], "index.html")
+        if c.get("price"):
+            data["dailyUrl"] = pages_url + "data/daily/" + c["code"] + ".json"   # Artifact／合併版：讀 GitHub Pages 上的檔（讀不到就用建置時的版本）
         write(f"<title>{c['title']}</title>\n" + build(pages_url, CDN_CHART), "dist", "artifacts", c["code"] + ".html")
         print(f"{c['code']}: {c['path']}index.html（資料截至 {data['asOf']}）")
     home_t = read("templates", "home.frag.html")

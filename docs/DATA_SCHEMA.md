@@ -292,3 +292,16 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
   "notes":    [ "待確認：…" ] }
 ```
 草稿也會顯示，但標「草稿・待 ZL 確認」。營收比例來源順序：segments（近四季）→ 台積電 hpc/sp、PLTR gov/com → profile.mix（全年）。年度申報出來時由每日排程更新（docs/SCHEDULE_PROMPT.md 最後一節）。數字只能寫在年報裡讀到的，並註明出處。
+
+## 每日收盤價 data/daily/<代號>.json（2026-11-18 新增）
+只由 GitHub Actions `prices-daily` 寫入（`tools/prices_daily.py`），Claude 不手填。
+```
+{"symbol":"NVDA","currency":"USD","source":"Yahoo Finance 日線 Close…","fetched":"2026-11-18T22:15Z",
+ "rows":[["2026-11-17",204.64],…],            # 近 400 天收盤價；還沒收盤的當天不收；核對不過的那天是 null
+ "check":{"d","ok":true|false|null,"src":"證交所","note":"…"} | null,   # 只有台股有（最新一天對官方收盤價，差 >0.5% → null）
+ "calc":{"latest":{d,c,prevD,prevC,chg,hi52,lo52,fromHi,pe,eps4,q,med5,vsMed5,fpe,ntm,fSnap,few,mcap,shQ,shLatest,ps,evS,fcfY,
+                   caps:[{k,name,op,thr,now,room,px,ok}],why:{…}},
+         "series":[[d,c,pe],…]}}             # 由 tools/daily_calc.py 公式算出，頁面只顯示
+```
+公式見 `tools/daily_calc.py` 開頭。市值的股數用「最近一季有公布期末流通股數」的季度（`shQ`；不是最新一季時 `shLatest:false`，頁面會標出）。
+`build.py` 建置時用現在的財報再算一次放進頁面（`D.daily`）當備援；頁面打開時讀 `D.dailyUrl`，兩者取較新的。

@@ -161,6 +161,27 @@ def prices_part():
     return f"股價檔都已到 {want}"
 
 
+def daily_part():
+    """每日收盤價（Actions prices-daily 寫 data/daily/<代號>.json）：只讀檔，落後也不用 Claude 處理。"""
+    today = daily.taipei_today()
+    rows, late = [], []
+    for c in daily.enabled():
+        if not c.get("price"):
+            continue
+        X = (jload("data", "daily", c["code"] + ".json", default=None) or {}).get("calc") or {}
+        L = X.get("latest") or {}
+        if not L.get("d"):
+            late.append(f"{c['code']}（還沒有檔）")
+            continue
+        lim = 12 if c["price"]["yahoo"].endswith((".TW", ".TWO", ".KS")) else 4
+        if (today - datetime.date.fromisoformat(L["d"])).days > lim:
+            late.append(f"{c['code']}（最後 {L['d']}）")
+        pe = f"{L['pe']:.1f}" if L.get("pe") is not None else "—"
+        rows.append(f"{c['code']} {L['d'][5:]} {L['c']} PE {pe}")
+    head = ("✗ 每日收盤價落後：" + "、".join(late) + "（prices-daily 每天多班會自己補，21:12 那班仍落後會寄信；不要自己抓或填）") if late else "每日收盤價都是最新"
+    return head, rows
+
+
 def valuation_and_lights():
     """各公司最新本益比、預估本益比，與論點卡燈號（approved 才算）。"""
     import thesis as T
@@ -222,6 +243,8 @@ def main():
     need = stages(today)
     pe_rows, lights = valuation_and_lights()
     print("\n⑦ 股價：" + prices_part())
+    dh, drows = daily_part()
+    print("   " + dh + ("\n   收盤／每日本益比：" + "；".join(drows) if drows else ""))
     print("\n⑧ " + "\n   ".join(lights_part(lights)))
     print("\n⑨ 本益比／預估本益比（回報附錄照抄）：\n  " + "；".join(pe_rows))
 

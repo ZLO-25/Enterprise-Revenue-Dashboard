@@ -598,6 +598,12 @@ def main():
     for e in t:
         print("   -", e)
     failed |= bool(t)
+    import daily_calc as DC
+    t = DC.selftest()
+    print("[daily_calc.py 測試案例] " + ("通過（8 項）" if not t else f"{len(t)} 項未通過"))
+    for e in t:
+        print("   -", e)
+    failed |= bool(t)
     if not sys.argv[1:]:
         err = []
         check_config(cfg, err)

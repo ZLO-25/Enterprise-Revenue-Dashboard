@@ -17,6 +17,7 @@
 ## 本益比與股價（新增）
 - 股價檔 `data/prices/<代號>.json` **只由 GitHub Actions（prices-monthly）寫入**，Claude 不手填、不修改。本益比與預估本益比**不存檔、不手填**，由 `tools/pe.py` 在建置時算出。
 - 每個季度都要有 `rd`（那一季 EPS 第一次公開的日期）與 `rdB`；讀不到填 `null` 並在 `notes.unavailable` 寫「待確認：<季度> 的財報公布日（rd）：原因」，不可用季度結束後幾天推算。
+- 每日收盤價 `data/daily/<代號>.json` **只由 GitHub Actions（prices-daily）寫入**（每天多班、含重試；財報季度更新 push 後會自動重算）。裡面的每日本益比、市值、P/S、EV/Sales、距估值門檻都是 `tools/daily_calc.py` 的公式算的，Claude 不手填、不重算、不需要觸發。
 - 預估本益比（分析師預估）只有每月快照，**不回填**；它是網站上唯一不是財報／公司公告的數字，一律標「分析師預估」。
 
 ## 常用指令
@@ -25,6 +26,7 @@ python3 tools/validate.py       # 核對設定與所有啟用中的公司
 python3 tools/build.py          # 產生網站與合併版 Artifact（dist/artifacts/all.html）
 python3 tools/new_company.py …  # 新增公司腳手架（本益比需要 --yahoo/--price-from 或 --no-price）
 python3 tools/pe.py             # 本益比計算的固定測試案例
+python3 tools/daily_calc.py     # 每日估值公式的固定測試案例
 python3 tools/prices_update.py --check  # 股價是否已到最新（只有 GitHub Actions 會真的抓）
 python3 tools/daily.py          # 每日排程今天的工作清單與狀態（set／try／done 改 data/calendar.json）
 python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
