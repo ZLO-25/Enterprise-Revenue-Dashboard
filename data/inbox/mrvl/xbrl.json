@@ -1,0 +1,190 @@
+{
+ "code": "mrvl",
+ "fetched": "2026-11-18T16:31Z",
+ "quarters": [
+  {
+   "q": "4Q26",
+   "end": "2026-01-31",
+   "rows": {
+    "rev": {
+     "ours": 2218.7,
+     "sec": 2218.7,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001835632-26-000011",
+     "filed": "2026-03-11",
+     "ok": true
+    },
+    "gp": {
+     "ours": 1147.9,
+     "sec": 1147.9,
+     "c": "GrossProfit",
+     "acc": "0001835632-26-000011",
+     "filed": "2026-03-11",
+     "ok": true
+    },
+    "opInc": {
+     "ours": 404.4,
+     "sec": 404.4,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001835632-26-000011",
+     "filed": "2026-03-11",
+     "ok": true
+    },
+    "ni": {
+     "ours": 396.1,
+     "sec": 396.1,
+     "c": "NetIncomeLoss",
+     "acc": "0001104659-26-060253",
+     "filed": "2026-05-13",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.46,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "ocf": {
+     "ours": 373.7,
+     "sec": 373.7,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001835632-26-000011",
+     "filed": "2026-03-11",
+     "ok": true
+    },
+    "capex": {
+     "ours": 114.3,
+     "sec": 114.3,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001835632-26-000011",
+     "filed": "2026-03-11",
+     "ok": true
+    }
+   }
+  },
+  {
+   "q": "1Q27",
+   "end": "2026-05-02",
+   "rows": {
+    "rev": {
+     "ours": 2417.8,
+     "sec": 2417.8,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001835632-26-000019",
+     "filed": "2026-05-28",
+     "ok": true
+    },
+    "gp": {
+     "ours": 1260.8,
+     "sec": 1260.8,
+     "c": "GrossProfit",
+     "acc": "0001835632-26-000019",
+     "filed": "2026-05-28",
+     "ok": true
+    },
+    "opInc": {
+     "ours": 339.4,
+     "sec": 339.4,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001835632-26-000019",
+     "filed": "2026-05-28",
+     "ok": true
+    },
+    "ni": {
+     "ours": 34.5,
+     "sec": 34.5,
+     "c": "NetIncomeLoss",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.04,
+     "sec": 0.04,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001835632-26-000019",
+     "filed": "2026-05-28",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 638.8,
+     "sec": 638.8,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001835632-26-000019",
+     "filed": "2026-05-28",
+     "ok": true
+    },
+    "capex": {
+     "ours": 155.7,
+     "sec": 155.7,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001835632-26-000019",
+     "filed": "2026-05-28",
+     "ok": true
+    }
+   }
+  },
+  {
+   "q": "2Q27",
+   "end": "2026-08-01",
+   "rows": {
+    "rev": {
+     "ours": 2739.3,
+     "sec": 2739.3,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "gp": {
+     "ours": 1455.6,
+     "sec": 1455.6,
+     "c": "GrossProfit",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "opInc": {
+     "ours": 459.7,
+     "sec": 459.7,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "ni": {
+     "ours": 308.0,
+     "sec": 308.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.33,
+     "sec": 0.33,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 605.5,
+     "sec": 605.5,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    },
+    "capex": {
+     "ours": 126.7,
+     "sec": 126.7,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001835632-26-000025",
+     "filed": "2026-08-28",
+     "ok": true
+    }
+   }
+  }
+ ]
+}

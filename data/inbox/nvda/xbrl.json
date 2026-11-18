@@ -1,0 +1,136 @@
+{
+ "code": "nvda",
+ "fetched": "2026-11-18T16:30Z",
+ "quarters": [
+  {
+   "q": "1Q27",
+   "end": "2026-04-26",
+   "rows": {
+    "rev": {
+     "ours": 81615.0,
+     "sec": 81615.0,
+     "c": "Revenues",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    },
+    "gp": {
+     "ours": 61157.0,
+     "sec": 61157.0,
+     "c": "GrossProfit",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    },
+    "opInc": {
+     "ours": 53536.0,
+     "sec": 53536.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    },
+    "ni": {
+     "ours": 58321.0,
+     "sec": 58321.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    },
+    "eps": {
+     "ours": 2.39,
+     "sec": 2.39,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 50344.0,
+     "sec": 50344.0,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    },
+    "capex": {
+     "ours": 1757.0,
+     "sec": 1757.0,
+     "c": "PaymentsToAcquireProductiveAssets",
+     "acc": "0001045810-26-000052",
+     "filed": "2026-05-20",
+     "ok": true
+    }
+   }
+  },
+  {
+   "q": "2Q27",
+   "end": "2026-07-26",
+   "rows": {
+    "rev": {
+     "ours": 96221.0,
+     "sec": 96221.0,
+     "c": "Revenues",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    },
+    "gp": {
+     "ours": 72142.0,
+     "sec": 72142.0,
+     "c": "GrossProfit",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    },
+    "opInc": {
+     "ours": 63734.0,
+     "sec": 63734.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    },
+    "ni": {
+     "ours": 59688.0,
+     "sec": 59688.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    },
+    "eps": {
+     "ours": 2.46,
+     "sec": 2.46,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 24077.0,
+     "sec": 24077.0,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    },
+    "capex": {
+     "ours": 2677.0,
+     "sec": 2677.0,
+     "c": "PaymentsToAcquireProductiveAssets",
+     "acc": "0001045810-26-000075",
+     "filed": "2026-08-26",
+     "ok": true
+    }
+   }
+  },
+  {
+   "q": "3Q27",
+   "end": null,
+   "rows": {},
+   "why": "SEC XBRL 還沒有這一季（10-Q／10-K 尚未申報，或淨利對不上）"
+  }
+ ]
+}

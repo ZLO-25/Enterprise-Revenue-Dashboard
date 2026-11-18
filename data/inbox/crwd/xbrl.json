@@ -1,0 +1,184 @@
+{
+ "code": "crwd",
+ "fetched": "2026-11-18T16:31Z",
+ "quarters": [
+  {
+   "q": "4Q26",
+   "end": "2026-01-31",
+   "rows": {
+    "rev": {
+     "ours": 1305.375,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "gp": {
+     "ours": 989.462,
+     "sec": 993.677,
+     "c": "GrossProfit",
+     "acc": "0001535527-26-000010",
+     "filed": "2026-03-05",
+     "ok": false
+    },
+    "opInc": {
+     "ours": -6.9,
+     "sec": 13.786,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001535527-26-000010",
+     "filed": "2026-03-05",
+     "ok": false
+    },
+    "ni": {
+     "ours": 38.691,
+     "sec": 60.714,
+     "c": "NetIncomeLoss",
+     "acc": "0001104659-26-055599",
+     "filed": "2026-05-05",
+     "ok": false
+    },
+    "eps": {
+     "ours": 0.0375,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "ocf": {
+     "ours": 497.869,
+     "sec": 497.869,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001535527-26-000010",
+     "filed": "2026-03-05",
+     "ok": true
+    },
+    "capex": {
+     "ours": 102.465,
+     "sec": 102.465,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001535527-26-000010",
+     "filed": "2026-03-05",
+     "ok": true
+    }
+   }
+  },
+  {
+   "q": "1Q27",
+   "end": "2026-04-30",
+   "rows": {
+    "rev": {
+     "ours": 1385.629,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "gp": {
+     "ours": 1043.352,
+     "sec": 1043.352,
+     "c": "GrossProfit",
+     "acc": "0001535527-26-000025",
+     "filed": "2026-06-04",
+     "ok": true
+    },
+    "opInc": {
+     "ours": -30.6,
+     "sec": -30.6,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001535527-26-000025",
+     "filed": "2026-06-04",
+     "ok": true
+    },
+    "ni": {
+     "ours": 27.774,
+     "sec": 27.774,
+     "c": "NetIncomeLoss",
+     "acc": "0001535527-26-000025",
+     "filed": "2026-06-04",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.0275,
+     "sec": 0.11,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001535527-26-000025",
+     "filed": "2026-06-04",
+     "ok": false
+    },
+    "ocf": {
+     "ours": 590.937,
+     "sec": 590.937,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001535527-26-000025",
+     "filed": "2026-06-04",
+     "ok": true
+    },
+    "capex": {
+     "ours": 97.624,
+     "sec": 97.624,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001535527-26-000025",
+     "filed": "2026-06-04",
+     "ok": true
+    }
+   }
+  },
+  {
+   "q": "2Q27",
+   "end": "2026-07-31",
+   "rows": {
+    "rev": {
+     "ours": 1470.897,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "gp": {
+     "ours": 1096.895,
+     "sec": 1096.895,
+     "c": "GrossProfit",
+     "acc": "0001535527-26-000031",
+     "filed": "2026-08-27",
+     "ok": true
+    },
+    "opInc": {
+     "ours": -33.232,
+     "sec": -33.232,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001535527-26-000031",
+     "filed": "2026-08-27",
+     "ok": true
+    },
+    "ni": {
+     "ours": 5.306,
+     "sec": 5.306,
+     "c": "NetIncomeLoss",
+     "acc": "0001535527-26-000031",
+     "filed": "2026-08-27",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.01,
+     "sec": 0.01,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001535527-26-000031",
+     "filed": "2026-08-27",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 530.268,
+     "sec": 530.268,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001535527-26-000031",
+     "filed": "2026-08-27",
+     "ok": true
+    },
+    "capex": {
+     "ours": 124.413,
+     "sec": 124.413,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001535527-26-000031",
+     "filed": "2026-08-27",
+     "ok": true
+    }
+   }
+  }
+ ]
+}

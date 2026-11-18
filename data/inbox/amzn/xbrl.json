@@ -1,0 +1,174 @@
+{
+ "code": "amzn",
+ "fetched": "2026-11-18T16:30Z",
+ "quarters": [
+  {
+   "q": "1Q26",
+   "end": "2026-03-31",
+   "rows": {
+    "rev": {
+     "ours": 181519.0,
+     "sec": 181519.0,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001018724-26-000014",
+     "filed": "2026-04-30",
+     "ok": true
+    },
+    "gp": {
+     "ours": 94056.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "opInc": {
+     "ours": 23852.0,
+     "sec": 23852.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001018724-26-000014",
+     "filed": "2026-04-30",
+     "ok": true
+    },
+    "ni": {
+     "ours": 30255.0,
+     "sec": 30255.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001018724-26-000014",
+     "filed": "2026-04-30",
+     "ok": true
+    },
+    "eps": {
+     "ours": 2.78,
+     "sec": 2.78,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001018724-26-000014",
+     "filed": "2026-04-30",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 26032.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "capex": {
+     "ours": 44203.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    }
+   }
+  },
+  {
+   "q": "2Q26",
+   "end": "2026-06-30",
+   "rows": {
+    "rev": {
+     "ours": 200606.0,
+     "sec": 200606.0,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001018724-26-000026",
+     "filed": "2026-07-31",
+     "ok": true
+    },
+    "gp": {
+     "ours": 104828.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "opInc": {
+     "ours": 27461.0,
+     "sec": 27461.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001018724-26-000026",
+     "filed": "2026-07-31",
+     "ok": true
+    },
+    "ni": {
+     "ours": 62647.0,
+     "sec": 62647.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001018724-26-000026",
+     "filed": "2026-07-31",
+     "ok": true
+    },
+    "eps": {
+     "ours": 5.75,
+     "sec": 5.75,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001018724-26-000026",
+     "filed": "2026-07-31",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 45387.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "capex": {
+     "ours": 54208.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    }
+   }
+  },
+  {
+   "q": "3Q26",
+   "end": "2026-09-30",
+   "rows": {
+    "rev": {
+     "ours": 201944.0,
+     "sec": 201944.0,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001018724-26-000040",
+     "filed": "2026-10-30",
+     "ok": true
+    },
+    "gp": {
+     "ours": 107371.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "opInc": {
+     "ours": 28076.0,
+     "sec": 28076.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001018724-26-000040",
+     "filed": "2026-10-30",
+     "ok": true
+    },
+    "ni": {
+     "ours": 20685.0,
+     "sec": 20685.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001018724-26-000040",
+     "filed": "2026-10-30",
+     "ok": true
+    },
+    "eps": {
+     "ours": 1.89,
+     "sec": 1.89,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001018724-26-000040",
+     "filed": "2026-10-30",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 42422.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "capex": {
+     "ours": 77259.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,122 @@
+{
+ "code": "spcx",
+ "fetched": "2026-11-18T16:30Z",
+ "quarters": [
+  {
+   "q": "2Q26",
+   "end": "2026-06-30",
+   "rows": {
+    "rev": {
+     "ours": 7814.0,
+     "sec": 7814.0,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001628280-26-052535",
+     "filed": "2026-08-04",
+     "ok": true
+    },
+    "gp": {
+     "ours": 4319.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "opInc": {
+     "ours": -143.0,
+     "sec": -143.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001628280-26-052535",
+     "filed": "2026-08-04",
+     "ok": true
+    },
+    "ni": {
+     "ours": -541.0,
+     "sec": -541.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001628280-26-052535",
+     "filed": "2026-08-04",
+     "ok": true
+    },
+    "eps": {
+     "ours": -0.09,
+     "sec": -0.09,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001628280-26-052535",
+     "filed": "2026-08-04",
+     "ok": true
+    },
+    "ocf": {
+     "ours": null,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "capex": {
+     "ours": 18369.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    }
+   }
+  },
+  {
+   "q": "3Q26",
+   "end": "2026-09-30",
+   "rows": {
+    "rev": {
+     "ours": 14575.0,
+     "sec": 14575.0,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001628280-26-066880",
+     "filed": "2026-10-22",
+     "ok": true
+    },
+    "gp": {
+     "ours": 9097.0,
+     "sec": null,
+     "ok": null,
+     "why": "讀不到單季值"
+    },
+    "opInc": {
+     "ours": 2791.0,
+     "sec": 2791.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001628280-26-066880",
+     "filed": "2026-10-22",
+     "ok": true
+    },
+    "ni": {
+     "ours": 4404.0,
+     "sec": 4404.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001628280-26-066880",
+     "filed": "2026-10-22",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.35,
+     "sec": 0.35,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001628280-26-066880",
+     "filed": "2026-10-22",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 9631.0,
+     "sec": 9631.0,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001628280-26-066880",
+     "filed": "2026-10-22",
+     "ok": true
+    },
+    "capex": {
+     "ours": 19593.0,
+     "sec": 19593.0,
+     "c": "PaymentsToAcquirePropertyPlantAndEquipment",
+     "acc": "0001628280-26-066880",
+     "filed": "2026-10-22",
+     "ok": true
+    }
+   }
+  }
+ ]
+}
