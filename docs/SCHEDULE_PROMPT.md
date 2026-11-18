@@ -37,10 +37,11 @@
 
 ### ⓪ 準備（約 1 分鐘）
 1. clone repo（沒有權限先 `add_repo`：owner `ZLO-25`，repo `Enterprise-Revenue-Dashboard`，access `push`），讀 `CLAUDE.md`、`companies.json`。
-2. `python3 tools/daily.py`：印出今天的清單。**這份清單就是今天的工作範圍**。
+2. **先** `python3 tools/daily.py brief --wait-prep`（**Bash 的 timeout 設 300000**，它最多會等 4 分鐘；一頁摘要，第一行是「每日準備」結果）。GitHub 排程固定晚 4～6 小時，所以不等排程：這一步會手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、股價、期貨、系統健康狀態），等它做完（最多 4 分鐘）再 pull。輸出第一行是結果；「✗」開頭 → 回報 ⑤ 寫一行（資料可能是舊的），其餘照做。若第一行說 gh 不可用且你有 GitHub 工具，用 `mcp__github__actions_run_trigger` 觸發 `daily-prep.yml`（ref main）一次就好，不用等。
+3. `python3 tools/daily.py`：印出今天的清單。**這份清單就是今天的工作範圍**。
    - 「缺跑」有日期 → 上次成功到今天之間缺了排程（失敗或超出額度）。因為到期判斷是「公布日早於今天」，缺跑的事會自動出現在清單。回報要寫明補了哪幾天。
    - `data/sec-feed.json` 是 Actions 每天寫的 SEC 申報清單（8-K Item 2.02＝財報新聞稿、10-Q／10-K）。美股公司的 `events` 還是預估日（`est`）時，看這份就知道公司有沒有公布，**不必搜尋網頁**。
-3. 如果 GitHub Actions 的 prices-monthly 正在跑（用 `mcp__github__actions_list` 看 `prices-monthly.yml` 最近一次 `status` 是不是 `in_progress`），**這次不要 push**，先做完檔案修改，等它結束再 push。
+4. 如果 GitHub Actions 的 prices-monthly 正在跑（用 `mcp__github__actions_list` 看 `prices-monthly.yml` 最近一次 `status` 是不是 `in_progress`），**這次不要 push**，先做完檔案修改，等它結束再 push。
 
 ### ① 快報（到期的公司）
 清單 ① 列出的公司才做。照該公司 `SOURCES.md` 的「更新步驟」，**只抓最新一期**：
@@ -59,7 +60,7 @@
 - 成功：`python3 tools/daily.py set <代號> completed`。
 
 ### ②b 公司分析（補完成功的同一天；ZL 2026-11-17 要求）
-- 每天 ⓪ 之後也跑一次 `python3 tools/daily.py brief`，看最後 ⑪ 有沒有「分析待寫：<代號> <季度>」。有的話照 `docs/schedule/analysis.md` 做（每天最多 3 家）：用 `.claude/skills/long-term-company-analysis/` 寫快評，公開版 JSON 用 `python3 tools/analysis_save.py <代號> <檔案>` 存進 `data/analysis/`，網站個股頁標題下方就會出現「分析結論」，按 more 看全文。
+- 看 ⓪ 那次 `brief` 輸出的最後 ⑪（不必再跑一次） 有沒有「分析待寫：<代號> <季度>」。有的話照 `docs/schedule/analysis.md` 做（每天最多 3 家）：用 `.claude/skills/long-term-company-analysis/` 寫快評，公開版 JSON 用 `python3 tools/analysis_save.py <代號> <檔案>` 存進 `data/analysis/`，網站個股頁標題下方就會出現「分析結論」，按 more 看全文。
 - 公開版不能有作者觀點（repo 公開）；分析失敗不影響財報資料，不 `try`，回報 ⑤ 寫「分析待補」。
 
 ### ③ 核對（狀態 completed 的公司）

@@ -233,12 +233,79 @@ def lights_part(lights):
     return out
 
 
+def signals_part(today):
+    """最近 7 天的估值訊號（tools/signals.py 寫在 data/daily/_signals.json）。只提醒，不是買賣建議。"""
+    S = jload("data", "daily", "_signals.json", default={"events": []}) or {"events": []}
+    cut = (today - datetime.timedelta(days=7)).isoformat()
+    ev = [e for e in S["events"] if e["d"] >= cut]
+    if not ev:
+        return "估值訊號：最近 7 天沒有"
+    import signals
+    return "估值訊號（最近 7 天，提醒不是買賣建議）：" + "；".join(f"{e['d'][5:]} {signals.text(e)}" for e in ev)
+
+
 def save_lights(today):
     _, lights = valuation_and_lights()
     with open(LIGHTS, "w", encoding="utf8") as f:
         json.dump({"date": today.isoformat(), "lights": lights}, f, ensure_ascii=False, indent=1)
         f.write("\n")
     print(f"已記錄 {len(lights)} 家論點卡燈號 → data/brief-lights.json")
+
+
+def _git(*args, timeout=60):
+    import subprocess
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, timeout=timeout)
+
+
+def prep_fresh(max_min=20):
+    """origin/main 上的 data/status/latest.json 是不是 max_min 分鐘內產生的（daily-prep 最後一步寫的）。"""
+    r = _git("show", "origin/main:data/status/latest.json")
+    if r.returncode:
+        return False
+    try:
+        g = datetime.datetime.strptime(json.loads(r.stdout)["generated"], "%Y-%m-%dT%H:%MZ").replace(tzinfo=datetime.timezone.utc)
+    except Exception:  # noqa: BLE001
+        return False
+    return (datetime.datetime.now(datetime.timezone.utc) - g).total_seconds() < max_min * 60
+
+
+def wait_prep(max_s=240):
+    """每日檢查當鬧鐘：觸發 GitHub Actions 的 daily-prep（SEC 清單、預估、股價、期貨、健康狀態），等它做完再 pull。
+    只在 main 分支執行；測試模式（--today）不會呼叫這裡。回傳要印在摘要最前面的一行。"""
+    import subprocess, time
+    if _git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip() != "main":
+        return "（不在 main 分支，略過等待每日準備）"
+    _git("fetch", "-q", "origin", "main")
+    mark = os.path.join(ROOT, ".git", "daily-prep-dispatched")   # 15 分鐘內觸發過就不重複觸發（同一次排程重跑這個指令時）
+    recent = os.path.exists(mark) and time.time() - os.path.getmtime(mark) < 15 * 60
+    if prep_fresh():
+        note = "每日準備：20 分鐘內已跑過，直接用"
+    else:
+        ok = recent
+        if not recent:
+            try:
+                r = subprocess.run(["gh", "workflow", "run", "daily-prep.yml", "--ref", "main"], cwd=ROOT, capture_output=True, text=True, timeout=30)
+                ok = r.returncode == 0
+            except Exception:  # noqa: BLE001
+                ok = False
+            if ok:
+                open(mark, "w").close()
+        if not ok:
+            return "✗ 每日準備觸發失敗（gh 不可用）：SEC 清單可能是舊的 → 若有 GitHub 工具，用 actions_run_trigger 觸發 daily-prep.yml（ref main）後再跑一次 brief --wait-prep"
+        t0 = time.time()
+        note = None
+        while time.time() - t0 < max_s:
+            time.sleep(10)
+            _git("fetch", "-q", "origin", "main")
+            if prep_fresh():
+                note = f"每日準備：已觸發並完成（等了 {int(time.time() - t0)} 秒）"
+                break
+        if note is None:
+            return f"✗ 每日準備 {max_s} 秒內沒完成：SEC 清單是舊的（回報 ⑤ 寫一行；它會自己跑完，明天就會是新的）"
+    m = _git("merge", "--ff-only", "origin/main")
+    if m.returncode:
+        return note + "；但 pull 失敗（" + (m.stderr.strip()[:80] or "?") + "）→ 用 git pull --rebase 處理"
+    return note + "，已 pull 最新資料"
 
 
 def main():
@@ -248,6 +315,8 @@ def main():
         i = a.index("--today"); today = datetime.date.fromisoformat(a[i + 1]); del a[i:i + 2]
     if a[:1] == ["--save-lights"]:
         return save_lights(today)
+    if "--wait-prep" in a:
+        print(wait_prep() + "\n")
 
     print(calendar_part(today))
     need = stages(today)
@@ -255,7 +324,7 @@ def main():
     print("\n⑦ 股價：" + prices_part())
     dh, drows = daily_part()
     print("   " + dh + ("\n   收盤／每日本益比：" + "；".join(drows) if drows else ""))
-    print("\n⑧ " + "\n   ".join(lights_part(lights)))
+    print("\n⑧ " + "\n   ".join(lights_part(lights) + [signals_part(today)]))
     print("\n⑨ 本益比／預估本益比（回報附錄照抄）：\n  " + "；".join(pe_rows))
 
     plan = plan_part(today, need)

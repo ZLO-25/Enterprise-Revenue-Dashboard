@@ -8,7 +8,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: sec-feed
+  group: data-fetch
   cancel-in-progress: false
 jobs:
   feed:
