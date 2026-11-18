@@ -290,21 +290,27 @@ def prep_fresh(max_min=20):
     return (datetime.datetime.now(datetime.timezone.utc) - g).total_seconds() < max_min * 60
 
 
-def wait_prep(max_s=180):
+def wait_prep(max_s=240):
     """每日檢查當鬧鐘：觸發 GitHub Actions 的 daily-prep（SEC 清單、預估、股價、期貨、健康狀態），等它做完再 pull。
     只在 main 分支執行；測試模式（--today）不會呼叫這裡。回傳要印在摘要最前面的一行。"""
     import subprocess, time
     if _git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip() != "main":
         return "（不在 main 分支，略過等待每日準備）"
     _git("fetch", "-q", "origin", "main")
+    mark = os.path.join(ROOT, ".git", "daily-prep-dispatched")   # 15 分鐘內觸發過就不重複觸發（同一次排程重跑這個指令時）
+    recent = os.path.exists(mark) and time.time() - os.path.getmtime(mark) < 15 * 60
     if prep_fresh():
         note = "每日準備：20 分鐘內已跑過，直接用"
     else:
-        try:
-            r = subprocess.run(["gh", "workflow", "run", "daily-prep.yml", "--ref", "main"], cwd=ROOT, capture_output=True, text=True, timeout=30)
-            ok = r.returncode == 0
-        except Exception:  # noqa: BLE001
-            ok = False
+        ok = recent
+        if not recent:
+            try:
+                r = subprocess.run(["gh", "workflow", "run", "daily-prep.yml", "--ref", "main"], cwd=ROOT, capture_output=True, text=True, timeout=30)
+                ok = r.returncode == 0
+            except Exception:  # noqa: BLE001
+                ok = False
+            if ok:
+                open(mark, "w").close()
         if not ok:
             return "✗ 每日準備觸發失敗（gh 不可用）：SEC 清單可能是舊的 → 若有 GitHub 工具，用 actions_run_trigger 觸發 daily-prep.yml（ref main）後再跑一次 brief --wait-prep"
         t0 = time.time()

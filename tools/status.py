@@ -105,12 +105,11 @@ def routines_block(today):
     light = "red" if len(ms) >= 2 else ("yellow" if ms else "green")
     rows.append({"id": "daily", "label": "每日檢查（Claude 排程）", "light": light,
                  "note": f"上次成功 {cal.get('lastSuccess') or '無紀錄'}" + (f"，缺跑 {len(ms)} 天" if ms else "")})
-    ref = (cal.get("fired") or {}).get("news")
-    if ref:
-        days = (today - dt.date.fromisoformat(ref)).days
-        rows.append({"id": "news", "label": "每週新聞（週日 06:00）", "light": "red" if days > 9 else "green", "note": f"上次 {ref}（{days} 天前）"})
-    else:
-        rows.append({"id": "news", "label": "每週新聞（週日 06:00）", "light": "green", "note": "第一次預定 2026-11-22"})
+    last = (cal.get("fired") or {}).get("news")
+    ref = last or "2026-11-22"   # 第一次預定日（同 daily_brief.NEWS_FIRST）
+    days = (today - dt.date.fromisoformat(ref)).days
+    rows.append({"id": "news", "label": "每週新聞（週日 06:00）", "light": "red" if days > 9 else "green",
+                 "note": f"上次 {last}（{days} 天前）" if last else ("第一次預定 2026-11-22" if days < 0 else f"從第一次預定日起 {days} 天還沒跑過")})
     ym = today.strftime("%Y-%m")
     if today.day >= 5 and not os.path.exists(os.path.join(ROOT, "reports", "trend", f"{ym}_世界趨勢.md")):
         rows.append({"id": "trend", "label": "世界趨勢月報", "light": "red", "note": f"{ym} 還沒產出"})
