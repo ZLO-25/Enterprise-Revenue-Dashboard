@@ -2,11 +2,11 @@
  "version": 1,
  "note": "估值訊號狀態與事件（tools/signals.py 寫；提醒，不是買賣建議）",
  "state": {
-  "tsmc.pe": "in",
+  "tsmc.pe": "cheap",
   "pltr.pe": "rich",
   "nvda.pe": "cheap",
   "anet.pe": "rich",
-  "delta.pe": "out",
+  "delta.pe": "rich",
   "msft.pe": "cheap",
   "mu.evS": "normal",
   "amzn.pe": "cheap",
@@ -20,7 +20,7 @@
   "googl.evS": "normal",
   "csco.evS": "normal",
   "asml.pe": "normal",
-  "allring.pe": "out"
+  "allring.pe": "rich"
  },
  "events": []
 }
