@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-18T06:10Z",
+ "generated": "2026-11-18T16:32Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
-   "light": "yellow",
-   "note": "查不到成功紀錄",
-   "lastOk": null
+   "light": "green",
+   "note": "10 小時前成功",
+   "lastOk": "2026-11-18T06:10Z"
   },
   {
    "id": "sec-feed",
@@ -16,30 +16,30 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-18T06:10Z"
+   "lastOk": "2026-11-18T16:30Z"
   },
   {
    "id": "prices-daily",
    "label": "每日收盤價與本益比",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-18T06:09Z"
+   "note": "1 小時前成功",
+   "lastOk": "2026-11-18T16:00Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "2 小時前成功",
-   "lastOk": "2026-11-18T04:12Z"
+   "note": "9 小時前成功",
+   "lastOk": "2026-11-18T07:13Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "2 小時前成功",
+   "note": "13 小時前成功",
    "lastOk": "2026-11-18T03:46Z"
   },
   {
@@ -47,7 +47,7 @@
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "50 小時前成功",
+   "note": "60 小時前成功",
    "lastOk": "2026-11-16T04:21Z"
   },
   {
@@ -55,7 +55,7 @@
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "21 小時前成功",
+   "note": "31 小時前成功",
    "lastOk": "2026-11-17T09:20Z"
   },
   {
@@ -63,7 +63,7 @@
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "48 小時前成功",
+   "note": "58 小時前成功",
    "lastOk": "2026-11-16T06:24Z"
   }
  ],
@@ -93,7 +93,7 @@
    "name": "台積電",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -103,7 +103,7 @@
    "pending": {
     "recent": 0,
     "y3": 1,
-    "old": 1,
+    "old": 2,
     "noq": 0
    },
    "light": "green",
@@ -124,7 +124,7 @@
    "pending": {
     "recent": 1,
     "y3": 1,
-    "old": 3,
+    "old": 4,
     "noq": 0
    },
    "light": "green",
@@ -143,7 +143,7 @@
     "est": true
    },
    "pending": {
-    "recent": 9,
+    "recent": 10,
     "y3": 0,
     "old": 3,
     "noq": 0
@@ -166,7 +166,7 @@
    "pending": {
     "recent": 1,
     "y3": 7,
-    "old": 1,
+    "old": 2,
     "noq": 0
    },
    "light": "green",
@@ -186,8 +186,8 @@
    },
    "pending": {
     "recent": 0,
-    "y3": 8,
-    "old": 2,
+    "y3": 1,
+    "old": 5,
     "noq": 0
    },
    "light": "green",
@@ -206,7 +206,7 @@
     "est": true
    },
    "pending": {
-    "recent": 3,
+    "recent": 4,
     "y3": 1,
     "old": 0,
     "noq": 1
@@ -219,7 +219,7 @@
    "name": "三星電子",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-08",
@@ -230,7 +230,7 @@
     "recent": 5,
     "y3": 0,
     "old": 2,
-    "noq": 2
+    "noq": 3
    },
    "light": "green",
    "problems": []
@@ -240,7 +240,7 @@
    "name": "台達電",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -250,7 +250,7 @@
    "pending": {
     "recent": 2,
     "y3": 0,
-    "old": 2,
+    "old": 3,
     "noq": 0
    },
    "light": "green",
@@ -271,7 +271,7 @@
    "pending": {
     "recent": 1,
     "y3": 0,
-    "old": 4,
+    "old": 5,
     "noq": 1
    },
    "light": "green",
@@ -313,7 +313,7 @@
    "pending": {
     "recent": 1,
     "y3": 1,
-    "old": 9,
+    "old": 10,
     "noq": 0
    },
    "light": "green",
@@ -397,7 +397,7 @@
    "pending": {
     "recent": 2,
     "y3": 0,
-    "old": 12,
+    "old": 13,
     "noq": 0
    },
    "light": "green",
@@ -418,7 +418,7 @@
    "pending": {
     "recent": 0,
     "y3": 0,
-    "old": 8,
+    "old": 9,
     "noq": 0
    },
    "light": "green",
@@ -452,15 +452,11 @@
    "stage": "waiting",
    "close": "2026-11-17",
    "priceMonth": "2026-10",
-   "next": {
-    "d": "2026-11-18",
-    "t": "1Q27 財報（公司 2026-11-03 公告",
-    "est": false
-   },
+   "next": null,
    "pending": {
     "recent": 1,
     "y3": 1,
-    "old": 0,
+    "old": 1,
     "noq": 0
    },
    "light": "green",
@@ -500,7 +496,7 @@
     "est": true
    },
    "pending": {
-    "recent": 0,
+    "recent": 1,
     "y3": 1,
     "old": 0,
     "noq": 0
@@ -523,7 +519,7 @@
    "pending": {
     "recent": 0,
     "y3": 0,
-    "old": 1,
+    "old": 2,
     "noq": 0
    },
    "light": "green",
@@ -566,7 +562,7 @@
     "recent": 0,
     "y3": 0,
     "old": 1,
-    "noq": 1
+    "noq": 2
    },
    "light": "green",
    "problems": []
@@ -576,7 +572,7 @@
    "name": "萬潤",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -584,7 +580,7 @@
     "est": true
    },
    "pending": {
-    "recent": 0,
+    "recent": 1,
     "y3": 0,
     "old": 1,
     "noq": 2
