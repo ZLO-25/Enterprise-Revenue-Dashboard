@@ -965,6 +965,27 @@
    "t": "公布 3Q26 財報：單季營收 1,970.6 億元、營業利益率 16.6%，前三季 EPS 26.64 元已超過 2025 全年",
    "src": "https://filecenter.deltaww.com/ir/download/financial_report/Q32026_chi_Consolidated%20Financial%20Report.pdf",
    "st": "p"
+  },
+  {
+   "d": "2025-04",
+   "cat": "ai",
+   "t": "公布在 NVIDIA GTC 2025 展出的 AI 資料中心電源與散熱：800V 直流轉換模組、1.5MW 液冷 CDU、與 NVIDIA 合作的機櫃電源",
+   "src": "https://brandnews.deltaww.com/EN/IoTSolutionsDetail/12654",
+   "st": "p"
+  },
+  {
+   "d": "2025-05-21",
+   "cat": "ai",
+   "t": "COMPUTEX 2025 展出 800V HVDC 供電（效率最高 92%）與 AI 貨櫃型資料中心",
+   "src": "https://www.deltapowersolutions.com/en/mcis/news-2025-delta-presents-comprehensive-solutions-for-ai-data-center-with-cdc-and-hvdc-power-at-computex.php",
+   "st": "p"
+  },
+  {
+   "d": "2026-04",
+   "cat": "ai",
+   "t": "公布在 NVIDIA GTC 2026 展出的下一代 AI 工廠 800 VDC 節能電源方案",
+   "src": "https://brandnews.deltaww.com/EN/IoTSolutionsDetail/12772",
+   "st": "p"
   }
  ],
  "sources": [
@@ -1001,5 +1022,15 @@
    "待確認：資產負債表欄位 股票酬勞（sbc）：2 季沒有值（3Q20～4Q22）：年度累計相減得負值（來源口徑前後不一致，不使用）（1 季：3Q20）；同一個累計期間在前後兩份報表的正負號相反（金額相同），來源對不起來，不使用（1 季：4Q22）"
   ],
   "general": "EPS 是「基本每股盈餘」：第一到第三季取合併財務報告的單季欄，第四季取法說會簡報公布的第四季 EPS（財報只有全年），每年四季加總都等於全年基本 EPS。第四季的營收、毛利、營業利益、淨利 = 全年 − 前三季單季；推算結果和法說會簡報的十億元數字一致。營業現金流與資本支出（取得不動產、廠房及設備）在財報中是年初累計，單季 = 本期累計 − 上一季累計。淨利是「歸屬於母公司業主」的淨利。各年度前三季數字取自隔年同季報告的比較欄（例：2021 年各季取自 2022 年報告），若公司事後重編以較新的報告為準。"
+ },
+ "story": {
+  "t": "AI 資料中心電源與散熱",
+  "why": "AI 伺服器耗電暴增，高壓直流供電與液冷是台達電成長最快的業務",
+  "cats": [
+   "ai"
+  ]
+ },
+ "categories": {
+  "ai": "AI 電源與散熱"
  }
 }

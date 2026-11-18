@@ -141,6 +141,10 @@ const dfmt = (s) => {
   return `${s} 年`;
 };
 const UNC = '<span class="unc-chip">待確定</span>';
+/* 核心故事線：data 頂層 story { t, why?, cats[] }；屬於 cats 的事件標「核心」 */
+const CORE = '<span class="core-chip">核心</span>';
+const isCore = (D, m) => !!(D.story && (D.story.cats || []).includes(m.cat));
+const storyHtml = (D) => D.story ? `<b>核心故事線：${D.story.t}</b>${D.story.why ? '。' + D.story.why : ''}（標「核心」的事件，按「核心故事」只看這條線）` : '';
 const srcLink = (o) => o.src ? `<a href="${o.src}" target="_blank" rel="noopener">${(o.unc || /^媒體報導/.test(o.note || '')) ? '媒體' : '來源'}</a>` : '';
 
 /* 從營收到淨利的拆解圖（HTML 長條） */

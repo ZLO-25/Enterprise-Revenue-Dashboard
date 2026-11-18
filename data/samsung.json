@@ -1100,6 +1100,29 @@
    "t": "3Q26 單季營收 195.3 兆韓元、營業利益 107.4 兆韓元；第三季現金股利每股 4,601 韓元（合計 30 兆韓元），2026 年股東回饋預估 90–110 兆韓元",
    "src": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2026_3Q_conference_eng.pdf",
    "st": "p"
+  },
+  {
+   "d": "2022-06-30",
+   "cat": "foundry",
+   "t": "全球第一家用 GAA 電晶體架構量產 3 奈米製程",
+   "src": "https://news.samsung.com/global/samsung-begins-chip-production-using-3nm-process-technology-with-gaa-architecture",
+   "st": "p"
+  },
+  {
+   "d": "2026-02-12",
+   "cat": "hbm",
+   "t": "HBM4 開始量產並出貨給客戶（每針腳 11.7 Gbps）",
+   "src": "https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4",
+   "st": "p"
+  },
+  {
+   "d": "2025-07-28",
+   "cat": "foundry",
+   "t": "申報 22.8 兆韓元的晶圓代工合約（至 2033 年），馬斯克表示客戶是 Tesla、產品是 AI6 晶片",
+   "src": "https://www.asiae.co.kr/en/article/2025072813435614887",
+   "st": "p",
+   "unc": 1,
+   "note": "待確定：三星申報沒寫客戶名稱，客戶與晶片名稱來自媒體與馬斯克的貼文"
   }
  ],
  "sources": [
@@ -1137,6 +1160,16 @@
   "general": "所有數字取自三星電子官方法說會簡報（K-IFRS 合併）：每一季在三份簡報出現（當季、下一季的「上季」欄、隔年同季的「去年同季」欄），本頁取印得最精細、且最晚公布的那一份，三份互相核對沒有差異。淨利是「歸屬母公司業主」的淨利（簡報的 Controlling interests）。營業現金流與資本支出（購置不動產、廠房及設備）取自簡報的現金流量摘要，單季數字。第四季直接取第四季簡報的單季數字，不是用全年相減。 官方簡報的單位是兆韓元，本頁乘以 1,000,000 換成百萬韓元，讓首頁與其他公司一樣都用「百萬」為單位；數字的精細度仍是簡報印的 0.01 或 0.1 兆。"
  },
  "categories": {
-  "split": "股票分割"
+  "split": "股票分割",
+  "hbm": "HBM／AI 記憶體",
+  "foundry": "晶圓代工"
+ },
+ "story": {
+  "t": "HBM 與晶圓代工",
+  "why": "能不能打進 AI 晶片的 HBM 供應鏈、晶圓代工能不能接到大客戶，決定記憶體以外的成長",
+  "cats": [
+   "hbm",
+   "foundry"
+  ]
  }
 }

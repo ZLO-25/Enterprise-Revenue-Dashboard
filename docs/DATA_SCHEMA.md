@@ -12,6 +12,7 @@ data/<代號>.json
 ├─ events[]        之後的公布日
 ├─ waterfall       最新一季從營收到淨利的拆解
 ├─ milestones[]    重要事件時間軸
+├─ story           核心故事線（必填）：哪些事件類別屬於公司最重要的那條線
 ├─ sources[]       頁面「資料來源」清單
 ├─ notes           取不到的欄位、一般注意事項
 ├─ segments        （選用）營收拆分：分部加總＝營收
@@ -109,6 +110,12 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 - `cat` 建議：`contract`、`product`、`listing`、`index`、`profit`、`ma`、`capacity`、`mgmt`；可在頂層 `categories{}` 自訂中文名稱
 - `st`：`p` 已發生、`f` 規劃中；`unc:1` 待確定（只有媒體報導），`note` 要以「待確定：」開頭
 - `src` 必填（一手來源優先）
+
+### `story`（核心故事線，必填）
+`{ "t": "AI 資料中心晶片世代", "why": "一句話：為什麼這條線決定公司價值", "cats": ["arch"] }`
+- 每家公司都要有。`cats` 列出屬於這條線的 milestones 類別；自訂類別要在 `categories{}` 給中文名稱。
+- 屬於這些類別的事件至少 3 筆（`tools/validate.py` 的 `check_story` 會擋），頁面會標「核心」並多一個「核心故事」篩選鈕。
+- 選線的方法：先看論點卡（data/thesis）和最近兩季簡報在講什麼，再把那條線從起點補到最新一季，每筆都要有來源。
 
 ### `sources[]`、`notes`
 ```json

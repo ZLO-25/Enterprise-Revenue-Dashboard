@@ -2136,7 +2136,9 @@
   ]
  },
  "categories": {
-  "split": "股票分割"
+  "split": "股票分割",
+  "auto": "自動駕駛",
+  "robotaxi": "自駕計程車"
  },
  "milestones": [
   {
@@ -2187,6 +2189,148 @@
    "t": "Austin 晶圓廠預計開始安裝調校設備",
    "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm",
    "st": "f"
+  },
+  {
+   "d": "2016-10",
+   "cat": "auto",
+   "t": "宣布從這天起所有新生產的 Tesla 都裝有「完全自動駕駛（FSD）硬體」，之後靠軟體更新升級",
+   "src": "https://www.tesla.com/blog/all-tesla-cars-being-produced-now-have-full-self-driving-hardware",
+   "st": "p"
+  },
+  {
+   "d": "2019-04",
+   "cat": "auto",
+   "t": "首次「自動駕駛投資人日」，發表自家設計的 FSD 電腦；1Q19 已開始生產這顆電腦",
+   "src": "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA_Update_Letter_2019-1Q",
+   "st": "p"
+  },
+  {
+   "d": "2020-10",
+   "cat": "auto",
+   "t": "FSD Beta 第一階段上路：重寫後的軟體先推給少數「搶先體驗」車主，可在城市街道使用",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000156459020047108/tsla-ex991_57.htm",
+   "st": "p"
+  },
+  {
+   "d": "2022-Q4",
+   "cat": "auto",
+   "t": "FSD Beta 在美國、加拿大大範圍開放（wide release）",
+   "src": "https://capedge.com/filing/1318605/0001564590-23-000799/TSLA-8K/file/2",
+   "st": "p"
+  },
+  {
+   "d": "2024-Q1",
+   "cat": "auto",
+   "t": "FSD (Supervised) V12 上線（駕駛仍須監督）；美加符合資格的車可免費試用 30 天；新車全面換成 HW4 電腦",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000095017024046895/tsla-ex99_1.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-10-10",
+   "cat": "robotaxi",
+   "t": "「We, Robot」發表會：發表專為無人駕駛設計的 Cybercab（自駕計程車）與 Robovan",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828024043432/exhibit.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-06",
+   "cat": "robotaxi",
+   "t": "Robotaxi 在 Austin 開始營運（車上有安全員），同時推出 Robotaxi App",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000162828025035738/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-Q3",
+   "cat": "robotaxi",
+   "t": "灣區（舊金山一帶）用 Robotaxi 技術開始叫車服務（有安全駕駛）；Austin 擴大服務範圍與車隊",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828025045861/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-Q3",
+   "cat": "auto",
+   "t": "FSD (Supervised) 在澳洲、紐西蘭上線；10 月開始推送 v14",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828025045861/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-12",
+   "cat": "robotaxi",
+   "t": "Austin 開始測試車上完全沒人的 Robotaxi",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003837/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-01",
+   "cat": "robotaxi",
+   "t": "Austin 開始在部分載客行程拿掉安全員",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003837/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q1",
+   "cat": "auto",
+   "t": "FSD (Supervised) 改為只賣月訂閱，取消一次買斷",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003837/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-04",
+   "cat": "robotaxi",
+   "t": "Dallas、Houston 開始無人監督的 Robotaxi 載客",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000162828026026551/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-04",
+   "cat": "auto",
+   "t": "荷蘭核准 FSD (Supervised)，歐洲第一個；同月推出 v14.3",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000162828026026551/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q2",
+   "cat": "robotaxi",
+   "t": "Cybercab 在德州超級工廠開始生產，並開始公開道路測試",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q2",
+   "cat": "auto",
+   "t": "FSD (Supervised) 再獲立陶宛、愛沙尼亞、丹麥、比利時核准",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-07",
+   "cat": "robotaxi",
+   "t": "佛州 Miami、Orlando、Tampa 開始無人監督載客；Robotaxi 已在 7 個大都會營運",
+   "src": "https://sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-09-03",
+   "cat": "robotaxi",
+   "t": "Austin 開始用 Cybercab 載客，Cybercab 正式加入 Robotaxi 車隊",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q3",
+   "cat": "auto",
+   "t": "再獲克羅埃西亞、斯洛維尼亞、捷克、斯洛伐克核准，FSD 已在 9 個歐盟國家可用；中國仍在等核准",
+   "src": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066738/exhibit9914.htm",
+   "st": "p"
+  },
+  {
+   "d": "2027-Q2",
+   "cat": "robotaxi",
+   "t": "車主自己的車開放無人監督 FSD，並可加入 Robotaxi 車隊（3Q26 法說會口頭說法）",
+   "src": "https://electrek.co/2026/10/21/tesla-unsupervised-fsd-q2-2027-robotaxi-fleet/",
+   "st": "f",
+   "unc": 1,
+   "note": "待確定：只有媒體轉述 3Q26 法說會，季度簡報沒寫這個時間"
   }
  ],
  "sources": [
@@ -2232,5 +2376,13 @@
    "待確認：資產負債表欄位 股票酬勞（sbc）：2 季沒有值（1Q10～2Q10）：讀不到單季值（2 季：1Q10、2Q10）"
   ],
   "general": "EPS 已換算成今天的股數：2020-08-31 以前申報的數字除以 15（5 比 1 與 3 比 1 兩次分割），2020-08-31 到 2022-08-25 之間申報的除以 3，之後申報的不調整；換算後保留到小數 4 位。2010 年上半年還沒上市，加權股數很少，所以 1Q10、2Q10 每股虧損特別大。第四季的營收、毛利、營業利益、淨利、現金流與資本支出 = 全年 − 前三季；第四季 EPS 取 10-K 季度表或更新簡報。2024 年各季採用公司重編後（加密資產新準則）的數字。資本支出是「購置不動產與設備（不含融資租賃）」，和公司簡報的資本支出口徑可能差幾百萬美元。"
+ },
+ "story": {
+  "t": "自動駕駛與 Robotaxi",
+  "why": "FSD 軟體訂閱與自駕計程車是估值裡最大的期待",
+  "cats": [
+   "auto",
+   "robotaxi"
+  ]
  }
 }

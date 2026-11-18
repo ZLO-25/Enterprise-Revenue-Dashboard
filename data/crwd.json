@@ -1103,7 +1103,7 @@
   },
   {
    "d": "2024-07-19",
-   "cat": "other",
+   "cat": "platform",
    "t": "Falcon 感測器更新（Channel File 291）造成全球大量 Windows 電腦當機，之後數季承擔客戶補償與相關費用",
    "src": "https://www.sec.gov/Archives/edgar/data/1535527/000153552724000017/crwd-20240828xex991.htm",
    "st": "p"
@@ -1113,6 +1113,20 @@
    "cat": "listing",
    "t": "Nasdaq 掛牌上市（CRWD），IPO 淨募得 6.591 億美元（2019-06-14 完成）",
    "src": "https://www.sec.gov/Archives/edgar/data/1535527/000155837019006148/ex-99d1.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-02-20",
+   "cat": "platform",
+   "t": "Charlotte AI（生成式 AI 資安助理）與 Falcon for IT 正式上市",
+   "src": "https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-unifies-security-it-unleashes-transformative-power",
+   "st": "p"
+  },
+  {
+   "d": "2026-03-03",
+   "cat": "platform",
+   "t": "FY2026 年底 ARR 52.5 億美元（年增 24%）；採用 Falcon Flex 授權的客戶 ARR 16.9 億美元",
+   "src": "https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-reports-fourth-quarter-and-fiscal-year-2026",
    "st": "p"
   }
  ],
@@ -1268,5 +1282,15 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "Falcon 平台與 ARR",
+  "why": "客戶在 Falcon 平台上加買模組（Falcon Flex）讓 ARR 持續成長；2024 當機事件考驗客戶黏著度",
+  "cats": [
+   "platform"
+  ]
+ },
+ "categories": {
+  "platform": "Falcon 平台"
  }
 }

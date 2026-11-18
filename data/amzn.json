@@ -2063,7 +2063,7 @@
   },
   {
    "d": "2025-Q3",
-   "cat": "other",
+   "cat": "aws",
    "t": "3Q25 業外收益含 Anthropic 投資的稅前利益 95 億美元，使當季淨利（211.9 億）高於營業利益（174.2 億）",
    "src": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/",
    "st": "p"
@@ -2080,6 +2080,34 @@
    "cat": "listing",
    "t": "董事會通過 20 比 1 股票分割（須股東會同意）與最高 100 億美元庫藏股買回",
    "src": "https://www.sec.gov/Archives/edgar/data/1018724/000101872422000009/amzn-20220309.htm",
+   "st": "p"
+  },
+  {
+   "d": "2006-03-14",
+   "cat": "aws",
+   "t": "推出 Amazon S3 雲端儲存，AWS 對外營運的起點",
+   "src": "https://aws.amazon.com/about-aws/whats-new/2006/03/announcing-amazon-s3---simple-storage-service",
+   "st": "p"
+  },
+  {
+   "d": "2023-04",
+   "cat": "aws",
+   "t": "發表 Amazon Bedrock（生成式 AI 模型服務，先限量預覽）",
+   "src": "https://aws.amazon.com/blogs/aws/aws-week-in-review-new-service-for-generative-ai-and-amazon-ec2-trn1n-inf2-and-codewhisperer-now-ga-april-17-2023",
+   "st": "p"
+  },
+  {
+   "d": "2023-09-25",
+   "cat": "aws",
+   "t": "宣布投資 Anthropic 最多 40 億美元",
+   "src": "https://www.anthropic.com/news/anthropic-amazon",
+   "st": "p"
+  },
+  {
+   "d": "2024-12-03",
+   "cat": "aws",
+   "t": "自研 AI 晶片 Trainium2 機器正式上線，公司稱性價比比現行 GPU 機器好 30–40%",
+   "src": "https://press.aboutamazon.com/2024/12/aws-trainium2-instances-now-generally-available",
    "st": "p"
   }
  ],
@@ -2462,5 +2490,15 @@
    }
   ],
   "note": "書面：亞馬遜財報新聞稿（8-K 附件 99.1）與 10-Q 的分部營收（Segment net sales），三項加總＝合併營收。自 1Q14 起（亞馬遜自 2015 年第一季起以北美、國際、AWS 三個報告分部申報，並以同一口徑重列 2014 年各季）；1Q14 以前不收：2013 年以前季度沒有以三分部口徑揭露，舊口徑的北美／國際內含 AWS，不可相比。"
+ },
+ "story": {
+  "t": "AWS 與 AI 基礎設施",
+  "why": "AWS 貢獻大部分營業利益；自研晶片與 Anthropic 合作決定 AI 時代的雲端地位",
+  "cats": [
+   "aws"
+  ]
+ },
+ "categories": {
+  "aws": "AWS 與 AI"
  }
 }
