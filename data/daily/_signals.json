@@ -18,9 +18,20 @@
   "panw.evS": "normal",
   "gev.evS": "cheap",
   "googl.evS": "normal",
-  "csco.evS": "normal",
+  "csco.evS": "rich",
   "asml.pe": "normal",
   "allring.pe": "rich"
  },
- "events": []
+ "events": [
+  {
+   "d": "2026-11-18",
+   "code": "csco",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "rich",
+   "now": 5.93,
+   "thr": 5.1,
+   "op": "<="
+  }
+ ]
 }
