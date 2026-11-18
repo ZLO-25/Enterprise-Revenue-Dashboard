@@ -1,6 +1,14 @@
 {
  "version": 1,
- "lastRun": "2026-11-17",
- "lastSuccess": "2026-11-17",
- "companies": {}
+ "lastRun": "2026-11-18",
+ "lastSuccess": "2026-11-18",
+ "companies": {
+  "nvda": {
+   "state": "flash",
+   "target": "3Q27",
+   "tries": 0,
+   "since": "2026-11-18",
+   "flashDate": "2026-11-18"
+  }
+ }
 }
