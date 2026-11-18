@@ -7,79 +7,92 @@
    "v": 0.0,
    "from": "2023Q2",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2022Q3": {
    "v": 0.0,
    "from": "2023Q3",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2022Q4": {
    "v": 0.0,
    "from": "2023Q4",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2023Q2": {
    "v": 38980.0,
    "from": "2024Q2",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2023Q3": {
    "v": 38980.0,
    "from": "2024Q3",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2023Q4": {
    "v": 38980.0,
    "from": "2024Q4",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2024Q2": {
    "v": 0.0,
    "from": "2024Q2",
    "col": "本期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2024Q3": {
    "v": 49175.0,
    "from": "2025Q3",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2024Q4": {
    "v": 49175.0,
    "from": "2024Q4",
    "col": "本期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2025Q2": {
    "v": 0.0,
    "from": "2026Q2",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2025Q3": {
    "v": 15000.0,
    "from": "2026Q3",
    "col": "去年同期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2026Q2": {
    "v": 68041.0,
    "from": "2026Q2",
    "col": "本期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   },
   "2026Q3": {
    "v": 324131.0,
    "from": "2026Q3",
    "col": "本期",
-   "restated": null
+   "restated": null,
+   "conflict": false
   }
  },
  "quarters": [

@@ -66,6 +66,12 @@ class Build(unittest.TestCase):
         self.assertEqual(ytd[(2025, 1)]["restated"], 5000.0)
         self.assertEqual(self.q(Q)["1Q25"]["vals"]["sbc"], 6.0)
 
+    def test_sign_flip_between_reports_is_a_conflict(self):
+        files = {(2022, 3): new("61,481", "0"), (2022, 4): new("( 74,885 )", "0"), (2023, 4): new("45,869", "74,885")}
+        q = self.q(T.build(files)[1])
+        self.assertNotIn("sbc", q["4Q22"]["vals"])
+        self.assertIn("正負號相反", q["4Q22"]["why"]["sbc"])
+
     def test_report_without_cashflow_is_skipped(self):
         self.assertEqual(T.build({(2026, 1): "<table></table>"})[1], [])
 
