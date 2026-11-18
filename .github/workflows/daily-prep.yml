@@ -1,0 +1,77 @@
+# 每日準備（不經過 Claude，不花 token）：每日檢查一開始會手動觸發它（手動觸發會立刻跑）。
+#
+# 為什麼：這個 repo 的 GitHub 排程固定晚 4～6 小時，而且每個工作一天只被執行 1～3 次（實測 2026-11），
+#        所以「07:05 抓 SEC、08:18 每日檢查讀」常常讀到昨天的清單。改成由每日檢查當鬧鐘，一次叫醒所有前置工作。
+# 做什麼：SEC 新申報清單 → 分析師預估快照 → 叫醒股價與期貨 → 算系統健康狀態（data/status/latest.json）→ 紅燈開 issue。
+# 備援：下面兩個排程只是「每日檢查沒叫醒時」的保險，晚到也沒關係（有 concurrency，不會和 sec-feed／consensus-daily 同時跑）。
+name: daily-prep
+on:
+  schedule:
+    - cron: "30 23 * * 1-5"     # 台北 07:30（週二～六）
+    - cron: "30 1 * * 2-6"      # 台北 09:30（週二～六）
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+  issues: write
+concurrency:
+  group: data-fetch
+  cancel-in-progress: false
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet yfinance
+      - name: ① SEC 新申報清單
+        id: sec
+        continue-on-error: true
+        run: python3 tools/sec_feed.py
+      - name: ② 分析師預估快照（失敗不擋後面）
+        id: cons
+        continue-on-error: true
+        run: python3 tools/consensus.py
+      - name: ③ 提交 SEC 清單與預估快照
+        run: |
+          git config user.name "prep-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sec-feed.json data/consensus
+          if ! git diff --cached --quiet; then
+            git commit -q -m "每日準備：SEC 清單與預估快照 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
+            for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q && break || sleep $((i * 4)); done
+          fi
+      - name: ④ 叫醒股價與期貨（立刻跑，不等排程）
+        run: |
+          gh workflow run prices-daily.yml || echo "prices-daily 觸發失敗"
+          gh workflow run futures-daily.yml || echo "futures-daily 觸發失敗"
+          sleep 5
+      - name: ⑤ 算系統健康狀態
+        run: python3 tools/status.py
+      - name: ⑥ 提交狀態檔
+        run: |
+          git add data/status
+          if ! git diff --cached --quiet; then
+            git commit -q -m "系統健康狀態 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
+            for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push -q && break || sleep $((i * 4)); done
+          fi
+      - name: ⑦ 紅燈開 issue、恢復後自動關
+        run: |
+          ALERTS="$(python3 tools/status.py --alerts)"
+          TITLE="系統健康：有紅燈"
+          NUM="$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')"
+          if [ -n "$ALERTS" ]; then
+            BODY="$(printf '以下項目亮紅燈（%s 台北時間）：\n\n%s\n\n詳情看網站「系統健康」頁。恢復後這個 issue 會自動關閉。' "$(TZ=Asia/Taipei date +%m/%d\ %H:%M)" "$(echo "$ALERTS" | sed 's/^/- /')")"
+            if [ -n "$NUM" ]; then gh issue edit "$NUM" --body "$BODY"; else gh issue create --title "$TITLE" --body "$BODY"; fi
+          elif [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "已恢復，自動關閉。"
+          fi
+      - name: SEC 清單抓取失敗就標紅燈（寄信）
+        if: steps.sec.outcome == 'failure'
+        run: echo "SEC 清單抓取失敗"; exit 1

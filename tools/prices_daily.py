@@ -161,6 +161,27 @@ def companies(only=None):
     return [c for c in cfg["companies"] if c.get("enabled") and c.get("price") and (not only or c["code"] == only)]
 
 
+SIG = None
+
+
+def track_signals(code, L):
+    """估值門檻被穿越就記進 data/daily/_signals.json；新事件另寫到 $SIGNALS_OUT（workflow 用它開 issue）。"""
+    global SIG
+    if not L.get("d"):
+        return
+    import signals
+    if SIG is None:
+        SIG = signals.load()
+    new = signals.update(SIG, code, L["d"], L.get("caps"))
+    signals.save(SIG)
+    out = os.environ.get("SIGNALS_OUT")
+    for ev in new:
+        log("估值訊號：" + signals.text(ev))
+        if out:
+            with open(out, "a", encoding="utf8") as f:
+                f.write(signals.text(ev) + "\n")
+
+
 def main():
     a = sys.argv[1:]
     only = a[a.index("--company") + 1] if "--company" in a else None
@@ -205,6 +226,7 @@ def main():
             continue
         save(code, out)
         L = (calc or {}).get("latest") or {}
+        track_signals(code, L)
         log(f"[{code}] {L.get('d')} 收 {L.get('c')}  本益比 {L.get('pe')}  市值 {L.get('mcap')}" + (f"  {daily['check']['note']}" if daily.get("check") else ""))
     return rc
 

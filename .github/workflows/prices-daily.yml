@@ -31,6 +31,7 @@ on:
         required: false
 permissions:
   contents: write
+  issues: write
 concurrency:
   group: prices-daily
   cancel-in-progress: false
@@ -49,6 +50,7 @@ jobs:
       - name: 抓收盤價、核對、算本益比
         env:
           COMPANY: ${{ github.event.inputs.company }}
+          SIGNALS_OUT: ${{ runner.temp }}/signals-new.txt
         run: |
           ARGS=""
           if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
@@ -70,6 +72,17 @@ jobs:
             sleep $((i * 5))
           done
           if [ $ok -ne 1 ]; then echo "推送失敗（重試 5 次）"; exit 1; fi
-      - name: 落後檢查（只有 21:12 那一班）
-        if: github.event_name == 'schedule' && github.event.schedule == '12 13 * * 1-5'
-        run: python3 tools/prices_daily.py --stale-check
+      - name: 估值訊號開 issue（提醒，不是買賣建議）
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SIGNALS_OUT: ${{ runner.temp }}/signals-new.txt
+        run: |
+          if [ -s "$SIGNALS_OUT" ]; then
+            gh issue create --title "估值訊號 $(TZ=Asia/Taipei date +%m/%d)：$(head -1 "$SIGNALS_OUT" | cut -c1-40)" \
+              --body "$(printf '論點卡的估值門檻被穿越（磁滯 ±2%%）：\n\n%s\n\n這是提醒，不是買賣建議。' "$(sed 's/^/- /' "$SIGNALS_OUT")")" || echo "開 issue 失敗"
+          fi
+      - name: 落後檢查（台北 20:00 以後的任何一班；排程常晚 4～6 小時，不綁固定班次）
+        if: github.event_name != 'push'
+        run: |
+          if [ "$(TZ=Asia/Taipei date +%H)" -ge 20 ]; then python3 tools/prices_daily.py --stale-check; else echo "還沒到 20:00，不檢查"; fi

@@ -9,7 +9,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: consensus-daily
+  group: data-fetch
   cancel-in-progress: false
 jobs:
   snap:

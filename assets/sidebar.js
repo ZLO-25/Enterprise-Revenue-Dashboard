@@ -81,6 +81,7 @@
       "</div>" +
       '<div class="sb-group"><div class="sb-label">市場總覽</div>' +
         '<a class="sb-item' + (PAGE === "mcap" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "mcap/") + '"><span class="sb-ico">🏆</span>市值排名</a>' +
+        '<a class="sb-item' + (PAGE === "status" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "status/") + '"><span class="sb-ico">🩺</span>系統健康</a>' +
       "</div>" +
       '<div class="sb-group"><div class="sb-label">量化回測與配置</div>' +
         QUANT.map(function (q) { return '<a class="sb-item" data-quant="' + q.id + '" href="' + homeHref(q.id) + '"><span class="sb-ico">' + q.ico + "</span>" + q.label + "</a>"; }).join("") +

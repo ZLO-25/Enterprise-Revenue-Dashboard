@@ -1,0 +1,43 @@
+# PR 自動檢查（不花 token）：資料核對、建置、單元測試、JavaScript 語法、瀏覽器冒煙測試。
+# 規則：合併 PR 之前必須看到這個檢查是綠燈（見 CLAUDE.md）。
+# 不檢查「網站檔案和 repo 一致」：每日收盤價會直接改 main 而不重建網站，這個比對會一直誤報。
+name: ci
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 資料核對
+        run: python3 tools/validate.py
+      - name: 建置網站
+        run: python3 tools/build.py
+      - name: 公式固定測試案例
+        run: |
+          python3 tools/pe.py
+          python3 tools/daily_calc.py
+      - name: 單元測試（工具）
+        run: python3 -m unittest discover -s tools/tests
+      - name: 單元測試（回測）
+        run: |
+          pip install --quiet -r quant/scripts/requirements.txt
+          python3 -m unittest discover -s quant/tests -p 'test_*.py'
+          node --test quant/tests/rates-core.test.mjs
+      - name: JavaScript 語法檢查
+        run: for f in assets/*.js quant/js/*.js; do node --check "$f" || exit 1; done
+      - name: 瀏覽器冒煙測試（首頁、個股頁、市值排名、系統健康）
+        run: |
+          pip install --quiet playwright
+          python3 -m playwright install --with-deps chromium
+          python3 tools/smoke_test.py

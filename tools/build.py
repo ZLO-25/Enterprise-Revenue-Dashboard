@@ -345,6 +345,10 @@ def main():
     mt = fill(read("templates", "mcap.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MCAP_BASE}}", "../data/mcap/")])
     write(page("市值排名", "全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。", mt, "../", "mcap"), "mcap", "index.html")
     print("mcap/index.html（市值排名頁）")
+    # 系統健康頁（資料 data/status/latest.json 由 daily-prep 每天寫入；頁面執行時才讀）
+    st = fill(read("templates", "status.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{STATUS_BASE}}", "../data/status/")])
+    write(page("系統健康", "自動工作、Claude 排程與各公司資料有沒有過期；紅燈會開 GitHub issue。", st, "../", "status"), "status", "index.html")
+    print("status/index.html（系統健康頁）")
     print("index.html（首頁）")
     build_combined(cfg, companies, datasets, theme, common)
 

@@ -13,7 +13,7 @@
   python3 tools/daily.py set CODE completed|verified|waiting|stuck
   python3 tools/daily.py try CODE [--note 原因]   記一次失敗重試（滿 5 次自動轉 stuck）
   python3 tools/daily.py watch-done ID [--note 結果]   data/watchlist.json 的日期待辦做完了
-  python3 tools/daily.py brief                一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
+  python3 tools/daily.py brief [--wait-prep]  一頁摘要（--wait-prep：先叫醒 GitHub 的每日準備並等它做完，正式排程用；--today 測試模式不叫醒）（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
   python3 tools/daily.py news-scope           每週新聞（週日 06:00）的範圍與公司清單
   python3 tools/daily.py mark extra|trend|news|newsfire     記下今天已補觸發過（每天最多一次）
@@ -236,6 +236,7 @@ def news_scope(today):
 def main():
     a = sys.argv[1:]
     today = taipei_today()
+    test_mode = "--today" in a
     if "--today" in a:
         i = a.index("--today"); today = datetime.date.fromisoformat(a[i + 1]); del a[i:i + 2]
 
@@ -247,7 +248,7 @@ def main():
         return status(today)
     if a[0] in ("brief", "save-lights"):  # 一頁摘要（見 tools/daily_brief.py）；走 daily.py 是因為排程的權限白名單已允許它
         import daily_brief
-        sys.argv = [sys.argv[0], "--today", today.isoformat()] + (["--save-lights"] if a[0] == "save-lights" else [])
+        sys.argv = [sys.argv[0]] + (["--today", today.isoformat()] if test_mode else []) + (["--save-lights"] if a[0] == "save-lights" else []) + (["--wait-prep"] if "--wait-prep" in a and not test_mode else [])
         return daily_brief.main()
     if a[0] == "news-scope":  # 每週新聞的範圍與公司清單（見 docs/WEEKLY_NEWS_PROMPT.md）
         return news_scope(today)

@@ -33,6 +33,14 @@ python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價�
 python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json）
 ```
 
+## 合併 PR 的規則
+- **合併前必須看到 CI（`.github/workflows/ci.yml`）是綠燈**：資料核對、建置、單元測試、JavaScript 語法、瀏覽器冒煙測試。CI 紅燈就先修，不可略過。
+- 單元測試放在 `tools/tests/`（`python3 -m unittest discover -s tools/tests`）；新增邏輯要附測試。
+
+## 每日準備與系統健康
+- GitHub 排程固定晚 4～6 小時、每個工作一天只跑 1～3 次（實測 2026-11），加備援班沒用。每日檢查用 `python3 tools/daily.py brief --wait-prep` 手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、叫醒股價與期貨、算健康狀態）並等它做完。
+- 系統健康：`python3 tools/status.py` → `data/status/latest.json`（只由 Actions 寫，網站「系統健康」頁讀它）；紅燈才開 issue。估值門檻被穿越的訊號：`tools/signals.py` → `data/daily/_signals.json`（只由 Actions 寫）。
+
 ## 文件
 - `docs/ADDING_A_COMPANY.md` 新增公司流程
 - `docs/DATA_SCHEMA.md` 資料格式 v1
