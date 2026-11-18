@@ -80,6 +80,15 @@ def merge_recent(old, new, n=CHECK_QS):
     return dict(old, quarters=rows, fetched=new.get("fetched"), recentOnly=n)
 
 
+Q4_WHY = "第四季由全年減前九個月推算（10-K 修正過前三季時不準），請以第四季新聞稿單季數字為準"
+
+
+def derived_q4_unreliable(kind, days, ok):
+    """SEC 沒有單季值、是「全年 − 前九個月」推算的第四季，而且對不上：不判不一致。
+    原因：10-K 若修正過前三季（例 CRWD FY2026 股票酬勞修正），全年是新口徑、前九個月是 10-Q 的舊口徑，相減會差（實測 2026-11-19）。"""
+    return kind == "q" and (days or 0) > 100 and ok is False
+
+
 def close_enough(field, ours, sec):
     if ours is None or sec is None:
         return None
@@ -197,6 +206,8 @@ def xbrl_check(code, cik, D, bs_map, c=None):
                     else:
                         sec = round(v / 1e6, 3)
                     got = {"ours": q.get(field), "sec": sec, "c": n, "acc": f["accn"], "filed": f["filed"], "ok": close_enough(field, q.get(field), sec)}
+                    if derived_q4_unreliable(kind, BF.dur(f), got["ok"]):
+                        got.update(ok=None, why=Q4_WHY)
                     break
             row["rows"][field] = got or {"ours": q.get(field), "sec": None, "ok": None, "why": "讀不到單季值"}
         out["quarters"].append(row)
@@ -232,13 +243,13 @@ def report(codes=None):
         if not os.path.exists(xp):
             print("  XBRL 核對表：沒有（狀態不是快報／補完，SEC 也沒有新的 10-Q／10-K）"); continue
         X = json.load(open(xp, encoding="utf8"))
-        print(f"  XBRL 核對表（Actions 讀 SEC，{X['fetched']}）：✓ 一致　✗ 不一致（要對來源）　－ 讀不到")
+        print(f"  XBRL 核對表（Actions 讀 SEC，{X['fetched']}）：✓ 一致　✗ 不一致（要對來源）　≈ 第四季推算值不比（看新聞稿）　－ 讀不到")
         for r in X["quarters"]:
             if r.get("why"):
                 print(f"    {r['q']}：{r['why']}"); continue
             cells = []
             for k, v in r["rows"].items():
-                mark = {True: "✓", False: "✗", None: "－"}[v.get("ok")]
+                mark = {True: "✓", False: "✗", None: "－"}[v.get("ok")] if not (v.get("ok") is None and v.get("sec") is not None) else "≈"
                 cells.append(f"{LABEL[k]}{mark}" + (f"(我們 {v['ours']}／SEC {v['sec']})" if v.get("ok") is False else ""))
             print(f"    {r['q']}（期末 {r['end']}）：" + "　".join(cells))
     return 0

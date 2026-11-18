@@ -72,6 +72,18 @@ class Close(unittest.TestCase):
         self.assertIsNone(S.close_enough("rev", None, 1.0))
 
 
+class DerivedQ4(unittest.TestCase):
+    def test_crwd_case(self):   # CRWD 4Q26：全年 365 天減前九個月，10-K 修正過前三季
+        self.assertTrue(S.derived_q4_unreliable("q", 365, False))
+
+    def test_direct_quarter_still_flags(self):
+        self.assertFalse(S.derived_q4_unreliable("q", 91, False))
+
+    def test_ok_or_cashflow_untouched(self):
+        self.assertFalse(S.derived_q4_unreliable("q", 365, True))
+        self.assertFalse(S.derived_q4_unreliable("ytd", 365, False))
+
+
 class Html(unittest.TestCase):
     def test_table_rows(self):
         t = S.html_text(b"<p>Revenue up</p><table><tr><td>Revenue</td><td>$ 115,844</td></tr></table><script>x</script>")
