@@ -336,7 +336,10 @@ def balance_probe(cfg, only):
 
 
 def dump(cfg, only, name, since="2023-01-01"):
-    """列出某個概念的事實（開始日、結束日、數值、表單、申報日），用來查為什麼某一季讀不到。"""
+    """列出某個概念的事實（開始日、結束日、數值、表單、申報日），用來查為什麼某一季讀不到。
+    name 可以寫成「概念名@起始日」（例 ShareBasedCompensation@2012-01-01）看更早的事實；預設只列 2023 年以後。"""
+    if "@" in name:
+        name, since = name.split("@", 1)
     for c in cfg["companies"]:
         if not c.get("cik") or not c.get("enabled") or (only and c["code"] != only):
             continue

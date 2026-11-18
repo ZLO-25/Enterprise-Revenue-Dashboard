@@ -83,5 +83,14 @@ class MergeSbc(unittest.TestCase):
         self.assertIn("10-Q", line)                                                # 最新一季：等 10-Q
 
 
+class VerifiedSbc(unittest.TestCase):
+    def test_only_listed_quarters_pass_the_60pct_gate(self):
+        # 放行清單只認「公司＋季別」；同一家公司其他超標季度、其他公司同季別都還是擋
+        self.assertIn("3Q20", M.SBC_VERIFIED["pltr"])
+        self.assertNotIn("1Q21", M.SBC_VERIFIED["pltr"])
+        self.assertNotIn("3Q20", M.SBC_VERIFIED.get("meta", {}))
+        self.assertIsNotNone(M.sbc_reject(846.959, 289.4))   # 規則本身沒有放寬
+
+
 if __name__ == "__main__":
     unittest.main()

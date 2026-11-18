@@ -20,6 +20,16 @@ MARK = "待確認：資產負債表欄位 "
 
 NO_SOURCE = "來源不是 SEC XBRL，尚未從年報讀取"
 SBC_MAX_REV = 0.6
+# 超過 60% 但已經逐季對過 SEC 申報數字的季度（只有這裡列的才放行；新的超標季度仍然先擋下來，對過才加進來）。
+# 對法：GitHub Actions bs-fetch 的 dump 模式列出 ShareBasedCompensation 的原始事實，確認「本期累計 − 上一期累計」和提案一致，
+# 而且同一季的稅前虧損規模對得上（2026-11-18 核對）。
+SBC_VERIFIED = {
+    "pltr": {"3Q20": "前三季累計 1,028.914 − 上半年累計 181.955 ＝ 846.959；同一季申報的稅前虧損是 861.9，規模對得上",
+             "4Q20": "全年 1,270.702 − 前三季累計 1,028.914 ＝ 241.788",
+             "2Q21": "上半年累計 426.473 − 第一季 193.731 ＝ 232.742"},
+    "meta": {"2Q12": "10-Q 的單季值 1,106，也等於上半年累計 1,209 − 第一季 103"},
+}
+SBC_NOTE = "股票酬勞（sbc）占當季營收超過 60% 但已核對 SEC 申報數字、照實收錄的季度："
 
 
 def sbc_reject(sb, rev):
@@ -60,6 +70,7 @@ def main():
         miss = {k: [] for k in FIELDS}
         why = {k: collections.Counter() for k in FIELDS}
         whyq = {k: {} for k in FIELDS}
+        verified = []
         for q in D["quarters"]:
             r = by.get(q["q"], {"vals": {}, "why": {"*": "提案沒有這一季"}})
             r = {"vals": dict(r["vals"]), "why": dict(r["why"])}
@@ -77,6 +88,9 @@ def main():
                 r["vals"]["shOut"] = None
                 r["why"]["shOut"] = "期末股數與淨利÷EPS 差一個數量級以上（單位或分割換算疑似有誤，不使用）"
             bad = sbc_reject(r["vals"].get("sbc"), q.get("rev"))
+            if bad and "超過" in bad and q["q"] in SBC_VERIFIED.get(code, {}):
+                bad = None
+                verified.append(q["q"])
             if bad:
                 r["vals"]["sbc"] = None
                 r["why"]["sbc"] = bad
@@ -94,6 +108,10 @@ def main():
                     whyq[k].setdefault(wk, []).append(q["q"])
         notes = D.setdefault("notes", {})
         un = [x for x in notes.get("unavailable", []) if not x.startswith(mark) and not (only and x.startswith(f"待確認：{H.NAMES[only]}（{only}）"))]
+        if "sbc" in FIELDS:
+            un = [x for x in un if not x.startswith(SBC_NOTE)]
+            if verified:
+                un.append(SBC_NOTE + "；".join(f"{x}（{SBC_VERIFIED[code][x]}）" for x in verified) + "。單位百萬美元")
         for k in FIELDS:
             if miss[k] and no_source:
                 un.append(f"待確認：{H.NAMES[k]}（{k}）：{NO_SOURCE}")
