@@ -1,6 +1,6 @@
 {
 "code": "amzn",
-"fetched": "2026-11-18T16:31Z",
+"fetched": "2026-11-18T07:59Z",
 "splits": [
 [
 "1998-06-02",
@@ -550,62 +550,9 @@
 "q": "4Q10",
 "end": "2010-12-31",
 "vals": {
-"equity": 6864.0,
-"shOut": 9020.0,
-"dilSh": 9160.0,
-"pretax": 506.0,
-"tax": 84.0,
-"cash": 8762.0,
 "sbc": 120.0
 },
 "prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001193125-12-032846",
-"filed": "2012-02-01"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001193125-12-032846",
-"filed": "2012-02-01"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001193125-12-032846",
-"filed": "2012-02-01"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001193125-12-032846",
-"filed": "2012-02-01"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001193125-12-032846",
-"filed": "2012-02-01"
-}
-],
 "sbc": [
 {
 "c": "ShareBasedCompensation",
@@ -615,13 +562,61 @@
 ]
 },
 "why": {
-"buyback": "讀不到單季值",
-"debt": "缺 LongTermDebtCurrent"
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q11",
 "end": "2011-03-31",
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）",
+"sbc": "讀不到單季值"
+}
+},
+{
+"q": "2Q11",
+"end": "2011-06-30",
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）",
+"sbc": "讀不到單季值"
+}
+},
+{
+"q": "3Q11",
+"end": "2011-09-30",
+"vals": {},
+"prov": {},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）",
+"sbc": "讀不到單季值"
+}
+},
+{
+"q": "4Q11",
+"end": "2011-12-31",
+"vals": {
+"sbc": 160.0
+},
+"prov": {
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001018724-14-000006",
+"filed": "2014-01-31"
+}
+]
+},
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
+},
+{
+"q": "1Q12",
+"end": "2012-03-31",
 "vals": {
 "equity": 7347.0,
 "shOut": 9040.0,
@@ -686,8 +681,8 @@
 }
 },
 {
-"q": "2Q11",
-"end": "2011-06-30",
+"q": "2Q12",
+"end": "2012-06-30",
 "vals": {
 "equity": 7765.0,
 "shOut": 9080.0,
@@ -752,8 +747,8 @@
 }
 },
 {
-"q": "3Q11",
-"end": "2011-09-30",
+"q": "3Q12",
+"end": "2012-09-30",
 "vals": {
 "equity": 7766.0,
 "shOut": 9100.0,
@@ -818,369 +813,12 @@
 }
 },
 {
-"q": "4Q11",
-"end": "2011-12-31",
-"vals": {
-"equity": 7757.0,
-"shOut": 9100.0,
-"dilSh": 9220.0,
-"pretax": 337.0,
-"tax": 194.0,
-"cash": 9576.0,
-"debt": 384.0,
-"sbc": 160.0
-},
-"prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-}
-],
-"debt": [
-{
-"c": "LongTermDebtCurrent",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-},
-{
-"c": "LongTermDebtNoncurrent",
-"acc": "0001193125-13-028520",
-"filed": "2013-01-30"
-}
-],
-"sbc": [
-{
-"c": "ShareBasedCompensation",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-]
-},
-"why": {
-"buyback": "讀不到單季值"
-}
-},
-{
-"q": "1Q12",
-"end": "2012-03-31",
-"vals": {
-"equity": 7271.0,
-"shOut": 9000.0,
-"dilSh": 9200.0,
-"pretax": 84.0,
-"tax": 43.0,
-"cash": 5715.0
-},
-"prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001193125-12-187203",
-"filed": "2012-04-27"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001193125-12-187203",
-"filed": "2012-04-27"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-14-000014",
-"filed": "2014-04-25"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001193125-12-187203",
-"filed": "2012-04-27"
-}
-]
-},
-"why": {
-"buyback": "讀不到單季值",
-"debt": "缺 LongTermDebtCurrent",
-"sbc": "讀不到單季值"
-}
-},
-{
-"q": "2Q12",
-"end": "2012-06-30",
-"vals": {
-"equity": 7505.0,
-"shOut": 9040.0,
-"dilSh": 9160.0,
-"pretax": 146.0,
-"tax": 109.0,
-"cash": 4970.0
-},
-"prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001193125-12-317409",
-"filed": "2012-07-27"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001193125-12-317409",
-"filed": "2012-07-27"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-14-000025",
-"filed": "2014-07-25"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001193125-12-317409",
-"filed": "2012-07-27"
-}
-]
-},
-"why": {
-"buyback": "讀不到單季值",
-"debt": "缺 LongTermDebtCurrent",
-"sbc": "讀不到單季值"
-}
-},
-{
-"q": "3Q12",
-"end": "2012-09-30",
-"vals": {
-"equity": 7553.0,
-"shOut": 9060.0,
-"dilSh": 9040.0,
-"pretax": -22.0,
-"tax": 83.0,
-"cash": 5248.0
-},
-"prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001193125-12-436012",
-"filed": "2012-10-26"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001193125-12-436012",
-"filed": "2012-10-26"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-14-000055",
-"filed": "2014-10-24"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001193125-12-436012",
-"filed": "2012-10-26"
-}
-]
-},
-"why": {
-"buyback": "讀不到單季值",
-"debt": "缺 LongTermDebtCurrent",
-"sbc": "讀不到單季值"
-}
-},
-{
 "q": "4Q12",
 "end": "2012-12-31",
 "vals": {
-"equity": 8192.0,
-"shOut": 9080.0,
-"dilSh": 9220.0,
-"pretax": 337.0,
-"tax": 194.0,
-"buyback": 0.0,
-"cash": 11448.0,
-"debt": 3663.0,
 "sbc": 236.0
 },
 "prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001018724-16-000172",
-"filed": "2016-01-29"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"buyback": [
-{
-"c": "PaymentsForRepurchaseOfCommonStock",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-16-000172",
-"filed": "2016-01-29"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
-"debt": [
-{
-"c": "LongTermDebtCurrent",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-},
-{
-"c": "LongTermDebtNoncurrent",
-"acc": "0001018724-14-000006",
-"filed": "2014-01-31"
-}
-],
 "sbc": [
 {
 "c": "ShareBasedCompensation",
@@ -1189,7 +827,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
 },
 {
 "q": "1Q13",
@@ -1429,83 +1069,9 @@
 "q": "4Q13",
 "end": "2013-12-31",
 "vals": {
-"equity": 9746.0,
-"shOut": 9180.0,
-"dilSh": 9340.0,
-"pretax": 451.0,
-"tax": -179.0,
-"buyback": 0.0,
-"cash": 12447.0,
-"debt": 3944.0,
 "sbc": 326.0
 },
 "prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001018724-17-000011",
-"filed": "2017-02-10"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"dilSh": [
-{
-"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"buyback": [
-{
-"c": "PaymentsForRepurchaseOfCommonStock",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001018724-17-000011",
-"filed": "2017-02-10"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
-"debt": [
-{
-"c": "LongTermDebtCurrent",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-},
-{
-"c": "LongTermDebtNoncurrent",
-"acc": "0001018724-15-000006",
-"filed": "2015-01-30"
-}
-],
 "sbc": [
 {
 "c": "ShareBasedCompensation",
@@ -1514,7 +1080,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
 },
 {
 "q": "1Q14",

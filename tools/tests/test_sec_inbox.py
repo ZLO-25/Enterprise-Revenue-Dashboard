@@ -38,14 +38,24 @@ class PickEx99(unittest.TestCase):
 
 class XbrlDue(unittest.TestCase):
     def test_states(self):
-        self.assertTrue(S.xbrl_due("flash", "2026-11-19", {}))
-        self.assertTrue(S.xbrl_due("completed", "2026-11-19", {}))
+        self.assertTrue(S.xbrl_due("flash"))
+        self.assertTrue(S.xbrl_due("completed"))
+        self.assertFalse(S.xbrl_due("waiting"))   # 核對完的公司 10-Q 一定晚於 rd，不能當成「有新申報」
+        self.assertFalse(S.xbrl_due("stuck"))
 
-    def test_new_10q(self):
-        f = {"periodic": [{"date": "2026-11-25"}]}
-        self.assertTrue(S.xbrl_due("waiting", "2026-11-19", f))
-        self.assertFalse(S.xbrl_due("waiting", "2026-11-26", f))
-        self.assertFalse(S.xbrl_due("waiting", "2026-11-19", {"periodic": []}))
+
+class MergeRecent(unittest.TestCase):
+    def test_only_recent_replaced(self):
+        old = {"code": "googl", "splits": [["2022-07-18", 20.0]], "quarters": [{"q": f"{i}Q", "vals": {"x": "old"}} for i in range(5)]}
+        new = {"code": "googl", "fetched": "T", "quarters": [{"q": f"{i}Q", "vals": {"x": "new"}} for i in range(6)]}
+        m = S.merge_recent(old, new, n=3)
+        self.assertEqual([r["vals"]["x"] for r in m["quarters"]], ["old", "old", "old", "new", "new", "new"])
+        self.assertEqual(m["splits"], old["splits"])
+        self.assertEqual(m["fetched"], "T")
+
+    def test_no_old(self):
+        new = {"quarters": [{"q": "1Q"}]}
+        self.assertIs(S.merge_recent(None, new), new)
 
 
 class Close(unittest.TestCase):
