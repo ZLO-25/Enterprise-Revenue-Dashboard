@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-18T16:32Z",
+ "generated": "2026-11-18T16:41Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "10 小時前成功",
-   "lastOk": "2026-11-18T06:10Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-18T16:32Z"
   },
   {
    "id": "sec-feed",
@@ -16,23 +16,23 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-18T16:30Z"
+   "lastOk": "2026-11-18T16:41Z"
   },
   {
    "id": "prices-daily",
    "label": "每日收盤價與本益比",
    "kind": "daily",
    "light": "green",
-   "note": "1 小時前成功",
-   "lastOk": "2026-11-18T16:00Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-18T16:37Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "9 小時前成功",
-   "lastOk": "2026-11-18T07:13Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-18T16:33Z"
   },
   {
    "id": "quant-prices",
