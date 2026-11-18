@@ -1,6 +1,6 @@
 {
 "code": "panw",
-"fetched": "2026-11-12T12:54Z",
+"fetched": "2026-11-18T07:54Z",
 "splits": [
 [
 "2022-09-14",
@@ -129,7 +129,8 @@
 "why": {
 "dilSh": "讀不到單季值",
 "buyback": "讀不到單季值",
-"debt": "缺 ConvertibleDebtNoncurrent"
+"debt": "缺 ConvertibleDebtNoncurrent",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -141,7 +142,8 @@
 "pretax": -3.203,
 "tax": 0.312,
 "buyback": 0.024,
-"cash": 321.557
+"cash": 321.557,
+"sbc": 8.284
 },
 "prov": {
 "equity": [
@@ -189,6 +191,13 @@
 "c": "AvailableForSaleSecuritiesCurrent",
 "acc": "0001327567-12-000006",
 "filed": "2012-12-10"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-13-000036",
+"filed": "2013-12-05"
 }
 ]
 },
@@ -206,7 +215,8 @@
 "pretax": -2.101,
 "tax": 0.512,
 "buyback": 0.011,
-"cash": 337.444
+"cash": 337.444,
+"sbc": 8.746
 },
 "prov": {
 "equity": [
@@ -254,6 +264,13 @@
 "c": "AvailableForSaleSecuritiesCurrent",
 "acc": "0001327567-13-000010",
 "filed": "2013-03-05"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-14-000005",
+"filed": "2014-02-24"
 }
 ]
 },
@@ -272,7 +289,8 @@
 "pretax": -6.474,
 "tax": 0.808,
 "buyback": 0.036,
-"cash": 361.697
+"cash": 361.697,
+"sbc": 12.578
 },
 "prov": {
 "equity": [
@@ -328,6 +346,13 @@
 "acc": "0001327567-13-000016",
 "filed": "2013-06-04"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-14-000013",
+"filed": "2014-06-03"
+}
 ]
 },
 "why": {
@@ -344,7 +369,8 @@
 "tax": 8.958,
 "buyback": 0.007,
 "cash": 419.607,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 14.096
 },
 "prov": {
 "equity": [
@@ -400,6 +426,13 @@
 "acc": "0001327567-14-000028",
 "filed": "2014-09-18"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-15-000027",
+"filed": "2015-09-17"
+}
 ]
 },
 "why": {
@@ -415,7 +448,8 @@
 "pretax": -6.614,
 "tax": 1.247,
 "buyback": 0.008,
-"cash": 436.733
+"cash": 436.733,
+"sbc": 14.383
 },
 "prov": {
 "equity": [
@@ -463,6 +497,13 @@
 "c": "AvailableForSaleSecuritiesCurrent",
 "acc": "0001327567-13-000036",
 "filed": "2013-12-05"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-14-000043",
+"filed": "2014-11-25"
 }
 ]
 },
@@ -480,7 +521,8 @@
 "pretax": -37.34,
 "tax": 2.606,
 "buyback": 0.101,
-"cash": 438.212
+"cash": 438.212,
+"sbc": 24.346
 },
 "prov": {
 "equity": [
@@ -528,6 +570,13 @@
 "c": "AvailableForSaleSecuritiesCurrent",
 "acc": "0001327567-14-000005",
 "filed": "2014-02-24"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-15-000008",
+"filed": "2015-03-03"
 }
 ]
 },
@@ -545,7 +594,8 @@
 "pretax": -145.315,
 "tax": 1.272,
 "buyback": 0.023,
-"cash": 367.97
+"cash": 367.97,
+"sbc": 27.956
 },
 "prov": {
 "equity": [
@@ -593,6 +643,13 @@
 "c": "AvailableForSaleSecuritiesCurrent",
 "acc": "0001327567-14-000013",
 "filed": "2014-06-03"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-15-000018",
+"filed": "2015-05-28"
 }
 ]
 },
@@ -611,7 +668,8 @@
 "tax": -0.833,
 "buyback": 0.0,
 "cash": 772.49,
-"debt": 466.875
+"debt": 466.875,
+"sbc": 33.115
 },
 "prov": {
 "equity": [
@@ -672,6 +730,13 @@
 "acc": "0001327567-15-000027",
 "filed": "2015-09-17"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-16-000064",
+"filed": "2016-09-08"
+}
 ]
 },
 "why": {
@@ -688,7 +753,8 @@
 "tax": 1.2,
 "buyback": 0.0,
 "cash": 771.452,
-"debt": 471.856
+"debt": 471.856,
+"sbc": 38.4
 },
 "prov": {
 "equity": [
@@ -744,6 +810,13 @@
 "acc": "0001327567-14-000043",
 "filed": "2014-11-25"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-15-000036",
+"filed": "2015-11-24"
+}
 ]
 },
 "why": {
@@ -760,7 +833,8 @@
 "tax": -0.7,
 "buyback": 0.0,
 "cash": 675.074,
-"debt": 476.872
+"debt": 476.872,
+"sbc": 56.9
 },
 "prov": {
 "equity": [
@@ -816,6 +890,13 @@
 "acc": "0001327567-15-000008",
 "filed": "2015-03-03"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-16-000048",
+"filed": "2016-02-26"
+}
 ]
 },
 "why": {
@@ -832,7 +913,8 @@
 "tax": 3.5,
 "buyback": 0.0,
 "cash": 822.95,
-"debt": 481.96
+"debt": 481.96,
+"sbc": 60.2
 },
 "prov": {
 "equity": [
@@ -893,6 +975,13 @@
 "acc": "0001327567-15-000018",
 "filed": "2015-05-28"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-16-000053",
+"filed": "2016-05-27"
+}
 ]
 },
 "why": {
@@ -909,7 +998,8 @@
 "tax": 5.4,
 "buyback": 0.0,
 "cash": 789.0,
-"debt": 487.1
+"debt": 487.1,
+"sbc": 65.8
 },
 "prov": {
 "equity": [
@@ -970,6 +1060,13 @@
 "acc": "0001327567-16-000064",
 "filed": "2016-09-08"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-17-000027",
+"filed": "2017-09-07"
+}
 ]
 },
 "why": {
@@ -978,7 +1075,7 @@
 },
 {
 "q": "1Q16",
-"end": "2015-10-31",
+"end": "2017-07-31",
 "vals": {
 "equity": 543.8,
 "shOut": 515.4,
@@ -1038,12 +1135,13 @@
 },
 "why": {
 "dilSh": "讀不到單季值",
-"debt": "缺 ConvertibleDebtNoncurrent"
+"debt": "缺 ConvertibleDebtNoncurrent",
+"sbc": "讀不到單季值"
 }
 },
 {
 "q": "2Q16",
-"end": "2016-01-31",
+"end": null,
 "vals": {
 "equity": 592.8,
 "shOut": 530.4,
@@ -1103,12 +1201,13 @@
 },
 "why": {
 "dilSh": "讀不到單季值",
-"debt": "缺 ConvertibleDebtNoncurrent"
+"debt": "缺 ConvertibleDebtNoncurrent",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q16",
-"end": "2016-04-30",
+"end": null,
 "vals": {
 "equity": 659.0,
 "shOut": 537.6,
@@ -1168,12 +1267,13 @@
 },
 "why": {
 "dilSh": "讀不到單季值",
-"debt": "缺 ConvertibleDebtNoncurrent"
+"debt": "缺 ConvertibleDebtNoncurrent",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q16",
-"end": "2016-07-31",
+"end": null,
 "vals": {
 "equity": 894.9,
 "shOut": 543.0,
@@ -1245,12 +1345,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "1Q17",
-"end": "2016-10-31",
+"end": null,
 "vals": {
 "equity": 856.9,
 "shOut": 550.2,
@@ -1322,12 +1423,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q17",
-"end": "2017-01-31",
+"end": null,
 "vals": {
 "equity": 870.6,
 "shOut": 552.0,
@@ -1394,12 +1496,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q17",
-"end": "2017-04-30",
+"end": null,
 "vals": {
 "equity": 813.1,
 "shOut": 550.8,
@@ -1466,12 +1569,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q17",
-"end": "2017-07-31",
+"end": "2018-10-31",
 "vals": {
 "equity": 759.6,
 "shOut": 549.0,
@@ -1479,7 +1583,8 @@
 "tax": 7.6,
 "buyback": 115.9,
 "cash": 1375.0,
-"debt": 524.7
+"debt": 524.7,
+"sbc": 136.9
 },
 "prov": {
 "equity": [
@@ -1540,6 +1645,13 @@
 "acc": "0001327567-18-000024",
 "filed": "2018-09-13"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-19-000038",
+"filed": "2019-11-26"
+}
 ]
 },
 "why": {
@@ -1548,7 +1660,7 @@
 },
 {
 "q": "1Q18",
-"end": "2017-10-31",
+"end": null,
 "vals": {
 "equity": 665.5,
 "shOut": 551.4,
@@ -1620,12 +1732,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q18",
-"end": "2018-01-31",
+"end": null,
 "vals": {
 "equity": 633.1,
 "shOut": 550.8,
@@ -1697,12 +1810,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "3Q18",
-"end": "2018-04-30",
+"end": null,
 "vals": {
 "equity": 722.1,
 "shOut": 557.4,
@@ -1774,12 +1888,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "4Q18",
-"end": "2018-07-31",
+"end": "2019-01-31",
 "vals": {
 "equity": 1160.3,
 "shOut": 561.6,
@@ -1851,12 +1966,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"sbc": "讀不到單季值"
 }
 },
 {
 "q": "1Q19",
-"end": "2018-10-31",
+"end": null,
 "vals": {
 "equity": 1253.0,
 "shOut": 568.2,
@@ -1928,12 +2044,13 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
 "q": "2Q19",
-"end": "2019-01-31",
+"end": null,
 "vals": {
 "equity": 1071.8,
 "shOut": 562.2,
@@ -2005,7 +2122,8 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -2082,7 +2200,8 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -2095,7 +2214,8 @@
 "tax": 7.1,
 "buyback": 0.0,
 "cash": 2803.1,
-"debt": 1430.0
+"debt": 1430.0,
+"sbc": 150.2
 },
 "prov": {
 "equity": [
@@ -2156,6 +2276,13 @@
 "acc": "0001327567-19-000032",
 "filed": "2019-09-09"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-21-000029",
+"filed": "2021-09-03"
+}
 ]
 },
 "why": {
@@ -2172,7 +2299,8 @@
 "tax": 5.1,
 "buyback": 198.1,
 "cash": 2861.2,
-"debt": 1445.5
+"debt": 1445.5,
+"sbc": 149.9
 },
 "prov": {
 "equity": [
@@ -2227,6 +2355,13 @@
 "c": "ConvertibleDebtNoncurrent",
 "acc": "0001327567-19-000038",
 "filed": "2019-11-26"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-20-000041",
+"filed": "2020-11-19"
 }
 ]
 },
@@ -2244,7 +2379,8 @@
 "tax": 12.6,
 "buyback": 0.0,
 "cash": 3133.9,
-"debt": 1461.2
+"debt": 1461.2,
+"sbc": 168.5
 },
 "prov": {
 "equity": [
@@ -2299,6 +2435,13 @@
 "c": "ConvertibleDebtNoncurrent",
 "acc": "0001327567-20-000007",
 "filed": "2020-02-25"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-21-000004",
+"filed": "2021-02-23"
 }
 ]
 },
@@ -2316,7 +2459,8 @@
 "tax": 7.0,
 "buyback": 1000.0,
 "cash": 2038.8,
-"debt": 1477.0
+"debt": 1477.0,
+"sbc": 165.8
 },
 "prov": {
 "equity": [
@@ -2371,6 +2515,13 @@
 "c": "ConvertibleDebtNoncurrent",
 "acc": "0001327567-20-000017",
 "filed": "2020-05-22"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-21-000014",
+"filed": "2021-05-21"
 }
 ]
 },
@@ -2388,7 +2539,8 @@
 "tax": 10.5,
 "buyback": 0.0,
 "cash": 3747.8,
-"debt": 3084.1
+"debt": 3084.1,
+"sbc": 174.2
 },
 "prov": {
 "equity": [
@@ -2448,6 +2600,13 @@
 "c": "ConvertibleDebtCurrent",
 "acc": "0001327567-21-000029",
 "filed": "2021-09-03"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-22-000028",
+"filed": "2022-09-06"
 }
 ]
 },
@@ -2465,7 +2624,8 @@
 "tax": 9.9,
 "buyback": 500.0,
 "cash": 3217.6,
-"debt": 3119.2
+"debt": 3119.2,
+"sbc": 205.8
 },
 "prov": {
 "equity": [
@@ -2521,6 +2681,13 @@
 "acc": "0001327567-20-000041",
 "filed": "2020-11-19"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-21-000040",
+"filed": "2021-11-19"
+}
 ]
 },
 "why": {
@@ -2537,7 +2704,8 @@
 "tax": 12.3,
 "buyback": 0.0,
 "cash": 3171.2,
-"debt": 3154.7
+"debt": 3154.7,
+"sbc": 225.6
 },
 "prov": {
 "equity": [
@@ -2597,6 +2765,13 @@
 "c": "ConvertibleDebtCurrent",
 "acc": "0001327567-21-000004",
 "filed": "2021-02-23"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-22-000008",
+"filed": "2022-02-23"
 }
 ]
 },
@@ -2615,7 +2790,8 @@
 "tax": -5.3,
 "buyback": 350.0,
 "cash": 2945.4,
-"debt": 3190.6
+"debt": 3190.6,
+"sbc": 233.1
 },
 "prov": {
 "equity": [
@@ -2678,6 +2854,13 @@
 "acc": "0001327567-21-000014",
 "filed": "2021-05-21"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-22-000016",
+"filed": "2022-05-20"
+}
 ]
 },
 "why": {}
@@ -2692,7 +2875,8 @@
 "tax": 17.0,
 "buyback": 328.1,
 "cash": 2901.1,
-"debt": 3226.0
+"debt": 3226.0,
+"sbc": 230.0
 },
 "prov": {
 "equity": [
@@ -2752,6 +2936,13 @@
 "c": "ConvertibleDebtCurrent",
 "acc": "0001327567-22-000028",
 "filed": "2022-09-06"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-23-000024",
+"filed": "2023-09-01"
 }
 ]
 },
@@ -2770,7 +2961,8 @@
 "tax": 12.4,
 "buyback": 0.0,
 "cash": 3461.4,
-"debt": 3672.1
+"debt": 3672.1,
+"sbc": 259.1
 },
 "prov": {
 "equity": [
@@ -2837,6 +3029,13 @@
 "c": "ConvertibleDebtCurrent",
 "acc": "0001327567-21-000040",
 "filed": "2021-11-19"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-22-000038",
+"filed": "2022-11-18"
 }
 ]
 },
@@ -2853,7 +3052,8 @@
 "tax": 12.7,
 "buyback": 550.0,
 "cash": 3340.3,
-"debt": 3673.9
+"debt": 3673.9,
+"sbc": 265.1
 },
 "prov": {
 "equity": [
@@ -2920,6 +3120,13 @@
 "c": "ConvertibleDebtCurrent",
 "acc": "0001327567-22-000008",
 "filed": "2022-02-23"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-23-000006",
+"filed": "2023-02-22"
 }
 ]
 },
@@ -2936,7 +3143,8 @@
 "tax": 20.7,
 "buyback": 0.0,
 "cash": 3874.6,
-"debt": 3675.7
+"debt": 3675.7,
+"sbc": 247.3
 },
 "prov": {
 "equity": [
@@ -3004,6 +3212,13 @@
 "acc": "0001327567-22-000016",
 "filed": "2022-05-20"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-23-000014",
+"filed": "2023-05-24"
+}
 ]
 },
 "why": {}
@@ -3018,7 +3233,8 @@
 "tax": 14.0,
 "buyback": 342.3,
 "cash": 3634.5,
-"debt": 3676.8
+"debt": 3676.8,
+"sbc": 239.6
 },
 "prov": {
 "equity": [
@@ -3079,6 +3295,13 @@
 "acc": "0001327567-23-000024",
 "filed": "2023-09-01"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-24-000029",
+"filed": "2024-09-06"
+}
 ]
 },
 "why": {
@@ -3095,7 +3318,8 @@
 "pretax": 34.4,
 "tax": 14.4,
 "buyback": 22.7,
-"cash": 3803.7
+"cash": 3803.7,
+"sbc": 266.0
 },
 "prov": {
 "equity": [
@@ -3150,6 +3374,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-22-000038",
 "filed": "2022-11-18"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-23-000032",
+"filed": "2023-11-17"
 }
 ]
 },
@@ -3167,7 +3398,8 @@
 "pretax": 84.4,
 "tax": 0.2,
 "buyback": 250.0,
-"cash": 3346.9
+"cash": 3346.9,
+"sbc": 283.3
 },
 "prov": {
 "equity": [
@@ -3222,6 +3454,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-23-000006",
 "filed": "2023-02-22"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-24-000005",
+"filed": "2024-02-21"
 }
 ]
 },
@@ -3239,7 +3478,8 @@
 "pretax": 131.0,
 "tax": 23.2,
 "buyback": 0.0,
-"cash": 3958.2
+"cash": 3958.2,
+"sbc": 271.0
 },
 "prov": {
 "equity": [
@@ -3295,6 +3535,13 @@
 "acc": "0001327567-23-000014",
 "filed": "2023-05-24"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-24-000017",
+"filed": "2024-05-21"
+}
 ]
 },
 "why": {
@@ -3310,7 +3557,8 @@
 "pretax": 316.5,
 "tax": 88.8,
 "buyback": 0.0,
-"cash": 2390.0
+"cash": 2390.0,
+"sbc": 254.2
 },
 "prov": {
 "equity": [
@@ -3358,6 +3606,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-24-000029",
 "filed": "2024-09-06"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-25-000027",
+"filed": "2025-08-29"
 }
 ]
 },
@@ -3376,7 +3631,8 @@
 "pretax": 282.6,
 "tax": 88.4,
 "buyback": 66.7,
-"cash": 3893.8
+"cash": 3893.8,
+"sbc": 271.0
 },
 "prov": {
 "equity": [
@@ -3431,6 +3687,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-23-000032",
 "filed": "2023-11-17"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-24-000040",
+"filed": "2024-11-21"
 }
 ]
 },
@@ -3448,7 +3711,8 @@
 "pretax": 135.5,
 "tax": -1611.4,
 "buyback": 0.0,
-"cash": 3371.0
+"cash": 3371.0,
+"sbc": 272.0
 },
 "prov": {
 "equity": [
@@ -3503,6 +3767,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-24-000005",
 "filed": "2024-02-21"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-25-000010",
+"filed": "2025-02-14"
 }
 ]
 },
@@ -3520,7 +3791,8 @@
 "pretax": 251.2,
 "tax": -27.6,
 "buyback": 500.0,
-"cash": 2890.4
+"cash": 2890.4,
+"sbc": 263.5
 },
 "prov": {
 "equity": [
@@ -3576,6 +3848,13 @@
 "acc": "0001327567-24-000017",
 "filed": "2024-05-21"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-25-000017",
+"filed": "2025-05-21"
+}
 ]
 },
 "why": {
@@ -3591,7 +3870,8 @@
 "pretax": 318.7,
 "tax": -39.4,
 "buyback": 0.3,
-"cash": 2578.6
+"cash": 2578.6,
+"sbc": 269.5
 },
 "prov": {
 "equity": [
@@ -3639,6 +3919,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-25-000027",
 "filed": "2025-08-29"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-26-000023",
+"filed": "2026-09-10"
 }
 ]
 },
@@ -3657,7 +3944,8 @@
 "pretax": 368.0,
 "tax": 17.0,
 "buyback": 0.0,
-"cash": 3391.2
+"cash": 3391.2,
+"sbc": 295.0
 },
 "prov": {
 "equity": [
@@ -3712,6 +4000,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-24-000040",
 "filed": "2024-11-21"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-25-000035",
+"filed": "2025-11-20"
 }
 ]
 },
@@ -3729,7 +4024,8 @@
 "pretax": 325.0,
 "tax": 58.0,
 "buyback": 0.0,
-"cash": 3232.6
+"cash": 3232.6,
+"sbc": 320.0
 },
 "prov": {
 "equity": [
@@ -3784,6 +4080,13 @@
 "c": "ShortTermInvestments",
 "acc": "0001327567-25-000010",
 "filed": "2025-02-14"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-26-000005",
+"filed": "2026-02-18"
 }
 ]
 },
@@ -3801,7 +4104,8 @@
 "pretax": 311.0,
 "tax": 49.0,
 "buyback": 0.0,
-"cash": 3299.8
+"cash": 3299.8,
+"sbc": 326.0
 },
 "prov": {
 "equity": [
@@ -3857,6 +4161,13 @@
 "acc": "0001327567-25-000017",
 "filed": "2025-05-21"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-26-000015",
+"filed": "2026-06-03"
+}
 ]
 },
 "why": {
@@ -3873,7 +4184,8 @@
 "tax": 338.0,
 "buyback": 0.0,
 "cash": 2904.0,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 354.0
 },
 "prov": {
 "equity": [
@@ -3934,6 +4246,13 @@
 "acc": "0001327567-26-000015",
 "filed": "2026-06-03"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-26-000023",
+"filed": "2026-09-10"
+}
 ]
 },
 "why": {
@@ -3949,7 +4268,8 @@
 "dilSh": 709.0,
 "pretax": 412.0,
 "tax": 78.0,
-"cash": 4210.0
+"cash": 4210.0,
+"sbc": 370.0
 },
 "prov": {
 "equity": [
@@ -3995,6 +4315,13 @@
 },
 {
 "c": "ShortTermInvestments",
+"acc": "0001327567-25-000035",
+"filed": "2025-11-20"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001327567-25-000035",
 "filed": "2025-11-20"
 }
@@ -4014,7 +4341,8 @@
 "dilSh": 711.0,
 "pretax": 549.0,
 "tax": 117.0,
-"cash": 4536.0
+"cash": 4536.0,
+"sbc": 301.0
 },
 "prov": {
 "equity": [
@@ -4060,6 +4388,13 @@
 },
 {
 "c": "ShortTermInvestments",
+"acc": "0001327567-26-000005",
+"filed": "2026-02-18"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001327567-26-000005",
 "filed": "2026-02-18"
 }
@@ -4080,7 +4415,8 @@
 "pretax": -156.0,
 "tax": 21.0,
 "cash": 3111.0,
-"debt": 1352.0
+"debt": 1352.0,
+"sbc": 643.0
 },
 "prov": {
 "equity": [
@@ -4141,6 +4477,13 @@
 "acc": "0001327567-26-000015",
 "filed": "2026-06-03"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-26-000015",
+"filed": "2026-06-03"
+}
 ]
 },
 "why": {
@@ -4157,7 +4500,8 @@
 "tax": 13.0,
 "buyback": 0.0,
 "cash": 3071.0,
-"debt": 1774.0
+"debt": 1774.0,
+"sbc": 460.0
 },
 "prov": {
 "equity": [
@@ -4210,6 +4554,13 @@
 "debt": [
 {
 "c": "ConvertibleDebtNoncurrent",
+"acc": "0001327567-26-000023",
+"filed": "2026-09-10"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001327567-26-000023",
 "filed": "2026-09-10"
 }

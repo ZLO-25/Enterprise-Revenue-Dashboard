@@ -1,6 +1,6 @@
 {
 "code": "rklb",
-"fetched": "2026-11-12T15:13Z",
+"fetched": "2026-11-18T07:54Z",
 "splits": [],
 "niCand": {
 "2020-03-31": -14.2,
@@ -41,7 +41,8 @@
 "dilSh": 456.495,
 "pretax": -22.321,
 "tax": 4.388,
-"cash": 603.144
+"cash": 603.144,
+"sbc": 11.958
 },
 "prov": {
 "equity": [
@@ -84,6 +85,13 @@
 "c": "CashAndCashEquivalentsAtCarryingValue",
 "acc": "0000950170-22-010114",
 "filed": "2022-05-16"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950170-23-019756",
+"filed": "2023-05-09"
 }
 ]
 },
@@ -100,7 +108,8 @@
 "dilSh": 464.72,
 "pretax": -39.49,
 "tax": 2.073,
-"cash": 542.511
+"cash": 542.511,
+"sbc": 16.869
 },
 "prov": {
 "equity": [
@@ -144,6 +153,13 @@
 "acc": "0000950170-22-016921",
 "filed": "2022-08-11"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950170-23-039896",
+"filed": "2023-08-08"
+}
 ]
 },
 "why": {
@@ -159,7 +175,8 @@
 "dilSh": 469.769,
 "pretax": -32.917,
 "tax": 1.693,
-"cash": 502.707
+"cash": 502.707,
+"sbc": 14.485
 },
 "prov": {
 "equity": [
@@ -208,6 +225,13 @@
 "acc": "0000950170-22-023923",
 "filed": "2022-11-09"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950170-23-061189",
+"filed": "2023-11-08"
+}
 ]
 },
 "why": {
@@ -222,7 +246,8 @@
 "shOut": 475.357,
 "pretax": -38.218,
 "tax": -1.01,
-"cash": 471.791
+"cash": 471.791,
+"sbc": 12.337
 },
 "prov": {
 "equity": [
@@ -263,6 +288,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0000950170-24-022160",
 "filed": "2024-02-28"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001628280-25-008724",
+"filed": "2025-02-27"
 }
 ]
 },
@@ -280,7 +312,8 @@
 "dilSh": 476.2,
 "pretax": -45.091,
 "tax": 0.526,
-"cash": 398.722
+"cash": 398.722,
+"sbc": 14.036
 },
 "prov": {
 "equity": [
@@ -328,6 +361,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0000950170-23-019756",
 "filed": "2023-05-09"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950170-24-053646",
+"filed": "2024-05-06"
 }
 ]
 },
@@ -344,7 +384,8 @@
 "dilSh": 479.736,
 "pretax": -45.128,
 "tax": 0.761,
-"cash": 341.178
+"cash": 341.178,
+"sbc": 15.264
 },
 "prov": {
 "equity": [
@@ -392,6 +433,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0000950170-23-039896",
 "filed": "2023-08-08"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950170-24-094122",
+"filed": "2024-08-08"
 }
 ]
 },
@@ -408,7 +456,8 @@
 "dilSh": 484.034,
 "pretax": -39.216,
 "tax": 1.352,
-"cash": 288.417
+"cash": 288.417,
+"sbc": 14.098
 },
 "prov": {
 "equity": [
@@ -457,6 +506,13 @@
 "acc": "0000950170-23-061189",
 "filed": "2023-11-08"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950170-24-125529",
+"filed": "2024-11-12"
+}
 ]
 },
 "why": {
@@ -471,7 +527,8 @@
 "shOut": 488.923,
 "pretax": -49.486,
 "tax": 1.011,
-"cash": 244.773
+"cash": 244.773,
+"sbc": 10.063
 },
 "prov": {
 "equity": [
@@ -512,6 +569,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0001628280-25-008724",
 "filed": "2025-02-27"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001819994-26-000013",
+"filed": "2026-02-26"
 }
 ]
 },
@@ -529,7 +593,8 @@
 "dilSh": 489.995,
 "pretax": -44.255,
 "tax": 0.005,
-"cash": 492.522
+"cash": 492.522,
+"sbc": 13.093
 },
 "prov": {
 "equity": [
@@ -577,6 +642,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0000950170-24-053646",
 "filed": "2024-05-06"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001628280-25-023857",
+"filed": "2025-05-08"
 }
 ]
 },
@@ -593,7 +665,8 @@
 "dilSh": 494.191,
 "pretax": -42.491,
 "tax": -0.86,
-"cash": 496.755
+"cash": 496.755,
+"sbc": 13.955
 },
 "prov": {
 "equity": [
@@ -641,6 +714,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0000950170-24-094122",
 "filed": "2024-08-08"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001628280-25-038936",
+"filed": "2025-08-07"
 }
 ]
 },
@@ -657,7 +737,8 @@
 "dilSh": 497.702,
 "pretax": -50.995,
 "tax": 0.944,
-"cash": 442.389
+"cash": 442.389,
+"sbc": 12.896
 },
 "prov": {
 "equity": [
@@ -706,6 +787,13 @@
 "acc": "0000950170-24-125529",
 "filed": "2024-11-12"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001819994-25-000021",
+"filed": "2025-11-10"
+}
 ]
 },
 "why": {
@@ -720,7 +808,8 @@
 "shOut": 504.454,
 "pretax": -51.67,
 "tax": 0.675,
-"cash": 418.99
+"cash": 418.99,
+"sbc": 16.872
 },
 "prov": {
 "equity": [
@@ -759,6 +848,13 @@
 },
 {
 "c": "MarketableSecuritiesCurrent",
+"acc": "0001819994-26-000013",
+"filed": "2026-02-26"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001819994-26-000013",
 "filed": "2026-02-26"
 }
@@ -778,7 +874,8 @@
 "dilSh": 505.614,
 "pretax": -61.429,
 "tax": -0.813,
-"cash": 428.396
+"cash": 428.396,
+"sbc": 19.234
 },
 "prov": {
 "equity": [
@@ -826,6 +923,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0001628280-25-023857",
 "filed": "2025-05-08"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001819994-26-000028",
+"filed": "2026-05-07"
 }
 ]
 },
@@ -842,7 +946,8 @@
 "dilSh": 515.087,
 "pretax": -63.476,
 "tax": 2.938,
-"cash": 688.136
+"cash": 688.136,
+"sbc": 17.933
 },
 "prov": {
 "equity": [
@@ -890,6 +995,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0001628280-25-038936",
 "filed": "2025-08-07"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001819994-26-000062",
+"filed": "2026-08-10"
 }
 ]
 },
@@ -906,7 +1018,8 @@
 "dilSh": 528.726,
 "pretax": -59.348,
 "tax": -41.091,
-"cash": 976.74
+"cash": 976.74,
+"sbc": 15.727
 },
 "prov": {
 "equity": [
@@ -955,6 +1068,13 @@
 "acc": "0001819994-25-000021",
 "filed": "2025-11-10"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001819994-26-000074",
+"filed": "2026-11-09"
+}
 ]
 },
 "why": {
@@ -969,7 +1089,8 @@
 "shOut": 543.575,
 "pretax": -41.644,
 "tax": 11.278,
-"cash": 1016.577
+"cash": 1016.577,
+"sbc": 18.205
 },
 "prov": {
 "equity": [
@@ -1010,6 +1131,13 @@
 "c": "MarketableSecuritiesCurrent",
 "acc": "0001819994-26-000074",
 "filed": "2026-11-09"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001819994-26-000013",
+"filed": "2026-02-26"
 }
 ]
 },
@@ -1027,7 +1155,8 @@
 "dilSh": 605.435,
 "pretax": -46.814,
 "tax": -1.792,
-"cash": 1383.351
+"cash": 1383.351,
+"sbc": 28.116
 },
 "prov": {
 "equity": [
@@ -1073,6 +1202,13 @@
 },
 {
 "c": "MarketableSecuritiesCurrent",
+"acc": "0001819994-26-000028",
+"filed": "2026-05-07"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001819994-26-000028",
 "filed": "2026-05-07"
 }
@@ -1091,7 +1227,8 @@
 "dilSh": 629.682,
 "pretax": -43.931,
 "tax": 5.327,
-"cash": 2302.185
+"cash": 2302.185,
+"sbc": 19.561
 },
 "prov": {
 "equity": [
@@ -1137,6 +1274,13 @@
 },
 {
 "c": "MarketableSecuritiesCurrent",
+"acc": "0001819994-26-000062",
+"filed": "2026-08-10"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001819994-26-000062",
 "filed": "2026-08-10"
 }
@@ -1155,7 +1299,8 @@
 "dilSh": 652.264,
 "pretax": -76.174,
 "tax": 3.503,
-"cash": 4607.955
+"cash": 4607.955,
+"sbc": 18.324
 },
 "prov": {
 "equity": [
@@ -1201,6 +1346,13 @@
 },
 {
 "c": "MarketableSecuritiesCurrent",
+"acc": "0001819994-26-000074",
+"filed": "2026-11-09"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001819994-26-000074",
 "filed": "2026-11-09"
 }
