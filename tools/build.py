@@ -234,7 +234,8 @@ def build_combined(cfg, companies, datasets, theme, common):
     home = fill(home, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", CDN_CHART),
                        ("{{COMPANIES}}", js_json(companies)), ("{{DATASETS}}", js_json(home_data(datasets, cfg["site"].get("homeSlim")))),
                        ("{{SITE_TITLE}}", title), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
-                       ("{{FUT_BASE}}", cfg["site"]["pagesUrl"] + "data/futures/"), ("{{FUT_LINK}}", cfg["site"]["pagesUrl"] + "futures/"), ("{{LWC}}", CDN_LWC)])
+                       ("{{FUT_BASE}}", cfg["site"]["pagesUrl"] + "data/futures/"), ("{{FUT_LINK}}", cfg["site"]["pagesUrl"] + "futures/"), ("{{LWC}}", CDN_LWC),
+                       ("{{CAL_LINK}}", cfg["site"]["pagesUrl"] + "calendar/"), ("{{STATUS_LINK}}", cfg["site"]["pagesUrl"] + "status/")])
     html, code = split_frag(home)
     views.append({"id": "overview", "label": "總覽", "html": html, "code": code, "path": ""})
     for c in companies:
@@ -276,7 +277,7 @@ def main():
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js") + "\n" + read("assets", "today.js")
     if cfg["site"].get("perf"):
         # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
@@ -332,7 +333,8 @@ def main():
     home = lambda chart: fill(home_t, [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{LONGTERM_JS}}", LONGTERM), ("{{CHARTJS}}", chart),
                                        ("{{COMPANIES}}", js_json(pub)), ("{{DATASETS}}", js_json(home_data(datasets, cfg["site"].get("homeSlim")))),
                                        ("{{SITE_TITLE}}", cfg["site"]["title"]), ("{{REPO}}", cfg["site"]["repo"]), ("{{FUTURES_JS}}", FUTJS),
-                                       ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl), ("{{LWC}}", lwc)])
+                                       ("{{FUT_BASE}}", fb), ("{{FUT_LINK}}", fl), ("{{LWC}}", lwc),
+                                       ("{{CAL_LINK}}", fl.replace("futures/", "calendar/")), ("{{STATUS_LINK}}", fl.replace("futures/", "status/"))])
     fb, fl, lwc = "data/futures/", "futures/", LOCAL_LWC
     write(page(cfg["site"]["title"], "多家公司財報與營收追蹤總覽：最新一季、近四季、年化成長、利潤率與自由現金流比較。", home(LOCAL_CHART.format(rel="")), "", "home"), "index.html")
     fb, fl, lwc = pages_url + "data/futures/", pages_url + "futures/", CDN_LWC
@@ -351,6 +353,19 @@ def main():
     st = fill(read("templates", "status.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{STATUS_BASE}}", "../data/status/")])
     write(page("系統健康", "自動工作、Claude 排程與各公司資料有沒有過期；紅燈會開 GitHub issue。", st, "../", "status"), "status", "index.html")
     print("status/index.html（系統健康頁）")
+    # 財報行事曆頁：事件來自各公司 events[]（建置時內嵌；「今天」與分週在瀏覽時用台北日期算，所以不需要另外排程）
+    cal_ev, cal_recent = [], []
+    for c in companies:
+        D = datasets[c["code"]]
+        for e in D.get("events", []):
+            cal_ev.append({"d": e["date"], "code": c["code"], "name": c["name"], "sector": c.get("sector") or "其他", "path": c["path"], "t": e["t"], "est": bool(e.get("est"))})
+        Q = D.get("quarters") or []
+        if Q and Q[-1].get("rd"):
+            cal_recent.append({"code": c["code"], "name": c["name"], "path": c["path"], "q": Q[-1]["q"], "rd": Q[-1]["rd"]})
+    ct = fill(read("templates", "calendar.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{TODAY_JS}}", read("assets", "today.js")),
+              ("{{EVENTS}}", js_json(cal_ev)), ("{{RECENT}}", js_json(cal_recent))])
+    write(page("財報行事曆", "未來 90 天各公司的財報與營收公布日：已公告與預估分開標示，依週分組。", ct, "../", "calendar"), "calendar", "index.html")
+    print("calendar/index.html（財報行事曆頁）")
     print("index.html（首頁）")
     build_combined(cfg, companies, datasets, theme, common)
 

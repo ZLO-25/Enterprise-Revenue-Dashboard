@@ -35,6 +35,7 @@ python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不�
 
 ## 合併 PR 的規則
 - **合併前必須看到 CI（`.github/workflows/ci.yml`）是綠燈**：資料核對、建置、單元測試、JavaScript 語法、瀏覽器冒煙測試。CI 紅燈就先修，不可略過。
+- 合併後刪除該 PR 的分支（PR 頁面可 Restore branch）。保留清單：`sec-raw`、`tw-raw`（Actions 的原始資料）、`rollback/*`、`shadow/*`、`pr-shots-*`。注意：這個雲端環境的 proxy 不允許刪分支，要請 ZL 在 GitHub 刪，或把 repo 設定「合併後自動刪除 head 分支」打開。
 - 單元測試放在 `tools/tests/`（`python3 -m unittest discover -s tools/tests`）；新增邏輯要附測試。
 
 ## 每日準備與系統健康

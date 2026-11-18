@@ -1,0 +1,541 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>財報行事曆</title><meta name="description" content="未來 90 天各公司的財報與營收公布日：已公告與預估分開標示，依週分組。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=992da559"><script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: report column (max 1180px) — sticky section nav, KPI strip, then one section per metric family; charts sit two-up on wide screens, one-up on phones. */
+:root {
+  --page: #f3f3ef;
+  --surface: #fcfcfb;
+  --ink: #121211;
+  --ink-2: #4f4e4a;
+  --muted: #6c6a64;
+  --tick: #898781;
+  --grid: #e4e3dc;
+  --axis: #c3c2b7;
+  --line: rgba(11, 11, 11, 0.10);
+  --wash: rgba(42, 120, 214, 0.08);
+  --accent: #1c5cab;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --neg: #e34948;
+  --pos-soft: #86b6ef;
+  --n7: #86b6ef; --n5: #3987e5; --n3: #1c5cab; --n2: #0d366b;
+  --good-text: #006300;
+  --bad-text: #b42f2f;
+  --chip-bg: #e8f0fb; --chip-ink: #184f95;
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "Noto Sans TC", "IBM Plex Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem; --step-4: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+    --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+    --accent: #6da7ec;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --neg: #e66767; --pos-soft: #5598e7;
+    --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+    --good-text: #3fbf3f; --bad-text: #f08080;
+    --chip-bg: #16304f; --chip-ink: #b7d3f6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+  --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+  --accent: #6da7ec;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --neg: #e66767; --pos-soft: #5598e7;
+  --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+  --good-text: #3fbf3f; --bad-text: #f08080;
+  --chip-bg: #16304f; --chip-ink: #b7d3f6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; font-family: var(--font-ui); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-top: 28px; }
+.eyebrow { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.masthead h1 .code { font-family: var(--font-data); font-weight: 500; font-size: 0.55em; color: var(--muted); letter-spacing: 0; margin-left: 0.4em; vertical-align: 0.2em; }
+.lede { color: var(--ink-2); max-width: 68ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step-0); color: var(--muted); font-family: var(--font-data); }
+.meta-row b { color: var(--ink); font-weight: 500; }
+
+/* nav */
+.secnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.secnav .scroller { max-width: 1180px; margin-inline: auto; display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.secnav .scroller::-webkit-scrollbar { display: none; }
+.secnav a { flex: none; text-decoration: none; color: var(--ink-2); font-size: var(--step-0); padding: 6px 12px; border-radius: 999px; }
+.secnav a:hover { background: var(--wash); color: var(--ink); }
+.secnav a.on { background: var(--chip-bg); color: var(--chip-ink); }
+/* 公司頁：寬螢幕（≥1200px）把章節目錄從頂端橫條改成右側固定欄。
+   左邊留給全站側邊欄（App Shell），右邊放「本頁章節」，兩者不打架：
+   ┌────────┬──────────────────────────┬──────────┐
+   │ 全站選單 │ 內容（圖表、表格）           │ 本頁章節   │
+   │ (可收合) │                          │ 跟著畫面   │
+   └────────┴──────────────────────────┴──────────┘
+   窄螢幕維持原本的頂端橫條。 */
+@media (min-width: 1200px) {
+  .pg { display: grid; grid-template-columns: minmax(0, 1fr) 168px; column-gap: 40px; max-width: 1320px; margin-inline: auto; }
+  .pg > .wrap { grid-column: 1; grid-row: 1; max-width: none; margin: 0; min-width: 0; }
+  .pg > .secnav { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px);
+    margin: 32px 0 0; padding: 0; border: 0; background: none; max-height: calc(100vh - 40px); overflow-y: auto; scrollbar-width: thin; }
+  .pg > .secnav .scroller { display: grid; gap: 1px; padding: 0; overflow: visible; border-left: 1px solid var(--line); }
+  .pg > .secnav .scroller::before { content: "本頁章節"; padding: 0 0 8px 14px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; color: var(--muted); }
+  .pg > .secnav a { margin-left: -1px; padding: 5px 10px 5px 13px; border-left: 2px solid transparent; border-radius: 0 6px 6px 0; font-size: 0.86rem; line-height: 1.35; }
+  .pg > .secnav a.homelink { margin-bottom: 6px; }
+  .pg > .secnav a.on { border-left-color: var(--accent); background: var(--wash); color: var(--ink); font-weight: 600; }
+  .pg section { scroll-margin-top: 20px; }
+}
+/* ≥1280px 且全站側邊欄收合時，左上角有一顆浮動的 ☰ 按鈕：內容左邊至少留 56px，不被它蓋住 */
+@media (min-width: 1280px) { html.sb-push:not(.sb-open) .pg { padding-left: max(0px, calc(40px - (100vw - 1352px) / 2)); } }
+
+/* cadence strip */
+.cadence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.cadence > div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cadence > div + div { border-left: 1px solid var(--line); }
+.cadence .when { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.cadence .what { font-weight: 600; }
+.cadence .which { font-size: var(--step-0); color: var(--ink-2); }
+@media (max-width: 720px) {
+  .cadence { grid-template-columns: minmax(0, 1fr); }
+  .cadence > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi:last-child { grid-column: 1 / -1; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 0.8rem; color: var(--muted); }
+.kpi .value { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+.kpi .value small { font-size: 0.55em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.kpi .delta { font-size: 0.8rem; color: var(--ink-2); font-family: var(--font-data); }
+.up { color: var(--good-text); }
+.down { color: var(--bad-text); }
+.chip { justify-self: start; font-size: 0.7rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+
+/* sections */
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+.sec-head .sub { color: var(--ink-2); max-width: 72ch; font-size: 0.95rem; }
+.sec-tag { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.card.wide { grid-column: 1 / -1; }
+.card h3 { font-size: 1.02rem; font-weight: 600; }
+.card .how { font-size: 0.88rem; color: var(--ink-2); }
+.card .how b { color: var(--ink); font-weight: 600; }
+.chartbox { position: relative; height: 300px; width: 100%; }
+.chartbox.short { height: 190px; }
+.chartbox.tall { height: 340px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls .lab { font-size: 0.8rem; color: var(--muted); margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 0.82rem; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+
+/* waterfall */
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 7.5rem; gap: 12px; align-items: center; font-size: 0.86rem; }
+.wf-row .nm { color: var(--ink-2); min-width: 0; }
+.wf-row.total .nm { color: var(--ink); font-weight: 600; }
+.wf-track { position: relative; height: 18px; }
+.wf-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.wf-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; }
+.wf-row .v { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.8rem; }
+.wf-row .v em { font-style: normal; color: var(--muted); display: block; font-size: 0.72rem; }
+@media (max-width: 560px) {
+  .wf-row { grid-template-columns: minmax(0, 1fr) 6.5rem; }
+  .wf-row .wf-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* notes */
+.note { font-size: 0.86rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.callout { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 6px; }
+.callout b { color: var(--ink); }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+th { font-weight: 600; color: var(--ink-2); background: var(--surface); position: sticky; top: 0; font-family: var(--font-cjk); }
+td { font-family: var(--font-data); color: var(--ink); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td .y { display: block; font-size: 0.68rem; }
+td.tot { font-weight: 500; background: var(--wash); }
+.tbl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.btn { font: inherit; font-size: 0.82rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--wash); }
+.copied { font-size: 0.8rem; color: var(--good-text); }
+
+/* glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.gloss { margin: 0; }
+.gloss .item { padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.gloss dt { font-weight: 600; }
+.gloss dt code { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.gloss dd { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.gloss dd .f { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink); background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+.sources { font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 8px; }
+.sources ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+footer { font-size: 0.78rem; color: var(--muted); }
+
+/* timelines */
+.gantt-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px 12px 4px; }
+.gantt { min-width: 780px; display: grid; }
+.g-row { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; border-bottom: 1px solid var(--grid); }
+.g-row:last-child { border-bottom: 0; }
+.g-row .nm { font-size: 0.84rem; line-height: 1.3; min-width: 0; }
+.g-row .nm small { display: block; color: var(--muted); font-size: 0.7rem; }
+.g-track { position: relative; height: 28px; }
+.g-axis .g-track { height: 22px; }
+.g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--tick); }
+.g-grid { position: absolute; top: -6px; bottom: -6px; border-left: 1px solid var(--grid); }
+.g-today { position: absolute; top: -6px; bottom: -6px; border-left: 1.5px dashed var(--s8); }
+.g-line { position: absolute; top: 13px; height: 2px; background: var(--axis); }
+.g-line.plan { background: repeating-linear-gradient(90deg, var(--axis) 0 4px, transparent 4px 8px); }
+.g-mk { position: absolute; top: 7px; width: 14px; height: 14px; margin-left: -7px; background: var(--c); border: 2px solid var(--c); cursor: pointer; padding: 0; }
+.g-mk.plan { background: var(--surface); }
+.g-mk.k-a { transform: rotate(45deg) scale(0.82); }
+.g-mk.k-g { border-radius: 2px; }
+.g-mk.k-c { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: 0; }
+.g-mk.k-c.plan { opacity: 0.45; }
+.g-mk.k-m { border-radius: 50%; }
+.g-mk.unc { border-style: dashed; background: var(--surface); opacity: 0.8; }
+.g-mk.k-c.unc { opacity: 0.35; }
+.unc-chip { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0 6px; margin-left: 6px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); vertical-align: 1px; white-space: nowrap; }
+.g-mk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.g-info { font-size: 0.86rem; color: var(--ink-2); min-height: 1.6em; }
+.g-info b { color: var(--ink); }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); align-items: center; }
+.g-key span { display: inline-flex; align-items: center; gap: 6px; }
+.g-key .g-mk { position: static; margin: 0; cursor: default; }
+.st-plan { color: var(--muted); }
+td.txt, th.txt { text-align: left; white-space: normal; min-width: 16rem; font-family: var(--font-cjk); }
+td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
+
+/* shared site chrome */
+.homelink { font-weight: 600; color: var(--accent) !important; }
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
+/* 指數期貨（assets/futures.js）：K 棒用台灣習慣，紅漲綠跌 */
+:root { --kup: #d23a3a; --kdn: #138a52; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
+:root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
+.kup { color: var(--kup); } .kdn { color: var(--kdn); }
+.fut-head .fut-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fut-toggle { font: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 5px 14px; border-radius: 999px; cursor: pointer; }
+.fut-toggle:hover { color: var(--ink); }
+#futHome { display: grid; gap: 12px; }
+#futHome[hidden] { display: none; }
+.fut-mini { position: relative; width: 100%; height: 360px; }
+.fut-co .co-top h2 { font-size: var(--step-2); }
+.fut-co .fut-px small { font-size: 0.75rem; color: var(--muted); font-family: var(--font-ui); }
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
+.fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
+.fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }
+.fut-spark { width: 100%; height: 44px; display: block; }
+.fut-co.locked { opacity: 0.85; }
+.fut-note { font-size: 0.86rem; color: var(--muted); }
+.fut-lock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; background: var(--surface); border: 1px dashed var(--axis); border-radius: 12px; padding: 14px 16px; }
+.fut-lock svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.fut-lock .t { font-size: 0.88rem; color: var(--ink-2); flex: 1 1 220px; }
+.fut-lock input[type=password] { font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; flex: 1 1 180px; max-width: 260px; }
+.fut-lock button { border: 0; cursor: pointer; }
+.fut-lock .err { font-size: 0.82rem; color: var(--bad-text); width: 100%; }
+.fut-lock .err:empty { display: none; }
+#futLock { margin-top: -16px; }
+.fut-ctrl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.fut-ctrl .seg button i, .fut-leg i, .fut-ma-tbl i.dot { display: inline-block; width: 18px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.fut-ctrl .seg button[aria-pressed="false"] i { opacity: 0.35; }
+.fut-leg { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-data); font-size: 0.92rem; color: var(--ink-2); min-height: 2.6em; }
+.fut-leg .d { color: var(--ink); font-weight: 500; }
+.fut-leg b { font-weight: 500; color: var(--ink); }
+.fut-chart { position: relative; width: 100%; height: min(72vh, 640px); min-height: 420px; }
+.fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
+.fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
+.fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
+.fut-src .pend { color: var(--bad-text); }
+@media (max-width: 640px) { .fut-chart { height: 70vh; min-height: 380px; } }
+#futBody:not([hidden]) { display: grid; gap: 40px; }
+.fut-src details summary { cursor: pointer; }
+.fut-src details ul { margin-top: 6px; padding-left: 1.2em; display: grid; gap: 2px; font-size: 0.82rem; }
+
+#futHome .fut-mini { cursor: zoom-in; }
+.fut-hint { font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 640px) { .fut-leg { font-size: 0.82rem; gap: 2px 12px; } .fut-ctrl .seg button i, .fut-leg i { width: 14px; height: 3px; } }
+/* 水平線工具（assets/futures.js attachLines） */
+.fut-tool svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 4px; }
+.fut-tool[aria-pressed="true"] { outline: 2px solid var(--s1); outline-offset: -2px; }
+.fut-drawing, .fut-drawing * { cursor: crosshair !important; }
+.fut-onl, .fut-onl * { cursor: ns-resize !important; }
+.fut-ltb { position: absolute; left: 8px; z-index: 5; display: flex; gap: 4px; align-items: center; padding: 4px 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+.fut-ltb[hidden] { display: none; }
+.fut-ltb .sw { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; }
+.fut-ltb .sw[aria-pressed="true"] { border-color: var(--ink); }
+.fut-ltb .tx, .fut-lines .tx { font: inherit; font-size: 0.8rem; color: var(--ink-2); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+.fut-ltb .tx:hover, .fut-lines .tx:hover { color: var(--ink); }
+.fut-ltb .del, .fut-lines [data-del], .fut-lines [data-clear] { color: var(--bad-text); }
+.fut-lines { margin-top: 10px; font-size: 0.9rem; width: fit-content; max-width: 100%; overflow-x: auto; }
+.fut-lines-head { gap: 16px; }
+.fut-lines-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.fut-lines-tbl { width: 100%; border-collapse: collapse; font-family: var(--font-data); }
+.fut-lines-tbl th, .fut-lines-tbl td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--line); }
+.fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
+.fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+/* 每季一頁摘要（assets/summary.js）：四種來源標籤＋成績單 */
+.src-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 0.05em; white-space: nowrap; }
+.src-w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
+.src-o { background: rgba(235, 104, 52, 0.12); color: var(--s2); border-color: rgba(235, 104, 52, 0.4); }
+.src-e { background: rgba(74, 58, 167, 0.12); color: var(--s7); border-color: rgba(74, 58, 167, 0.4); }
+.src-v { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.src-m { background: rgba(237, 161, 0, 0.12); color: var(--s4); border-color: rgba(237, 161, 0, 0.4); }
+/* 公司分析（assets/analysis.js）：標題下方的結論卡，more 展開全文 */
+#analysis { margin-top: 8px; }
+.an-card, .an-full { min-width: 0; max-width: 100%; }
+.an-card > * { min-width: 0; }
+.an-full .tbl-wrap, .an-pre { max-width: 100%; }
+.an-card h3 { font-size: 1rem; margin: 16px 0 6px; }
+.an-full { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+.an-full h3, .an-full h4 { margin: 18px 0 6px; } .an-full h4 { font-size: 0.95rem; }
+.an-full p { margin: 6px 0; overflow-wrap: anywhere; }
+.an-pre { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; line-height: 1.45; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; }
+.an-more { margin-top: 14px; font: inherit; font-size: 0.86rem; font-weight: 600; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.an-more:hover { background: var(--chip-bg); }
+.sum-card h3 { font-size: 1rem; margin: 18px 0 6px; }
+.sum-head { font-size: 1.05rem; font-weight: 600; margin: 0 0 6px; }
+.sum-list { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.sum-list li { overflow-wrap: anywhere; }
+.sum-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.sum-tbl th, .sum-tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.sum-tbl td small { display: block; color: var(--muted); font-size: 0.75rem; }
+.sum-tbl thead th { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+.src-link { font-size: 0.8rem; }
+.chip-warn { background: rgba(237, 161, 0, 0.18); color: var(--s4); }
+.chip-up { background: rgba(27, 175, 122, 0.16); color: var(--s3); }
+.chip-down { background: rgba(227, 73, 72, 0.16); color: var(--s8); }
+.sum-card details { margin-top: 14px; }
+.tbl-wrap { overflow-x: auto; }
+
+/* 體質總覽（assets/health.js） */
+.h-tbl .h-row { cursor: pointer; }
+.h-tbl .h-row:hover { background: var(--wash); }
+.h-tbl .h-row:focus-visible { outline: 2px solid var(--s1); outline-offset: -2px; }
+.h-tbl .h-grp { font-weight: 600; color: var(--ink-2); vertical-align: top; white-space: nowrap; border-right: 1px solid var(--line); }
+.h-tbl .h-name { min-width: 11em; }
+.h-tbl .h-spark { width: 130px; }
+.h-tbl td.muted { color: var(--muted); }
+.h-tbl .h-chart td { background: var(--page); }
+.h-tbl .h-row::after { content: none; }
+
+/* 論點卡燈號（assets/thesis.js） */
+.light { display: inline-block; min-width: 2.2em; text-align: center; font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.light-g { background: rgba(27, 175, 122, 0.18); color: var(--s3); }
+.light-y { background: rgba(237, 161, 0, 0.2); color: var(--s4); }
+.light-r { background: rgba(227, 73, 72, 0.18); color: var(--s8); }
+.light-n { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.sum-tbl th small { display: block; font-weight: 400; color: var(--muted); font-size: 0.75rem; }
+.note li, ul.note { overflow-wrap: anywhere; }
+
+.cl-ctrl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:12px}
+.cl-sum{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}.cl-pill{font-size:.85rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.cl-wk{margin:0 0 14px}.cl-wk h3{font-size:.9rem;margin:0 0 6px;color:var(--ink-2)}.cl-wk h3 small{color:var(--muted);font-weight:400;margin-left:6px}
+.cl-row{display:grid;grid-template-columns:5.6em 1fr auto;gap:4px 12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
+.cl-row .d{font-family:var(--font-data);font-size:.88rem}.cl-row .d.today{color:var(--good-text);font-weight:600}
+.cl-row a{font-weight:600;color:inherit}.cl-row .t{color:var(--ink-2);font-size:.9rem;grid-column:2}
+.cl-tag{font-size:.75rem;padding:1px 8px;border-radius:999px;white-space:nowrap;grid-row:1;grid-column:3}
+.cl-tag.sure{background:var(--chip-bg);color:var(--chip-ink);font-weight:600}
+.cl-tag.est{border:1px dashed var(--muted);color:var(--muted);background:transparent}
+.cl-empty{color:var(--muted);font-size:.85rem;margin:0 0 12px}
+.cl-note{font-size:.82rem;color:var(--muted)}
+@media (max-width:640px){.cl-row{grid-template-columns:4.8em 1fr auto}}
+</style>
+
+<div class="secnav" role="navigation" aria-label="章節"><div class="scroller">
+  <a class="homelink" href="../">← 所有公司</a><a href="#upcoming">未來 90 天</a><a href="#recent">最近 14 天已公布</a><a href="#overdue">日期已過</a>
+</div></div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Earnings Calendar</div>
+    <h1>財報行事曆</h1>
+    <p class="lede">未來 90 天各公司的財報與營收公布日，依週分組。<b>已公告</b>＝公司自己宣布的日期；<b>預估</b>＝依往年慣例推的日期，公司還沒宣布，可能會變。美股公司的日期是美東日期，盤後公布等於台北隔天清晨。</p>
+    <div class="meta-row"><span id="clSub"></span></div>
+    <div class="cl-sum" id="clSum"></div>
+  </header>
+
+  <section id="upcoming">
+    <div class="cl-ctrl">
+      <div class="seg" id="clSec" role="group" aria-label="產業"></div>
+      <label><input type="checkbox" id="clSure"> 只看已公告</label>
+      <button type="button" class="btn" id="clIcs">下載 .ics（只含已公告，可匯入手機行事曆）</button>
+    </div>
+    <div id="clList"></div>
+    <p class="cl-note">本頁不是投資建議；日期以公司公告為準。預估日期不會當成事實使用。</p>
+  </section>
+
+  <section id="recent">
+    <div class="sec-head"><h2>最近 14 天已公布</h2><p class="sub">各公司最新一季財報的公布日（rd）落在最近 14 天內。</p></div>
+    <div class="card wide" id="clRecent"></div>
+  </section>
+
+  <section id="overdue">
+    <div class="sec-head"><h2>日期已過、還在處理</h2><p class="sub">清單裡早於今天的項目＝每日檢查還沒處理完（或預估日已過、公司沒宣布）。</p></div>
+    <div class="card wide" id="clOver"></div>
+  </section>
+</main>
+
+<script>
+/* 首頁「今天該看什麼」與財報行事曆頁共用的純函式（不碰 DOM，Node 也能測：node --test tools/tests/today.test.js）。
+   日期一律用台北日期（YYYY-MM-DD 字串比較）。事件資料來自各公司 events[]；系統紅燈、燈號變化、估值訊號是三個小檔，讀不到就略過那一類。 */
+const EVCAL = (() => {
+  const addDays = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
+  const tpeDate = (now) => new Date((now || new Date()).getTime() + 8 * 3600e3).toISOString().slice(0, 10);
+  const dow = (d) => new Date(d + 'T00:00:00Z').getUTCDay();          // 0=週日
+  const monday = (d) => addDays(d, -((dow(d) + 6) % 7));
+  const RANK = { g: 0, n: 0, y: 1, r: 2 };   // 只有變差才算（紅→黃是變好，不顯示）
+  const WD = ['日', '一', '二', '三', '四', '五', '六'];
+  const md = (d) => d.slice(5).replace('-', '/');
+  const mdw = (d) => md(d) + ' 週' + WD[dow(d)];
+  const days = (a, b) => Math.round((new Date(b + 'T00:00:00Z') - new Date(a + 'T00:00:00Z')) / 86400e3);
+
+  /* events: [{d, code, name, t, est}]；回傳排序後（日期、已公告在前） */
+  const sortEv = (evs) => evs.slice().sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : (!!a.est - !!b.est) || (a.code < b.code ? -1 : 1));
+
+  /* 首頁：最多 limit 則，優先順序固定。回傳 {items:[{kind,text,href}], more} */
+  function pick(o) {
+    const today = o.today, limit = o.limit || 3, items = [];
+    if (o.alerts && o.alerts.length) items.push({ kind: 'alert', text: '系統有 ' + o.alerts.length + ' 個紅燈：' + o.alerts.slice(0, 2).join('；') + (o.alerts.length > 2 ? '…' : ''), href: o.statusHref });
+    const ev = sortEv(o.events || []);
+    const fmt = (e) => (e.d === today ? '今天' : mdw(e.d)) + ' ' + e.name + ' ' + e.t + (e.est ? '（預估）' : '（已公告）');
+    ev.filter(e => e.d === today).forEach(e => items.push({ kind: 'event', text: fmt(e), href: e.href }));
+    const week = ev.filter(e => e.d > today && e.d <= addDays(today, 7));
+    week.filter(e => !e.est).concat(week.filter(e => e.est)).forEach(e => items.push({ kind: 'event', text: fmt(e), href: e.href }));
+    const cut = addDays(today, -7);
+    (o.lights || []).filter(c => c.d >= cut && c.g !== 'val' && (RANK[c.to] || 0) > (RANK[c.from] || 0)).forEach(c =>
+      items.push({ kind: 'light', text: '體質燈號轉' + (c.to === 'r' ? '紅' : '黃') + '：' + (c.cname || c.code.toUpperCase()) + ' ' + (c.name || c.k) + '（' + md(c.d) + '）', href: c.href }));
+    (o.signals || []).filter(s => s.d >= cut).forEach(s =>
+      items.push({ kind: 'signal', text: '估值' + (s.kind === 'exceed' ? '超出' : '回到') + '門檻：' + (s.cname || s.code.toUpperCase()) + ' ' + s.name + ' ' + s.now + '（' + md(s.d) + '）· 提醒，不是買賣建議', href: s.href }));
+    return { items: items.slice(0, limit), more: Math.max(0, items.length - limit) };
+  }
+
+  /* 行事曆：依週一起算分組。回傳 [{start, end, label, items}]；沒有事件的連續週合併成一筆 empty:true */
+  function weeks(evs, today, span) {
+    const last = addDays(today, span || 90), out = [];
+    const inRange = sortEv(evs).filter(e => e.d >= today && e.d <= last);
+    let w = monday(today), emptyFrom = null;
+    const flush = (to) => { if (emptyFrom) { out.push({ start: emptyFrom, end: to, empty: true, items: [] }); emptyFrom = null; } };
+    for (; w <= last; w = addDays(w, 7)) {
+      const end = addDays(w, 6), items = inRange.filter(e => e.d >= w && e.d <= end);
+      if (!items.length) { if (!emptyFrom) emptyFrom = w; continue; }
+      flush(addDays(w, -1));
+      out.push({ start: w, end, items });
+    }
+    flush(addDays(w, -1));
+    return out;
+  }
+
+  /* .ics：只含「已公告」事件，全天事件 */
+  function ics(evs) {
+    const esc = (s) => String(s).replace(/([,;\\])/g, '\\$1');
+    const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Enterprise Revenue Dashboard//TW', 'CALSCALE:GREGORIAN'];
+    evs.filter(e => !e.est).forEach(e => {
+      const d = e.d.replace(/-/g, '');
+      L.push('BEGIN:VEVENT', 'UID:' + e.code + '-' + d + '@erd', 'DTSTAMP:' + d + 'T000000Z', 'DTSTART;VALUE=DATE:' + d, 'DTEND;VALUE=DATE:' + addDays(e.d, 1).replace(/-/g, ''), 'SUMMARY:' + esc(e.name + ' ' + e.t), 'END:VEVENT');
+    });
+    L.push('END:VCALENDAR');
+    return L.join('\r\n');
+  }
+  return { addDays, tpeDate, dow, monday, md, mdw, days, sortEv, pick, weeks, ics };
+})();
+if (typeof module !== 'undefined') module.exports = EVCAL;
+
+(function () {
+  "use strict";
+  const EV = [{"d":"2026-12-10","code":"tsmc","name":"台積電","sector":"半導體","path":"tsmc/","t":"11 月營收","est":false},{"d":"2027-01-08","code":"tsmc","name":"台積電","sector":"半導體","path":"tsmc/","t":"12 月營收","est":false},{"d":"2027-02-01","code":"pltr","name":"Palantir","sector":"軟體與網路服務","path":"pltr/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 2 月第一個週一）","est":true},{"d":"2027-02-24","code":"nvda","name":"輝達","sector":"半導體","path":"nvda/","t":"4Q27 與 FY2027 全年財報（預估日期，公司尚未公告；往年在 2 月下旬的週三）","est":true},{"d":"2027-01-02","code":"tsla","name":"特斯拉","sector":"電動車與太空","path":"tsla/","t":"4Q26 產量與交車量（預估日期，公司尚未公告）","est":true},{"d":"2027-01-27","code":"tsla","name":"特斯拉","sector":"電動車與太空","path":"tsla/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 1 月最後一週）","est":true},{"d":"2027-02-16","code":"anet","name":"Arista","sector":"硬體與網通","path":"anet/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 2 月中旬）","est":true},{"d":"2027-01-28","code":"spcx","name":"SpaceX","sector":"電動車與太空","path":"spcx/","t":"4Q26 財報（預估日期，公司尚未公告）","est":true},{"d":"2027-01-08","code":"samsung","name":"三星電子","sector":"半導體","path":"samsung/","t":"4Q26 初步業績（預估日期，公司尚未公告；往年在 1 月上旬）","est":true},{"d":"2027-01-28","code":"samsung","name":"三星電子","sector":"半導體","path":"samsung/","t":"4Q26 正式財報與法說會（預估日期，公司尚未公告；簡報稱下一次股東回饋政策將於 2027 年 1 月下旬董事會確定）","est":true},{"d":"2026-12-10","code":"delta","name":"台達電","sector":"硬體與網通","path":"delta/","t":"11 月營收公告（每月 10 日前公告）","est":true},{"d":"2027-02-25","code":"delta","name":"台達電","sector":"硬體與網通","path":"delta/","t":"4Q26 與 2026 全年財報、法說會（公司尚未公告；2025 年度財報於 2026-02-25 董事會通過）","est":true},{"d":"2027-01-27","code":"msft","name":"微軟","sector":"軟體與網路服務","path":"msft/","t":"2Q27（2026/10–12）財報（公司尚未公告；往年在 1 月最後一週）","est":true},{"d":"2026-12-17","code":"mu","name":"美光","sector":"半導體","path":"mu/","t":"1Q27（2026/9–11）財報（公司尚未公告；往年在 12 月中下旬）","est":true},{"d":"2027-02-04","code":"amzn","name":"亞馬遜","sector":"軟體與網路服務","path":"amzn/","t":"4Q26 與 2026 全年財報（公司尚未公告；往年在 2 月第一週）","est":true},{"d":"2027-01-28","code":"aapl","name":"蘋果","sector":"硬體與網通","path":"aapl/","t":"1Q27（2026/10–12）財報（公司尚未公告；往年在 1 月最後一週）","est":true},{"d":"2027-01-27","code":"meta","name":"Meta","sector":"軟體與網路服務","path":"meta/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 1 月最後一週或 2 月初）","est":true},{"d":"2026-12-09","code":"avgo","name":"博通","sector":"半導體","path":"avgo/","t":"4Q26 與 FY2026 全年財報（公司 2026-11-09 公告；美東 12/9 盤後，台北 12/10 清晨）","est":false},{"d":"2026-12-01","code":"mrvl","name":"邁威爾","sector":"半導體","path":"mrvl/","t":"3Q27 財報（公司已公告：美東 12/1 下午 4:30（太平洋 1:30）電話會議，台北 12/2 清晨 5:30）","est":false},{"d":"2027-02-02","code":"amd","name":"超微","sector":"半導體","path":"amd/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 2 月第一週）","est":true},{"d":"2026-12-01","code":"crwd","name":"CrowdStrike","sector":"軟體與網路服務","path":"crwd/","t":"3Q27 財報（公司 2026-11-04 公告；美東 12/1 盤後，台北 12/2 清晨）","est":false},{"d":"2026-11-18","code":"panw","name":"Palo Alto Networks","sector":"軟體與網路服務","path":"panw/","t":"1Q27 財報（公司 2026-11-03 公告；美東 11/18 盤後，台北 11/19 清晨）","est":false},{"d":"2027-02-25","code":"rklb","name":"火箭實驗室","sector":"電動車與太空","path":"rklb/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 2 月最後一週）","est":true},{"d":"2027-01-27","code":"gev","name":"GE Vernova","sector":"能源與電力","path":"gev/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 1 月下旬）","est":true},{"d":"2027-02-03","code":"googl","name":"Google","sector":"軟體與網路服務","path":"googl/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 2 月第一週）","est":true},{"d":"2027-02-10","code":"csco","name":"思科","sector":"硬體與網通","path":"csco/","t":"2Q27 財報（預估日期，公司尚未公告；往年在 2 月中）","est":true},{"d":"2027-01-27","code":"asml","name":"艾司摩爾","sector":"半導體","path":"asml/","t":"4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 1 月底的星期三）","est":true},{"d":"2026-12-10","code":"allring","name":"萬潤","sector":"半導體","path":"allring/","t":"11 月營收公告（每月 10 日前公告）","est":true},{"d":"2027-02-26","code":"allring","name":"萬潤","sector":"半導體","path":"allring/","t":"4Q26 與 2026 全年合併財報董事會（公司尚未公告。2025 年度財報於 2026-02-10、2024 年度於 2025-02-27 董事會通過）","est":true}], RC = [{"code":"tsmc","name":"台積電","path":"tsmc/","q":"3Q26","rd":"2026-10-15"},{"code":"pltr","name":"Palantir","path":"pltr/","q":"3Q26","rd":"2026-11-03"},{"code":"nvda","name":"輝達","path":"nvda/","q":"3Q27","rd":"2026-11-17"},{"code":"tsla","name":"特斯拉","path":"tsla/","q":"3Q26","rd":"2026-10-21"},{"code":"anet","name":"Arista","path":"anet/","q":"3Q26","rd":"2026-11-03"},{"code":"spcx","name":"SpaceX","path":"spcx/","q":"3Q26","rd":"2026-10-20"},{"code":"samsung","name":"三星電子","path":"samsung/","q":"3Q26","rd":"2026-10-29"},{"code":"delta","name":"台達電","path":"delta/","q":"3Q26","rd":"2026-10-29"},{"code":"msft","name":"微軟","path":"msft/","q":"1Q27","rd":"2026-10-28"},{"code":"mu","name":"美光","path":"mu/","q":"4Q26","rd":"2026-10-09"},{"code":"amzn","name":"亞馬遜","path":"amzn/","q":"3Q26","rd":"2026-10-29"},{"code":"aapl","name":"蘋果","path":"aapl/","q":"4Q26","rd":"2026-11-03"},{"code":"meta","name":"Meta","path":"meta/","q":"3Q26","rd":"2026-10-21"},{"code":"avgo","name":"博通","path":"avgo/","q":"3Q26","rd":"2026-09-02"},{"code":"mrvl","name":"邁威爾","path":"mrvl/","q":"2Q27","rd":"2026-08-27"},{"code":"amd","name":"超微","path":"amd/","q":"3Q26","rd":"2026-11-03"},{"code":"crwd","name":"CrowdStrike","path":"crwd/","q":"2Q27","rd":"2026-08-26"},{"code":"panw","name":"Palo Alto Networks","path":"panw/","q":"4Q26","rd":"2026-09-01"},{"code":"rklb","name":"火箭實驗室","path":"rklb/","q":"3Q26","rd":"2026-11-09"},{"code":"gev","name":"GE Vernova","path":"gev/","q":"3Q26","rd":"2026-10-28"},{"code":"googl","name":"Google","path":"googl/","q":"3Q26","rd":"2026-10-28"},{"code":"csco","name":"思科","path":"csco/","q":"1Q27","rd":"2026-11-12"},{"code":"asml","name":"艾司摩爾","path":"asml/","q":"3Q26","rd":"2026-10-14"},{"code":"allring","name":"萬潤","path":"allring/","q":"3Q26","rd":"2026-11-10"}];
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const today = EVCAL.tpeDate();
+  let sec = '', sureOnly = false;
+  const SECS = [...new Set(EV.map(e => e.sector))];
+  $('clSub').textContent = '今天（台北）：' + EVCAL.mdw(today);
+  $('clSec').innerHTML = ['全部', ...SECS].map(s => `<button type="button" data-s="${esc(s === '全部' ? '' : s)}" aria-pressed="${s === '全部'}">${esc(s)}</button>`).join('');
+  const row = (e) => `<div class="cl-row"><span class="d${e.d === today ? ' today' : ''}">${e.d === today ? '今天' : EVCAL.mdw(e.d)}</span><a href="../${esc(e.path)}">${esc(e.name)}</a><span class="cl-tag ${e.est ? 'est' : 'sure'}">${e.est ? '預估' : '已公告'}</span><span class="t">${esc(e.t)}</span></div>`;
+  function render() {
+    const f = EV.filter(e => (!sec || e.sector === sec) && (!sureOnly || !e.est));
+    const W = EVCAL.weeks(f, today, 90), up = f.filter(e => e.d >= today && e.d <= EVCAL.addDays(today, 90));
+    const wk = f.filter(e => e.d >= today && e.d <= EVCAL.addDays(EVCAL.monday(today), 6)).length;
+    $('clSum').innerHTML = `<span class="cl-pill">本週 ${wk} 件</span><span class="cl-pill">未來 30 天 ${f.filter(e => e.d >= today && e.d <= EVCAL.addDays(today, 30)).length} 件</span><span class="cl-pill">已公告 ${up.filter(e => !e.est).length}／預估 ${up.filter(e => e.est).length}</span>`;
+    $('clList').innerHTML = W.length ? W.map(w => w.empty
+      ? `<p class="cl-empty">${EVCAL.md(w.start)} – ${EVCAL.md(w.end)}：沒有已知的公布日</p>`
+      : `<div class="cl-wk"><h3>${EVCAL.md(w.start)} – ${EVCAL.md(w.end)}（週一～週日）${w.start <= today && today <= w.end ? '<small>本週</small>' : ''}</h3>${w.items.map(row).join('')}</div>`).join('')
+      : '<p class="cl-empty">這個篩選條件下，未來 90 天沒有事件。</p>';
+  }
+  $('clSec').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; sec = b.dataset.s; $('clSec').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render(); });
+  $('clSure').addEventListener('change', (e) => { sureOnly = e.target.checked; render(); });
+  $('clIcs').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([EVCAL.ics(EV.filter(e => e.d >= today))], { type: 'text/calendar' }));
+    a.download = 'earnings-calendar.ics'; document.body.appendChild(a); a.click(); a.remove();
+  });
+  const rc = RC.filter(r => { const n = EVCAL.days(r.rd, today); return n >= 0 && n <= 14; }).sort((a, b) => a.rd < b.rd ? 1 : -1);
+  $('clRecent').innerHTML = rc.length ? rc.map(r => `<div class="cl-row"><span class="d">${EVCAL.md(r.rd)}</span><a href="../${esc(r.path)}">${esc(r.name)}</a><span class="cl-tag sure">${esc(r.q)}</span></div>`).join('') : '<p class="cl-empty">最近 14 天沒有公司公布財報。</p>';
+  const od = EVCAL.sortEv(EV.filter(e => e.d < today));
+  $('clOver').innerHTML = od.length ? od.map(row).join('') : '<p class="cl-empty">沒有。</p>';
+  render();
+})();
+</script>
+
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"aee1417f","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"../","page":"calendar","code":""}</script><script src="../assets/sidebar.js?v=d9cf0fdf"></script>
+</body></html>

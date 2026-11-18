@@ -260,11 +260,14 @@ def save_lights(today):
     old = jload("data", "brief-lights.json", default={}).get("lights", {})
     log = jload("data", "lights-log.json", default={"version": 1, "note": "論點卡燈號變化紀錄（daily_brief.py --save-lights 寫）", "changes": []})
     have = {(c["d"], c["code"], c["k"]) for c in log["changes"]}
+    import thesis as T
+    meta = {c["code"]: {m["k"]: (m.get("group", "biz"), m["name"]) for m in th.get("metrics", [])} for c, th in T.load_all()}
     for code, L in lights.items():
         for k, v in L.items():
             o = old.get(code, {}).get(k)
             if o and o != v and (today.isoformat(), code, k) not in have:
-                log["changes"].append({"d": today.isoformat(), "code": code, "k": k, "from": o, "to": v})
+                g, nm = meta.get(code, {}).get(k, ("biz", k))
+                log["changes"].append({"d": today.isoformat(), "code": code, "k": k, "name": nm, "g": g, "from": o, "to": v})
     with open(os.path.join(ROOT, "data", "lights-log.json"), "w", encoding="utf8") as f:
         json.dump(log, f, ensure_ascii=False, indent=1); f.write("\n")
     with open(LIGHTS, "w", encoding="utf8") as f:

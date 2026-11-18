@@ -506,6 +506,14 @@ table.co-tbl { font-size: 0.84rem; }
 .mix-lg { list-style: none; padding: 0 !important; margin: 8px 0 0 !important; display: flex !important; flex-wrap: wrap; gap: 4px 18px !important; }
 .mix-lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 .mix-lg b { font-family: var(--font-data); margin-left: 4px; }
+.td-box{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 16px;margin:0 0 18px}
+.td-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}.td-head h2{margin:0;font-size:1.05rem}.td-date{font-size:.8rem;color:var(--muted);font-family:var(--font-data)}
+.td-list{list-style:none;margin:8px 0 6px;padding:0;display:grid;gap:6px}.td-list li{display:flex;gap:8px;align-items:baseline;line-height:1.5}
+.td-list a{color:inherit;text-decoration:none}.td-list a:hover{text-decoration:underline}
+.td-tag{flex:none;font-size:.72rem;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.td-tag.alert{border-color:var(--bad-text);color:var(--bad-text);font-weight:600}.td-tag.event{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent}
+.td-quiet{color:var(--muted)}.td-more{font-size:.85rem;color:var(--muted)}
+.td-foot{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.85rem;margin-top:4px}
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -515,6 +523,13 @@ table.co-tbl { font-size: 0.84rem; }
     <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，每月 12 日早上自動更新。</p>
     <div class="meta-row" id="metaRow"></div>
   </header>
+
+  <section id="today" aria-label="今天該看什麼">
+    <div class="td-box"><div class="td-head"><h2>今天該看什麼</h2><span class="td-date" id="tdDate"></span></div>
+      <ul class="td-list" id="tdList"><li class="td-quiet">讀取中…</li></ul>
+      <div class="td-foot"><a href="calendar/">財報行事曆（未來 90 天）→</a><a href="status/">系統健康 →</a></div>
+    </div>
+  </section>
 
   <section id="futures">
     <div class="sec-head fut-head">
@@ -1559,6 +1574,70 @@ const DAILY = (() => {
   return { mount };
 })();
 
+/* 首頁「今天該看什麼」與財報行事曆頁共用的純函式（不碰 DOM，Node 也能測：node --test tools/tests/today.test.js）。
+   日期一律用台北日期（YYYY-MM-DD 字串比較）。事件資料來自各公司 events[]；系統紅燈、燈號變化、估值訊號是三個小檔，讀不到就略過那一類。 */
+const EVCAL = (() => {
+  const addDays = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
+  const tpeDate = (now) => new Date((now || new Date()).getTime() + 8 * 3600e3).toISOString().slice(0, 10);
+  const dow = (d) => new Date(d + 'T00:00:00Z').getUTCDay();          // 0=週日
+  const monday = (d) => addDays(d, -((dow(d) + 6) % 7));
+  const RANK = { g: 0, n: 0, y: 1, r: 2 };   // 只有變差才算（紅→黃是變好，不顯示）
+  const WD = ['日', '一', '二', '三', '四', '五', '六'];
+  const md = (d) => d.slice(5).replace('-', '/');
+  const mdw = (d) => md(d) + ' 週' + WD[dow(d)];
+  const days = (a, b) => Math.round((new Date(b + 'T00:00:00Z') - new Date(a + 'T00:00:00Z')) / 86400e3);
+
+  /* events: [{d, code, name, t, est}]；回傳排序後（日期、已公告在前） */
+  const sortEv = (evs) => evs.slice().sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : (!!a.est - !!b.est) || (a.code < b.code ? -1 : 1));
+
+  /* 首頁：最多 limit 則，優先順序固定。回傳 {items:[{kind,text,href}], more} */
+  function pick(o) {
+    const today = o.today, limit = o.limit || 3, items = [];
+    if (o.alerts && o.alerts.length) items.push({ kind: 'alert', text: '系統有 ' + o.alerts.length + ' 個紅燈：' + o.alerts.slice(0, 2).join('；') + (o.alerts.length > 2 ? '…' : ''), href: o.statusHref });
+    const ev = sortEv(o.events || []);
+    const fmt = (e) => (e.d === today ? '今天' : mdw(e.d)) + ' ' + e.name + ' ' + e.t + (e.est ? '（預估）' : '（已公告）');
+    ev.filter(e => e.d === today).forEach(e => items.push({ kind: 'event', text: fmt(e), href: e.href }));
+    const week = ev.filter(e => e.d > today && e.d <= addDays(today, 7));
+    week.filter(e => !e.est).concat(week.filter(e => e.est)).forEach(e => items.push({ kind: 'event', text: fmt(e), href: e.href }));
+    const cut = addDays(today, -7);
+    (o.lights || []).filter(c => c.d >= cut && c.g !== 'val' && (RANK[c.to] || 0) > (RANK[c.from] || 0)).forEach(c =>
+      items.push({ kind: 'light', text: '體質燈號轉' + (c.to === 'r' ? '紅' : '黃') + '：' + (c.cname || c.code.toUpperCase()) + ' ' + (c.name || c.k) + '（' + md(c.d) + '）', href: c.href }));
+    (o.signals || []).filter(s => s.d >= cut).forEach(s =>
+      items.push({ kind: 'signal', text: '估值' + (s.kind === 'exceed' ? '超出' : '回到') + '門檻：' + (s.cname || s.code.toUpperCase()) + ' ' + s.name + ' ' + s.now + '（' + md(s.d) + '）· 提醒，不是買賣建議', href: s.href }));
+    return { items: items.slice(0, limit), more: Math.max(0, items.length - limit) };
+  }
+
+  /* 行事曆：依週一起算分組。回傳 [{start, end, label, items}]；沒有事件的連續週合併成一筆 empty:true */
+  function weeks(evs, today, span) {
+    const last = addDays(today, span || 90), out = [];
+    const inRange = sortEv(evs).filter(e => e.d >= today && e.d <= last);
+    let w = monday(today), emptyFrom = null;
+    const flush = (to) => { if (emptyFrom) { out.push({ start: emptyFrom, end: to, empty: true, items: [] }); emptyFrom = null; } };
+    for (; w <= last; w = addDays(w, 7)) {
+      const end = addDays(w, 6), items = inRange.filter(e => e.d >= w && e.d <= end);
+      if (!items.length) { if (!emptyFrom) emptyFrom = w; continue; }
+      flush(addDays(w, -1));
+      out.push({ start: w, end, items });
+    }
+    flush(addDays(w, -1));
+    return out;
+  }
+
+  /* .ics：只含「已公告」事件，全天事件 */
+  function ics(evs) {
+    const esc = (s) => String(s).replace(/([,;\\])/g, '\\$1');
+    const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Enterprise Revenue Dashboard//TW', 'CALSCALE:GREGORIAN'];
+    evs.filter(e => !e.est).forEach(e => {
+      const d = e.d.replace(/-/g, '');
+      L.push('BEGIN:VEVENT', 'UID:' + e.code + '-' + d + '@erd', 'DTSTAMP:' + d + 'T000000Z', 'DTSTART;VALUE=DATE:' + d, 'DTEND;VALUE=DATE:' + addDays(e.d, 1).replace(/-/g, ''), 'SUMMARY:' + esc(e.name + ' ' + e.t), 'END:VEVENT');
+    });
+    L.push('END:VCALENDAR');
+    return L.join('\r\n');
+  }
+  return { addDays, tpeDate, dow, monday, md, mdw, days, sortEv, pick, weeks, ics };
+})();
+if (typeof module !== 'undefined') module.exports = EVCAL;
+
 /* 小道瓊、小那指期貨 K 棒：解密、合成週 K／月 K、指標計算、首頁小卡、K 棒圖。
    資料：data/futures/<代號>.enc.json（AES-256-GCM 加密；金鑰 = PBKDF2-SHA256(密碼, data/futures/key.json 的 salt)）
    解鎖後把推導出的金鑰存在這台裝置的 localStorage，之後不用再輸入密碼；換密碼後解不開會自動要求重新輸入。
@@ -2202,6 +2281,29 @@ qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = '';
 applyFilter();
 
 /* ---------- 指數期貨小卡（資料加密，解鎖後才顯示；見 assets/futures.js） ---------- */
+/* ---------- 今天該看什麼（assets/today.js 的純函式；三個小檔讀不到就略過那一類） ---------- */
+(function () {
+  const BASE = 'data/futures/'.replace(/futures\/$/, ''), SL = 'status/', CL = 'calendar/';
+  const today = EVCAL.tpeDate();
+  const NM = {}; S.forEach(s => { NM[s.c.code] = s.c; });
+  const evs = [];
+  S.forEach(s => (s.D.events || []).forEach(e => evs.push({ d: e.date, code: s.c.code, name: s.c.name, t: String(e.t).split('（')[0].slice(0, 24), est: !!e.est, href: s.c.path })));
+  $('#tdDate').textContent = '台北 ' + EVCAL.mdw(today);
+  const get = (f) => fetch(BASE + f, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null);
+  Promise.all([get('status/latest.json'), get('lights-log.json'), get('daily/_signals.json')]).then(([st, lg, sg]) => {
+    const co = (x) => Object.assign({ cname: NM[x.code] && NM[x.code].name, href: NM[x.code] && NM[x.code].path }, x);
+    const r = EVCAL.pick({ today, limit: 3, statusHref: SL, alerts: st ? st.alerts : [], events: evs,
+      lights: lg ? lg.changes.map(co) : [], signals: sg ? sg.events.map(co) : [] });
+    const TAG = { alert: '紅燈', event: '財報', light: '體質', signal: '估值' };
+    const li = r.items.map(i => `<li><span class="td-tag ${i.kind}">${TAG[i.kind]}</span>${i.href ? `<a href="${i.href}">${esc(i.text)}</a>` : esc(i.text)}</li>`);
+    if (!li.length) {
+      const nx = EVCAL.sortEv(evs.filter(e => e.d > today))[0];
+      li.push(`<li class="td-quiet">今天沒有需要特別看的事。${nx ? '下一個：' + EVCAL.mdw(nx.d) + ' ' + esc(nx.name) + ' ' + esc(nx.t) + (nx.est ? '（預估）' : '（已公告）') : ''}</li>`);
+    }
+    if (r.more) li.push(`<li class="td-more">還有 ${r.more} 則 → <a href="${CL}">行事曆</a>／<a href="${SL}">系統健康</a></li>`);
+    $('#tdList').innerHTML = li.join('');
+  });
+})();
 FUT.home(document.getElementById('futures'), 'data/futures/', 'futures/');
 
 /* ---------- 記分板 ---------- */
@@ -2323,5 +2425,5 @@ new MutationObserver(rebuild).observe(document.documentElement, { attributes: tr
 
 </div>
 <div id="quant-dca-view" hidden></div>
-<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"aee1417f","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"","page":"home","code":""}</script><script src="assets/sidebar.js?v=0142002e"></script>
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"aee1417f","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"","page":"home","code":""}</script><script src="assets/sidebar.js?v=d9cf0fdf"></script>
 </body></html>

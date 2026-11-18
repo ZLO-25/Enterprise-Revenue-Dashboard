@@ -120,6 +120,14 @@ table.co-tbl { font-size: 0.84rem; }
 .mix-lg { list-style: none; padding: 0 !important; margin: 8px 0 0 !important; display: flex !important; flex-wrap: wrap; gap: 4px 18px !important; }
 .mix-lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 .mix-lg b { font-family: var(--font-data); margin-left: 4px; }
+.td-box{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 16px;margin:0 0 18px}
+.td-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}.td-head h2{margin:0;font-size:1.05rem}.td-date{font-size:.8rem;color:var(--muted);font-family:var(--font-data)}
+.td-list{list-style:none;margin:8px 0 6px;padding:0;display:grid;gap:6px}.td-list li{display:flex;gap:8px;align-items:baseline;line-height:1.5}
+.td-list a{color:inherit;text-decoration:none}.td-list a:hover{text-decoration:underline}
+.td-tag{flex:none;font-size:.72rem;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.td-tag.alert{border-color:var(--bad-text);color:var(--bad-text);font-weight:600}.td-tag.event{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent}
+.td-quiet{color:var(--muted)}.td-more{font-size:.85rem;color:var(--muted)}
+.td-foot{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.85rem;margin-top:4px}
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -129,6 +137,13 @@ table.co-tbl { font-size: 0.84rem; }
     <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，每月 12 日早上自動更新。</p>
     <div class="meta-row" id="metaRow"></div>
   </header>
+
+  <section id="today" aria-label="今天該看什麼">
+    <div class="td-box"><div class="td-head"><h2>今天該看什麼</h2><span class="td-date" id="tdDate"></span></div>
+      <ul class="td-list" id="tdList"><li class="td-quiet">讀取中…</li></ul>
+      <div class="td-foot"><a href="{{CAL_LINK}}">財報行事曆（未來 90 天）→</a><a href="{{STATUS_LINK}}">系統健康 →</a></div>
+    </div>
+  </section>
 
   <section id="futures">
     <div class="sec-head fut-head">
@@ -429,6 +444,29 @@ qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value = '';
 applyFilter();
 
 /* ---------- 指數期貨小卡（資料加密，解鎖後才顯示；見 assets/futures.js） ---------- */
+/* ---------- 今天該看什麼（assets/today.js 的純函式；三個小檔讀不到就略過那一類） ---------- */
+(function () {
+  const BASE = '{{FUT_BASE}}'.replace(/futures\/$/, ''), SL = '{{STATUS_LINK}}', CL = '{{CAL_LINK}}';
+  const today = EVCAL.tpeDate();
+  const NM = {}; S.forEach(s => { NM[s.c.code] = s.c; });
+  const evs = [];
+  S.forEach(s => (s.D.events || []).forEach(e => evs.push({ d: e.date, code: s.c.code, name: s.c.name, t: String(e.t).split('（')[0].slice(0, 24), est: !!e.est, href: s.c.path })));
+  $('#tdDate').textContent = '台北 ' + EVCAL.mdw(today);
+  const get = (f) => fetch(BASE + f, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null);
+  Promise.all([get('status/latest.json'), get('lights-log.json'), get('daily/_signals.json')]).then(([st, lg, sg]) => {
+    const co = (x) => Object.assign({ cname: NM[x.code] && NM[x.code].name, href: NM[x.code] && NM[x.code].path }, x);
+    const r = EVCAL.pick({ today, limit: 3, statusHref: SL, alerts: st ? st.alerts : [], events: evs,
+      lights: lg ? lg.changes.map(co) : [], signals: sg ? sg.events.map(co) : [] });
+    const TAG = { alert: '紅燈', event: '財報', light: '體質', signal: '估值' };
+    const li = r.items.map(i => `<li><span class="td-tag ${i.kind}">${TAG[i.kind]}</span>${i.href ? `<a href="${i.href}">${esc(i.text)}</a>` : esc(i.text)}</li>`);
+    if (!li.length) {
+      const nx = EVCAL.sortEv(evs.filter(e => e.d > today))[0];
+      li.push(`<li class="td-quiet">今天沒有需要特別看的事。${nx ? '下一個：' + EVCAL.mdw(nx.d) + ' ' + esc(nx.name) + ' ' + esc(nx.t) + (nx.est ? '（預估）' : '（已公告）') : ''}</li>`);
+    }
+    if (r.more) li.push(`<li class="td-more">還有 ${r.more} 則 → <a href="${CL}">行事曆</a>／<a href="${SL}">系統健康</a></li>`);
+    $('#tdList').innerHTML = li.join('');
+  });
+})();
 FUT.home(document.getElementById('futures'), '{{FUT_BASE}}', '{{FUT_LINK}}');
 
 /* ---------- 記分板 ---------- */
