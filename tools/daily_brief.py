@@ -215,19 +215,19 @@ def valuation_and_lights():
         if code in approved:
             L = T.lights(approved[code], Q, val, hl)
             lights[code] = {k: v["light"] for k, v in L.items()}
-            groups[code] = {m["k"]: m.get("group", "biz") for m in approved[code].get("metrics", [])}
+            groups[code] = {m["k"]: ("aux" if m.get("role") == "aux" else m.get("group", "biz")) for m in approved[code].get("metrics", [])}   # biz＝核心體質、val＝估值、aux＝輔助觀察
     return pe_rows, lights, groups
 
 
 def lights_part(lights, groups):
-    """體質（biz）與估值（val）分開：體質轉差才置頂（那是公司變差了）；估值轉差只放附錄（那是股價變貴了）。"""
+    """核心體質（biz）、估值（val）、輔助（aux）分開：只有核心體質轉差才置頂（那是公司變差了）；估值轉差與輔助指標轉差只放附錄（股價變貴，或成長指標單獨變動，都不是論點破了）。"""
     old = jload("data", "brief-lights.json", default={}).get("lights", {})
     order = {"g": 0, "y": 1, "r": 2}
     worse = {"biz": [], "val": []}
-    red = {"biz": [], "val": []}
+    red = {"biz": [], "val": []}   # val 在這裡包含估值與輔助
     for code, L in lights.items():
         for k, v in L.items():
-            g = "val" if groups.get(code, {}).get(k) == "val" else "biz"
+            g = "val" if groups.get(code, {}).get(k) in ("val", "aux") else "biz"
             if v == "r":
                 red[g].append(f"{code}.{k}")
             o = old.get(code, {}).get(k)
@@ -237,21 +237,18 @@ def lights_part(lights, groups):
         out = ["論點卡：第一次記錄，明天起比較"]
     else:
         out = ["論點卡體質：" + ("今天轉差 " + "、".join(worse["biz"]) + "（回報 ⑤ 置頂）" if worse["biz"] else "今天沒有轉黃／轉紅")]
-        out.append("論點卡估值：" + ("今天轉差 " + "、".join(worse["val"]) + "（只放回報附錄，不置頂；是股價變貴，不是公司變差）" if worse["val"] else "今天沒有轉黃／轉紅"))
+        out.append("論點卡估值與輔助：" + ("今天轉差 " + "、".join(worse["val"]) + "（只放回報附錄，不置頂；是股價變貴或輔助指標變動，不是論點破了）" if worse["val"] else "今天沒有轉黃／轉紅"))
     out.append(f"體質紅燈 {len(red['biz'])}：" + ("、".join(red["biz"]) or "無"))
-    out.append(f"估值紅燈 {len(red['val'])}（附錄）：" + ("、".join(red["val"]) or "無"))
+    out.append(f"估值與輔助紅燈 {len(red['val'])}（附錄）：" + ("、".join(red["val"]) or "無"))
     return out
 
 
 def signals_part(today):
-    """最近 7 天的估值訊號（tools/signals.py 寫在 data/daily/_signals.json）。只提醒，不是買賣建議。"""
+    """最近 7 天的估值訊號只留一行計數（內容改由每週彙整，見 docs/WEEKLY_NEWS_PROMPT.md「本週估值訊號」）。提醒，不是買賣建議。"""
     S = jload("data", "daily", "_signals.json", default={"events": []}) or {"events": []}
     cut = (today - datetime.timedelta(days=7)).isoformat()
-    ev = [e for e in S["events"] if e["d"] >= cut]
-    if not ev:
-        return "估值訊號：最近 7 天沒有"
-    import signals
-    return "估值訊號（最近 7 天，提醒不是買賣建議）：" + "；".join(f"{e['d'][5:]} {signals.text(e)}" for e in ev)
+    n = sum(1 for e in S["events"] if e["d"] >= cut)
+    return f"估值訊號：最近 7 天 {n} 則（只計數，不展開；每週彙整再看。提醒，不是買賣建議）"
 
 
 def save_lights(today):
@@ -261,7 +258,7 @@ def save_lights(today):
     log = jload("data", "lights-log.json", default={"version": 1, "note": "論點卡燈號變化紀錄（daily_brief.py --save-lights 寫）", "changes": []})
     have = {(c["d"], c["code"], c["k"]) for c in log["changes"]}
     import thesis as T
-    meta = {c["code"]: {m["k"]: (m.get("group", "biz"), m["name"]) for m in th.get("metrics", [])} for c, th in T.load_all()}
+    meta = {c["code"]: {m["k"]: ("aux" if m.get("role") == "aux" else m.get("group", "biz"), m["name"]) for m in th.get("metrics", [])} for c, th in T.load_all()}
     for code, L in lights.items():
         for k, v in L.items():
             o = old.get(code, {}).get(k)

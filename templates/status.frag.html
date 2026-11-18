@@ -54,7 +54,7 @@
   </section>
 
   <section id="signals">
-    <div class="sec-head"><h2>估值訊號（最近 30 天）</h2><p class="sub">論點卡的估值門檻被穿越時記一筆（±2% 緩衝，避免在門檻邊緣來回洗版）。這是提醒，不是買賣建議。</p></div>
+    <div class="sec-head"><h2>估值訊號（最近 30 天）</h2><p class="sub">論點卡的估值門檻與現值差 15% 以上時記一筆（比門檻貴 15% 以上、比門檻便宜 15% 以上；回到 ±13% 內才算回來，避免來回洗版）。這是提醒，不是買賣建議；每週彙整再看，不用每天看。</p></div>
     <div class="card wide"><div class="tbl-wrap"><table class="st-tbl" id="stSig"></table></div></div>
   </section>
 
@@ -95,7 +95,7 @@
           "</td><td class='n'>" + (c.pending ? "<b>" + c.pending.recent + "</b> / " + c.pending.y3 + " / " + c.pending.old : "—") + "</td><td>" + (c.problems.length ? esc(c.problems.join("；")) : "") + "</td></tr>";
       }), "沒有資料");
     tbl($("stSig"), [["日期", ""], ["公司", ""], ["指標", ""], ["發生什麼事", ""]], S.signals.slice().reverse().map(function (e) {
-      return "<tr><td class='n'>" + esc(e.d.slice(5)) + "</td><td><b>" + esc(e.code.toUpperCase()) + "</b></td><td>" + esc(e.name) + "</td><td>現值 " + esc(e.now) + "（門檻 " + esc(e.op) + " " + esc(e.thr) + "）" + (e.kind === "exceed" ? "超出估值範圍" : "回到估值範圍") + "</td></tr>";
+      return "<tr><td class='n'>" + esc(e.d.slice(5)) + "</td><td><b>" + esc(e.code.toUpperCase()) + "</b></td><td>" + esc(e.name) + "</td><td>現值 " + esc(e.now) + "（門檻 " + esc(e.op) + " " + esc(e.thr) + "）" + ({ rich: "比門檻貴 15% 以上", cheap: "比門檻便宜 15% 以上", back: "回到門檻附近", exceed: "超出估值範圍（舊紀錄）" }[e.kind] || esc(e.kind)) + "</td></tr>";
     }), "最近 30 天沒有訊號");
     var mx = Math.max.apply(null, S.tokens.map(function (t) { return t.tokens; }).concat([1]));
     tbl($("stTok"), [["週（週一起）", ""], ["總 token", "n"], ["", ""]], S.tokens.map(function (t) {

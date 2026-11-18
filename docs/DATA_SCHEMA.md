@@ -243,14 +243,17 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 
 ## 論點卡 data/thesis/<代號>.json
 - `status`：`draft`（Claude 草稿，不上線）／`approved`（ZL 確認後才上線）。`build.py` 只注入 approved；approved 的每個 `metrics[].by` 必須是 `"ZL"`（validate 會擋）。
-- 欄位：`oneLiner`、`metrics[{k,name,op,thr,note,by}]`（k 為 tools/thesis.py 認得的指標）、`breakWhen`、`risks[]`、`history[]`。
+- 欄位：`oneLiner`、`metrics[{k,name,op,thr,group,role,note,by}]`（k 為 tools/thesis.py 認得的指標）、`warnWhen`（季度警示）、`breakWhen`（論點破了，結構性）、`risks[]`、`history[]`。
+- `role`：`core`（預設）／`aux`（輔助觀察，成長要配上報酬率才有價值）。aux 燈號照算照顯示，但論點破了、今天該看什麼、每日摘要的「體質轉差」只看 core；lights-log 的 `g` 欄 aux 記為 `aux`。
+- `warnWhen`＝黃燈先觀察，不是賣出理由；`breakWhen`＝結構性條件（ROE 連續下滑、毛利率三年累計下滑超過 5 個百分點等），才需要重新考慮持有。頁面另外顯示程式算的「結構檢查」三項事實（`buffett.structure`）。
 - 燈號 g／y／r／n 由 `python3 tools/thesis.py` 依最新資料算出，不手填；每日排程用 `--record` 把燈號變化寫進 history 並在回報提及。
 - 新增公司：先寫 draft，等 ZL 確認再改 approved。
 
 ### 論點卡的分類與規則（2026-11-12 定案）
-- 卡片 `type`：compounder（穩健複利）／growth（高成長）／cyclical（循環股）／turnaround（轉機／早期）；`caveat` 是固定加註（循環股：「綠燈代表景氣在上半場，不代表便宜或安全」；特斯拉：只檢查汽車與能源本業）。
+- 卡片 `type`：compounder（穩健複利，**要通過十年紀錄資格**：`buffett.record.tenYearOk`，validate 會擋）／growth（高成長）／cyclical（循環股）／turnaround（轉機／早期）／option（選擇權：還沒有穩定獲利，買的是一個可能性）；`caveat` 是固定加註（循環股：「綠燈代表景氣在上半場，不代表便宜或安全」；特斯拉：只檢查汽車與能源本業）。
 - 每個指標有 `group`：`biz`（體質）或 `val`（估值）；卡片分兩區顯示，`breakWhen` 只引用體質指標。`by`：體質門檻 `ZL`；`analyst`（分析師建議，ZL 可改；估值門檻與分析師調整過的門檻都用它）。
-- 新指標 key：`revYoyQ`（單季營收年增）、`gmQchg`（單季毛利率減前一季，百分點）。
+- 新指標 key：`revYoyQ`（單季營收年增）、`gmQchg`（單季毛利率減前一季，百分點）、`eySpread`（盈餘殖利率減十年期公債，百分點；TWD 用台灣、USD 用美國，其他幣別算不出來）。compounder 與 cyclical 的估值區放 `eySpread >= 0`；compounder 與 growth 的體質區以 ROE（`roe >= 15`）或 ROIC 為第一個核心指標；只有 compounder 的 `revYoy` 降為 aux。
+- 指標數量 3～7 個。
 - 估值門檻：本益比上限＝A、B 取低者（A＝近五年月本益比中位數，若 本益比÷g<1 放寬到 75 百分位；B＝g×1.5 高成長／g×2.5 穩健複利；g＝3、5 年 EPS CAGR 取低者、上限 25%）；循環股用 EV/Sales ≤ 近五年 75 百分位；轉機／早期不放估值指標。
 
 
@@ -262,8 +265,9 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 ```
 { "code": "tsmc", "q": "3Q26",                  // 分析的是哪一季（必須是資料裡有的季度）
   "date": "2026-11-17", "mode": "快評",          // 快評／深度／快評（電話會議待補）
-  "skill": "long-term-company-analysis v7",
-  "verdict": "續抱",                             // 加碼／續抱／減碼／觀察（四選一）
+  "skill": "long-term-company-analysis v8",
+  "verdict": "不動",                             // 不動（預設）／加碼／減碼／觀察／太難，跳過（五選一；舊字樣「續抱」只允許出現在 history）
+  "reason": null,                                // 選填：減碼必須是 "A"（護城河壞了）／"B"（管理層變了）／"C"（貴到離譜而且有更好的去處）；太難，跳過必須是 "filters"；其他結論 null
   "conclusion": "一句話結論",
   "points": [ {"t": "重點，可用 **粗體**", "tag": "w|o|e|v|m"} ],   // 3～7 點；w 書面 o 口頭 e 分析師預估 v 觀點 m 媒體
   "verify": ["下一季要驗證的事"],                 // 1～3 點
@@ -306,3 +310,24 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 ```
 公式見 `tools/daily_calc.py` 開頭。市值的股數用「最近一季有公布期末流通股數」的季度（`shQ`；不是最新一季時 `shLatest:false`，頁面會標出）。
 `build.py` 建置時用現在的財報再算一次放進頁面（`D.daily`）當備援；頁面打開時讀 `D.dailyUrl`，兩者取較新的。
+
+
+## buffett（建置時算，不存檔）
+`tools/buffett.py` 在 build.py 算完 valuation／health／thesis 後呼叫，放進 `data["buffett"]`（個股頁 `assets/buffett.js` 讀它；首頁只帶 `type` 與精簡的 `ey`，見 build.py `HOME_KEYS`）。公式與觀念對照見 `docs/BUFFETT_MUNGER.md`。
+```
+buffett = { type, currency,
+  ey:       { ey, pe, m, bond:{v,d,name,src,url}|null, ref|null, spread, series:[[月份, 盈餘殖利率, 公債, 差]], why, bondWhy },
+  tenYear:  [{q, eps, epsYoy, roe, gm, npm, fcfNi, capexNi, netDebtNi, bvps, why:{}}],   // 年度點：從最新一季往回每四季一點，最多 11 點
+  summary:  { roeOk:{ok,n,of}, roeOk40, epsUp:{up,n}, lossYears, years, bvCagr5, roeTrend3, gmChg3 },
+  buyback:  { rows:[{q, buyback, avgPe, nMonths, med5, where, from, to}], shChg5, buybackYield },
+  retained: { kept, ni20, div20, noDiv, mcapNow, mcap0, mcapChg, ratio, m0, mNow, why },
+  vsIndex:  { index, rows:[{years, stock, index, diff}], why },        // USD→標普 500、TWD→臺灣加權股價指數，不含股息；EUR／KRW 算不出來
+  implied:  { assume, pe, g:{"15","20"}, epsCagr5, why },
+  normPe:   { normPe, avgEps, n, why },
+  quality:  { q, npm, capexNi, fcfNi, debtYears, netDebtYears, bvCagr5, payout, why:{} },
+  structure:{ roeDown3, gmDown3, gmChg3, lossNow },
+  record:   { quarters, lossYears10, roe40:{ok,n,of}, tenYearOk, why:[] } }
+```
+- 算不出來的值是 `null`，`why` 是原因代碼（missing／neg／short／noprice／loss／noisy／norates／nobond／noidx／nodps），前端 `assets/buffett.js` 轉成中文。
+- 回購期間對月份：以該季名目期末日（`fiscalYearEnd`）所在月份為終點，期末日在 15 日（含）以後算當月、14 日以前算前一個月，往前數 12 個月；有本益比的月份少於 6 個不算。
+- 保留盈餘測試的股利＝每季 `dps × shOut`；公司從來沒有 `dps` 值（欄位全空）時股利當 0 並標 `noDiv`；有值但近 20 季有缺 → 整項算不出來。

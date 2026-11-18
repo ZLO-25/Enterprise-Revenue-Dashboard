@@ -4,7 +4,7 @@
  *
  *   mount(container)                    show(tab)                     hide()
  *     ① 載入 quant.css                    依網址 hash 切到對應分頁        離開量化視圖時
- *     ② 抓 view.html 放進容器              （#dca?… 會還原回測參數）       停掉看盤牆的自動輪播
+ *     ② 抓 view.html 放進容器              （#dca?… 會還原回測參數）       離開時停掉圖表更新（看盤牆已移除）
  *     ③ 載入 Plotly
  *     ④ import js/app.js、js/admin.js（ES module）
  *     ⑤ 等 app.js 初始化完成
@@ -14,7 +14,7 @@
   var BASE = (document.currentScript && document.currentScript.src) ? document.currentScript.src.replace(/loader\.js(\?.*)?$/, "") : "quant/";
   var V = (document.currentScript && /\?v=([^&]+)/.exec(document.currentScript.src) || [])[1] || "";
   var q = V ? "?v=" + V : "";
-  var ALIAS = { winrate: "rolling", edu: "learn" };
+  var ALIAS = { winrate: "rolling", edu: "learn", wall: "dca" };   // 看盤牆已移除：#wall 導到 #dca
 
   function addCss(href) {
     return new Promise(function (resolve) {
@@ -42,7 +42,19 @@
         fetch(BASE + "view.html" + q).then(function (r) { if (!r.ok) throw new Error("view.html " + r.status); return r.text(); }),
         addScript(BASE + "vendor/plotly-basic-2.35.2.min.js")
       ]).then(function (res) {
-        container.innerHTML = res[2];   // res[0]=quant.css res[1]=rates.css(或 null) res[2]=view.html
+        container.innerHTML = res[2];
+        // 看盤牆已移除（2026-11-18）：view.html 是產生檔不能改，所以載入後把分頁按鈕與內容藏起來（app.js 照常初始化，只是沒有入口）
+        var hideWall = document.createElement("style");
+        hideWall.textContent = '#tab-wall, [data-tab="wall"] { display: none !important; }';
+        container.appendChild(hideWall);
+        // 單筆 vs 定期定額：機會成本備註（觀點，意譯，不是原話）
+        var dcaTab = container.querySelector("#tab-dca");
+        if (dcaTab) {
+          var n13 = document.createElement("p"); n13.className = "notice";
+          n13.textContent = "觀點（意譯，不是原話）：每個投資都要跟你最好的替代選擇比。對多數人來說，定期買指數就已經很好。這個回測就是在幫你比。";
+          dcaTab.insertBefore(n13, dcaTab.firstChild);
+        }
+        // res[0]=quant.css res[1]=rates.css(或 null) res[2]=view.html
         // 升降息週期分頁：要在 app.js 載入「之前」放進去，app.js 才會幫它綁分頁切換與標的選擇器
         var pre = useRates ? import(BASE + "js/rates.js" + q).then(function (m) { m.inject(); }) : Promise.resolve();
         return pre.then(function () { return import(BASE + "js/chart-plus.js" + q); })   // 先載入圖表加強，app.js 畫圖時才找得到

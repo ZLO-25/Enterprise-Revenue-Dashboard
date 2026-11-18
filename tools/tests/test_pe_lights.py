@@ -22,7 +22,15 @@ class LightsSplit(unittest.TestCase):
         groups = {"a": {"om": "biz", "pe": "val"}, "b": {"pe": "val"}}
         out = "\n".join(B.lights_part(lights, groups))
         self.assertIn("體質紅燈 1：a.om", out)
-        self.assertIn("估值紅燈 1（附錄）：a.pe", out)
+        self.assertIn("估值與輔助紅燈 1（附錄）：a.pe", out)
+
+    def test_aux_goes_to_appendix(self):
+        # 輔助（aux）指標轉差、紅燈只放附錄，不置頂（和估值同一邊）
+        lights = {"a": {"revYoy": "r", "roe": "r"}}
+        groups = {"a": {"revYoy": "aux", "roe": "biz"}}
+        out = "\n".join(B.lights_part(lights, groups))
+        self.assertIn("體質紅燈 1：a.roe", out)
+        self.assertIn("估值與輔助紅燈 1（附錄）：a.revYoy", out)
 
 
 if __name__ == "__main__":

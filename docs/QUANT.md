@@ -20,7 +20,7 @@ quant/
 ```
 
 ## 網址
-`#dca` `#rolling` `#alloc` `#vol` `#wall` `#learn`（別名 `#winrate` `#edu`）→ 量化視圖；
+`#dca` `#rolling` `#alloc` `#vol` `#learn`（別名 `#winrate` `#edu`；`#wall` 看盤牆已移除，舊連結導到 `#dca`）→ 量化視圖；
 `#dca?t=SPY,QQQ&a=…` 這類分享參數照舊還原。其他 hash（`#companies` 等錨點）或沒有 hash → 原主站。
 
 ## 資料（2026-11-14 起搬進主 repo）
@@ -83,3 +83,8 @@ quant.css 每條規則都加上 `#quant-dca-view` 前綴；`:root` 變數改掛�
 ## Rollback
 1. 立即：`companies.json` 的 `site.sidebar` 改成 `false` → `python3 tools/build.py` → push。
 2. 完整：分支 `rollback/pre-quant` = 整合前的 main（32dee65）。
+
+## 2026-11-18 調整（手寫檔，不碰產生檔）
+- 看盤牆移除：`assets/sidebar.js` 拿掉側邊欄項目；`quant/loader.js` 載入後用 CSS 隱藏 `view.html` 裡的看盤牆分頁按鈕與內容（`view.html`、`js/app.js` 是產生檔，不改），`#wall` 導到 `#dca`。`QuantDCA.hide()` 仍在，離開量化視圖時照常呼叫。
+- 升降息週期（`quant/js/rates.js`）：分頁頂端加一段觀點備註：利率像地心引力，但不預測利率、不用它猜時機。
+- 單筆 vs 定期定額（`quant/loader.js` 載入後注入）：加一句機會成本備註（觀點，意譯）。

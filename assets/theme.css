@@ -382,3 +382,30 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .light-n { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
 .sum-tbl th small { display: block; font-weight: 400; color: var(--muted); font-size: 0.75rem; }
 .note li, ul.note { overflow-wrap: anywhere; }
+
+/* 巴菲特＋蒙格檢查表（assets/buffett.js） */
+.bm-grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .bm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bm-grid > #bmInv { grid-column: 1 / -1; } }
+.bm-card { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+.bm-card > * { min-width: 0; max-width: 100%; }
+.bm-card h3 { margin: 0 0 6px; font-size: 1.02rem; }
+.bm-card h4 { margin: 12px 0 4px; font-size: 0.9rem; }
+.bm-ask { margin: 0 0 10px; font-weight: 600; }
+.bm-view { margin: 10px 0; font-size: 0.9rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.bm-vt { display: block; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+.bm-nums { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 8px 0; }
+.bm-n { display: grid; gap: 2px; align-content: start; min-width: 0; overflow-wrap: anywhere; }
+.bm-nl { font-size: 0.78rem; color: var(--muted); }
+.bm-nv { font-size: 1.05rem; font-weight: 600; }
+.bm-f { display: block; font-size: 0.74rem; color: var(--muted); font-weight: 400; line-height: 1.45; }
+.bm-why { color: var(--muted); font-size: 0.82rem; font-weight: 400; }
+.bm-self { margin-top: 10px; font-size: 0.9rem; }
+.bm-self ul { margin: 4px 0 0; padding-left: 1.2em; display: grid; gap: 3px; }
+.bm-det { margin-top: 10px; }
+.bm-det summary { cursor: pointer; font-size: 0.88rem; color: var(--ink-2); }
+.bm-tbl th, .bm-tbl td { white-space: nowrap; font-size: 0.82rem; padding: 6px 8px; }
+.bm-q { color: var(--muted); font-size: 0.82rem; }
+.bm-opt { margin: 0 0 12px; }
+.bm-card .up { color: var(--good-text); } .bm-card .down { color: var(--bad-text); }
+.flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
+.co-warn { color: var(--ink-2); }

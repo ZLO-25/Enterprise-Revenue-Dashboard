@@ -2,13 +2,17 @@
 
 資料：data/thesis/<代號>.json
   {"code","status":"draft|approved","updated":"YYYY-MM-DD","updatedBy":"Claude 草稿|ZL","oneLiner":"…",
-   "type":"compounder|growth|cyclical|turnaround","caveat":"卡片固定加註（選填）",
-   "metrics":[{"k":"revYoy","name":"營收年增（近四季）","op":">=|<=","thr":20,"group":"biz|val","note":"現況、近五年中位數、近五年達標季數","by":"draft|ZL|analyst"}],
-   "breakWhen":"看到什麼就該重新考慮持有","risks":["…"],"history":[{"q":"3Q26","lights":{"revYoy":"g"}}]}
+   "type":"compounder|growth|cyclical|turnaround|option","caveat":"卡片固定加註（選填）",
+   "metrics":[{"k":"revYoy","name":"營收年增（近四季）","op":">=|<=","thr":20,"group":"biz|val","role":"core|aux","note":"現況、近五年中位數、近五年達標季數","by":"draft|ZL|analyst"}],
+   "warnWhen":"季度警示（黃燈，先觀察，不是賣出理由）","breakWhen":"論點破了（結構性，才需要重新考慮持有）","risks":["…"],"history":[{"q":"3Q26","lights":{"revYoy":"g"}}]}
+  role：core（預設）＝論點的核心指標；aux＝輔助觀察（成長要配上報酬率才有價值）。aux 燈號照算、照顯示，但「論點破了」判斷、今天該看什麼、每日摘要的「體質轉差」只看 core。
+  type：compounder 穩健複利（需要十年紀錄，規則見 tools/buffett.py 的 record.tenYearOk）、growth 高成長、cyclical 循環股、turnaround 轉機／早期、option 選擇權（還沒有穩定獲利，買的是一個可能性）。
+  warnWhen（季度警示）與 breakWhen（結構性條件）是兩層：前者黃燈先觀察，後者才是重新考慮持有的理由。
   **status 不是 approved 的一律不上線**（build.py 只注入 approved；草稿只存在這個檔案，等使用者確認）。
 可用的指標 key（來源都是網站已有數字，對應 tools/health.py 與 assets/longterm.js 的定義）：
   revYoy 營收年增（近四季） epsYoy EPS 年增（近四季） gm 毛利率（近四季） om 營業利益率（近四季） fcfRate 自由現金流率（近四季）
   revYoyQ 單季營收年增 gmQchg 單季毛利率減前一季（百分點）
+  eySpread 盈餘殖利率（100÷本益比）減十年期公債殖利率，百分點（TWD 用台灣、USD 用美國；其他幣別沒有公債資料，算不出來）
   roic roe buybackTtm（近四季回購金額，單位同公司金額） dilYoy 稀釋股數年增 pe 本益比 fpe 預估本益比 peg fcfY 自由現金流殖利率 evS EV/Sales
 燈號：g 綠＝最新一點達標；y 黃＝最新一點沒達標、但前一點有達標（或前一點算不出來）；r 紅＝連續兩點都沒達標（季指標看最近兩季、月指標看最近兩個月）；n 灰＝這個指標目前算不出來（寫原因）。
 排程只更新燈號與 history，絕不改論點文字或門檻。
@@ -22,10 +26,10 @@ import json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
-import health as H, pe as PE  # noqa
+import health as H, pe as PE, buffett as BUF  # noqa
 
-KEYS = ("revYoyQ", "gmQchg", "revYoy", "epsYoy", "gm", "om", "fcfRate", "roic", "roe", "buybackTtm", "dilYoy", "pe", "fpe", "peg", "fcfY", "evS")
-MONTHLY = ("pe", "fpe", "peg", "fcfY", "evS")
+KEYS = ("revYoyQ", "gmQchg", "revYoy", "epsYoy", "gm", "om", "fcfRate", "roic", "roe", "buybackTtm", "dilYoy", "pe", "fpe", "peg", "fcfY", "evS", "eySpread")
+MONTHLY = ("pe", "fpe", "peg", "fcfY", "evS", "eySpread")
 
 
 def ttm(Q, k):
@@ -36,8 +40,8 @@ def ttm(Q, k):
     return out
 
 
-def series(Q, val, health):
-    """回傳 {key: [(label, value|None), …]}。"""
+def series(Q, val, health, rates=None):
+    """回傳 {key: [(label, value|None), …]}。eySpread（盈餘殖利率減十年期公債，百分點）用 tools/buffett.py 的同一個函式；沒有該幣別公債就全是 None。"""
     rev, eps, ni = ttm(Q, "rev"), ttm(Q, "eps"), ttm(Q, "ni")
     lab = [q["q"] for q in Q]
     yoy = lambda a: [(lab[i], (a[i] / a[i - 4] - 1) * 100 if i >= 4 and a[i] and a[i - 4] and a[i] > 0 and a[i - 4] > 0 else None) for i in range(len(a))]
@@ -67,6 +71,7 @@ def series(Q, val, health):
     if val:
         S["pe"] = [(x["m"], x["pe"]) for x in val["monthly"]]
         S["fpe"] = [(x["m"], x["fpe"]) for x in val["monthly"]]
+        S["eySpread"] = [(x[0], x[3]) for x in BUF.spread_series(val, rates or BUF.load_rates())]
     return S
 
 
@@ -83,12 +88,12 @@ def lights(th, Q, val, health):
             while len(s) > 1 and s[-1][1] is None:
                 s = s[:-1]
         if not s or s[-1][1] is None:
-            out[m["k"]] = {"light": "n", "now": None, "label": s[-1][0] if s else None, "why": "最新一點算不出來（欄位待確認、分母不是正數或沒有資料）"}
+            out[m["k"]] = {"light": "n", "role": m.get("role", "core"), "now": None, "label": s[-1][0] if s else None, "why": "最新一點算不出來（欄位待確認、分母不是正數或沒有資料）"}
             continue
         now, prev = s[-1][1], (s[-2][1] if len(s) > 1 else None)
         ok = meets(now, m["op"], m["thr"])
         pok = prev is not None and meets(prev, m["op"], m["thr"])
-        out[m["k"]] = {"light": "g" if ok else ("y" if (pok or prev is None) else "r"), "now": now, "label": s[-1][0], "prev": prev}
+        out[m["k"]] = {"role": m.get("role", "core"), "light": "g" if ok else ("y" if (pok or prev is None) else "r"), "now": now, "label": s[-1][0], "prev": prev}
     return out
 
 
@@ -120,7 +125,7 @@ def review_rows(th, Q, val, health, n=8):
     for m in th.get("metrics", []):
         pts = [p for p in S.get(m["k"], []) if p[1] is not None][-n:]
         if not pts:
-            out.append({"k": m["k"], "name": m["name"], "group": m.get("group", "biz"), "op": m["op"], "thr": m["thr"], "now": None, "label": None, "n": 0, "ok": 0, "miss": 0, "flags": ["算不出來"]})
+            out.append({"k": m["k"], "name": m["name"], "group": m.get("group", "biz"), "role": m.get("role", "core"), "op": m["op"], "thr": m["thr"], "now": None, "label": None, "n": 0, "ok": 0, "miss": 0, "flags": ["算不出來"]})
             continue
         oks = [meets(v, m["op"], m["thr"]) for _, v in pts]
         miss = 0
@@ -137,9 +142,15 @@ def review_rows(th, Q, val, health, n=8):
                 flags.append("門檻太緊")
             if all(oks) and len(pts) == n and m["thr"] > 0 and (now >= m["thr"] * 1.5 if m["op"] == ">=" else now <= m["thr"] * 0.5):
                 flags.append("門檻太鬆")
-        out.append({"k": m["k"], "name": m["name"], "group": m.get("group", "biz"), "op": m["op"], "thr": m["thr"], "now": now, "label": pts[-1][0],
+        out.append({"k": m["k"], "name": m["name"], "group": m.get("group", "biz"), "role": m.get("role", "core"), "op": m["op"], "thr": m["thr"], "now": now, "label": pts[-1][0],
                     "n": len(pts), "ok": sum(oks), "miss": miss, "flags": flags})
     return out
+
+
+def buffett_for(c, D, val, hl):
+    pf = os.path.join(ROOT, "data", "prices", c["code"] + ".json")
+    prices = json.load(open(pf, encoding="utf8")) if c.get("price") and os.path.exists(pf) else None
+    return BUF.for_company(c, D, val, hl, prices)
 
 
 def review(today=None):
@@ -159,9 +170,21 @@ def review(today=None):
         body += ["", f"## {c['code']}（{c.get('name', '')}，{th.get('type', '')}）", "", "| 指標 | 群組 | 門檻 | 現值 | 達標 | 連續沒達標 | 旗標 |", "|---|---|---|---|---|---|---|"]
         for r in rows:
             now = "—" if r["now"] is None else f"{r['now']:.1f}（{r['label']}）"
-            body.append(f"| {r['name']} | {'體質' if r['group'] != 'val' else '估值'} | {r['op']} {r['thr']} | {now} | {r['ok']}/{r['n']} | {r['miss']} | {'、'.join(r['flags'])} |")
-            if r["flags"] and r["flags"] != ["算不出來"]:
+            body.append(f"| {r['name']} | {('估值' if r['group'] == 'val' else ('輔助' if r.get('role') == 'aux' else '體質'))} | {r['op']} {r['thr']} | {now} | {r['ok']}/{r['n']} | {r['miss']} | {'、'.join(r['flags'])} |")
+            if r["flags"] and r["flags"] != ["算不出來"] and r.get("role") != "aux":
                 flagged.append(f"- **{c['code']}**　{r['name']}（{r['op']} {r['thr']}，現值 {r['now'] if r['now'] is None else round(r['now'], 1)}，{r['ok']}/{r['n']} 達標）：{'、'.join(r['flags'])}")
+        try:
+            bf = buffett_for(c, D, val, hl)
+        except Exception as e:  # noqa: BLE001
+            bf = None
+            body.append(f"\n結構檢查與類型資格：待確認（計算失敗：{type(e).__name__}）")
+        if bf:
+            st, rc = bf["structure"], bf["record"]
+            yn = lambda v: "算不出來" if v is None else ("是" if v else "否")  # noqa: E731
+            body += ["", f"結構檢查（只列事實，不下結論）：ROE 連續三年下滑 {yn(st['roeDown3'])}；毛利率三年累計下滑超過 5 個百分點 {yn(st['gmDown3'])}"
+                     + ("" if st["gmChg3"] is None else f"（變化 {st['gmChg3']:+.1f} 個百分點）") + f"；最新近四季 EPS ≤ 0：{yn(st['lossNow'])}。",
+                     f"類型資格（穩健複利要有十年紀錄）：{rc['quarters']} 季；近 10 個年度點虧損 {rc['lossYears10']} 個；近 40 季 ROE 達 15%：{rc['roe40']['ok']}/{rc['roe40']['n']}；"
+                     f"結果 {yn(rc['tenYearOk'])}" + ("（" + "；".join(rc["why"]) + "）" if rc["why"] else "") + f"。目前類型：{th.get('type')}。"]
     lines += ["## 要 ZL 看的", ""] + (flagged or ["- 沒有旗標"]) + body
     d = os.path.join(ROOT, "reports", "thesis-review")
     os.makedirs(d, exist_ok=True)

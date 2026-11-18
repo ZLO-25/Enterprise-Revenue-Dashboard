@@ -72,16 +72,7 @@ jobs:
             sleep $((i * 5))
           done
           if [ $ok -ne 1 ]; then echo "推送失敗（重試 5 次）"; exit 1; fi
-      - name: 估值訊號開 issue（提醒，不是買賣建議）
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-          SIGNALS_OUT: ${{ runner.temp }}/signals-new.txt
-        run: |
-          if [ -s "$SIGNALS_OUT" ]; then
-            gh issue create --title "估值訊號 $(TZ=Asia/Taipei date +%m/%d)：$(head -1 "$SIGNALS_OUT")" \
-              --body "$(printf '論點卡的估值門檻被穿越（磁滯 ±2%%）：\n\n%s\n\n這是提醒，不是買賣建議。' "$(sed 's/^/- /' "$SIGNALS_OUT")")" || echo "開 issue 失敗"
-          fi
+      # 估值訊號（±15%，提醒不是買賣建議）只寫進 data/daily/_signals.json，由每週彙整呈現（docs/WEEKLY_NEWS_PROMPT.md），不再逐次開 issue
       - name: 落後檢查（台北 20:00 以後的任何一班；排程常晚 4～6 小時，不綁固定班次）
         if: github.event_name != 'push'
         run: |

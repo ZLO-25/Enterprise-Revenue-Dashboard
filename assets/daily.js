@@ -34,14 +34,15 @@ const DAILY = (() => {
     const chk = X.check ? `<span class="${X.check.ok === false ? 'st-plan' : ''}">${esc(X.check.note)}</span>。` : '';
     sec.innerHTML = `
     <div class="sec-head"><span class="sec-tag">每日收盤 · ${L.d.replace(/-/g, '/')}</span><h2>今日股價與估值</h2>
-      <p class="sub">每個交易日收盤後由 GitHub Actions 自動抓收盤價，本益比、市值等用固定公式算出來（不經過 Claude）。財報數字一律用「那天為止已公布」的季度。</p></div>
+      <p class="sub">每個交易日收盤後由 GitHub Actions 自動抓收盤價，本益比、市值等用固定公式算出來（不經過 Claude）。財報數字一律用「那天為止已公布」的季度。</p>
+      <p class="note">${typeof SUM !== 'undefined' ? SUM.tag('v') : ''} 巴菲特＋蒙格口吻（意譯，不是原話）：股價每天更新，只是為了確認資料有成功更新，不是要每天看。市場先生每天報價，我們可以利用他，不必聽他的。</p></div>
     <div class="kpis">
       <div class="kpi"><span class="label">收盤價（${md(L.d)}）</span><span class="value">${nf(L.c, cur === 'KRW' ? 0 : 2)}<small>${esc(CUR[cur] || cur)}</small></span><span class="delta">${ch} ${L.prevD ? '比 ' + md(L.prevD) : ''}</span></div>
       <div class="kpi"><span class="label">本益比（近四季）</span><span class="value"${noisy(L.pe) ? ` title="${esc(PEV.tip(L.pe))}"` : ''}>${L.pe != null ? (noisy(L.pe) ? '<small>不適用</small>' : x1(L.pe)) : `<small>${WHY[W.pe] || '—'}</small>`}</span><span class="delta">${noisy(L.pe) ? `公式值 ${x1(L.pe)}，近四季 EPS 接近零，倍數沒有參考價值<br>` : ''}${L.eps4 != null ? `EPS ${nf(L.eps4)}（到 ${esc(L.q)}）` : ''}${L.vsMed5 != null && !noisy(L.pe) ? `<br>比近 5 年中位數 ${x1(L.med5)}${noisy(L.med5) ? '（參考性低）' : ''} ${sg(L.vsMed5)}` : ''}</span></div>
-      <div class="kpi"><span class="label">預估本益比（分析師預估）</span><span class="value">${L.fpe != null ? (noisy(L.fpe) ? '<small>不適用</small>' : x1(L.fpe)) : `<small>${WHY[W.fpe] || '—'}</small>`}</span><span class="delta">${L.fSnap ? `用 ${esc(L.fSnap)} 月底預估快照${L.few ? '・人數少' : ''}` : '2026-11 月底起逐月存檔'}</span></div>
       <div class="kpi"><span class="label">市值</span><span class="value" style="font-size:var(--step-2)">${L.mcap != null ? money(L.mcap, cur) : `<small>${WHY[W.mcap] || '待確認'}</small>`}</span><span class="delta">${L.mcap != null ? `收盤價 × ${esc(L.shQ)} 期末股數${L.shLatest ? '' : '（最新一季股數待確認）'}` : '期末流通股數待確認'}</span></div>
       <div class="kpi"><span class="label">股價營收比（P/S）</span><span class="value">${L.ps != null ? x1(L.ps) : '<small>—</small>'}</span><span class="delta">${L.evS != null ? 'EV/Sales ' + x1(L.evS) : ''}${L.fcfY != null ? `<br>FCF 殖利率 ${nf(L.fcfY)}%` : ''}</span></div>
     </div>
+    <details class="card wide"><summary>分析師預估（他們不用這個做決定）</summary><div class="kpis"><div class="kpi"><span class="label">預估本益比（分析師預估）</span><span class="value">${L.fpe != null ? (noisy(L.fpe) ? '<small>不適用</small>' : x1(L.fpe)) : `<small>${WHY[W.fpe] || '—'}</small>`}</span><span class="delta">${L.fSnap ? `用 ${esc(L.fSnap)} 月底預估快照${L.few ? '・人數少' : ''}` : '2026-11 月底起逐月存檔'}</span></div></div></details>
     <div class="card wide">
       ${caps ? `<h3>離論點卡的估值門檻多遠</h3><ul class="sum-list">${caps}</ul>` : ''}
       <p class="how">近 52 週最高 ${nf(L.hi52, cur === 'KRW' ? 0 : 2)}、最低 ${nf(L.lo52, cur === 'KRW' ? 0 : 2)}，目前離最高 ${sg(L.fromHi)}。</p>

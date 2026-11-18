@@ -78,3 +78,7 @@ GitHub Pages：Settings → Pages → Deploy from a branch → `main` / `/ (root
 - 本益比 ＝ 月底收盤價 ÷ 「那一天為止已公布」的最近四季 EPS 加總（`tools/pe.py` 建置時算出，不存檔）。
 - 預估本益比 ＝ 月底收盤價 ÷ 未來 12 個月分析師預估 EPS；只有每月快照、不回填。
 - 股價由 `.github/workflows/prices-monthly.yml` 每月 1～6 日抓 Yahoo Finance（台股另對證交所），寫入 `data/prices/`；財報公布日 `rd` 在 `data/<代號>.json` 的每一季。詳見 `docs/DATA_SCHEMA.md`。
+
+## 巴菲特＋蒙格檢查表（2026-11-18）
+
+網站的目的是「成長＋價值投資」。個股頁在論點卡之後有「巴菲特＋蒙格檢查表」：四關（能力圈、護城河、管理層用錢、安全邊際）加「反過來想」。數字由 `tools/buffett.py` 建置時算（`assets/buffett.js` 只畫）；觀念文字是意譯，不是原話，清單與規則在 [`docs/BUFFETT_MUNGER.md`](docs/BUFFETT_MUNGER.md)。分析結論五選一：不動（預設）／加碼／減碼／觀察／太難，跳過。

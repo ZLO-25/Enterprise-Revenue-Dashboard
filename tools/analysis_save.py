@@ -1,7 +1,7 @@
 """把一份新的公司分析存成 data/analysis/<代號>.json，舊的那份自動精簡進 history（只留季度、日期、結論）。
 
 用法：python3 tools/analysis_save.py <代號> <新分析.json>
-新分析.json 的格式見 docs/DATA_SCHEMA.md「公司分析」（不用寫 history，這支程式會接上）。
+新分析.json 的格式見 docs/DATA_SCHEMA.md「公司分析」（不用寫 history，這支程式會接上）。結論 verdict 五選一：不動（預設）、加碼、減碼、觀察、太難，跳過；選填 reason（filters｜A｜B｜C），規則由 validate.check_analysis 核對。
 存完會跑 validate 的分析核對；沒過就不寫檔、以非 0 結束。
 """
 import json, os, sys

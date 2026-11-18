@@ -7,7 +7,7 @@ const ANALYSIS = (() => {
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const TAGS = { w: ['書面', '申報文件或公司公告'], o: ['口頭', '電話會議上講的'], e: ['分析師預估', '市場共識'], v: ['觀點', 'Claude 的判斷，不是事實'], m: ['媒體', '只有媒體報導，公司未證實（待確定）'] };
   const tag = (t) => { const x = TAGS[t] || TAGS.v; return `<span class="src-tag src-${TAGS[t] ? t : 'v'}" title="${x[1]}">${x[0]}</span>`; };
-  const VERD = { '加碼': 'chip-up', '續抱': '', '減碼': 'chip-down', '觀察': 'chip-warn' };
+  const VERD = { '加碼': 'chip-up', '不動': '', '續抱': '', '減碼': 'chip-down', '觀察': 'chip-warn', '太難，跳過': 'chip-warn' };
   const qk = (q) => q && /^[1-4]Q\d{2}$/.test(q) ? +q.slice(2) * 10 + +q[0] : 0;
 
   // 行內：**粗體**、`程式碼`、[文字](網址)
@@ -62,7 +62,8 @@ const ANALYSIS = (() => {
     const sec = document.createElement('section'); sec.id = 'analysis';
     sec.innerHTML = `<div class="sec-head"><span class="sec-tag">長期投資人分析</span><h2>${esc(A.q)} 分析結論 ${tag('v')}
         <span class="chip ${VERD[A.verdict] || ''}">${esc(A.verdict)}</span>${stale ? ` <span class="chip chip-warn">最新一季 ${esc(latest)} 尚未分析</span>` : ''}</h2>
-      <p class="sub">${esc(A.date)} ${esc(A.mode || '快評')}。整段是判斷，不是事實；數字來自本頁的財報資料，新聞標「媒體」。結論四選一：加碼／續抱／減碼／觀察。</p></div>
+      <p class="sub">${esc(A.date)} ${esc(A.mode || '快評')}。整段是判斷，不是事實；數字來自本頁的財報資料，新聞標「媒體」。結論五選一：不動（預設）／加碼／減碼／觀察／太難，跳過。</p>
+      <p class="note">${tag('v')} 巴菲特＋蒙格口吻（意譯，不是原話）：好公司買到以後，大部分時間什麼都不做。沒有明確理由，就是「不動」。${A.reason ? `<br>理由類別：${esc(({ filters: '第 ① 關（能力圈）過不了', A: '護城河壞了', B: '管理層變了', C: '貴到離譜而且有明顯更好的去處' })[A.reason] || A.reason)}` : ''}</p></div>
       <div class="card an-card">
         <p class="sum-head">${esc(A.conclusion)}</p>
         <h3>重點</h3>

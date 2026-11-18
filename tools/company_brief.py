@@ -86,6 +86,39 @@ def main():
         val = hl = Qn = None
         print(f"\n## 本益比：待確認（計算失敗：{type(e).__name__}）")
 
+    try:
+        bf = T.buffett_for(c, D, val, hl) if val is not None else None
+    except Exception as e:  # noqa: BLE001
+        bf = None
+        print(f"\n## 巴菲特＋蒙格檢查表摘要：待確認（計算失敗：{type(e).__name__}）")
+    if bf:
+        # 全部是 tools/buffett.py 建置時算好的數字；觀念是意譯，見 docs/BUFFETT_MUNGER.md
+        E, S, R, BB, RT, IM, NP, VI = bf["ey"], bf.get("summary"), bf["record"], bf.get("buyback"), bf.get("retained"), bf["implied"], bf["normPe"], bf["vsIndex"]
+        print("\n## 巴菲特＋蒙格檢查表摘要（tools/buffett.py，建置時算；分析結論要引用這裡的數字）")
+        if E.get("ey") is None:
+            print(f"- 盈餘殖利率：算不出來（{E.get('why')}）")
+        elif E.get("bond"):
+            print(f"- 盈餘殖利率 {E['ey']}%（本益比 {E['pe']}，{E['m']}）對 {E['bond']['name']} {E['bond']['v']}%（{E['bond']['d']}）＝ 差 {E['spread']:+.2f} 個百分點")
+        else:
+            print(f"- 盈餘殖利率 {E['ey']}%；公債：{E.get('bondWhy')}" + (f"；參考 {E['ref']['v']}%（{E['refNote']}）" if E.get("ref") else ""))
+        if S:
+            print(f"- 十年成績單：ROE 近 20 季達 15% {S['roeOk']['ok']}/{S['roeOk']['n']}、近 40 季 {S['roeOk40']['ok']}/{S['roeOk40']['n']}；EPS 比前一年高 {S['epsUp']['up']}/{S['epsUp']['n']} 年；虧損 {S['lossYears']}/{S['years']} 年；毛利率三年變化 {S['gmChg3']}；每股淨值五年年化 {S['bvCagr5']}%")
+        if BB:
+            rows = [r for r in BB["rows"] if r.get("where")]
+            cnt = {k: sum(1 for r in rows if r["where"] == k) for k in ("偏貴時買", "接近平常", "偏便宜時買")}
+            print(f"- 回購：{cnt}；股數五年變化 {BB['shChg5']}%；近四季回購占市值 {BB['buybackYield']}%")
+        if RT and RT.get("ratio") is not None:
+            print(f"- 保留盈餘測試：每留 1 元盈餘創造 {RT['ratio']} 元市值（留下 {RT['kept']}，市值增加 {RT['mcapChg']}，{RT['m0']}→{RT['mNow']}）")
+        elif RT:
+            print(f"- 保留盈餘測試：算不出來（{RT.get('why')}）{RT.get('note') or ''}")
+        print(f"- 價格隱含的成長：{IM['g'] or '算不出來（' + str(IM['why']) + '）'}（{IM['assume']['text']}）；公司近五年 EPS 年化成長 {IM['epsCagr5']}")
+        print(f"- 十年平均獲利本益比：{NP['normPe'] if NP['normPe'] is not None else '算不出來（' + str(NP['why']) + '）'}（循環股才是主角）")
+        if VI.get("rows"):
+            print("- 對指數（" + str(VI["index"]) + "，兩邊都不含股利）：" + "；".join(f"{r['years']} 年 股價 {r['stock']}% 指數 {r['index']}%" for r in VI["rows"] if r["stock"] is not None))
+        else:
+            print(f"- 對指數：算不出來（{VI.get('why')}）")
+        print(f"- 類型資格（穩健複利要十年紀錄）：{R['quarters']} 季；結果 {R['tenYearOk']}" + (f"（{'；'.join(R['why'])}）" if R["why"] else ""))
+
     th = jload("data", "thesis", code + ".json")
     if th:
         print(f"\n## 論點卡（{th.get('status')}，類型 {th.get('type')}，更新 {th.get('updated')}）")
@@ -99,9 +132,11 @@ def main():
         for m in th.get("metrics", []):
             k = m.get("key") or m.get("k")
             light = L.get(k, {}).get("light", "?") if L else "?"
-            print(f"- [{light}] {m.get('name') or m.get('label') or k}：{m.get('op', '')} {m.get('thr', m.get('value', ''))}　{m.get('note', '')[:80]}")
+            print(f"- [{light}]{'（輔助）' if m.get('role') == 'aux' else ''} {m.get('name') or m.get('label') or k}：{m.get('op', '')} {m.get('thr', m.get('value', ''))}　{m.get('note', '')[:80]}")
+        if th.get("warnWhen"):
+            print("季度警示（黃燈，先觀察）：" + json.dumps(th["warnWhen"], ensure_ascii=False)[:300])
         if th.get("breakWhen"):
-            print("論點破了：" + json.dumps(th["breakWhen"], ensure_ascii=False)[:300])
+            print("論點破了（結構性）：" + json.dumps(th["breakWhen"], ensure_ascii=False)[:300])
         if th.get("risks"):
             print("風險：" + json.dumps(th["risks"], ensure_ascii=False)[:400])
 
