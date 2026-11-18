@@ -54,6 +54,7 @@
 - `equity`：Total shareholders' equity。
 - `pretax`：Income before income taxes；`tax`：所得稅（正數＝費用）。2009–2010 年稅前取 1 月季度表的「Income (loss) from operations before income taxes」；2011–2012 年所得稅取各季新聞稿與隔年 1 月季度表（1Q11＝上半年 − 第二季）。
 - 讀不到的見 `notes.unavailable`。
+- `sbc` 當季股票酬勞費用：來源不是 SEC XBRL，尚未從年報讀取，全部 `null`（`notes.unavailable` 有「待確認：股票酬勞（sbc）」）；不估計。
 
 ## 電話會議（逐字稿）來源
 - 官方：ASML 每季在 `https://www.asml.com/en/investors` 放 CEO／CFO 影片訪談與**影片逐字稿**，另有投資人電話會議。尚未實測能否讀取；讀不到寫「待確認：逐字稿尚未取得」。

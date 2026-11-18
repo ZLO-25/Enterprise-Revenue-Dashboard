@@ -68,6 +68,7 @@
 - 本次由 XBRL 直接讀取（不是 bs-fetch）：dilSh＝`WeightedAverageNumberOfDilutedSharesOutstanding`（第四季沒有單季值→null）；cash＝`CashAndCashEquivalentsAtCarryingValue` + `MarketableSecuritiesCurrent`（任一項缺就整格 null）；debt＝`LongTermDebtNoncurrent`（2022 年 8 月首次發債；新聞稿沒有短期負債列）；buyback＝`PaymentsForRepurchaseOfCommonStock`（2016 年起，2016 年為 0）；equity＝`StockholdersEquity`；pretax、tax 見上。
 - shOut：`dei:CommonStockSharesOutstanding` 讀取失敗（A、B 股分列），全部 null。
 - 讀不到的季度原因彙整在 `notes.unavailable`。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 58／59 季，沒有值的季度見 notes.unavailable「股票酬勞（sbc）」。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 股價與財報公布日（本益比用）
 

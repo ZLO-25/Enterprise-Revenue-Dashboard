@@ -14,7 +14,7 @@ const THESIS = (() => {
     const TYPE = { compounder: '穩健複利', growth: '高成長', cyclical: '循環股', turnaround: '轉機／早期', option: '選擇權' };
     const rows = tbl('體質（論點破功只看這一區）', biz) + tbl('輔助觀察（成長要配上報酬率才有價值）', aux) + tbl('估值（只提醒貴不貴，不單獨構成破功）', valm);
     const BF = N.D.buffett && N.D.buffett.structure, yn = (v) => v == null ? '算不出來' : (v ? '是' : '否');
-    const struct = BF ? `<h3>結構檢查（程式算的事實，不下結論）</h3><ul class="sum-list"><li>ROE 連續三年下滑：<b>${yn(BF.roeDown3)}</b></li><li>毛利率三年累計下滑超過 5 個百分點：<b>${yn(BF.gmDown3)}</b>${BF.gmChg3 == null ? '' : `（三年變化 ${BF.gmChg3 > 0 ? '+' : ''}${BF.gmChg3.toFixed(1)} 個百分點）`}</li><li>最新近四季 EPS ≤ 0：<b>${yn(BF.lossNow)}</b></li></ul>` : '';
+    const struct = BF ? `<h3>結構檢查（程式算的事實，不下結論）</h3><ul class="sum-list"><li>${BF.basis === 'roic' ? 'ROIC' : 'ROE'} 連續三年下滑：<b>${yn(BF.down3 !== undefined ? BF.down3 : BF.roeDown3)}</b>${BF.basis === 'roic' ? '（這張卡的核心報酬率是 ROIC，所以看 ROIC）' : ''}</li><li>毛利率三年累計下滑超過 5 個百分點：<b>${yn(BF.gmDown3)}</b>${BF.gmChg3 == null ? '' : `（三年變化 ${BF.gmChg3 > 0 ? '+' : ''}${BF.gmChg3.toFixed(1)} 個百分點）`}</li><li>最新近四季 EPS ≤ 0：<b>${yn(BF.lossNow)}</b></li></ul>` : '';
     const brk = T.warnWhen ? `<h3>季度警示（黃燈，先觀察，不是賣出理由）</h3><p>${esc(T.warnWhen)}</p>
       <p class="note">${SUM.tag('v')} 巴菲特＋蒙格口吻（意譯，不是原話）：好公司買到以後，大部分時間什麼都不做。單季不如預期、股價下跌，都不是賣出的理由。</p>
       ${T.breakWhen ? `<h3>論點破了（結構性，才需要重新考慮持有）</h3><p>${esc(T.breakWhen)}</p>` : ''}${struct}` : (T.breakWhen ? `<h3>論點破了的條件</h3><p>${esc(T.breakWhen)}</p>` : '');

@@ -71,6 +71,7 @@ FY2027 = 2026/7/26 ─ 2027/7/31（預計）
 - `buyback`：`PaymentsForRepurchaseOfCommonStock`，年初累計相減。
 - `equity`：`StockholdersEquity`；`pretax`：`IncomeLossFromContinuingOperationsBeforeIncomeTaxes…`；`tax`：`IncomeTaxExpenseBenefit`。
 - 最新一季在 10-Q 出來前取新聞稿（資產負債表、現金流量表），`shOut` 新聞稿沒有 → `null`。讀不到的見 `notes.unavailable`。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 69／69 季。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）來源
 - 官方：`https://investor.cisco.com/`（網路直播與重播）。第三方逐字稿尚未選定；讀不到寫「待確認：逐字稿尚未取得」。

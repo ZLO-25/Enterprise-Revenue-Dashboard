@@ -5,7 +5,7 @@
 const BUFFETT = (() => {
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const WHY = { missing: '欄位待確認', neg: '分母不是正數或虧損', short: '資料不夠長', noprice: '沒有股價資料', loss: '虧損或本益比不可用', noisy: '本益比超過 200 倍，近四季 EPS 接近零', norates: '讀不到公債資料',
-    nobond: '網站沒有該國公債資料', noidx: '網站沒有不含股息的同幣別指數資料', nodps: '本站沒有收錄每股股利', none: '沒有資料' };
+    nobond: '網站沒有該國公債資料', noidx: '網站沒有不含股息的同幣別指數資料', nodps: '本站沒有收錄每股股利', nosbc: '股票酬勞（sbc）欄位待確認：這家公司的來源不是 SEC 申報檔，尚未從年報讀取', none: '沒有資料' };
   const num = (v) => v != null && isFinite(v);
   const why = (c) => `<span class="bm-why">算不出來：${esc(WHY[c] || WHY.none)}</span>`;
   const pc = (v, d = 1) => num(v) ? v.toFixed(d) + '%' : '—';
@@ -45,6 +45,7 @@ const BUFFETT = (() => {
       ${n('虧損年數', S.years ? `${S.lossYears} / ${S.years} 年` : why('missing'), '年度點裡近四季 EPS ≤ 0 的個數')}
       ${n('毛利率三年變化', S.gmChg3 == null ? why(w.gmChg3 || 'missing') : `${sg(S.gmChg3)} 個百分點`, '最新年度點的近四季毛利率 − 三年前年度點')}
       ${n('ROE 連續三年下滑', S.roeTrend3 == null ? why(w.roeTrend3 || 'missing') : (S.roeTrend3 ? '是' : '否'), '最近 4 個年度點的 ROE 一點比一點低')}
+      ${(B.structure && B.structure.basis === 'roic') ? n('ROIC 連續三年下滑（這張論點卡的核心是 ROIC）', S.roicTrend3 == null ? why(w.roicTrend3 || 'missing') : (S.roicTrend3 ? '是' : '否'), '最近 4 個年度點的 ROIC 一點比一點低；論點卡的結構檢查用這個') : ''}
     </div>`;
     const rows = Y.slice().reverse().map(r => [esc(r.q), cell(r.eps, v => v.toFixed(2), (r.why || {}).eps), cell(r.epsYoy, v => sg(v, 0) + '%', (r.why || {}).epsYoy), cell(r.roe, v => v.toFixed(1) + '%', (r.why || {}).roe),
       cell(r.gm, v => v.toFixed(1) + '%', (r.why || {}).gm), cell(r.npm, v => v.toFixed(1) + '%', (r.why || {}).npm), cell(r.fcfNi, v => v.toFixed(0) + '%', (r.why || {}).fcfNi),
@@ -60,7 +61,7 @@ const BUFFETT = (() => {
 
   /* ③ 管理層會用錢嗎 */
   function gate3(B) {
-    const BB = B.buyback, RT = B.retained;
+    const BB = B.buyback, RT = B.retained, OW = B.owner;
     if (!BB) return card('bmG3', '③ 管理層會用錢嗎', ask('賺來的錢，管理層怎麼用？') + `<p>${why('short')}（不到四季）</p>`);
     const rows = (BB.rows || []).filter(r => num(r.buyback) && r.buyback > 0);
     const cnt = (w) => rows.filter(r => r.where === w).length, tagged = rows.filter(r => r.where).length;
@@ -70,11 +71,12 @@ const BUFFETT = (() => {
       ${n('回購買在什麼價位', wh, '每個年度點：那 12 個月的月底平均本益比，對比現在的近 5 年本益比中位數；高於 1.1 倍算偏貴，低於 0.9 倍算偏便宜（只看有回購的年度）')}
       ${n('流通股數五年變化', BB.shChg5 == null ? why((BB.why || {}).shChg5 || 'missing') : pc(BB.shChg5), '最新一季期末流通股數 ÷ 五年前同一點 − 1；負數代表股數變少')}
       ${n('近四季回購占市值', BB.buybackYield == null ? why((BB.why || {}).buybackYield || 'missing') : pc(BB.buybackYield, 2), '近四季回購金額 ÷ 最新月底市值')}
-      ${n('每留下 1 元盈餘，創造幾元市值', rat, '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）')}
+      ${n('每留下 1 元盈餘，創造幾元市值', rat, '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）。股利開始以前的空白季度當 0（見下方算式）')}
+      ${OW ? n('股票酬勞占營收（近四季）', OW.sbcRev == null ? why((OW.why || {}).sbcRev || 'missing') : `<b>${pc(OW.sbcRev)}</b>${OW.sbcRev5med == null ? '' : `（近五年中位數 ${pc(OW.sbcRev5med)}）`}`, `近四季股票酬勞費用 ÷ 近四季營收${OW.q ? `（${esc(OW.q)}）` : ''}。股票酬勞是真實的費用，等於用股東的股份付薪水（意譯）`) : ''}
     </div>`;
     const bbRows = (BB.rows || []).slice().reverse().map(r => [esc(r.q), cell(r.buyback, v => LT.f0(v), 'missing'), cell(r.avgPe, v => v.toFixed(1), 'short'), r.where ? esc(r.where) : '—', esc(r.from + ' 至 ' + r.to)]);
     const ret = RT.kept == null ? `<p>${why(RT.why || 'missing')}${RT.note ? '　' + esc(RT.note) : ''}</p>` :
-      `<p class="how">保留盈餘測試（${esc(RT.m0 || '')} 到 ${esc(RT.mNow || '')}，五年）：近 20 季淨利 ${LT.f0(RT.ni20)} − 近 20 季股利 ${LT.f0(RT.div20)}${RT.noDiv ? '（這家公司沒有配息紀錄，股利當 0）' : ''} ＝ 留下 <b>${LT.f0(RT.kept)}</b>；
+      `<p class="how">保留盈餘測試（${esc(RT.m0 || '')} 到 ${esc(RT.mNow || '')}，五年）：近 20 季淨利 ${LT.f0(RT.ni20)} − 近 20 季股利 ${LT.f0(RT.div20)}${RT.noDiv ? '（這家公司沒有配息紀錄，股利當 0）' : ''}${RT.preDivQ ? `（${RT.preDivQ} 季以前尚未配息，股利當 0）` : ''} ＝ 留下 <b>${LT.f0(RT.kept)}</b>；
       市值 ${LT.f0(RT.mcapNow)} − 五年前 ${RT.mcap0 == null ? '（算不出來）' : LT.f0(RT.mcap0)} ＝ 增加 <b>${RT.mcapChg == null ? '—' : LT.f0(RT.mcapChg)}</b>；相除 ＝ ${RT.ratio == null ? why(RT.why || 'missing') : '<b>' + RT.ratio.toFixed(2) + '</b>'}。金額單位同本頁財報（百萬）。市值 ＝ 月底收盤價 × 當時已公布的期末股數。</p>`;
     const tbl = `<details class="bm-det"><summary>回購成績單與保留盈餘算式</summary>${table(['年度點（近四季至）', '近四季回購金額', '那 12 個月平均本益比', '回購買在', '月份區間'], bbRows)}
       <p class="how">月份區間：以該季名目期末日的所在月份為終點往前數 12 個月（期末日在 15 日以後算當月，14 日以前算前一個月）；有本益比的月份少於 6 個就留白；本益比超過 200 倍的月份不納入平均。回購金額為 0 不標。對照的中位數是：${BB.rows && BB.rows[0] && num(BB.rows[0].med5) ? BB.rows[0].med5.toFixed(1) + ' 倍（目前的近 5 年中位數，每一年共用同一個）' : '算不出來'}。</p>${ret}</details>`;
@@ -92,6 +94,12 @@ const BUFFETT = (() => {
     else main = `盈餘殖利率 <b>${E.ey.toFixed(2)}%</b>；${why(E.bondWhy || 'nobond')}${E.ref ? `。參考：${esc(E.refNote)}，${E.ref.v.toFixed(2)}%（${esc(E.ref.d)}）` : ''}`;
     const meaning = E.spread == null ? '' : (E.spread >= 0 ? '盈餘殖利率不輸公債：承擔股票風險，至少有一點額外補償。' : '盈餘殖利率低於公債：這個差距，要靠公司未來的成長補上。');
     const eyNum = `<div class="bm-nums">${n('盈餘殖利率對公債', main, E.ey == null ? '盈餘殖利率 ＝ 100 ÷ 本益比' : `盈餘殖利率 ＝ 100 ÷ 本益比（${E.pe} 倍，${esc(E.m)} 月底）；公債取最新一點${E.bond ? `（${esc(E.bond.d)}，${esc(E.bond.src || '')}）` : ''}。${meaning}`)}</div>`;
+    const OW = B.owner || {}, W = OW.why || {};
+    let oeMain;
+    if (OW.oeYield == null) oeMain = why(W.oeYield || 'missing');
+    else if (OW.bond) oeMain = `<b>${OW.oeYield.toFixed(2)}%</b> 對 ${esc(OW.bond.name)} <b>${OW.bond.v.toFixed(2)}%</b> ＝ 差 <b class="${OW.oeSpread >= 0 ? 'up' : 'down'}">${sg(OW.oeSpread, 2)}</b> 個百分點`;
+    else oeMain = `<b>${OW.oeYield.toFixed(2)}%</b>；${why(W.oeSpread || 'nobond')}`;
+    const oeNum = `<div class="bm-nums">${n('扣股票酬勞後的自由現金流殖利率', oeMain, '（近四季自由現金流 − 近四季股票酬勞）÷ 最新月底市值。這是業主盈餘的近似：財報沒有拆維持性與成長性資本支出，所以把全部資本支出都扣掉。' + (OW.fcfSbcRate == null ? '' : `近四季扣酬勞後現金流占營收 ${pc(OW.fcfSbcRate)}（未扣酬勞 ${pc(OW.fcfRate)}）。`) + '公債取最新一點')}</div>`;
     const g = I.g || {};
     const imp = !(I.g && num(g['15'])) ? `<div class="bm-nums">${n('價格隱含的成長', why(I.why || 'loss'), '')}</div>` :
       `<div class="bm-nums">${n('價格隱含的成長（每年）', `<b>${pc(g['15'])}</b>（十年後本益比 15 倍）／<b>${pc(g['20'])}</b>（20 倍）`,
@@ -104,7 +112,7 @@ const BUFFETT = (() => {
     const npBlock = `<div class="bm-nums">${n('十年平均獲利本益比', np, '最新月底收盤價 ÷ 年度點近四季 EPS 的平均（至少 5 個年度點，平均要大於 0）')}</div>`;
     return card('bmG4', '④ 價格有安全邊際嗎', ask('現在這個價格，有留給我犯錯的空間嗎？') +
       view('・安全邊際、利率是地心引力', '我們用明顯低於價值的價格買，留下犯錯的空間。利率越高，所有資產的價值就被拉得越低，所以股票要跟公債比。') +
-      eyNum + imp + (cyc ? `<div class="bm-cyc">${view('・循環看整輪', '循環生意要看整個景氣循環的平均獲利，不看高峰那一年。')}</div>${npBlock}` : '') + vs +
+      eyNum + oeNum + imp + (cyc ? `<div class="bm-cyc">${view('・循環看整輪', '循環生意要看整個景氣循環的平均獲利，不看高峰那一年。')}</div>${npBlock}` : '') + vs +
       (cyc ? '' : `<details class="bm-det"><summary>其他常看：十年平均獲利本益比（循環股才是主角）</summary>${npBlock}</details>`) +
       self(['如果我的判斷錯一半，這個價格還能讓我不虧本嗎？', '價格已經假設了什麼？我相信那個假設嗎？']));
   }

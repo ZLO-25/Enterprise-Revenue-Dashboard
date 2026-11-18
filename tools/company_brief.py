@@ -87,7 +87,7 @@ def main():
         print(f"\n## 本益比：待確認（計算失敗：{type(e).__name__}）")
 
     try:
-        bf = T.buffett_for(c, D, val, hl) if val is not None else None
+        bf = T.buffett_for(c, D, val, hl, jload("data", "thesis", code + ".json")) if val is not None else None
     except Exception as e:  # noqa: BLE001
         bf = None
         print(f"\n## 巴菲特＋蒙格檢查表摘要：待確認（計算失敗：{type(e).__name__}）")
@@ -95,7 +95,7 @@ def main():
         # 全部是 tools/buffett.py 建置時算好的數字；觀念是意譯，見 docs/BUFFETT_MUNGER.md
         E, S, R, BB, RT, IM, NP, VI = bf["ey"], bf.get("summary"), bf["record"], bf.get("buyback"), bf.get("retained"), bf["implied"], bf["normPe"], bf["vsIndex"]
         WHY = {"missing": "欄位待確認", "neg": "分母不是正數或虧損", "short": "資料不夠長", "noprice": "沒有股價資料", "loss": "虧損或本益比不可用", "noisy": "本益比超過 200 倍",
-               "norates": "讀不到公債資料", "nobond": "網站沒有該國公債資料", "noidx": "網站沒有不含股息的同幣別指數資料", "nodps": "本站沒有收錄每股股利"}
+               "norates": "讀不到公債資料", "nobond": "網站沒有該國公債資料", "noidx": "網站沒有不含股息的同幣別指數資料", "nodps": "本站沒有收錄每股股利", "nosbc": "股票酬勞欄位待確認（來源不是 SEC 申報檔）"}
         w = lambda c: WHY.get(c, c or "沒有資料")  # noqa: E731
         v = lambda x, u="": "算不出來" if x is None else f"{x}{u}"  # noqa: E731
         print("\n## 巴菲特＋蒙格檢查表摘要（tools/buffett.py，建置時算；分析結論要引用這裡的數字）")
@@ -112,9 +112,16 @@ def main():
             cnt = {k: sum(1 for r in rows if r["where"] == k) for k in ("偏貴時買", "接近平常", "偏便宜時買")}
             print(f"- 回購買在：" + "、".join(f"{k} {n} 年" for k, n in cnt.items()) + f"（只算有回購的年度點）；股數五年變化 {v(BB['shChg5'], '%')}；近四季回購占市值 {v(BB['buybackYield'], '%')}")
         if RT and RT.get("ratio") is not None:
-            print(f"- 保留盈餘測試：每留 1 元盈餘創造 {RT['ratio']} 元市值（留下 {RT['kept']}，市值增加 {RT['mcapChg']}，{RT['m0']}→{RT['mNow']}）")
+            print(f"- 保留盈餘測試：每留 1 元盈餘創造 {RT['ratio']} 元市值（留下 {RT['kept']}，市值增加 {RT['mcapChg']}，{RT['m0']}→{RT['mNow']}）" + (f"；{RT['preDivQ']} 季以前尚未配息，股利當 0" if RT.get("preDivQ") else ""))
         elif RT:
             print(f"- 保留盈餘測試：算不出來（{w(RT.get('why'))}）{RT.get('note') or ''}")
+        OW = bf.get("owner")
+        if OW:
+            if OW.get("sbcRev") is None:
+                print(f"- 股票酬勞與業主盈餘（近似）：算不出來（{w((OW.get('why') or {}).get('sbcRev'))}）")
+            else:
+                oy = "算不出來" if OW.get("oeYield") is None else f"{OW['oeYield']}%" + ("" if OW.get("oeSpread") is None else f"，對公債差 {OW['oeSpread']:+.2f} 個百分點")
+                print(f"- 股票酬勞占營收 {OW['sbcRev']}%（近五年中位數 {v(OW.get('sbcRev5med'), '%')}，{OW['q']}）；扣股票酬勞後的自由現金流率 {v(OW.get('fcfSbcRate'), '%')}（未扣 {v(OW.get('fcfRate'), '%')}）；扣酬勞後現金流殖利率 {oy}。業主盈餘的近似：財報沒有拆維持性與成長性資本支出")
         g = IM.get("g") or {}
         print(f"- 價格隱含的成長：" + (f"每年 {g.get('15')}%（十年後 15 倍）／{g.get('20')}%（20 倍）" if g else f"算不出來（{w(IM['why'])}）") + f"（{IM['assume']['text']}）；公司近五年 EPS 年化成長 {v(IM['epsCagr5'], '%')}")
         print(f"- 十年平均獲利本益比：{v(NP['normPe'], ' 倍') if NP['normPe'] is not None else '算不出來（' + w(NP['why']) + '）'}（循環股才是主角）")
