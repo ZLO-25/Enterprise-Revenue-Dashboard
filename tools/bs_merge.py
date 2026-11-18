@@ -1,10 +1,13 @@
 """把 data/bs-raw/<代號>.json（bs_fetch.py 的提案）合併進 data/<代號>.json 的 quarters[]。
 
-  python3 tools/bs_merge.py <代號>…       合併後請接著跑 python3 tools/validate.py <代號>
+  python3 tools/bs_merge.py <代號>…       合併 8 個欄位後請接著跑 python3 tools/validate.py <代號>
+  python3 tools/bs_merge.py --only sbc <代號>…   只寫 sbc（當季股票酬勞）一個欄位，其他欄位與其他「待確認」說明一個字都不動
+  python3 tools/bs_merge.py --only sbc --no-source <代號>…   來源不是 SEC XBRL 的公司：sbc 全部 null＋待確認說明（不估計）
 
 規則：提案有值就寫入，沒有值一律 null（不估計、不內插）；每個欄位只要有 null，就在 notes.unavailable 加一行
 「待確認：資產負債表欄位 <中文名>（<key>）：<n> 季沒有值（<季度範圍>）：<原因摘要>」。舊的同類行會先移除再重寫，所以可重複執行。
-提案產生 8 個欄位以外的鍵一律忽略。
+提案產生 8 個欄位以外的鍵一律忽略（預設模式）。
+sbc 合理性：負值（年度累計相減得負）或單季 sbc ÷ 單季營收 > 60% → 不用，寫原因。
 """
 import collections, json, os, sys
 
@@ -15,14 +18,35 @@ import health as H  # noqa
 MARK = "待確認：資產負債表欄位 "
 
 
+NO_SOURCE = "來源不是 SEC XBRL，尚未從年報讀取"
+SBC_MAX_REV = 0.6
+
+
 def main():
-    for code in sys.argv[1:]:
-        raw = json.load(open(os.path.join(ROOT, "data", "bs-raw", code + ".json"), encoding="utf8"))
+    args = sys.argv[1:]
+    only = None
+    if "--only" in args:
+        i = args.index("--only")
+        only = args[i + 1]
+        del args[i:i + 2]
+        if only != "sbc":
+            raise SystemExit("--only 目前只支援 sbc")
+    no_source = "--no-source" in args
+    args = [a for a in args if a != "--no-source"]
+    if no_source and not only:
+        raise SystemExit("--no-source 要和 --only sbc 一起用")
+    FIELDS = (only,) if only else H.BS8
+    mark = MARK + H.NAMES[only] if only else MARK
+    for code in args:
+        if no_source:
+            raw = {"quarters": []}
+        else:
+            raw = json.load(open(os.path.join(ROOT, "data", "bs-raw", code + ".json"), encoding="utf8"))
         path = os.path.join(ROOT, "data", code + ".json")
         D = json.load(open(path, encoding="utf8"))
         by = {r["q"]: r for r in raw["quarters"]}
-        miss = {k: [] for k in H.NEW}
-        why = {k: collections.Counter() for k in H.NEW}
+        miss = {k: [] for k in FIELDS}
+        why = {k: collections.Counter() for k in FIELDS}
         for q in D["quarters"]:
             r = by.get(q["q"], {"vals": {}, "why": {"*": "提案沒有這一季"}})
             r = {"vals": dict(r["vals"]), "why": dict(r["why"])}
@@ -36,27 +60,36 @@ def main():
             if sh is not None and ref and not (0.2 <= sh / ref <= 5):
                 r["vals"]["shOut"] = None
                 r["why"]["shOut"] = "期末股數與淨利÷EPS 差一個數量級以上（單位或分割換算疑似有誤，不使用）"
+            sb, rv = r["vals"].get("sbc"), q.get("rev")
+            if sb is not None and sb < 0:
+                r["vals"]["sbc"] = None
+                r["why"]["sbc"] = "年度累計相減得負值（來源口徑前後不一致，不使用）"
+            elif sb is not None and rv and sb / rv > SBC_MAX_REV:
+                r["vals"]["sbc"] = None
+                r["why"]["sbc"] = f"股票酬勞占當季營收超過 {SBC_MAX_REV:.0%}（單位或口徑疑似有誤，不使用）"
             for k in ("buyback", "debt", "cash"):
                 if (r["vals"].get(k) or 0) < 0:
                     r["vals"][k] = None
                     r["why"][k] = "年度累計相減得負值（來源口徑前後不一致，不使用）"
-            for k in H.NEW:
+            for k in FIELDS:
                 v = r["vals"].get(k)
                 q[k] = v
                 if v is None:
                     miss[k].append(q["q"])
-                    why[k][r["why"].get(k) or r["why"].get("*") or "來源沒有這個值"] += 1
+                    why[k][NO_SOURCE if no_source else (r["why"].get(k) or r["why"].get("*") or "來源沒有這個值")] += 1
         notes = D.setdefault("notes", {})
-        un = [x for x in notes.get("unavailable", []) if not x.startswith(MARK)]
-        for k in H.NEW:
-            if miss[k]:
+        un = [x for x in notes.get("unavailable", []) if not x.startswith(mark) and not (only and x.startswith(f"待確認：{H.NAMES[only]}（{only}）"))]
+        for k in FIELDS:
+            if miss[k] and no_source:
+                un.append(f"待確認：{H.NAMES[k]}（{k}）：{NO_SOURCE}")
+            elif miss[k]:
                 reasons = "；".join(f"{w}（{n} 季）" for w, n in why[k].most_common(3))
                 un.append(f"{MARK}{H.NAMES[k]}（{k}）：{len(miss[k])} 季沒有值（{miss[k][0]}～{miss[k][-1]}）：{reasons}")
         notes["unavailable"] = un
         with open(path, "w", encoding="utf8") as f:
             json.dump(D, f, ensure_ascii=False, indent=1)
             f.write("\n")
-        print(code, {k: len(D["quarters"]) - len(miss[k]) for k in H.NEW}, "有值的季數")
+        print(code, {k: len(D["quarters"]) - len(miss[k]) for k in FIELDS}, "有值的季數")
 
 
 if __name__ == "__main__":

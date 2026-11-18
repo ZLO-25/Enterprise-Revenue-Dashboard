@@ -76,6 +76,15 @@
      "LongTermDebtNoncurrent"
     ]
    ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "nvda": {
@@ -156,6 +165,15 @@
     ]
    ],
    "opt": []
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "tsla": {
@@ -242,6 +260,15 @@
     ]
    ],
    "opt": []
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "anet": {
@@ -323,6 +350,15 @@
     ],
     [
      "LongTermDebtNoncurrent"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
     ]
    ]
   }
@@ -407,6 +443,15 @@
     ]
    ],
    "opt": []
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "msft": {
@@ -493,6 +538,15 @@
      "ShortTermBorrowings"
     ]
    ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "mu": {
@@ -576,6 +630,15 @@
     ]
    ],
    "opt": []
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "amzn": {
@@ -660,6 +723,15 @@
    "opt": [
     [
      "ShortTermBorrowings"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
     ]
    ]
   }
@@ -755,6 +827,15 @@
      "CommercialPaper"
     ]
    ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "amd": {
@@ -847,6 +928,15 @@
      "ShortTermBorrowings"
     ]
    ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "crwd": {
@@ -928,6 +1018,15 @@
     ]
    ],
    "opt": []
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "panw": {
@@ -1013,6 +1112,15 @@
      "ConvertibleDebtCurrent"
     ]
    ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
   }
  },
  "rklb": {
@@ -1082,6 +1190,15 @@
     [
      "MarketableSecuritiesCurrent",
      "ShortTermInvestments"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
     ]
    ]
   }
@@ -1167,6 +1284,85 @@
    "opt": [
     [
      "ShortTermBorrowings"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  }
+ },
+ "googl": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  }
+ },
+ "meta": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  }
+ },
+ "csco": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  }
+ },
+ "avgo": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  }
+ },
+ "mrvl": {
+  "ni": [
+   "NetIncomeLoss"
+  ],
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
     ]
    ]
   }

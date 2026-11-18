@@ -3,6 +3,7 @@
 
   python3 tools/bs_fetch.py --probe              只印各公司各概念有幾筆事實（用來決定 BS_MAP）
   python3 tools/bs_fetch.py [--company nvda]     產生 data/bs-raw/<代號>.json（提案，不直接改 data/<代號>.json）
+  python3 tools/bs_fetch.py --field sbc          只重抓指定欄位（可逗號分隔），其餘欄位的提案原樣保留；沒有提案檔的公司只產生這個欄位
 
 提案之後由 tools/bs_merge.py 核對並合併進 data/<代號>.json。原則（資料誠實）：讀不到就是 null，不估計、不內插。
 """
@@ -183,7 +184,7 @@ def cover(facts, ends, E):
     return sorted(best, key=lambda f: f["end"])[0], "dei:EntityCommonStockSharesOutstanding（封面）"
 
 
-def build(cfg, only):
+def build(cfg, only, fields=None):
     os.makedirs(os.path.join(ROOT, "data", "bs-raw"), exist_ok=True)
     for c in cfg["companies"]:
         if not c.get("cik") or not c.get("enabled") or (only and c["code"] != only):
@@ -195,28 +196,42 @@ def build(cfg, only):
             continue
         D = json.load(open(os.path.join(ROOT, "data", code + ".json"), encoding="utf8"))
         Q = D["quarters"]
-        names = set(n for v in M.values() if isinstance(v, dict) for part in v.get("all", []) + v.get("opt", []) for n in part) | {"NetIncomeLoss"}
+        specs = {k: v for k, v in M.items() if k not in ("ni", "shNote") and (not fields or k in fields)}
+        if fields and not specs:
+            print(code, "配方沒有指定欄位", sorted(fields), "，略過")
+            continue
+        names = set(n for v in specs.values() if isinstance(v, dict) for part in v.get("all", []) + v.get("opt", []) for n in part) | {"NetIncomeLoss"}
         names |= set(M.get("ni", ["NetIncomeLoss"]))
         F = {n: concept(c["cik"], n) for n in sorted(names)}
         F["cover"] = concept(c["cik"], "dei:EntityCommonStockSharesOutstanding")
         ni_facts = [f for n in M.get("ni", ["NetIncomeLoss"]) for f in F.get(n, [])]
         ends, allends, cand = quarter_ends(ni_facts, Q)
-        splits = splits_for(c["price"]["yahoo"]) if c.get("price") else []
+        need_split = any(v.get("shares") for v in specs.values())
+        splits = splits_for(c["price"]["yahoo"]) if (c.get("price") and need_split) else []
         if splits is None:
             print(code, "沒有分割資料 → 股數欄位不產生")
             splits = None
         out = {"code": code, "fetched": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "splits": splits, "niCand": {k: round(v, 1) for k, v in cand.items()}, "quarters": []}
+        old = {}
+        rawpath = os.path.join(ROOT, "data", "bs-raw", code + ".json")
+        if fields and os.path.exists(rawpath):
+            prev = json.load(open(rawpath, encoding="utf8"))
+            old = {r["q"]: r for r in prev["quarters"]}
+            out = dict(prev, quarters=[], fetched=out["fetched"])
         for i, q in enumerate(Q):
             E = ends[i]
             row = {"q": q["q"], "end": E, "vals": {}, "prov": {}, "why": {}}
+            if fields:
+                o = old.get(q["q"], {})
+                row = {"q": q["q"], "end": E, "vals": {k: v for k, v in o.get("vals", {}).items() if k not in fields},
+                       "prov": {k: v for k, v in o.get("prov", {}).items() if k not in fields},
+                       "why": {k: v for k, v in o.get("why", {}).items() if k not in fields}}
             if E is None:
                 row["why"]["*"] = "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
                 out["quarters"].append(row)
                 continue
             prev_end = ends[i - 1] if i > 0 and ends[i - 1] else None
-            for field, spec in M.items():
-                if field in ("ni", "shNote"):
-                    continue
+            for field, spec in specs.items():
                 kind = spec["kind"]
                 if kind == "inst":
                     total, prov, bad = 0.0, [], False
@@ -260,7 +275,7 @@ def build(cfg, only):
                     row["vals"][field] = round(v / 1e6, 3)
                     row["prov"][field] = [{"c": part, "acc": f["accn"], "filed": f["filed"]}]
             out["quarters"].append(row)
-        n_ok = {k: sum(1 for r in out["quarters"] if k in r["vals"]) for k in M if k not in ("ni", "shNote")}
+        n_ok = {k: sum(1 for r in out["quarters"] if k in r["vals"]) for k in specs}
         print(code, f"季數 {len(Q)}，對齊 {sum(1 for e in ends if e)}，各欄位有值：{n_ok}", flush=True)
         with open(os.path.join(ROOT, "data", "bs-raw", code + ".json"), "w", encoding="utf8") as fh:
             json.dump(out, fh, ensure_ascii=False, indent=0)
@@ -302,7 +317,8 @@ def main():
         return balance_probe(cfg, only)
     if "--probe" in sys.argv:
         return probe(cfg, only)
-    build(cfg, only)
+    fields = set(sys.argv[sys.argv.index("--field") + 1].split(",")) if "--field" in sys.argv else None
+    build(cfg, only, fields)
 
 
 if __name__ == "__main__":
