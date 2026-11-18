@@ -52,6 +52,24 @@ def exch(sym):
     return US
 
 
+def closing_quote(yf, sym, d, tz, hh, mm):
+    """日線還是空的那一天：用 Yahoo 報價的 regularMarketPrice（一般交易時段最後成交價＝收盤價），
+    只在報價時間是同一天、而且已過收盤時間時採用；否則回傳 None（那天不收，下一班再試）。"""
+    try:
+        info = yf.Ticker(sym).info
+        p, t = info.get("regularMarketPrice"), info.get("regularMarketTime")
+        if p is None or not t:
+            return None
+        lt = dt.datetime.fromtimestamp(t, ZoneInfo(tz))
+        if lt.date() != d or lt.hour * 60 + lt.minute < hh * 60 + mm - 1:
+            return None
+        log(f"   {sym} {d} 日線收盤還是空的，改用收盤後報價 {p}（{lt:%H:%M}）")
+        return float(p)
+    except Exception as e:  # noqa: BLE001
+        log(f"   {sym} 收盤後報價讀取失敗：{type(e).__name__}")
+        return None
+
+
 def fetch_rows(sym):
     import yfinance as yf
     tz, hh, mm = exch(sym)
@@ -71,8 +89,11 @@ def fetch_rows(sym):
                 if d > now.date() or (d == now.date() and not done_today):
                     continue                      # 還沒收盤：盤中價不收
                 c = row["Close"]
-                if c != c:                        # NaN
-                    continue
+                if c != c:                        # NaN：Yahoo 日線收盤後幾個小時內常常還是空的 → 改用收盤後的報價（見下）
+                    if d == now.date() or d == max(x.date() for x in df.index):
+                        c = closing_quote(yf, sym, d, tz, hh, mm)
+                    if c is None or c != c:
+                        continue
                 rows.append([d.isoformat(), round(float(c), 4)])
             if not rows:
                 raise RuntimeError("沒有已收盤的日線")
