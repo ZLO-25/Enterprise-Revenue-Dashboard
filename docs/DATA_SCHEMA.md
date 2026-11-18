@@ -274,6 +274,7 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 - 存檔一律用 `python3 tools/analysis_save.py <代號> <新分析.json>`（舊結論自動收進 history、跑核對）。
 - **不能出現「作者」、作者的預測或作者觀點檔內容**（repo 公開；作者觀點是付費文章轉述，只放專案資料夾的完整版）。validate 會擋。
 - 最新一季比 `q` 新時，頁面自動標「最新一季尚未分析」。
+- 首頁「公司」表格點 ▸ 展開（或「全部展開」）時，展開列最下方顯示結論＋重點；首頁只帶精簡欄位（`q/date/mode/verdict/conclusion/points`，見 build.py `HOME_ANALYSIS`），不帶 `full`。「看完整分析 →」連到 `<公司>/#analysis-full`，個股頁會自動展開全文。
 
 ## 公司簡介 data/profile/<代號>.json（2026-11 新增）
 

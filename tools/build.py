@@ -52,7 +52,9 @@ def write(text, *p):
 # 首頁只讀這幾個欄位（用 Proxy 記錄首頁所有互動實際讀到的欄位得出；做法見 tools/perf/README.md）。
 # 其餘（health、notes、annual、milestones、thesis、summary、sources…）只有個股頁用，不放進首頁，首頁因此小一半。
 # 新增首頁功能若要讀別的欄位，把欄位名加進來（companies.json site.homeSlim=false 可整個關掉瘦身）。
-HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr")
+HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr", "analysis")
+# 公司分析在首頁只帶精簡欄位（展開列的「結論＋重點」）；全文 full 很大，只放個股頁，首頁用連結過去
+HOME_ANALYSIS = ("q", "date", "mode", "verdict", "conclusion", "points")
 
 
 def check_home_keys():
@@ -67,7 +69,14 @@ def home_data(datasets, slim):
     if not slim:
         return datasets
     check_home_keys()
-    return {c: {k: v for k, v in d.items() if k in HOME_KEYS} for c, d in datasets.items()}
+    out = {}
+    for c, d in datasets.items():
+        h = {k: v for k, v in d.items() if k in HOME_KEYS}
+        if "analysis" in h:   # 另外縮成精簡版；複製一份，不能改到個股頁共用的 datasets
+            h["analysis"] = {k: v for k, v in h["analysis"].items() if k in HOME_ANALYSIS}
+        out[c] = h
+    assert not any("full" in (h.get("analysis") or {}) for h in out.values()), "首頁不能帶分析全文 analysis.full"
+    return out
 
 
 def js_json(obj):
@@ -296,7 +305,7 @@ def main():
                                           data.get("thesis") if (data.get("thesis") or {}).get("status") == "approved" else None)
         ap = os.path.join(ROOT, "data", "analysis", c["code"] + ".json")
         if os.path.exists(ap):
-            # 公司分析（觀點）：個股頁標題下方的「結論＋重點」，more 展開全文。只放個股頁，不進首頁（HOME_KEYS 沒有它）
+            # 公司分析（觀點）：個股頁標題下方的「結論＋重點」，more 展開全文。首頁展開列只帶精簡版（HOME_ANALYSIS）
             data["analysis"] = json.load(open(ap, encoding="utf8"))
         pp = os.path.join(ROOT, "data", "profile", c["code"] + ".json")
         if os.path.exists(pp):

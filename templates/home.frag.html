@@ -55,6 +55,20 @@ table.co-tbl { font-size: 0.84rem; }
 .pf .pf-k { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 0.78rem; color: var(--ink-2); font-family: var(--font-data); border-bottom: 1px dashed var(--line); padding-bottom: 10px; }
 .pf .pf-k b { color: var(--ink); font-weight: 600; }
 .pf .pf-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; justify-content: space-between; font-size: 0.74rem; color: var(--muted); }
+.pf .pf-an { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 6px; }
+.pf .pf-an h4 { font-size: 0.9rem; }
+.pf .pf-an .an-one { font-size: 0.9rem; font-weight: 600; color: var(--ink); line-height: 1.55; }
+.pf .pf-an ul { font-size: 0.84rem; }
+.pf .pf-an .an-foot { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; justify-content: space-between; font-size: 0.74rem; color: var(--muted); }
+.an-v { font-size: 0.7rem; font-weight: 700; padding: 1px 9px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+.an-v.v-add { background: rgba(27, 175, 122, 0.16); color: var(--s3); } .an-v.v-cut { background: rgba(227, 73, 72, 0.16); color: var(--s8); } .an-v.v-watch { background: rgba(237, 161, 0, 0.18); color: var(--s4); }
+.an-stale { font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); }
+.co-expall { font: inherit; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 4px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.co-expall:hover { color: var(--ink); background: var(--wash); }
+.co-status .co-left { display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap; min-width: 0; flex: 1 1 auto; }
+.co-status .co-colseg { flex: none; } .co-status .co-colseg button { white-space: nowrap; }
+.pf > * { min-width: 0; }
+.pf p, .pf li, .pf .pf-foot span, .pf .an-foot span { overflow-wrap: anywhere; min-width: 0; }
 .pf .pf-sub { font-size: 0.72rem; color: var(--muted); font-weight: 500; margin: 6px 0 4px; }
 .tag-src { font-size: 0.64rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; background: var(--wash); color: var(--ink-2); }
 .tag-v { background: #f3e8c6; color: #6b4e00; }
@@ -125,12 +139,12 @@ table.co-tbl { font-size: 0.84rem; }
   </section>
 
   <section id="companies">
-    <div class="sec-head"><h2>公司</h2><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點與護城河，點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
+    <div class="sec-head"><h2>公司</h2><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點、護城河與分析結論（「全部展開」一次打開目前列出的公司），點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
     </div>
-    <div class="co-status"><span id="coCount" aria-live="polite"></span>
+    <div class="co-status"><div class="co-left"><span id="coCount" aria-live="polite"></span><button type="button" class="co-expall" id="coExpAll" aria-pressed="false">全部展開 ▾</button></div>
       <div class="seg co-colseg" id="colSeg" role="group" aria-label="欄位"><button type="button" data-g="q" aria-pressed="true">最新一季</button><button type="button" data-g="lt" aria-pressed="false">長期</button><button type="button" data-g="val" aria-pressed="false">估值</button></div></div>
     <div class="co-box"><table class="co-tbl" id="coTbl"></table></div>
     <p class="co-empty" id="coEmpty" hidden></p>
@@ -306,13 +320,28 @@ function mixHtml(x) {
     <div class="mix-bar" role="img" aria-label="${M.items.map(i => i.n + ' ' + i.p.toFixed(0) + '%').join('，')}">${M.items.map((i, k) => `<span style="width:${i.p}%;background:${C(k)}" title="${esc(i.n)} ${i.p.toFixed(1)}%"></span>`).join('')}</div>
     <ul class="mix-lg">${M.items.map((i, k) => `<li><i style="background:${C(k)}"></i>${esc(i.n)} <b>${i.p.toFixed(1)}%</b></li>`).join('')}</ul>${M.note ? `<p class="pf-sub">${esc(M.note)}</p>` : ''}</div>`;
 }
+/* 展開列最下方：公司分析的結論＋重點（data/analysis/<代號>.json 的精簡版；全文只在個股頁，按連結過去會自動展開） */
+const AN_TAG = { w: ['書面', '申報文件或公司公告'], o: ['口頭', '電話會議上講的'], e: ['分析師預估', '市場共識'], v: ['觀點', 'Claude 的判斷，不是事實'], m: ['媒體', '只有媒體報導，公司未證實（待確定）'] };
+const AN_CLS = { '加碼': 'v-add', '續抱': '', '減碼': 'v-cut', '觀察': 'v-watch' };
+const anInline = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+const qkey = (q) => q && /^[1-4]Q\d{2}$/.test(q) ? +q.slice(2) * 10 + +q[0] : 0;
+function analysisHtml(x) {
+  const A = x.D.analysis;
+  if (!A) return '';
+  const latest = x.s && x.s.qLabel, stale = latest && qkey(latest) > qkey(A.q);
+  const tg = (t) => { const k = AN_TAG[t] ? t : 'v'; return `<span class="tag-src${k === 'v' ? ' tag-v' : ''}" title="${AN_TAG[k][1]}">${AN_TAG[k][0]}</span>`; };
+  return `<div class="pf-an"><h4>分析結論 <span class="tag-src tag-v" title="Claude 依長期投資人分析法寫的判斷，不是事實">觀點</span><span class="an-v ${AN_CLS[A.verdict] || ''}">${esc(A.verdict)}</span>${stale ? `<span class="an-stale">最新一季 ${esc(latest)} 尚未分析</span>` : ''}</h4>
+    <p class="an-one">${anInline(A.conclusion)}</p>
+    <ul>${(A.points || []).map(p => `<li>${tg(p.tag || 'v')} ${anInline(p.t)}</li>`).join('')}</ul>
+    <div class="an-foot"><span>${esc(A.q)} · ${esc(A.date)} · ${esc(A.mode || '快評')}</span><a class="go" href="${x.c.path}#analysis-full">看完整分析 →</a></div></div>`;
+}
 /* 展開列：主力產品／解決的痛點／護城河（data/profile/<代號>.json，由 build.py 放進 D.profile） */
 function profileHtml(x) {
   const { c, D, N, M, s } = x;
   const R = D.profile;
   const kv = `<div class="pf-k"><span>${s.revLabel} <b>${f0(s.rev)}</b> ${s.revUnit}</span><span>${s.qLabel} EPS <b>${f2(s.eps)}</b> ${s.epsUnit}（近四季 ${f2(M.ttmEpsNow)}）</span><span>近四季營收 <b>${f0(M.ttmRev)}</b> ${N.unitShort}</span><span>資料截至 ${D.asOf.replace(/-/g, '/')}</span><span>下一個公布日 ${nextTxt({ s })}${s.next ? '（' + s.next.t.split('（')[0] + '）' : ''}</span></div>`;
   const go = `<a class="go" href="${c.path}">看 ${c.name} 追蹤板 →</a>`;
-  if (!R) return `<div class="pf">${kv}${mixHtml(x)}<div class="pf-foot"><span>主力產品、痛點、護城河：待確認（尚未整理）</span>${go}</div></div>`;
+  if (!R) return `<div class="pf">${kv}${mixHtml(x)}<div class="pf-foot"><span>主力產品、痛點、護城河：待確認（尚未整理）</span>${go}</div>${analysisHtml(x)}</div>`;
   const draft = R.status !== 'approved' ? '<span class="tag-src tag-draft" title="Claude 整理的草稿，ZL 確認後才算定稿">草稿・待 ZL 確認</span>' : '';
   const W = '<span class="tag-src" title="依公司年報／公開說明書整理">書面</span>', V = '<span class="tag-src tag-v" title="Claude 的判斷，不是事實">觀點</span>';
   const li = (arr) => (arr || []).map(x => `<li>${x.n ? `<b>${esc(x.n)}</b>：${esc(x.d)}` : esc(x)}</li>`).join('');
@@ -320,7 +349,7 @@ function profileHtml(x) {
     <div><h4>主力產品 ${W}</h4><ul>${li(R.products)}</ul></div>
     <div><h4>解決什麼痛點 ${W}</h4><ul>${li(R.pains)}</ul></div>
     <div><h4>護城河</h4><p class="pf-sub">我的判斷 ${V}</p><ul>${li(R.moat)}</ul><p class="pf-sub">公司自述的優勢 ${W}</p><ul>${li(R.claims)}</ul></div>
-    <div class="pf-foot"><span>${draft} 來源：${R.src ? `<a href="${esc(R.src.url)}" target="_blank" rel="noopener">${esc(R.src.n)}</a>` : '待確認'}${(R.notes || []).length ? '　' + R.notes.map(esc).join('　') : ''}</span>${go}</div></div>`;
+    <div class="pf-foot"><span>${draft} 來源：${R.src ? `<a href="${esc(R.src.url)}" target="_blank" rel="noopener">${esc(R.src.n)}</a>` : '待確認'}${(R.notes || []).length ? '　' + R.notes.map(esc).join('　') : ''}</span>${go}</div>${analysisHtml(x)}</div>`;
 }
 function renderTbl() {
   const order = sortK ? [...S].sort((a, b) => { const C = COLS.find(x => x.k === sortK); const va = C.v(a), vb = C.v(b); if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return (va - vb) * sortDir; }) : S;
@@ -364,6 +393,7 @@ function applyFilter() {
   tabsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(!q && b.dataset.sec === curSec || (!!q && b.dataset.sec === ALL))));
   $('#coEmpty').hidden = shown > 0;
   $('#coEmpty').textContent = shown ? '' : `找不到符合「${qEl.value.trim()}」的公司。可以試試中文名、英文名或股票代號。`;
+  syncExpAll();
   $('#coCount').textContent = shown ? `顯示 ${shown} / ${S.length} 家` + (q ? `（搜尋「${qEl.value.trim()}」）` : curSec === ALL ? '' : `（${curSec}）`) : '';
 }
 tabsEl.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; curSec = b.dataset.sec; qEl.value = ''; applyFilter(); });
@@ -373,11 +403,25 @@ tblEl.addEventListener('click', e => {
   const th = e.target.closest('th.sortable');
   if (th) { const k = th.dataset.k; if (sortK === k) { if (sortDir < 0) sortDir = 1; else { sortK = null; sortDir = -1; } } else { sortK = k; sortDir = -1; } renderTbl(); applyFilter(); return; }
   const ex = e.target.closest('.exp');
-  if (ex) { const r = ex.closest('tr.row'), d = r.nextElementSibling, op = !r.classList.contains('open');
-    r.classList.toggle('open', op); ex.setAttribute('aria-expanded', String(op));
-    if (op && !d.firstElementChild.innerHTML) d.firstElementChild.innerHTML = profileHtml(S.find(x => x.c.code === r.dataset.code));
-    d.hidden = !op; }
+  if (ex) { const r = ex.closest('tr.row'); setOpen(r, !r.classList.contains('open')); syncExpAll(); }
 });
+/* 全部展開／全部收起：只動目前看得到的公司（目前的產業分頁或搜尋結果）；按鈕文字跟著實際狀態走 */
+const expAllEl = $('#coExpAll');
+const visRows = () => [...tblEl.querySelectorAll('tr.row:not([hidden])')];
+function setOpen(r, op) {
+  const d = r.nextElementSibling, ex = r.querySelector('.exp');
+  r.classList.toggle('open', op); ex.setAttribute('aria-expanded', String(op));
+  if (op && !d.firstElementChild.innerHTML) d.firstElementChild.innerHTML = profileHtml(S.find(x => x.c.code === r.dataset.code));
+  d.hidden = !op;
+}
+function syncExpAll() {
+  const v = visRows(), all = v.length > 0 && v.every(r => r.classList.contains('open'));
+  expAllEl.hidden = v.length === 0;
+  expAllEl.textContent = all ? '全部收起 ▴' : '全部展開 ▾';
+  expAllEl.setAttribute('aria-pressed', String(all));
+  expAllEl.setAttribute('aria-label', all ? '收起目前列出的所有公司' : '展開目前列出的所有公司');
+}
+expAllEl.addEventListener('click', () => { const v = visRows(), op = !v.every(r => r.classList.contains('open')); v.forEach(r => setOpen(r, op)); syncExpAll(); });
 $('#colSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; colG = b.dataset.g; syncSeg('colSeg', 'g', colG);
   tblEl.querySelectorAll('.gc').forEach(el => el.classList.toggle('on', el.classList.contains('g-' + colG))); });
 qEl.addEventListener('input', () => { curSec = qEl.value.trim() ? ALL : DEFAULT_SEC; applyFilter(); });

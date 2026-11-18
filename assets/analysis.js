@@ -82,6 +82,12 @@ const ANALYSIS = (() => {
       btn.textContent = open ? 'less ▴　收起完整分析' : 'more ▾　看完整分析';
       if (!open) sec.scrollIntoView({ block: 'start' });
     });
+    // 從首頁「看完整分析 →」過來（#analysis-full）：直接展開全文並捲到這裡；#analysis 只捲動。區塊是腳本後插的，瀏覽器原本的錨點捲動找不到它
+    const h = location.hash;
+    if (h === '#analysis-full' || h === '#analysis') {
+      if (h === '#analysis-full') btn.click();
+      requestAnimationFrame(() => sec.scrollIntoView({ block: 'start' }));
+    }
     const nav = document.getElementById('secnav') || document.querySelector('.secnav .scroller');
     if (nav && !nav.querySelector('[href="#analysis"]')) {
       const a = document.createElement('a'); a.href = '#analysis'; a.textContent = '分析';
