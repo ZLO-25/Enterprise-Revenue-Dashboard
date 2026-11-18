@@ -648,21 +648,21 @@
   },
   {
    "d": "2026-11-09",
-   "cat": "ma",
+   "cat": "space",
    "t": "收購 Iridium Communications（衛星通訊）：以 ATM 增資籌足資金、Iridium 股東已通過，尚待完成",
    "src": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000073/rklb-11092026ex991.htm",
    "st": "f"
   },
   {
    "d": "2026-11-09",
-   "cat": "other",
+   "cat": "launch",
    "t": "Neutron 中型火箭首飛延到最早 2027 年，已簽 16 次 Neutron 發射合約",
    "src": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000073/rklb-11092026ex991.htm",
    "st": "f"
   },
   {
    "d": "2026-08-10",
-   "cat": "ma",
+   "cat": "space",
    "t": "完成收購 Mynaric（雷射通訊）與 Motiv，並宣布收購 Iridium",
    "src": "https://www.sec.gov/Archives/edgar/data/1819994/000181999426000061/rklb-08102026ex991.htm",
    "st": "p"
@@ -672,6 +672,13 @@
    "cat": "listing",
    "t": "與 SPAC（Vector Acquisition）完成合併，在 Nasdaq 以 RKLB 掛牌",
    "src": "https://www.sec.gov/Archives/edgar/data/1819994/000119312521252860/d169370d8k.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-01-08",
+   "cat": "space",
+   "t": "拿下美國太空發展署（SDA）5.15 億美元合約，設計製造 18 顆 Tranche 2 傳輸層衛星，首次擔任國防主承包商",
+   "src": "https://www.businesswire.com/news/home/20240108098500/en",
    "st": "p"
   }
  ],
@@ -810,5 +817,17 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "Neutron 火箭與太空系統",
+  "why": "Neutron 中型火箭能不能如期首飛，以及衛星與太空系統合約能不能撐起營收",
+  "cats": [
+   "launch",
+   "space"
+  ]
+ },
+ "categories": {
+  "launch": "發射",
+  "space": "太空系統"
  }
 }

@@ -461,14 +461,14 @@
   },
   {
    "d": "2026-10-28",
-   "cat": "ma",
+   "cat": "grid",
    "t": "協議以 90 億美元收購 Trench Group（高壓電網設備），預計 2027 年底完成",
    "src": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000162/gevpressrelease3q26.htm",
    "st": "f"
   },
   {
    "d": "2026-04-22",
-   "cat": "ma",
+   "cat": "grid",
    "t": "完成收購 Prolec GE 剩餘 50% 股權；1Q26 認列約 45 億美元併購相關稅前利益，單季淨利 47 億美元",
    "src": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000063/gevpressrelease1q26.htm",
    "st": "p"
@@ -492,6 +492,27 @@
    "cat": "listing",
    "t": "自奇異（GE）分拆完成，在紐約證交所以 GEV 掛牌",
    "src": "https://www.sec.gov/Archives/edgar/data/1996810/000119312524084048/d807682d8k.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-07-23",
+   "cat": "gas",
+   "t": "燃氣發電設備在手訂單＋產能保留協議從 50 GW 增加到 55 GW",
+   "src": "https://www.sec.gov/Archives/edgar/data/0001996810/000199681025000132/gevpressrelease2q25.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-10-22",
+   "cat": "gas",
+   "t": "燃氣發電設備在手訂單＋產能保留協議從 55 GW 增加到 62 GW",
+   "src": "https://sec.gov/Archives/edgar/data/1996810/000199681025000159/gevpressrelease3q25.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-01-28",
+   "cat": "gas",
+   "t": "燃氣發電設備在手訂單＋產能保留協議從 62 GW 增加到 83 GW；公司在手訂單達 1,500 億美元",
+   "src": "https://www.gevernova.com/sites/default/files/gev_webcast_pressrelease_01282026.pdf",
    "st": "p"
   }
  ],
@@ -633,5 +654,17 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "燃氣渦輪與電網設備",
+  "why": "AI 資料中心帶動用電，燃氣渦輪排隊訂單與電網設備併購是成長主軸",
+  "cats": [
+   "gas",
+   "grid"
+  ]
+ },
+ "categories": {
+  "gas": "燃氣發電",
+  "grid": "電網"
  }
 }

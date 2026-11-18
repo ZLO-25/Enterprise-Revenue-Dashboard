@@ -2397,7 +2397,7 @@
   },
   {
    "d": "2026-11-12",
-   "cat": "product",
+   "cat": "ai",
    "t": "公司把 FY2027 來自大型雲端業者的 AI 基礎設施營收預期上調到 90 億美元（FY2026 約 40 億美元）",
    "src": "https://www.sec.gov/Archives/edgar/data/858877/000085887726000170/exhibit991pressrelease-q1f.htm",
    "st": "f"
@@ -2411,7 +2411,7 @@
   },
   {
    "d": "2024",
-   "cat": "ma",
+   "cat": "sec",
    "t": "FY2024 第三季（2024/1/28–4/27）完成收購 Splunk（資安與可觀測性軟體）",
    "src": "https://www.sec.gov/Archives/edgar/data/858877/000119312524139371/d826117dex991.htm",
    "st": "p"
@@ -2428,6 +2428,13 @@
    "cat": "profit",
    "t": "董事會核准首次發放季度現金股利（每股 0.06 美元，2011-04-20 發放）",
    "src": "https://www.sec.gov/Archives/edgar/data/858877/000119312511135913/dex991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-05-14",
+   "cat": "ai",
+   "t": "3Q25 大型雲端客戶的 AI 基礎設施訂單超過 6 億美元，提前一季達成全年 10 億美元目標",
+   "src": "https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2025/m05/cisco-reports-third-quarter-earnings.html",
    "st": "p"
   }
  ],
@@ -2585,5 +2592,17 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "AI 基礎設施與資安軟體",
+  "why": "大型雲端的 AI 網路訂單與 Splunk 帶來的軟體訂閱，決定思科能不能重回成長",
+  "cats": [
+   "ai",
+   "sec"
+  ]
+ },
+ "categories": {
+  "ai": "AI 基礎設施",
+  "sec": "資安與軟體"
  }
 }
