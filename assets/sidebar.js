@@ -43,7 +43,7 @@
     return null;
   }
   // 首頁內部快速錨點（只列首頁真的有的區塊）
-  var ANCHORS = [["futures", "指數期貨"], ["companies", "公司列表"], ["score", "長期體質記分板"], ["compare", "跨公司比較"], ["freshness", "資料新鮮度"]];
+  var ANCHORS = [["today", "今天該看什麼"], ["futures", "指數期貨"], ["companies", "公司列表"], ["score", "長期體質記分板"], ["compare", "跨公司比較"], ["freshness", "資料新鮮度"]];
 
   // ---- localStorage（無痕模式可能丟例外，一律包起來）
   function load() { try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
@@ -80,6 +80,7 @@
           '<div class="sb-sub"><input class="sb-filter" type="search" placeholder="搜尋公司…" aria-label="搜尋公司">' + coList + "</div></details>" +
       "</div>" +
       '<div class="sb-group"><div class="sb-label">市場總覽</div>' +
+        '<a class="sb-item' + (PAGE === "calendar" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "calendar/") + '"><span class="sb-ico">📅</span>財報行事曆</a>' +
         '<a class="sb-item' + (PAGE === "mcap" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "mcap/") + '"><span class="sb-ico">🏆</span>市值排名</a>' +
         '<a class="sb-item' + (PAGE === "status" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "status/") + '"><span class="sb-ico">🩺</span>系統健康</a>' +
       "</div>" +

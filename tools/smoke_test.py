@@ -5,7 +5,7 @@ import functools, http.server, os, sys, threading
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/status/"]
+PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/status/", "/calendar/"]
 IGNORE = ("Failed to load resource", "net::ERR", "fonts.googleapis", "fonts.gstatic")
 
 

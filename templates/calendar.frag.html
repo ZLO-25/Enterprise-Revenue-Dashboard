@@ -1,0 +1,90 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+.cl-ctrl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:12px}
+.cl-sum{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}.cl-pill{font-size:.85rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.cl-wk{margin:0 0 14px}.cl-wk h3{font-size:.9rem;margin:0 0 6px;color:var(--ink-2)}.cl-wk h3 small{color:var(--muted);font-weight:400;margin-left:6px}
+.cl-row{display:grid;grid-template-columns:5.6em 1fr auto;gap:4px 12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
+.cl-row .d{font-family:var(--font-data);font-size:.88rem}.cl-row .d.today{color:var(--good-text);font-weight:600}
+.cl-row a{font-weight:600;color:inherit}.cl-row .t{color:var(--ink-2);font-size:.9rem;grid-column:2}
+.cl-tag{font-size:.75rem;padding:1px 8px;border-radius:999px;white-space:nowrap;grid-row:1;grid-column:3}
+.cl-tag.sure{background:var(--chip-bg);color:var(--chip-ink);font-weight:600}
+.cl-tag.est{border:1px dashed var(--muted);color:var(--muted);background:transparent}
+.cl-empty{color:var(--muted);font-size:.85rem;margin:0 0 12px}
+.cl-note{font-size:.82rem;color:var(--muted)}
+@media (max-width:640px){.cl-row{grid-template-columns:4.8em 1fr auto}}
+</style>
+
+<div class="secnav" role="navigation" aria-label="章節"><div class="scroller">
+  <a class="homelink" href="{{HOME}}">← 所有公司</a><a href="#upcoming">未來 90 天</a><a href="#recent">最近 14 天已公布</a><a href="#overdue">日期已過</a>
+</div></div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Earnings Calendar</div>
+    <h1>財報行事曆</h1>
+    <p class="lede">未來 90 天各公司的財報與營收公布日，依週分組。<b>已公告</b>＝公司自己宣布的日期；<b>預估</b>＝依往年慣例推的日期，公司還沒宣布，可能會變。美股公司的日期是美東日期，盤後公布等於台北隔天清晨。</p>
+    <div class="meta-row"><span id="clSub"></span></div>
+    <div class="cl-sum" id="clSum"></div>
+  </header>
+
+  <section id="upcoming">
+    <div class="cl-ctrl">
+      <div class="seg" id="clSec" role="group" aria-label="產業"></div>
+      <label><input type="checkbox" id="clSure"> 只看已公告</label>
+      <button type="button" class="btn" id="clIcs">下載 .ics（只含已公告，可匯入手機行事曆）</button>
+    </div>
+    <div id="clList"></div>
+    <p class="cl-note">本頁不是投資建議；日期以公司公告為準。預估日期不會當成事實使用。</p>
+  </section>
+
+  <section id="recent">
+    <div class="sec-head"><h2>最近 14 天已公布</h2><p class="sub">各公司最新一季財報的公布日（rd）落在最近 14 天內。</p></div>
+    <div class="card wide" id="clRecent"></div>
+  </section>
+
+  <section id="overdue">
+    <div class="sec-head"><h2>日期已過、還在處理</h2><p class="sub">清單裡早於今天的項目＝每日檢查還沒處理完（或預估日已過、公司沒宣布）。</p></div>
+    <div class="card wide" id="clOver"></div>
+  </section>
+</main>
+
+<script>
+{{TODAY_JS}}
+(function () {
+  "use strict";
+  const EV = {{EVENTS}}, RC = {{RECENT}};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const today = EVCAL.tpeDate();
+  let sec = '', sureOnly = false;
+  const SECS = [...new Set(EV.map(e => e.sector))];
+  $('clSub').textContent = '今天（台北）：' + EVCAL.mdw(today);
+  $('clSec').innerHTML = ['全部', ...SECS].map(s => `<button type="button" data-s="${esc(s === '全部' ? '' : s)}" aria-pressed="${s === '全部'}">${esc(s)}</button>`).join('');
+  const row = (e) => `<div class="cl-row"><span class="d${e.d === today ? ' today' : ''}">${e.d === today ? '今天' : EVCAL.mdw(e.d)}</span><a href="../${esc(e.path)}">${esc(e.name)}</a><span class="cl-tag ${e.est ? 'est' : 'sure'}">${e.est ? '預估' : '已公告'}</span><span class="t">${esc(e.t)}</span></div>`;
+  function render() {
+    const f = EV.filter(e => (!sec || e.sector === sec) && (!sureOnly || !e.est));
+    const W = EVCAL.weeks(f, today, 90), up = f.filter(e => e.d >= today && e.d <= EVCAL.addDays(today, 90));
+    const wk = f.filter(e => e.d >= today && e.d <= EVCAL.addDays(EVCAL.monday(today), 6)).length;
+    $('clSum').innerHTML = `<span class="cl-pill">本週 ${wk} 件</span><span class="cl-pill">未來 30 天 ${f.filter(e => e.d >= today && e.d <= EVCAL.addDays(today, 30)).length} 件</span><span class="cl-pill">已公告 ${up.filter(e => !e.est).length}／預估 ${up.filter(e => e.est).length}</span>`;
+    $('clList').innerHTML = W.length ? W.map(w => w.empty
+      ? `<p class="cl-empty">${EVCAL.md(w.start)} – ${EVCAL.md(w.end)}：沒有已知的公布日</p>`
+      : `<div class="cl-wk"><h3>${EVCAL.md(w.start)} – ${EVCAL.md(w.end)}（週一～週日）${w.start <= today && today <= w.end ? '<small>本週</small>' : ''}</h3>${w.items.map(row).join('')}</div>`).join('')
+      : '<p class="cl-empty">這個篩選條件下，未來 90 天沒有事件。</p>';
+  }
+  $('clSec').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; sec = b.dataset.s; $('clSec').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render(); });
+  $('clSure').addEventListener('change', (e) => { sureOnly = e.target.checked; render(); });
+  $('clIcs').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([EVCAL.ics(EV.filter(e => e.d >= today))], { type: 'text/calendar' }));
+    a.download = 'earnings-calendar.ics'; document.body.appendChild(a); a.click(); a.remove();
+  });
+  const rc = RC.filter(r => { const n = EVCAL.days(r.rd, today); return n >= 0 && n <= 14; }).sort((a, b) => a.rd < b.rd ? 1 : -1);
+  $('clRecent').innerHTML = rc.length ? rc.map(r => `<div class="cl-row"><span class="d">${EVCAL.md(r.rd)}</span><a href="../${esc(r.path)}">${esc(r.name)}</a><span class="cl-tag sure">${esc(r.q)}</span></div>`).join('') : '<p class="cl-empty">最近 14 天沒有公司公布財報。</p>';
+  const od = EVCAL.sortEv(EV.filter(e => e.d < today));
+  $('clOver').innerHTML = od.length ? od.map(row).join('') : '<p class="cl-empty">沒有。</p>';
+  render();
+})();
+</script>
