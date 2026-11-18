@@ -70,7 +70,7 @@ add new company: NVDA, AMD
    - 共用欄位每季都要有：rev、gm、om、eps 不能是 null；這四個欄位如果某一季讀不到，那一季就先不要收，並寫進「待確認」。gp、opInc、ni、ocf、capex、fcf、dps 讀不到填 null。
    - 單位：美股用「百萬美元」、台股用「百萬元新台幣」（或在 company.unit 寫明）；每股用美元／元。
    - 第四季 = 全年 − 前三季累計（EPS 除外，取公司公布的 Q4）。
-   - annual 只放公司公布的全年數字；guidance 用 items[] 形式；events 放下一個公布日（公司未公告的加 est:1；這是每日排程判斷「誰到期」的唯一依據，一定要有）；waterfall 換成最新一季；milestones 列上市、重大產品、合約、併購、指數納入；sources 列頁面要顯示的來源連結；notes.unavailable 列「待確認」與取不到的欄位。
+   - annual 只放公司公布的全年數字；guidance 用 items[] 形式；events 放下一個公布日（公司未公告的加 est:1；這是每日排程判斷「誰到期」的唯一依據，一定要有）；waterfall 換成最新一季；milestones 列上市、重大產品、合約、併購、指數納入，**以及這家公司投資論點的核心業務里程碑**（例：TSLA 的 FSD／Robotaxi／Cybercab、PLTR 的 AIP、NVDA 的新架構量產；先看論點卡與最近幾季簡報在講什麼，把那條故事線從起點補到最新一季，可自訂 categories）；sources 列頁面要顯示的來源連結；notes.unavailable 列「待確認」與取不到的欄位。
    - 有分部營收就放 segments（分部加總＝營收）；公司專屬指標放 extra（keys 指定哪些要畫圖）。
 3a. 文字摘要：新公司只做「最新一季」的 summary（不回補舊季度）；guidanceHistory 從目前財測開始累積；市場預期不回補，下個公布日前 14 天起由 GitHub Actions（consensus-daily）自動拍照（需要 events 有「財報」公布日）。SOURCES.md 要寫「電話會議（逐字稿）來源」與「公司有無非 GAAP EPS」。美股用 --cik 填 SEC CIK。
 3c. 資產負債表欄位：每季 8 個新欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax；另有第 9 個 `sbc` 股票酬勞：SEC 公司在 `tools/bs_map.json` 加 `sbc` 配方並用 `bs-fetch`（mode `build`、field `sbc`）抓、`python3 tools/bs_merge.py --only sbc <代號>` 合併；非 SEC 公司 `python3 tools/bs_merge.py --only sbc --no-source <代號>`，全部 null＋待確認，不估計；定義見 docs/DATA_SCHEMA.md 與 docs/SECTOR_METRICS.md）要補到該公司最早一季；美股用 GitHub Actions 的 bs-fetch 從 SEC XBRL 產生提案（tools/bs_fetch.py、tools/bs_merge.py），其餘來源手動讀申報文件。讀不到的欄位填 null 並在 notes.unavailable 寫「待確認：<欄位名>…」（validate 會擋）；SOURCES.md 要有「資產負債表欄位」一節寫明各欄位口徑。體質總覽的 ROIC、ROE、回購、FCF 殖利率、EV/Sales、PEG 由程式（tools/health.py）建置時算出，不手填。
