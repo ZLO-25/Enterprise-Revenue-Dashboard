@@ -21,7 +21,7 @@ test('pick：優先順序、已公告在預估前、最多 3 則並算 more', ()
   const r = T.pick({
     today: '2026-11-18', limit: 3, statusHref: 's/', alerts: ['A', 'B', 'C'],
     events: [ev('2026-11-20', 'X', true), ev('2026-11-20', 'Y', false), ev('2026-11-18', 'Z', false), ev('2026-12-30', 'FAR', false)],
-    lights: [{ d: '2026-11-17', code: 'a', k: 'om', name: '營業利益率', g: 'biz', to: 'r' }, { d: '2026-11-17', code: 'b', k: 'pe', g: 'val', to: 'r' }],
+    lights: [{ d: '2026-11-17', code: 'a', k: 'om', name: '營業利益率', g: 'biz', from: 'y', to: 'r' }, { d: '2026-11-17', code: 'b', k: 'pe', g: 'val', from: 'g', to: 'r' }],
     signals: [{ d: '2026-11-17', code: 'c', name: '本益比', now: 30, kind: 'exceed' }],
   });
   assert.equal(r.items[0].kind, 'alert');
@@ -31,8 +31,8 @@ test('pick：優先順序、已公告在預估前、最多 3 則並算 more', ()
   assert.ok(!r.items.some(i => /FAR/.test(i.text)));    // 7 天外不顯示
 });
 
-test('pick：只有體質燈號、舊的不顯示', () => {
-  const r = T.pick({ today: '2026-11-18', lights: [{ d: '2026-11-01', code: 'a', k: 'om', g: 'biz', to: 'r' }, { d: '2026-11-17', code: 'b', k: 'om', g: 'biz', to: 'g' }] });
+test('pick：只有體質燈號變差才算（紅→黃不算）、舊的不顯示', () => {
+  const r = T.pick({ today: '2026-11-18', lights: [{ d: '2026-11-01', code: 'a', k: 'om', g: 'biz', from: 'g', to: 'r' }, { d: '2026-11-17', code: 'b', k: 'om', g: 'biz', from: 'r', to: 'g' }, { d: '2026-11-17', code: 'c', k: 'om', g: 'biz', from: 'r', to: 'y' }] });
   assert.equal(r.items.length, 0);
 });
 
