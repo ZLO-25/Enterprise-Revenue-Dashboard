@@ -27,13 +27,20 @@ test('pick：優先順序、已公告在預估前、最多 3 則並算 more', ()
   assert.equal(r.items[0].kind, 'alert');
   assert.match(r.items[1].text, /^今天 Z/);
   assert.match(r.items[2].text, /Y .*已公告/);          // 已公告 Y 排在預估 X 前面
-  assert.equal(r.more, 3);                              // X、體質燈號、估值訊號（估值燈號 val 不進體質）
+  assert.equal(r.more, 2);                              // X、體質燈號（估值燈號 val 不進體質；估值訊號不進「今天該看什麼」）
+  assert.ok(!r.items.some(i => i.kind === 'signal'));
   assert.ok(!r.items.some(i => /FAR/.test(i.text)));    // 7 天外不顯示
 });
 
 test('pick：只有體質燈號變差才算（紅→黃不算）、舊的不顯示', () => {
   const r = T.pick({ today: '2026-11-18', lights: [{ d: '2026-11-01', code: 'a', k: 'om', g: 'biz', from: 'g', to: 'r' }, { d: '2026-11-17', code: 'b', k: 'om', g: 'biz', from: 'r', to: 'g' }, { d: '2026-11-17', code: 'c', k: 'om', g: 'biz', from: 'r', to: 'y' }] });
   assert.equal(r.items.length, 0);
+});
+
+test('pick：輔助（aux）指標的燈號變化不算體質轉差', () => {
+  const r = T.pick({ today: '2026-11-18', lights: [{ d: '2026-11-17', code: 'a', k: 'revYoy', g: 'aux', from: 'g', to: 'r' }, { d: '2026-11-17', code: 'b', k: 'roe', g: 'biz', from: 'g', to: 'y' }] });
+  assert.equal(r.items.length, 1);
+  assert.match(r.items[0].text, /^體質燈號轉黃/);
 });
 
 test('weeks：90 天內分組、空週合併、邊界日期', () => {

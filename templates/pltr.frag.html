@@ -598,7 +598,7 @@ const GL = [
   ['調整後自由現金流', 'Adjusted free cash flow', '營業現金流減資本支出，再加回為 SBC 代繳的雇主稅。', '營業現金流 ＋ 代繳雇主稅 − 資本支出'],
   ['美國商業／美國政府', 'U.S. commercial / U.S. government', '依客戶所在地與類別再切細：美國商業是 Palantir 近幾年成長最快的區塊。', '公司於財報新聞稿揭露'],
   ['GAAP 與調整後 EPS', 'Diluted EPS', 'GAAP 稀釋 EPS 依財報淨利與稀釋股數計算；調整後 EPS 排除 SBC，並用公司估計的長期稅率（23%）。', '淨利 ÷ 稀釋股數'],
-];
+].concat(typeof BUFFETT !== 'undefined' ? BUFFETT.GLOSS : []);
 $('#gloss').innerHTML = GL.map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join('');
 
 /* ---------- boot ---------- */

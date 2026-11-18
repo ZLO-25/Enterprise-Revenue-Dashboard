@@ -91,3 +91,8 @@ Artifact 是**單一合併版**：`python3 tools/build.py` 會把新公司自動
 
 ## 5. 完成後要告訴使用者
 網站網址、資料涵蓋期間、**取不到的欄位**、選了哪些預設、下一個公布日（每日排程會在隔天做「快報」）。
+
+## 論點卡與檢查表（2026-11-18 起）
+- 論點卡類型規則：compounder 必須通過十年紀錄資格（`buffett.record.tenYearOk`，validate 會擋）；option 類型給還沒有穩定獲利的公司。
+- metrics 可帶 `role`（core／aux）；季度警示 `warnWhen` 與結構性 `breakWhen` 兩層；compounder 與 growth 以 ROE（`roe >= 15`）或 ROIC 為第一個核心指標；compounder 與 cyclical 的估值區放 `eySpread`（盈餘殖利率減十年期公債；TWD、USD 才有公債資料）。
+- 新公司回報要附檢查表摘要：`python3 tools/company_brief.py <代號>`。個股頁的「檢查表」與「體質總覽」自動出現，不用改程式。觀念見 docs/BUFFETT_MUNGER.md。

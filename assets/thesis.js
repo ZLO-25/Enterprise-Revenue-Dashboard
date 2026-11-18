@@ -10,9 +10,14 @@ const THESIS = (() => {
     const row = (m) => { const L = (T.lights || {})[m.k] || { light: 'n' }; const l = LIGHT[L.light];
       return `<tr><th scope="row">${esc(m.name)}${m.note ? `<small>${esc(m.note)}</small>` : ''}</th><td>${m.op === '>=' ? '高於' : '不高於'} ${esc(m.thr)}<small>${m.by === 'ZL' ? '你定的門檻' : m.by === 'analyst' ? '分析師建議，ZL 可改' : '草擬門檻'}</small></td><td>${fmt(L.now)}<small>${esc(L.label || '')}</small></td><td><span class="light light-${L.light}" title="${l[1]}">${l[0]}</span></td></tr>`; };
     const tbl = (title, list) => list.length ? `<h3>${title}</h3><div class="tbl-wrap"><table class="sum-tbl"><thead><tr><th>關鍵指標</th><th>門檻</th><th>最新</th><th>燈號</th></tr></thead><tbody>${list.map(row).join('')}</tbody></table></div>` : '';
-    const ms = T.metrics || [], biz = ms.filter(m => m.group !== 'val'), valm = ms.filter(m => m.group === 'val');
-    const TYPE = { compounder: '穩健複利', growth: '高成長', cyclical: '循環股', turnaround: '轉機／早期' };
-    const rows = tbl('體質（論點破功只看這一區）', biz) + tbl('估值（只提醒貴不貴，不單獨構成破功）', valm);
+    const ms = T.metrics || [], aux = ms.filter(m => m.role === 'aux'), biz = ms.filter(m => m.group !== 'val' && m.role !== 'aux'), valm = ms.filter(m => m.group === 'val' && m.role !== 'aux');
+    const TYPE = { compounder: '穩健複利', growth: '高成長', cyclical: '循環股', turnaround: '轉機／早期', option: '選擇權' };
+    const rows = tbl('體質（論點破功只看這一區）', biz) + tbl('輔助觀察（成長要配上報酬率才有價值）', aux) + tbl('估值（只提醒貴不貴，不單獨構成破功）', valm);
+    const BF = N.D.buffett && N.D.buffett.structure, yn = (v) => v == null ? '算不出來' : (v ? '是' : '否');
+    const struct = BF ? `<h3>結構檢查（程式算的事實，不下結論）</h3><ul class="sum-list"><li>ROE 連續三年下滑：<b>${yn(BF.roeDown3)}</b></li><li>毛利率三年累計下滑超過 5 個百分點：<b>${yn(BF.gmDown3)}</b>${BF.gmChg3 == null ? '' : `（三年變化 ${BF.gmChg3 > 0 ? '+' : ''}${BF.gmChg3.toFixed(1)} 個百分點）`}</li><li>最新近四季 EPS ≤ 0：<b>${yn(BF.lossNow)}</b></li></ul>` : '';
+    const brk = T.warnWhen ? `<h3>季度警示（黃燈，先觀察，不是賣出理由）</h3><p>${esc(T.warnWhen)}</p>
+      <p class="note">${SUM.tag('v')} 巴菲特＋蒙格口吻（意譯，不是原話）：好公司買到以後，大部分時間什麼都不做。單季不如預期、股價下跌，都不是賣出的理由。</p>
+      ${T.breakWhen ? `<h3>論點破了（結構性，才需要重新考慮持有）</h3><p>${esc(T.breakWhen)}</p>` : ''}${struct}` : (T.breakWhen ? `<h3>論點破了的條件</h3><p>${esc(T.breakWhen)}</p>` : '');
     const hist = (T.history || []).slice(-8).reverse();
     const sec = document.createElement('section'); sec.id = 'thesis';
     sec.innerHTML = `<div class="sec-head"><span class="sec-tag">投資論點</span><h2>論點卡 ${SUM.tag('v')}</h2>
@@ -20,7 +25,7 @@ const THESIS = (() => {
       <div class="card"><p class="sum-head">${T.type ? `<span class="chip">${esc(TYPE[T.type] || T.type)}</span> ` : ''}${esc(T.oneLiner)}</p>
       ${T.caveat ? `<p class="note">${esc(T.caveat)}</p>` : ''}
       ${rows}
-      ${T.breakWhen ? `<h3>論點破了的條件</h3><p>${esc(T.breakWhen)}</p>` : ''}
+      ${brk}
       ${(T.risks || []).length ? `<h3>風險</h3><ul class="sum-list">${T.risks.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
       ${hist.length ? `<details><summary>燈號歷史（每季快報時記一次）</summary><ul class="sum-list">${hist.map(h => `<li><b>${esc(h.q)}</b>　${Object.entries(h.lights).map(([k, v]) => `${esc(((T.metrics || []).find(m => m.k === k) || {}).name || k)}：<span class="light light-${v}">${LIGHT[v][0]}</span>`).join('　')}</li>`).join('')}</ul></details>` : ''}</div>`;
     secEl.parentNode.insertBefore(sec, secEl);

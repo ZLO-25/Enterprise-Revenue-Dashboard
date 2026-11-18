@@ -388,6 +388,35 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .sum-tbl th small { display: block; font-weight: 400; color: var(--muted); font-size: 0.75rem; }
 .note li, ul.note { overflow-wrap: anywhere; }
 
+/* 巴菲特＋蒙格檢查表（assets/buffett.js） */
+.bm-grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .bm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bm-grid > #bmInv { grid-column: 1 / -1; } }
+.bm-card { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+.bm-card > * { min-width: 0; max-width: 100%; }
+.bm-card h3 { margin: 0 0 6px; font-size: 1.02rem; }
+.bm-card h4 { margin: 12px 0 4px; font-size: 0.9rem; }
+.bm-ask { margin: 0 0 10px; font-weight: 600; }
+.bm-view { margin: 10px 0; font-size: 0.9rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.bm-vt { display: block; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+.bm-nums { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 8px 0; }
+.bm-n { display: grid; gap: 2px; align-content: start; min-width: 0; overflow-wrap: anywhere; }
+.bm-nl { font-size: 0.78rem; color: var(--muted); }
+.bm-nv { font-size: 1.05rem; font-weight: 600; }
+.bm-f { display: block; font-size: 0.74rem; color: var(--muted); font-weight: 400; line-height: 1.45; }
+.bm-why { color: var(--muted); font-size: 0.82rem; font-weight: 400; }
+.bm-self { margin-top: 10px; font-size: 0.9rem; }
+.bm-self ul { margin: 4px 0 0; padding-left: 1.2em; display: grid; gap: 3px; }
+.bm-det { margin-top: 10px; }
+.bm-det summary { cursor: pointer; font-size: 0.88rem; color: var(--ink-2); }
+.bm-tbl th, .bm-tbl td { white-space: nowrap; font-size: 0.82rem; padding: 6px 8px; }
+.bm-q { color: var(--muted); font-size: 0.82rem; }
+.bm-opt { margin: 0 0 12px; }
+.bm-card .up { color: var(--good-text); } .bm-card .down { color: var(--bad-text); }
+.bm-card .how, #buffett > .how { font-size: 0.82rem; color: var(--ink-2); line-height: 1.55; }
+.bm-card .how b { color: var(--ink); font-weight: 600; }
+.flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
+.co-warn { color: var(--ink-2); }
+
 .st-tbl{width:100%;border-collapse:collapse;font-size:.92rem}
 .st-tbl th,.st-tbl td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .st-tbl th{font-size:.8rem;color:var(--muted);font-weight:600}
@@ -439,7 +468,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   </section>
 
   <section id="signals">
-    <div class="sec-head"><h2>估值訊號（最近 30 天）</h2><p class="sub">論點卡的估值門檻被穿越時記一筆（±2% 緩衝，避免在門檻邊緣來回洗版）。這是提醒，不是買賣建議。</p></div>
+    <div class="sec-head"><h2>估值訊號（最近 30 天）</h2><p class="sub">論點卡的估值門檻與現值差 15% 以上時記一筆（比門檻貴 15% 以上、比門檻便宜 15% 以上；回到 ±13% 內才算回來，避免來回洗版）。這是提醒，不是買賣建議；每週彙整再看，不用每天看。</p></div>
     <div class="card wide"><div class="tbl-wrap"><table class="st-tbl" id="stSig"></table></div></div>
   </section>
 
@@ -480,7 +509,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
           "</td><td class='n'>" + (c.pending ? "<b>" + c.pending.recent + "</b> / " + c.pending.y3 + " / " + c.pending.old : "—") + "</td><td>" + (c.problems.length ? esc(c.problems.join("；")) : "") + "</td></tr>";
       }), "沒有資料");
     tbl($("stSig"), [["日期", ""], ["公司", ""], ["指標", ""], ["發生什麼事", ""]], S.signals.slice().reverse().map(function (e) {
-      return "<tr><td class='n'>" + esc(e.d.slice(5)) + "</td><td><b>" + esc(e.code.toUpperCase()) + "</b></td><td>" + esc(e.name) + "</td><td>現值 " + esc(e.now) + "（門檻 " + esc(e.op) + " " + esc(e.thr) + "）" + (e.kind === "exceed" ? "超出估值範圍" : "回到估值範圍") + "</td></tr>";
+      return "<tr><td class='n'>" + esc(e.d.slice(5)) + "</td><td><b>" + esc(e.code.toUpperCase()) + "</b></td><td>" + esc(e.name) + "</td><td>現值 " + esc(e.now) + "（門檻 " + esc(e.op) + " " + esc(e.thr) + "）" + ({ rich: "比門檻貴 15% 以上", cheap: "比門檻便宜 15% 以上", back: "回到門檻附近", exceed: "超出估值範圍（舊紀錄）" }[e.kind] || esc(e.kind)) + "</td></tr>";
     }), "最近 30 天沒有訊號");
     var mx = Math.max.apply(null, S.tokens.map(function (t) { return t.tokens; }).concat([1]));
     tbl($("stTok"), [["週（週一起）", ""], ["總 token", "n"], ["", ""]], S.tokens.map(function (t) {
@@ -493,5 +522,5 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 })();
 </script>
 
-<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"aee1417f","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"../","page":"status","code":""}</script><script src="../assets/sidebar.js?v=d9cf0fdf"></script>
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"e937d869","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"../","page":"status","code":""}</script><script src="../assets/sidebar.js?v=aa847528"></script>
 </body></html>

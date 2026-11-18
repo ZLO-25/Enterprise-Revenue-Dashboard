@@ -25,6 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe as PE
 import health as HEALTH
 import thesis as THESIS
+import buffett as BUFFETT
 import daily_calc as DAILY
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,7 +53,9 @@ def write(text, *p):
 # 首頁只讀這幾個欄位（用 Proxy 記錄首頁所有互動實際讀到的欄位得出；做法見 tools/perf/README.md）。
 # 其餘（health、notes、annual、milestones、thesis、summary、sources…）只有個股頁用，不放進首頁，首頁因此小一半。
 # 新增首頁功能若要讀別的欄位，把欄位名加進來（companies.json site.homeSlim=false 可整個關掉瘦身）。
-HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr", "analysis")
+HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr", "analysis", "buffett")
+# 巴菲特＋蒙格指標在首頁只帶精簡欄位（記分板「盈餘殖利率減公債」欄與「選擇權」小標）；十年成績單、月序列等只放個股頁
+HOME_BUFFETT_EY = ("ey", "pe", "m", "spread", "why", "bondWhy")
 # 公司分析在首頁只帶精簡欄位（展開列的「結論＋重點」）；全文 full 很大，只放個股頁，首頁用連結過去
 HOME_ANALYSIS = ("q", "date", "mode", "verdict", "conclusion", "points")
 
@@ -74,6 +77,10 @@ def home_data(datasets, slim):
         h = {k: v for k, v in d.items() if k in HOME_KEYS}
         if "analysis" in h:   # 另外縮成精簡版；複製一份，不能改到個股頁共用的 datasets
             h["analysis"] = {k: v for k, v in h["analysis"].items() if k in HOME_ANALYSIS}
+        if h.get("buffett"):   # 同樣另外縮成精簡版（複製，不改到個股頁共用的 datasets）
+            b = h["buffett"]
+            h["buffett"] = {"type": b.get("type"), "ey": dict({k: v for k, v in b["ey"].items() if k in HOME_BUFFETT_EY},
+                                                              bond=(b["ey"].get("bond") or {}).get("v"), ref=(b["ey"].get("ref") or {}).get("v"), currency=b["ey"].get("currency"))}
         out[c] = h
     assert not any("full" in (h.get("analysis") or {}) for h in out.values()), "首頁不能帶分析全文 analysis.full"
     return out
@@ -277,7 +284,7 @@ def main():
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js") + "\n" + read("assets", "today.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "buffett.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js") + "\n" + read("assets", "today.js")
     if cfg["site"].get("perf"):
         # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
@@ -297,6 +304,11 @@ def main():
             if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
                 th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
                 data["thesis"] = th
+        try:
+            data["buffett"] = BUFFETT.compute(c, data, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"], prices, BUFFETT.load_rates(), BUFFETT.load_index_prices(), data.get("thesis"))
+        except Exception as e:  # noqa: BLE001  算不出來就不顯示檢查表，不讓整個建置失敗；訊息留在輸出
+            print(f"{c['code']}: buffett 指標計算失敗 {type(e).__name__}: {e}")
+            data["buffett"] = None
         dp = os.path.join(ROOT, "data", "daily", c["code"] + ".json")
         if c.get("price") and os.path.exists(dp):
             # 每日收盤價（Actions 每天寫 data/daily/<代號>.json）：建置時用現在的財報重算一次放進頁面當備援；

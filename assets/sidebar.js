@@ -9,7 +9,7 @@
  *     #main-dashboard-view   原本的企業財報追蹤板（內容不動）
  *     #quant-dca-view        量化回測（第一次打開才載入 quant/）
  *   網址 hash 決定顯示哪一個：
- *     #dca #rolling #alloc #vol #wall #learn（＋別名 #winrate #edu）→ 量化視圖
+ *     #dca #rolling #alloc #vol #learn（＋別名 #winrate #edu、#wall→#dca）→ 量化視圖
  *     其他（沒有 hash、#companies 這類錨點）                        → 原主站
  *
  *   只新增 DOM，不改原本頁面的任何元素；所有狀態都寫在 <html> 的 class 上。
@@ -30,12 +30,11 @@
     { id: "rolling", ico: "🎲", label: "勝率分析" },
     { id: "alloc", ico: "💼", label: "資產配置" },
     { id: "vol", ico: "⚡", label: "波動與風險" },
-    { id: "wall", ico: "🖥️", label: "看盤牆" },
     { id: "learn", ico: "📚", label: "觀念教室" }
   ];
   // site.rates 開著時才有「升降息週期」（放在波動與風險後面）
   if (CFG.rates) QUANT.splice(4, 0, { id: "rates", ico: "🏦", label: "升降息週期" });
-  var ALIAS = { winrate: "rolling", edu: "learn" };
+  var ALIAS = { winrate: "rolling", edu: "learn", wall: "dca" };   // 看盤牆已移除（2026-11-18）：舊連結 #wall 導到 #dca
   function quantTab(hash) {
     var t = (hash || "").replace(/^#/, "").split("?")[0];
     t = ALIAS[t] || t;
@@ -211,7 +210,7 @@
       window.scrollTo(0, 0);
     } else {
       var wasQuant = current !== "main";
-      if (wasQuant && window.QuantDCA && window.QuantDCA.hide) window.QuantDCA.hide();   // 停掉看盤牆輪播
+      if (wasQuant && window.QuantDCA && window.QuantDCA.hide) window.QuantDCA.hide();   // 離開量化視圖時停掉圖表更新
       quantView.hidden = true; mainView.hidden = false; current = "main"; HTML.classList.remove("sb-quant");
       mark(null);
       document.title = CFG.title || document.title;

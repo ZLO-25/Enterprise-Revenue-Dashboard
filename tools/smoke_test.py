@@ -1,4 +1,4 @@
-"""網站冒煙測試（CI 用）：用瀏覽器打開首頁、3 個個股頁、市值排名頁、系統健康頁，頁面有 JavaScript 錯誤就失敗。
+"""網站冒煙測試（CI 用）：用瀏覽器打開首頁、3 個個股頁、市值排名頁、系統健康頁，頁面有 JavaScript 錯誤就失敗；個股頁還要有 #buffett，指標小辭典要有新名詞。
 用法：python3 tools/smoke_test.py [--shots DIR]   （需要 playwright 與 chromium；先 python3 tools/build.py）
 外部字型／CDN 載入失敗不算錯誤（CI 可能沒外網），只看頁面自己的 JavaScript 例外與 console.error。"""
 import functools, http.server, os, sys, threading
@@ -6,6 +6,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/status/", "/calendar/"]
+COMPANY_PAGES = ("/tsmc/", "/nvda/", "/pltr/")   # 個股頁（含舊版型台積電、PLTR）必須有巴菲特＋蒙格檢查表 #buffett
 IGNORE = ("Failed to load resource", "net::ERR", "fonts.googleapis", "fonts.gstatic")
 
 
@@ -31,6 +32,10 @@ def main():
                 pg.goto(base + path, wait_until="load")
                 pg.wait_for_timeout(1200)
                 over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
+                if path in COMPANY_PAGES and not pg.query_selector("#buffett"):
+                    errs.append("個股頁沒有 #buffett（巴菲特＋蒙格檢查表）")
+                if path in COMPANY_PAGES and "盈餘殖利率" not in (pg.text_content("#gloss") or ""):
+                    errs.append("個股頁的指標小辭典沒有巴菲特＋蒙格的新名詞（BUFFETT.GLOSS）")
                 if w == 390 and over > 2:
                     errs.append(f"手機版有橫向捲動（多 {over}px）")
                 if shots:

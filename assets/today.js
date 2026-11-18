@@ -1,5 +1,5 @@
 /* 首頁「今天該看什麼」與財報行事曆頁共用的純函式（不碰 DOM，Node 也能測：node --test tools/tests/today.test.js）。
-   日期一律用台北日期（YYYY-MM-DD 字串比較）。事件資料來自各公司 events[]；系統紅燈、燈號變化、估值訊號是三個小檔，讀不到就略過那一類。 */
+   日期一律用台北日期（YYYY-MM-DD 字串比較）。事件資料來自各公司 events[]；系統紅燈、燈號變化是小檔，讀不到就略過那一類（估值訊號不放這裡）。燈號變化只看 core 指標（g 是 biz；val、aux 不算）。 */
 const EVCAL = (() => {
   const addDays = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
   const tpeDate = (now) => new Date((now || new Date()).getTime() + 8 * 3600e3).toISOString().slice(0, 10);
@@ -24,10 +24,9 @@ const EVCAL = (() => {
     const week = ev.filter(e => e.d > today && e.d <= addDays(today, 7));
     week.filter(e => !e.est).concat(week.filter(e => e.est)).forEach(e => items.push({ kind: 'event', text: fmt(e), href: e.href }));
     const cut = addDays(today, -7);
-    (o.lights || []).filter(c => c.d >= cut && c.g !== 'val' && (RANK[c.to] || 0) > (RANK[c.from] || 0)).forEach(c =>
+    (o.lights || []).filter(c => c.d >= cut && c.g !== 'val' && c.g !== 'aux' && (RANK[c.to] || 0) > (RANK[c.from] || 0)).forEach(c =>
       items.push({ kind: 'light', text: '體質燈號轉' + (c.to === 'r' ? '紅' : '黃') + '：' + (c.cname || c.code.toUpperCase()) + ' ' + (c.name || c.k) + '（' + md(c.d) + '）', href: c.href }));
-    (o.signals || []).filter(s => s.d >= cut).forEach(s =>
-      items.push({ kind: 'signal', text: '估值' + (s.kind === 'exceed' ? '超出' : '回到') + '門檻：' + (s.cname || s.code.toUpperCase()) + ' ' + s.name + ' ' + s.now + '（' + md(s.d) + '）· 提醒，不是買賣建議', href: s.href }));
+    /* 估值訊號不放在「今天該看什麼」：價格每天在動，只會讓人天天盯著看。訊號改由每週彙整（docs/WEEKLY_NEWS_PROMPT.md） */
     return { items: items.slice(0, limit), more: Math.max(0, items.length - limit) };
   }
 

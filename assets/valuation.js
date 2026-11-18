@@ -51,11 +51,11 @@ const PEV = (() => {
       <div class="kpi"><span class="label">近 5 年中位數</span><span class="value">${x1(s.med5)}</span><span class="delta">${s.med5 == null ? '有本益比的月份不足 12 個' : '只用有本益比的月份'}</span></div>
       <div class="kpi"><span class="label">近 10 年中位數</span><span class="value">${x1(s.med10)}</span><span class="delta">${s.med10 == null ? '有本益比的月份不足 12 個' : ''}</span></div>
       <div class="kpi"><span class="label">目前在近 10 年的位置</span><span class="value">${s.pct10 == null ? '—' : s.pct10 + '<small>百分位</small>'}</span><span class="delta">${s.pct10 == null ? '有本益比的月份少於 24 個月，不算百分位' : s.pct10 + '% 的月份比現在便宜（本益比較低）'}</span></div>
-      <div class="kpi"><span class="label">預估本益比（分析師預估）</span><span class="value">${fl ? x1(fl.fpe) : '<small>累積中</small>'}</span><span class="delta">${fl ? ym(fl.m) + ' 月底快照' + (fl.few ? ' · 預估人數少' : '') : '2026-11 月底起逐月存檔，不回填'}</span></div>
     </div>
+    <details class="card wide pe-det"><summary>分析師預估（他們不用這個做決定）</summary><div class="kpis pe-kpis">      <div class="kpi"><span class="label">預估本益比（分析師預估）</span><span class="value">${fl ? x1(fl.fpe) : '<small>累積中</small>'}</span><span class="delta">${fl ? ym(fl.m) + ' 月底快照' + (fl.few ? ' · 預估人數少' : '') : '2026-11 月底起逐月存檔，不回填'}</span></div></div><p class="how">預估本益比是分析師預估，不是財報數字。巴菲特＋蒙格不靠預估做決定（意譯，不是原話）。</p></details>
     <div class="card wide">
       <div class="tbl-bar"><h3>每月本益比走勢（倍）</h3>
-        <div class="seg" id="peWin" role="group" aria-label="期間"><button type="button" data-y="3" aria-pressed="false">近 3 年</button><button type="button" data-y="5" aria-pressed="false">近 5 年</button><button type="button" data-y="10" aria-pressed="false">近 10 年</button><button type="button" data-y="0" aria-pressed="true">全部</button></div></div>
+        <div class="seg" id="peWin" role="group" aria-label="期間"><button type="button" data-y="3" aria-pressed="false">近 3 年</button><button type="button" data-y="5" aria-pressed="false">近 5 年</button><button type="button" data-y="10" aria-pressed="false">近 10 年</button><button type="button" data-y="0" aria-pressed="true">全部</button><button type="button" id="peFwd" aria-pressed="false" title="分析師預估，預設不顯示">預估線</button></div></div>
       <p class="how" id="peHow"></p>
       <div class="legend" id="peLg"></div>
       <div class="chartbox"><canvas id="cPE" aria-label="每月本益比"></canvas></div>
@@ -66,7 +66,7 @@ const PEV = (() => {
       <div class="tbl-wrap"><table id="tPE"></table></div></details>`;
     const rows = M.slice().reverse().map(r => `<tr><td>${ym(r.m)}</td><td>${ym(r.d)}</td><td>${f2(r.c)}</td><td>${r.eps4 == null ? '—' : f4(r.eps4)}</td><td>${r.pe != null ? x1(r.pe) : `<span class="st-plan">${WHY[r.why] || '—'}</span>`}</td><td>${r.ntm == null ? '—' : f4(r.ntm)}</td><td>${r.fpe != null ? x1(r.fpe) + (r.few ? '＊' : '') : (r.fwhy && FWHY[r.fwhy] ? `<span class="st-plan">${FWHY[r.fwhy]}</span>` : '—')}</td></tr>`).join('');
     sec.querySelector('#tPE').innerHTML = `<thead><tr><th>月份</th><th>收盤日</th><th>收盤價（${cur}）</th><th>近四季 EPS</th><th>本益比</th><th>未來 12 個月 EPS</th><th>預估本益比</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="7" class="txt" style="text-align:left">＊預估人數少於 3 人。未來 12 個月 EPS 與預估本益比為分析師預估，只有存檔過的月份才有。</td></tr></tfoot>`;
-    let chart = null, years = 0;
+    let chart = null, years = 0, showF = false;
     const draw = () => {
       if (!window.Chart) return;
       if (chart) chart.destroy();
@@ -82,8 +82,8 @@ const PEV = (() => {
       const m5 = s.med5;
       if (m5 != null) ds.push({ label: '近 5 年中位數', data: A.map(() => m5), borderColor: css('--axis'), borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 0, spanGaps: true });
       const fp = A.map(r => r.fpe), nfp = fp.filter(v => v != null).length;
-      if (nfp) ds.push({ label: '預估本益比', data: fp.map(v => v == null ? null : Math.min(v, CAP)), raw: fp, borderColor: c2, backgroundColor: c2, borderWidth: 2, pointRadius: nfp < 3 ? 5 : 2, pointHoverRadius: 5, tension: 0.15, spanGaps: false });
-      const lg = [{ t: '歷史本益比', c: c1, ln: 1 }]; if (m5 != null) lg.push({ t: '近 5 年中位數', c: css('--axis'), ln: 1 }); if (nfp) lg.push({ t: '預估本益比（分析師預估）', c: c2, ln: 1 });
+      if (nfp && showF) ds.push({ label: '預估本益比', data: fp.map(v => v == null ? null : Math.min(v, CAP)), raw: fp, borderColor: c2, backgroundColor: c2, borderWidth: 2, pointRadius: nfp < 3 ? 5 : 2, pointHoverRadius: 5, tension: 0.15, spanGaps: false });
+      const lg = [{ t: '歷史本益比', c: c1, ln: 1 }]; if (m5 != null) lg.push({ t: '近 5 年中位數', c: css('--axis'), ln: 1 }); if (nfp && showF) lg.push({ t: '預估本益比（分析師預估）', c: c2, ln: 1 });
       sec.querySelector('#peLg').innerHTML = lg.map(i => `<span><i class="ln" style="background:${i.c}"></i>${i.t}</span>`).join('');
       const nul = A.filter(r => r.pe == null).length;
       sec.querySelector('#peHow').innerHTML = `${ym(A[0].m)} – ${ym(A[A.length - 1].m)} 共 ${A.length} 個月，其中 <b>${A.length - nul}</b> 個月算得出本益比` + (nul ? `，<b>${nul}</b> 個月留白（虧損、累積未滿四季，或 EPS／公布日待確認，原因見數據表）` : '') + (over ? `；<b>${over}</b> 個月超過 ${CAP} 倍（貼在頂端，▲ 標記）` : '') + '。';
@@ -95,7 +95,7 @@ const PEV = (() => {
         scales: { y: { min: 0, max: Math.min(CAP, Math.max(10, Math.ceil(Math.max(...capped.filter(v => v != null), ...fp.filter(v => v != null), m5 || 0) * 1.1 / 5) * 5)), border: { display: false }, grid: { color: grid, drawTicks: false }, ticks: { color: tick, padding: 8, callback: (v) => v + '×', font: { family: 'IBM Plex Mono, monospace', size: 11 } } },
           x: { border: { color: css('--axis') }, grid: { display: false }, ticks: { color: tick, maxRotation: 0, autoSkip: true, maxTicksLimit: 8, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: function (v) { const l = this.getLabelForValue(v); return l ? l.slice(0, 4) + (l.slice(5) === '01' ? '' : '/' + l.slice(5)) : ''; } } } } } });
     };
-    sec.querySelector('#peWin').addEventListener('click', (e) => { const bt = e.target.closest('button'); if (!bt) return; years = +bt.dataset.y; sec.querySelectorAll('#peWin button').forEach(x => x.setAttribute('aria-pressed', String(x === bt))); draw(); });
+    sec.querySelector('#peWin').addEventListener('click', (e) => { const bt = e.target.closest('button'); if (!bt) return; if (bt.id === 'peFwd') { showF = !showF; bt.setAttribute('aria-pressed', String(showF)); draw(); return; } years = +bt.dataset.y; sec.querySelectorAll('#peWin button:not(#peFwd)').forEach(x => x.setAttribute('aria-pressed', String(x === bt))); draw(); });
     draw();
     let t; const re = () => { clearTimeout(t); t = setTimeout(draw, 60); };
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', re);

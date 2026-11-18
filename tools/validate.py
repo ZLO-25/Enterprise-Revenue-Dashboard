@@ -19,6 +19,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATE_RE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?|-Q[1-4]|-H[12])?$")
 DAY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 Q_RE = re.compile(r"^[1-4]Q\d{2}$")
+VERDICTS = ("不動", "加碼", "減碼", "觀察", "太難，跳過")
 REQUIRED_CFG = ("code", "name", "nameEn", "ticker", "exchange", "sector", "currency", "frequency", "path", "schema", "template", "title", "description", "enabled")
 
 
@@ -191,7 +192,7 @@ def check_bs(code, D, err):
                 err.append(f"{q['q']} 淨利÷稀釋股數 ＝ {implied:.3f} 與 EPS {eps} 差太多（股數口徑或分割換算有誤？）")
 
 
-def check_thesis(code, D, err):
+def check_thesis(code, D, err, cfg_c=None):
     """data/thesis/<代號>.json：草稿可以先放著（不上線）；approved 必須是使用者確認過的，指標 key 要是程式算得出來的。"""
     p = os.path.join(ROOT, "data", "thesis", code + ".json")
     if not os.path.exists(p):
@@ -211,8 +212,10 @@ def check_thesis(code, D, err):
             if m.get("by") == "ZL" or m.get("by") == "analyst":
                 continue
             err.append(f"thesis approved 但 {m.get('k')} 門檻不是使用者確認的（metrics[].by 要是 ZL；analyst＝分析師建議、ZL 可改）")
-        if t.get("type") not in ("compounder", "growth", "cyclical", "turnaround"):
-            err.append("thesis approved 要有 type：compounder／growth／cyclical／turnaround")
+        if t.get("type") not in ("compounder", "growth", "cyclical", "turnaround", "option"):
+            err.append("thesis approved 要有 type：compounder／growth／cyclical／turnaround／option")
+        if not t.get("warnWhen"):
+            err.append("thesis approved 要有 warnWhen（季度警示，黃燈先觀察）；breakWhen 是結構性條件（論點破了）")
     for m in t.get("metrics", []):
         if t.get("status") == "approved" and m.get("group") not in ("biz", "val"):
             err.append(f"thesis {m.get('k')} 要有 group：biz（體質）或 val（估值）")
@@ -224,11 +227,25 @@ def check_thesis(code, D, err):
             err.append(f"thesis {m.get('k')} op 要是 >= 或 <=")
         if not isinstance(m.get("thr"), (int, float)):
             err.append(f"thesis {m.get('k')} 門檻 thr 要是數字")
+        if m.get("role", "core") not in ("core", "aux"):
+            err.append(f"thesis {m.get('k')} role 要是 core 或 aux")
         if m.get("k") in ks:
             err.append(f"thesis 指標重複：{m.get('k')}")
         ks.add(m.get("k"))
-    if not (3 <= len(t.get("metrics", [])) <= 5):
-        err.append("thesis 關鍵指標要 3～5 個")
+    if not (3 <= len(t.get("metrics", [])) <= 7):
+        err.append("thesis 關鍵指標要 3～7 個")
+    if t.get("status") == "approved" and not any(m.get("role", "core") == "core" for m in t.get("metrics", [])):
+        err.append("thesis 至少要有一個 core 指標")
+    if t.get("type") == "compounder" and t.get("status") == "approved":
+        # 穩健複利要有十年紀錄（tools/buffett.py 的 record.tenYearOk：40 季以上、近 10 個年度點沒有虧損、近 40 季 ROE 達 15% 的比例 ≥ 80%）
+        try:
+            D2, val, hl, _ = TH.context(code)
+            bf = TH.buffett_for(cfg_c or {"code": code, "currency": (D.get("company") or {}).get("currency")}, D2, val, hl)
+            if (bf or {}).get("record", {}).get("tenYearOk") is not True:
+                err.append("thesis type 是 compounder（穩健複利），但十年紀錄資格不是「通過」：" + "；".join((bf or {}).get("record", {}).get("why") or ["算不出來"])
+                           + "。規則：至少 40 季、近 10 個年度點沒有虧損、近 40 季 ROE 有值 20 季以上且 80% 以上達 15%；不符合就改 growth／turnaround／option")
+        except Exception as e:  # noqa: BLE001
+            err.append(f"thesis compounder 資格計算失敗：{e!r}")
     if not t.get("breakWhen"):
         err.append("thesis 缺「論點破了的條件」breakWhen")
 
@@ -246,8 +263,17 @@ def check_analysis(code, D, err):
         err.append(f"analysis.q（{a.get('q')}）不是資料裡的季度")
     if not DAY_RE.match(str(a.get("date", ""))):
         err.append("analysis.date 要是 YYYY-MM-DD")
-    if a.get("verdict") not in ("加碼", "續抱", "減碼", "觀察"):
-        err.append("analysis.verdict 只能是 加碼／續抱／減碼／觀察")
+    if a.get("verdict") not in VERDICTS:
+        err.append("analysis.verdict 只能是 不動／加碼／減碼／觀察／太難，跳過")
+    reason = a.get("reason")
+    if reason not in (None, "filters", "A", "B", "C"):
+        err.append("analysis.reason 只能是 filters／A／B／C 或 null")
+    if a.get("verdict") == "減碼" and reason not in ("A", "B", "C"):
+        err.append("analysis 結論是減碼，reason 必須是 A（護城河壞了）／B（管理層變了）／C（貴到離譜而且有明顯更好的去處）")
+    if a.get("verdict") == "太難，跳過" and reason != "filters":
+        err.append("analysis 結論是太難，跳過，reason 必須是 filters（第 ① 關能力圈過不了）")
+    if a.get("verdict") not in ("減碼", "太難，跳過") and reason is not None:
+        err.append("analysis.reason 只有「減碼」與「太難，跳過」才填，其他結論要是 null 或不寫")
     if not a.get("conclusion"):
         err.append("analysis 缺一句話結論 conclusion")
     pts = a.get("points") or []
@@ -263,7 +289,7 @@ def check_analysis(code, D, err):
         if bad in blob:
             err.append(f"analysis 出現「{bad}」：作者觀點只能放專案資料夾，不能進公開 repo")
     for h in a.get("history") or []:
-        if h.get("verdict") not in ("加碼", "續抱", "減碼", "觀察") or not h.get("q"):
+        if h.get("verdict") not in VERDICTS + ("續抱",) or not h.get("q"):   # 歷次結論允許舊字樣「續抱」（2026-11-18 起改為「不動」）
             err.append("analysis.history 每筆要有 q 與 verdict")
 
 
@@ -627,7 +653,7 @@ def main():
             common(code, D, err)
             check_summary(code, D, err)
             check_bs(code, D, err)
-            check_thesis(code, D, err)
+            check_thesis(code, D, err, bycode.get(code))
             check_analysis(code, D, err)
             schema = bycode.get(code, {}).get("schema", "v1")
             if schema in SCHEMA_CHECKS:

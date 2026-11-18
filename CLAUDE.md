@@ -30,7 +30,8 @@ python3 tools/daily_calc.py     # 每日估值公式的固定測試案例
 python3 tools/prices_update.py --check  # 股價是否已到最新（只有 GitHub Actions 會真的抓）
 python3 tools/daily.py          # 每日排程今天的工作清單與狀態（set／try／done 改 data/calendar.json）
 python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
-python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json）
+python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json；含巴菲特＋蒙格檢查表摘要）
+python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘…）原始輸出
 ```
 
 ## 合併 PR 的規則
@@ -50,6 +51,12 @@ python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不�
 - `docs/WEEKLY_NEWS_PROMPT.md` 每週日 06:00 的大新聞＋token 用量排程（每日檢查不再搜尋新聞）；token 用量紀錄在 `data/token-usage.json`，週報表在 `reports/token-usage.md`（只用 `python3 tools/daily.py tokens ...` 改）
 - `docs/TREND_PROMPT.md` 世界科技趨勢月報排程指令（每月 2 日；輸出 reports/trend/）
 - `companies/<代號>/SOURCES.md` 各公司來源與更新步驟
+
+## 巴菲特＋蒙格（觀念與指標）
+- 觀念清單、四關、三個賣出理由、指標對應都在 [`docs/BUFFETT_MUNGER.md`](docs/BUFFETT_MUNGER.md)，頁面文字與 prompt 以它為準。
+- **不可捏造巴菲特或蒙格的原話**：一律意譯，標「意譯，不是原話」與「觀點」；不用引號假裝引述，不寫年份、信件出處、數字典故。只能用清單裡的觀念。
+- 檢查表指標只有 `tools/buffett.py` 一個計算處（建置時算，前端只畫）；算不出來寫原因。能力圈與「反過來想」只有提問，不做表單。
+- 論點卡：`role`（core／aux）、`warnWhen`／`breakWhen` 兩層、type 含 option；compounder 要通過十年紀錄資格。分析結論五選一，預設不動。
 
 ## 公司分析 skill
 使用者說「分析 X」「X 財報快評」「趨勢分析」時，用 `.claude/skills/long-term-company-analysis/`。作者觀點檔放在專案資料夾，不進 repo（repo 公開、內容含付費文章轉述）。

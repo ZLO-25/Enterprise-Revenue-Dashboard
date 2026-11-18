@@ -165,7 +165,7 @@ SIG = None
 
 
 def track_signals(code, L):
-    """估值門檻被穿越就記進 data/daily/_signals.json；新事件另寫到 $SIGNALS_OUT（workflow 用它開 issue）。"""
+    """估值訊號（±15%）記進 data/daily/_signals.json；只寫檔與 log，不開 issue（每週彙整再看，見 docs/WEEKLY_NEWS_PROMPT.md）。"""
     global SIG
     if not L.get("d"):
         return
@@ -174,12 +174,8 @@ def track_signals(code, L):
         SIG = signals.load()
     new = signals.update(SIG, code, L["d"], L.get("caps"))
     signals.save(SIG)
-    out = os.environ.get("SIGNALS_OUT")
     for ev in new:
         log("估值訊號：" + signals.text(ev))
-        if out:
-            with open(out, "a", encoding="utf8") as f:
-                f.write(signals.text(ev) + "\n")
 
 
 def main():

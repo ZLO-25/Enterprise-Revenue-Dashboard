@@ -931,7 +931,7 @@ const G = [
   ['先進製程占比', '≤7nm share', '7 奈米及更先進製程占晶圓營收的比例。越先進的製程單價越高，占比越高通常毛利率越好。', '(2+3+5+7 奈米) ÷ 晶圓營收'],
   ['HPC 占比', 'High Performance Computing', '高效能運算平台占營收比例，包含 AI 加速器、伺服器 CPU、資料中心晶片。', 'HPC 營收 ÷ 營收'],
   ['配發率', 'Payout Ratio', '每股盈餘裡有多少拿來發現金股利。台積電採每季配息、股利穩定調升的政策。', '每股股利 ÷ EPS'],
-];
+].concat(typeof BUFFETT !== 'undefined' ? BUFFETT.GLOSS : []);
 $('#gloss').innerHTML = G.map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join('');
 
 /* ---------- boot ---------- */

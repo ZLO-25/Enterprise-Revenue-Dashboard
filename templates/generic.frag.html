@@ -395,7 +395,7 @@ const GL = [
   ['近四季（TTM）', 'Trailing twelve months', '最近四季加總，把季節性與一次性因素拉平，看一整年的真實水準。', '最近 4 季加總'],
   ['年化成長（CAGR）', 'Compound annual growth rate', '假設每年以固定速度成長，從起點到終點平均每年長多少。', '(終值 ÷ 初值)^(1 ÷ 年數) − 1'],
   ['年增率（YoY）', 'Year over year', '跟去年同一季比，避開季節性。', '本季 ÷ 去年同季 − 1'],
-].concat(D.glossary || []);
+].concat(D.glossary || [], typeof BUFFETT !== 'undefined' ? BUFFETT.GLOSS : []);
 $('#gloss').innerHTML = GL.map(x => `<div class="item"><dt>${x[0]}<code>${x[1]}</code></dt><dd>${x[2]}</dd><dd><span class="f">${x[3]}</span></dd></div>`).join('');
 
 /* ---------- 來源 ---------- */

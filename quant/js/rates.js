@@ -53,6 +53,7 @@ export function inject() {
   const sec = document.createElement("section");
   sec.className = "tab"; sec.id = "tab-rates";
   sec.innerHTML = `
+  <p class="notice" id="rates-note">觀點（意譯，不是原話）：利率像地心引力，利率越高，所有資產的價值被拉得越低，這值得看懂。但我們不預測利率，也不用它猜進出場的時機。這一頁是讓你看歷史上發生過什麼，不是叫你照著買賣。</p>
   <div class="layout">
     <form class="panel controls" id="form-rates" autocomplete="off" novalidate>
       <h2>設定</h2>

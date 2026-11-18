@@ -87,6 +87,7 @@ const LT = (() => {
   function render(el, N, M) {
     if (typeof ANALYSIS !== 'undefined') ANALYSIS.mount(el.closest('section'), N);
     if (typeof THESIS !== 'undefined') THESIS.mount(el.closest('section'), N);
+    if (typeof BUFFETT !== 'undefined') BUFFETT.mount(el.closest('section'), N);
     if (typeof SUM !== 'undefined') SUM.mount(el.closest('section'), N);
     if (typeof HEALTH !== 'undefined') HEALTH.mount(el.closest('section'), N);
     const u = N.unitShort, K = 20, tail = (arr) => arr.slice(-K);

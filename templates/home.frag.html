@@ -154,7 +154,7 @@ table.co-tbl { font-size: 0.84rem; }
   </section>
 
   <section id="companies">
-    <div class="sec-head"><h2>公司</h2><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點、護城河與分析結論（「全部展開」一次打開目前列出的公司），點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
+    <div class="sec-head"><h2>公司</h2><p class="sub co-warn" id="coWarn"></p><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點、護城河與分析結論（「全部展開」一次打開目前列出的公司），點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
@@ -220,6 +220,13 @@ table.co-tbl { font-size: 0.84rem; }
         <div class="chartbox"><canvas id="cY" aria-label="營收年增率比較"></canvas></div>
       </div>
       <div class="card wide">
+        <h3>營收年增率（近四季，%）</h3>
+        <p class="how">近四季加總，對前一個近四季加總。單季會被季節與一次性因素干擾，近四季是一整年。</p>
+        <p class="note"><span class="tag-src tag-v" title="觀點：Claude 的判斷，不是事實">觀點</span> <b>巴菲特＋蒙格口吻（意譯，不是原話）</b>：我們不看單季。單季會被季節和一次性的事情吵到，所以我們看一整年。兩張圖方向相反的時候，我們相信近四季這一張。</p>
+        <div class="legend" id="lgY4"></div>
+        <div class="chartbox"><canvas id="cY4" aria-label="營收年增率（近四季）比較"></canvas></div>
+      </div>
+      <div class="card wide">
         <h3>本益比比較（每月月底，倍）</h3>
         <p class="how">本益比是倍數，幣別會約掉，可以跨公司直接看「市場用幾倍的價格買一年獲利」。虧損期間斷線；超過 200 倍的點貼在頂端。期間跟上面三張圖的開關連動。線尾「｜近5年中位數」跟各公司深度頁同一個數字，可以直接跟它前面的最新本益比比對（只算有本益比的月份，不足 12 個月顯示 —）。<b>口徑：</b>美股為稀釋 EPS，台積電、台達電、三星為基本 EPS，都是公認會計準則數字。本益比高低不代表貴或便宜，不是買賣建議。</p>
         <div class="legend" id="lgPE"></div>
@@ -237,12 +244,19 @@ table.co-tbl { font-size: 0.84rem; }
   </section>
 
   <section id="howread">
-    <div class="sec-head"><h2>長期投資人怎麼用這個板</h2></div>
+    <div class="sec-head"><h2>怎麼用這個板做決定（成長＋價值）</h2><p class="sub"><span class="tag-src tag-v" title="觀點：Claude 的判斷，不是事實">觀點</span> 觀念是意譯，不是原話；清單見 <a href="https://github.com/{{REPO}}/blob/main/docs/BUFFETT_MUNGER.md">docs/BUFFETT_MUNGER.md</a>。這個板的目的是成長加價值：找成長，也要用合理的價格買。</p></div>
     <div class="guide">
-      <div class="card"><b>1. 先看近四季，不看單季</b><p>單季會被季節、一次性損益、匯率干擾。先看每家公司頁面的「長期觀察」：近四季營收、EPS 與自由現金流。</p></div>
-      <div class="card"><b>2. 成長要配上利潤</b><p>營收長得快但毛利率往下掉，可能是用降價換成長；兩者一起往上，才是生意變強。</p></div>
-      <div class="card"><b>3. 盈餘要變成現金</b><p>自由現金流率長期接近或高於淨利率，代表帳面獲利是真的；長期差很多，就要去看應收帳款與資本支出。</p></div>
-      <div class="card"><b>4. 事件只當線索</b><p>合約、建廠、新產品的時間軸能幫你理解數字為什麼變，但「待確定」的消息不要當成已發生。</p></div>
+      <div class="card"><b>① 我看得懂嗎</b><p>先過能力圈。看不懂的生意，放進「太難」那一堆，不丟臉。</p></div>
+      <div class="card"><b>② 護城河撐得久嗎</b><p>看報酬率（ROE）、毛利率、十年成績單。成長要配上高報酬率才值錢。</p></div>
+      <div class="card"><b>③ 管理層會用錢嗎</b><p>看回購買在什麼價位、股數有沒有變少、每留下一元盈餘創造幾元市值。</p></div>
+      <div class="card"><b>④ 價格有安全邊際嗎</b><p>盈餘殖利率跟公債比、價格隱含的成長、跟指數比。價格不是風險，永久虧損才是。</p></div>
+    </div>
+    <pre class="flow" aria-label="決策流程">四關 ──► 都過 ──► 預設「不動」（大部分時間什麼都不做）
+  │            └──► 四關都過、而且價格明顯低 ──► 才考慮「加碼」
+  └─ 第 ① 關過不了 ──► 「太難，跳過」</pre>
+    <div class="guide">
+      <div class="card"><b>三個賣出理由（只有這三個）</b><p>A 護城河壞了（結構性）。B 管理層變了。C 貴到離譜，而且有明顯更好的去處。單季不如預期、股價下跌、利率變化，都不是理由。</p></div>
+      <div class="card"><b>好公司，合理的價格</b><p>用合理的價格買很好的公司，勝過用很便宜的價格買普通公司。成長是價值的一部分：高報酬率的成長最值錢，但要用合理的價格買。</p></div>
     </div>
   </section>
 
@@ -271,6 +285,7 @@ const REPO = 'https://github.com/{{REPO}}';
 const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c, D: DATA[c.code], N, M: LT.metrics(N), F: LT.freshness(DATA[c.code]), s: N.latest, P: PEV.brief(DATA[c.code]) }; });
 const latest = S.map(s => s.D.asOf).sort().pop();
 $('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>週二至週六 08:30（台北）每日檢查更新</span>`;
+$('#coWarn').innerHTML = `這 ${S.length} 家公司全部屬於科技與 AI 供應鏈，景氣反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
 $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';
@@ -293,7 +308,7 @@ const COLS = [
   { g: 'lt', k: 'nm', t: '淨利率<br>（近四季）', v: s => num(s.M.ttmNm), h: s => pctCell(s.M.ttmNm) },
   { g: 'lt', k: 'fcf', t: '自由現金<br>流率', v: s => num(s.M.ttmFcfM), h: s => pctCell(s.M.ttmFcfM) },
   { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => s.P.has && s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<small title="${s.P.peTip}">${s.P.pe}</small>` : `<small>${s.P.pe}</small>`) },
-  { g: 'val', k: 'fpe', t: '預估<br>本益比', v: s => { const x = parseFloat(s.P.fpe); return isFinite(x) ? x : null; }, h: s => isFinite(parseFloat(s.P.fpe)) ? s.P.fpe : `<small>${s.P.fpe}</small>` },
+  { g: 'val', k: 'ey', t: '盈餘殖利率<br>減公債', d: '盈餘殖利率（100 ÷ 本益比）減十年期公債殖利率，單位是百分點。台股用台灣公債、美股用美國公債；歐元、韓元公司網站沒有該國公債資料，不算。不是買賣訊號。點一下排序', v: s => { const e = s.D.buffett && s.D.buffett.ey; return e && e.spread != null ? e.spread : null; }, h: s => { const e = s.D.buffett && s.D.buffett.ey; if (!e) return '<small>—</small>'; if (e.spread != null) return `<span class="${cls(e.spread)}">${e.spread > 0 ? '+' : e.spread < 0 ? '−' : ''}${Math.abs(e.spread).toFixed(1)}</span>`; return `<small title="${e.why ? '本益比不可用（虧損或超過 200 倍）' : '網站沒有該國公債資料'}">${e.why ? '不適用' : '無公債資料'}</small>`; } },
   { g: 'val', k: 'pct', t: '10 年<br>百分位', v: s => { const x = parseFloat(s.P.pct); return isFinite(x) ? x : null; }, h: s => s.P.pct },
 ];
 const GRP = { q: '最新一季', lt: '長期（近四季、幾年）', val: '估值' };
@@ -337,7 +352,7 @@ function mixHtml(x) {
 }
 /* 展開列最下方：公司分析的結論＋重點（data/analysis/<代號>.json 的精簡版；全文只在個股頁，按連結過去會自動展開） */
 const AN_TAG = { w: ['書面', '申報文件或公司公告'], o: ['口頭', '電話會議上講的'], e: ['分析師預估', '市場共識'], v: ['觀點', 'Claude 的判斷，不是事實'], m: ['媒體', '只有媒體報導，公司未證實（待確定）'] };
-const AN_CLS = { '加碼': 'v-add', '續抱': '', '減碼': 'v-cut', '觀察': 'v-watch' };
+const AN_CLS = { '加碼': 'v-add', '不動': '', '續抱': '', '減碼': 'v-cut', '觀察': 'v-watch', '太難，跳過': 'v-watch' };
 const anInline = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
 const qkey = (q) => q && /^[1-4]Q\d{2}$/.test(q) ? +q.slice(2) * 10 + +q[0] : 0;
 function analysisHtml(x) {
@@ -346,7 +361,7 @@ function analysisHtml(x) {
   const latest = x.s && x.s.qLabel, stale = latest && qkey(latest) > qkey(A.q);
   const tg = (t) => { const k = AN_TAG[t] ? t : 'v'; return `<span class="tag-src${k === 'v' ? ' tag-v' : ''}" title="${AN_TAG[k][1]}">${AN_TAG[k][0]}</span>`; };
   return `<div class="pf-an"><h4>分析結論 <span class="tag-src tag-v" title="Claude 依長期投資人分析法寫的判斷，不是事實">觀點</span><span class="an-v ${AN_CLS[A.verdict] || ''}">${esc(A.verdict)}</span>${stale ? `<span class="an-stale">最新一季 ${esc(latest)} 尚未分析</span>` : ''}</h4>
-    <p class="an-one">${anInline(A.conclusion)}</p>
+    <p class="an-one">${anInline(A.conclusion)}</p><p class="pf-sub">觀點（意譯）：好公司買到以後，大部分時間什麼都不做；沒有明確理由就是「不動」。</p>
     <ul>${(A.points || []).map(p => `<li>${tg(p.tag || 'v')} ${anInline(p.t)}</li>`).join('')}</ul>
     <div class="an-foot"><span>${esc(A.q)} · ${esc(A.date)} · ${esc(A.mode || '快評')}</span><a class="go" href="${x.c.path}#analysis-full">看完整分析 →</a></div></div>`;
 }
@@ -367,16 +382,17 @@ function profileHtml(x) {
     <div class="pf-foot"><span>${draft} 來源：${R.src ? `<a href="${esc(R.src.url)}" target="_blank" rel="noopener">${esc(R.src.n)}</a>` : '待確認'}${(R.notes || []).length ? '　' + R.notes.map(esc).join('　') : ''}</span>${go}</div>${analysisHtml(x)}</div>`;
 }
 function renderTbl() {
-  const order = sortK ? [...S].sort((a, b) => { const C = COLS.find(x => x.k === sortK); const va = C.v(a), vb = C.v(b); if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return (va - vb) * sortDir; }) : S;
+  const isOpt = (x) => x.D.buffett && x.D.buffett.type === 'option';
+  const order = sortK ? [...S].sort((a, b) => { const C = COLS.find(x => x.k === sortK); const va = C.v(a), vb = C.v(b); if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1; return (va - vb) * sortDir; }) : [...S.filter(x => !isOpt(x)), ...S.filter(isOpt)];
   const open = new Set([...tblEl.querySelectorAll('tr.row.open')].map(r => r.dataset.code));
   const hidden = new Set([...tblEl.querySelectorAll('tr.row[hidden]')].map(r => r.dataset.code));
   const gc = (g) => `gc g-${g}${g === colG ? ' on' : ''}`;
   const head = `<thead><tr class="grp"><th></th>${['q', 'lt', 'val'].map(g => `<th colspan="${nGrp(g)}" class="${gc(g)}"><span>${GRP[g]}</span></th>`).join('')}<th class="nx-col"></th></tr>
-    <tr><th>公司</th>${COLS.map((C, i) => `<th class="sortable ${gc(C.g)}" data-k="${C.k}" aria-sort="${sortK === C.k ? (sortDir < 0 ? 'descending' : 'ascending') : 'none'}" title="點一下排序">${C.t}<span class="ar">${sortK === C.k ? (sortDir < 0 ? '↓' : '↑') : ''}</span></th>`).join('')}<th class="nx-col">下一個<br>公布日</th></tr></thead>`;
+    <tr><th>公司</th>${COLS.map((C, i) => `<th class="sortable ${gc(C.g)}" data-k="${C.k}" aria-sort="${sortK === C.k ? (sortDir < 0 ? 'descending' : 'ascending') : 'none'}" title="${C.d || '點一下排序'}">${C.t}<span class="ar">${sortK === C.k ? (sortDir < 0 ? '↓' : '↑') : ''}</span></th>`).join('')}<th class="nx-col">下一個<br>公布日</th></tr></thead>`;
   const body = order.map(x => { const { c, F, s } = x; const op = open.has(c.code);
     return `<tr class="row${op ? ' open' : ''}" data-code="${c.code}"${hidden.has(c.code) ? ' hidden' : ''}>
       <td class="nm"><div class="nm-in"><button type="button" class="exp" aria-expanded="${op}" aria-label="展開 ${c.name} 的主力產品與護城河">▶</button><span><a href="${c.path}">${c.name}</a><span class="tk">${c.ticker}</span></span>
-        <span class="sub2"><button type="button" class="sec-tag" data-sector="${c.sector}" title="只看${c.sector}">${c.sector}</button><span>${s.qLabel}</span>${LT.badge(F)}</span></div></td>
+        <span class="sub2"><button type="button" class="sec-tag" data-sector="${c.sector}" title="只看${c.sector}">${c.sector}</button><span>${s.qLabel}</span>${LT.badge(F)}${isOpt(x) ? '<span class="chip chip-warn" title="還沒有穩定獲利，買的是一個可能性；金額要小到全部虧掉也不影響生活（意譯）">選擇權</span>' : ''}</span></div></td>
       ${COLS.map((C, i) => `<td class="${gc(C.g)}${i && COLS[i - 1].g !== C.g ? ' gs' : ''}">${C.h(x)}</td>`).join('')}
       <td class="nx nx-col">${s.next ? s.next.date.slice(5).replace('-', '/') + (s.next.est ? '<small>預估</small>' : '') : '—'}</td></tr>
       <tr class="det" data-for="${c.code}"${op && !hidden.has(c.code) ? '' : ' hidden'}><td colspan="${COLS.length + 2}">${op ? profileHtml(x) : ''}</td></tr>`; }).join('');
@@ -453,15 +469,15 @@ applyFilter();
   S.forEach(s => (s.D.events || []).forEach(e => evs.push({ d: e.date, code: s.c.code, name: s.c.name, t: String(e.t).split('（')[0].slice(0, 24), est: !!e.est, href: s.c.path })));
   $('#tdDate').textContent = '台北 ' + EVCAL.mdw(today);
   const get = (f) => fetch(BASE + f, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null);
-  Promise.all([get('status/latest.json'), get('lights-log.json'), get('daily/_signals.json')]).then(([st, lg, sg]) => {
+  Promise.all([get('status/latest.json'), get('lights-log.json')]).then(([st, lg]) => {
     const co = (x) => Object.assign({ cname: NM[x.code] && NM[x.code].name, href: NM[x.code] && NM[x.code].path }, x);
     const r = EVCAL.pick({ today, limit: 3, statusHref: SL, alerts: st ? st.alerts : [], events: evs,
-      lights: lg ? lg.changes.map(co) : [], signals: sg ? sg.events.map(co) : [] });
+      lights: lg ? lg.changes.map(co) : [] });
     const TAG = { alert: '紅燈', event: '財報', light: '體質', signal: '估值' };
     const li = r.items.map(i => `<li><span class="td-tag ${i.kind}">${TAG[i.kind]}</span>${i.href ? `<a href="${i.href}">${esc(i.text)}</a>` : esc(i.text)}</li>`);
     if (!li.length) {
       const nx = EVCAL.sortEv(evs.filter(e => e.d > today))[0];
-      li.push(`<li class="td-quiet">今天沒有需要特別看的事。${nx ? '下一個：' + EVCAL.mdw(nx.d) + ' ' + esc(nx.name) + ' ' + esc(nx.t) + (nx.est ? '（預估）' : '（已公告）') : ''}</li>`);
+      li.push(`<li class="td-quiet">今天沒有需要特別看的事。好公司買到以後，大部分時間什麼都不做（意譯）。${nx ? '下一個：' + EVCAL.mdw(nx.d) + ' ' + esc(nx.name) + ' ' + esc(nx.t) + (nx.est ? '（預估）' : '（已公告）') : ''}</li>`);
     }
     if (r.more) li.push(`<li class="td-more">還有 ${r.more} 則 → <a href="${CL}">行事曆</a>／<a href="${SL}">系統健康</a></li>`);
     $('#tdList').innerHTML = li.join('');
@@ -484,7 +500,7 @@ const ROWS = [
   ['近四季 EPS 年增', s => `<span class="${cls(s.M.ttmEpsYoy)}">${sp(s.M.ttmEpsYoy)}</span>`, '近四季 EPS 對前一個四季 EPS。EPS 由負轉正或基期極小時會失真。'],
   ['本益比（最新月底）', s => s.P.has ? (s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<span title="${s.P.peTip}">${s.P.pe}</span>` : `<span class="st-plan">${s.P.pe}</span>`)) : '—', '月底收盤價 ÷ 當時已公布的近四季 EPS。虧損或累積未滿四季時不計算。美股為稀釋 EPS，台積電、台達電、三星為基本 EPS。'],
   ['本益比近 10 年百分位', s => s.P.pct, '最新本益比在近 10 年每月本益比中的位置（只用有本益比的月份，少於 24 個月不算）。數字越小代表歷史上越少月份比現在便宜。高低不代表貴或便宜。'],
-  ['預估本益比（分析師預估）', s => s.P.fpe, '月底收盤價 ÷ 未來 12 個月分析師預估 EPS。預估不是財報數字，多為調整後口徑，只能從 2026-11 起逐月累積。'],
+  ['盈餘殖利率減公債（百分點）', s => { const e = s.D.buffett && s.D.buffett.ey; return e && e.spread != null ? `<span class="${cls(e.spread)}">${e.spread > 0 ? '+' : e.spread < 0 ? '−' : ''}${Math.abs(e.spread).toFixed(1)}</span>` : '<span class="st-plan">—</span>'; }, '盈餘殖利率（100 ÷ 本益比）減十年期公債殖利率。台股用台灣公債、美股用美國公債，歐元與韓元公司網站沒有該國公債資料，不算。用來提醒股票跟公債比一比（意譯：利率越高，所有資產的價值被拉得越低），不是買賣訊號。'],
   ['資料年數', s => `${s.M.years} 年`, '這個板收錄了幾年的季度資料；年數越長，長期指標越可靠。'],
 ];
 $('#scoreTbl').innerHTML = `<thead><tr><th>指標</th>${S.map(s => `<th>${s.c.name}</th>`).join('')}</tr></thead><tbody>` +
@@ -535,7 +551,7 @@ function build() {
   const idxSeries = SS.map(s => { const m = {}; s.N.Q.forEach((q, i) => { m[q.q] = s.M.ttm[i]; }); const bq = labels.find(q => m[q] != null); const base = bq ? m[bq] : null; if (bq && bq !== labels[0]) late.push(`${s.c.name} 資料從 ${qLong(bq)} 起，該季 ＝ 100`); return labels.map(q => base > 0 && m[q] != null ? Math.round(m[q] / base * 1000) / 10 : null); });
   $('#winNote').textContent = `${qLong(labels[0])} – ${qLong(labels[labels.length - 1])}，起點 ${qLong(labels[0])} ＝ 100` + (late.length ? '；' + late.join('；') : '');
   const lg = SS.map((s, i) => ({ t: s.c.name, c: COL(i), line: 1 }));
-  legend('#lgIdx', lg); legend('#lgM', lg); legend('#lgY', lg);
+  legend('#lgIdx', lg); legend('#lgM', lg); legend('#lgY', lg); legend('#lgY4', lg);
   const xt = qTicks(labels);
   const sortDesc = { itemSort: (a, b) => (b.raw ?? -Infinity) - (a.raw ?? -Infinity), callbacks: { title: (it) => it.length ? qLong(it[0].label) : '' } };
   /* 對數刻度：每格翻一倍 */
@@ -552,6 +568,11 @@ function build() {
       plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${pc(c.raw)}` } }), endLabels: { fmt: v => pc(v) } } }) }));
   /* 4. 單季年增率 */
   charts.push(new Chart($('#cY'), { data: { labels, datasets: SS.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, s.N.Q.map(q => q.yoy), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
+    options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
+      plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }), endLabels: { fmt: v => sp(v) } } }) }));
+  /* 4b. 近四季年增率：近四季營收對前一個近四季營收（兩個都大於 0 才算，和 tools/thesis.py 的 revYoy 同一個定義） */
+  const ttmYoy = (s) => s.M.ttm.map((v, i) => i >= 4 && v > 0 && s.M.ttm[i - 4] > 0 ? (v / s.M.ttm[i - 4] - 1) * 100 : null);
+  charts.push(new Chart($('#cY4'), { data: { labels, datasets: SS.map((s, i) => cmpLine({ label: s.c.name, data: onAxis(s, ttmYoy(s), labels), borderColor: COL(i), backgroundColor: COL(i) })) },
     options: baseOpts({ ...endPad(), scales: { y: yAxis({ grid: gridWithBase(0) }, { callback: v => v + '%' }), x: xAxis({}, xt) },
       plugins: { ...tip({ ...sortDesc, callbacks: { ...sortDesc.callbacks, label: c => ` ${c.dataset.label} ${sp(c.raw)}` } }), endLabels: { fmt: v => sp(v) } } }) }));
   /* 5. 本益比：月度資料。期間與上面三張圖連動（近 N 季 ＝ 近 3N 個月）；「全部」＝從最早有本益比的月份起 */
