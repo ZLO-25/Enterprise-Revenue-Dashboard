@@ -295,7 +295,7 @@ def check_analysis(code, D, err):
 
 # 核心故事線（story）：每家公司都要有，見 docs/DATA_SCHEMA.md「story」。
 # 還沒補完的公司暫列這裡；補完就移除。新公司不可加進來。
-STORY_PENDING = {"aapl", "anet", "delta", "csco", "spcx", "rklb", "gev"}
+STORY_PENDING = set()
 STORY_MIN = 3
 
 

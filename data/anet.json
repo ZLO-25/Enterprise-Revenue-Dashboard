@@ -1566,6 +1566,27 @@
    "t": "3Q26 單季營收 36.6 億美元（年增 58.5%、季增 20.5%），高於公司財測約 33 億美元",
    "src": "https://www.sec.gov/Archives/edgar/data/0001596532/000159653226000252/ex991q326-earningsrelease.htm",
    "st": "p"
+  },
+  {
+   "d": "2024-06-05",
+   "cat": "ai",
+   "t": "推出 Etherlink AI 網路平台，專為大型 AI 叢集設計",
+   "src": "https://www.arista.com/en/company/news/press-release/19493-pr-20240605",
+   "st": "p"
+  },
+  {
+   "d": "2026-02-12",
+   "cat": "ai",
+   "t": "2025 全年營收 90.06 億美元（年增 28.6%），公司表示 AI 網路與園區網路的年度目標都已超越",
+   "src": "https://s21.q4cdn.com/861911615/files/doc_news/Arista-Networks-Inc--Reports-Fourth-Quarter-and-Year-End-2025-Financial-Results-2026.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2026-06-09",
+   "cat": "ai",
+   "t": "推出 1.6T 新一代 AI 網路交換器（7060XE7 系列，擴充 Etherlink）",
+   "src": "https://www.arista.com/en/company/news/press-release/24102-pr-20260609",
+   "st": "p"
   }
  ],
  "sources": [
@@ -1601,6 +1622,14 @@
  },
  "categories": {
   "split": "股票分割",
-  "legal": "訴訟"
+  "legal": "訴訟",
+  "ai": "AI 網路"
+ },
+ "story": {
+  "t": "AI 資料中心網路",
+  "why": "大型雲端與 AI 叢集改用乙太網路，Etherlink 能不能吃到 AI 後端網路是成長關鍵",
+  "cats": [
+   "ai"
+  ]
  }
 }

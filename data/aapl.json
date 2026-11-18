@@ -2119,6 +2119,27 @@
    "t": "FY2026 全年營收 4,788 億美元（年增 15%）、淨利 1,322 億美元；4Q26 單季營收 1,145 億美元",
    "src": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000024/a8-kex991q4202609262026.htm",
    "st": "p"
+  },
+  {
+   "d": "2007-01-09",
+   "cat": "eco",
+   "t": "發表第一代 iPhone（4GB 499 美元、8GB 599 美元）",
+   "src": "https://www.apple.com/newsroom/2007/01/09Apple-Reinvents-the-Phone-with-iPhone/",
+   "st": "p"
+  },
+  {
+   "d": "2020-11-10",
+   "cat": "eco",
+   "t": "推出第一款 Mac 自研晶片 M1，Mac 開始從 Intel 換成 Apple 晶片",
+   "src": "https://www.apple.com/newsroom/2020/11/introducing-the-next-generation-of-mac/",
+   "st": "p"
+  },
+  {
+   "d": "2024-06-10",
+   "cat": "eco",
+   "t": "WWDC 發表 Apple Intelligence（生成式 AI 個人助理系統），秋季以美式英文測試版推出",
+   "src": "https://www.apple.com/newsroom/2024/06/introducing-apple-intelligence-for-iphone-ipad-and-mac",
+   "st": "p"
   }
  ],
  "sources": [
@@ -2487,5 +2508,15 @@
    }
   ],
   "note": "書面：蘋果 10-Q／10-K／財報新聞稿的 Net sales by category，五類加總＝合併營收。自 1Q18 起（蘋果自 FY2019 第一季 10-Q 起以現行五類口徑揭露，並重列 FY2018 各季）；1Q18 以前的類別為舊口徑（含 Other Products、Services 範圍不同），不重分類、不收。4Q18、4Q19、4Q20 為「全年（10-K）− 前三季累計（10-Q）」推算，其餘為公司直接揭露的單季值。"
+ },
+ "story": {
+  "t": "iPhone 生態系、自研晶片與 AI",
+  "why": "iPhone 裝機量撐起服務營收，自研晶片和 Apple Intelligence 決定換機動力",
+  "cats": [
+   "eco"
+  ]
+ },
+ "categories": {
+  "eco": "產品與生態系"
  }
 }

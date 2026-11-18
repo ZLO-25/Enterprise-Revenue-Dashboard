@@ -273,14 +273,14 @@
   },
   {
    "d": "2026-Q3",
-   "cat": "product",
+   "cat": "starship",
    "t": "星艦第 14 次試飛：第一次軌道飛行，也是第一個有營收的星艦任務（送上 26 顆 Starlink V3 衛星）",
    "src": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
    "st": "p"
   },
   {
    "d": "2026-10-08",
-   "cat": "contract",
+   "cat": "starlink",
    "t": "同意買下美國全國 800 MHz 低頻頻譜執照，用於 Starlink 手機直連；預計 2027 上半年完成",
    "src": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
    "st": "p"
@@ -289,6 +289,20 @@
    "d": "2026-10-20",
    "cat": "profit",
    "t": "3Q26 上市後第一次單季獲利：淨利 44.04 億美元，營收 145.75 億美元（年增 161%）",
+   "src": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q2",
+   "cat": "starlink",
+   "t": "Starlink 消費者用戶達 1,200 萬，每月 ARPU 66 美元",
+   "src": "https://s21.q4cdn.com/184289198/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q3",
+   "cat": "starlink",
+   "t": "Starlink 消費者用戶達 1,360 萬，每月 ARPU 69 美元",
    "src": "https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf",
    "st": "p"
   }
@@ -334,6 +348,16 @@
   "ma": "併購",
   "product": "產品",
   "contract": "合約",
-  "finance": "融資"
+  "finance": "融資",
+  "starlink": "Starlink",
+  "starship": "星艦"
+ },
+ "story": {
+  "t": "Starlink 與星艦",
+  "why": "Starlink 用戶成長是主要獲利來源，星艦決定發射成本與 V3 衛星部署速度",
+  "cats": [
+   "starlink",
+   "starship"
+  ]
  }
 }
