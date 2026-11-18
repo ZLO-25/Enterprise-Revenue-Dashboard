@@ -10,6 +10,8 @@
 import datetime as dt, json, os, sys, time, urllib.request, urllib.error
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import rd_import as RDI  # noqa: E402
 UA = "Enterprise-Revenue-Dashboard research contact@example.com"
 PROBE = [
     "StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest", "CommonStockSharesOutstanding",
@@ -24,7 +26,8 @@ PROBE = [
     "ConvertibleNotesPayableCurrent", "ConvertibleDebt", "ConvertibleDebtNoncurrent", "NotesPayable", "SeniorNotes", "DebtLongtermAndShorttermCombinedAmount",
     "LongTermDebtAndCapitalLeaseObligations", "LongTermNotesPayable", "NotesPayableCurrent", "LongTermLineOfCredit", "LineOfCredit", "UnsecuredDebt",
     "FinanceLeaseLiability", "LongTermDebtAndCapitalLeaseObligationsCurrent", "CapitalLeaseObligationsNoncurrent", "SecuredDebt",
-    "NetIncomeLoss", "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet",
+    "NetIncomeLoss", "ProfitLoss", "NetIncomeLossAvailableToCommonStockholdersBasic", "ShareBasedCompensation", "AllocatedShareBasedCompensationExpense",
+    "ShareBasedCompensationArrangementByShareBasedPaymentAwardExpenseRecognized", "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet",
 ]
 
 
@@ -110,8 +113,11 @@ def factor(splits, filed):
     return f
 
 
-def quarter_ends(ni_facts, ours):
-    """用淨利對齊：回傳 [(end, 該季是否為第四季推算)] 對應 ours（無法對上填 None）。"""
+NEAR_DAYS = 50   # 淨利對上的那個 SEC 期末日，離我們這一季的名目期末日（會計年度結束日推得）不可超過這麼多天，避免淨利湊巧相近而錯配到別的季度
+
+
+def quarter_ends(ni_facts, ours, fye=None):
+    """用淨利對齊：回傳 [(end, 該季是否為第四季推算)] 對應 ours（無法對上填 None）。fye（會計年度結束日 MM-DD）有給時再加期末日相近的檢查。"""
     L = latest(ni_facts)
     cand = {}
     for f in L:
@@ -131,6 +137,8 @@ def quarter_ends(ni_facts, ours):
         hit = None
         for k in range(ptr, len(ends)):
             if q.get("ni") is not None and abs(cand[ends[k]] - q["ni"]) <= 0.6:
+                if fye and abs((dt.date.fromisoformat(ends[k]) - RDI.nominal_end(q["q"], fye)).days) > NEAR_DAYS:
+                    continue
                 hit = k
                 break
         if hit is None:
@@ -205,7 +213,7 @@ def build(cfg, only, fields=None):
         F = {n: concept(c["cik"], n) for n in sorted(names)}
         F["cover"] = concept(c["cik"], "dei:EntityCommonStockSharesOutstanding")
         ni_facts = [f for n in M.get("ni", ["NetIncomeLoss"]) for f in F.get(n, [])]
-        ends, allends, cand = quarter_ends(ni_facts, Q)
+        ends, allends, cand = quarter_ends(ni_facts, Q, (D.get("company") or {}).get("fiscalYearEnd") or "12-31")
         need_split = any(v.get("shares") for v in specs.values())
         splits = splits_for(c["price"]["yahoo"]) if (c.get("price") and need_split) else []
         if splits is None:
