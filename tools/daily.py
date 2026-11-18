@@ -15,7 +15,9 @@
   python3 tools/daily.py watch-done ID [--note 結果]   data/watchlist.json 的日期待辦做完了
   python3 tools/daily.py brief                一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
-  python3 tools/daily.py mark extra|trend     記下今天已補觸發過（每天最多一次）
+  python3 tools/daily.py news-scope           每週新聞（週日 06:00）的範圍與公司清單
+  python3 tools/daily.py mark extra|trend|news|newsfire     記下今天已補觸發過（每天最多一次）
+  python3 tools/daily.py tokens add|report|week   排程 token 用量紀錄（每週統計 → reports/token-usage.md）
   python3 tools/daily.py done                  整個排程成功跑完 → 記 lastSuccess ＝ 今天（台北）
   --today YYYY-MM-DD 可指定日期（測試用）
 公布日一律從 data/<代號>.json 的 events[] 讀（唯一來源）。events 裡「早於今天」的項目還在，就代表還沒處理。
@@ -67,6 +69,15 @@ def missed_days(last_success, today):
     return out
 
 
+def sec_hint(f, last_rd, evs, today):
+    """SEC 有比上一季 rd 更新的財報 8-K → 可能是新財報。
+    例外：公司已公告「未來」的財報日（events 裡有非預估、日期 ≥ 今天的項目），代表這份 8-K 不是財報
+    （例：MRVL 2026-11-02 的併購公告 8-K 2.02 沒有數字），不提示，否則會每天誤報到財報日。"""
+    if not (f and f.get("earnings8k") and last_rd and f["earnings8k"][0]["date"] > last_rd):
+        return False
+    return not any(not e.get("est") and e["date"] >= today.isoformat() for e in evs)
+
+
 def status(today):
     cal = load_cal()
     feed = jload("data", "sec-feed.json", default={"companies": {}})
@@ -75,7 +86,7 @@ def status(today):
     print(f"上次成功：{cal.get('lastSuccess') or '無紀錄'}　缺跑：{('、'.join(ms) + '（要一起補，回報寫明補了哪幾天）') if ms else '無'}")
     if cal.get("lastSuccess"):
         gap = (today - datetime.date.fromisoformat(cal["lastSuccess"])).days
-        print(f"新聞檢查範圍：過去 {max(gap, 1)} 天" + ("＋過去一週回顧（週二班）" if today.weekday() == 1 else ""))
+        print("大新聞：每週日 06:00 另有排程（docs/WEEKLY_NEWS_PROMPT.md），每日檢查不搜尋新聞")
     todo, prog, soon, stuck = [], [], [], []
     for c in enabled():
         code = c["code"]
@@ -93,7 +104,7 @@ def status(today):
         # 2) SEC 新申報提示（只對美股）
         hint = ""
         f = feed["companies"].get(code)
-        if f and f["earnings8k"] and last_rd and f["earnings8k"][0]["date"] > last_rd and st["state"] == "waiting":
+        if sec_hint(f, last_rd, evs, today) and st["state"] == "waiting":
             hint = f"SEC 已有新的財報 8-K（{f['earnings8k'][0]['date']}）"
         if f and st["state"] == "completed" and f["periodic"] and st.get("flashDate") and f["periodic"][0]["date"] >= st["flashDate"]:
             prog[-1] += f"　（SEC 已有 {f['periodic'][0]['form']} {f['periodic'][0]['date']}）"
@@ -117,7 +128,7 @@ def status(today):
     print("\n④ 接下來 7 天公布日：\n" + ("\n".join(s for _, s in sorted(soon)) or "  無"))
     print("\n⑤ 卡住（連續 5 次失敗）：\n" + ("\n".join(stuck) or "  無"))
     watch(today, feed)
-    print("\n提醒：每家「進行中」或「到期」才開網頁；其餘公司只做一次標題層級的新聞搜尋。")
+    print("\n提醒：每家「進行中」或「到期」才開網頁；其餘公司今天不用開網頁（大新聞每週日另跑）。")
 
 
 def watch(today, feed):
@@ -203,6 +214,25 @@ def cmd_try(code, note, today):
     save_cal(cal)
 
 
+def news_days(today):
+    """每週新聞要看幾天：從上次 `mark news` 的日期到今天，最長 14 天；沒有紀錄是 7 天。"""
+    last = load_cal().get("fired", {}).get("news")
+    if not last:
+        return 7, None
+    return max(1, min(14, (today - datetime.date.fromisoformat(last)).days)), last
+
+
+def news_scope(today):
+    days, last = news_days(today)
+    print(f"每週新聞範圍：過去 {days} 天（{(today - datetime.timedelta(days=days)).isoformat()}～{today.isoformat()}）；上次新聞：{last or '無紀錄'}")
+    if last == today.isoformat():
+        print("今天已經跑過每週新聞 → 回報「本週已完成」後結束，不重搜")
+    for c in enabled():
+        D = jload("data", c["code"] + ".json")
+        ms = [m["d"] for m in D.get("milestones", []) if m.get("d") and m["d"] <= today.isoformat() and m.get("st") != "f"]
+        print(f"  {c['code']}\t{c.get('name') or c.get('title') or ''}\tmilestones 最後一筆：{max(ms) if ms else '無'}")
+
+
 def main():
     a = sys.argv[1:]
     today = taipei_today()
@@ -219,6 +249,11 @@ def main():
         import daily_brief
         sys.argv = [sys.argv[0], "--today", today.isoformat()] + (["--save-lights"] if a[0] == "save-lights" else [])
         return daily_brief.main()
+    if a[0] == "news-scope":  # 每週新聞的範圍與公司清單（見 docs/WEEKLY_NEWS_PROMPT.md）
+        return news_scope(today)
+    if a[0] == "tokens":  # 排程 token 用量紀錄（見 tools/token_log.py）
+        import token_log
+        return token_log.main(today, a[1:])
     if a[0] == "set":
         return cmd_set(a[1], a[2], target, note, today)
     if a[0] == "try":

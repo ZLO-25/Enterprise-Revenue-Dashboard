@@ -16,7 +16,7 @@
    ├─ ② 補完   電話會議重點、一頁總結定稿（狀態 completed）
    ├─ ②b 公司分析  補完後寫快評，結論放個股頁標題下方（docs/schedule/analysis.md）
    ├─ ③ 核對   10-Q／XBRL 對上，解除待確認（verified → 回到 waiting）
-   ├─ ④ 大新聞檢查（每家一次標題層級搜尋）
+   ├─ （大新聞：2026-11-18 起改為每週日 06:00 另一個排程）
    ├─ ⑥ 日期待辦（data/watchlist.json：Anthropic 上市觀察、預估本益比第一次快照…，到日期才出現）
    └─ ⑤ 驗證、發佈、通知、每日回報（固定五段）
  失敗：python3 tools/daily.py try <代號> --note 原因 → 明天自動重試，連 5 次失敗轉 stuck（停止重試、等使用者）
@@ -38,7 +38,7 @@
 ### ⓪ 準備（約 1 分鐘）
 1. clone repo（沒有權限先 `add_repo`：owner `ZLO-25`，repo `Enterprise-Revenue-Dashboard`，access `push`），讀 `CLAUDE.md`、`companies.json`。
 2. `python3 tools/daily.py`：印出今天的清單。**這份清單就是今天的工作範圍**。
-   - 「缺跑」有日期 → 上次成功到今天之間缺了排程（失敗或超出額度）。因為到期判斷是「公布日早於今天」，缺跑的事會自動出現在清單；新聞檢查範圍也已自動加長。回報要寫明補了哪幾天。
+   - 「缺跑」有日期 → 上次成功到今天之間缺了排程（失敗或超出額度）。因為到期判斷是「公布日早於今天」，缺跑的事會自動出現在清單。回報要寫明補了哪幾天。
    - `data/sec-feed.json` 是 Actions 每天寫的 SEC 申報清單（8-K Item 2.02＝財報新聞稿、10-Q／10-K）。美股公司的 `events` 還是預估日（`est`）時，看這份就知道公司有沒有公布，**不必搜尋網頁**。
 3. 如果 GitHub Actions 的 prices-monthly 正在跑（用 `mcp__github__actions_list` 看 `prices-monthly.yml` 最近一次 `status` 是不是 `in_progress`），**這次不要 push**，先做完檔案修改，等它結束再 push。
 
@@ -67,13 +67,8 @@
 - **這次核對用的是年度申報（10-K、20-F、台積電／台達電年報、三星事業報告）時，同一天加做「公司簡介與營收比例」一節。**
 - 完成：`python3 tools/daily.py set <代號> verified`（回到 waiting）。10-Q 還沒出來就維持 completed，**不算失敗、不加 try**，但超過 45 天仍沒有，回報提醒。
 
-### ④ 大新聞檢查（每天，每家公司一次標題層級搜尋）
-範圍：`daily.py` 印的「新聞檢查範圍」（平常過去 1 天；週二班加過去一週回顧；缺跑時自動加長）。**只有達標才深入讀**：
-財測或營運變化（預告財報、上下修財測、重大訂單或合約）、資本動作（併購、分割、大額回購、增資、股利變動）、人事（執行長、財務長異動）、監管與法律（出口管制、反壟斷、重大訴訟、調查）、產業事件（主要客戶或對手財報出現與本公司直接相關的訊息）。
-- 公司公告或申報文件證實 → 「已證實」；只有媒體報導 → 「待確定」並寫媒體名稱（`unc:1`，`note` 以「待確定：」開頭）。
-- 股價大漲大跌本身不算新聞，除非找得到上面五類原因。
-- 達標的新聞同時寫進該公司 `milestones[]`；沒達標的不寫、不列在回報。
-- 達標的新聞若是併購、出售或分拆業務、新增或裁撤部門：回報「⑤ 未完成」加一行「<公司> 的公司簡介可能需要更新（原因）」，**不自己改簡介**，等該公司下一份年度申報或 ZL 指示。
+### ④ 大新聞（已移到每週日排程）
+每日檢查**不再**搜尋大新聞（省 token）；改由每週日 06:00 的排程做（docs/WEEKLY_NEWS_PROMPT.md）。處理快報、補完、核對時順便看到達標的事件（財測、併購、人事、監管），照舊寫進 `milestones[]`，其餘等週日。
 
 ### ⑥ 日期待辦（`daily.py` 的「⑥ 日期待辦」有列出才做）
 要等某個日期或外部事件的事（例：Anthropic 上市、12 月初第一次預估本益比快照、期貨排程觀察）都放在 `data/watchlist.json`，不寫死在這份指令。
@@ -94,14 +89,15 @@
 2. commit（繁體中文簡述，例：「NVDA 3Q27 快報」「NVDA 3Q27 補完：電話會議重點」）→ `git push -u origin main`（先確認第 ⓪.3）。
 3. Artifact：只有一個合併版 Artifact，網址在 `companies.json` 的 `site.artifact`。有變動時 publish `dist/artifacts/all.html`（先 `action:"read"` 再 publish），`label` 寫這次變動。
 4. `python3 tools/daily.py done`（記 lastSuccess ＝ 今天）後 commit＋push `data/calendar.json`（和上一步同一個 commit 即可）。**如果某家失敗了，也要 `done`**——失敗的公司由 `try` 的計數接手，明天重試；沒跑完整個排程才不 `done`。
-5. 每次都用 PushNotification 通知（沒事的日子一行，有快報或紅燈時標題直接寫公司與重點）。
+5. **記 token**（最後一步）：`get_session`（不帶 id）讀 `external_metadata.usage`，執行 `python3 tools/daily.py tokens add daily --session <id> --model <model> --input <input_tokens> --cache-read <cache_read_tokens> --cache-write <cache_write_tokens> --output <output_tokens> --cost <cost_usd>`，commit＋push `data/token-usage.json`。
+6. 每次都用 PushNotification 通知（沒事的日子一行，有快報或紅燈時標題直接寫公司與重點）。
 
 ## 每日回報（最後一則訊息；固定五段，沒事的日子只有三四行）
 ```
 【MM/DD 每日更新】
 ① 今天到了什麼    哪些公司公布財報、月營收、新申報；沒有就寫「無」
 ② 今天做了什麼    快報／補完／核對／重試第幾次；缺跑補了哪幾天；網站有沒有重新發佈（commit 連結）
-③ 大新聞          過去一天（週二加過去一週回顧），分「已證實」「待確定」，各附來源
+③ 大新聞          只有處理財報時順便看到的；平常寫「每週日 06:00 統一整理」
 ④ 接下來 7 天     即將公布的公司與日期；日期有變動特別標出
 ⑤ 未完成          待確認項目、重試中（第幾次）、stuck 的公司（置頂）、論點轉紅燈的項目、還在等的日期待辦
 ```
