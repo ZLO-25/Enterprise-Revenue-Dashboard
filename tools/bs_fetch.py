@@ -113,6 +113,7 @@ def factor(splits, filed):
     return f
 
 
+DATE_DAYS = 10   # 第二輪（只用期末日對齊）的容許天數
 NEAR_DAYS = 50   # 淨利對上的那個 SEC 期末日，離我們這一季的名目期末日（會計年度結束日推得）不可超過這麼多天，避免淨利湊巧相近而錯配到別的季度
 
 
@@ -146,6 +147,19 @@ def quarter_ends(ni_facts, ours, fye=None):
         else:
             out.append(ends[hit])
             ptr = hit + 1
+    if fye:
+        # 第二輪：淨利對不上的季度（例如我們收的是新聞稿口徑、SEC 重編或四捨五入差異），若 SEC 有一個期末日和名目期末日只差 10 天以內、
+        # 而且夾在前後已對上的季度之間、沒有被別的季度用掉，就用期末日對齊（只決定「讀哪個期間的事實」，數值仍是 SEC 的申報值）。
+        used = {e for e in out if e}
+        for i, q in enumerate(ours):
+            if out[i] is not None:
+                continue
+            lo = max((e for e in out[:i] if e), default="")
+            hi = min((e for e in out[i + 1:] if e), default="9999")
+            near = [e for e in ends if lo < e < hi and e not in used and abs((dt.date.fromisoformat(e) - RDI.nominal_end(q["q"], fye)).days) <= DATE_DAYS]
+            if len(near) == 1:
+                out[i] = near[0]
+                used.add(near[0])
     return out, ends, cand
 
 

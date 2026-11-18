@@ -1341,7 +1341,8 @@
  },
  "avgo": {
   "ni": [
-   "NetIncomeLoss"
+   "NetIncomeLoss",
+   "ProfitLoss"
   ],
   "sbc": {
    "kind": "ytd",
