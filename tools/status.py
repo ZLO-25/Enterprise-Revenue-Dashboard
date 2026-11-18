@@ -149,7 +149,7 @@ def companies_block(today):
             late = (today - dt.date.fromisoformat(X["d"])).days
             if late > lim:
                 problems.append(f"收盤價落後 {late} 天"); light = "red"
-        pc = PEND.get(code, {})
+        pc = PEND.get(code)
         rows.append({"code": code, "name": c.get("name") or c.get("title") or code, "quarter": Q[-1]["q"] if Q else None, "stage": st["state"],
                      "close": X.get("d"), "priceMonth": mon, "next": ({"d": nxt["date"], "t": nxt["t"][:24], "est": bool(nxt.get("est"))} if nxt else None),
                      "pending": pc, "light": light, "problems": problems})
