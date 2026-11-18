@@ -9,6 +9,7 @@
 （年增率、TTM 由資料檔的數字直接相除）。需要更細的欄位時，再用 python3 -c 讀那個欄位。
 """
 import json, os, sys
+import pe as PE
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -79,7 +80,7 @@ def main():
         _, val, hl, Qn = T.context(code)
         st = (val or {}).get("stats", {})
         print(f"\n## 本益比（建置時由 tools/pe.py 算，股價 {st.get('priceM')}）")
-        print(f"最新 {st.get('latest')}（{st.get('latestM')}）；5 年中位數 {st.get('med5')}；10 年中位數 {st.get('med10')}；"
+        print(f"最新 {PE.pe_text(st.get('latest'))}（{st.get('latestM')}）；5 年中位數 {PE.pe_text(st.get('med5'))}；10 年中位數 {st.get('med10')}；"
               f"10 年百分位 {st.get('pct10')}；預估本益比 {st.get('fpeLatest') or '待確認：無快照'}（分析師預估）")
     except Exception as e:  # noqa: BLE001
         val = hl = Qn = None

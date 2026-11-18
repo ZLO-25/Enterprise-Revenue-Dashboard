@@ -17,6 +17,7 @@
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
   python3 tools/daily.py news-scope           每週新聞（週日 06:00）的範圍與公司清單
   python3 tools/daily.py mark extra|trend|news|newsfire     記下今天已補觸發過（每天最多一次）
+  python3 tools/daily.py pending              待確認分級（近期／近三年／歷史）統計，寫 reports/pending.md
   python3 tools/daily.py tokens add|report|week   排程 token 用量紀錄（每週統計 → reports/token-usage.md）
   python3 tools/daily.py done                  整個排程成功跑完 → 記 lastSuccess ＝ 今天（台北）
   --today YYYY-MM-DD 可指定日期（測試用）
@@ -165,11 +166,29 @@ def watch(today, feed):
     print("\n⑥ 日期待辦（data/watchlist.json）：\n" + ("\n".join(rows) or "  無"))
 
 
+def add_months(d, n):
+    m = d.month - 1 + n
+    y, m = d.year + m // 12, m % 12 + 1
+    import calendar
+    return datetime.date(y, m, min(d.day, calendar.monthrange(y, m)[1]))
+
+
 def cmd_watch_done(wid, note, today):
     p = os.path.join(ROOT, "data", "watchlist.json")
     W = jload("data", "watchlist.json")
     for w in W["items"]:
         if w["id"] == wid:
+            if w.get("repeatMonths"):   # 週期待辦：不標 done，把 from 順延 N 個月（until 也順延），並記下這次結果
+                n = int(w["repeatMonths"])
+                w["lastDone"] = today.isoformat()
+                w["from"] = add_months(max(today, datetime.date.fromisoformat(w["from"])), n).isoformat()
+                if w.get("until"):
+                    w["until"] = add_months(datetime.date.fromisoformat(w["until"]), n).isoformat()
+                if note:
+                    w["result"] = note
+                with open(p, "w", encoding="utf8") as f:
+                    json.dump(W, f, ensure_ascii=False, indent=1); f.write("\n")
+                print(f"{wid} → 本次完成，下次 {w['from']}"); return
             w["done"] = today.isoformat()
             if note:
                 w["result"] = note
@@ -252,6 +271,9 @@ def main():
         return daily_brief.main()
     if a[0] == "news-scope":  # 每週新聞的範圍與公司清單（見 docs/WEEKLY_NEWS_PROMPT.md）
         return news_scope(today)
+    if a[0] == "pending":  # 待確認分級統計＋reports/pending.md（見 tools/pending.py）
+        import pending
+        return pending.main()
     if a[0] == "tokens":  # 排程 token 用量紀錄（見 tools/token_log.py）
         import token_log
         return token_log.main(today, a[1:])

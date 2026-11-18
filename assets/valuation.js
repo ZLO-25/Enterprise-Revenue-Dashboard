@@ -8,6 +8,10 @@ const PEV = (() => {
   const CAP = 200;
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const x1 = (n) => n == null ? '—' : n.toFixed(1) + '×';
+  // 超過 CAP（＝tools/pe.py 的 PE_REF_MAX，validate.py 核對相等）的本益比顯示「不適用」：近四季 EPS 接近零，倍數沒有參考價值；資料值不變
+  const noisy = (n) => n != null && n > CAP;
+  const xp = (n) => n == null ? '—' : noisy(n) ? '不適用' : x1(n);
+  const tip = (n) => noisy(n) ? `公式值 ${n.toFixed(1)} 倍，近四季 EPS 接近零，倍數沒有參考價值` : '';
   const f2 = (n) => n == null ? '—' : n.toFixed(2);
   const f4 = (n) => n == null ? '—' : n.toFixed(2);
   const ym = (m) => m.replace('-', '/');
@@ -20,11 +24,11 @@ const PEV = (() => {
     const V = D.valuation; if (!V || !V.monthly.length) return { pe: '股價尚未收錄', fpe: '—', sub: '', pct: '—', has: false };
     const s = V.stats, last = V.monthly[V.monthly.length - 1];
     let pe, sub = '';
-    if (last.pe != null) { pe = x1(last.pe); sub = ym(last.m) + ' 月底'; }
+    if (last.pe != null) { pe = xp(last.pe); sub = ym(last.m) + ' 月底'; }
     else { pe = WHY[last.why] || '—'; sub = ym(last.m) + ' 月底'; }
     const fl = [...V.monthly].reverse().find(r => r.fpe != null);
-    return { has: true, pe, sub, fpe: fl ? x1(fl.fpe) : '累積中', fpeSub: fl ? ym(fl.m) + (fl.few ? '（預估人數少）' : '') : '2026-11 起逐月累積',
-      pct: s.pct10 == null ? '—' : s.pct10 + '%', med5: x1(s.med5), med10: x1(s.med10), latestPe: last.pe, priceM: s.priceM, priceD: last.d };
+    return { has: true, pe, sub, fpe: fl ? xp(fl.fpe) : '累積中', peTip: tip(last.pe), peNoisy: noisy(last.pe), fpeNoisy: fl ? noisy(fl.fpe) : false, fpeSub: fl ? ym(fl.m) + (fl.few ? '（預估人數少）' : '') : '2026-11 起逐月累積',
+      pct: s.pct10 == null ? '—' : s.pct10 + '%', med5: x1(s.med5) + (noisy(s.med5) ? '（參考性低）' : ''), med10: x1(s.med10) + (noisy(s.med10) ? '（參考性低）' : ''), latestPe: noisy(last.pe) ? null : last.pe, priceM: s.priceM, priceD: last.d };
   }
 
   /* 公司頁整節 */
@@ -109,5 +113,5 @@ const PEV = (() => {
     if (sl) sl.insertAdjacentHTML('beforeend', `<li>股價：Yahoo Finance 日線 Close（已依股票分割調整、不含股利調整；每月由 GitHub Actions 抓取，台股另與證交所收盤價交叉核對）。財報公布日（rd）與 EPS 見各公司 SOURCES.md。預估本益比使用 Yahoo Finance 的分析師 EPS 預估（非財報數字）。</li>`);
     if (!hasPE) sec.querySelector('#peHow').innerHTML += ' 目前還沒有任何一個月算得出本益比。';
   }
-  return { mount, brief, WHY, CAP, x1, ym };
+  return { mount, brief, WHY, CAP, x1, xp, tip, noisy, ym };
 })();

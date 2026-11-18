@@ -21,6 +21,7 @@
 4. 達標標準（和舊每日 ④ 相同）：財測或營運變化（預告財報、上下修財測、重大訂單或合約）、資本動作（併購、分割、大額回購、增資、股利變動）、人事（執行長、財務長異動）、監管與法律（出口管制、反壟斷、重大訴訟、調查）、產業事件（主要客戶或對手財報出現與本公司直接相關的訊息）。股價漲跌本身不算。
 5. 主流程對每個候選：能開到公司公告或申報文件就標「已證實」（附連結）；只有媒體報導 → 「待確定」，寫媒體名稱，`unc:1`，`note` 以「待確定：」開頭。寫進該公司 `data/<代號>.json` 的 `milestones[]`（格式 `{d, cat, t, src, st:"p", unc?, note?}`，見 docs/DATA_SCHEMA.md 的 milestones[]；`src` 必填）；沒達標的不寫。候選是併購、出售或分拆業務、新增或裁撤部門 → 回報加一行「<公司> 的公司簡介可能需要更新（原因）」，不自己改簡介。
 6. 有寫入：`python3 tools/build.py && python3 tools/validate.py`（沒過的公司還原，不發佈）→ commit「每週新聞 <日期>」→ push main → publish `dist/artifacts/all.html` 到 `companies.json` 的 `site.artifact`（先 `action:"read"`）。沒有寫入就跳過這一步。
+6b. **每月第一個週日才做：待確認清理**（今天的日期是當月 1～7 日才做；其他週日跳過這一步）。`python3 tools/daily.py pending` 看「近期」清單（reports/pending.md），挑**最多 6 項**，每項用一個 Sonnet 子代理去讀一手來源（申報文件或公司公告，**必須真的讀到那個數字**）。讀到 → 更新 `data/<代號>.json` 並刪掉那一行待確認；讀不到 → 原樣保留，不估計、不內插。做完 `python3 tools/validate.py` 必須通過，沒過就 `git checkout -- data/<代號>.json` 還原那家，不發佈。回報列出每一項的結果與來源連結（解掉的、仍待確認的各幾項）。資料誠實規則一條都不放寬。
 7. `python3 tools/daily.py mark news`（記錄本週新聞已跑），和下一步一起 commit。
 8. **記 token**（最後一步，不要省）：呼叫 `get_session`（不帶 session_id），讀 `external_metadata.usage`，然後
    ```
