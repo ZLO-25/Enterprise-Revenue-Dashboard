@@ -17,6 +17,8 @@
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
   python3 tools/daily.py news-scope           每週新聞（週日 06:00）的範圍與公司清單
   python3 tools/daily.py mark extra|trend|news|newsfire     記下今天已補觸發過（每天最多一次）
+  python3 tools/daily.py inbox [CODE…]        SEC 收件匣：Actions 預抓的財報新聞稿＋XBRL 核對表（快報、核對先看這個）
+  python3 tools/daily.py trend-facts          世界趨勢月報的事實表（各公司最新一季、四大雲端資本支出、記憶體毛利率）
   python3 tools/daily.py pending              待確認分級（近期／近三年／歷史）統計，寫 reports/pending.md
   python3 tools/daily.py tokens add|report|week   排程 token 用量紀錄（每週統計 → reports/token-usage.md）
   python3 tools/daily.py done                  整個排程成功跑完 → 記 lastSuccess ＝ 今天（台北）
@@ -277,6 +279,12 @@ def main():
     if a[0] == "tokens":  # 排程 token 用量紀錄（見 tools/token_log.py）
         import token_log
         return token_log.main(today, a[1:])
+    if a[0] == "trend-facts":  # 趨勢月報事實表（見 tools/trend_facts.py）
+        import trend_facts
+        return trend_facts.main()
+    if a[0] == "inbox":  # SEC 收件匣：Actions 預抓的新聞稿＋XBRL 核對表（見 tools/sec_inbox.py）
+        import sec_inbox
+        return sec_inbox.report(a[1:] or None)
     if a[0] == "set":
         return cmd_set(a[1], a[2], target, note, today)
     if a[0] == "try":
