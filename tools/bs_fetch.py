@@ -318,9 +318,23 @@ def balance_probe(cfg, only):
                     print(f"  {name} [{unit}] {h['val']}")
 
 
+def dump(cfg, only, name, since="2023-01-01"):
+    """列出某個概念的事實（開始日、結束日、數值、表單、申報日），用來查為什麼某一季讀不到。"""
+    for c in cfg["companies"]:
+        if not c.get("cik") or not c.get("enabled") or (only and c["code"] != only):
+            continue
+        fs = sorted(latest(concept(c["cik"], name)), key=lambda f: (f["end"], f.get("start") or ""))
+        print(f"## {c['code']} {name}", flush=True)
+        for f in fs:
+            if f["end"] >= since:
+                print(f"  {f.get('start')} → {f['end']} ({dur(f)}天) {f['val']} {f.get('form')} 申報 {f['filed']}")
+
+
 def main():
     cfg = json.load(open(os.path.join(ROOT, "companies.json"), encoding="utf8"))
     only = sys.argv[sys.argv.index("--company") + 1] if "--company" in sys.argv else None
+    if "--dump" in sys.argv:
+        return dump(cfg, only, sys.argv[sys.argv.index("--dump") + 1])
     if "--balance" in sys.argv:
         return balance_probe(cfg, only)
     if "--probe" in sys.argv:
