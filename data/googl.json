@@ -2237,7 +2237,7 @@
   },
   {
    "d": "2026-06",
-   "cat": "listing",
+   "cat": "ai",
    "t": "發行 A、C 股普通股與強制轉換特別股，淨募得 496 億美元，用於擴充 AI 基礎設施等",
    "src": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000066/googexhibit991q22026.htm",
    "st": "p"
@@ -2268,6 +2268,27 @@
    "cat": "ma",
    "t": "與聯想簽約出售 Motorola Mobile（之後列為停業單位）",
    "src": "https://www.sec.gov/Archives/edgar/data/1288776/000128877614000071/googq32014exhibit991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2016-05-18",
+   "cat": "ai",
+   "t": "公開自研 AI 晶片 TPU（專為機器學習設計的 ASIC）",
+   "src": "https://cloud.google.com/blog/products/ai-machine-learning/google-supercharges-machine-learning-tasks-with-custom-chip",
+   "st": "p"
+  },
+  {
+   "d": "2023-04-25",
+   "cat": "ai",
+   "t": "1Q23 Google Cloud 首次單季營業獲利 1.91 億美元（去年同季虧損 7.06 億美元）",
+   "src": "https://abc.xyz/investor/static/pdf/2023Q1_alphabet_earnings_release.pdf",
+   "st": "p"
+  },
+  {
+   "d": "2023-12-06",
+   "cat": "ai",
+   "t": "發表 Gemini 大型模型（Ultra、Pro、Nano 三種尺寸）",
+   "src": "https://blog.google/technology/ai/google-gemini-ai/",
    "st": "p"
   }
  ],
@@ -2377,5 +2398,15 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "Gemini、Google Cloud 與 TPU",
+  "why": "AI 會不會侵蝕搜尋廣告，Gemini 與雲端能不能接住成長",
+  "cats": [
+   "ai"
+  ]
+ },
+ "categories": {
+  "ai": "AI 與雲端"
  }
 }

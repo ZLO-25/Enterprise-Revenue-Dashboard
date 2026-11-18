@@ -2101,7 +2101,7 @@
  "milestones": [
   {
    "d": "2026-09",
-   "cat": "other",
+   "cat": "ai",
    "t": "FY27 起分部改為「Agents and Infra」與「Devices and Consumer」兩大部門，並以 8-K 重編過去數字",
    "src": "https://www.sec.gov/Archives/edgar/data/0000789019/000119312526380280/d291965dex991.htm",
    "st": "p"
@@ -2118,6 +2118,27 @@
    "cat": "profit",
    "t": "FY2026 全年營收 3,318.4 億美元、營業利益 1,552.4 億美元",
    "src": "https://www.microsoft.com/en-us/investor/earnings/fy-2026-q4/press-release-webcast",
+   "st": "p"
+  },
+  {
+   "d": "2019-07-22",
+   "cat": "ai",
+   "t": "與 OpenAI 建立獨家雲端運算合作，微軟投資 10 億美元，Azure 成為 OpenAI 的運算平台",
+   "src": "https://news.microsoft.com/2019/07/22/OpenAI-forms-exclusive-computing-partnership-with-microsoft-to-build-new-azure-ai-supercomputing-technologies/",
+   "st": "p"
+  },
+  {
+   "d": "2023-11",
+   "cat": "ai",
+   "t": "Microsoft 365 Copilot 對企業客戶正式上市",
+   "src": "https://techcommunity.microsoft.com/blog/microsoft365copilotblog/microsoft-365-copilot-is-generally-available/3969331",
+   "st": "p"
+  },
+  {
+   "d": "2025-10-28",
+   "cat": "ai",
+   "t": "與 OpenAI 簽新協議：微軟持股約 27%（價值約 1,350 億美元），OpenAI 另承諾加購 2,500 億美元 Azure 服務",
+   "src": "https://blogs.microsoft.com/blog/2025/10/28/the-next-chapter-of-the-microsoft-openai-partnership/",
    "st": "p"
   }
  ],
@@ -2157,5 +2178,15 @@
    "待確認：資產負債表欄位 股票酬勞（sbc）：1 季沒有值（4Q09～4Q09）：讀不到單季值（1 季：4Q09）"
   ],
   "general": "第四季（4–6 月）的營收、毛利、淨利在 FY2021 以後 XBRL 沒有單季值，用「全年 − 前三季」推算；營業利益 FY2009–FY2013 與 FY2021 以後也是推算；推算結果與新聞稿核對一致（例：4Q26 營收 90,007、淨利 35,766）。第四季 EPS：FY2020 以前取 XBRL 單季值，FY2021 以後取財報新聞稿。營業現金流與資本支出（Additions to property and equipment）用年初累計相減；FY2014–FY2016 用 XBRL「持續營業單位」營業現金流概念。FY2016 以前是舊準則原始數字、FY2017 起是 ASC 606 重編數字，兩段之間營收約差 6%（FY2016：85,320 → 91,154）。特殊季度：4Q12 aQuantive 商譽減損、4Q15 Nokia 手機業務減損、2Q18 美國稅改一次性稅負。"
+ },
+ "story": {
+  "t": "Azure 與 AI（OpenAI、Copilot）",
+  "why": "OpenAI 合作帶動 Azure 用量，Copilot 是把 AI 賣進企業軟體的主要產品",
+  "cats": [
+   "ai"
+  ]
+ },
+ "categories": {
+  "ai": "AI 與雲端"
  }
 }
