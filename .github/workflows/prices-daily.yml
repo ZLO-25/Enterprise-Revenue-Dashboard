@@ -50,7 +50,6 @@ jobs:
       - name: 抓收盤價、核對、算本益比
         env:
           COMPANY: ${{ github.event.inputs.company }}
-          SIGNALS_OUT: ${{ runner.temp }}/signals-new.txt
         run: |
           ARGS=""
           if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi

@@ -407,5 +407,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .bm-q { color: var(--muted); font-size: 0.82rem; }
 .bm-opt { margin: 0 0 12px; }
 .bm-card .up { color: var(--good-text); } .bm-card .down { color: var(--bad-text); }
+.bm-card .how, #buffett > .how { font-size: 0.82rem; color: var(--ink-2); line-height: 1.55; }
+.bm-card .how b { color: var(--ink); font-weight: 600; }
 .flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
 .co-warn { color: var(--ink-2); }

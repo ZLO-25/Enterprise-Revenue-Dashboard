@@ -285,6 +285,22 @@ class Retained(unittest.TestCase):
         Q = mkQ(10)
         self.assertEqual(B.calc_retained(Q, mkVal(Q), (1.0, 9, None))["why"], "short")
 
+    def test_pays_dividend_but_not_recorded_is_null(self):
+        # dps 全空，但資料說明寫了「每股股利…留空」：公司有配息、只是沒收錄 → 不能把股利當 0
+        Q = mkQ(24)
+        set_rd(Q)
+        val = self.val()
+        D = {"notes": {"unavailable": ["每股股利：一年配一次現金股利，本頁 dps 欄位全部留空"]}}
+        out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]), D)
+        self.assertFalse(out["noDiv"])
+        self.assertIsNone(out["kept"])
+        self.assertIsNone(out["ratio"])
+        self.assertEqual(out["why"], "nodps")
+        # 資料說明沒提到股利 → 視為不配息，照舊當 0
+        out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]), {"notes": {"unavailable": ["待確認：1Q20 的財報公布日（rd）"]}})
+        self.assertTrue(out["noDiv"])
+        self.assertEqual(out["ratio"], 10.0)
+
 
 class VsIndex(unittest.TestCase):
     def mk(self):

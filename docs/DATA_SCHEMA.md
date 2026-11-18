@@ -330,4 +330,4 @@ buffett = { type, currency,
 ```
 - 算不出來的值是 `null`，`why` 是原因代碼（missing／neg／short／noprice／loss／noisy／norates／nobond／noidx／nodps），前端 `assets/buffett.js` 轉成中文。
 - 回購期間對月份：以該季名目期末日（`fiscalYearEnd`）所在月份為終點，期末日在 15 日（含）以後算當月、14 日以前算前一個月，往前數 12 個月；有本益比的月份少於 6 個不算。
-- 保留盈餘測試的股利＝每季 `dps × shOut`；公司從來沒有 `dps` 值（欄位全空）時股利當 0 並標 `noDiv`；有值但近 20 季有缺 → 整項算不出來。
+- 保留盈餘測試的股利＝每季 `dps × shOut`；公司從來沒有 `dps` 值（欄位全空）而且 `notes.unavailable` 沒有提到股利時，視為不配息、股利當 0 並標 `noDiv`；欄位全空但 `notes.unavailable` 寫了「每股股利」（有配息、本站沒收錄，例如台達電、萬潤、三星）→ 算不出來（`nodps`），不把股利當 0；有值但近 20 季有缺 → 整項算不出來。

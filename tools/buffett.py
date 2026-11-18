@@ -3,7 +3,7 @@
 只用 repo 既有欄位（quarters[]、data/prices、quant/data 的公債與指數價格），不估計、不內插、不補數字。
 算不出來的項目值是 null，並在 why 寫原因代碼（前端 assets/buffett.js 的 WHY 對照中文）：
   missing 欄位待確認　neg 分母不是正數或虧損　short 資料不足　noprice 沒有股價檔　loss 虧損或本益比不可用　noisy 本益比超過參考上限
-  norates 讀不到公債資料　nobond 網站沒有該國公債資料　noidx 網站沒有不含股息的同幣別指數資料　nodps 沒有股利欄位
+  norates 讀不到公債資料　nobond 網站沒有該國公債資料　noidx 網站沒有不含股息的同幣別指數資料　nodps 沒有股利資料（欄位全空；有配息但沒收錄時保留盈餘測試也不算）
 
 輸出 buffett = {type, ey, tenYear, summary, buyback, retained, vsIndex, implied, normPe, quality, structure, record}（格式見 docs/DATA_SCHEMA.md「buffett」）。
 
@@ -317,7 +317,15 @@ def calc_buyback(Q, val, pts, fye, mcap):
 
 
 # ---------- 4. 保留盈餘測試 ----------
-def calc_retained(Q, val, mcap):
+def div_unrecorded(D):
+    """每股股利全部是 null，但 notes.unavailable 有寫「每股股利」：公司有配息、只是本站沒收錄（例：台達電、萬潤、三星）。
+    這種情況不能把股利當 0（會高估留下的盈餘），保留盈餘測試算不出來。"""
+    n = (D or {}).get("notes")
+    u = n.get("unavailable") if isinstance(n, dict) else []
+    return any(isinstance(x, str) and ("股利" in x or "dps" in x) for x in (u or []))
+
+
+def calc_retained(Q, val, mcap, D=None):
     out = {"kept": None, "ni20": None, "div20": None, "noDiv": False, "mcapNow": r(mcap[0], 0), "mcap0": None, "mcapChg": None, "ratio": None, "m0": None, "mNow": None, "why": None, "note": None}
     n = len(Q)
     if n < 20:
@@ -328,6 +336,8 @@ def calc_retained(Q, val, mcap):
         out["why"] = "missing"; return out
     out["ni20"] = sum(ni)
     has_dps = any(q.get("dps") is not None for q in Q)
+    if not has_dps and div_unrecorded(D):
+        out["why"] = "nodps"; out["note"] = "這家公司有配息，但本站沒有收錄每股股利（見資料說明），不把股利當 0"; out["ni20"] = r(out["ni20"], 0); return out
     if not has_dps:
         out["noDiv"], out["div20"] = True, 0.0
     else:
@@ -514,7 +524,7 @@ def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thes
     rows = ten_year(Q, health, pts)
     summ = summarize(rows, hq)
     return {"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": rows, "summary": summ,
-            "buyback": calc_buyback(Q, valuation, pts, fye, mc), "retained": calc_retained(Q, valuation, mc),
+            "buyback": calc_buyback(Q, valuation, pts, fye, mc), "retained": calc_retained(Q, valuation, mc, D),
             "vsIndex": calc_vs_index(cur, prices, index_prices), "implied": calc_implied(ey, rows), "normPe": calc_norm_pe(rows, valuation),
             "quality": calc_quality(Q, rows, pts, summ), "structure": calc_structure(rows, summ), "record": calc_record(Q, rows, hq, summ)}
 
