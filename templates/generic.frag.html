@@ -183,6 +183,7 @@
         <h3>事件明細</h3>
         <div class="seg" id="msSeg" role="group" aria-label="事件篩選"></div>
       </div>
+      <p class="story-line" id="msStory" hidden></p>
       <div class="tbl-wrap"><table id="tMs"></table></div>
     </div>
   </section>
@@ -351,12 +352,13 @@ const CAT = Object.assign({ contract: '合約', product: '產品', listing: '上
 if (MS.length) {
   $('#events').hidden = false;
   const cats = [...new Set(MS.map(m => m.cat))];
-  $('#msSeg').innerHTML = `<button type="button" data-f="all" aria-pressed="true">全部</button>` + cats.map(c => `<button type="button" data-f="${c}" aria-pressed="false">${CAT[c] || c}</button>`).join('') + (MS.some(m => m.unc) ? `<button type="button" data-f="unc" aria-pressed="false">待確定</button>` : '');
+    if (D.story) { $('#msStory').hidden = false; $('#msStory').innerHTML = storyHtml(D); }
+  $('#msSeg').innerHTML = `<button type="button" data-f="all" aria-pressed="true">全部</button>` + (D.story ? `<button type="button" data-f="core" aria-pressed="false">核心故事</button>` : '') + cats.map(c => `<button type="button" data-f="${c}" aria-pressed="false">${CAT[c] || c}</button>`).join('') + (MS.some(m => m.unc) ? `<button type="button" data-f="unc" aria-pressed="false">待確定</button>` : '');
   let msFilter = 'all';
   const msTable = () => {
-    const rows = MS.filter(m => msFilter === 'all' ? true : msFilter === 'unc' ? m.unc : m.cat === msFilter);
+    const rows = MS.filter(m => msFilter === 'all' ? true : msFilter === 'core' ? isCore(D, m) : msFilter === 'unc' ? m.unc : m.cat === msFilter);
     $('#tMs').innerHTML = `<thead><tr><th>時間</th><th>類別</th><th class="txt">事件</th><th>狀態</th><th>來源</th></tr></thead><tbody>` +
-      rows.map(m => `<tr class="${m.st === 'f' ? 'st-plan' : ''}"><td>${dfmt(m.d)}</td><td style="font-family:var(--font-cjk)">${CAT[m.cat] || m.cat}</td><td class="txt">${m.t}${m.unc ? UNC : ''}${m.note ? `<br><small class="st-plan">${m.note}</small>` : ''}</td><td style="font-family:var(--font-cjk)">${m.unc ? '待確定' : m.st === 'f' ? '規劃中' : '已證實'}</td><td class="src">${srcLink(m)}</td></tr>`).join('') + '</tbody>';
+      rows.map(m => `<tr class="${m.st === 'f' ? 'st-plan' : ''}"><td>${dfmt(m.d)}</td><td style="font-family:var(--font-cjk)">${CAT[m.cat] || m.cat}</td><td class="txt">${isCore(D, m) ? CORE : ''}${m.t}${m.unc ? UNC : ''}${m.note ? `<br><small class="st-plan">${m.note}</small>` : ''}</td><td style="font-family:var(--font-cjk)">${m.unc ? '待確定' : m.st === 'f' ? '規劃中' : '已證實'}</td><td class="src">${srcLink(m)}</td></tr>`).join('') + '</tbody>';
   };
   $('#msSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; msFilter = b.dataset.f; syncSeg('msSeg', 'f', msFilter); msTable(); });
   msTable();

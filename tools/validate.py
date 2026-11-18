@@ -293,6 +293,29 @@ def check_analysis(code, D, err):
             err.append("analysis.history 每筆要有 q 與 verdict")
 
 
+# 核心故事線（story）：每家公司都要有，見 docs/DATA_SCHEMA.md「story」。
+# 還沒補完的公司暫列這裡；補完就移除。新公司不可加進來。
+STORY_PENDING = {"msft", "amzn", "meta", "googl", "crwd", "panw",
+                 "aapl", "anet", "delta", "csco", "spcx", "rklb", "gev"}
+STORY_MIN = 3
+
+
+def check_story(code, D, err):
+    S = D.get("story")
+    if not S:
+        if code not in STORY_PENDING:
+            err.append("缺 story（核心故事線）：頂層要有 story {t, cats[]}，重要事件至少 %d 筆屬於這些類別" % STORY_MIN)
+        return
+    if not (S.get("t") or "").strip():
+        err.append("story.t（核心故事線名稱）不可空白")
+    cats = S.get("cats") or []
+    if not cats:
+        err.append("story.cats 不可空白")
+    n = sum(1 for m in D.get("milestones", []) if m.get("cat") in cats)
+    if n < STORY_MIN:
+        err.append(f"核心故事線「{S.get('t')}」只有 {n} 筆事件，至少要 {STORY_MIN} 筆")
+
+
 def common(code, D, err):
     if not DAY_RE.match(D.get("asOf", "")):
         err.append("asOf 格式必須是 YYYY-MM-DD")
@@ -651,6 +674,7 @@ def main():
         try:
             D = load(code)
             common(code, D, err)
+            check_story(code, D, err)
             check_summary(code, D, err)
             check_bs(code, D, err)
             check_thesis(code, D, err, bycode.get(code))

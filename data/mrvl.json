@@ -2085,7 +2085,7 @@
   },
   {
    "d": "2021-04-20",
-   "cat": "ma",
+   "cat": "dc",
    "t": "完成收購 Inphi（資料中心光通訊 DSP）",
    "src": "https://www.sec.gov/Archives/edgar/data/1835632/000119312521122938/d136815dex991.htm",
    "st": "p"
@@ -2106,23 +2106,30 @@
   },
   {
    "d": "2026-02-02",
-   "cat": "ma",
+   "cat": "dc",
    "t": "完成收購 Celestial AI（光互連）",
    "src": "https://investor.marvell.com/news-events/press-releases/detail/1023/marvell-technology-inc-reports-first-quarter-of-fiscal-year-2027-financial-results",
    "st": "p"
   },
   {
    "d": "2026-02-10",
-   "cat": "ma",
+   "cat": "dc",
    "t": "完成收購 XConn Technologies（CXL／PCIe 交換晶片）",
    "src": "https://investor.marvell.com/news-events/press-releases/detail/1023/marvell-technology-inc-reports-first-quarter-of-fiscal-year-2027-financial-results",
    "st": "p"
   },
   {
    "d": "2026-11-02",
-   "cat": "ma",
+   "cat": "dc",
    "t": "宣布以全股票方式收購 Lumentum（光通訊）：每股 Lumentum 換 4.500 股 Marvell，Lumentum 隱含企業價值約 1,150 億美元；完成後 Marvell 原股東約持有 67%。預計 2028 上半年完成，需雙方股東會與主管機關核准",
    "src": "https://investor.marvell.com/news-events/press-releases/detail/1040/marvell-and-lumentum-to-combine-creating-a-category-leader-in-ai-connectivity",
+   "st": "p"
+  },
+  {
+   "d": "2024-12-02",
+   "cat": "dc",
+   "t": "與 AWS 簽五年、多世代合作：客製 AI 晶片、光通訊 DSP、主動電纜 DSP 等",
+   "src": "https://www.marvell.com/company/newsroom/marvell-expands-strategic-collaboration-aws-enable-accelerated-infrastructure-ai-cloud.html",
    "st": "p"
   }
  ],
@@ -2177,7 +2184,8 @@
  },
  "guidanceHistory": [],
  "categories": {
-  "divest": "出售業務"
+  "divest": "出售業務",
+  "dc": "資料中心"
  },
  "summary": {
   "q": "2Q27",
@@ -2256,6 +2264,13 @@
   "next": "3Q27（12/1 公布）看三件事：營收是否落在 29.9–33.1 億美元的財測區間、資料中心年增能否維持 40% 以上、GAAP 毛利率能否守住 53% 左右。",
   "pending": [
    "待確認：逐字稿尚未取得"
+  ]
+ },
+ "story": {
+  "t": "資料中心客製晶片與光通訊",
+  "why": "雲端客戶的客製 AI 晶片和光互連，是公司轉型後的核心",
+  "cats": [
+   "dc"
   ]
  }
 }

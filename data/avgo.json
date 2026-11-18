@@ -1232,6 +1232,27 @@
    "t": "完成收購 VMware，基礎架構軟體營收從 1Q24 起大幅增加",
    "src": "https://investors.broadcom.com/node/61541/pdf",
    "st": "p"
+  },
+  {
+   "d": "2024-12-12",
+   "cat": "ai",
+   "t": "FY2024 AI 營收 122 億美元（年增 220%），帶動半導體營收創新高",
+   "src": "https://www.sec.gov/Archives/edgar/data/1730168/000173016824000125/avgo-11032024x8kxex99.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-06-03",
+   "cat": "ai",
+   "t": "Tomahawk 6 網路交換晶片出貨，單晶片 102.4 Tbps",
+   "src": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-tomahawk-6-worlds-first-1024-tbps-switch",
+   "st": "p"
+  },
+  {
+   "d": "2025-10-13",
+   "cat": "ai",
+   "t": "與 OpenAI 合作部署 10 GW 客製 AI 加速器，2026 下半年開始、2029 年底前完成",
+   "src": "https://investors.broadcom.com/news-releases/news-release-details/openai-and-broadcom-announce-strategic-collaboration-deploy-10",
+   "st": "p"
   }
  ],
  "sources": [
@@ -1367,5 +1388,15 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "AI 客製晶片（XPU）與 AI 網路",
+  "why": "替大型雲端與 AI 公司做客製加速器、賣 AI 網路交換晶片，是半導體部門成長主力",
+  "cats": [
+   "ai"
+  ]
+ },
+ "categories": {
+  "ai": "AI 晶片與網路"
  }
 }

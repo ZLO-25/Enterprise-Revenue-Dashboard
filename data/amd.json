@@ -2210,6 +2210,34 @@
    "t": "4Q09 認列與英特爾的和解（英特爾支付 12.5 億美元），單季淨利 11.78 億美元",
    "src": "https://www.sec.gov/Archives/edgar/data/2488/000119312510009806/dex991.htm",
    "st": "p"
+  },
+  {
+   "d": "2017-06-20",
+   "cat": "dc",
+   "t": "推出 EPYC 7000 伺服器處理器（Zen 架構），重返資料中心 CPU 市場",
+   "src": "https://ir.amd.com/news-events/press-releases/detail/773/amd-epyc-datacenter-processor-launches-with-record-setting-performance-optimized-platforms-and-global-server-ecosystem-support",
+   "st": "p"
+  },
+  {
+   "d": "2023-12-06",
+   "cat": "dc",
+   "t": "Instinct MI300X AI 加速器上市（192 GB HBM3）",
+   "src": "https://ir.amd.com/news-events/press-releases/detail/1173/amd-delivers-leadership-portfolio-of-data-center-ai",
+   "st": "p"
+  },
+  {
+   "d": "2025-06-12",
+   "cat": "dc",
+   "t": "Advancing AI 2025 發表 Instinct MI350 系列",
+   "src": "https://newsroom.amd.com/news/amd-unveils-vision-for-an-open-ai-ecosystem-detai/",
+   "st": "p"
+  },
+  {
+   "d": "2025-10-06",
+   "cat": "dc",
+   "t": "與 OpenAI 簽 6 GW GPU 部署協議，首批 1 GW MI450 在 2026 下半年開始；AMD 給 OpenAI 最多 1.6 億股認股權證",
+   "src": "https://ir.amd.com/news-events/press-releases/detail/1260/amd-and-openai-announce-strategic-partnership-to-deploy-6-gigawatts-of-amd-gpus",
+   "st": "p"
   }
  ],
  "sources": [
@@ -2354,5 +2382,15 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "資料中心 CPU 與 AI GPU",
+  "why": "EPYC 搶伺服器市占、Instinct GPU 追趕輝達，是資料中心營收成長的來源",
+  "cats": [
+   "dc"
+  ]
+ },
+ "categories": {
+  "dc": "資料中心"
  }
 }

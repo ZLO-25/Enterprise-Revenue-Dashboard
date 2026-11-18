@@ -51,6 +51,7 @@
   "segments": null,
   "extra": null,
   "milestones": [],
+  "story": { "t": "", "why": "", "cats": [] },
   "sources": [
     { "n": "{{SOURCE_NAME}}", "url": "{{SOURCE_URL}}", "note": "損益、現金流、EPS" }
   ],

@@ -2072,7 +2072,8 @@
  "segments": null,
  "extra": null,
  "categories": {
-  "split": "股票分割"
+  "split": "股票分割",
+  "arch": "AI 晶片世代"
  },
  "milestones": [
   {
@@ -2119,9 +2120,44 @@
   },
   {
    "d": "2026-08-26",
-   "cat": "product",
+   "cat": "arch",
    "t": "2Q27 財報：Vera Rubin 進入全面量產；資料中心營收 890 億美元；下一次季股利提高到每股 0.25 美元（10/1 發放）",
    "src": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm",
+   "st": "p"
+  },
+  {
+   "d": "2017-05-10",
+   "cat": "arch",
+   "t": "發表第 7 代 GPU 架構 Volta 與 Tesla V100，主打 AI 與高效能運算",
+   "src": "https://nvidianews.nvidia.com/news/nvidia-launches-revolutionary-volta-gpu-platform-fueling-next-era-of-ai-and-high-performance-computing",
+   "st": "p"
+  },
+  {
+   "d": "2020-05-14",
+   "cat": "arch",
+   "t": "Ampere 架構 A100 全面量產並開始出貨",
+   "src": "https://nvidianews.nvidia.com/news/nvidias-new-ampere-data-center-gpu-in-full-production",
+   "st": "p"
+  },
+  {
+   "d": "2022-09-20",
+   "cat": "arch",
+   "t": "Hopper 架構 H100 全面量產（2022 年發表）",
+   "src": "https://nvidianews.nvidia.com/news/nvidia-hopper-in-full-production",
+   "st": "p"
+  },
+  {
+   "d": "2024-03-18",
+   "cat": "arch",
+   "t": "GTC 發表 Blackwell 平台，公司稱成本與耗電可比上一代低到 25 分之 1",
+   "src": "https://investor.nvidia.com/news/press-release-details/2024/NVIDIA-Blackwell-Platform-Arrives-to-Power-a-New-Era-of-Computing/",
+   "st": "p"
+  },
+  {
+   "d": "2026-05-31",
+   "cat": "arch",
+   "t": "Vera Rubin 進入全面量產，量產出貨預計今年秋季開始",
+   "src": "https://nvidianews.nvidia.com/news/vera-rubin-full-production-agentic-ai-factory",
    "st": "p"
   }
  ],
@@ -2298,6 +2334,13 @@
   "next": "4Q27（預估 2027 年 2 月下旬公布）看三件事：營收是否達 1,300 億美元左右（記得多一週）、GAAP 毛利率能否守在 71% 以上、資料中心季增是否延續。",
   "pending": [
    "電話會議重點待補完"
+  ]
+ },
+ "story": {
+  "t": "AI 資料中心晶片世代",
+  "why": "每一代架構多快量產、多快被大客戶採用，決定資料中心營收",
+  "cats": [
+   "arch"
   ]
  }
 }

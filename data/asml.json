@@ -2506,9 +2506,37 @@
   },
   {
    "d": "2012-07-09",
-   "cat": "contract",
+   "cat": "euv",
    "t": "宣布「客戶共同投資計畫」：客戶入股並資助 EUV 與 450mm 研發；2012 年第四季另以 37.3 億歐元資本返還其他股東（合成式股票買回）",
    "src": "https://www.sec.gov/Archives/edgar/data/937966/000119312512305711/d381599dex991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2010",
+   "cat": "euv",
+   "t": "出貨第一台 EUV 原型機（NXE:3100）給亞洲晶片廠",
+   "src": "https://www.asml.com/en/company/about-asml/history",
+   "st": "p"
+  },
+  {
+   "d": "2016",
+   "cat": "euv",
+   "t": "客戶開始成批訂購第一款量產型 EUV 機台 NXE:3400",
+   "src": "https://www.asml.com/en/company/about-asml/history",
+   "st": "p"
+  },
+  {
+   "d": "2020",
+   "cat": "euv",
+   "t": "EUV 進入大量生產，第 100 台 EUV 出貨",
+   "src": "https://www.asml.com/en/company/about-asml/history",
+   "st": "p"
+  },
+  {
+   "d": "2023-12",
+   "cat": "euv",
+   "t": "第一套 High-NA EUV（EXE:5000）的首批模組出貨給 Intel",
+   "src": "https://www.asml.com/en/news/stories/2024/5-things-high-na-euv",
    "st": "p"
   }
  ],
@@ -2677,5 +2705,15 @@
   "pending": [
    "待確認：逐字稿尚未取得"
   ]
+ },
+ "story": {
+  "t": "EUV 與 High-NA EUV",
+  "why": "全球只有 ASML 能做 EUV 機台，先進製程每往前一代都要更多 EUV",
+  "cats": [
+   "euv"
+  ]
+ },
+ "categories": {
+  "euv": "EUV"
  }
 }
