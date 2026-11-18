@@ -33,7 +33,7 @@
 
 ## ⓪ 準備（一回合）
 1. clone（沒權限先 `add_repo`：owner `ZLO-25`、repo `Enterprise-Revenue-Dashboard`、access `push`）。
-2. `python3 tools/daily.py brief --wait-prep`。GitHub 排程固定晚 4～6 小時，所以不等排程：這一步會手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、股價、期貨、系統健康狀態），等它做完（最多 3 分鐘）再 pull。輸出第一行是結果；「✗」開頭 → 回報 ⑤ 寫一行（資料可能是舊的），其餘照做。若第一行說 gh 不可用且你有 GitHub 工具，用 `mcp__github__actions_run_trigger` 觸發 `daily-prep.yml`（ref main）一次就好，不用等。（測試模式 `--today` 不會觸發也不會等。）**它印的就是今天的工作範圍**，各段意思：
+2. `python3 tools/daily.py brief --wait-prep`（**Bash 的 timeout 設 300000**，它最多會等 4 分鐘）。GitHub 排程固定晚 4～6 小時，所以不等排程：這一步會手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、股價、期貨、系統健康狀態），等它做完（最多 4 分鐘）再 pull。輸出第一行是結果；「✗」開頭 → 回報 ⑤ 寫一行（資料可能是舊的），其餘照做。若第一行說 gh 不可用且你有 GitHub 工具，用 `mcp__github__actions_run_trigger` 觸發 `daily-prep.yml`（ref main）一次就好，不用等。（測試模式 `--today` 不會觸發也不會等。）**它印的就是今天的工作範圍**，各段意思：
    ① 到期要快報 ② 進行中（補完／核對） ④ 未來 7 天 ⑤ 卡住 ⑥ 日期待辦（照每項的「做法」做） ⑦ 股價 ⑧ 論點卡轉差 ⑨ 本益比 ⑩ 補跑與優先順序（有缺跑或積壓才出現） ⑪ 要讀哪些附件（含「分析待寫」→ docs/schedule/analysis.md：財報補完後跑公司分析 skill，結論放個股頁標題下方）。
    - 「缺跑」有日期 → 回報寫明補了哪幾天（到期判斷會自動包含）。
    - ⑦ 股價有 ✗ → 手動觸發 prices-monthly 一次（`mcp__github__actions_run_trigger`），回報說明；仍然不可自己填股價。
