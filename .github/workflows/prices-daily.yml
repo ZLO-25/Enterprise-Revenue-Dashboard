@@ -4,7 +4,7 @@
 #      亞股收盤後：台北 14:52、15:27、16:12、17:42（週一～五；台股 13:30、韓股 15:30 收盤）
 #      台北 21:12 最後一班：抓一次並檢查，有公司收盤價落後（美股超過 4 天、台韓股超過 12 天）→ 紅燈，GitHub 寄信通知
 #      GitHub 免費排程常漏跑，所以多排幾班；每班約 1 分鐘，收盤價沒變就不提交。
-#   ② 抓 Yahoo 近 400 天日線 → 台股最新一天對證交所／櫃買中心 → tools/daily_calc.py 公式算本益比等 → data/daily/<代號>.json
+#   ② 抓 Yahoo 近 5 年日線 → 台股最新一天對證交所／櫃買中心 → tools/daily_calc.py 公式算本益比等 → data/daily/<代號>.json
 #   ③ 頁面打開時直接讀 data/daily/<代號>.json，所以不必重建網站
 #   ④ 財報季度、論點卡有更新（push 到 data/*.json、data/thesis/、data/prices/）→ 不上網，只用現有收盤價重算一次
 name: prices-daily
