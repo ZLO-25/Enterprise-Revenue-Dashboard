@@ -1,24 +1,7 @@
 {
 "code": "amd",
-"fetched": "2026-11-18T16:32Z",
-"splits": [
-[
-"1980-10-24",
-2.0
-],
-[
-"1982-10-28",
-1.5
-],
-[
-"1983-08-23",
-2.0
-],
-[
-"2000-08-22",
-2.0
-]
-],
+"fetched": "2026-11-18T07:59Z",
+"splits": [],
 "niCand": {
 "2011-04-02": 510.0,
 "2011-07-02": 61.0,
@@ -98,6 +81,14 @@
 "vals": {},
 "prov": {},
 "why": {
+"equity": "缺 StockholdersEquity",
+"shOut": "缺 CommonStockSharesOutstanding",
+"dilSh": "讀不到單季值",
+"pretax": "讀不到單季值",
+"tax": "讀不到單季值",
+"buyback": "讀不到單季值",
+"cash": "缺 CashAndCashEquivalentsAtCarryingValue",
+"debt": "缺 LongTermDebtNoncurrent/LongTermDebtAndCapitalLeaseObligations",
 "*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
@@ -2702,7 +2693,8 @@
 ]
 },
 "why": {
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -2792,7 +2784,8 @@
 ]
 },
 "why": {
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -2870,7 +2863,8 @@
 },
 "why": {
 "buyback": "讀不到單季值",
-"cash": "缺 ShortTermInvestments/MarketableSecuritiesCurrent"
+"cash": "缺 ShortTermInvestments/MarketableSecuritiesCurrent",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {

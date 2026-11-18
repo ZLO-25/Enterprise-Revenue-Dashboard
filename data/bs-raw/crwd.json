@@ -1,6 +1,6 @@
 {
 "code": "crwd",
-"fetched": "2026-11-18T16:32Z",
+"fetched": "2026-11-18T07:59Z",
 "splits": [
 [
 "2026-07-02",
@@ -853,7 +853,8 @@
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
 "dilSh": "讀不到單季值",
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -1123,7 +1124,8 @@
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
 "dilSh": "讀不到單季值",
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -1408,7 +1410,8 @@
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
 "dilSh": "讀不到單季值",
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -1693,7 +1696,8 @@
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
 "dilSh": "讀不到單季值",
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -1775,7 +1779,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
 },
 {
 "q": "2Q26",
@@ -1856,7 +1862,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+}
 },
 {
 "q": "3Q26",
@@ -1991,7 +1999,8 @@
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
 "dilSh": "讀不到單季值",
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {

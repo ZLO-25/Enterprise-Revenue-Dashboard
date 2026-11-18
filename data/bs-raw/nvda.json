@@ -1,6 +1,6 @@
 {
 "code": "nvda",
-"fetched": "2026-11-18T16:31Z",
+"fetched": "2026-11-18T07:58Z",
 "splits": [
 [
 "2000-06-27",
@@ -4103,70 +4103,9 @@
 "q": "4Q22",
 "end": "2022-01-30",
 "vals": {
-"equity": 26612.0,
-"shOut": 25060.0,
-"pretax": 2865.0,
-"tax": -138.0,
-"buyback": 0.0,
-"cash": 21208.0,
-"debt": 10946.0,
 "sbc": 551.0
 },
 "prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001045810-25-000023",
-"filed": "2025-02-26"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001045810-23-000017",
-"filed": "2023-02-24"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-"acc": "0001045810-24-000029",
-"filed": "2024-02-21"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001045810-24-000029",
-"filed": "2024-02-21"
-}
-],
-"buyback": [
-{
-"c": "PaymentsForRepurchaseOfCommonStock",
-"acc": "0001045810-24-000029",
-"filed": "2024-02-21"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001045810-23-000017",
-"filed": "2023-02-24"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001045810-23-000017",
-"filed": "2023-02-24"
-}
-],
-"debt": [
-{
-"c": "LongTermDebt",
-"acc": "0001045810-23-000017",
-"filed": "2023-02-24"
-}
-],
 "sbc": [
 {
 "c": "ShareBasedCompensation",
@@ -4176,7 +4115,7 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {
@@ -4779,70 +4718,9 @@
 "q": "4Q24",
 "end": "2024-01-28",
 "vals": {
-"equity": 42978.0,
-"shOut": 24643.0,
-"pretax": 14106.0,
-"tax": 1821.0,
-"buyback": 2659.0,
-"cash": 25984.0,
-"debt": 9709.0,
 "sbc": 994.0
 },
 "prov": {
-"equity": [
-{
-"c": "StockholdersEquity",
-"acc": "0001045810-26-000021",
-"filed": "2026-02-25"
-}
-],
-"shOut": [
-{
-"c": "CommonStockSharesOutstanding",
-"acc": "0001045810-25-000023",
-"filed": "2025-02-26"
-}
-],
-"pretax": [
-{
-"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-"acc": "0001045810-26-000021",
-"filed": "2026-02-25"
-}
-],
-"tax": [
-{
-"c": "IncomeTaxExpenseBenefit",
-"acc": "0001045810-26-000021",
-"filed": "2026-02-25"
-}
-],
-"buyback": [
-{
-"c": "PaymentsForRepurchaseOfCommonStock",
-"acc": "0001045810-26-000021",
-"filed": "2026-02-25"
-}
-],
-"cash": [
-{
-"c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001045810-25-000023",
-"filed": "2025-02-26"
-},
-{
-"c": "MarketableSecuritiesCurrent",
-"acc": "0001045810-25-000023",
-"filed": "2025-02-26"
-}
-],
-"debt": [
-{
-"c": "LongTermDebt",
-"acc": "0001045810-25-000023",
-"filed": "2025-02-26"
-}
-],
 "sbc": [
 {
 "c": "ShareBasedCompensation",
@@ -4852,7 +4730,7 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
 }
 },
 {

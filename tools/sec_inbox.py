@@ -6,11 +6,11 @@
 做三件事（只寫 data/inbox/ 與 data/bs-raw/，不改 data/<代號>.json）：
   ① 新聞稿預抓：sec-feed 有比最新一季 rd 更新的 8-K 2.02 → 下載附件 99.1 轉成純文字
      data/inbox/<代號>/pr-<申報日>.txt（第一行 SOURCE 是 SEC 原始網址）。每家只留最近 2 份。
-  ② 損益與現金流 XBRL 核對表：狀態是快報／補完的公司，或 SEC 已有比最新一季 rd 更新的 10-Q／10-K 時，
+  ② 損益與現金流 XBRL 核對表：狀態是快報／補完（還沒核對完）的公司，
      讀 SEC XBRL 的營收、毛利、營業利益、淨利、稀釋 EPS、營業現金流、資本支出，和我們的最近 3 季比對
      → data/inbox/<代號>/xbrl.json。只是「核對」，不自動寫進公司資料（資料誠實：寫入仍由 Claude 對來源後做）。
-  ③ 同一批公司順便重算資產負債表提案 data/bs-raw/<代號>.json（等同手動觸發 bs-fetch mode build），
-     Claude 只要跑 bs_merge.py，不必再觸發、等待。
+  ③ 同一批公司順便重算資產負債表提案 data/bs-raw/<代號>.json 的「最近 3 季」（更早的季度保留舊提案），
+     Claude 只要跑 bs_merge.py，不必再觸發 bs-fetch、等待。EPS 依股票分割換算成今天的股數再比。
 
 用法：python3 tools/sec_inbox.py [--company nvda] [--no-bs]
 看結果（Claude）：python3 tools/daily.py inbox [代號]
@@ -62,12 +62,22 @@ def pick_ex99(names):
     return None
 
 
-def xbrl_due(state, last_rd, feed_entry):
-    """這家公司今天要不要做 XBRL 核對表＋資產負債表提案。"""
-    if state in ("flash", "completed"):
-        return True
-    per = (feed_entry or {}).get("periodic") or []
-    return bool(per and last_rd and per[0]["date"] > last_rd)
+def xbrl_due(state):
+    """這家公司今天要不要做 XBRL 核對表＋資產負債表提案：只有快報／補完中（還沒核對完）的公司。
+    （不能用「10-Q 申報日晚於 rd」判斷：10-Q 本來就在新聞稿之後，核對完的公司也永遠成立，實測 2026-11-19 一次跑了 14 家。）"""
+    return state in ("flash", "completed")
+
+
+def merge_recent(old, new, n=CHECK_QS):
+    """資產負債表提案只換最近 n 季，更早的季度保留舊提案（有些公司舊提案是特殊做法產生的，例如 GOOGL 2015 前用 Google Inc. 的 CIK）。"""
+    if not old:
+        return new
+    keep = {r["q"] for r in new["quarters"][-n:]}
+    newby = {r["q"]: r for r in new["quarters"]}
+    rows = [newby[r["q"]] if r["q"] in keep else r for r in old["quarters"]]
+    have = {r["q"] for r in rows}
+    rows += [newby[q] for q in [r["q"] for r in new["quarters"][-n:]] if q not in have]
+    return dict(old, quarters=rows, fetched=new.get("fetched"), recentOnly=n)
 
 
 def close_enough(field, ours, sec):
@@ -152,8 +162,9 @@ def fetch_pr(code, cik, e):
 
 
 # ---------------------------------------------------------------- ② 損益 XBRL 核對表
-def xbrl_check(code, cik, D, bs_map):
+def xbrl_check(code, cik, D, bs_map, c=None):
     import bs_fetch as BF
+    splits = BF.splits_for(c["price"]["yahoo"]) if (c and c.get("price")) else []
     Q = D["quarters"]
     fye = (D.get("company") or {}).get("fiscalYearEnd") or "12-31"
     ni_names = (bs_map.get(code) or {}).get("ni") or ["NetIncomeLoss"]
@@ -178,7 +189,13 @@ def xbrl_check(code, cik, D, bs_map):
             for n in names:
                 f, v = BF.flow(F.get(n, []), E, prev, kind)
                 if f:
-                    sec = round(v, 4) if field == "eps" else round(v / 1e6, 3)
+                    if field == "eps":
+                        if splits is None:
+                            got = {"ours": q.get(field), "sec": None, "ok": None, "why": "沒有分割資料，EPS 不比"}
+                            break
+                        sec = round(v / BF.factor(splits, f["filed"]), 4)   # 申報後才分割 → 換算成今天的股數（同 bs_fetch）
+                    else:
+                        sec = round(v / 1e6, 3)
                     got = {"ours": q.get(field), "sec": sec, "c": n, "acc": f["accn"], "filed": f["filed"], "ok": close_enough(field, q.get(field), sec)}
                     break
             row["rows"][field] = got or {"ours": q.get(field), "sec": None, "ok": None, "why": "讀不到單季值"}
@@ -249,8 +266,11 @@ def main():
         try:
             for e in pr_due(f, last_rd, have):
                 fetch_pr(code, c["cik"], e)
-            if xbrl_due(cal.get(code, {}).get("state", "waiting"), last_rd, f) and Q and (f or {}).get("periodic"):
-                xbrl_check(code, c["cik"], D, bs_map)
+            xp = os.path.join(d, "xbrl.json")
+            if not xbrl_due(cal.get(code, {}).get("state", "waiting")) and os.path.exists(xp):
+                os.remove(xp)   # 核對完了：舊核對表不留，免得排程誤讀
+            if xbrl_due(cal.get(code, {}).get("state", "waiting")) and Q and (f or {}).get("periodic"):
+                xbrl_check(code, c["cik"], D, bs_map, c)
                 if code in bs_map:
                     bs_todo.append(code)
         except Exception as e:  # noqa: BLE001  一家失敗不擋其他家
@@ -260,7 +280,12 @@ def main():
         import bs_fetch as BF
         for code in bs_todo:
             try:
+                rp = os.path.join(ROOT, "data", "bs-raw", code + ".json")
+                old = json.load(open(rp, encoding="utf8")) if os.path.exists(rp) else None
                 BF.build(cfg, code)
+                new = json.load(open(rp, encoding="utf8"))
+                with open(rp, "w", encoding="utf8") as fh:
+                    json.dump(merge_recent(old, new), fh, ensure_ascii=False, indent=0); fh.write("\n")
             except Exception as e:  # noqa: BLE001
                 fails += 1
                 print(f"  {code}：資產負債表提案失敗 {type(e).__name__} {e}")
