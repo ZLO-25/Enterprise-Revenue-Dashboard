@@ -298,7 +298,7 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 只由 GitHub Actions `prices-daily` 寫入（`tools/prices_daily.py`），Claude 不手填。
 ```
 {"symbol":"NVDA","currency":"USD","source":"Yahoo Finance 日線 Close…","fetched":"2026-11-18T22:15Z",
- "rows":[["2026-11-17",204.64],…],            # 近 400 天收盤價；還沒收盤的當天不收；核對不過的那天是 null
+ "rows":[["2026-11-17",204.64],…],            # 近 5 年收盤價（上市未滿 5 年從上市月起）；還沒收盤的當天不收；核對不過的那天是 null
  "check":{"d","ok":true|false|null,"src":"證交所","note":"…"} | null,   # 只有台股有（最新一天對官方收盤價，差 >0.5% → null）
  "calc":{"latest":{d,c,prevD,prevC,chg,hi52,lo52,fromHi,pe,eps4,q,med5,vsMed5,fpe,ntm,fSnap,few,mcap,shQ,shLatest,ps,evS,fcfY,
                    caps:[{k,name,op,thr,now,room,px,ok}],why:{…}},

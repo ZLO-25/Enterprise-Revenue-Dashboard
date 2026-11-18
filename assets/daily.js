@@ -15,6 +15,11 @@ const DAILY = (() => {
   // 金額單位是「百萬」：≥ 100 萬百萬＝兆、≥ 100 百萬＝億
   const money = (m, cur) => m == null ? null : (m >= 1e6 ? nf(m / 1e6, 2) + ' 兆' : nf(m / 100, 0) + ' 億') + (CUR[cur] || cur || '');
 
+  // 使用者選的指標與期間放在模組層：render() 可能跑兩次（建置內嵌版、再換成讀到的新檔），不能把選擇重設
+  let k = 1, range = 5;
+  const RANGES = [1, 3, 5];
+  const cutoff = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCFullYear(t.getUTCFullYear() - n); return t.toISOString().slice(0, 10); };
+
   function render(sec, X, D) {
     const L = X.latest, cur = X.currency, W = L.why || {};
     const ch = L.chg == null ? '' : `<span class="chip ${L.chg > 0 ? 'chip-up' : L.chg < 0 ? 'chip-down' : ''}">${sg(L.chg)}</span>`;
@@ -39,21 +44,34 @@ const DAILY = (() => {
     <div class="card wide">
       ${caps ? `<h3>離論點卡的估值門檻多遠</h3><ul class="sum-list">${caps}</ul>` : ''}
       <p class="how">近 52 週最高 ${nf(L.hi52, cur === 'KRW' ? 0 : 2)}、最低 ${nf(L.lo52, cur === 'KRW' ? 0 : 2)}，目前離最高 ${sg(L.fromHi)}。</p>
-      <div class="tbl-bar"><h3 id="dyT">近一年每日收盤價</h3>
-        <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="true">收盤價</button><button type="button" data-k="2" aria-pressed="false">本益比</button></div></div>
+      <div class="tbl-bar"><h3 id="dyT">近 5 年每日收盤價</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div class="seg" id="dyR" role="group" aria-label="期間">${RANGES.map(n => `<button type="button" data-r="${n}" aria-pressed="${n === range}">${n} 年</button>`).join('')}</div>
+        <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="${k === 1}">收盤價</button><button type="button" data-k="2" aria-pressed="${k === 2}">本益比</button></div></div></div>
       <div class="chartbox short"><canvas id="cDY" aria-label="每日收盤價與本益比"></canvas></div>
       <p class="how pe-note">本益比 ＝ 收盤價 ÷ 近四季 EPS；市值 ＝ 收盤價 × 期末流通股數；P/S ＝ 市值 ÷ 近四季營收；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；距門檻 ＝ 門檻 ÷ 現值 − 1。
         股價：Yahoo Finance 日線收盤（分割調整、不含股利調整），還沒收盤的當天不收。${chk}
-        預估本益比用分析師預估，不是財報數字。抓取時間 ${esc((X.fetched || '').replace('T', ' ').replace('Z', ' UTC'))}。</p>
+        圖為近 5 年（上市未滿 5 年從上市起）。預估本益比用分析師預估，不是財報數字。抓取時間 ${esc((X.fetched || '').replace('T', ' ').replace('Z', ' UTC'))}。</p>
     </div>`;
-    const S = (X.series || []).filter(r => r[0] > (() => { const t = new Date(L.d); t.setFullYear(t.getFullYear() - 1); return t.toISOString().slice(0, 10); })());
-    let chart = null, k = 1;
+    const S0 = X.series || [];
+    const first = S0.length ? S0[0][0] : null;
+    // 資料沒有超過「下一個較短期間」的起點，這個期間就沒意義（等於跟較短的一樣）→ 藏起來
+    const avail = RANGES.filter((n, i) => i === 0 || (first && first <= cutoff(L.d, RANGES[i - 1])));
+    if (!avail.includes(range)) range = avail[avail.length - 1];
+    sec.querySelectorAll('#dyR button').forEach(b => { b.hidden = !avail.includes(+b.dataset.r); b.setAttribute('aria-pressed', String(+b.dataset.r === range)); });
+    if (avail.length < 2) sec.querySelector('#dyR').hidden = true;
+    let chart = null;
     const draw = () => {
+      const cut = cutoff(L.d, range);
+      const S = S0.filter(r => r[0] > cut);
       if (!window.Chart || !S.length) return;
       if (chart) chart.destroy();
       const col = k === 1 ? css('--s1') : css('--s4') || css('--s2');
-      sec.querySelector('#dyT').textContent = k === 1 ? `近一年每日收盤價（${CUR[cur] || cur}）` : '近一年每日本益比（倍）';
-      chart = LT.lazyChart(sec.querySelector('#cDY'), { type: 'line', data: { labels: S.map(r => r[0]), datasets: [{ label: k === 1 ? '收盤' : '本益比', data: S.map(r => r[k]), borderColor: col, backgroundColor: col, borderWidth: 1.8, pointRadius: 0, pointHoverRadius: 3, tension: 0.1, spanGaps: false }] },
+      const short = first > cut;      // 資料起點比期間起點晚：標出從哪個月起
+      const pre = short ? `${first.slice(0, 4)}/${first.slice(5, 7)} 起每日` : `近 ${range} 年每日`;
+      const tail = short ? `（未滿 ${range} 年）` : '';
+      sec.querySelector('#dyT').textContent = k === 1 ? `${pre}收盤價（${CUR[cur] || cur}）${tail}` : `${pre}本益比（倍）${tail}`;
+      chart = LT.lazyChart(sec.querySelector('#cDY'), { type: 'line', data: { labels: S.map(r => r[0]), datasets: [{ label: k === 1 ? '收盤' : '本益比', data: S.map(r => r[k]), borderColor: col, backgroundColor: col, borderWidth: range === 1 ? 1.8 : 1.3, pointRadius: 0, pointHoverRadius: 3, tension: 0, spanGaps: false }] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
           plugins: { legend: { display: false }, tooltip: { backgroundColor: css('--surface'), titleColor: css('--ink'), bodyColor: css('--ink-2'), borderColor: css('--axis'), borderWidth: 1, padding: 8,
             callbacks: { label: (c) => c.raw == null ? ' 算不出來' : (k === 1 ? ' 收盤 ' + nf(c.raw) : ' 本益比 ' + x1(c.raw)) } } },
@@ -61,6 +79,7 @@ const DAILY = (() => {
             x: { border: { color: css('--axis') }, grid: { display: false }, ticks: { color: css('--tick'), maxRotation: 0, autoSkip: true, maxTicksLimit: 7, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: function (v) { const l = this.getLabelForValue(v); return l ? l.slice(2, 7).replace('-', '/') : ''; } } } } } });
     };
     sec.querySelector('#dyK').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; k = +b.dataset.k; sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+    sec.querySelector('#dyR').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; range = +b.dataset.r; sec.querySelectorAll('#dyR button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
     draw();
     if (!sec.__re) {
       sec.__re = true;

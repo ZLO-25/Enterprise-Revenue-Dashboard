@@ -1,7 +1,7 @@
 """每日收盤價＋用公式算出的本益比、市值…（GitHub Actions 執行，不經過 Claude，不花 token）。
 
 做什麼：
-  1. 依 companies.json 每家的 price 設定，用 yfinance 抓近 400 天日線 Close（auto_adjust=False：已調整股票分割、不扣股利；
+  1. 依 companies.json 每家的 price 設定，用 yfinance 抓近 5 年日線 Close（auto_adjust=False：已調整股票分割、不扣股利；
      跟每月本益比 prices-monthly 同一個口徑，才和網站已換算成今天股數的 EPS 對得上）
   2. 「還沒收盤」的當天不收：交易所當地時間還沒過收盤 + 20 分鐘，就把今天那根丟掉（盤中價不是收盤價）
   3. 台股（twse／tpex 設定）：最新一天另對證交所／櫃買中心官方收盤價核對，差超過 0.5% → 那天收盤價改 null、寫待確認，
@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import daily_calc as DC, health as H, pe as PE  # noqa: E402
 
 TOL = 0.005
+DAYS = 5 * 365 + 40   # 抓近 5 年（多 40 天讓 5 年前那一天一定有價）
 SOURCE = "Yahoo Finance 日線 Close（已依股票分割調整、不含股利調整）"
 # 交易所時區與收盤時間（當地）；Yahoo 代號字尾判斷
 EXCH = {".TW": ("Asia/Taipei", 13, 30), ".TWO": ("Asia/Taipei", 13, 30), ".KS": ("Asia/Seoul", 15, 30), ".AS": ("Europe/Amsterdam", 17, 30)}
@@ -70,7 +71,7 @@ def closing_quote(yf, sym, d, tz, hh, mm):
         return None
 
 
-def fetch_rows(sym):
+def fetch_rows(sym, frm=None):
     import yfinance as yf
     tz, hh, mm = exch(sym)
     now = dt.datetime.now(ZoneInfo(tz))
@@ -78,7 +79,7 @@ def fetch_rows(sym):
     err = None
     for i in range(4):
         try:
-            df = yf.Ticker(sym).history(start=(now.date() - dt.timedelta(days=400)).isoformat(), end=(now.date() + dt.timedelta(days=2)).isoformat(), auto_adjust=False, actions=False)   # end 明寫到後天：不寫的話 Yahoo 最新一天可能沒包含
+            df = yf.Ticker(sym).history(start=(now.date() - dt.timedelta(days=DAYS)).isoformat(), end=(now.date() + dt.timedelta(days=2)).isoformat(), auto_adjust=False, actions=False)   # end 明寫到後天：不寫的話 Yahoo 最新一天可能沒包含
             if df is None or df.empty:
                 raise RuntimeError("沒有日線資料")
             tail = [(str(x.date()), round(float(v), 4)) for x, v in df["Close"].tail(3).items()]
@@ -86,6 +87,8 @@ def fetch_rows(sym):
             rows = []
             for ts, row in df.iterrows():
                 d = ts.date()
+                if frm and d.isoformat() < frm + "-01":
+                    continue                      # 設定的 from（上市月）之前：不收（避免上市前、SPAC 時期的價格）
                 if d > now.date() or (d == now.date() and not done_today):
                     continue                      # 還沒收盤：盤中價不收
                 c = row["Close"]
@@ -183,7 +186,7 @@ def main():
                     continue
                 daily = {k: old[k] for k in ("symbol", "currency", "source", "fetched", "rows", "check") if k in old}
             else:
-                rows = fetch_rows(pc["yahoo"])
+                rows = fetch_rows(pc["yahoo"], pc.get("from"))
                 chk = cross_check(pc, rows, old)
                 if pc.get("twse") or pc.get("tpex"):
                     time.sleep(3.2)               # 證交所／櫃買中心限速

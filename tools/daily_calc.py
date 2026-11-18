@@ -202,10 +202,19 @@ def selftest():
     L = latest(Q, Q, [["2026-01-02", 39.0], ["2026-01-05", None]])
     if L["d"] != "2026-01-02" or "c" not in L["why"]:
         errs.append(f"最新收盤價待確認時退回前一天：{L['d']} {L['why']}")
+    # 52 週高低只看近 365 天：兩年前的高價不算
+    rows = [["2024-01-02", 100.0], ["2025-06-02", 20.0], ["2026-01-02", 30.0], ["2026-01-05", 40.0]]
+    L = latest(Q, Q, rows)
+    if L["hi52"] != 40.0 or L["lo52"] != 20.0:
+        errs.append(f"52 週高低應忽略 365 天前的價格：{L['hi52']} {L['lo52']}")
+    # series：一列一筆，收盤價 null → 本益比 null
+    S = series(Q, [["2026-01-02", 39.0], ["2026-01-03", None], ["2026-01-05", 40.0]])
+    if len(S) != 3 or S[1][1] is not None or S[1][2] is not None or S[2][2] != 10.0:
+        errs.append(f"series 每列一筆、null 收盤價 → null 本益比：{S}")
     return errs
 
 
 if __name__ == "__main__":
     e = selftest()
-    print("daily_calc.py 測試案例：" + ("全部通過（8 項）" if not e else "\n".join(e)))
+    print("daily_calc.py 測試案例：" + ("全部通過（10 項）" if not e else "\n".join(e)))
     raise SystemExit(1 if e else 0)

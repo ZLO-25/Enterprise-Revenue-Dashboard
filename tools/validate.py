@@ -600,7 +600,7 @@ def main():
     failed |= bool(t)
     import daily_calc as DC
     t = DC.selftest()
-    print("[daily_calc.py 測試案例] " + ("通過（8 項）" if not t else f"{len(t)} 項未通過"))
+    print("[daily_calc.py 測試案例] " + ("通過（10 項）" if not t else f"{len(t)} 項未通過"))
     for e in t:
         print("   -", e)
     failed |= bool(t)
