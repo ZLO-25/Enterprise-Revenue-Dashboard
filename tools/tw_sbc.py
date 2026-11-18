@@ -8,6 +8,8 @@
 規則（不估計、不內插）：
 - 現金流量表是「年初累計」，每份報表有兩欄：本期累計、去年同期累計。兩欄都當成公司公布的數字。
   同一個累計期間在兩份報表都有值而且不一樣時，用較新的報表（重編後的數字），並在 why 記下來。
+  例外：兩份報表金額相同、正負號相反（台達電 2022 全年：2022 年報印 (74,885)、2023 年報的比較欄印 74,885），
+  這是來源互相矛盾，不是重編，用到這個累計數的單季一律不填。
 - 單季 ＝ 本期累計 − 上一季累計；第一季 ＝ 第一季累計。兩個累計都要「明確讀到」（包含報表上印的 0）才算。
 - 報表上沒有這一行，不等於 0（公司可能併進「其他項目」，萬潤 2025 年報就是這樣），所以一律 null 並寫原因。
 - 金額：財報單位是新台幣仟元，÷ 1000 換成百萬元（和 quarters[] 其他欄位一致）。
@@ -77,7 +79,8 @@ def build(files):
             if v is None:
                 continue
             old = ytd.get(key)
-            ytd[key] = {"v": v, "from": f"{y}Q{s}", "col": col, "restated": old["v"] if old and old["v"] != v else None}
+            ytd[key] = {"v": v, "from": f"{y}Q{s}", "col": col, "restated": old["v"] if old and old["v"] != v else None,
+                        "conflict": bool(old and old["v"] != v and old["v"] == -v) or bool(old and old.get("conflict") and old["v"] == v)}
     out = []
     for (y, s) in sorted(files):
         if not has_cashflow(files[(y, s)]):
@@ -88,6 +91,8 @@ def build(files):
             r["why"]["sbc"] = "現金流量表沒有列「股份基礎給付酬勞成本」這一行（可能是 0，也可能併入其他項目；沒有讀到數字所以不填）"
         elif prev is None:
             r["why"]["sbc"] = "現金流量表是年初累計，上一季的累計沒有列這一行，單季算不出來"
+        elif cur.get("conflict") or prev.get("conflict"):
+            r["why"]["sbc"] = "同一個累計期間在前後兩份報表的正負號相反（金額相同），來源對不起來，不使用"
         else:
             r["vals"]["sbc"] = round((cur["v"] - prev["v"]) / 1000, 3)
             r["prov"]["sbc"] = [{"c": f"{CODE} 股份基礎給付酬勞成本（現金流量表，{x['col']}累計欄）", "file": x["from"]} for x in (cur, prev) if x.get("from")]
