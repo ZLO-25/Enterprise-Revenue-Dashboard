@@ -87,6 +87,7 @@ Palo Alto Networks 曾在年度中途改會計準則（例：FY2017 提前採用
 - `debt`：只計可轉換公司債：`ConvertibleDebtNoncurrent` ＋ `ConvertibleDebtCurrent`（有才加）。2014 年 6 月第一次發行；到期年度只剩流動部分時 XBRL 沒有非流動科目 → `null`（見待確認）。申報值為 0 的季度照申報值。3Q26 起金額增加，時間點與併入 CyberArk 相同（是否全為 CyberArk 的可轉債，待下次讀 10-Q 附註確認）。
 - `buyback`：`PaymentsForRepurchaseOfCommonStock`，年初累計相減。
 - `equity`：`StockholdersEquity`；`pretax`、`tax`：單季值，第四季＝全年 − 前九月。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 56／57 季，沒有值的季度見 notes.unavailable「股票酬勞（sbc）」。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）來源
 - 官方：`https://investors.paloaltonetworks.com/`（網路直播與重播；官方沒有文字逐字稿）。

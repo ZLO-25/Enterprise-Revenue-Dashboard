@@ -1,6 +1,6 @@
 {
 "code": "pltr",
-"fetched": "2026-11-12T06:58Z",
+"fetched": "2026-11-18T07:58Z",
 "splits": [],
 "niCand": {
 "2019-09-30": -139.9,
@@ -78,7 +78,8 @@
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
 "buyback": "讀不到單季值",
-"cash": "缺 MarketableSecuritiesCurrent"
+"cash": "缺 MarketableSecuritiesCurrent",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -90,7 +91,8 @@
 "pretax": -155.437,
 "tax": 3.89,
 "buyback": 4.129,
-"debt": 396.065
+"debt": 396.065,
+"sbc": 77.32
 },
 "prov": {
 "equity": [
@@ -133,6 +135,13 @@
 "c": "LongTermDebtNoncurrent",
 "acc": "0001193125-21-060650",
 "filed": "2021-02-26"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001193125-22-050913",
+"filed": "2022-02-24"
 }
 ]
 },
@@ -150,7 +159,8 @@
 "pretax": -51.717,
 "tax": 2.557,
 "buyback": 3.777,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 54.107
 },
 "prov": {
 "equity": [
@@ -188,7 +198,14 @@
 "filed": "2021-05-12"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001193125-21-159222",
+"filed": "2021-05-12"
+}
+]
 },
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
@@ -204,7 +221,8 @@
 "pretax": -109.512,
 "tax": 0.943,
 "buyback": 0.0,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 127.848
 },
 "prov": {
 "equity": [
@@ -242,7 +260,14 @@
 "filed": "2021-08-12"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0000950123-21-010430",
+"filed": "2021-08-12"
+}
+]
 },
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
@@ -259,7 +284,8 @@
 "pretax": -861.862,
 "tax": -8.543,
 "buyback": 0.0,
-"debt": 197.753
+"debt": 197.753,
+"sbc": 846.959
 },
 "prov": {
 "equity": [
@@ -310,6 +336,13 @@
 "acc": "0001193125-20-292177",
 "filed": "2020-11-13"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001193125-21-323920",
+"filed": "2021-11-09"
+}
 ]
 },
 "why": {
@@ -325,7 +358,8 @@
 "pretax": -155.936,
 "tax": -7.593,
 "buyback": 0.0,
-"debt": 197.977
+"debt": 197.977,
+"sbc": 241.788
 },
 "prov": {
 "equity": [
@@ -368,6 +402,13 @@
 "c": "LongTermDebtNoncurrent",
 "acc": "0001193125-22-050913",
 "filed": "2022-02-24"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-23-000011",
+"filed": "2023-02-21"
 }
 ]
 },
@@ -385,7 +426,8 @@
 "dilSh": 1821.158,
 "pretax": -120.372,
 "tax": 3.102,
-"debt": 198.185
+"debt": 198.185,
+"sbc": 193.731
 },
 "prov": {
 "equity": [
@@ -429,6 +471,13 @@
 "acc": "0001193125-21-159222",
 "filed": "2021-05-12"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-22-000006",
+"filed": "2022-05-09"
+}
 ]
 },
 "why": {
@@ -445,7 +494,8 @@
 "dilSh": 1894.606,
 "pretax": -144.241,
 "tax": -5.661,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 232.742
 },
 "prov": {
 "equity": [
@@ -483,7 +533,14 @@
 "filed": "2022-08-08"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-22-000016",
+"filed": "2022-08-08"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值",
@@ -501,7 +558,8 @@
 "tax": 1.438,
 "buyback": 0.0,
 "cash": 2483.145,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 184.835
 },
 "prov": {
 "equity": [
@@ -558,7 +616,14 @@
 "filed": "2021-11-09"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-22-000032",
+"filed": "2022-11-07"
+}
+]
 },
 "why": {}
 },
@@ -572,7 +637,8 @@
 "tax": 33.006,
 "buyback": 0.0,
 "cash": 2524.827,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 166.907
 },
 "prov": {
 "equity": [
@@ -628,6 +694,13 @@
 "acc": "0001193125-22-050913",
 "filed": "2022-02-24"
 }
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-24-000022",
+"filed": "2024-02-20"
+}
 ]
 },
 "why": {
@@ -644,7 +717,8 @@
 "pretax": -99.356,
 "tax": 2.023,
 "cash": 2521.974,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 149.323
 },
 "prov": {
 "equity": [
@@ -694,7 +768,14 @@
 "filed": "2022-05-09"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-23-000044",
+"filed": "2023-05-09"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值"
@@ -710,7 +791,8 @@
 "pretax": -176.741,
 "tax": 2.588,
 "cash": 2457.603,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 145.769
 },
 "prov": {
 "equity": [
@@ -760,7 +842,14 @@
 "filed": "2022-08-08"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-23-000090",
+"filed": "2023-08-08"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值"
@@ -776,7 +865,8 @@
 "pretax": -122.779,
 "tax": 1.096,
 "cash": 2468.632,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 140.308
 },
 "prov": {
 "equity": [
@@ -826,7 +916,14 @@
 "filed": "2022-11-07"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-23-000118",
+"filed": "2023-11-03"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值"
@@ -841,7 +938,8 @@
 "pretax": 37.849,
 "tax": 4.36,
 "cash": 2633.675,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 129.398
 },
 "prov": {
 "equity": [
@@ -884,7 +982,14 @@
 "filed": "2024-02-20"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-25-000022",
+"filed": "2025-02-18"
+}
+]
 },
 "why": {
 "dilSh": "讀不到單季值",
@@ -902,7 +1007,8 @@
 "tax": 1.681,
 "buyback": 0.0,
 "cash": 2904.535,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 114.714
 },
 "prov": {
 "equity": [
@@ -959,7 +1065,14 @@
 "filed": "2023-05-09"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-24-000071",
+"filed": "2024-05-07"
+}
+]
 },
 "why": {}
 },
@@ -974,7 +1087,8 @@
 "tax": 2.171,
 "buyback": 0.0,
 "cash": 3103.252,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 114.201
 },
 "prov": {
 "equity": [
@@ -1031,7 +1145,14 @@
 "filed": "2023-08-08"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-24-000135",
+"filed": "2024-08-06"
+}
+]
 },
 "why": {}
 },
@@ -1046,7 +1167,8 @@
 "tax": 6.53,
 "buyback": 0.0,
 "cash": 3283.574,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 114.38
 },
 "prov": {
 "equity": [
@@ -1103,7 +1225,14 @@
 "filed": "2023-11-03"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-24-000209",
+"filed": "2024-11-05"
+}
+]
 },
 "why": {}
 },
@@ -1117,7 +1246,8 @@
 "tax": 9.334,
 "buyback": 0.0,
 "cash": 3674.179,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 132.608
 },
 "prov": {
 "equity": [
@@ -1167,7 +1297,14 @@
 "filed": "2025-02-18"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000011",
+"filed": "2026-02-17"
+}
+]
 },
 "why": {
 "dilSh": "讀不到單季值"
@@ -1184,7 +1321,8 @@
 "tax": 4.655,
 "buyback": 9.0,
 "cash": 3867.9,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 125.651
 },
 "prov": {
 "equity": [
@@ -1241,7 +1379,14 @@
 "filed": "2024-05-07"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-25-000066",
+"filed": "2025-05-06"
+}
+]
 },
 "why": {}
 },
@@ -1256,7 +1401,8 @@
 "tax": 5.189,
 "buyback": 17.699,
 "cash": 3998.459,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 141.764
 },
 "prov": {
 "equity": [
@@ -1313,7 +1459,14 @@
 "filed": "2024-08-06"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-25-000106",
+"filed": "2025-08-05"
+}
+]
 },
 "why": {}
 },
@@ -1328,7 +1481,8 @@
 "tax": 7.809,
 "buyback": 18.899,
 "cash": 4564.659,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 142.425
 },
 "prov": {
 "equity": [
@@ -1385,7 +1539,14 @@
 "filed": "2024-11-05"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-25-000131",
+"filed": "2025-11-04"
+}
+]
 },
 "why": {}
 },
@@ -1399,7 +1560,8 @@
 "tax": 3.602,
 "buyback": 18.598,
 "cash": 5229.987,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 281.798
 },
 "prov": {
 "equity": [
@@ -1449,7 +1611,14 @@
 "filed": "2026-02-17"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000011",
+"filed": "2026-02-17"
+}
+]
 },
 "why": {
 "dilSh": "讀不到單季值"
@@ -1466,7 +1635,8 @@
 "tax": 5.599,
 "buyback": 17.998,
 "cash": 5430.689,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 155.339
 },
 "prov": {
 "equity": [
@@ -1523,7 +1693,14 @@
 "filed": "2025-05-06"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000028",
+"filed": "2026-05-05"
+}
+]
 },
 "why": {}
 },
@@ -1538,7 +1715,8 @@
 "tax": 3.596,
 "buyback": 18.596,
 "cash": 6000.422,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 159.971
 },
 "prov": {
 "equity": [
@@ -1595,7 +1773,14 @@
 "filed": "2025-08-05"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000041",
+"filed": "2026-08-04"
+}
+]
 },
 "why": {}
 },
@@ -1610,7 +1795,8 @@
 "tax": 3.753,
 "buyback": 19.195,
 "cash": 6437.817,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 172.318
 },
 "prov": {
 "equity": [
@@ -1667,7 +1853,14 @@
 "filed": "2025-11-04"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000048",
+"filed": "2026-11-03"
+}
+]
 },
 "why": {}
 },
@@ -1681,7 +1874,8 @@
 "tax": 9.776,
 "buyback": 19.196,
 "cash": 7177.043,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 196.405
 },
 "prov": {
 "equity": [
@@ -1731,7 +1925,14 @@
 "filed": "2026-11-03"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000011",
+"filed": "2026-02-17"
+}
+]
 },
 "why": {
 "dilSh": "讀不到單季值"
@@ -1747,7 +1948,8 @@
 "pretax": 888.601,
 "tax": 12.199,
 "cash": 8026.413,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 201.592
 },
 "prov": {
 "equity": [
@@ -1797,7 +1999,14 @@
 "filed": "2026-05-05"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000028",
+"filed": "2026-05-05"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值"
@@ -1813,7 +2022,8 @@
 "pretax": 1081.345,
 "tax": 15.383,
 "cash": 9409.099,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 265.209
 },
 "prov": {
 "equity": [
@@ -1863,7 +2073,14 @@
 "filed": "2026-08-04"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000041",
+"filed": "2026-08-04"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值"
@@ -1879,7 +2096,8 @@
 "pretax": 1148.001,
 "tax": 13.56,
 "cash": 10561.531,
-"debt": 0.0
+"debt": 0.0,
+"sbc": 318.889
 },
 "prov": {
 "equity": [
@@ -1929,7 +2147,14 @@
 "filed": "2026-11-03"
 }
 ],
-"debt": []
+"debt": [],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001321655-26-000048",
+"filed": "2026-11-03"
+}
+]
 },
 "why": {
 "buyback": "讀不到單季值"

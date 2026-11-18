@@ -8,6 +8,7 @@
 - 預估日（`est`）已過但公司還沒公告：**不算失敗**。美股看 `sec-feed.json`；其他公司搜尋一次是否已公告新日期，更新 `events`；仍沒有就下一天再查。
 - 快報只收書面來源（新聞稿、申報文件）。電話會議留給「補完」。
 - **資產負債表 8 欄位**（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）：新的一季每個 key 都要有（validate 會擋缺 key）。美股：手動觸發 GitHub Actions 的 `bs-fetch`（mode `build`，等它跑完會 commit `data/bs-raw/`），再 `python3 tools/bs_merge.py <代號>`（只在該季的值讀得到時才會有值）；新一季若 SEC 資料還沒進來，值為 null，merge 會自動寫「待確認」，10-Q 出來後在「③ 核對」重跑。非美股（台積電、台達電、三星）：從財報 PDF／簡報手動讀，口徑照該公司 SOURCES.md「資產負債表欄位」一節；讀不到填 null 並寫待確認，不估計。
+- **股票酬勞 `sbc`（第 9 欄位）**：新的一季要補。來源是 10-Q／10-K 現金流量表的 `ShareBasedCompensation`（年初累計，相減成單季；第四季＝全年 − 前九個月）。美股：`bs-fetch`（mode `build`、field `sbc`，只重抓這一欄，其他欄位的提案不動）跑完後 `python3 tools/bs_merge.py --only sbc <代號>`（只寫 sbc，不會動其他 8 欄位）。10-Q 還沒申報時值為 null，merge 自動寫「待確認」，10-Q 出來後重跑。非 SEC 公司（台積電、三星、台達電、ASML、萬潤）維持 null，來源是年報、尚未讀取，不估計。
 - 財測有新的：先把舊的整份 `guidance` append 進 `guidanceHistory`，再寫新的（DATA_SCHEMA「guidanceHistory」）。
 - 寫 `summary`（`status:"flash"`、`flashDate` ＝ 今天）：`headline`、`scorecard`（市場預期從 `data/consensus/<代號>.json` 最後一張 ≤ 公布日的快照抄；沒有快照就不放 `cons`，不要補）、`outlook`（只寫書面財測的變化）；`mgmt`、`qa` 先空著，`pending` 寫「電話會議重點待補完」。上一季的 `summary` 先精簡進 `summaryHistory`。
 - 做完：`python3 tools/validate.py <代號>` → 過了才算成功：`python3 tools/daily.py set <代號> flash --target <季度>`。沒過／來源讀不到：`git checkout -- data/<代號>.json`，`python3 tools/daily.py try <代號> --note "原因"`。

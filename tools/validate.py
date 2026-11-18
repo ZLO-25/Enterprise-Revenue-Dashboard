@@ -164,7 +164,7 @@ def check_summary(code, D, err):
 
 
 def check_bs(code, D, err):
-    """階段 3 的 8 個新欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）：型別、符號、自洽，缺值必須在 notes.unavailable 有「待確認」說明。"""
+    """階段 3 的 8 個新欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）加第 9 個 sbc（當季股票酬勞，非負）：型別、符號、自洽，缺值必須在 notes.unavailable 有「待確認」說明。"""
     import health as H
     Q = D.get("quarters", [])
     if not Q or not any(k in q for q in Q for k in H.NEW):
@@ -180,8 +180,8 @@ def check_bs(code, D, err):
                 err.append(f"{q['q']} {k} 不是數字")
             elif k in ("shOut", "dilSh") and v <= 0:
                 err.append(f"{q['q']} {k} 要大於 0")
-            elif k in ("cash", "debt", "buyback") and v < 0:
-                err.append(f"{q['q']} {k} 不可為負（買回金額、負債、現金都用正數）")
+            elif k in ("cash", "debt", "buyback", "sbc") and v < 0:
+                err.append(f"{q['q']} {k} 不可為負（買回金額、負債、現金、股票酬勞都用正數）")
         if miss and not ("待確認" in unavail and H.NAMES[k] in unavail):
             err.append(f"{k}（{H.NAMES[k]}）有 {len(miss)} 季是 null（{miss[0]}…），但 notes.unavailable 沒有「待確認：…{H.NAMES[k]}…」說明")
     for q in Q:
@@ -232,8 +232,8 @@ def check_thesis(code, D, err, cfg_c=None):
         if m.get("k") in ks:
             err.append(f"thesis 指標重複：{m.get('k')}")
         ks.add(m.get("k"))
-    if not (3 <= len(t.get("metrics", [])) <= 7):
-        err.append("thesis 關鍵指標要 3～7 個")
+    if not (3 <= len(t.get("metrics", [])) <= 8):
+        err.append("thesis 關鍵指標要 3～8 個（核心與輔助合計；加了「扣股票酬勞後的自由現金流率」之後，原本 7 個的卡會變 8 個）")
     if t.get("status") == "approved" and not any(m.get("role", "core") == "core" for m in t.get("metrics", [])):
         err.append("thesis 至少要有一個 core 指標")
     if t.get("type") == "compounder" and t.get("status") == "approved":

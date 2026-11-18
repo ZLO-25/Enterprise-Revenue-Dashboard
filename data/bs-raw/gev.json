@@ -1,6 +1,6 @@
 {
 "code": "gev",
-"fetched": "2026-11-12T15:10Z",
+"fetched": "2026-11-18T07:59Z",
 "splits": [],
 "niCand": {
 "2023-03-31": -315.0,
@@ -84,7 +84,8 @@
 ]
 },
 "why": {
-"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"
+"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -97,7 +98,8 @@
 "pretax": 1602.0,
 "tax": 322.0,
 "buyback": 0.0,
-"cash": 5779.0
+"cash": 5779.0,
+"sbc": 54.0
 },
 "prov": {
 "equity": [
@@ -147,6 +149,13 @@
 "c": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
 "acc": "0001996810-25-000133",
 "filed": "2025-07-23"
+}
+],
+"sbc": [
+{
+"c": "AllocatedShareBasedCompensationExpense",
+"acc": "0001996810-24-000067",
+"filed": "2024-07-24"
 }
 ]
 },
@@ -218,7 +227,8 @@
 ]
 },
 "why": {
-"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"
+"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -230,7 +240,8 @@
 "pretax": 1113.0,
 "tax": 629.0,
 "buyback": 3.0,
-"cash": 8205.0
+"cash": 8205.0,
+"sbc": 51.0
 },
 "prov": {
 "equity": [
@@ -273,6 +284,13 @@
 "c": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
 "acc": "0001996810-26-000163",
 "filed": "2026-10-28"
+}
+],
+"sbc": [
+{
+"c": "AllocatedShareBasedCompensationExpense",
+"acc": "0001996810-26-000015",
+"filed": "2026-01-29"
 }
 ]
 },
@@ -345,7 +363,8 @@
 ]
 },
 "why": {
-"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"
+"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -412,7 +431,8 @@
 ]
 },
 "why": {
-"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"
+"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -479,7 +499,8 @@
 ]
 },
 "why": {
-"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"
+"debt": "缺 LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -551,7 +572,8 @@
 ]
 },
 "why": {
-"dilSh": "讀不到單季值"
+"dilSh": "讀不到單季值",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -625,7 +647,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"sbc": "讀不到單季值"
+}
 },
 {
 "q": "2Q26",
@@ -698,7 +722,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"sbc": "讀不到單季值"
+}
 },
 {
 "q": "3Q26",
@@ -771,7 +797,9 @@
 }
 ]
 },
-"why": {}
+"why": {
+"sbc": "讀不到單季值"
+}
 }
 ]
 }

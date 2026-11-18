@@ -1,6 +1,6 @@
 {
 "code": "spcx",
-"fetched": "2026-11-12T06:58Z",
+"fetched": "2026-11-18T07:59Z",
 "splits": [],
 "niCand": {
 "2025-06-30": -1008.0,
@@ -76,7 +76,8 @@
 },
 "why": {
 "shOut": "缺 CommonStockSharesOutstanding",
-"buyback": "讀不到單季值"
+"buyback": "讀不到單季值",
+"sbc": "讀不到單季值"
 }
 },
 {
@@ -89,7 +90,8 @@
 "tax": -390.0,
 "buyback": 0.0,
 "cash": 89855.0,
-"debt": 38844.0
+"debt": 38844.0,
+"sbc": 2363.0
 },
 "prov": {
 "equity": [
@@ -147,6 +149,13 @@
 },
 {
 "c": "LongTermDebtAndCapitalLeaseObligations",
+"acc": "0001628280-26-066880",
+"filed": "2026-10-22"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
 "acc": "0001628280-26-066880",
 "filed": "2026-10-22"
 }

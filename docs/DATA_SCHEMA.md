@@ -68,6 +68,7 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 | `cash` | | 現金與投資（正數；口徑寫在 SOURCES.md） |
 | `debt` | | 有息負債（正數；不含營業租賃） |
 | `buyback` | | 當季回購金額（正數，現金流量表） |
+| `sbc` | | 當季股票酬勞費用（正數，單位同公司金額；現金流量表 `ShareBasedCompensation` 年初累計相減成單季）。第 9 個欄位，只由 `python3 tools/bs_merge.py --only sbc <代號>` 寫；非 SEC 申報公司（台積電、三星、台達電、ASML、萬潤）全部 `null`，`notes.unavailable` 寫「待確認：股票酬勞（sbc）：來源不是 SEC XBRL，尚未從年報讀取」。單季股票酬勞 ÷ 單季營收 > 60% 或為負值時不使用，寫原因 |
 | `equity` | | 股東權益（歸屬母公司，可為負） |
 | `pretax` | | 稅前淨利 |
 | `tax` | | 所得稅費用 |
@@ -253,7 +254,7 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 - 卡片 `type`：compounder（穩健複利，**要通過十年紀錄資格**：`buffett.record.tenYearOk`，validate 會擋）／growth（高成長）／cyclical（循環股）／turnaround（轉機／早期）／option（選擇權：還沒有穩定獲利，買的是一個可能性）；`caveat` 是固定加註（循環股：「綠燈代表景氣在上半場，不代表便宜或安全」；特斯拉：只檢查汽車與能源本業）。
 - 每個指標有 `group`：`biz`（體質）或 `val`（估值）；卡片分兩區顯示，`breakWhen` 只引用體質指標。`by`：體質門檻 `ZL`；`analyst`（分析師建議，ZL 可改；估值門檻與分析師調整過的門檻都用它）。
 - 新指標 key：`revYoyQ`（單季營收年增）、`gmQchg`（單季毛利率減前一季，百分點）、`eySpread`（盈餘殖利率減十年期公債，百分點；TWD 用台灣、USD 用美國，其他幣別算不出來）。compounder 與 cyclical 的估值區放 `eySpread >= 0`；compounder 與 growth 的體質區以 ROE（`roe >= 15`）或 ROIC 為第一個核心指標；只有 compounder 的 `revYoy` 降為 aux。
-- 指標數量 3～7 個。
+- 指標數量 3～8 個（核心與輔助合計）。
 - 估值門檻：本益比上限＝A、B 取低者（A＝近五年月本益比中位數，若 本益比÷g<1 放寬到 75 百分位；B＝g×1.5 高成長／g×2.5 穩健複利；g＝3、5 年 EPS CAGR 取低者、上限 25%）；循環股用 EV/Sales ≤ 近五年 75 百分位；轉機／早期不放估值指標。
 
 
@@ -317,17 +318,20 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 ```
 buffett = { type, currency,
   ey:       { ey, pe, m, bond:{v,d,name,src,url}|null, ref|null, spread, series:[[月份, 盈餘殖利率, 公債, 差]], why, bondWhy },
-  tenYear:  [{q, eps, epsYoy, roe, gm, npm, fcfNi, capexNi, netDebtNi, bvps, why:{}}],   // 年度點：從最新一季往回每四季一點，最多 11 點
-  summary:  { roeOk:{ok,n,of}, roeOk40, epsUp:{up,n}, lossYears, years, bvCagr5, roeTrend3, gmChg3 },
+  tenYear:  [{q, eps, epsYoy, roe, roic, gm, npm, fcfNi, capexNi, netDebtNi, bvps, why:{}}],   // 年度點：從最新一季往回每四季一點，最多 11 點
+  summary:  { roeOk:{ok,n,of}, roeOk40, epsUp:{up,n}, lossYears, years, bvCagr5, roeTrend3, roicTrend3, gmChg3 },
   buyback:  { rows:[{q, buyback, avgPe, nMonths, med5, where, from, to}], shChg5, buybackYield },
-  retained: { kept, ni20, div20, noDiv, mcapNow, mcap0, mcapChg, ratio, m0, mNow, why },
+  retained: { kept, ni20, div20, noDiv, preDivQ, mcapNow, mcap0, mcapChg, ratio, m0, mNow, why },
   vsIndex:  { index, rows:[{years, stock, index, diff}], why },        // USD→標普 500、TWD→臺灣加權股價指數，不含股息；EUR／KRW 算不出來
   implied:  { assume, pe, g:{"15","20"}, epsCagr5, why },
   normPe:   { normPe, avgEps, n, why },
   quality:  { q, npm, capexNi, fcfNi, debtYears, netDebtYears, bvCagr5, payout, why:{} },
-  structure:{ roeDown3, gmDown3, gmChg3, lossNow },
+  owner:    { q, sbc4, rev4, fcf4, fcfRate, sbcRev, fcfSbc, fcfSbcRate, oeYield, bond, oeSpread, sbcRev5med, n5, have, series:[[q, sbcRev, fcfSbcRate]], why:{}, approx },
+  structure:{ basis:"roe"|"roic", down3, down3Why, roeDown3, roicDown3, gmDown3, gmChg3, lossNow },
   record:   { quarters, lossYears10, roe40:{ok,n,of}, tenYearOk, why:[] } }
 ```
-- 算不出來的值是 `null`，`why` 是原因代碼（missing／neg／short／noprice／loss／noisy／norates／nobond／noidx／nodps），前端 `assets/buffett.js` 轉成中文。
+- 算不出來的值是 `null`，`why` 是原因代碼（missing／neg／short／noprice／loss／noisy／norates／nobond／noidx／nodps／nosbc），前端 `assets/buffett.js` 轉成中文。
 - 回購期間對月份：以該季名目期末日（`fiscalYearEnd`）所在月份為終點，期末日在 15 日（含）以後算當月、14 日以前算前一個月，往前數 12 個月；有本益比的月份少於 6 個不算。
-- 保留盈餘測試的股利＝每季 `dps × shOut`；公司從來沒有 `dps` 值（欄位全空）而且 `notes.unavailable` 沒有提到股利時，視為不配息、股利當 0 並標 `noDiv`；欄位全空但 `notes.unavailable` 寫了「每股股利」（有配息、本站沒收錄，例如台達電、萬潤、三星）→ 算不出來（`nodps`），不把股利當 0；有值但近 20 季有缺 → 整項算不出來。
+- 保留盈餘測試的股利＝每季 `dps × shOut`；公司從來沒有 `dps` 值（欄位全空）而且 `notes.unavailable` 沒有提到股利時，視為不配息、股利當 0 並標 `noDiv`；欄位全空但 `notes.unavailable` 寫了「每股股利」（有配息、本站沒收錄，例如台達電、萬潤、三星）→ 算不出來（`nodps`），不把股利當 0；近 20 季裡「第一個有值的 `dps` 之前」連續的 null，視為當時還沒開始配息、股利當 0，輸出 `preDivQ`（幾季），頁面寫「x 季以前尚未配息，股利當 0」（例：Alphabet）；第一個有值之後又出現 null → 缺資料，整項算不出來（例：Meta 的 3Q26）；那幾季被 `notes.unavailable` 列為「待確認」，或說明明寫股利未收錄 → 也算不出來，不當 0。
+- 股票酬勞與業主盈餘（`owner`，近似）：`sbcRev`＝近四季 `sbc` ÷ 近四季營收；`fcfSbc`＝近四季自由現金流 − 近四季 `sbc`；`fcfSbcRate`＝`fcfSbc` ÷ 營收；`oeYield`＝`fcfSbc` ÷ 最新月底市值（扣股票酬勞後現金流殖利率），`oeSpread`＝`oeYield` − 該幣別十年期公債。最新一季的 `sbc` 常要等 10-Q 才有：最新算不出來時往前退最多兩季，`q` 標明用的是哪一季。`sbcRev5med`＝近 20 季近四季 `sbcRev` 的中位數（至少 8 季）。這是業主盈餘的近似：財報沒有拆維持性與成長性資本支出，所以全部資本支出都扣。論點卡可用的 key：`sbcRev`、`fcfSbcRate`（`tools/thesis.py`，與 `owner` 同一個函式 `sbc_series`）。
+- 結構檢查 `structure.down3`：論點卡核心指標有 `roic` 而沒有 `roe` 的卡用 ROIC，其餘用 ROE，`basis` 標明；`roeDown3`、`roicDown3` 兩個都給。

@@ -31,7 +31,8 @@ python3 tools/prices_update.py --check  # 股價是否已到最新（只有 GitH
 python3 tools/daily.py          # 每日排程今天的工作清單與狀態（set／try／done 改 data/calendar.json）
 python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
 python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json；含巴菲特＋蒙格檢查表摘要）
-python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘…）原始輸出
+python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘、股票酬勞與扣酬勞後現金流…）原始輸出
+python3 tools/bs_merge.py --only sbc <代號>…   # 把 data/bs-raw/ 的股票酬勞（sbc）單獨合併（SEC 抓取要用 GitHub Actions 的 bs-fetch，field 填 sbc；非 SEC 公司加 --no-source）
 ```
 
 ## 合併 PR 的規則

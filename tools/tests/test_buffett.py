@@ -24,6 +24,9 @@ RATES = {"series": {"us_10y": {"name": "美十", "source": "FRED", "points": [["
                     "tw_10y": {"name": "台十", "source": "櫃買", "points": [["2020-10-30", 1.5]]}}}
 
 
+RATES_NOW = {"series": {"us_10y": {"name": "美十", "source": "FRED", "points": [["2016-03-28", 4.0]]}}}
+
+
 class Months(unittest.TestCase):
     def test_shift(self):
         self.assertEqual(B.shift("2026-01", -1), "2025-12")
@@ -264,13 +267,52 @@ class Retained(unittest.TestCase):
         self.assertIsNone(out["ratio"])                      # 保留盈餘 ≤ 0
         self.assertEqual(out["why"], "neg")
 
-    def test_missing_dps_is_null(self):
-        Q = mkQ(24, dps=lambda i: 0.5 if i > 10 else None)
+    def test_missing_dps_after_first_value_is_null(self):
+        # 第一個有值之後又出現 null：缺資料，整項算不出來
+        Q = mkQ(24, dps=lambda i: None if i == 15 or i < 10 else 0.5)
         set_rd(Q)
         val = self.val()
         out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]))
         self.assertIsNone(out["kept"])
         self.assertEqual(out["why"], "missing")
+        self.assertIn(Q[15]["q"], out["note"])               # 說明缺的是哪一季
+
+    def test_dividend_quarter_without_shares_is_null_and_named(self):
+        # 有股利但期末股數待確認：股利總額算不出來，說明列出是哪幾季（少的時候逐季列，不寫成範圍）
+        Q = mkQ(24, dps=0.5, shOut=lambda i: None if i in (8, 20) else 100.0)
+        set_rd(Q)
+        val = self.val()
+        out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]))
+        self.assertIsNone(out["kept"])
+        self.assertIn(Q[8]["q"] + "、" + Q[20]["q"], out["note"])
+
+    def test_leading_nulls_before_first_dividend_count_as_zero(self):
+        # 近 20 季是 i=4..23；dps 從 i=14 才有值 → 前 10 季（i=4..13）還沒開始配息，當 0
+        Q = mkQ(24, dps=lambda i: 0.5 if i >= 14 else None)
+        set_rd(Q)
+        val = self.val()
+        out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]))
+        self.assertEqual(out["preDivQ"], 10)
+        self.assertFalse(out["noDiv"])
+        self.assertEqual(out["div20"], 10 * 0.5 * 100.0)     # 只有後 10 季有股利
+        self.assertEqual(out["kept"], 200.0 - 500.0)
+        self.assertEqual(out["why"], "neg")
+
+    def test_leading_nulls_flagged_in_notes_stay_null(self):
+        # 股利開始前的空白被資料說明列為「待確認」（缺資料）或「未收錄」：不當 0
+        Q = mkQ(24, dps=lambda i: 0.5 if i >= 14 else None)
+        set_rd(Q)
+        val = self.val()
+        mc = B.mcap_at(Q, val["monthly"][-1])
+        lab = Q[4]["q"]
+        out = B.calc_retained(Q, val, mc, {"notes": {"unavailable": [f"待確認：每股股利 {lab}：XBRL 沒有單季值，先留空"]}})
+        self.assertIsNone(out["kept"])
+        self.assertEqual(out["why"], "missing")
+        out = B.calc_retained(Q, val, mc, {"notes": {"unavailable": ["每股股利：本頁暫不收錄"]}})
+        self.assertIsNone(out["kept"])
+        # 「不是缺資料」那種說明（例：開始配息前留空）不影響
+        out = B.calc_retained(Q, val, mc, {"notes": {"unavailable": ["每股股利：2012 年以前沒有發放股利，留空（不是缺資料）"]}})
+        self.assertEqual(out["preDivQ"], 10)
 
     def test_no_price_month_five_years_ago(self):
         Q = mkQ(24)
@@ -300,6 +342,74 @@ class Retained(unittest.TestCase):
         out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]), {"notes": {"unavailable": ["待確認：1Q20 的財報公布日（rd）"]}})
         self.assertTrue(out["noDiv"])
         self.assertEqual(out["ratio"], 10.0)
+
+
+class OwnerEarnings(unittest.TestCase):
+    def test_sbc_series_and_owner(self):
+        Q = mkQ(24, sbc=2.0)
+        ser = B.sbc_series(Q)
+        self.assertIsNone(ser[2][1])                                   # 前三季沒有近四季
+        self.assertEqual(ser[-1], [Q[-1]["q"], 2.0, round((60 - 20 - 8) / 400 * 100, 2)])   # sbc 8 ÷ 營收 400；(ocf 60 − capex 20 − sbc 8) ÷ 400
+        set_rd(Q)
+        val = {"currency": "USD", "stats": {}, "monthly": [{"m": "2016-03", "d": "2016-03-28", "c": 10.0, "pe": 20}]}
+        ey = B.calc_ey("USD", val, RATES_NOW)
+        o = B.calc_owner(Q, B.mcap_at(Q, val["monthly"][-1]), ey)
+        self.assertEqual(o["sbcRev"], 2.0)
+        self.assertEqual(o["fcfSbc"], 32.0)
+        self.assertEqual(o["fcfRate"], 10.0)
+        self.assertEqual(o["fcfSbcRate"], 8.0)
+        self.assertEqual(o["oeYield"], round(32 / 1000 * 100, 2))      # 市值 10 × 100 股 = 1000
+        self.assertEqual(o["oeSpread"], round(3.2 - 4.0, 2))           # 公債 4.0
+        self.assertEqual(o["sbcRev5med"], 2.0)
+
+    def test_no_sbc_column_values(self):
+        Q = mkQ(24)                                                     # 沒有 sbc 欄位
+        o = B.calc_owner(Q, (1000.0, 20, None), {"bond": None})
+        self.assertEqual(o["have"], 0)
+        self.assertIsNone(o["fcfSbcRate"])
+        self.assertEqual(o["why"]["oeYield"], "nosbc")
+
+    def test_latest_quarter_missing_falls_back(self):
+        Q = mkQ(24, sbc=lambda i: None if i == 23 else 2.0)
+        o = B.calc_owner(Q, (1000.0, 22, None), {"bond": None})
+        self.assertEqual(o["q"], Q[22]["q"])                            # 最新一季沒有，退一季並標明
+        self.assertEqual(o["sbcRev"], 2.0)
+        self.assertIsNone(o["oeSpread"])
+
+    def test_thesis_series_uses_same_function(self):
+        import thesis as T
+        Q = mkQ(24, sbc=2.0)
+        S = T.series(Q, None, None)
+        self.assertEqual(S["fcfSbcRate"][-1][1], 8.0)
+        self.assertEqual(S["sbcRev"][-1][1], 2.0)
+
+
+class Structure(unittest.TestCase):
+    def test_basis_follows_card(self):
+        self.assertEqual(B.structure_basis({"metrics": [{"k": "roe"}, {"k": "fcfRate"}]}), "roe")
+        self.assertEqual(B.structure_basis({"metrics": [{"k": "roic"}, {"k": "fcfRate"}]}), "roic")
+        self.assertEqual(B.structure_basis({"metrics": [{"k": "roic"}, {"k": "roe"}]}), "roe")
+        self.assertEqual(B.structure_basis(None), "roe")
+
+    def test_roic_trend_used_for_roic_cards(self):
+        Q = mkQ(44)
+        hq = [{"q": q["q"], "roe": 30.0, "roic": 40.0 - (i // 4), "why": {}} for i, q in enumerate(Q)]     # ROE 不變、ROIC 每年掉 1
+        rows = B.ten_year(Q, {"quarterly": hq}, B.points(Q))
+        summ = B.summarize(rows, hq)
+        self.assertFalse(summ["roeTrend3"])
+        self.assertTrue(summ["roicTrend3"])
+        st = B.calc_structure(rows, summ, {"metrics": [{"k": "roic"}]})
+        self.assertEqual((st["basis"], st["down3"], st["roeDown3"], st["roicDown3"]), ("roic", True, False, True))
+        st = B.calc_structure(rows, summ, {"metrics": [{"k": "roe"}]})
+        self.assertEqual((st["basis"], st["down3"]), ("roe", False))
+
+    def test_roic_missing_is_null_with_reason(self):
+        Q = mkQ(44)
+        hq = [{"q": q["q"], "roe": 30.0, "roic": None, "why": {"roic": "missing"}} for q in Q]
+        rows = B.ten_year(Q, {"quarterly": hq}, B.points(Q))
+        st = B.calc_structure(rows, B.summarize(rows, hq), {"metrics": [{"k": "roic"}]})
+        self.assertIsNone(st["down3"])
+        self.assertEqual(st["down3Why"], "missing")
 
 
 class VsIndex(unittest.TestCase):

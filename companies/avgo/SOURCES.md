@@ -88,6 +88,7 @@ FY2026 = 2025/11/3 ─ 2026/11/1
 - `buyback` 回購金額：`PaymentsForRepurchaseOfCommonStock`（回購計畫，不含員工股票扣稅代扣），年初累計相減。FY2020–FY2021 沒有回購（0）。
 - `equity` 股東權益：FY2019 以前 `StockholdersEquity`；1Q20 起只標 `StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest`（2Q18 以後博通沒有非控制權益，兩者相等；FY2019 年底兩概念重疊值相同 24,941）。FY2019–FY2022 的權益含強制可轉換特別股。1Q18 留空（當時有前身公司合夥單位的非控制權益）。
 - `pretax` 持續營業單位稅前淨利、`tax` 所得稅費用（負數＝稅務利益），都取自 XBRL 單季值（概念名稱以 companyconcept 查詢時的損益表稅前淨利／所得稅概念為準；4Q20–4Q25 已與新聞稿核對一致）：第四季＝全年 − 前三季；3Q26 取新聞稿（15,275、2,187）。1Q18 的 −5,786 是美國稅改的一次性利益；3Q24 的 4,238 含約 45 億美元一次性非現金稅務費用；4Q25 的 −1,649 含約 21 億美元稅務利益（追溯期滿）。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 35／35 季。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）來源
 

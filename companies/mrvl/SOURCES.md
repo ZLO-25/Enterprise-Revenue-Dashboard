@@ -107,6 +107,7 @@ FY2027 = 2026/2/1 ─ 2027/1/30（預計）
 - `pretax`：`IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest`（只有 FY2015–FY2019 有完整季度）；FY2020 起 XBRL 只有全年值，季度從新聞稿補（目前補了 4Q25、2Q26、4Q26、1Q27、2Q27），其餘 null。
 - `tax`：`IncomeTaxExpenseBenefit`，第四季＝全年 − 前九月。
 - 讀不到的季度為 null，原因彙整在 `notes.unavailable` 以「待確認：資產負債表欄位」開頭的幾行。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 26／70 季，沒有值的季度見 notes.unavailable「股票酬勞（sbc）」。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）來源
 - 官方：`https://investor.marvell.com/`（網路直播與重播；官方頁面沒有提供文字逐字稿）。

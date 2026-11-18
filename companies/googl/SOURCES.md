@@ -55,6 +55,7 @@
 - `buyback`：`PaymentsForRepurchaseOfCommonStock`（或 `…OfEquity`），年初累計相減；2015 年以前讀不到。
 - `equity`：`StockholdersEquity`；`pretax`、`tax`：稅前淨利、`IncomeTaxExpenseBenefit`。
 - 季度對齊用曆年季末日（Alphabet 有重編季度）。XBRL 沒有的改讀申報文件：1Q09、2Q14、3Q14、1Q15–3Q15 `shOut` 取 10-Q 資產負債表股東權益列的季底各類股合計（換算到今天股數）；1Q09 `cash`、`equity` 與 2009–2011 `debt` 取新聞稿資產負債表（2Q10 以前沒有借款科目＝0）；1Q09–3Q09、1Q12–4Q14 `buyback`＝0（新聞稿籌資活動沒有買回科目、各項加總等於合計）。2Q15 `dilSh` 公司沒有合併數字（A／B 與 C 股 EPS 不同），維持 `null`。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 48／71 季，沒有值的季度見 notes.unavailable「股票酬勞（sbc）」。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）來源
 - 官方：`https://abc.xyz/investor/`（網路直播；公司有時會放文字稿）。讀不到寫「待確認：逐字稿尚未取得」。

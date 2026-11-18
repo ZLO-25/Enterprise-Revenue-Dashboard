@@ -4,10 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "probe＝只列各公司有哪些概念；balance＝列最近資產負債表日的相關概念與數值；build＝產生提案 data/bs-raw/"
+        description: "probe＝只列各公司有哪些概念；dump＝列出某個概念（field 欄填概念名）的事實；balance＝列最近資產負債表日的相關概念與數值；build＝產生提案 data/bs-raw/"
         default: "probe"
       company:
         description: "只做這一家（代號，空白＝全部有 cik 的）"
+        required: false
+      field:
+        description: "只重抓這個欄位（例 sbc；空白＝全部欄位）。其餘欄位的提案原樣保留"
         required: false
 permissions:
   contents: write
@@ -25,16 +28,21 @@ jobs:
         env:
           MODE: ${{ github.event.inputs.mode }}
           COMPANY: ${{ github.event.inputs.company }}
+          FIELD: ${{ github.event.inputs.field }}
         run: |
           ARGS=""
-          if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
-          if [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; elif [ "$MODE" = "balance" ]; then mkdir -p data/bs-raw && python3 tools/bs_fetch.py --balance $ARGS | tee data/bs-raw/balance-probe.txt; else python3 tools/bs_fetch.py $ARGS; fi
+          COMPANY_ARG=""
+          if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; COMPANY_ARG="--company $COMPANY"; fi
+          if [ -n "$FIELD" ]; then ARGS="$ARGS --field $FIELD"; fi
+          if [ "$MODE" = "dump" ]; then python3 tools/bs_fetch.py --dump "$FIELD" $COMPANY_ARG; elif [ "$MODE" = "probe" ]; then python3 tools/bs_fetch.py --probe $ARGS; elif [ "$MODE" = "balance" ]; then mkdir -p data/bs-raw && python3 tools/bs_fetch.py --balance $ARGS | tee data/bs-raw/balance-probe.txt; else python3 tools/bs_fetch.py $ARGS; fi
       - name: 提交提案
         if: github.event.inputs.mode == 'build' || github.event.inputs.mode == 'balance'
+        env:
+          REF: ${{ github.ref_name }}
         run: |
           git config user.name "bs-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/bs-raw
           if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
           git commit -m "資產負債表提案 $(date -u +%Y-%m-%d)"
-          for i in 1 2 3; do git pull --rebase -q origin main && git push && break || sleep 5; done
+          for i in 1 2 3; do git pull --rebase -q origin "$REF" && git push origin "HEAD:$REF" && break || sleep 5; done

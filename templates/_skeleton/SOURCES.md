@@ -55,10 +55,11 @@
 
 需要公司專屬的核對（例：某個非 GAAP 指標對照公司全年公布值）→ 在 `tools/validate.py` 的 `CHECKS` 加 `"{{CODE}}": 函式`。
 
-## 資產負債表欄位（每季 8 個，口徑要寫清楚）
+## 資產負債表欄位（每季 8 個＋股票酬勞 sbc，口徑要寫清楚）
 - `shOut` 期末流通股數（百萬股）：<來源與概念；多類股票要加總>　`dilSh` 稀釋加權股數：<第四季通常沒有單季值，填 null 並在 notes.unavailable 說明>
 - `cash` 現金與投資：<包含哪些科目；各公司口徑不同，寫明>　`debt` 有息負債：<包含哪些；不含營業租賃>　`buyback` 回購金額（現金流量表，年初累計相減）
 - `equity` 股東權益（歸屬母公司）、`pretax` 稅前淨利、`tax` 所得稅費用（第四季＝全年 − 前三季）
+- `sbc` 當季股票酬勞費用：SEC 公司＝現金流量表 `ShareBasedCompensation`（年初累計相減；缺時 `AllocatedShareBasedCompensationExpense`），用 `bs_merge.py --only sbc`；非 SEC 公司全部 null＋「待確認：股票酬勞（sbc）：來源不是 SEC XBRL，尚未從年報讀取」，不估計
 - 股票分割：股數要換成今天的股數基準（和 EPS 同一個基準）；`validate.py` 會用 淨利 ÷ 稀釋股數 ≈ EPS 擋住換算錯誤
 
 ## 電話會議（逐字稿）來源

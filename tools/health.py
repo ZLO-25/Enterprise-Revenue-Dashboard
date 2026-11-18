@@ -1,6 +1,6 @@
 """體質指標的唯一計算處（build.py 與 validate.py 呼叫；前端只畫圖，不重算這裡的指標）。
 
-用 quarters[] 的 8 個資產負債表／股數欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax）＋本益比月資料，
+用 quarters[] 的 9 個資產負債表／股數／酬勞欄位（shOut、dilSh、cash、debt、buyback、equity、pretax、tax、sbc）＋本益比月資料，
 算出 6 個新指標。公式固定一種（和網站「指標小辭典」一致）：
 
   ROE   ＝ 近四季淨利 ÷ 平均股東權益（本季與四季前兩個期末的平均）
@@ -14,8 +14,9 @@
 輸出 health = {quarterly:[{q,roe,roic,buyback,buybackTtm,dilYoy,why:{...}}], monthly:[{m,fcfY,evS,peg,why:{...}}]}（中位數與百分位由前端 assets/health.js 統一算）
 任何輸入欄位是 null 就不算，原因寫在 why（missing＝欄位待確認、neg＝分母不是正數、tax＝有效稅率不合理、loss＝稅前虧損、nopx＝沒有預估）。
 """
-NEW = ("shOut", "dilSh", "cash", "debt", "buyback", "equity", "pretax", "tax")
-NAMES = {"shOut": "期末流通股數", "dilSh": "稀釋加權股數", "cash": "現金與投資", "debt": "有息負債", "buyback": "回購金額", "equity": "股東權益", "pretax": "稅前淨利", "tax": "所得稅費用"}
+BS8 = ("shOut", "dilSh", "cash", "debt", "buyback", "equity", "pretax", "tax")   # 階段 3 的 8 個欄位（bs_merge 預設只寫這 8 個）
+NEW = BS8 + ("sbc",)                                                                  # 第 9 個欄位 sbc（當季股票酬勞費用，正數）：bs_merge --only sbc 才寫
+NAMES = {"sbc": "股票酬勞", "shOut": "期末流通股數", "dilSh": "稀釋加權股數", "cash": "現金與投資", "debt": "有息負債", "buyback": "回購金額", "equity": "股東權益", "pretax": "稅前淨利", "tax": "所得稅費用"}
 
 
 def s4(Q, i, k):

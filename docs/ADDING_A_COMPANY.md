@@ -58,6 +58,9 @@ python3 tools/new_company.py nvda --name 輝達 --name-en NVIDIA --ticker NVDA -
 2. 設定 `price` 後到 GitHub → Actions → prices-monthly → Run workflow，等它跑完（會產生 `data/prices/<代號>.json`）。
 3. 抽查 3 個月底股價（最早、最近一次分割前、最新）對第二個獨立來源，確認分割前後本益比沒有斷崖；結果寫進 SOURCES.md。
 
+### ③c 資產負債表欄位與股票酬勞（`sbc`）
+美股：在 `tools/bs_map.json` 加該公司的配方（`ni`＋各欄位，`sbc` 用 `{"kind":"ytd","all":[["ShareBasedCompensation","AllocatedShareBasedCompensationExpense"]]}`），到 GitHub → Actions → bs-fetch → Run workflow（mode `build`；只補股票酬勞就在 field 填 `sbc`），跑完後 `git pull`，再 `python3 tools/bs_merge.py <代號>`（8 欄位）與 `python3 tools/bs_merge.py --only sbc <代號>`（只寫 sbc）。非 SEC 公司：`python3 tools/bs_merge.py --only sbc --no-source <代號>`（全部 null＋待確認，不估計）。`SOURCES.md` 的「資產負債表欄位」一節要寫 `sbc` 的來源。
+
 ### ④ `data/<代號>.json`
 格式見 [`docs/DATA_SCHEMA.md`](DATA_SCHEMA.md)。重點：
 - 共用欄位 `quarters[]` 每季都要有 `rev`、`gm`、`om`、`eps`（不能 null）。
@@ -94,5 +97,6 @@ Artifact 是**單一合併版**：`python3 tools/build.py` 會把新公司自動
 
 ## 論點卡與檢查表（2026-11-18 起）
 - 論點卡類型規則：compounder 必須通過十年紀錄資格（`buffett.record.tenYearOk`，validate 會擋）；option 類型給還沒有穩定獲利的公司。
+- 自由現金流率（`fcfRate`）為核心而且近四季股票酬勞占營收 ≥ 5% 的卡，要加一筆 `fcfSbcRate`（核心、`by "analyst"`；門檻＝原 `fcfRate` 門檻 − 近五年 `sbcRev` 中位數，四捨五入到整數），原 `fcfRate` 改 `role:"aux"`。
 - metrics 可帶 `role`（core／aux）；季度警示 `warnWhen` 與結構性 `breakWhen` 兩層；compounder 與 growth 以 ROE（`roe >= 15`）或 ROIC 為第一個核心指標；compounder 與 cyclical 的估值區放 `eySpread`（盈餘殖利率減十年期公債；TWD、USD 才有公債資料）。
 - 新公司回報要附檢查表摘要：`python3 tools/company_brief.py <代號>`。個股頁的「檢查表」與「體質總覽」自動出現，不用改程式。觀念見 docs/BUFFETT_MUNGER.md。

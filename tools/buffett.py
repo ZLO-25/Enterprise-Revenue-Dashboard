@@ -3,9 +3,9 @@
 只用 repo 既有欄位（quarters[]、data/prices、quant/data 的公債與指數價格），不估計、不內插、不補數字。
 算不出來的項目值是 null，並在 why 寫原因代碼（前端 assets/buffett.js 的 WHY 對照中文）：
   missing 欄位待確認　neg 分母不是正數或虧損　short 資料不足　noprice 沒有股價檔　loss 虧損或本益比不可用　noisy 本益比超過參考上限
-  norates 讀不到公債資料　nobond 網站沒有該國公債資料　noidx 網站沒有不含股息的同幣別指數資料　nodps 沒有股利資料（欄位全空；有配息但沒收錄時保留盈餘測試也不算）
+  norates 讀不到公債資料　nobond 網站沒有該國公債資料　noidx 網站沒有不含股息的同幣別指數資料　nosbc 股票酬勞（sbc）欄位待確認（來源不是 SEC XBRL 或尚未讀取）　nodps 沒有股利資料（欄位全空；有配息但沒收錄時保留盈餘測試也不算）
 
-輸出 buffett = {type, ey, tenYear, summary, buyback, retained, vsIndex, implied, normPe, quality, structure, record}（格式見 docs/DATA_SCHEMA.md「buffett」）。
+輸出 buffett = {type, ey, tenYear, summary, buyback, retained, vsIndex, implied, normPe, quality, structure, record, owner}（格式見 docs/DATA_SCHEMA.md「buffett」）。
 
 固定定義：
   年度點    從最新一季往回每四季取一點，最多 11 點；每點的「近四季」＝該季與前三季加總，缺任一季該點為 null（前面不足三季的點略過）。標籤用該點的季別。
@@ -218,6 +218,9 @@ def ten_year(Q, health, pts):
         roe = hq[i]["roe"] if i < len(hq) else None
         if roe is None:
             W["roe"] = (hq[i]["why"].get("roe") if i < len(hq) else None) or "missing"
+        roic = hq[i].get("roic") if i < len(hq) else None
+        if roic is None:
+            W["roic"] = (hq[i]["why"].get("roic") if i < len(hq) else None) or "missing"
         gm = wavg(Q, i, "gm")
         if gm is None:
             W["gm"] = "missing"
@@ -251,7 +254,7 @@ def ten_year(Q, health, pts):
             W["bvps"] = "missing"
         else:
             bv = q["equity"] / q["shOut"]
-        row = {"q": q["q"], "eps": r(eps, 3), "epsYoy": yoy, "roe": roe, "gm": r(gm, 1), "npm": r(npm, 1), "fcfNi": r(fcf_ni, 0), "capexNi": r(capex_ni, 0),
+        row = {"q": q["q"], "eps": r(eps, 3), "epsYoy": yoy, "roe": roe, "roic": roic, "gm": r(gm, 1), "npm": r(npm, 1), "fcfNi": r(fcf_ni, 0), "capexNi": r(capex_ni, 0),
                "netDebtNi": r(nd_ni, 1), "bvps": r(bv, 2), "why": W}
         rows.append(row)
         prev = {"eps": eps}
@@ -269,11 +272,12 @@ def summarize(rows, hq):
     cmp_ = [(a, b) for a, b in zip(eps, eps[1:]) if a is not None and b is not None]
     have = [e for e in eps if e is not None]
     roes = [x["roe"] for x in rows][-4:]
+    roics = [x.get("roic") for x in rows][-4:]
     gms = [x["gm"] for x in rows]
     bv = [x["bvps"] for x in rows]
     s = {"roeOk": count_roe(hq, 20), "roeOk40": count_roe(hq, 40),
          "epsUp": {"up": sum(1 for a, b in cmp_ if b > a), "n": len(cmp_)},
-         "lossYears": sum(1 for e in have if e <= 0), "years": len(have), "bvCagr5": None, "roeTrend3": None, "gmChg3": None, "why": {}}
+         "lossYears": sum(1 for e in have if e <= 0), "years": len(have), "bvCagr5": None, "roeTrend3": None, "roicTrend3": None, "gmChg3": None, "why": {}}
     if len(bv) >= 6 and bv[-1] is not None and bv[-6] is not None and bv[-1] > 0 and bv[-6] > 0:
         s["bvCagr5"] = r(((bv[-1] / bv[-6]) ** (1 / 5) - 1) * 100, 1)
     else:
@@ -282,6 +286,10 @@ def summarize(rows, hq):
         s["roeTrend3"] = roes[1] < roes[0] and roes[2] < roes[1] and roes[3] < roes[2]
     else:
         s["why"]["roeTrend3"] = "short" if len(roes) < 4 else "missing"
+    if len(roics) == 4 and None not in roics:
+        s["roicTrend3"] = roics[1] < roics[0] and roics[2] < roics[1] and roics[3] < roics[2]
+    else:
+        s["why"]["roicTrend3"] = "short" if len(roics) < 4 else "missing"
     if len(gms) >= 4 and gms[-1] is not None and gms[-4] is not None:
         s["gmChg3"] = r(gms[-1] - gms[-4], 1)
     else:
@@ -325,8 +333,19 @@ def div_unrecorded(D):
     return any(isinstance(x, str) and ("股利" in x or "dps" in x) for x in (u or []))
 
 
+def div_lines(D):
+    n = (D or {}).get("notes")
+    u = n.get("unavailable") if isinstance(n, dict) else []
+    return [x for x in (u or []) if isinstance(x, str) and ("股利" in x or "dps" in x)]
+
+
+def div_flagged_unrecorded(D):
+    """notes 明寫「這家公司的股利本站未收錄」（不是「不是缺資料」「沒有發放」那種說明）。"""
+    return any(any(w in x for w in ("未收錄", "不收錄", "暫不收錄", "全部留空")) and "不是缺資料" not in x for x in div_lines(D))
+
+
 def calc_retained(Q, val, mcap, D=None):
-    out = {"kept": None, "ni20": None, "div20": None, "noDiv": False, "mcapNow": r(mcap[0], 0), "mcap0": None, "mcapChg": None, "ratio": None, "m0": None, "mNow": None, "why": None, "note": None}
+    out = {"kept": None, "ni20": None, "div20": None, "noDiv": False, "preDivQ": 0, "mcapNow": r(mcap[0], 0), "mcap0": None, "mcapChg": None, "ratio": None, "m0": None, "mNow": None, "why": None, "note": None}
     n = len(Q)
     if n < 20:
         out["why"] = "short"; return out
@@ -342,9 +361,25 @@ def calc_retained(Q, val, mcap, D=None):
         out["noDiv"], out["div20"] = True, 0.0
     else:
         dv = [divq(Q, i) for i in idx]
-        if any(x is None for x in dv):
-            out["why"] = "missing"; out["note"] = "近 20 季的每股股利或期末股數有缺值，不補"; out["ni20"] = r(out["ni20"], 0); return out
-        out["div20"] = sum(dv)
+        dps = [Q[i].get("dps") for i in idx]
+        first = next((k for k, x in enumerate(dps) if x is not None), None)
+        gaps = [] if first is None else [Q[n - 20 + k]["q"] for k in range(first, 20) if dps[k] is None]
+        nosh = [Q[n - 20 + k]["q"] for k in range(20) if dps[k] is not None and Q[n - 20 + k].get("shOut") is None]
+        if first is None or gaps or nosh:
+            out["why"] = "missing"; out["ni20"] = r(out["ni20"], 0)
+            out["note"] = ("近 20 季的每股股利都沒有值，不補" if first is None else
+                           ("已經開始配息，但 " + "、".join(gaps) + " 的每股股利是空的（待確認），不補；只有開始配息以前的空白才當 0" if gaps else
+                            f"有 {len(nosh)} 季的期末流通股數待確認（{'、'.join(nosh) if len(nosh) <= 4 else nosh[0] + '～' + nosh[-1]}），股利總額算不出來，不補"))
+            return out
+        if first > 0:
+            # 第一個有值的股利之前連續空白：資料格式定義「不配息 → null」，視為當時還沒開始配息、當 0。
+            # 例外：資料說明明寫股利未收錄，或那幾季被列在「待確認」裡（那是缺資料，不是沒配息）→ 算不出來。
+            lead = [Q[i]["q"] for i in list(idx)[:first]]
+            lines = div_lines(D)
+            if div_flagged_unrecorded(D) or any(q in x and "待確認" in x for q in lead for x in lines):
+                out["why"] = "missing"; out["note"] = "股利開始前的空白季度被資料說明列為缺資料或未收錄，不當 0"; out["ni20"] = r(out["ni20"], 0); return out
+            out["preDivQ"] = first
+        out["div20"] = sum(x for x in dv if x is not None)
     out["kept"] = out["ni20"] - out["div20"]
     mon = (val or {}).get("monthly") or []
     if not mon or mcap[0] is None:
@@ -363,6 +398,83 @@ def calc_retained(Q, val, mcap, D=None):
     else:
         out["ratio"] = r(out["mcapChg"] / out["kept"], 2)
     out["ni20"], out["div20"], out["kept"] = r(out["ni20"], 0), r(out["div20"], 0), r(out["kept"], 0)
+    return out
+
+
+# ---------- 4b. 股票酬勞與業主盈餘（近似） ----------
+SBC_YEARS = 20          # 近五年（20 季）sbcRev 中位數的季數
+SBC_SERIES = 40         # 體質總覽畫圖用：最近 40 季的 [季別, sbcRev, fcfSbcRate]
+SBC_MIN = 8             # 至少要有這麼多季算得出來才給中位數
+
+
+def sbc_series(Q):
+    """每一季 [季別, sbcRev, fcfSbcRate]（近四季，%）。sbcRev ＝ 近四季股票酬勞 ÷ 近四季營收；fcfSbcRate ＝（近四季自由現金流 − 近四季股票酬勞）÷ 近四季營收。
+    缺任一季或營收 ≤ 0 → None。thesis.py 的 sbcRev、fcfSbcRate 與 owner 區塊都用這個函式（唯一計算處）。"""
+    out = []
+    for i in range(len(Q)):
+        sb, rv, oc, cp = H.s4(Q, i, "sbc"), H.s4(Q, i, "rev"), H.s4(Q, i, "ocf"), H.s4(Q, i, "capex")
+        ok = rv is not None and rv > 0
+        out.append([Q[i]["q"], r(sb / rv * 100, 2) if ok and sb is not None else None,
+                    r((oc - cp - sb) / rv * 100, 2) if ok and None not in (sb, oc, cp) else None])
+    return out
+
+
+def calc_owner(Q, mcap, ey):
+    """扣股票酬勞後的自由現金流（業主盈餘的近似；財報沒有拆維持性與成長性資本支出，所以只是近似）。
+    市值與 TTM 用同一個「當時已公布的季度」（mcap[1]，同 health 的自由現金流殖利率）。"""
+    out = {"q": None, "sbc4": None, "rev4": None, "fcf4": None, "fcfRate": None, "sbcRev": None, "fcfSbc": None, "fcfSbcRate": None, "oeYield": None, "bond": None, "oeSpread": None,
+           "sbcRev5med": None, "n5": 0, "series": [], "have": sum(1 for q in Q if q.get("sbc") is not None), "why": {}, "approx": "近似：財報沒有分維持性與成長性資本支出，這裡把全部資本支出都扣掉"}
+    if not Q:
+        return out
+    W = out["why"]
+    ser = sbc_series(Q)
+    last = len(Q) - 1
+    # 最新一季的股票酬勞常要等 10-Q 才有：最新算不出來時，往前最多退兩季取算得出來的那一季，並在 q 標明
+    for back in range(0, 3):
+        if last - back >= 3 and ser[last - back][1] is not None:
+            last -= back
+            break
+    out["q"] = Q[last]["q"]
+    out["series"] = [x for x in ser[-SBC_SERIES:]]
+    med = [x[1] for x in ser[-SBC_YEARS:] if x[1] is not None]
+    out["n5"] = len(med)
+    if len(med) >= SBC_MIN:
+        out["sbcRev5med"] = r(statistics.median(med), 2)
+    if out["have"] == 0:
+        W["sbcRev"] = W["fcfSbc"] = W["fcfSbcRate"] = W["oeYield"] = W["oeSpread"] = "nosbc"
+        return out
+    sb, rv, oc, cp = (H.s4(Q, last, k) for k in ("sbc", "rev", "ocf", "capex"))
+    out["sbcRev"], out["fcfSbcRate"] = ser[last][1], ser[last][2]
+    if rv is None or rv <= 0:
+        W["sbcRev"] = W["fcfSbcRate"] = "neg" if rv is not None else "missing"
+    elif sb is None:
+        W["sbcRev"] = W["fcfSbcRate"] = "missing"
+    elif oc is None or cp is None:
+        W["fcfSbcRate"] = "missing"
+    out["sbc4"], out["rev4"] = r(sb, 1), r(rv, 1)
+    if None not in (oc, cp):
+        out["fcf4"] = r(oc - cp, 1)
+    if None not in (sb, oc, cp):
+        out["fcfSbc"] = r(oc - cp - sb, 1)
+    out["fcfRate"] = None if out["fcf4"] is None or not rv or rv <= 0 else r(out["fcf4"] / rv * 100, 2)
+    # 殖利率：用市值對應的已公布季度
+    j = mcap[1]
+    if mcap[0] is None or j is None:
+        W["oeYield"] = mcap[2] or "missing"
+    else:
+        sb_j, oc_j, cp_j = (H.s4(Q, j, k) for k in ("sbc", "ocf", "capex"))
+        if None in (sb_j, oc_j, cp_j):
+            W["oeYield"] = "missing"
+        elif mcap[0] > 0:
+            out["oeYield"] = r((oc_j - cp_j - sb_j) / mcap[0] * 100, 2)
+    b = (ey or {}).get("bond")
+    if out["oeYield"] is None:
+        W["oeSpread"] = W.get("oeYield") or "missing"
+    elif b is None:
+        W["oeSpread"] = (ey or {}).get("bondWhy") or "nobond"
+    else:
+        out["bond"] = b
+        out["oeSpread"] = r(out["oeYield"] - b["v"], 2)
     return out
 
 
@@ -479,9 +591,18 @@ def calc_quality(Q, rows, pts, summ):
 
 
 # ---------- 9、10 ----------
-def calc_structure(rows, summ):
+def structure_basis(thesis):
+    """結構檢查「連續三年下滑」看哪一個報酬率：卡片核心指標有 roic 而沒有 roe → roic；其餘（有 roe，或沒有論點卡）→ roe。"""
+    ks = {m.get("k") for m in ((thesis or {}).get("metrics") or [])}
+    return "roic" if "roic" in ks and "roe" not in ks else "roe"
+
+
+def calc_structure(rows, summ, thesis=None):
     gm = summ["gmChg3"]
-    return {"roeDown3": summ["roeTrend3"], "gmDown3": None if gm is None else gm < -5, "gmChg3": gm,
+    basis = structure_basis(thesis)
+    down = summ["roicTrend3"] if basis == "roic" else summ["roeTrend3"]
+    return {"basis": basis, "down3": down, "down3Why": None if down is not None else summ["why"].get(basis + "Trend3", "missing"),
+            "roeDown3": summ["roeTrend3"], "roicDown3": summ["roicTrend3"], "gmDown3": None if gm is None else gm < -5, "gmChg3": gm,
             "lossNow": None if not rows or rows[-1]["eps"] is None else rows[-1]["eps"] <= 0}
 
 
@@ -520,13 +641,14 @@ def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thes
     if not pts:      # 還不到四季：只給能算的（盈餘殖利率、對指數、類型資格）
         empty = {"summary": None, "buyback": None, "retained": None, "quality": None, "structure": None}
         return dict({"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": [], "implied": calc_implied(ey, []), "normPe": calc_norm_pe([], valuation),
-                     "vsIndex": calc_vs_index(cur, prices, index_prices), "record": calc_record(Q, [], hq, None), "short": True}, **empty)
+                     "vsIndex": calc_vs_index(cur, prices, index_prices), "record": calc_record(Q, [], hq, None), "owner": calc_owner(Q, mc, ey), "short": True}, **empty)
     rows = ten_year(Q, health, pts)
     summ = summarize(rows, hq)
     return {"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": rows, "summary": summ,
             "buyback": calc_buyback(Q, valuation, pts, fye, mc), "retained": calc_retained(Q, valuation, mc, D),
             "vsIndex": calc_vs_index(cur, prices, index_prices), "implied": calc_implied(ey, rows), "normPe": calc_norm_pe(rows, valuation),
-            "quality": calc_quality(Q, rows, pts, summ), "structure": calc_structure(rows, summ), "record": calc_record(Q, rows, hq, summ)}
+            "quality": calc_quality(Q, rows, pts, summ), "structure": calc_structure(rows, summ, thesis), "record": calc_record(Q, rows, hq, summ),
+            "owner": calc_owner(Q, mc, ey)}
 
 
 def for_company(c, D, valuation, health, prices, thesis=None):

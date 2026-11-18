@@ -61,6 +61,7 @@
 - `cash`：`CashAndCashEquivalentsAtCarryingValue` ＋ `MarketableSecuritiesCurrent`（不含長期有價證券）。
 - `debt`：**全部 null**。`LongTermDebt` 與「一年內到期＋長期」加總對不起來（2024 年底 345 vs 56 百萬），2024 年發行的可轉換公司債疑似用公司自訂科目；要讀 10-Q 附註才能補。
 - `buyback`：沒有回購 → null；`equity`：`StockholdersEquity`；`pretax`、`tax`：單季值。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 19／19 季。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）
 - 官方只有網路直播與重播；第三方逐字稿尚未選定。讀不到時寫「待確認：逐字稿尚未取得」。

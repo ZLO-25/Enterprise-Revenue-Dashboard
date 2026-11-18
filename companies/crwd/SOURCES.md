@@ -88,6 +88,7 @@ XBRL 沒有第四季單季 EPS，FY2020–FY2026 全部取第四季新聞稿（4
 - `debt`：`LongTermDebtNoncurrent`（2021 年 1 月發行的 7.5 億美元優先票據）；3Q21 以前沒有債務 → `null`（照規則不填 0）。
 - `buyback`：CrowdStrike 2025 年以前沒有回購，`null`。
 - `equity`：`StockholdersEquity`；`pretax`、`tax`：單季值，第四季＝全年 − 前九月（4Q26 取新聞稿）。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 30／30 季。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）來源
 - 官方：`https://ir.crowdstrike.com/`（網路直播與重播；官方沒有文字逐字稿）。

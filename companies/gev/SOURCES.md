@@ -58,6 +58,7 @@
 - `cash`：資產負債表只有「現金、約當現金與受限現金」一行（`CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents`），所以**含受限現金**。
 - `debt`：`LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities`（＋短期借款）；4Q25 起才有值，之前 null（待確認）。2026 年 1Q 發行 26 億美元優先票據。
 - `shOut`、`dilSh`、`buyback`（`PaymentsForRepurchaseOfCommonStock`，2024-12 起）、`equity`、`pretax`、`tax`：同其他美股。
+- `sbc` 當季股票酬勞費用：`ShareBasedCompensation`（現金流量表，年初累計相減成單季；第四季＝全年 − 前九個月），缺時改 `AllocatedShareBasedCompensationExpense`；`bs_merge.py --only sbc` 合併，單季占營收 > 60% 或為負值不使用。有值 2／11 季，沒有值的季度見 notes.unavailable「股票酬勞（sbc）」。近似的業主盈餘＝自由現金流 − sbc（財報沒有拆維持性與成長性資本支出）。
 
 ## 電話會議（逐字稿）
 - 官方只有網路直播與重播；第三方逐字稿尚未選定，讀不到時寫「待確認：逐字稿尚未取得」。

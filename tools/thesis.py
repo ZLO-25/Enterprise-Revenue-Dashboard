@@ -12,6 +12,7 @@
 可用的指標 key（來源都是網站已有數字，對應 tools/health.py 與 assets/longterm.js 的定義）：
   revYoy 營收年增（近四季） epsYoy EPS 年增（近四季） gm 毛利率（近四季） om 營業利益率（近四季） fcfRate 自由現金流率（近四季）
   revYoyQ 單季營收年增 gmQchg 單季毛利率減前一季（百分點）
+  sbcRev 股票酬勞占營收（近四季，%） fcfSbcRate 扣股票酬勞後的自由現金流率（近四季，%；業主盈餘的近似）
   eySpread 盈餘殖利率（100÷本益比）減十年期公債殖利率，百分點（TWD 用台灣、USD 用美國；其他幣別沒有公債資料，算不出來）
   roic roe buybackTtm（近四季回購金額，單位同公司金額） dilYoy 稀釋股數年增 pe 本益比 fpe 預估本益比 peg fcfY 自由現金流殖利率 evS EV/Sales
 燈號：g 綠＝最新一點達標；y 黃＝最新一點沒達標、但前一點有達標（或前一點算不出來）；r 紅＝連續兩點都沒達標（季指標看最近兩季、月指標看最近兩個月）；n 灰＝這個指標目前算不出來（寫原因）。
@@ -28,7 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import health as H, pe as PE, buffett as BUF  # noqa
 
-KEYS = ("revYoyQ", "gmQchg", "revYoy", "epsYoy", "gm", "om", "fcfRate", "roic", "roe", "buybackTtm", "dilYoy", "pe", "fpe", "peg", "fcfY", "evS", "eySpread")
+KEYS = ("revYoyQ", "gmQchg", "revYoy", "epsYoy", "gm", "om", "fcfRate", "roic", "roe", "buybackTtm", "dilYoy", "pe", "fpe", "peg", "fcfY", "evS", "eySpread", "sbcRev", "fcfSbcRate")
 MONTHLY = ("pe", "fpe", "peg", "fcfY", "evS", "eySpread")
 
 
@@ -56,10 +57,11 @@ def series(Q, val, health, rates=None):
         r = sum(q["rev"] for q in w) if w else 0
         om.append((lab[i], round(sum(q["om"] * q["rev"] for q in w) / r, 2) if w and r and all(q.get("om") is not None for q in w) else None))
     ocf, cap = ttm(Q, "ocf"), ttm(Q, "capex")
+    sbs = BUF.sbc_series(Q)
     fcfr = [(lab[i], round((ocf[i] - cap[i]) / rev[i] * 100, 2) if None not in (ocf[i], cap[i], rev[i]) and rev[i] else None) for i in range(len(Q))]
     revq = [(lab[i], (Q[i]["rev"] / Q[i - 4]["rev"] - 1) * 100 if i >= 4 and Q[i].get("rev") and Q[i - 4].get("rev") and Q[i]["rev"] > 0 and Q[i - 4]["rev"] > 0 else None) for i in range(len(Q))]
     gmq = [(lab[i], round(Q[i]["gm"] - Q[i - 1]["gm"], 2) if i >= 1 and Q[i].get("gm") is not None and Q[i - 1].get("gm") is not None else None) for i in range(len(Q))]
-    S = {"revYoyQ": revq, "gmQchg": gmq, "revYoy": yoy(rev), "epsYoy": yoy(eps), "gm": gm, "om": om, "fcfRate": fcfr}
+    S = {"revYoyQ": revq, "gmQchg": gmq, "revYoy": yoy(rev), "epsYoy": yoy(eps), "gm": gm, "om": om, "fcfRate": fcfr, "sbcRev": [(x[0], x[1]) for x in sbs], "fcfSbcRate": [(x[0], x[2]) for x in sbs]}
     if health:
         S["roic"] = [(x["q"], x["roic"]) for x in health["quarterly"]]
         S["roe"] = [(x["q"], x["roe"]) for x in health["quarterly"]]
@@ -147,10 +149,10 @@ def review_rows(th, Q, val, health, n=8):
     return out
 
 
-def buffett_for(c, D, val, hl):
+def buffett_for(c, D, val, hl, th=None):
     pf = os.path.join(ROOT, "data", "prices", c["code"] + ".json")
     prices = json.load(open(pf, encoding="utf8")) if c.get("price") and os.path.exists(pf) else None
-    return BUF.for_company(c, D, val, hl, prices)
+    return BUF.for_company(c, D, val, hl, prices, th)
 
 
 def review(today=None):
@@ -174,14 +176,14 @@ def review(today=None):
             if r["flags"] and r["flags"] != ["算不出來"] and r.get("role") != "aux":
                 flagged.append(f"- **{c['code']}**　{r['name']}（{r['op']} {r['thr']}，現值 {r['now'] if r['now'] is None else round(r['now'], 1)}，{r['ok']}/{r['n']} 達標）：{'、'.join(r['flags'])}")
         try:
-            bf = buffett_for(c, D, val, hl)
+            bf = buffett_for(c, D, val, hl, th)
         except Exception as e:  # noqa: BLE001
             bf = None
             body.append(f"\n結構檢查與類型資格：待確認（計算失敗：{type(e).__name__}）")
         if bf:
             st, rc = bf["structure"], bf["record"]
             yn = lambda v: "算不出來" if v is None else ("是" if v else "否")  # noqa: E731
-            body += ["", f"結構檢查（只列事實，不下結論）：ROE 連續三年下滑 {yn(st['roeDown3'])}；毛利率三年累計下滑超過 5 個百分點 {yn(st['gmDown3'])}"
+            body += ["", f"結構檢查（只列事實，不下結論）：{st['basis'].upper()} 連續三年下滑 {yn(st['down3'])}；毛利率三年累計下滑超過 5 個百分點 {yn(st['gmDown3'])}"
                      + ("" if st["gmChg3"] is None else f"（變化 {st['gmChg3']:+.1f} 個百分點）") + f"；最新近四季 EPS ≤ 0：{yn(st['lossNow'])}。",
                      f"類型資格（穩健複利要有十年紀錄）：{rc['quarters']} 季；近 10 個年度點虧損 {rc['lossYears10']} 個；近 40 季 ROE 達 15%：{rc['roe40']['ok']}/{rc['roe40']['n']}；"
                      f"結果 {yn(rc['tenYearOk'])}" + ("（" + "；".join(rc["why"]) + "）" if rc["why"] else "") + f"。目前類型：{th.get('type')}。"]

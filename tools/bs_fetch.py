@@ -3,12 +3,15 @@
 
   python3 tools/bs_fetch.py --probe              只印各公司各概念有幾筆事實（用來決定 BS_MAP）
   python3 tools/bs_fetch.py [--company nvda]     產生 data/bs-raw/<代號>.json（提案，不直接改 data/<代號>.json）
+  python3 tools/bs_fetch.py --field sbc          只重抓指定欄位（可逗號分隔），其餘欄位的提案原樣保留；沒有提案檔的公司只產生這個欄位
 
 提案之後由 tools/bs_merge.py 核對並合併進 data/<代號>.json。原則（資料誠實）：讀不到就是 null，不估計、不內插。
 """
 import datetime as dt, json, os, sys, time, urllib.request, urllib.error
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import rd_import as RDI  # noqa: E402
 UA = "Enterprise-Revenue-Dashboard research contact@example.com"
 PROBE = [
     "StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest", "CommonStockSharesOutstanding",
@@ -23,7 +26,8 @@ PROBE = [
     "ConvertibleNotesPayableCurrent", "ConvertibleDebt", "ConvertibleDebtNoncurrent", "NotesPayable", "SeniorNotes", "DebtLongtermAndShorttermCombinedAmount",
     "LongTermDebtAndCapitalLeaseObligations", "LongTermNotesPayable", "NotesPayableCurrent", "LongTermLineOfCredit", "LineOfCredit", "UnsecuredDebt",
     "FinanceLeaseLiability", "LongTermDebtAndCapitalLeaseObligationsCurrent", "CapitalLeaseObligationsNoncurrent", "SecuredDebt",
-    "NetIncomeLoss", "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet",
+    "NetIncomeLoss", "ProfitLoss", "NetIncomeLossAvailableToCommonStockholdersBasic", "ShareBasedCompensation", "AllocatedShareBasedCompensationExpense",
+    "ShareBasedCompensationArrangementByShareBasedPaymentAwardExpenseRecognized", "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet",
 ]
 
 
@@ -109,8 +113,12 @@ def factor(splits, filed):
     return f
 
 
-def quarter_ends(ni_facts, ours):
-    """用淨利對齊：回傳 [(end, 該季是否為第四季推算)] 對應 ours（無法對上填 None）。"""
+DATE_DAYS = 10   # 第二輪（只用期末日對齊）的容許天數
+NEAR_DAYS = 50   # 淨利對上的那個 SEC 期末日，離我們這一季的名目期末日（會計年度結束日推得）不可超過這麼多天，避免淨利湊巧相近而錯配到別的季度
+
+
+def quarter_ends(ni_facts, ours, fye=None):
+    """用淨利對齊：回傳 [(end, 該季是否為第四季推算)] 對應 ours（無法對上填 None）。fye（會計年度結束日 MM-DD）有給時再加期末日相近的檢查。"""
     L = latest(ni_facts)
     cand = {}
     for f in L:
@@ -130,6 +138,8 @@ def quarter_ends(ni_facts, ours):
         hit = None
         for k in range(ptr, len(ends)):
             if q.get("ni") is not None and abs(cand[ends[k]] - q["ni"]) <= 0.6:
+                if fye and abs((dt.date.fromisoformat(ends[k]) - RDI.nominal_end(q["q"], fye)).days) > NEAR_DAYS:
+                    continue
                 hit = k
                 break
         if hit is None:
@@ -137,6 +147,19 @@ def quarter_ends(ni_facts, ours):
         else:
             out.append(ends[hit])
             ptr = hit + 1
+    if fye:
+        # 第二輪：淨利對不上的季度（例如我們收的是新聞稿口徑、SEC 重編或四捨五入差異），若 SEC 有一個期末日和名目期末日只差 10 天以內、
+        # 而且夾在前後已對上的季度之間、沒有被別的季度用掉，就用期末日對齊（只決定「讀哪個期間的事實」，數值仍是 SEC 的申報值）。
+        used = {e for e in out if e}
+        for i, q in enumerate(ours):
+            if out[i] is not None:
+                continue
+            lo = max((e for e in out[:i] if e), default="")
+            hi = min((e for e in out[i + 1:] if e), default="9999")
+            near = [e for e in ends if lo < e < hi and e not in used and abs((dt.date.fromisoformat(e) - RDI.nominal_end(q["q"], fye)).days) <= DATE_DAYS]
+            if len(near) == 1:
+                out[i] = near[0]
+                used.add(near[0])
     return out, ends, cand
 
 
@@ -183,7 +206,7 @@ def cover(facts, ends, E):
     return sorted(best, key=lambda f: f["end"])[0], "dei:EntityCommonStockSharesOutstanding（封面）"
 
 
-def build(cfg, only):
+def build(cfg, only, fields=None):
     os.makedirs(os.path.join(ROOT, "data", "bs-raw"), exist_ok=True)
     for c in cfg["companies"]:
         if not c.get("cik") or not c.get("enabled") or (only and c["code"] != only):
@@ -195,28 +218,45 @@ def build(cfg, only):
             continue
         D = json.load(open(os.path.join(ROOT, "data", code + ".json"), encoding="utf8"))
         Q = D["quarters"]
-        names = set(n for v in M.values() if isinstance(v, dict) for part in v.get("all", []) + v.get("opt", []) for n in part) | {"NetIncomeLoss"}
+        specs = {k: v for k, v in M.items() if k not in ("ni", "shNote") and (not fields or k in fields)}
+        if fields and not specs:
+            print(code, "配方沒有指定欄位", sorted(fields), "，略過")
+            continue
+        names = set(n for v in specs.values() if isinstance(v, dict) for part in v.get("all", []) + v.get("opt", []) for n in part) | {"NetIncomeLoss"}
         names |= set(M.get("ni", ["NetIncomeLoss"]))
         F = {n: concept(c["cik"], n) for n in sorted(names)}
         F["cover"] = concept(c["cik"], "dei:EntityCommonStockSharesOutstanding")
         ni_facts = [f for n in M.get("ni", ["NetIncomeLoss"]) for f in F.get(n, [])]
-        ends, allends, cand = quarter_ends(ni_facts, Q)
-        splits = splits_for(c["price"]["yahoo"]) if c.get("price") else []
+        ends, allends, cand = quarter_ends(ni_facts, Q, (D.get("company") or {}).get("fiscalYearEnd") or "12-31")
+        need_split = any(v.get("shares") for v in specs.values())
+        splits = splits_for(c["price"]["yahoo"]) if (c.get("price") and need_split) else []
         if splits is None:
             print(code, "沒有分割資料 → 股數欄位不產生")
             splits = None
         out = {"code": code, "fetched": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "splits": splits, "niCand": {k: round(v, 1) for k, v in cand.items()}, "quarters": []}
+        old = {}
+        rawpath = os.path.join(ROOT, "data", "bs-raw", code + ".json")
+        if fields and os.path.exists(rawpath):
+            prev = json.load(open(rawpath, encoding="utf8"))
+            old = {r["q"]: r for r in prev["quarters"]}
+            out = dict(prev, quarters=[], fetched=out["fetched"], niCand=out["niCand"])
         for i, q in enumerate(Q):
             E = ends[i]
             row = {"q": q["q"], "end": E, "vals": {}, "prov": {}, "why": {}}
+            if fields:
+                o = old.get(q["q"], {})
+                if o and o.get("end") != E:
+                    # 對齊改了（例如淨利湊巧相近而錯配被修正）：舊提案的其他欄位是別的期間的數字，不可沿用
+                    o = {"why": {k: f"期末日對齊和舊提案不同（舊 {o.get('end')}，新 {E}），舊值作廢，要重抓全部欄位" for k in o.get("vals", {}) if k not in fields}}
+                row = {"q": q["q"], "end": E, "vals": {k: v for k, v in o.get("vals", {}).items() if k not in fields},
+                       "prov": {k: v for k, v in o.get("prov", {}).items() if k not in fields},
+                       "why": {k: v for k, v in o.get("why", {}).items() if k not in fields}}
             if E is None:
                 row["why"]["*"] = "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
                 out["quarters"].append(row)
                 continue
             prev_end = ends[i - 1] if i > 0 and ends[i - 1] else None
-            for field, spec in M.items():
-                if field in ("ni", "shNote"):
-                    continue
+            for field, spec in specs.items():
                 kind = spec["kind"]
                 if kind == "inst":
                     total, prov, bad = 0.0, [], False
@@ -260,7 +300,7 @@ def build(cfg, only):
                     row["vals"][field] = round(v / 1e6, 3)
                     row["prov"][field] = [{"c": part, "acc": f["accn"], "filed": f["filed"]}]
             out["quarters"].append(row)
-        n_ok = {k: sum(1 for r in out["quarters"] if k in r["vals"]) for k in M if k not in ("ni", "shNote")}
+        n_ok = {k: sum(1 for r in out["quarters"] if k in r["vals"]) for k in specs}
         print(code, f"季數 {len(Q)}，對齊 {sum(1 for e in ends if e)}，各欄位有值：{n_ok}", flush=True)
         with open(os.path.join(ROOT, "data", "bs-raw", code + ".json"), "w", encoding="utf8") as fh:
             json.dump(out, fh, ensure_ascii=False, indent=0)
@@ -295,14 +335,29 @@ def balance_probe(cfg, only):
                     print(f"  {name} [{unit}] {h['val']}")
 
 
+def dump(cfg, only, name, since="2023-01-01"):
+    """列出某個概念的事實（開始日、結束日、數值、表單、申報日），用來查為什麼某一季讀不到。"""
+    for c in cfg["companies"]:
+        if not c.get("cik") or not c.get("enabled") or (only and c["code"] != only):
+            continue
+        fs = sorted(latest(concept(c["cik"], name)), key=lambda f: (f["end"], f.get("start") or ""))
+        print(f"## {c['code']} {name}", flush=True)
+        for f in fs:
+            if f["end"] >= since:
+                print(f"  {f.get('start')} → {f['end']} ({dur(f)}天) {f['val']} {f.get('form')} 申報 {f['filed']}")
+
+
 def main():
     cfg = json.load(open(os.path.join(ROOT, "companies.json"), encoding="utf8"))
     only = sys.argv[sys.argv.index("--company") + 1] if "--company" in sys.argv else None
+    if "--dump" in sys.argv:
+        return dump(cfg, only, sys.argv[sys.argv.index("--dump") + 1])
     if "--balance" in sys.argv:
         return balance_probe(cfg, only)
     if "--probe" in sys.argv:
         return probe(cfg, only)
-    build(cfg, only)
+    fields = set(sys.argv[sys.argv.index("--field") + 1].split(",")) if "--field" in sys.argv else None
+    build(cfg, only, fields)
 
 
 if __name__ == "__main__":

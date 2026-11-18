@@ -52,7 +52,8 @@
    "buyback": null,
    "equity": null,
    "pretax": 248.0,
-   "tax": 69.0
+   "tax": 69.0,
+   "sbc": null
   },
   {
    "q": "2Q09",
@@ -76,7 +77,8 @@
    "buyback": null,
    "equity": 3256.0,
    "pretax": 179.0,
-   "tax": 39.0
+   "tax": 39.0,
+   "sbc": null
   },
   {
    "q": "3Q09",
@@ -100,7 +102,8 @@
    "buyback": null,
    "equity": 3585.0,
    "pretax": 262.0,
-   "tax": 60.0
+   "tax": 60.0,
+   "sbc": null
   },
   {
    "q": "4Q09",
@@ -124,7 +127,8 @@
    "buyback": 0.0,
    "equity": 5257.0,
    "pretax": 471.0,
-   "tax": 85.0
+   "tax": 85.0,
+   "sbc": 99.0
   },
   {
    "q": "1Q10",
@@ -148,7 +152,8 @@
    "buyback": null,
    "equity": 5618.0,
    "pretax": 401.0,
-   "tax": 100.0
+   "tax": 100.0,
+   "sbc": null
   },
   {
    "q": "2Q10",
@@ -172,7 +177,8 @@
    "buyback": null,
    "equity": 5857.0,
    "pretax": 297.0,
-   "tax": 88.0
+   "tax": 88.0,
+   "sbc": null
   },
   {
    "q": "3Q10",
@@ -196,7 +202,8 @@
    "buyback": null,
    "equity": 6397.0,
    "pretax": 292.0,
-   "tax": 79.0
+   "tax": 79.0,
+   "sbc": null
   },
   {
    "q": "4Q10",
@@ -220,7 +227,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": 120.0
   },
   {
    "q": "1Q11",
@@ -244,7 +252,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": null
   },
   {
    "q": "2Q11",
@@ -268,7 +277,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": null
   },
   {
    "q": "3Q11",
@@ -292,7 +302,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": null
   },
   {
    "q": "4Q11",
@@ -316,7 +327,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": 160.0
   },
   {
    "q": "1Q12",
@@ -340,7 +352,8 @@
    "buyback": null,
    "equity": 7347.0,
    "pretax": 84.0,
-   "tax": 43.0
+   "tax": 43.0,
+   "sbc": null
   },
   {
    "q": "2Q12",
@@ -364,7 +377,8 @@
    "buyback": null,
    "equity": 7765.0,
    "pretax": 146.0,
-   "tax": 109.0
+   "tax": 109.0,
+   "sbc": null
   },
   {
    "q": "3Q12",
@@ -388,7 +402,8 @@
    "buyback": null,
    "equity": 7766.0,
    "pretax": -22.0,
-   "tax": 83.0
+   "tax": 83.0,
+   "sbc": null
   },
   {
    "q": "4Q12",
@@ -412,7 +427,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": 236.0
   },
   {
    "q": "1Q13",
@@ -436,7 +452,8 @@
    "buyback": null,
    "equity": 8432.0,
    "pretax": 81.0,
-   "tax": 18.0
+   "tax": 18.0,
+   "sbc": null
   },
   {
    "q": "2Q13",
@@ -460,7 +477,8 @@
    "buyback": null,
    "equity": 8733.0,
    "pretax": 17.0,
-   "tax": -13.0
+   "tax": -13.0,
+   "sbc": null
   },
   {
    "q": "3Q13",
@@ -484,7 +502,8 @@
    "buyback": null,
    "equity": 9087.0,
    "pretax": -43.0,
-   "tax": 12.0
+   "tax": 12.0,
+   "sbc": null
   },
   {
    "q": "4Q13",
@@ -508,7 +527,8 @@
    "buyback": null,
    "equity": null,
    "pretax": null,
-   "tax": null
+   "tax": null,
+   "sbc": 326.0
   },
   {
    "q": "1Q14",
@@ -532,7 +552,8 @@
    "buyback": null,
    "equity": 10328.0,
    "pretax": 120.0,
-   "tax": 73.0
+   "tax": 73.0,
+   "sbc": null
   },
   {
    "q": "2Q14",
@@ -556,7 +577,8 @@
    "buyback": null,
    "equity": 10602.0,
    "pretax": -27.0,
-   "tax": 94.0
+   "tax": 94.0,
+   "sbc": null
   },
   {
    "q": "3Q14",
@@ -580,7 +602,8 @@
    "buyback": null,
    "equity": 10336.0,
    "pretax": -634.0,
-   "tax": -205.0
+   "tax": -205.0,
+   "sbc": null
   },
   {
    "q": "4Q14",
@@ -604,7 +627,8 @@
    "buyback": null,
    "equity": 10741.0,
    "pretax": 429.0,
-   "tax": 205.0
+   "tax": 205.0,
+   "sbc": 408.0
   },
   {
    "q": "1Q15",
@@ -628,7 +652,8 @@
    "buyback": null,
    "equity": 10873.0,
    "pretax": 21.0,
-   "tax": 71.0
+   "tax": 71.0,
+   "sbc": null
   },
   {
    "q": "2Q15",
@@ -652,7 +677,8 @@
    "buyback": null,
    "equity": 11768.0,
    "pretax": 362.0,
-   "tax": 266.0
+   "tax": 266.0,
+   "sbc": null
   },
   {
    "q": "3Q15",
@@ -676,7 +702,8 @@
    "buyback": null,
    "equity": 12430.0,
    "pretax": 247.0,
-   "tax": 161.0
+   "tax": 161.0,
+   "sbc": 544.0
   },
   {
    "q": "4Q15",
@@ -700,7 +727,8 @@
    "buyback": null,
    "equity": 13384.0,
    "pretax": 938.0,
-   "tax": 453.0
+   "tax": 453.0,
+   "sbc": 606.0
   },
   {
    "q": "1Q16",
@@ -724,7 +752,8 @@
    "buyback": null,
    "equity": 14756.0,
    "pretax": 1056.0,
-   "tax": 475.0
+   "tax": 475.0,
+   "sbc": 544.0
   },
   {
    "q": "2Q16",
@@ -748,7 +777,8 @@
    "buyback": null,
    "equity": 16538.0,
    "pretax": 1179.0,
-   "tax": 307.0
+   "tax": 307.0,
+   "sbc": 768.0
   },
   {
    "q": "3Q16",
@@ -772,7 +802,8 @@
    "buyback": null,
    "equity": 17782.0,
    "pretax": 491.0,
-   "tax": 229.0
+   "tax": 229.0,
+   "sbc": 776.0
   },
   {
    "q": "4Q16",
@@ -796,7 +827,8 @@
    "buyback": null,
    "equity": 19285.0,
    "pretax": 1166.0,
-   "tax": 414.0
+   "tax": 414.0,
+   "sbc": 887.0
   },
   {
    "q": "1Q17",
@@ -820,7 +852,8 @@
    "buyback": null,
    "equity": 21674.0,
    "pretax": 953.0,
-   "tax": 229.0
+   "tax": 229.0,
+   "sbc": 792.0
   },
   {
    "q": "2Q17",
@@ -844,7 +877,8 @@
    "buyback": null,
    "equity": 23214.0,
    "pretax": 666.0,
-   "tax": 467.0
+   "tax": 467.0,
+   "sbc": 1160.0
   },
   {
    "q": "3Q17",
@@ -868,7 +902,8 @@
    "buyback": null,
    "equity": 24658.0,
    "pretax": 316.0,
-   "tax": 58.0
+   "tax": 58.0,
+   "sbc": 1084.0
   },
   {
    "q": "4Q17",
@@ -892,7 +927,8 @@
    "buyback": null,
    "equity": 27709.0,
    "pretax": 1872.0,
-   "tax": 16.0
+   "tax": 16.0,
+   "sbc": 1179.0
   },
   {
    "q": "1Q18",
@@ -916,7 +952,8 @@
    "buyback": null,
    "equity": 31463.0,
    "pretax": 1916.0,
-   "tax": 287.0
+   "tax": 287.0,
+   "sbc": 1183.0
   },
   {
    "q": "2Q18",
@@ -940,7 +977,8 @@
    "buyback": null,
    "equity": 34995.0,
    "pretax": 2605.0,
-   "tax": 74.0
+   "tax": 74.0,
+   "sbc": 1469.0
   },
   {
    "q": "3Q18",
@@ -964,7 +1002,8 @@
    "buyback": null,
    "equity": 39125.0,
    "pretax": 3390.0,
-   "tax": 508.0
+   "tax": 508.0,
+   "sbc": 1349.0
   },
   {
    "q": "4Q18",
@@ -988,7 +1027,8 @@
    "buyback": null,
    "equity": 43549.0,
    "pretax": 3350.0,
-   "tax": 327.0
+   "tax": 327.0,
+   "sbc": 1417.0
   },
   {
    "q": "1Q19",
@@ -1012,7 +1052,8 @@
    "buyback": null,
    "equity": 48410.0,
    "pretax": 4401.0,
-   "tax": 836.0
+   "tax": 836.0,
+   "sbc": 1274.0
   },
   {
    "q": "2Q19",
@@ -1036,7 +1077,8 @@
    "buyback": null,
    "equity": 53061.0,
    "pretax": 2889.0,
-   "tax": 257.0
+   "tax": 257.0,
+   "sbc": 1971.0
   },
   {
    "q": "3Q19",
@@ -1060,7 +1102,8 @@
    "buyback": null,
    "equity": 56508.0,
    "pretax": 2632.0,
-   "tax": 494.0
+   "tax": 494.0,
+   "sbc": 1779.0
   },
   {
    "q": "4Q19",
@@ -1084,7 +1127,8 @@
    "buyback": null,
    "equity": 62060.0,
    "pretax": 4053.0,
-   "tax": 786.0
+   "tax": 786.0,
+   "sbc": 1840.0
   },
   {
    "q": "1Q20",
@@ -1108,7 +1152,8 @@
    "buyback": null,
    "equity": 65272.0,
    "pretax": 3383.0,
-   "tax": 744.0
+   "tax": 744.0,
+   "sbc": 1757.0
   },
   {
    "q": "2Q20",
@@ -1132,7 +1177,8 @@
    "buyback": null,
    "equity": 73728.0,
    "pretax": 6221.0,
-   "tax": 984.0
+   "tax": 984.0,
+   "sbc": 2601.0
   },
   {
    "q": "3Q20",
@@ -1156,7 +1202,8 @@
    "buyback": null,
    "equity": 82775.0,
    "pretax": 6809.0,
-   "tax": 569.0
+   "tax": 569.0,
+   "sbc": 2288.0
   },
   {
    "q": "4Q20",
@@ -1180,7 +1227,8 @@
    "buyback": null,
    "equity": 93404.0,
    "pretax": 7765.0,
-   "tax": 566.0
+   "tax": 566.0,
+   "sbc": 2562.0
   },
   {
    "q": "1Q21",
@@ -1204,7 +1252,8 @@
    "buyback": null,
    "equity": 103320.0,
    "pretax": 10268.0,
-   "tax": 2156.0
+   "tax": 2156.0,
+   "sbc": 2306.0
   },
   {
    "q": "2Q21",
@@ -1228,7 +1277,8 @@
    "buyback": null,
    "equity": 114803.0,
    "pretax": 8634.0,
-   "tax": 868.0
+   "tax": 868.0,
+   "sbc": 3591.0
   },
   {
    "q": "3Q21",
@@ -1252,7 +1302,8 @@
    "buyback": null,
    "equity": 120564.0,
    "pretax": 4315.0,
-   "tax": 1155.0
+   "tax": 1155.0,
+   "sbc": 3180.0
   },
   {
    "q": "4Q21",
@@ -1276,7 +1327,8 @@
    "buyback": 0.0,
    "equity": 138245.0,
    "pretax": 14934.0,
-   "tax": 612.0
+   "tax": 612.0,
+   "sbc": 3680.0
   },
   {
    "q": "1Q22",
@@ -1300,7 +1352,8 @@
    "buyback": null,
    "equity": 134001.0,
    "pretax": -5265.0,
-   "tax": -1422.0
+   "tax": -1422.0,
+   "sbc": 3250.0
   },
   {
    "q": "2Q22",
@@ -1324,7 +1377,8 @@
    "buyback": null,
    "equity": 131402.0,
    "pretax": -2653.0,
-   "tax": -637.0
+   "tax": -637.0,
+   "sbc": 5209.0
   },
   {
    "q": "3Q22",
@@ -1348,7 +1402,8 @@
    "buyback": null,
    "equity": 137489.0,
    "pretax": 2944.0,
-   "tax": 69.0
+   "tax": 69.0,
+   "sbc": 5556.0
   },
   {
    "q": "4Q22",
@@ -1372,7 +1427,8 @@
    "buyback": 0.0,
    "equity": 146043.0,
    "pretax": -962.0,
-   "tax": -1227.0
+   "tax": -1227.0,
+   "sbc": 5606.0
   },
   {
    "q": "1Q23",
@@ -1396,7 +1452,8 @@
    "buyback": null,
    "equity": 154526.0,
    "pretax": 4119.0,
-   "tax": 948.0
+   "tax": 948.0,
+   "sbc": 4748.0
   },
   {
    "q": "2Q23",
@@ -1420,7 +1477,8 @@
    "buyback": null,
    "equity": 168602.0,
    "pretax": 7563.0,
-   "tax": 804.0
+   "tax": 804.0,
+   "sbc": 7127.0
   },
   {
    "q": "3Q23",
@@ -1444,7 +1502,8 @@
    "buyback": null,
    "equity": 182973.0,
    "pretax": 12189.0,
-   "tax": 2306.0
+   "tax": 2306.0,
+   "sbc": 5829.0
   },
   {
    "q": "4Q23",
@@ -1468,7 +1527,8 @@
    "buyback": 0.0,
    "equity": 201875.0,
    "pretax": 13686.0,
-   "tax": 3062.0
+   "tax": 3062.0,
+   "sbc": 6319.0
   },
   {
    "q": "1Q24",
@@ -1492,7 +1552,8 @@
    "buyback": null,
    "equity": 216661.0,
    "pretax": 12983.0,
-   "tax": 2467.0
+   "tax": 2467.0,
+   "sbc": 4961.0
   },
   {
    "q": "2Q24",
@@ -1516,7 +1577,8 @@
    "buyback": null,
    "equity": 236447.0,
    "pretax": 15245.0,
-   "tax": 1767.0
+   "tax": 1767.0,
+   "sbc": 6722.0
   },
   {
    "q": "3Q24",
@@ -1540,7 +1602,8 @@
    "buyback": null,
    "equity": 259151.0,
    "pretax": 18037.0,
-   "tax": 2706.0
+   "tax": 2706.0,
+   "sbc": 5333.0
   },
   {
    "q": "4Q24",
@@ -1564,7 +1627,8 @@
    "buyback": null,
    "equity": 285970.0,
    "pretax": 22349.0,
-   "tax": 2325.0
+   "tax": 2325.0,
+   "sbc": 4995.0
   },
   {
    "q": "1Q25",
@@ -1588,7 +1652,8 @@
    "buyback": null,
    "equity": 305867.0,
    "pretax": 21679.0,
-   "tax": 4553.0
+   "tax": 4553.0,
+   "sbc": 3689.0
   },
   {
    "q": "2Q25",
@@ -1612,7 +1677,8 @@
    "buyback": null,
    "equity": 333775.0,
    "pretax": 20857.0,
-   "tax": 2678.0
+   "tax": 2678.0,
+   "sbc": 6534.0
   },
   {
    "q": "3Q25",
@@ -1636,7 +1702,8 @@
    "buyback": null,
    "equity": 369631.0,
    "pretax": 28170.0,
-   "tax": 6910.0
+   "tax": 6910.0,
+   "sbc": 4847.0
   },
   {
    "q": "4Q25",
@@ -1660,7 +1727,8 @@
    "buyback": null,
    "equity": 411065.0,
    "pretax": 26605.0,
-   "tax": 4946.0
+   "tax": 4946.0,
+   "sbc": 4397.0
   },
   {
    "q": "1Q26",
@@ -1684,7 +1752,8 @@
    "buyback": null,
    "equity": 441914.0,
    "pretax": 39834.0,
-   "tax": 9560.0
+   "tax": 9560.0,
+   "sbc": 4032.0
   },
   {
    "q": "2Q26",
@@ -1708,7 +1777,8 @@
    "buyback": null,
    "equity": 551620.0,
    "pretax": 80857.0,
-   "tax": 18199.0
+   "tax": 18199.0,
+   "sbc": 6038.0
   },
   {
    "q": "3Q26",
@@ -1732,7 +1802,8 @@
    "buyback": null,
    "equity": 613601.0,
    "pretax": 26869.0,
-   "tax": 6180.0
+   "tax": 6180.0,
+   "sbc": 5406.0
   }
  ],
  "annual": {
@@ -2060,7 +2131,8 @@
    "待確認：資產負債表欄位 回購金額（buyback）：67 季沒有值（1Q09～3Q26）：讀不到單季值（60 季）；淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）（7 季）",
    "待確認：資產負債表欄位 股東權益（equity）：8 季沒有值（1Q09～4Q13）：淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）（7 季）；缺 StockholdersEquity（1 季）",
    "待確認：資產負債表欄位 稅前淨利（pretax）：7 季沒有值（4Q10～4Q13）：淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）（7 季）",
-   "待確認：資產負債表欄位 所得稅費用（tax）：7 季沒有值（4Q10～4Q13）：淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）（7 季）"
+   "待確認：資產負債表欄位 所得稅費用（tax）：7 季沒有值（4Q10～4Q13）：淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）（7 季）",
+   "待確認：資產負債表欄位 股票酬勞（sbc）：20 季沒有值（1Q09～2Q15）：讀不到單季值（20 季）"
   ],
   "general": "第四季營收、營業成本、營業利益、淨利一律用「全年 − 前三季」推算，並與 2021–2025 年第四季新聞稿逐項核對一致（例：4Q25 營收 213,386、淨利 21,192）；早期推算值可能與公司公布的單季差 1 百萬美元（四捨五入，例：4Q11 淨利推算 176、公布 177）。第四季 EPS：2020 年以前取 XBRL 單季值，2021 年以後取第四季財報新聞稿。2011 年各季營收、淨利、EPS：2012 年 10-K 的 XBRL 把 2012 年各季數字誤標成 2011 年，本頁改用 2011 年當期 10-Q／2011 年 10-K 的原始申報值（四季加總 48,077 與全年相符）。營業現金流與資本支出（Purchases of property and equipment，未扣除處分與獎勵收入，所以自由現金流會比亞馬遜自己公布的 FCF 低）用年初累計相減；2Q17 的上半年累計資本支出 XBRL 沒有，用「前三季累計 8,336 − 第三季單季 3,074」推得 5,262。EPS 依申報日換算：2022-06-06 以前申報 ÷20，小數保留 4 位。1Q26、2Q26 淨利明顯高於營業利益，來自業外收益（10-Q 申報值）。"
  },
