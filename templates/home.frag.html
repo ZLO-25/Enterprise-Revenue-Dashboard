@@ -286,7 +286,7 @@ const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c,
 const latest = S.map(s => s.D.asOf).sort().pop();
 $('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>週二至週六 08:30（台北）每日檢查更新</span>`;
 const TECH_SEC = ['半導體', '軟體與網路服務', '硬體與網通'];   // 由 companies.json 的 sector 算家數，不寫死「全部」
-$('#coWarn').innerHTML = `這 ${S.length} 家公司裡有 ${S.filter(s => TECH_SEC.includes(s.c.sector)).length} 家屬於${TECH_SEC.join('、')}，景氣反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）`;
+$('#coWarn').innerHTML = `這 ${S.length} 家公司裡，有 ${S.filter(s => TECH_SEC.includes(s.c.sector)).length} 家屬於${TECH_SEC.join('、')}，景氣反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
 $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';

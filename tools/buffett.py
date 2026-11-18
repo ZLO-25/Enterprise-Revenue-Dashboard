@@ -368,8 +368,8 @@ def calc_retained(Q, val, mcap, D=None):
         if first is None or gaps or nosh:
             out["why"] = "missing"; out["ni20"] = r(out["ni20"], 0)
             out["note"] = ("近 20 季的每股股利都沒有值，不補" if first is None else
-                           ("開始配息之後又出現缺值（" + "、".join(gaps) + "），不補；開始配息以前的空白才當 0" if gaps else
-                            f"有 {len(nosh)} 季的期末流通股數待確認（{nosh[0]}～{nosh[-1]}），股利總額算不出來，不補"))
+                           ("已經開始配息，但 " + "、".join(gaps) + " 的每股股利是空的（待確認），不補；只有開始配息以前的空白才當 0" if gaps else
+                            f"有 {len(nosh)} 季的期末流通股數待確認（{'、'.join(nosh) if len(nosh) <= 4 else nosh[0] + '～' + nosh[-1]}），股利總額算不出來，不補"))
             return out
         if first > 0:
             # 第一個有值的股利之前連續空白：資料格式定義「不配息 → null」，視為當時還沒開始配息、當 0。

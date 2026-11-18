@@ -1275,7 +1275,7 @@ const BUFFETT = (() => {
       ${n('流通股數五年變化', BB.shChg5 == null ? why((BB.why || {}).shChg5 || 'missing') : pc(BB.shChg5), '最新一季期末流通股數 ÷ 五年前同一點 − 1；負數代表股數變少')}
       ${n('近四季回購占市值', BB.buybackYield == null ? why((BB.why || {}).buybackYield || 'missing') : pc(BB.buybackYield, 2), '近四季回購金額 ÷ 最新月底市值')}
       ${n('每留下 1 元盈餘，創造幾元市值', rat, '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）。股利開始以前的空白季度當 0（見下方算式）')}
-      ${OW ? n('股票酬勞占營收（近四季）', OW.sbcRev == null ? why((OW.why || {}).sbcRev || 'missing') : `<b>${pc(OW.sbcRev)}</b>${OW.sbcRev5med == null ? '' : `（近五年中位數 ${pc(OW.sbcRev5med)}）`}`, `近四季股票酬勞費用 ÷ 近四季營收${OW.q ? `（${esc(OW.q)}）` : ''}。股票酬勞是真實的費用，等於用股東的股份付薪水（意譯）`) : ''}
+      ${OW ? n('股票酬勞占營收（近四季）', OW.sbcRev == null ? why((OW.why || {}).sbcRev || 'missing') : `<b>${pc(OW.sbcRev)}</b>${OW.sbcRev5med == null ? '' : `（近五年中位數 ${pc(OW.sbcRev5med)}）`}`, `近四季股票酬勞費用 ÷ 近四季營收${OW.q && OW.sbcRev != null ? `（${esc(OW.q)}）` : ''}。股票酬勞是真實的費用，等於用股東的股份付薪水（意譯）`) : ''}
     </div>`;
     const bbRows = (BB.rows || []).slice().reverse().map(r => [esc(r.q), cell(r.buyback, v => LT.f0(v), 'missing'), cell(r.avgPe, v => v.toFixed(1), 'short'), r.where ? esc(r.where) : '—', esc(r.from + ' 至 ' + r.to)]);
     const ret = RT.kept == null ? `<p>${why(RT.why || 'missing')}${RT.note ? '　' + esc(RT.note) : ''}</p>` :
@@ -1306,7 +1306,7 @@ const BUFFETT = (() => {
     const g = I.g || {};
     const imp = !(I.g && num(g['15'])) ? `<div class="bm-nums">${n('價格隱含的成長', why(I.why || 'loss'), '')}</div>` :
       `<div class="bm-nums">${n('價格隱含的成長（每年）', `<b>${pc(g['15'])}</b>（十年後本益比 15 倍）／<b>${pc(g['20'])}</b>（20 倍）`,
-        `假設（原樣寫出）：${esc(I.assume.text)}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}`)}</div>`;
+        `假設（原樣寫出）：${esc(String(I.assume.text).replace(/^假設：/, ''))}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}`)}</div>`;
     const vr = (V.rows || []);
     const vs = V.why ? `<div class="bm-nums">${n('不買它、買指數呢', why(V.why), '')}</div>` :
       `<h4>不買它、買指數呢（${esc(V.index)}）</h4>${table(['期間', '這支股價', '指數', '差（百分點）'], vr.map(r => [r.years + ' 年', cell(r.stock, v => sg(v) + '%', r.why), cell(r.index, v => sg(v) + '%', r.why), cell(r.diff, v => sg(v), r.why)]))}
@@ -1555,8 +1555,8 @@ const HEALTH = (() => {
     const build = (gs) => { let body = '';
       gs.forEach(g => R.filter(r => r.g === g).forEach((r, i, a) => {
         const id = 'h' + R.indexOf(r);
-        body += `<tr class="h-row" data-id="${id}" tabindex="0" role="button" aria-expanded="false">${i === 0 ? `<th class="h-grp" rowspan="${a.length * 2}" scope="rowgroup">${g}</th>` : ''}<td class="h-name">${r.n}${r.tag ? ' ' + SUM.tag(r.tag) : ''}</td>${cell(r)}<td class="h-spark">${LT.spark(r.s.slice(-40).map(p => p[1]), {})}</td></tr>
-          <tr class="h-chart" id="${id}" hidden><td colspan="6">${chart(r)}${tipOf(r)}</td></tr>`;
+        body += `<tr class="h-row" data-id="${id}" tabindex="0" role="button" aria-expanded="false">${i === 0 ? `<th class="h-grp" rowspan="${a.length}" data-n="${a.length}" scope="rowgroup">${g}</th>` : ''}<td class="h-name">${r.n}${r.tag ? ' ' + SUM.tag(r.tag) : ''}</td>${cell(r)}<td class="h-spark">${LT.spark(r.s.slice(-40).map(p => p[1]), {})}</td></tr>
+          <tr class="h-chart" id="${id}" hidden><td colspan="5">${chart(r)}${tipOf(r)}</td></tr>`;
       }));
       return body; };
     const head = '<thead><tr><th></th><th>指標</th><th>現在</th><th>近 5 年中位數</th><th>近 10 年位置</th><th>趨勢</th></tr></thead>';
@@ -1566,7 +1566,11 @@ const HEALTH = (() => {
       <details class="bm-det"><summary>分析師預估（他們不用這個做決定）</summary><div class="tbl-wrap"><table class="sum-tbl h-tbl">${head}<tbody>${build(fgroups)}</tbody></table></div></details>
       <p class="how">公式固定：ROE ＝ 近四季淨利 ÷ 平均股東權益；ROIC ＝ 近四季稅後營業利益 ÷ 平均（股東權益 ＋ 有息負債 − 現金與投資），這是本站公式，各家算法不同，不可直接拿去比別處的數字；自由現金流殖利率 ＝ 近四季自由現金流 ÷ 市值；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；PEG ＝ 預估本益比 ÷ 預估 EPS 成長率（分析師預估，只有有預估快照的月份才有，不回填）。市值用「當時已公布」的最新一季期末股數。「近 10 年位置」是目前數字在過去 10 年裡的百分位，高低不代表貴或便宜。</p></div>`;
     secEl.parentNode.insertBefore(sec, secEl.nextSibling);
-    const toggle = (row) => { const open = row.getAttribute('aria-expanded') === 'true'; sec.querySelectorAll('.h-row').forEach(x => { x.setAttribute('aria-expanded', 'false'); document.getElementById(x.dataset.id).hidden = true; }); if (!open) { row.setAttribute('aria-expanded', 'true'); document.getElementById(row.dataset.id).hidden = false; } };
+    // 組別格的 rowspan 只算看得到的列（隱藏的圖表列不算，否則組別格會往下吃到別組的列、整張表錯位）；展開一列時該組 +1
+    const grpOf = (row) => { let r = row; while (r && !r.querySelector('.h-grp')) r = r.previousElementSibling; return r && r.querySelector('.h-grp'); };
+    const toggle = (row) => { const open = row.getAttribute('aria-expanded') === 'true'; sec.querySelectorAll('.h-row').forEach(x => { x.setAttribute('aria-expanded', 'false'); document.getElementById(x.dataset.id).hidden = true; });
+      sec.querySelectorAll('.h-grp').forEach(th => { th.rowSpan = +th.dataset.n; });
+      if (!open) { row.setAttribute('aria-expanded', 'true'); document.getElementById(row.dataset.id).hidden = false; const th = grpOf(row); if (th) th.rowSpan = +th.dataset.n + 1; } };
     sec.addEventListener('click', e => { const row = e.target.closest('.h-row'); if (row) toggle(row); });
     sec.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { const row = e.target.closest('.h-row'); if (row) { e.preventDefault(); toggle(row); } } });
     const nav = document.getElementById('secnav');
@@ -2343,7 +2347,7 @@ const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c,
 const latest = S.map(s => s.D.asOf).sort().pop();
 $('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>週二至週六 08:30（台北）每日檢查更新</span>`;
 const TECH_SEC = ['半導體', '軟體與網路服務', '硬體與網通'];   // 由 companies.json 的 sector 算家數，不寫死「全部」
-$('#coWarn').innerHTML = `這 ${S.length} 家公司裡有 ${S.filter(s => TECH_SEC.includes(s.c.sector)).length} 家屬於${TECH_SEC.join('、')}，景氣反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）`;
+$('#coWarn').innerHTML = `這 ${S.length} 家公司裡，有 ${S.filter(s => TECH_SEC.includes(s.c.sector)).length} 家屬於${TECH_SEC.join('、')}，景氣反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
 $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';

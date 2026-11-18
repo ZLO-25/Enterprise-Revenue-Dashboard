@@ -239,12 +239,15 @@ def build(cfg, only, fields=None):
         if fields and os.path.exists(rawpath):
             prev = json.load(open(rawpath, encoding="utf8"))
             old = {r["q"]: r for r in prev["quarters"]}
-            out = dict(prev, quarters=[], fetched=out["fetched"])
+            out = dict(prev, quarters=[], fetched=out["fetched"], niCand=out["niCand"])
         for i, q in enumerate(Q):
             E = ends[i]
             row = {"q": q["q"], "end": E, "vals": {}, "prov": {}, "why": {}}
             if fields:
                 o = old.get(q["q"], {})
+                if o and o.get("end") != E:
+                    # 對齊改了（例如淨利湊巧相近而錯配被修正）：舊提案的其他欄位是別的期間的數字，不可沿用
+                    o = {"why": {k: f"期末日對齊和舊提案不同（舊 {o.get('end')}，新 {E}），舊值作廢，要重抓全部欄位" for k in o.get("vals", {}) if k not in fields}}
                 row = {"q": q["q"], "end": E, "vals": {k: v for k, v in o.get("vals", {}).items() if k not in fields},
                        "prov": {k: v for k, v in o.get("prov", {}).items() if k not in fields},
                        "why": {k: v for k, v in o.get("why", {}).items() if k not in fields}}

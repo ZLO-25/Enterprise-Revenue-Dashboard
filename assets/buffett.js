@@ -72,7 +72,7 @@ const BUFFETT = (() => {
       ${n('流通股數五年變化', BB.shChg5 == null ? why((BB.why || {}).shChg5 || 'missing') : pc(BB.shChg5), '最新一季期末流通股數 ÷ 五年前同一點 − 1；負數代表股數變少')}
       ${n('近四季回購占市值', BB.buybackYield == null ? why((BB.why || {}).buybackYield || 'missing') : pc(BB.buybackYield, 2), '近四季回購金額 ÷ 最新月底市值')}
       ${n('每留下 1 元盈餘，創造幾元市值', rat, '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）。股利開始以前的空白季度當 0（見下方算式）')}
-      ${OW ? n('股票酬勞占營收（近四季）', OW.sbcRev == null ? why((OW.why || {}).sbcRev || 'missing') : `<b>${pc(OW.sbcRev)}</b>${OW.sbcRev5med == null ? '' : `（近五年中位數 ${pc(OW.sbcRev5med)}）`}`, `近四季股票酬勞費用 ÷ 近四季營收${OW.q ? `（${esc(OW.q)}）` : ''}。股票酬勞是真實的費用，等於用股東的股份付薪水（意譯）`) : ''}
+      ${OW ? n('股票酬勞占營收（近四季）', OW.sbcRev == null ? why((OW.why || {}).sbcRev || 'missing') : `<b>${pc(OW.sbcRev)}</b>${OW.sbcRev5med == null ? '' : `（近五年中位數 ${pc(OW.sbcRev5med)}）`}`, `近四季股票酬勞費用 ÷ 近四季營收${OW.q && OW.sbcRev != null ? `（${esc(OW.q)}）` : ''}。股票酬勞是真實的費用，等於用股東的股份付薪水（意譯）`) : ''}
     </div>`;
     const bbRows = (BB.rows || []).slice().reverse().map(r => [esc(r.q), cell(r.buyback, v => LT.f0(v), 'missing'), cell(r.avgPe, v => v.toFixed(1), 'short'), r.where ? esc(r.where) : '—', esc(r.from + ' 至 ' + r.to)]);
     const ret = RT.kept == null ? `<p>${why(RT.why || 'missing')}${RT.note ? '　' + esc(RT.note) : ''}</p>` :
@@ -103,7 +103,7 @@ const BUFFETT = (() => {
     const g = I.g || {};
     const imp = !(I.g && num(g['15'])) ? `<div class="bm-nums">${n('價格隱含的成長', why(I.why || 'loss'), '')}</div>` :
       `<div class="bm-nums">${n('價格隱含的成長（每年）', `<b>${pc(g['15'])}</b>（十年後本益比 15 倍）／<b>${pc(g['20'])}</b>（20 倍）`,
-        `假設（原樣寫出）：${esc(I.assume.text)}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}`)}</div>`;
+        `假設（原樣寫出）：${esc(String(I.assume.text).replace(/^假設：/, ''))}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}`)}</div>`;
     const vr = (V.rows || []);
     const vs = V.why ? `<div class="bm-nums">${n('不買它、買指數呢', why(V.why), '')}</div>` :
       `<h4>不買它、買指數呢（${esc(V.index)}）</h4>${table(['期間', '這支股價', '指數', '差（百分點）'], vr.map(r => [r.years + ' 年', cell(r.stock, v => sg(v) + '%', r.why), cell(r.index, v => sg(v) + '%', r.why), cell(r.diff, v => sg(v), r.why)]))}

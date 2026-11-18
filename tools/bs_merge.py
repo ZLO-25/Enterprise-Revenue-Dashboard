@@ -22,6 +22,18 @@ NO_SOURCE = "來源不是 SEC XBRL，尚未從年報讀取"
 SBC_MAX_REV = 0.6
 
 
+def sbc_reject(sb, rev):
+    """sbc 合理性：回傳不使用的原因（字串），可以用就回傳 None。"""
+    if sb is None:
+        return None
+    if sb < 0:
+        return "年度累計相減得負值（來源口徑前後不一致，不使用）"
+    if rev and rev > 0 and sb / rev > SBC_MAX_REV:
+        return (f"股票酬勞占當季營收超過 {SBC_MAX_REV:.0%}（可能是上市前後一次認列的真實數字，也可能是單位或口徑有誤；"
+                "還沒對過 10-Q 原文，先不使用）")
+    return None
+
+
 def main():
     args = sys.argv[1:]
     only = None
@@ -47,9 +59,13 @@ def main():
         by = {r["q"]: r for r in raw["quarters"]}
         miss = {k: [] for k in FIELDS}
         why = {k: collections.Counter() for k in FIELDS}
+        whyq = {k: {} for k in FIELDS}
         for q in D["quarters"]:
             r = by.get(q["q"], {"vals": {}, "why": {"*": "提案沒有這一季"}})
             r = {"vals": dict(r["vals"]), "why": dict(r["why"])}
+            if q is D["quarters"][-1] and "*" in r["why"] and not r["vals"]:
+                # 最新一季對不上，通常是新聞稿已公布、10-Q 還沒進 SEC XBRL（不是「早於 XBRL」）
+                r["why"]["*"] = "SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）"
             ni, eps = q.get("ni"), q.get("eps")
             dil = r["vals"].get("dilSh")
             if dil is not None and ni is not None and eps is not None and abs(eps) >= 0.05 and abs(ni / dil - eps) > max(0.02, abs(eps) * 0.04):
@@ -60,13 +76,10 @@ def main():
             if sh is not None and ref and not (0.2 <= sh / ref <= 5):
                 r["vals"]["shOut"] = None
                 r["why"]["shOut"] = "期末股數與淨利÷EPS 差一個數量級以上（單位或分割換算疑似有誤，不使用）"
-            sb, rv = r["vals"].get("sbc"), q.get("rev")
-            if sb is not None and sb < 0:
+            bad = sbc_reject(r["vals"].get("sbc"), q.get("rev"))
+            if bad:
                 r["vals"]["sbc"] = None
-                r["why"]["sbc"] = "年度累計相減得負值（來源口徑前後不一致，不使用）"
-            elif sb is not None and rv and sb / rv > SBC_MAX_REV:
-                r["vals"]["sbc"] = None
-                r["why"]["sbc"] = f"股票酬勞占當季營收超過 {SBC_MAX_REV:.0%}（單位或口徑疑似有誤，不使用）"
+                r["why"]["sbc"] = bad
             for k in ("buyback", "debt", "cash"):
                 if (r["vals"].get(k) or 0) < 0:
                     r["vals"][k] = None
@@ -76,14 +89,17 @@ def main():
                 q[k] = v
                 if v is None:
                     miss[k].append(q["q"])
-                    why[k][NO_SOURCE if no_source else (r["why"].get(k) or r["why"].get("*") or "來源沒有這個值")] += 1
+                    wk = NO_SOURCE if no_source else (r["why"].get(k) or r["why"].get("*") or "來源沒有這個值")
+                    why[k][wk] += 1
+                    whyq[k].setdefault(wk, []).append(q["q"])
         notes = D.setdefault("notes", {})
         un = [x for x in notes.get("unavailable", []) if not x.startswith(mark) and not (only and x.startswith(f"待確認：{H.NAMES[only]}（{only}）"))]
         for k in FIELDS:
             if miss[k] and no_source:
                 un.append(f"待確認：{H.NAMES[k]}（{k}）：{NO_SOURCE}")
             elif miss[k]:
-                reasons = "；".join(f"{w}（{n} 季）" for w, n in why[k].most_common(3))
+                # --only 模式（sbc）：季數少的原因把季別列出來，方便之後逐季對 10-Q
+                reasons = "；".join(f"{w}（{n} 季" + (("：" + "、".join(whyq[k][w])) if only and n <= 6 else "") + "）" for w, n in why[k].most_common(3))
                 un.append(f"{MARK}{H.NAMES[k]}（{k}）：{len(miss[k])} 季沒有值（{miss[k][0]}～{miss[k][-1]}）：{reasons}")
         notes["unavailable"] = un
         with open(path, "w", encoding="utf8") as f:

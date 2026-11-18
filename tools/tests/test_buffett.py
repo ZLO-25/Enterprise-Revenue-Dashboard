@@ -277,6 +277,15 @@ class Retained(unittest.TestCase):
         self.assertEqual(out["why"], "missing")
         self.assertIn(Q[15]["q"], out["note"])               # 說明缺的是哪一季
 
+    def test_dividend_quarter_without_shares_is_null_and_named(self):
+        # 有股利但期末股數待確認：股利總額算不出來，說明列出是哪幾季（少的時候逐季列，不寫成範圍）
+        Q = mkQ(24, dps=0.5, shOut=lambda i: None if i in (8, 20) else 100.0)
+        set_rd(Q)
+        val = self.val()
+        out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]))
+        self.assertIsNone(out["kept"])
+        self.assertIn(Q[8]["q"] + "、" + Q[20]["q"], out["note"])
+
     def test_leading_nulls_before_first_dividend_count_as_zero(self):
         # 近 20 季是 i=4..23；dps 從 i=14 才有值 → 前 10 季（i=4..13）還沒開始配息，當 0
         Q = mkQ(24, dps=lambda i: 0.5 if i >= 14 else None)

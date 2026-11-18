@@ -89,8 +89,8 @@ const HEALTH = (() => {
     const build = (gs) => { let body = '';
       gs.forEach(g => R.filter(r => r.g === g).forEach((r, i, a) => {
         const id = 'h' + R.indexOf(r);
-        body += `<tr class="h-row" data-id="${id}" tabindex="0" role="button" aria-expanded="false">${i === 0 ? `<th class="h-grp" rowspan="${a.length * 2}" scope="rowgroup">${g}</th>` : ''}<td class="h-name">${r.n}${r.tag ? ' ' + SUM.tag(r.tag) : ''}</td>${cell(r)}<td class="h-spark">${LT.spark(r.s.slice(-40).map(p => p[1]), {})}</td></tr>
-          <tr class="h-chart" id="${id}" hidden><td colspan="6">${chart(r)}${tipOf(r)}</td></tr>`;
+        body += `<tr class="h-row" data-id="${id}" tabindex="0" role="button" aria-expanded="false">${i === 0 ? `<th class="h-grp" rowspan="${a.length}" data-n="${a.length}" scope="rowgroup">${g}</th>` : ''}<td class="h-name">${r.n}${r.tag ? ' ' + SUM.tag(r.tag) : ''}</td>${cell(r)}<td class="h-spark">${LT.spark(r.s.slice(-40).map(p => p[1]), {})}</td></tr>
+          <tr class="h-chart" id="${id}" hidden><td colspan="5">${chart(r)}${tipOf(r)}</td></tr>`;
       }));
       return body; };
     const head = '<thead><tr><th></th><th>指標</th><th>現在</th><th>近 5 年中位數</th><th>近 10 年位置</th><th>趨勢</th></tr></thead>';
@@ -100,7 +100,11 @@ const HEALTH = (() => {
       <details class="bm-det"><summary>分析師預估（他們不用這個做決定）</summary><div class="tbl-wrap"><table class="sum-tbl h-tbl">${head}<tbody>${build(fgroups)}</tbody></table></div></details>
       <p class="how">公式固定：ROE ＝ 近四季淨利 ÷ 平均股東權益；ROIC ＝ 近四季稅後營業利益 ÷ 平均（股東權益 ＋ 有息負債 − 現金與投資），這是本站公式，各家算法不同，不可直接拿去比別處的數字；自由現金流殖利率 ＝ 近四季自由現金流 ÷ 市值；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；PEG ＝ 預估本益比 ÷ 預估 EPS 成長率（分析師預估，只有有預估快照的月份才有，不回填）。市值用「當時已公布」的最新一季期末股數。「近 10 年位置」是目前數字在過去 10 年裡的百分位，高低不代表貴或便宜。</p></div>`;
     secEl.parentNode.insertBefore(sec, secEl.nextSibling);
-    const toggle = (row) => { const open = row.getAttribute('aria-expanded') === 'true'; sec.querySelectorAll('.h-row').forEach(x => { x.setAttribute('aria-expanded', 'false'); document.getElementById(x.dataset.id).hidden = true; }); if (!open) { row.setAttribute('aria-expanded', 'true'); document.getElementById(row.dataset.id).hidden = false; } };
+    // 組別格的 rowspan 只算看得到的列（隱藏的圖表列不算，否則組別格會往下吃到別組的列、整張表錯位）；展開一列時該組 +1
+    const grpOf = (row) => { let r = row; while (r && !r.querySelector('.h-grp')) r = r.previousElementSibling; return r && r.querySelector('.h-grp'); };
+    const toggle = (row) => { const open = row.getAttribute('aria-expanded') === 'true'; sec.querySelectorAll('.h-row').forEach(x => { x.setAttribute('aria-expanded', 'false'); document.getElementById(x.dataset.id).hidden = true; });
+      sec.querySelectorAll('.h-grp').forEach(th => { th.rowSpan = +th.dataset.n; });
+      if (!open) { row.setAttribute('aria-expanded', 'true'); document.getElementById(row.dataset.id).hidden = false; const th = grpOf(row); if (th) th.rowSpan = +th.dataset.n + 1; } };
     sec.addEventListener('click', e => { const row = e.target.closest('.h-row'); if (row) toggle(row); });
     sec.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { const row = e.target.closest('.h-row'); if (row) { e.preventDefault(); toggle(row); } } });
     const nav = document.getElementById('secnav');
