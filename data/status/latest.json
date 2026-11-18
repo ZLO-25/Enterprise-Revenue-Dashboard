@@ -1,0 +1,599 @@
+{
+ "version": 1,
+ "generated": "2026-11-18T06:10Z",
+ "actions": [
+  {
+   "id": "daily-prep",
+   "label": "每日準備（SEC、預估、股價、期貨）",
+   "kind": "daily",
+   "light": "yellow",
+   "note": "查不到成功紀錄",
+   "lastOk": null
+  },
+  {
+   "id": "sec-feed",
+   "label": "SEC 新申報清單（檔案時間）",
+   "kind": "daily",
+   "light": "green",
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-18T06:10Z"
+  },
+  {
+   "id": "prices-daily",
+   "label": "每日收盤價與本益比",
+   "kind": "daily",
+   "light": "green",
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-18T06:09Z"
+  },
+  {
+   "id": "futures-daily",
+   "label": "指數期貨 K 棒",
+   "kind": "daily",
+   "light": "green",
+   "note": "2 小時前成功",
+   "lastOk": "2026-11-18T04:12Z"
+  },
+  {
+   "id": "quant-prices",
+   "label": "回測用股價",
+   "kind": "daily",
+   "light": "green",
+   "note": "2 小時前成功",
+   "lastOk": "2026-11-18T03:46Z"
+  },
+  {
+   "id": "mcap-weekly",
+   "label": "市值排名",
+   "kind": "weekly",
+   "light": "green",
+   "note": "50 小時前成功",
+   "lastOk": "2026-11-16T04:21Z"
+  },
+  {
+   "id": "rates-weekly",
+   "label": "升降息資料",
+   "kind": "weekly",
+   "light": "green",
+   "note": "21 小時前成功",
+   "lastOk": "2026-11-17T09:20Z"
+  },
+  {
+   "id": "prices-monthly",
+   "label": "每月股價",
+   "kind": "monthly",
+   "light": "green",
+   "note": "48 小時前成功",
+   "lastOk": "2026-11-16T06:24Z"
+  }
+ ],
+ "routines": [
+  {
+   "id": "daily",
+   "label": "每日檢查（Claude 排程）",
+   "light": "green",
+   "note": "上次成功 2026-11-18"
+  },
+  {
+   "id": "news",
+   "label": "每週新聞（週日 06:00）",
+   "light": "green",
+   "note": "第一次預定 2026-11-22"
+  },
+  {
+   "id": "trend",
+   "label": "世界趨勢月報",
+   "light": "green",
+   "note": "本月已產出或還沒到時間"
+  }
+ ],
+ "companies": [
+  {
+   "code": "tsmc",
+   "name": "台積電",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-10",
+    "t": "11 月營收",
+    "est": false
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 1,
+    "old": 1,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "pltr",
+   "name": "Palantir",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-01",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 3,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "nvda",
+   "name": "輝達",
+   "quarter": "3Q27",
+   "stage": "flash",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-24",
+    "t": "4Q27 與 FY2027 全年財報（預估日期，",
+    "est": true
+   },
+   "pending": {
+    "recent": 9,
+    "y3": 0,
+    "old": 3,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "tsla",
+   "name": "特斯拉",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-02",
+    "t": "4Q26 產量與交車量（預估日期，公司尚未公告）",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 7,
+    "old": 1,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "anet",
+   "name": "Arista",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-16",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 8,
+    "old": 2,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "spcx",
+   "name": "SpaceX",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-28",
+    "t": "4Q26 財報（預估日期，公司尚未公告）",
+    "est": true
+   },
+   "pending": {
+    "recent": 3,
+    "y3": 1,
+    "old": 0,
+    "noq": 1
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "samsung",
+   "name": "三星電子",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-08",
+    "t": "4Q26 初步業績（預估日期，公司尚未公告；往年",
+    "est": true
+   },
+   "pending": {
+    "recent": 5,
+    "y3": 0,
+    "old": 2,
+    "noq": 2
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "delta",
+   "name": "台達電",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-10",
+    "t": "11 月營收公告（每月 10 日前公告）",
+    "est": true
+   },
+   "pending": {
+    "recent": 2,
+    "y3": 0,
+    "old": 2,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "msft",
+   "name": "微軟",
+   "quarter": "1Q27",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-27",
+    "t": "2Q27（2026/10–12）財報（公司尚未公",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 0,
+    "old": 4,
+    "noq": 1
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "mu",
+   "name": "美光",
+   "quarter": "4Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-17",
+    "t": "1Q27（2026/9–11）財報（公司尚未公告",
+    "est": true
+   },
+   "pending": {
+    "recent": 2,
+    "y3": 0,
+    "old": 6,
+    "noq": 1
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "amzn",
+   "name": "亞馬遜",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-04",
+    "t": "4Q26 與 2026 全年財報（公司尚未公告；",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 9,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "aapl",
+   "name": "蘋果",
+   "quarter": "4Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-28",
+    "t": "1Q27（2026/10–12）財報（公司尚未公",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 0,
+    "old": 9,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "meta",
+   "name": "Meta",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-27",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 3,
+    "y3": 1,
+    "old": 5,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "avgo",
+   "name": "博通",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-09",
+    "t": "4Q26 與 FY2026 全年財報（公司 20",
+    "est": false
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 0,
+    "old": 5,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "mrvl",
+   "name": "邁威爾",
+   "quarter": "2Q27",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-01",
+    "t": "3Q27 財報（公司已公告：美東 12/1 下午",
+    "est": false
+   },
+   "pending": {
+    "recent": 2,
+    "y3": 0,
+    "old": 12,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "amd",
+   "name": "超微",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-02",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 0,
+    "old": 8,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "crwd",
+   "name": "CrowdStrike",
+   "quarter": "2Q27",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-01",
+    "t": "3Q27 財報（公司 2026-11-04 公告",
+    "est": false
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 3,
+    "old": 1,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "panw",
+   "name": "Palo Alto Networks",
+   "quarter": "4Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-11-18",
+    "t": "1Q27 財報（公司 2026-11-03 公告",
+    "est": false
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "rklb",
+   "name": "火箭實驗室",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-25",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 0,
+    "old": 0,
+    "noq": 1
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "gev",
+   "name": "GE Vernova",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-27",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 1,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "googl",
+   "name": "Google",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-03",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 0,
+    "old": 1,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "csco",
+   "name": "思科",
+   "quarter": "1Q27",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-10",
+    "t": "2Q27 財報（預估日期，公司尚未公告；往年在 ",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 0,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "asml",
+   "name": "艾司摩爾",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-27",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 0,
+    "old": 1,
+    "noq": 1
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "allring",
+   "name": "萬潤",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-17",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-10",
+    "t": "11 月營收公告（每月 10 日前公告）",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 0,
+    "old": 1,
+    "noq": 2
+   },
+   "light": "green",
+   "problems": []
+  }
+ ],
+ "signals": [],
+ "tokens": [],
+ "alerts": []
+}
