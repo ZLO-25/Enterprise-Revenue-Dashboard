@@ -11,7 +11,7 @@
   "mu.evS": "normal",
   "amzn.pe": "cheap",
   "aapl.pe": "rich",
-  "meta.pe": "normal",
+  "meta.pe": "cheap",
   "avgo.pe": "rich",
   "mrvl.evS": "normal",
   "amd.evS": "rich",
@@ -31,6 +31,16 @@
    "kind": "rich",
    "now": 5.93,
    "thr": 5.1,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-19",
+   "code": "meta",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "cheap",
+   "now": 20.3,
+   "thr": 24,
    "op": "<="
   }
  ]
