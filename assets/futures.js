@@ -474,5 +474,5 @@ const FUT = (() => {
     go();
   }
 
-  return { CODES, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
+  return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
 })();
