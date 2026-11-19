@@ -93,6 +93,8 @@ async function watchPage(browser, base, w, scheme) {
   await unlock(page);
   await page.waitForSelector('#futBody:not([hidden]) canvas', { timeout: 15000 });
   await page.waitForFunction(() => document.querySelectorAll('.kb-row .ch.kup, .kb-row .ch.kdn').length >= 20, null, { timeout: 15000 });
+  // 逐檔讀取（一次 4 檔）：等全部讀完再檢查讀不到的那一列（CI 機器慢時，只等 20 列有漲跌會太早）
+  await page.waitForFunction(() => ![...document.querySelectorAll('.kb-row .px')].some(x => x.textContent === '讀取中'), null, { timeout: 15000 });
   ok(/上漲 \d+ · 下跌 \d+ · 平 \d+/.test(await page.textContent('#kbSum')), '漲跌家數文字');
   const missing = await page.evaluate((id) => { const r = document.querySelector(`.kb-row[data-id="${id}"]`); return r && { ch: r.querySelector('.ch').textContent, px: r.querySelector('.px').textContent, title: r.title }; }, FX.missing[0]);
   ok(missing && missing.ch === '—' && missing.px === '—' && /讀不到/.test(missing.title), '讀不到資料檔的列要顯示「—」與原因：' + JSON.stringify(missing));
