@@ -101,6 +101,16 @@ const FUT = (() => {
   /* ---------- 顯示小工具 ---------- */
   const fmt = (n, dp = 2) => n == null ? '—' : n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
   const dp = (c) => c && typeof c === 'object' ? (c.dp ?? DP[c.code] ?? 2) : (DP[c] ?? 2);   // 傳資料物件時優先用它自己的 dp（個股 K 棒檔有 dp）
+  /* 價格軸小數位：最大價格 ≥ 1000 → 0 位；≥ 100 → 最多 1 位；其餘維持商品原本位數 */
+  const axisDp = (mx, q) => mx >= 1000 ? 0 : mx >= 100 ? Math.min(q, 1) : q;
+  /* 價格軸刻度：看「目前畫面上這一組刻度」的最大值（每次重畫都重算，縮放、切週期不會用到過期的位數）：≥ 100 → 整數刻度不帶小數，其餘維持商品原本位數；
+     但絕不把刻度四捨五入成別的數（1,502.5 不會顯示成 1,503；跨度大的月 K 對數刻度 0.25 不會變成 0），需要時逐個刻度補到商品原本位數（不到 1 元最多 4 位） */
+  const axisTicks = (vs, q) => { const mx = Math.max(0, ...vs.map(Math.abs)); return vs.map(v => {
+    let k = mx >= 100 ? 0 : q;
+    const cap = Math.abs(v) < 1 ? Math.max(q, 4) : q;   // 不到 1 元的刻度（跨度大的月 K 對數刻度）最多補到 4 位，不會變成 0.00
+    while (k < cap && Math.abs(v * 10 ** k - Math.round(v * 10 ** k)) > 1e-7 * Math.max(1, Math.abs(v * 10 ** k))) k++;
+    return fmt(v, k);
+  }); };
   const minMove = (d) => d.kind === 'stock' ? (dp(d) ? 0.01 : 1) : (dp(d) ? 0.25 : 1);       // 個股用最小跳動 0.01；期貨維持原本的 0.25／1
   const dstr = (t) => t.replace(/-/g, '/');
   function fresh(lastDate) {
@@ -168,6 +178,7 @@ const FUT = (() => {
     if (box._linesOff) box._linesOff();
     const code = d.code, step = minMove(d), snap = (p) => Math.round(p / step) * step;
     const pls = new Map();               // 線的 id → 圖上的 price line
+    candle._isLine = (v) => { for (const pl of pls.values()) if (Math.abs(pl.options().price - v) < 1e-9) return true; return false; };   // 價格軸上水平線的標籤用原本位數（chartInto 的 slim 格式看這個）
     let sel = null, hover = null, drag = null, lastY = null, raf = 0;
     const col = (L) => T(L.c || '--s1');
     const opt = (L) => { const on = L.id === sel || L.id === hover; return { price: L.p, color: col(L), lineWidth: on ? 2 : 1, lineStyle: L.s || 0, axisLabelVisible: true, axisLabelColor: col(L), axisLabelTextColor: '#ffffff', title: L.n || '' }; };
@@ -299,9 +310,9 @@ const FUT = (() => {
       const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
       const chart = LW.createChart(box, {
         autoSize: true,
-        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 12, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
+        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: o.fs || 12, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
         grid: { vertLines: { color: grid }, horzLines: { color: grid } },
-        rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
+        rightPriceScale: o.slim ? { borderColor: T('--axis'), minimumWidth: 0 } : { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
         crosshair: { mode: 0 }, localization: { locale: 'zh-TW', timeFormatter: (t) => {
           /* 十字線底下的日期：日 K = 2026/10/30（五），週 K = 該週第一個交易日起，月 K = 2026/10 */
           const ds = typeof t === 'string' ? t : `${t.year}-${String(t.month).padStart(2, '0')}-${String(t.day).padStart(2, '0')}`;
@@ -311,7 +322,10 @@ const FUT = (() => {
         } },
       });
       const toT = (b) => b.t;
-      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: minMove(d) } }, 0);
+      /* slim（看盤頁）：價格軸刻度、最新價與十字線標籤去掉不必要的小數，依「那個數值本身」的大小決定（不用建圖當下的最高價，縮放／捲到低價區也不會錯）；
+         水平線的價位標籤維持商品原本位數；資料、圖例、水平線的價位精度不變（minMove 不動）。首頁期貨區不傳 slim，完全不變 */
+      const pxFmt = o.slim ? (v) => fmt(v, candle._isLine && candle._isLine(v) ? q : axisDp(Math.abs(v), q)) : (v) => fmt(v, q);
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: Object.assign({ type: 'custom', formatter: pxFmt, minMove: minMove(d) }, o.slim ? { tickmarksFormatter: (vs) => axisTicks(vs, q) } : {}) }, 0);
       candle.priceScale().applyOptions({ mode: o.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
       candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
       const maSeries = {};
@@ -492,5 +506,5 @@ const FUT = (() => {
 
   return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines,
     // 以下給 assets/kbar.js（看盤頁、個股頁 K 棒）使用
-    chartInto, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
+    chartInto, axisDp, axisTicks, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
 })();
