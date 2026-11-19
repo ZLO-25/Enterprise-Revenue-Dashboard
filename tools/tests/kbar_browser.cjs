@@ -98,6 +98,12 @@ async function watchPage(browser, base, w, scheme) {
   ok(/上漲 \d+ · 下跌 \d+ · 平 \d+/.test(await page.textContent('#kbSum')), '漲跌家數文字');
   const missing = await page.evaluate((id) => { const r = document.querySelector(`.kb-row[data-id="${id}"]`); return r && { ch: r.querySelector('.ch').textContent, px: r.querySelector('.px').textContent, title: r.title }; }, FX.missing[0]);
   ok(missing && missing.ch === '—' && missing.px === '—' && /讀不到/.test(missing.title), '讀不到資料檔的列要顯示「—」與原因：' + JSON.stringify(missing));
+  // 換過密碼、某一檔還沒用新密碼重新產生：只有那一列顯示原因，整頁不能被上鎖
+  const stale = await page.evaluate((id) => { const r = document.querySelector(`.kb-row[data-id="${id}"]`); return r && { ch: r.querySelector('.ch').textContent, title: r.title }; }, FX.staleKey[0]);
+  ok(stale && stale.ch === '—' && /解不開/.test(stale.title), '近期檔解不開的列要顯示「—」與原因：' + JSON.stringify(stale));
+  ok(await page.evaluate(() => !document.getElementById('futBody').hidden && !!localStorage.getItem('erd-futures-key-v1')), '某一檔解不開不可把整個網站上鎖');
+  const sh = await page.evaluate(async (id) => { const d = await KB.full(id); return d && { hm: d.histMissing, n: d.bars.length }; }, FX.staleHist[0]);
+  ok(sh && sh.hm === true && sh.n > 0 && await page.evaluate(() => !!localStorage.getItem('erd-futures-key-v1')), '歷史檔解不開：只顯示近期、標 histMissing、不上鎖：' + JSON.stringify(sh));
   say('  第一檔：' + (await title(page)));
   // 清單順序：指數期貨 3 檔在最前
   const first3 = await page.evaluate(() => [...document.querySelectorAll('.kb-row')].slice(0, 3).map(r => r.dataset.id));

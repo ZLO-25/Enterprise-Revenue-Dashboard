@@ -281,6 +281,27 @@ class Files(unittest.TestCase):
         self.assertEqual(r["hist"], "keep")
         self.assertEqual(open(hp).read(), before)
 
+    def test_hist_rewritten_after_password_change(self):   # 換 FUTURES_PASSWORD：明文 sha 沒變也要用新密碼重新加密
+        self.write()
+        new_pw = "new-password-7890ab"
+        r = K.write_files(self.out, self.meta, self.bars + [B("2025-01-06", 9)], new_pw, "2025-01-01", key_root=self.tmp)
+        self.assertEqual(r["hist"], "rewrite")
+        self.assertEqual(K.decrypt(self.read("t.hist.enc.json"), new_pw, self.tmp)["bars"], self.bars[:2])
+        r = K.write_files(self.out, self.meta, self.bars + [B("2025-01-07", 9)], new_pw, "2025-01-01", key_root=self.tmp)
+        self.assertEqual(r["hist"], "keep")   # 之後同一個密碼就不再重寫
+
+    def test_hist_rewritten_when_file_broken(self):
+        self.write()
+        hp = os.path.join(self.out, "t.hist.enc.json")
+        open(hp, "w").write('{"code":"t"')   # 半寫的檔
+        r = self.write(self.bars + [B("2025-01-06", 9)])
+        self.assertEqual(r["hist"], "rewrite")
+        self.assertEqual(K.decrypt(self.read("t.hist.enc.json"), PW, self.tmp)["bars"], self.bars[:2])
+
+    def test_hist_sha_stable_through_json(self):   # 解回來的 bars（浮點、None）重算 sha 要一樣，才不會每班重寫
+        bars = [["2024-05-01", 0.1 + 0.2, 1234.5678, 1e-4, 3.0, None], ["2024-05-02", 12.3456, 13.0, 11.9999, 12.5, 0]]
+        self.assertEqual(K.hist_sha("t", bars), K.hist_sha("t", json.loads(json.dumps(bars))))
+
     def test_hist_rewritten_after_split(self):
         self.write()
         hp = os.path.join(self.out, "t.hist.enc.json")

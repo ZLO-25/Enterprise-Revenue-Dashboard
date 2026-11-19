@@ -291,6 +291,15 @@ def decrypt(outer, password, key_root=None):
     return json.loads(zlib.decompress(plain))
 
 
+def hist_readable(path, sha, password, key_root=None):
+    """現有歷史檔能用目前的密碼解開，而且明文 sha 與外層記的相同。"""
+    try:
+        h = decrypt(jload(path), password, key_root)
+        return hist_sha(h["code"], h["bars"]) == sha
+    except Exception:  # noqa: BLE001  解不開、檔案壞掉都算讀不到
+        return False
+
+
 def _dump(path, obj):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
@@ -310,6 +319,9 @@ def write_files(outdir, meta, bars, password, cut, *, provisional=False, pending
     if prev_outer is None:
         prev_outer = jload(os.path.join(outdir, code + ".enc.json"))
     action, sha, why = hist_decision(prev_outer, os.path.exists(hpath), code, hist)
+    if action == "keep" and not hist_readable(hpath, sha, password, key_root):
+        # 明文沒變，但現有檔用目前的密碼解不開（換過 FUTURES_PASSWORD）或內容對不上 sha：不重寫的話前端永遠讀不到歷史
+        action, why = "rewrite", "現有歷史檔用目前的密碼解不開或內容與 sha 不符（換過密碼？），重新加密"
     href = None
     if action != "none":
         href = {"file": code + ".hist.enc.json", "lastDate": hist[-1][0], "bars": len(hist), "sha": sha}

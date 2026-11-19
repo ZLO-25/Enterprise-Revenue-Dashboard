@@ -19,6 +19,9 @@ MISSING = ["rklb"]      # 故意不產生檔：清單那一列要顯示「—」
 PROVISIONAL = ["amd"]   # 暫定的最新一根
 SHORT = ["spcx"]        # 上市不滿一年：沒有 hist 檔
 PENDING = ["csco"]      # 有「待確認」的 K 棒
+OLD_PASSWORD = "fixture-old-pass-2025"   # 模擬換過密碼：還沒用新密碼重新產生的檔
+STALE_KEY = ["mu"]      # 近期檔還是舊密碼加密：只有那一列顯示原因，不能把整個網站上鎖
+STALE_HIST = ["msft"]   # 歷史檔還是舊密碼加密：只顯示近期並標「歷史檔讀不到」，不能上鎖
 FUT_NAMES = {"ym": ("小道瓊", "E-mini Dow ($5)", "CBOT YM", 44000, 0), "nq": ("小那指", "E-mini Nasdaq-100 ($20)", "CME NQ", 21000, 2),
              "tx": ("大台指", "TAIEX Futures (TX)", "TAIFEX TX", 23000, 0)}
 
@@ -97,8 +100,19 @@ def build(outdir, today=None):
                 "source": {"n": f"合成測試資料（模仿 Yahoo Finance {ysym} 日線，不是真實行情）", "url": "https://example.invalid/fixture"}}
         K.write_files(os.path.join(outdir, "data", "kbar"), meta, bars, PASSWORD, cut, provisional=code in PROVISIONAL, pending=pend,
                       check={"n": 10, "note": "合成測試資料：沒有與任何來源核對"}, fetched_at=fetched, key_root=outdir)
+        kdir = os.path.join(outdir, "data", "kbar")
+        if code in STALE_KEY:      # 近期檔換成舊密碼加密（外層不變）
+            o = json.load(open(os.path.join(kdir, code + ".enc.json")))
+            o.update(K.encrypt(K.decrypt(o, PASSWORD, outdir), OLD_PASSWORD, outdir))
+            json.dump(o, open(os.path.join(kdir, code + ".enc.json"), "w"), separators=(",", ":"))
+        if code in STALE_HIST:     # 歷史檔換成舊密碼加密（外層與 sha 不變）
+            hp = os.path.join(kdir, code + ".hist.enc.json")
+            o = json.load(open(hp))
+            o.update(K.encrypt(K.decrypt(o, PASSWORD, outdir), OLD_PASSWORD, outdir))
+            json.dump(o, open(hp, "w"), separators=(",", ":"))
         made.append(code)
-    return {"password": PASSWORD, "missing": MISSING, "provisional": PROVISIONAL, "short": SHORT, "pending": PENDING, "made": made, "asOf": end.isoformat()}
+    return {"password": PASSWORD, "missing": MISSING, "provisional": PROVISIONAL, "short": SHORT, "pending": PENDING,
+            "staleKey": STALE_KEY, "staleHist": STALE_HIST, "made": made, "asOf": end.isoformat()}
 
 
 if __name__ == "__main__":

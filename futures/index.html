@@ -1218,13 +1218,18 @@ const KB = (() => {
     return outers[code];
   }
   const unlocked = async () => !!(await FUT.keyFromStore());
-  /* 近期檔（個股）；期貨走 FUT.load。沒有金鑰或金鑰錯回傳 null（金鑰錯會清掉記住的金鑰） */
+  /* 近期檔（個股）；期貨走 FUT.load。沒有金鑰或金鑰錯回傳 null（金鑰錯會清掉記住的金鑰）。
+     這一檔解不開但期貨解得開（金鑰是對的；例如換密碼後這一檔還沒用新密碼重新產生）→ 丟錯誤，只讓這一檔顯示原因，不把整個網站上鎖 */
   async function recent(code) {
     if (isFut(code)) return FUT.load(C.futBase, code);
     const ck = 'kb:' + code; if (FUT.cache[ck]) return FUT.cache[ck];
     const key = await FUT.keyFromStore(); if (!key) return null;
     const o = await outer(code);
-    try { FUT.cache[ck] = await FUT.decrypt(o, key); } catch (e) { FUT.lock(); return null; }
+    try { FUT.cache[ck] = await FUT.decrypt(o, key); }
+    catch (e) {
+      if (!(await FUT.load(C.futBase, futCodes()[0]))) return null;   // 期貨也解不開：金鑰錯，FUT.load 已清掉金鑰
+      throw new Error('這一檔的資料檔解不開（可能還是舊密碼加密，下一次自動更新後會恢復）');
+    }
     return FUT.cache[ck];
   }
   /* 近期＋歷史合併成跟期貨 payload 同形狀的物件（bars 依日期串接、去重）。歷史檔讀不到 → 只用近期並標 histMissing */
@@ -1236,8 +1241,9 @@ const KB = (() => {
     let bars = r.bars, histMissing = false;
     if (o.hist && o.hist.file) {
       try {
+        // 近期檔剛用同一把金鑰解開，所以歷史檔解不開是檔案本身的問題（例如還是舊密碼加密）：當成讀不到，不上鎖
         const key = await FUT.keyFromStore(), hf = await FUT.getJSON(C.base + o.hist.file);
-        let h; try { h = await FUT.decrypt(hf, key); } catch (e) { FUT.lock(); return null; }
+        const h = await FUT.decrypt(hf, key);
         const seen = new Set(r.bars.map(b => b[0]));
         bars = h.bars.filter(b => !seen.has(b[0])).concat(r.bars).sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
       } catch (e) { histMissing = true; }
