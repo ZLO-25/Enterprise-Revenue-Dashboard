@@ -2439,7 +2439,7 @@ const FUT = (() => {
   }
 
   /* 大台指的來源說明（期交所官方資料，沒有第二來源） */
-  const pendList = (d) => d.pending && d.pending.length ? `<li><details><summary class="pend">待確認：${d.pending.length} 天的 K 棒沒有採用（點開看日期與原因）</summary><ul>${d.pending.map(p => `<li>${dstr(p.date)}：${esc(p.reason)}</li>`).join('')}</ul></details></li>` : '';
+  const pendList = (d) => d.pending && d.pending.length ? `<li><details><summary class="pend">待確認：${d.pending.length} 天的 K 棒沒有採用（點開看日期與原因）</summary><ul>${d.pending.map(p => `<li>${p.date ? dstr(p.date) + '：' : ''}${esc(p.reason)}</li>`).join('')}</ul></details></li>` : '';
   function srcTW(d) {
     return `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，和美國期貨同一班自動抓（台北早上，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
       `<li>只用日盤（一般交易時段 08:45–13:45）的開高低收與成交量，不含夜盤（盤後交易時段 15:00–05:00）。收盤價是期交所公布的收盤價，不是結算價。</li>` +
@@ -2448,14 +2448,23 @@ const FUT = (() => {
       `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` + pendList(d);
   }
 
+  /* TradingView 補充的 K 棒（Yahoo 沒有的早期歷史與缺漏日） */
+  function tvLine(d) {
+    const x = d.extra; if (!x) return '';
+    if (x.rejected) return '';
+    return `<li>補充來源：<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.n)}</a> 補了 ${x.prepended + x.filled} 根 K 棒` +
+      (x.prepended ? `（Yahoo 第一天之前的 ${x.prepended} 根，從 ${dstr(x.dates[0])} 起` : '（') + (x.filled ? `${x.prepended ? '；' : ''}中間缺漏或不合理的 ${x.filled} 天` : '') + `）。` +
+      `採用前先比對兩邊都有的 ${x.overlap} 天收盤價，差距中位數 ${x.medianDiffPct}%；缺漏日前後各 3 天也要一致才補。其餘日子都是 Yahoo。</li>`;
+  }
   /* 美國期貨（YM／NQ）的來源說明；原本直接寫在 page() 裡，抽成函式讓看盤頁（assets/kbar.js）共用，文字與行為沒有改 */
   function srcUS(d) {
     const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
     const checked = cr.ok || cme.length;
-    return `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上 7 點起每 15 分鐘檢查一次到晚上 11 點，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
+    return `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
         `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
         (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
         (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
+        tvLine(d) +
         `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
         `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
         `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +

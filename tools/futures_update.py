@@ -153,8 +153,13 @@ def check():
     exp = {s["code"]: expected_for(s) for s in SYMBOLS}
     have = {c: m.get("lastDate", "") for c, m in meta.items()}
     behind = behind_list(meta)
-    log(f"應有的最新交易日 {exp}；目前資料 {have}；" + ("落後：" + ",".join(behind) if behind else "已是最新"))
-    gh_output(stale="true" if behind else "false", expected=exp["ym"])
+    newimp = [c for c, m in meta.items() if import_sha(c) and m.get("importSha", "") != import_sha(c)]
+    log(f"應有的最新交易日 {exp}；目前資料 {have}；" + ("落後：" + ",".join(behind) if behind else "已是最新")
+        + (f"；有新的 TradingView 匯入檔：{','.join(newimp)}" if newimp else ""))
+    nokey = not (os.path.exists(IMPORT_PUB) and os.path.exists(IMPORT_KEY))
+    if nokey:
+        log("還沒有 TradingView 匯入用的金鑰，這一班會產生")
+    gh_output(stale="true" if behind or newimp or nokey else "false", expected=exp["ym"])
     return behind
 
 
@@ -287,6 +292,15 @@ def build(s, prev):
     bad = [b[0] for b in bars if not sane(b)]
     bars = [b for b in bars if sane(b)]
     pending = [{"date": d, "reason": "待確認：開高低收不合理（最高價低於開/收盤或最低價高於開/收盤），沒有採用"} for d in bad]
+    extra = None
+    tv = load_import(s["code"])
+    if tv:
+        bars, extra, filled = merge_tv(bars, tv, bad)
+        pending = [p for p in pending if p["date"] not in filled]
+        if extra.get("rejected"):
+            pending.append({"date": None, "reason": extra["rejected"]})
+        log(f"  TradingView 補充：{ {k: v for k, v in extra.items() if k != 'dates'} }")
+    log(f"  待確認日期：{[p['date'] for p in pending]}")
     try:
         st = fetch_stooq(s["stooq"])
         cross = {"source": "Stooq", "ok": True}
@@ -337,7 +351,7 @@ def build(s, prev):
         "firstDate": bars[0][0], "lastDate": bars[-1][0],
         "cols": ["date", "open", "high", "low", "close", "volume"], "bars": bars,
         "rolls": roll_dates(bars[0][0], bars[-1][0]),
-        "cross": cross, "cme": cme, "flagged": flagged[-200:], "pending": pending,
+        "cross": cross, "cme": cme, "flagged": flagged[-200:], "pending": pending, "extra": extra,
     }
 
 
@@ -472,6 +486,124 @@ def build_tx(s, prev, pw):
     }, set(got)
 
 
+# ---------- 匯入 TradingView 資料（補 Yahoo 沒有的早期歷史與缺漏日） ----------
+# Claude 用 TradingView MCP 抓到的日 K，用公鑰加密成 data/futures/import/<代號>.tv.enc.json 放進 repo（公開 repo 只看得到密文）。
+# 私鑰由 GitHub Actions 自己產生，用 FUTURES_PASSWORD 加密存在 data/futures/import.key.enc.json；只有 Actions 解得開。
+# 合併規則（資料誠實）：先用重疊日子比對收盤價；對得上才採用，只補 Yahoo 第一天之前的 K 棒與中間缺漏／不合理的日子，
+# 而且缺漏日前後各 3 個交易日兩邊收盤都要一致。對不起來的整份不採用，列入待確認。
+IMPORT_DIR = os.path.join(ROOT, "data", "futures", "import")
+IMPORT_PUB = os.path.join(ROOT, "data", "futures", "import.pub.pem")
+IMPORT_KEY = os.path.join(ROOT, "data", "futures", "import.key.enc.json")
+TV_TOL = 0.003  # TradingView 與 Yahoo 收盤價容許差距 0.3%
+
+
+def ensure_import_key(pw):
+    """還沒有匯入用的金鑰就產生一組（只在 Actions 執行，私鑰以密碼加密後才寫入）。"""
+    if os.path.exists(IMPORT_PUB) and os.path.exists(IMPORT_KEY):
+        return False
+    from cryptography.hazmat.primitives.asymmetric import rsa
+    from cryptography.hazmat.primitives import serialization
+    k = rsa.generate_private_key(public_exponent=65537, key_size=3072)
+    priv = k.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption())
+    with open(IMPORT_KEY, "w") as f:
+        json.dump(encrypt_password(priv, pw), f)
+    with open(IMPORT_PUB, "wb") as f:
+        f.write(k.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo))
+    log("  已產生 TradingView 匯入用的金鑰（公鑰 import.pub.pem；私鑰以密碼加密）")
+    return True
+
+
+def decrypt_password_raw(file, password):
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+    from cryptography.hazmat.primitives import hashes
+    kp = json.load(open(os.path.join(ROOT, "data", "futures", "key.json")))
+    key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=base64.b64decode(kp["salt"]), iterations=kp["iter"]).derive(password.encode("utf8"))
+    return AESGCM(key).decrypt(base64.b64decode(file["iv"]), base64.b64decode(file["ct"]), None)
+
+
+def decrypt_hybrid(file, priv_pem):
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.hazmat.primitives import serialization, hashes
+    from cryptography.hazmat.primitives.asymmetric import padding
+    priv = serialization.load_pem_private_key(priv_pem, password=None)
+    k = priv.decrypt(base64.b64decode(file["ek"]), padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+    return AESGCM(k).decrypt(base64.b64decode(file["iv"]), base64.b64decode(file["ct"]), None)
+
+
+def import_sha(code):
+    import hashlib
+    p = os.path.join(IMPORT_DIR, code + ".tv.enc.json")
+    return hashlib.sha256(open(p, "rb").read()).hexdigest()[:16] if os.path.exists(p) else ""
+
+
+def load_import(code):
+    """解開 TradingView 匯入檔；沒有檔或解不開回傳 None（解不開會在 log 說明，不印內容）。"""
+    p = os.path.join(IMPORT_DIR, code + ".tv.enc.json")
+    pw = os.environ.get("FUTURES_PASSWORD", "")
+    if not os.path.exists(p) or not os.path.exists(IMPORT_KEY) or len(pw) < 12:
+        return None
+    try:
+        priv = decrypt_password_raw(json.load(open(IMPORT_KEY)), pw)
+        return json.loads(zlib.decompress(decrypt_hybrid(json.load(open(p)), priv)))
+    except Exception as e:  # noqa: BLE001
+        log(f"  ⚠ TradingView 匯入檔解不開：{type(e).__name__}")
+        return None
+
+
+def tv_bars(tv, shift):
+    """TradingView 欄位格式 → {日期: [date,o,h,l,c,v]}；shift = 時間戳的 UTC 日期要加幾天才是交易日。"""
+    out = {}
+    for t, o, h, l, c, v in zip(tv["t"], tv["o"], tv["h"], tv["l"], tv["c"], tv["v"]):
+        d = (dt.datetime.fromtimestamp(t, dt.timezone.utc).date() + dt.timedelta(days=shift)).isoformat()
+        b = [d, float(o), float(h), float(l), float(c), int(v or 0)]
+        if sane(b):
+            out[d] = b
+    return out
+
+
+def merge_tv(bars, tv, bad=()):
+    """把 TradingView 補進 Yahoo 的日 K。回傳 (新 bars, 說明, 補上的日期集合)。"""
+    ya = {b[0]: b for b in bars}
+    best = None
+    for shift in (0, 1, -1):
+        tb = tv_bars(tv, shift)
+        common = [d for d in ya if d in tb]
+        if not common:
+            continue
+        diffs = sorted(abs(tb[d][4] - ya[d][4]) / ya[d][4] for d in common)
+        ok = sum(1 for x in diffs if x <= TV_TOL)
+        if best is None or ok > best[0]:
+            best = (ok, shift, tb, common, diffs)
+    info = {"n": f"TradingView（{tv.get('symbol', '')}）", "url": "https://www.tradingview.com/symbols/" + tv.get("symbol", "").replace(":", "-") + "/",
+            "fetched": tv.get("fetched"), "prepended": 0, "filled": 0, "dates": []}
+    if not best or len(best[3]) < 20 or best[4][len(best[4]) // 2] > TV_TOL or best[0] < 0.8 * len(best[3]):
+        info["rejected"] = (f"待確認：TradingView 匯入資料與 Yahoo 重疊 {len(best[3]) if best else 0} 天，收盤價對不起來（或重疊太少），整份沒有採用")
+        return bars, info, set()
+    ok, shift, tb, common, diffs = best
+    info.update(overlap=len(common), medianDiffPct=round(diffs[len(diffs) // 2] * 100, 3), shift=shift)
+    yd = sorted(ya)
+    first = yd[0]
+    add = {d: b for d, b in tb.items() if d < first}
+    agree = lambda d: d in tb and abs(tb[d][4] - ya[d][4]) / ya[d][4] <= TV_TOL
+    import bisect
+    filled = set()
+    for d, b in tb.items():
+        if d < first or d > yd[-1] or d in ya:
+            continue
+        i = bisect.bisect_left(yd, d)
+        near = yd[max(0, i - 3):i] + yd[i:i + 3]
+        if len(near) == 6 and all(agree(x) for x in near):
+            add[d] = b
+            filled.add(d)
+    info["prepended"] = sum(1 for d in add if d < first)
+    info["filled"] = len(filled)
+    info["dates"] = sorted(add)
+    info["bad"] = sorted(set(bad) & filled)
+    merged = sorted(list(ya.values()) + list(add.values()), key=lambda b: b[0])
+    return merged, info, filled
+
+
 def pack(obj):
     return zlib.compress(json.dumps(obj, separators=(",", ":"), ensure_ascii=False).encode("utf8"), 9)
 
@@ -506,6 +638,8 @@ def main():
         sys.exit("沒有設定 FUTURES_PASSWORD（或少於 12 字），停止：不會寫出未加密的資料。")
     outdir = os.path.join(ROOT, "data", "futures-dev" if dev else "futures")
     os.makedirs(outdir, exist_ok=True)
+    if not dev:
+        ensure_import_key(pw)
     failed = []
     for s in SYMBOLS:
         log(f"[{s['code']}] {s['name']}")
@@ -528,7 +662,8 @@ def main():
             log(f"  ✗ 失敗：{e}；保留上一版資料")
             failed.append(s["code"])
             continue
-        if prev.get("lastDate") == data["lastDate"] and prev.get("pendingCount", 0) == len(data["pending"]):
+        same_imp = prev.get("importSha", "") == import_sha(s["code"])
+        if same_imp and prev.get("lastDate") == data["lastDate"] and prev.get("firstDate") == data["firstDate"] and prev.get("pendingCount", 0) == len(data["pending"]):
             if checked != prev.get("checkedFor", ""):
                 prev["checkedFor"] = checked
                 with open(path, "w") as f:
@@ -543,6 +678,8 @@ def main():
                "bars": len(data["bars"]), "pendingCount": len(data["pending"]), "fetchedAt": data["fetchedAt"], **body}
         if checked > data["lastDate"]:
             out["checkedFor"] = checked
+        if import_sha(s["code"]):
+            out["importSha"] = import_sha(s["code"])
         with open(path, "w") as f:
             json.dump(out, f, separators=(",", ":"))
         log(f"  ✓ 已寫入 {os.path.relpath(path, ROOT)}（加密）")
