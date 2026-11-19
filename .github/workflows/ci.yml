@@ -48,7 +48,7 @@ jobs:
         run: |
           # 沿用上一步 Python Playwright 已經裝好的 chromium；測試腳本用 node 版 playwright 驅動它
           export PW_CHROMIUM="$(python3 -c 'from playwright.sync_api import sync_playwright as s; p = s().start(); print(p.chromium.executable_path); p.stop()')"
-          # node 版 playwright 釘成跟 Python 版同一個版本：兩邊同版才保證認得同一版 chromium（不釘的話 npm 新版一出就可能壞）
-          PW_VER="$(python3 -c 'import importlib.metadata as m; print(m.version("playwright"))')"
-          npm install --no-save --prefix "$RUNNER_TEMP/pw" "playwright@$PW_VER"
+          # node 版 playwright 釘成跟 Python 版同一個 major.minor（同一版 chromium）；補丁版號兩邊不一定都有，所以用 ~X.Y.0；裝不到才退回不釘
+          PW_MM="$(python3 -c 'import importlib.metadata as m; print(".".join(m.version("playwright").split(".")[:2]))')"
+          npm install --no-save --prefix "$RUNNER_TEMP/pw" "playwright@~$PW_MM.0" || npm install --no-save --prefix "$RUNNER_TEMP/pw" playwright
           NODE_PATH="$RUNNER_TEMP/pw/node_modules" node tools/tests/kbar_browser.cjs
