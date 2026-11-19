@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>指數期貨 K 棒</title><meta name="description" content="小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=992da559"><script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script></head><body>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>指數期貨 K 棒</title><meta name="description" content="小道瓊、小那斯達克、大台指期貨日 K、週 K、月 K 與均線、扣抵值、KD。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=992da559"><script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
@@ -282,6 +282,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fut-mini { position: relative; width: 100%; height: 360px; }
 .fut-co .co-top h2 { font-size: var(--step-2); }
 .fut-co .fut-px small { font-size: 0.75rem; color: var(--muted); font-family: var(--font-ui); }
+.fut-cards .fut-wide { grid-column: 1 / -1; }   /* 大台指：放在兩張美國期貨底下，整列寬 */
 .fut-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
 .fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
 .fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
@@ -422,7 +423,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 
 </style>
 
-<!-- 指數期貨 K 棒頁：小道瓊（YM）、小那斯達克（NQ）。資料加密，解鎖後才顯示；說明見 assets/futures.js 開頭。 -->
+<!-- 指數期貨 K 棒頁：小道瓊（YM）、小那斯達克（NQ）、大台指（TX）。資料加密，解鎖後才顯示；說明見 assets/futures.js 開頭。 -->
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="../">← 所有公司</a>
@@ -434,9 +435,9 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 
 <main class="wrap">
   <header class="masthead" id="top">
-    <div class="eyebrow">Index Futures · YM / NQ</div>
+    <div class="eyebrow">Index Futures · YM / NQ / TX</div>
     <h1 id="futTitle">指數期貨 K 棒</h1>
-    <p class="lede">小道瓊、小那斯達克<b>期貨</b>（不是指數本身）的日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值與 KD。每天台北早上自動更新到前一個交易日。</p>
+    <p class="lede">小道瓊、小那斯達克、大台指<b>期貨</b>（不是指數本身）的日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值與 KD。每天台北早上自動更新到前一個交易日。</p>
     <div class="meta-row"><span id="futSub"></span></div>
   </header>
 
@@ -446,7 +447,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <section id="chart">
       <div class="card wide">
         <div class="fut-ctrl">
-          <div class="seg" role="group" aria-label="商品"><button type="button" data-code="ym">小道瓊 YM</button><button type="button" data-code="nq">小那指 NQ</button></div>
+          <div class="seg" role="group" aria-label="商品"><button type="button" data-code="ym">小道瓊 YM</button><button type="button" data-code="nq">小那指 NQ</button><button type="button" data-code="tx">大台指 TX</button></div>
           <div class="seg" role="group" aria-label="週期"><button type="button" data-p="D">日K</button><button type="button" data-p="W">週K</button><button type="button" data-p="M">月K</button></div>
           <div class="seg fut-ma" role="group" aria-label="均線" id="futMaBtns"></div>
           <div class="seg" role="group" aria-label="成交量"><button type="button" id="futVol">成交量</button></div>
@@ -644,7 +645,7 @@ function drawWaterfall(W, el) {
 }
 
 
-/* 小道瓊、小那指期貨 K 棒：解密、合成週 K／月 K、指標計算、首頁小卡、K 棒圖。
+/* 小道瓊、小那指、大台指期貨 K 棒：解密、合成週 K／月 K、指標計算、首頁小卡、K 棒圖。
    資料：data/futures/<代號>.enc.json（AES-256-GCM 加密；金鑰 = PBKDF2-SHA256(密碼, data/futures/key.json 的 salt)）
    解鎖後把推導出的金鑰存在這台裝置的 localStorage，之後不用再輸入密碼；換密碼後解不開會自動要求重新輸入。
    指標口徑（與台灣看盤軟體一致）：
@@ -654,6 +655,9 @@ function drawWaterfall(W, el) {
 const FUT = (() => {
   const KEY_LS = 'erd-futures-key-v1';
   const MAS = [5, 10, 20, 50, 100];
+  /* 商品清單（顯示順序）：新增商品只要加在這裡＋tools/futures_update.py 的 SYMBOLS；檔案還沒產生的商品會自動略過 */
+  const CODES = ['ym', 'nq', 'tx'];
+  const DP = { ym: 0, nq: 2, tx: 0 };
   const MA_COLOR = (n) => ({ 5: '--s4', 10: '--s5', 20: '--s1', 50: '--s7', 100: '--s2' })[n];
   const b64 = (s) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
   const ub64 = (u) => btoa(String.fromCharCode(...new Uint8Array(u)));
@@ -743,7 +747,7 @@ const FUT = (() => {
 
   /* ---------- 顯示小工具 ---------- */
   const fmt = (n, dp = 2) => n == null ? '—' : n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
-  const dp = (code) => code === 'ym' ? 0 : 2;
+  const dp = (code) => DP[code] ?? 2;
   const dstr = (t) => t.replace(/-/g, '/');
   function fresh(lastDate) {
     // 台北早上看到的應該是美國「前一個交易日」；超過 4 天沒新 K 棒（連假除外）就提醒
@@ -992,10 +996,13 @@ const FUT = (() => {
     wireTool(el);
     async function render() {
       ready = true;
-      let metas;
-      try { metas = await Promise.all(['ym', 'nq'].map(c => meta(base, c))); }
-      catch (e) { el.innerHTML = `<p class="fut-note">目前讀不到期貨資料（第一次資料還在產生，或這裡不是網站版）。請到 <a href="${link}" target="_blank" rel="noopener">網站的 K 棒頁</a> 查看。</p>`; return; }
-      const datas = await Promise.all(['ym', 'nq'].map(c => load(base, c)));
+      let metas, codes;
+      try {
+        const got = await Promise.allSettled(CODES.map(c => meta(base, c)));
+        codes = CODES.filter((c, i) => got[i].status === 'fulfilled'); metas = got.filter(g => g.status === 'fulfilled').map(g => g.value);
+        if (!codes.length) throw new Error('no data');
+      } catch (e) { el.innerHTML = `<p class="fut-note">目前讀不到期貨資料（第一次資料還在產生，或這裡不是網站版）。請到 <a href="${link}" target="_blank" rel="noopener">網站的 K 棒頁</a> 查看。</p>`; return; }
+      const datas = await Promise.all(codes.map(c => load(base, c)));
       if (datas.some(d => !d)) {
         el.innerHTML = `<div class="fut-lockbox"></div><p class="fut-note">${metas.map(m => `${m.name}期貨資料截至 ${dstr(m.lastDate)}`).join('；')}，解鎖後顯示。</p>`;
         lockForm(el.querySelector('.fut-lockbox'), base, () => { ready = false; render(); });
@@ -1003,8 +1010,8 @@ const FUT = (() => {
       }
       const legend = MAS.map(n => `<span><i style="background:${T(MA_COLOR(n))}"></i>MA${n}</span>`).join('') + `<span><i style="background:${T('--s1')}"></i>K</span><span><i style="background:${T('--s2')}"></i>D</span>`;
       el.innerHTML = `<div class="fut-ctrl"><div class="seg" role="group" aria-label="週期">${['D', 'W', 'M'].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === st.p}">${{ D: '日K', W: '週K', M: '月K' }[p]}</button>`).join('')}</div><div class="fut-leg">${legend}</div>${toolBtn()}<span class="fut-hint">滑鼠滾輪縮放、按住拖曳左右移動；畫好的水平線可拖曳，點一下可改顏色或刪除</span></div>
-        <div class="fut-cards">${datas.map(d => `<article class="co fut-co" data-code="${d.code}">
-          <div class="co-top"><h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月</span></h2>${badge(fresh(d.lastDate))}</div>
+        <div class="fut-cards">${datas.map(d => `<article class="co fut-co${d.market === 'TW' ? ' fut-wide' : ''}" data-code="${d.code}">
+          <div class="co-top"><h2>${d.name}期貨<span class="code">${d.exchange} · 連續近月${d.market === 'TW' ? ' · 日盤' : ''}</span></h2>${badge(fresh(d.lastDate))}</div>
           <div class="fut-px"></div>
           <div class="fut-mini"></div>
           <div class="foot"><span>資料截至 ${dstr(d.lastDate)}</span><a class="go" href="${link}?s=${d.code}">看數值與扣抵 →</a></div>
@@ -1021,16 +1028,26 @@ const FUT = (() => {
         charts.push(chartInto(card.querySelector('.fut-mini'), d, bars, S, { p: st.p, mas: new Set(MAS), vol: false, marks: false, show: { D: 120, W: 104, M: 120 }[st.p], compact: true }));
       });
     }
-    const redraw = () => { if (ready && charts.length) draw(['ym', 'nq'].map(c => cache[c])); };
+    const redraw = () => { if (ready && charts.length) draw(CODES.filter(c => cache[c]).map(c => cache[c])); };
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw);
     new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     setOpen(isOpen());
   }
 
+  /* 大台指的來源說明（期交所官方資料，沒有第二來源） */
+  const pendList = (d) => d.pending && d.pending.length ? `<li><details><summary class="pend">待確認：${d.pending.length} 天的 K 棒沒有採用（點開看日期與原因）</summary><ul>${d.pending.map(p => `<li>${dstr(p.date)}：${esc(p.reason)}</li>`).join('')}</ul></details></li>` : '';
+  function srcTW(d) {
+    return `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，和美國期貨同一班自動抓（台北早上，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
+      `<li>只用日盤（一般交易時段 08:45–13:45）的開高低收與成交量，不含夜盤（盤後交易時段 15:00–05:00）。收盤價是期交所公布的收盤價，不是結算價。</li>` +
+      `<li>近月：每天取最早到期的單一月份合約（不含價差、週契約）。圖上「換月」圓點是近月合約實際換成下一個月份的第一天（到期日是每月第三個星期三）。連續合約沒有做價格調整，換月時會有跳空。</li>` +
+      `<li>交叉核對：期交所是官方交易所資料，目前沒有第二個免費來源可以自動比對。</li>` +
+      `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` + pendList(d);
+  }
+
   /* ---------- K 棒頁 ---------- */
   function page(root, base) {
     const q = new URLSearchParams(location.search);
-    const st = { code: q.get('s') === 'nq' ? 'nq' : 'ym', p: { D: 'D', W: 'W', M: 'M' }[q.get('p')] || 'D', mas: new Set(MAS), vol: true };
+    const st = { code: CODES.includes(q.get('s')) ? q.get('s') : 'ym', p: { D: 'D', W: 'W', M: 'M' }[q.get('p')] || 'D', mas: new Set(MAS), vol: true };
     const $r = (s) => root.querySelector(s);
     let chart = null;
     async function go() {
@@ -1052,7 +1069,7 @@ const FUT = (() => {
       const done = periodDone(bars[bars.length - 1].last || bars[bars.length - 1].t, st.p);
       const pName = { D: '日 K', W: '週 K', M: '月 K' }[st.p];
       $r('#futTitle').textContent = `${d.name}期貨 ${pName}`;
-      $r('#futSub').textContent = `${d.exchange} 連續近月合約（未調整）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}` + (done ? '' : `· 最後一根${pName.replace(' K', '')}尚未收完，只算到 ${dstr(d.lastDate)}`);
+      $r('#futSub').textContent = `${d.exchange} 連續近月合約（未調整${d.session ? '，' + d.session : ''}）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}` + (done ? '' : `· 最後一根${pName.replace(' K', '')}尚未收完，只算到 ${dstr(d.lastDate)}`);
       if (chart) { chart.remove(); chart = null; }
       chart = chartInto($r('#futChart'), d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true });
       linesList($r('#futLines'), d);
@@ -1075,6 +1092,7 @@ const FUT = (() => {
           const diff = last.c - x.c, nx = m + diff / n;
           return `<tr><td><i class="dot" style="background:${T(MA_COLOR(n))}"></i>MA${n}</td><td>${fmt(m, q)}</td><td>${fmt(x.c, q)}</td><td>${dstr(x.t)}</td><td class="${diff >= 0 ? 'kup' : 'kdn'}">${diff >= 0 ? '+' : '−'}${fmt(Math.abs(diff), q)}</td><td class="txt">${diff > 0 ? '均線上揚' : diff < 0 ? '均線下彎' : '均線持平'}，變成 ${fmt(nx, q)}</td></tr>`; }).join('') + '</tbody>';
       /* 來源與待確認 */
+      if (d.market === 'TW') { $r('#futSrc').innerHTML = srcTW(d); return; }
       const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
       const checked = cr.ok || cme.length;
       $r('#futSrc').innerHTML = `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上 7 點起每 15 分鐘檢查一次到晚上 11 點，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
@@ -1084,7 +1102,7 @@ const FUT = (() => {
         `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
         `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
         `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
-        (d.pending && d.pending.length ? `<li><details><summary class="pend">待確認：${d.pending.length} 天的 K 棒沒有採用（點開看日期與原因）</summary><ul>${d.pending.map(p => `<li>${dstr(p.date)}：${esc(p.reason)}</li>`).join('')}</ul></details></li>` : '');
+        pendList(d);
     }
     root.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
@@ -1103,7 +1121,7 @@ const FUT = (() => {
     go();
   }
 
-  return { unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
+  return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
 })();
 
 FUT.page(document.querySelector('main'), '../data/futures/');
