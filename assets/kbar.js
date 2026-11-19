@@ -2,12 +2,12 @@
    資料：data/kbar/<代號>.enc.json（近期：前一年 1/1 起）＋ <代號>.hist.enc.json（更早的歷史，外層 hist 指到它）。
          加密、金鑰、密碼都與期貨共用（解鎖一次，期貨與個股都能看）。檔案由 GitHub Actions（prices-daily 的 tools/kbar_update.py）寫入。
    兩個用法：
-     KB.watch(root, cfg)   看盤頁（futures/）：左清單＋大圖
+     KB.watch(root, cfg)   看盤頁（futures/）：預設「總覽牆」（全部商品的小 K 棒，依分類篩選）；點卡片進「單檔」（左清單＋大圖）；網址有 ?s= 直接進單檔
      KB.stock(el, opts)    個股頁「今日股價與估值」的 K 棒檢視（由 assets/daily.js 延遲載入本檔後呼叫）
    資料誠實：讀不到的商品顯示「—」與原因，不顯示假數字；沒解鎖不顯示任何價格。 */
 const KB = (() => {
   const MAS = FUT.MAS, fmt = FUT.fmt, dstr = FUT.dstr, esc = FUT.esc;
-  const LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort';
+  const LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
   let C = { base: '../data/kbar/', futBase: '../data/futures/', companies: [], link: '../' };
   const futCodes = () => (FUT.SYMS || ['ym', 'nq']).slice();
@@ -150,7 +150,7 @@ const KB = (() => {
       d = x; lockbox.hidden = true; body.hidden = false;
       draw();
     }
-    function draw() { if (!d || body.hidden) return; sync(el, st); render(els, d, st, item); $('.kb-asof').textContent = `資料截至 ${dstr(d.lastDate)}。` + (d.histMissing ? `歷史檔讀不到，只顯示 ${dstr(d.firstDate)} 起的近期資料（週 K、月 K、長天期均線與 KD 不完整）。` : ''); }
+    function draw() { if (!d || body.hidden || el.hidden || el.closest('[hidden]')) return; sync(el, st); render(els, d, st, item); $('.kb-asof').textContent = `資料截至 ${dstr(d.lastDate)}。` + (d.histMissing ? `歷史檔讀不到，只顯示 ${dstr(d.firstDate)} 起的近期資料（週 K、月 K、長天期均線與 KD 不完整）。` : ''); }
     el.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
       if (b.dataset.p) st.p = b.dataset.p; else if (b.dataset.ma) { const n = +b.dataset.ma; st.mas.has(n) ? st.mas.delete(n) : st.mas.add(n); } else if (b.dataset.vol) st.vol = !st.vol; else return;
@@ -175,7 +175,11 @@ const KB = (() => {
     const sectors = []; items.forEach(it => { if (!sectors.includes(it.sector)) sectors.push(it.sector); });
     const q = new URLSearchParams(location.search);
     const st = { p: { D: 'D', W: 'W', M: 'M' }[q.get('p')] || 'D', mas: new Set(MAS), vol: true, sort: ls.get(SORT_LS) === 'chg' ? 'chg' : 'sector' };
-    let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];
+    const validF = (v) => v === 'all' || sectors.includes(v);
+    st.f = validF(q.get('g')) ? q.get('g') : validF(ls.get(FILT_LS)) ? ls.get(FILT_LS) : 'all';
+    st.kd = false;
+    let mode = gmap[q.get('s')] ? 'single' : 'grid';
+    let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];   // 記住的代號只用在「從總覽切到單檔」的預設商品；沒有 ?s= 的網址一律開總覽
     let d = null, seq = 0, locked = true, loaded = 0, order = [];
     const els = { leg: $('#futLeg'), chart: $('#futChart'), lines: $('#futLines'), title: $('#futTitle'), sub: $('#futSub'), ma: $('#futMaTbl'), src: $('#futSrc') };
 
@@ -208,26 +212,131 @@ const KB = (() => {
       }
       $('#kbTogName').textContent = `${cur.name} ${cur.ticker}`;
     }
-    let raf = 0; const soon = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderList(); }); };
+    let raf = 0; const soon = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderList(); if (mode === 'grid') updateGrid(); }); };
     /* 逐檔延遲讀取：一次 4 檔，讀好一檔就更新那一列，不等全部 */
     async function loadAll() {
       loaded = 0; items.forEach(it => { it.q = null; it.err = ''; });
       const todo = items.slice(); const worker = async () => {
         while (todo.length) {
           const it = todo.shift();
-          try { const r = await recent(it.code); if (r) it.q = quick(r); else if (!(await unlocked())) { locked = true; } }
+          try { const r = await recent(it.code); if (r) { it.q = quick(r); it.flags = { prov: !!r.provisional, pend: (r.pending || []).length }; } else if (!(await unlocked())) { locked = true; } }
           catch (e) { it.err = errWhy(e); }
           loaded++; soon();
         }
       };
       await Promise.all([worker(), worker(), worker(), worker()]);
       loaded = items.length; soon();
+      if (mode === 'grid' && st.sort === 'chg' && !locked) renderGrid();   // 漲跌幅排序要等全部讀完才排得準
     }
     const errWhy = (e) => /404/.test(e && e.message || '') ? '讀不到資料檔（第一次資料還在產生，或還沒有這一檔）' : '讀不到資料（' + ((e && e.message) || e) + '）';
     async function loadOuters() {
       const todo = items.slice();
       const worker = async () => { while (todo.length) { const it = todo.shift(); try { const o = await outer(it.code); it.lastDate = o.lastDate; if (o.name && it.kind === 'fut') it.name = o.name; it.err = ''; } catch (e) { it.err = errWhy(e); } soon(); } };
       await Promise.all([worker(), worker(), worker(), worker()]);
+    }
+
+    /* ----- 總覽牆 ----- */
+    const gridEl = $('#kbGrid'), cardsEl = $('#kbCards');
+    const inF = (it) => st.f === 'all' || it.sector === st.f;
+    const gUrl = () => { const u = new URLSearchParams(); if (st.f !== 'all') u.set('g', st.f); u.set('p', st.p); return '?' + u; };
+    /* 同時最多 4 張卡在取資料（週 K、月 K 要讀歷史檔） */
+    let act = 0; const wait = [];
+    const lim = (fn) => new Promise((res, rej) => {
+      const run = () => { act++; Promise.resolve().then(fn).then(res, rej).finally(() => { act--; const n = wait.shift(); if (n) n(); }); };
+      act < 4 ? run() : wait.push(run);
+    });
+    const cardHTML = (it) => `<article class="kb-card" data-id="${esc(it.id)}"><div class="kb-ch"><button type="button" class="kb-ct" data-open="${esc(it.id)}">${esc(it.name)}</button><span class="c">${esc(it.ticker)}</span><span class="kb-cpx"></span></div><div class="kb-cm"></div><div class="kb-cbox"></div><div class="kb-cf"><button type="button" class="kb-more" data-open="${esc(it.id)}">看大圖 →</button></div></article>`;
+    function updateCard(card) {
+      const it = gmap[card.dataset.id], x = it.q, px = card.querySelector('.kb-cpx'), cm = card.querySelector('.kb-cm'), box = card.querySelector('.kb-cbox');
+      if (locked) { px.innerHTML = '<b>🔒</b>'; cm.textContent = it.lastDate ? `資料截至 ${dstr(it.lastDate)}（解鎖後顯示價格）` : '資料截至 —'; return; }
+      if (x) {
+        px.innerHTML = `<b>${fmt(x.c, x.dp)}</b><span class="ch ${arrow(x.chg)}">${x.chg == null ? '—' : sp(x.chg, 2)}</span>`;
+        const f = it.flags || {};
+        cm.innerHTML = `資料 ${dstr(x.date)}` + (f.prov ? ' · <span class="pend">暫定（收盤後 Yahoo 日線未定案）</span>' : '') + (f.pend ? ` · <span class="pend">待確認 ${f.pend} 天</span>` : '') + (card._hm && st.p !== 'D' ? ' · <span class="pend">歷史檔讀不到，只顯示近期</span>' : '');
+      } else if (it.err) {
+        px.innerHTML = '<b>—</b>'; cm.innerHTML = `<span class="pend">${esc(it.err)}</span>`;
+        if (!card._chart && !box.firstChild) box.innerHTML = '<p class="kb-empty">—　沒有資料，不畫圖</p>';
+      } else { px.innerHTML = '<b>…</b>'; cm.textContent = '讀取中'; }
+    }
+    function updateGrid() {
+      cardsEl.querySelectorAll('.kb-card').forEach(updateCard);
+      const sum = $('#kbGSum'), stocks = items.filter(i => i.kind === 'stock' && inF(i));
+      if (locked) sum.textContent = '解鎖後顯示各檔漲跌與上漲／下跌家數';
+      else if (!stocks.length) sum.textContent = '這個分類沒有個股，不計上漲／下跌家數';
+      else {
+        const got = stocks.filter(i => i.q && i.q.chg != null), up = got.filter(i => i.q.chg > 0).length, dn = got.filter(i => i.q.chg < 0).length;
+        sum.innerHTML = `上漲 <b class="kup">${up}</b> · 下跌 <b class="kdn">${dn}</b> · 平 <b>${got.length - up - dn}</b><small>（目前分類 ${stocks.length} 檔個股，各商品最新一個交易日${loaded < items.length ? `；讀取中 ${loaded}/${items.length}` : ''}）</small>`;
+      }
+    }
+    function release(card) {
+      card._seq = (card._seq || 0) + 1;
+      const box = card.querySelector('.kb-cbox');
+      if (card._chart) { try { card._chart.remove(); } catch (e) { } card._chart = null; }
+      if (box._linesOff) box._linesOff();
+      box.innerHTML = '';
+    }
+    const releaseAll = () => cardsEl.querySelectorAll('.kb-card').forEach(release);
+    async function buildCard(card) {
+      const it = gmap[card.dataset.id], box = card.querySelector('.kb-cbox');
+      if (locked || it.err || card._chart) return;
+      const my = card._seq = (card._seq || 0) + 1;
+      let d;
+      try { d = await lim(() => st.p === 'D' ? recent(it.code) : full(it.code)); }
+      catch (e) { if (my !== card._seq || !card.isConnected) return; box.innerHTML = `<p class="kb-empty">—　${esc(errWhy(e))}</p>`; return; }
+      if (my !== card._seq || !card.isConnected) return;
+      if (!d) { locked = true; items.forEach(i => { i.q = null; }); renderList(); renderGrid(); return; }
+      const bars = FUT.aggregate(FUT.toBars(d), st.p);
+      if (!bars.length) { box.innerHTML = '<p class="kb-empty">—　沒有 K 棒資料</p>'; return; }
+      box.innerHTML = '';
+      card._hm = !!d.histMissing;
+      card._chart = FUT.chartInto(box, d, bars, FUT.study(bars), { p: st.p, mas: new Set(MAS), vol: false, marks: false, kd: st.kd, compact: true, readonly: true, show: { D: 120, W: 104, M: 120 }[st.p] });
+      updateCard(card);
+    }
+    let io = null;
+    function renderGrid() {
+      releaseAll(); if (io) io.disconnect();
+      $('#kbChips').innerHTML = ['all'].concat(sectors).map(f => `<button type="button" class="kb-chip" data-f="${esc(f)}" aria-pressed="${f === st.f}">${f === 'all' ? '全部' : esc(f)}<span>${f === 'all' ? items.length : items.filter(i => i.sector === f).length}</span></button>`).join('');
+      $('#kbGP').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gp === st.p)));
+      $('#kbGSort').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gsort === st.sort)));
+      $('#kbGKD').setAttribute('aria-pressed', String(st.kd));
+      cardsEl.classList.toggle('kb-kd', st.kd);
+      const list = items.filter(inF); let html = '';
+      if (st.sort === 'sector') sectors.forEach(sc => { const arr = list.filter(i => i.sector === sc); if (!arr.length) return; if (st.f === 'all') html += `<h3 class="kb-gh">${esc(sc)}<span>${arr.length}</span></h3>`; html += arr.map(cardHTML).join(''); });
+      else html = list.slice().sort((a, b) => (b.q && b.q.chg != null ? b.q.chg : -1e9) - (a.q && a.q.chg != null ? a.q.chg : -1e9)).map(cardHTML).join('');
+      cardsEl.innerHTML = html;
+      const lb = $('#kbGLockBox'); lb.hidden = !locked;
+      if (locked) FUT.lockForm(lb, C.futBase, () => { locked = false; loadAll(); renderGrid(); }); else lb.innerHTML = '';
+      updateGrid();
+      if (locked) return;
+      if ('IntersectionObserver' in window) {
+        io = io || new IntersectionObserver((es) => es.forEach(e => { e.target._near = e.isIntersecting; if (e.isIntersecting && !e.target._chart) buildCard(e.target); }), { rootMargin: '300px' });
+        cardsEl.querySelectorAll('.kb-card').forEach(c => io.observe(c));
+      } else cardsEl.querySelectorAll('.kb-card').forEach(c => buildCard(c));
+    }
+    function rebuildAll() { cardsEl.querySelectorAll('.kb-card').forEach(c => { release(c); updateCard(c); if (c._near || !io) buildCard(c); }); }
+    /* 上一頁／下一頁：從總覽進單檔用 pushState（state.kb＝'fromGrid'），單檔內換商品、週期用 replaceState（保留 state）；
+       how：'push' 新增一筆歷史、'none' 由 popstate 呼叫（網址已經是目標），其他＝replaceState */
+    const rep = (url) => history.replaceState(history.state, '', url);
+    function setMode(m, it, how) {
+      mode = m;
+      $('#kbMode').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+      // 章節導覽在 main 外面：要從整份文件找，總覽模式藏起只有單檔才有的區塊連結（反之亦然），不留點了沒反應的連結
+      (root.ownerDocument || document).querySelectorAll('.secnav [data-mode-link]').forEach(a => { a.hidden = a.dataset.modeLink !== m; });
+      if (m === 'single') {
+        if (it) cur = it;
+        if (how === 'push') history.pushState({ kb: 'fromGrid' }, '', `?s=${cur.id}&p=${st.p}`);
+        releaseAll(); if (io) io.disconnect();
+        gridEl.hidden = true; $('#kbApp').hidden = false;
+        $('#kbApp').classList.remove('kb-open');
+        renderList(); go();
+        if (it && $('#kbApp').scrollIntoView) $('#kbApp').scrollIntoView({ block: 'start' });
+      } else {
+        seq++; d = null;
+        const c = els.chart; if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = '';
+        $('#kbApp').hidden = true; gridEl.hidden = false;
+        if (how === 'push') history.pushState({ kb: 'grid' }, '', gUrl()); else if (how !== 'none') rep(gUrl());
+        renderGrid();
+      }
     }
 
     /* ----- 選商品 ----- */
@@ -243,7 +352,7 @@ const KB = (() => {
     async function go() {
       const my = ++seq, it = cur;
       ls.set(LAST_LS, it.id);
-      history.replaceState(null, '', `?s=${it.id}&p=${st.p}`);
+      rep(`?s=${it.id}&p=${st.p}`);
       const fin = $('#kbFin'); if (it.href) { fin.href = it.href; fin.hidden = false; } else fin.hidden = true;
       $('#futTitle').textContent = `${it.name} ${it.ticker} ${pNames[st.p]}`;
       if (!(await unlocked())) { showLock(my); return; }
@@ -282,10 +391,28 @@ const KB = (() => {
       else if (b.id === 'futVol') st.vol = !st.vol;
       else if (b.id === 'futLockBtn') { FUT.lock(); locked = true; items.forEach(i => { i.q = null; }); renderList(); go(); return; }
       else return;
-      if (b.dataset.p) { history.replaceState(null, '', `?s=${cur.id}&p=${st.p}`); $('#futTitle').textContent = `${cur.name} ${cur.ticker} ${pNames[st.p]}`; }
+      if (b.dataset.p) { rep(`?s=${cur.id}&p=${st.p}`); $('#futTitle').textContent = `${cur.name} ${cur.ticker} ${pNames[st.p]}`; }
       draw();
     });
+    /* 回總覽：這一筆是從總覽 push 進來的 → 退回上一筆（下一頁可再進單檔）；直接打開 ?s= 的網址 → push 一筆總覽 */
+    const toGrid = () => { if (history.state && history.state.kb === 'fromGrid') history.back(); else setMode('grid', null, 'push'); };
+    $('#kbMode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b || b.dataset.mode === mode) return; if (b.dataset.mode === 'single') setMode('single', cur, 'push'); else toGrid(); });
+    $('#kbBack').addEventListener('click', toGrid);
+    window.addEventListener('popstate', () => {
+      const u = new URLSearchParams(location.search), s = gmap[u.get('s')], p = { D: 'D', W: 'W', M: 'M' }[u.get('p')] || st.p;
+      if (s) { if (mode === 'single' && s === cur && p === st.p) return; st.p = p; setMode('single', s, 'none'); return; }
+      const f = validF(u.get('g')) ? u.get('g') : 'all';
+      if (mode === 'grid' && f === st.f && p === st.p) return;   // 只是章節錨點（#…）的上一頁
+      st.f = f; st.p = p; setMode('grid', null, 'none');
+    });
+    $('#kbChips').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (!b) return; st.f = b.dataset.f; ls.set(FILT_LS, st.f); rep(gUrl()); renderGrid(); });
+    $('#kbGP').addEventListener('click', (e) => { const b = e.target.closest('button[data-gp]'); if (!b || b.dataset.gp === st.p) return; st.p = b.dataset.gp; rep(gUrl()); $('#kbGP').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gp === st.p))); rebuildAll(); });
+    $('#kbGKD').addEventListener('click', () => { st.kd = !st.kd; $('#kbGKD').setAttribute('aria-pressed', String(st.kd)); cardsEl.classList.toggle('kb-kd', st.kd); rebuildAll(); });
+    $('#kbGSort').addEventListener('click', (e) => { const b = e.target.closest('button[data-gsort]'); if (!b) return; st.sort = b.dataset.gsort; ls.set(SORT_LS, st.sort); renderList(); renderGrid(); });
+    cardsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (b) setMode('single', gmap[b.dataset.open], 'push'); });
+    $('#kbGLock').addEventListener('click', () => { FUT.lock(); locked = true; items.forEach(i => { i.q = null; }); renderList(); renderGrid(); });
     document.addEventListener('keydown', (e) => {
+      if (mode !== 'single') return;
       if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       const t = e.target; if (t && (/INPUT|TEXTAREA|SELECT/.test(t.tagName || '') || t.isContentEditable)) return;
@@ -294,7 +421,7 @@ const KB = (() => {
     FUT.wireTool(root);
     FUT.Lines.on((c) => { if (d && (c == null || c === d.code)) FUT.linesList(els.lines, d); });
     $('#futMaBtns').innerHTML = maBtns();
-    onTheme(() => draw());
+    onTheme(() => { if (mode === 'single') draw(); else rebuildAll(); });
 
     /* ----- 開始 ----- */
     renderList();
@@ -302,9 +429,9 @@ const KB = (() => {
       locked = !(await unlocked());
       loadOuters().then(() => soon());
       if (!locked) loadAll();
-      renderList(); go();
+      renderList(); setMode(mode, mode === 'single' ? cur : null);
     })();
-    return { select: (id) => setCur(gmap[id]), items };
+    return { select: (id) => setCur(gmap[id]), items, setMode };
   }
 
   return { init, watch, stock, recent, full, outer, isFut };
