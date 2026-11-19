@@ -375,7 +375,8 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-sec .kb-dy[hidden] { display: none; }
 /* 看盤頁：總覽牆 */
 .kb-app[hidden], .kb-grid[hidden], .kb-lockbox[hidden] { display: none; }
-.kb-modebar { margin: 4px 0 14px; }
+.kb-views { display: grid; gap: 14px; min-width: 0; }   /* 「總覽｜單檔」切換緊貼下方的內容（main.wrap 的 40px 間距只留在頁首與這一塊之間） */
+.kb-modebar { margin: 0; }
 .kb-grid { display: grid; gap: 12px; min-width: 0; }
 .kb-gsum { font-size: 0.9rem; color: var(--ink-2); }
 .kb-gsum b { font-family: var(--font-data); font-weight: 600; } .kb-gsum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }

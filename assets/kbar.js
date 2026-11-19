@@ -314,14 +314,19 @@ const KB = (() => {
       } else cardsEl.querySelectorAll('.kb-card').forEach(c => buildCard(c));
     }
     function rebuildAll() { cardsEl.querySelectorAll('.kb-card').forEach(c => { release(c); updateCard(c); if (c._near || !io) buildCard(c); }); }
-    function setMode(m, it) {
+    /* 上一頁／下一頁：從總覽進單檔用 pushState（state.kb＝'fromGrid'），單檔內換商品、週期用 replaceState（保留 state）；
+       how：'push' 新增一筆歷史、'none' 由 popstate 呼叫（網址已經是目標），其他＝replaceState */
+    const rep = (url) => history.replaceState(history.state, '', url);
+    function setMode(m, it, how) {
       mode = m;
       $('#kbMode').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
-      root.querySelectorAll('[data-mode-link]').forEach(a => { a.hidden = a.dataset.modeLink !== m; });
+      // 章節導覽在 main 外面：要從整份文件找，總覽模式藏起只有單檔才有的區塊連結（反之亦然），不留點了沒反應的連結
+      (root.ownerDocument || document).querySelectorAll('.secnav [data-mode-link]').forEach(a => { a.hidden = a.dataset.modeLink !== m; });
       if (m === 'single') {
+        if (it) cur = it;
+        if (how === 'push') history.pushState({ kb: 'fromGrid' }, '', `?s=${cur.id}&p=${st.p}`);
         releaseAll(); if (io) io.disconnect();
         gridEl.hidden = true; $('#kbApp').hidden = false;
-        if (it) cur = it;
         $('#kbApp').classList.remove('kb-open');
         renderList(); go();
         if (it && $('#kbApp').scrollIntoView) $('#kbApp').scrollIntoView({ block: 'start' });
@@ -329,7 +334,7 @@ const KB = (() => {
         seq++; d = null;
         const c = els.chart; if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = '';
         $('#kbApp').hidden = true; gridEl.hidden = false;
-        history.replaceState(null, '', gUrl());
+        if (how === 'push') history.pushState({ kb: 'grid' }, '', gUrl()); else if (how !== 'none') rep(gUrl());
         renderGrid();
       }
     }
@@ -347,7 +352,7 @@ const KB = (() => {
     async function go() {
       const my = ++seq, it = cur;
       ls.set(LAST_LS, it.id);
-      history.replaceState(null, '', `?s=${it.id}&p=${st.p}`);
+      rep(`?s=${it.id}&p=${st.p}`);
       const fin = $('#kbFin'); if (it.href) { fin.href = it.href; fin.hidden = false; } else fin.hidden = true;
       $('#futTitle').textContent = `${it.name} ${it.ticker} ${pNames[st.p]}`;
       if (!(await unlocked())) { showLock(my); return; }
@@ -386,16 +391,25 @@ const KB = (() => {
       else if (b.id === 'futVol') st.vol = !st.vol;
       else if (b.id === 'futLockBtn') { FUT.lock(); locked = true; items.forEach(i => { i.q = null; }); renderList(); go(); return; }
       else return;
-      if (b.dataset.p) { history.replaceState(null, '', `?s=${cur.id}&p=${st.p}`); $('#futTitle').textContent = `${cur.name} ${cur.ticker} ${pNames[st.p]}`; }
+      if (b.dataset.p) { rep(`?s=${cur.id}&p=${st.p}`); $('#futTitle').textContent = `${cur.name} ${cur.ticker} ${pNames[st.p]}`; }
       draw();
     });
-    $('#kbMode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.dataset.mode !== mode) setMode(b.dataset.mode, b.dataset.mode === 'single' ? cur : null); });
-    $('#kbBack').addEventListener('click', () => setMode('grid'));
-    $('#kbChips').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (!b) return; st.f = b.dataset.f; ls.set(FILT_LS, st.f); history.replaceState(null, '', gUrl()); renderGrid(); });
-    $('#kbGP').addEventListener('click', (e) => { const b = e.target.closest('button[data-gp]'); if (!b || b.dataset.gp === st.p) return; st.p = b.dataset.gp; history.replaceState(null, '', gUrl()); $('#kbGP').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gp === st.p))); rebuildAll(); });
+    /* 回總覽：這一筆是從總覽 push 進來的 → 退回上一筆（下一頁可再進單檔）；直接打開 ?s= 的網址 → push 一筆總覽 */
+    const toGrid = () => { if (history.state && history.state.kb === 'fromGrid') history.back(); else setMode('grid', null, 'push'); };
+    $('#kbMode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b || b.dataset.mode === mode) return; if (b.dataset.mode === 'single') setMode('single', cur, 'push'); else toGrid(); });
+    $('#kbBack').addEventListener('click', toGrid);
+    window.addEventListener('popstate', () => {
+      const u = new URLSearchParams(location.search), s = gmap[u.get('s')], p = { D: 'D', W: 'W', M: 'M' }[u.get('p')] || st.p;
+      if (s) { if (mode === 'single' && s === cur && p === st.p) return; st.p = p; setMode('single', s, 'none'); return; }
+      const f = validF(u.get('g')) ? u.get('g') : 'all';
+      if (mode === 'grid' && f === st.f && p === st.p) return;   // 只是章節錨點（#…）的上一頁
+      st.f = f; st.p = p; setMode('grid', null, 'none');
+    });
+    $('#kbChips').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (!b) return; st.f = b.dataset.f; ls.set(FILT_LS, st.f); rep(gUrl()); renderGrid(); });
+    $('#kbGP').addEventListener('click', (e) => { const b = e.target.closest('button[data-gp]'); if (!b || b.dataset.gp === st.p) return; st.p = b.dataset.gp; rep(gUrl()); $('#kbGP').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gp === st.p))); rebuildAll(); });
     $('#kbGKD').addEventListener('click', () => { st.kd = !st.kd; $('#kbGKD').setAttribute('aria-pressed', String(st.kd)); cardsEl.classList.toggle('kb-kd', st.kd); rebuildAll(); });
     $('#kbGSort').addEventListener('click', (e) => { const b = e.target.closest('button[data-gsort]'); if (!b) return; st.sort = b.dataset.gsort; ls.set(SORT_LS, st.sort); renderList(); renderGrid(); });
-    cardsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (b) setMode('single', gmap[b.dataset.open]); });
+    cardsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (b) setMode('single', gmap[b.dataset.open], 'push'); });
     $('#kbGLock').addEventListener('click', () => { FUT.lock(); locked = true; items.forEach(i => { i.q = null; }); renderList(); renderGrid(); });
     document.addEventListener('keydown', (e) => {
       if (mode !== 'single') return;
