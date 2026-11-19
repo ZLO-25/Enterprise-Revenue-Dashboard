@@ -7,7 +7,7 @@
    資料誠實：讀不到的商品顯示「—」與原因，不顯示假數字；沒解鎖不顯示任何價格。 */
 const KB = (() => {
   const MAS = FUT.MAS, fmt = FUT.fmt, dstr = FUT.dstr, esc = FUT.esc;
-  const SIZE_LS = 'erd-watch-size', LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
+  const SIZE_LS = 'erd-watch-size-v2', LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
   let C = { base: '../data/kbar/', futBase: '../data/futures/', companies: [], link: '../' };
   const futCodes = () => (FUT.SYMS || ['ym', 'nq']).slice();
@@ -178,7 +178,7 @@ const KB = (() => {
     const validF = (v) => v === 'all' || sectors.includes(v);
     st.f = validF(q.get('g')) ? q.get('g') : validF(ls.get(FILT_LS)) ? ls.get(FILT_LS) : 'all';
     st.kd = false;
-    st.size = { s: 's', m: 'm', l: 'l' }[ls.get(SIZE_LS)] || 'm';   // 總覽卡片大小（小／中／大），預設中
+    st.size = { s: 's', m: 'm', x: 'x', l: 'l' }[ls.get(SIZE_LS)] || 'x';   // 總覽卡片大小（小／中／大／特大），預設大；鍵 v2 起不讀舊的 erd-watch-size
     let mode = gmap[q.get('s')] ? 'single' : 'grid';
     let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];   // 記住的代號只用在「從總覽切到單檔」的預設商品；沒有 ?s= 的網址一律開總覽
     let d = null, seq = 0, locked = true, loaded = 0, order = [];
