@@ -304,7 +304,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fut-leg { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-data); font-size: 0.92rem; color: var(--ink-2); min-height: 2.6em; }
 .fut-leg .d { color: var(--ink); font-weight: 500; }
 .fut-leg b { font-weight: 500; color: var(--ink); }
-.fut-chart { position: relative; width: 100%; height: min(72vh, 640px); min-height: 420px; }
+.fut-chart { position: relative; width: 100%; height: min(80vh, 820px); min-height: 460px; }
 .fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
 .fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
 .fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
@@ -372,10 +372,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
 .kb-foot { margin-top: 8px; }
 /* 個股頁：K 棒收合區塊 */
-.kb-sec { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
-.kb-sech { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
-.kb-sech h3 { font-size: var(--step-0); margin: 0; }
-.kb-sech a.fut-toggle { text-decoration: none; }
+.kb-sec { margin: 14px 0 16px; }
 .kb-sec .kb-dy { margin-top: 10px; }
 .kb-sec .kb-dy[hidden] { display: none; }
 /* 看盤頁：總覽牆 */
@@ -392,10 +389,13 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-chip[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
 .kb-gctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .kb-gsort { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
-.kb-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards { --kb-min: 460px; --kb-h: 320px; --kb-hkd: 430px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kb-min)), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards[data-size="s"] { --kb-min: 340px; --kb-h: 220px; --kb-hkd: 320px; }
+.kb-cards[data-size="l"] { --kb-min: 680px; --kb-h: 460px; --kb-hkd: 600px; }
+@media (max-width: 639px) { .kb-cards { grid-template-columns: minmax(0, 1fr); } }
 .kb-gh { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
 .kb-gh:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
-.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; }
+.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 4px; }
 .kb-ch { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .kb-ct { font: inherit; font-size: 1rem; font-weight: 700; color: var(--ink); background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .kb-ct:hover { text-decoration: underline; }
@@ -405,8 +405,9 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-cpx .ch.kup { color: var(--kup); } .kb-cpx .ch.kdn { color: var(--kdn); }
 .kb-cm { font-size: 0.74rem; color: var(--muted); min-height: 1.2em; overflow-wrap: anywhere; }
 .kb-cm .pend { color: var(--bad-text); }
-.kb-cbox { position: relative; width: 100%; height: 220px; min-width: 0; overflow: hidden; }
-.kb-kd .kb-cbox { height: 320px; }
+.kb-cbox { position: relative; width: 100%; height: var(--kb-h, 320px); min-width: 0; overflow: hidden; }
+.kb-kd .kb-cbox { height: var(--kb-hkd, 430px); }
+@media (max-width: 639px) { .kb-cbox { height: min(var(--kb-h, 320px), 60vh); } .kb-kd .kb-cbox { height: min(var(--kb-hkd, 430px), 60vh); } }
 .kb-empty { font-size: 0.84rem; color: var(--muted); padding: 24px 4px; text-align: center; }
 .kb-cf { display: flex; justify-content: flex-end; }
 .kb-more { font: inherit; font-size: 0.8rem; color: var(--accent); background: transparent; border: 0; padding: 2px 0; cursor: pointer; }
@@ -505,6 +506,18 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .bm-card .how b { color: var(--ink); font-weight: 600; }
 .flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
 .co-warn { color: var(--ink-2); }
+
+/* 看盤頁加寬（只有看盤頁；其他頁不變）：主內容與章節導覽同寬 */
+.wrap.wrap-watch { max-width: min(1880px, 100vw - 32px); }
+.secnav-watch .scroller { max-width: min(1880px, 100vw - 32px); }
+
+/* 個股頁 K 棒開合橫條：整條都是按鈕，一眼看得到 */
+.kb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; box-sizing: border-box; font: inherit; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--chip-bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin-bottom: 4px; cursor: pointer; text-align: left; text-decoration: none; }
+.kb-bar:hover { border-color: var(--accent); }
+.kb-bar-l { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.kb-bar-ic { color: var(--accent); width: 1em; flex: none; }
+.kb-bar-r { flex: none; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+@media (max-width: 480px) { .kb-bar { font-size: 0.88rem; padding: 8px 10px; } .kb-bar-r { font-size: 0.78rem; } }
 
 .cl-ctrl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:12px}
 .cl-sum{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}.cl-pill{font-size:.85rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}

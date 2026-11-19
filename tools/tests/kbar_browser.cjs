@@ -252,7 +252,7 @@ async function gridPage(browser, base, w, scheme) {
   await unlock(page);
   await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
   await page.waitForFunction(() => ![...document.querySelectorAll('.kb-cpx b')].some(b => b.textContent === '…') && !/讀取中/.test(document.getElementById('kbGSum').textContent), null, { timeout: 20000 });
-  if (w > 600) ok(await page.evaluate(() => document.querySelector('.kb-card').getBoundingClientRect().bottom <= innerHeight), '1280×900：第一排卡片完整出現在第一屏');
+  if (w > 600) { const bt = await page.evaluate(() => document.querySelector('.kb-card').getBoundingClientRect().bottom); ok(bt <= 1000, '1280 寬（中，圖高 320）：第一排卡片在 1000px 內（約 1080 高視窗的第一屏）：' + bt); }
   const miss = await page.evaluate((id) => { const c = document.querySelector(`.kb-card[data-id="${id}"]`); return c && { px: c.querySelector('.kb-cpx').textContent, cm: c.querySelector('.kb-cm').textContent, chart: !!c.querySelector('canvas') }; }, FX.missing[0]);
   ok(miss && miss.px === '—' && /讀不到/.test(miss.cm) && !miss.chart, '讀不到資料檔的卡顯示「—」與原因、不畫圖：' + JSON.stringify(miss));
   const stale = await page.evaluate((id) => { const c = document.querySelector(`.kb-card[data-id="${id}"]`); return c && { px: c.querySelector('.kb-cpx').textContent, cm: c.querySelector('.kb-cm').textContent, chart: !!c.querySelector('canvas') }; }, FX.staleKey[0]);
@@ -271,9 +271,9 @@ async function gridPage(browser, base, w, scheme) {
   await page.evaluate((id) => document.querySelector(`.kb-card[data-id="${id}"]`).scrollIntoView(), lastId);
   await page.waitForFunction((id) => document.querySelector(`.kb-card[data-id="${id}"] canvas`), lastId, { timeout: 15000 });
   ok((await bad1()).length === 0, '每張卡最多 1 張圖');
-  ok(await page.evaluate(() => { const c = document.querySelector('.kb-card canvas'); const b = c.closest('.kb-cbox'); return b.getBoundingClientRect().height >= 200 && b.getBoundingClientRect().height <= 240; }), '日 K 小圖高約 220px');
+  ok(await page.evaluate(() => { const c = document.querySelector('.kb-card canvas'); const b = c.closest('.kb-cbox'); return b.getBoundingClientRect().height >= 300 && b.getBoundingClientRect().height <= 340; }), '日 K 小圖高約 320px（預設「中」）');
   ok(await page.evaluate(() => !document.querySelector('.kb-card .fut-ltb') && !document.querySelector('.kb-card .fut-tool')), '總覽沒有畫線工具列');
-  if (w > 600) ok(await page.evaluate(() => { const x = getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length; return x === 3; }), '1280 寬 3 欄：' + await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns));
+  if (w > 600) ok(await page.evaluate(() => { const x = getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length; return x === 2; }), '1280 寬（中）2 欄：' + await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns));
   else ok(await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length === 1), '手機 1 欄');
   await page.evaluate(() => scrollTo(0, 0));
   ok((await overflow(page)) <= 1, `${tag} 整頁水平捲動 ${await overflow(page)}px`);
@@ -314,7 +314,7 @@ async function gridPage(browser, base, w, scheme) {
   ok((await bad1()).length === 0 && !(await page.evaluate(() => document.querySelector('.kb-card .tv-lightweight-charts[data-old]'))), '週 K：舊圖已移除、每張卡只有 1 張圖');
   ok(await page.evaluate(() => document.querySelector('#kbGP [data-gp="W"]').getAttribute('aria-pressed') === 'true'), '週期按鈕狀態');
   await page.click('#kbGKD'); await settled(page);
-  ok(await page.evaluate(() => { const b = document.querySelector('.kb-card .kb-cbox'); return b.getBoundingClientRect().height >= 300; }), 'KD 開啟後卡片變高（約 320px）');
+  ok(await page.evaluate(() => { const b = document.querySelector('.kb-card .kb-cbox'); return b.getBoundingClientRect().height >= 410; }), 'KD 開啟後卡片變高（約 430px）');
   ok((await bad1()).length === 0 && (await built()) > 0, 'KD 切換後每張卡最多 1 張圖');
   await page.click('#kbGKD'); await page.click('#kbGP [data-gp="M"]'); await settled(page);
   await page.click('#kbGP [data-gp="D"]'); await settled(page);
@@ -403,8 +403,13 @@ async function companyPages(browser, base, w, scheme) {
     ok(await page.evaluate(() => !document.documentElement.innerHTML.includes('const KB = (()')), code + ' kbar.js 沒有內嵌在公司頁');
     ok(await page.evaluate(() => !localStorage.getItem('erd-stock-kbar-open')), code + ' 沒有記住值＝收合');
     ok((await overflow(page)) <= 1, `${code} 收合時整頁水平捲動`);
+    // 橫條：<button> 整條可點、約 44px、在估值門檻說明之後、走勢圖標題列之前；圖展開在橫條正下方
+    const bar = await page.evaluate(() => { const b = document.getElementById('dyKToggle'), r = b.getBoundingClientRect(), t = document.getElementById('dyT').getBoundingClientRect(), h = document.querySelector('#today p.how').getBoundingClientRect(), cb = getComputedStyle(b); return { tag: b.tagName, h: r.height, w: r.width, top: r.top, bottom: r.bottom, tTop: t.top, howBottom: h.bottom, bg: cb.backgroundColor, border: cb.borderTopWidth, txt: b.textContent, wrap: b.parentElement.getBoundingClientRect().width, vis: r.width > 0 && getComputedStyle(b).visibility === 'visible' }; });
+    ok(bar.tag === 'BUTTON' && bar.vis && bar.h >= 40 && bar.h <= 60 && bar.w >= bar.wrap - 2, code + ' 橫條是整列按鈕、約 44px：' + JSON.stringify(bar));
+    ok(bar.top >= bar.howBottom - 1 && bar.bottom <= bar.tTop, code + ' 橫條在估值門檻說明之後、走勢圖標題列上方：' + JSON.stringify(bar));
+    ok(/K 棒圖（日／週／月 K、均線、KD）/.test(bar.txt) && /展開/.test(bar.txt) && bar.bg !== 'rgba(0, 0, 0, 0)' && bar.border === '1px', code + ' 橫條文字、淡底色、邊框：' + bar.txt);
     if (code === 'nvda') await shot(page, `stock-collapsed-${w}-${scheme}.png`, '#today');
-    await page.click('#dyKToggle');
+    await page.click('#dyKToggle', { position: { x: 24, y: 20 } });   // 點最左邊的文字／圖示位置也能展開（整條都是按鈕）
     await page.waitForSelector('#dyKB form.fut-lock', { timeout: 15000 });
     ok(await page.evaluate(() => !!document.querySelector('script[src*="kbar.js"]') && typeof KB !== 'undefined' && document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'true' && /收合/.test(document.getElementById('dyKToggle').textContent)), code + ' 展開後才載入、按鈕變「收合」；未解鎖顯示解鎖表單');
     ok(await page.evaluate(() => localStorage.getItem('erd-stock-kbar-open') === '1'), code + ' 展開狀態記在 erd-stock-kbar-open');
@@ -425,13 +430,15 @@ async function companyPages(browser, base, w, scheme) {
     ok((await nCharts(page)) === 1, code + ' 切週期後仍只有 1 張圖');
     ok((await overflow(page)) <= 1, `${code} 整頁水平捲動 ${await overflow(page)}px`);
     if (code === 'nvda') await shot(page, `stock-${w}-${scheme}.png`, '#today');
-    // 收合 → 圖被釋放；再展開 → 仍只有 1 張
-    await page.click('#dyKToggle');
+    const pos = await page.evaluate(() => { const b = document.getElementById('dyKToggle').getBoundingClientRect(), k = document.getElementById('dyKB').getBoundingClientRect(), t = document.getElementById('dyT').getBoundingClientRect(); return { gap: k.top - b.bottom, below: k.bottom <= t.top + 1 }; });
+    ok(pos.gap >= 0 && pos.gap < 20 && pos.below, code + ' 展開的圖在橫條正下方、走勢圖上方：' + JSON.stringify(pos));
+    // 收合（鍵盤：焦點在橫條上按 Enter）→ 圖被釋放；再展開（Space）→ 仍只有 1 張
+    await page.focus('#dyKToggle'); await page.keyboard.press('Enter');
     ok(await page.evaluate(() => document.getElementById('dyKB').hidden && document.querySelectorAll('#dyKB canvas').length === 0 && document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'false'), code + ' 收合要釋放圖');
     ok(await page.evaluate(() => localStorage.getItem('erd-stock-kbar-open') === '0'), code + ' 收合記為 0');
     for (let i = 0; i < 2; i++) {
-      await page.click('#dyKToggle'); await page.waitForSelector('#dyKB canvas', { timeout: 15000 }); await frames(page);
-      ok((await nCharts(page)) === 1, code + ' 再展開只能 1 張圖：' + await nCharts(page));
+      await page.focus('#dyKToggle'); await page.keyboard.press('Space'); await page.waitForSelector('#dyKB canvas', { timeout: 15000 }); await frames(page);
+      ok((await nCharts(page)) === 1, code + ' 再展開（Space）只能 1 張圖：' + await nCharts(page));
       await page.click('#dyKToggle');
     }
     await page.click('#dyKToggle'); await page.waitForSelector('#dyKB canvas', { timeout: 15000 });
@@ -467,11 +474,114 @@ async function companyPages(browser, base, w, scheme) {
   }
 }
 
+/* 第三階段：頁面加寬、卡片大小、價格軸、單檔放大、首頁期貨區與水平線沒壞 */
+async function phase3(browser, base) {
+  say('— 第三階段（1920）');
+  const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1, colorScheme: 'light' });
+  const page = await ctx.newPage(), errs = [];
+  await watchErrors(page, errs);
+  await page.goto(base + '/futures/', { waitUntil: 'load' });
+  await unlock(page);
+  await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
+  await page.waitForFunction(() => ![...document.querySelectorAll('.kb-cpx b')].some(b => b.textContent === '…') && !/讀取中/.test(document.getElementById('kbGSum').textContent), null, { timeout: 20000 });
+  await settled(page);
+  const geo = () => page.evaluate(() => { const c = document.getElementById('kbCards'), bx = document.querySelector('.kb-cbox'); return { cols: getComputedStyle(c).gridTemplateColumns.split(' ').length, h: Math.round(bx.getBoundingClientRect().height), cw: Math.round(bx.getBoundingClientRect().width), size: c.dataset.size, ls: localStorage.getItem('erd-watch-size') }; });
+  const one = () => page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c.querySelectorAll('.tv-lightweight-charts').length > 1).length);
+  const mw = await page.evaluate(() => ({ main: document.querySelector('main.wrap').getBoundingClientRect().width, nav: document.querySelector('.secnav .scroller').getBoundingClientRect().width, vw: innerWidth, cw: document.documentElement.clientWidth }));
+  ok(mw.main > 1600 && mw.main <= 1880.5 && Math.abs(mw.nav - mw.main) <= 2, '1920 寬：看盤頁內容寬度 > 1600、章節導覽同寬：' + JSON.stringify(mw));
+  let g = await geo();
+  ok(g.size === 'm' && g.h === 320 && g.cols >= 3 && g.ls === null, '預設「中」：圖高 320、1920 寬至少 3 欄：' + JSON.stringify(g));
+  say(`  1920 寬「中」一排 ${g.cols} 張、圖寬 ${g.cw}px`);
+  ok((await overflow(page)) <= 1, '1920 總覽水平捲動');
+  const axis = await page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c._chart).slice(0, 8).map(c => [c.dataset.id, c._chart.priceScale('right').width()]));
+  say('  價格軸寬度（slim 後）：' + JSON.stringify(axis));
+  ok(axis.every(a => a[1] <= 66), '價格軸寬度 ≤ 66px（原本 66～86）：' + JSON.stringify(axis));
+  await gridShot(page, 'grid-1920-light-m-first.png', false);
+  await gridShot(page, 'grid-1920-light-m-full.png', true);
+  await page.evaluate(() => scrollTo(0, 0)); await settled(page);
+  // 大小切換：小／大
+  const lsn0 = await page.evaluate(() => { const on = FUT.Lines.on; window.__lsn = 0; FUT.Lines.on = (f) => { window.__lsn++; const off = on(f); return () => { window.__lsn--; off(); }; }; return 0; });
+  const sizes = { s: [220, 340], m: [320, 460], l: [460, 680] };
+  for (const z of ['l', 's', 'm', 'l']) {
+    await page.evaluate(() => { document.querySelectorAll('.kb-card .tv-lightweight-charts').forEach(e => { e.dataset.old = '1'; }); });
+    await page.click(`#kbGSize [data-gz="${z}"]`);
+    await page.waitForFunction((n) => { const l = [...document.querySelectorAll('.kb-card .tv-lightweight-charts')]; return l.length >= n && l.every(e => !e.dataset.old); }, 3, { timeout: 20000 });
+    await settled(page);
+    g = await geo();
+    ok(g.size === z && g.ls === z && g.h === sizes[z][0] && g.cw >= sizes[z][1] - 40, `大小 ${z}：${JSON.stringify(g)}`);
+    ok((await one()) === 0 && !(await page.evaluate(() => document.querySelector('.kb-card .tv-lightweight-charts[data-old]'))), `大小 ${z}：舊圖已釋放、每卡 1 張圖`);
+    ok(await page.evaluate(() => window.__lsn) === (await page.evaluate(() => document.querySelectorAll('.tv-lightweight-charts').length)), `大小 ${z}：水平線監聽數＝圖數`);
+    ok(await page.evaluate((z) => document.querySelector(`#kbGSize [data-gz="${z}"]`).getAttribute('aria-pressed') === 'true' && document.querySelectorAll('#kbGSize [aria-pressed="true"]').length === 1, z), `大小 ${z}：按鈕狀態`);
+    say(`  大小 ${z}：每排 ${g.cols} 欄、圖 ${g.cw}×${g.h}`);
+    ok((await overflow(page)) <= 1, `大小 ${z} 整頁水平捲動`);
+    if (z === 'l') await gridShot(page, 'grid-1920-light-l.png', false);
+  }
+  await page.reload({ waitUntil: 'load' }); await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
+  ok((await geo()).size === 'l', '重新整理後記得大小（大）');
+  await page.click('#kbGSize [data-gz="m"]'); await settled(page);
+  // 價格軸格式：只改刻度與最新價標籤；資料與水平線精度不變
+  const af = await page.evaluate(() => ({ a: [FUT.axisDp(2000, 2), FUT.axisDp(999.99, 2), FUT.axisDp(100, 2), FUT.axisDp(102.6, 2), FUT.axisDp(102.6, 0), FUT.axisDp(50.1234, 2), FUT.axisDp(41234, 0)], f2000: FUT.fmt(2000.4, FUT.axisDp(2000.4, 2)), f102: FUT.fmt(102.6, FUT.axisDp(102.6, 2)), f50: FUT.fmt(50.1234, FUT.axisDp(50.1234, 2)) }));
+  ok(af.a.join() === '0,1,1,1,0,2,0' && af.f2000 === '2,000' && af.f102 === '102.6' && af.f50 === '50.12', '價格軸小數位規則：' + JSON.stringify(af));
+  const real = await page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c._chart).map(c => { const o = c._chart.panes()[0].getSeries()[0].options().priceFormat; return { id: c.dataset.id, f1234: o.formatter(1234.56), f12: o.formatter(12.3456), mm: o.minMove }; }));
+  const ymC = real.find(r => r.id === 'ym');
+  ok(real.length > 5 && real.every(r => r.mm > 0) && !real.some(r => /\.\d{3,}/.test(r.f1234)), '總覽圖的價格格式（custom formatter）可用：' + JSON.stringify(real.slice(0, 3)));
+  ok(ymC && ymC.f1234 === '1,235', 'YM（大價格）刻度 0 位小數：' + JSON.stringify(ymC));
+  const nv = real.find(r => r.id === 'nvda');
+  ok(nv && nv.mm === 0.01, '個股 minMove 仍是 0.01（資料與水平線精度不變）：' + JSON.stringify(nv));
+  ok(await page.evaluate(() => /\.\d\d/.test(document.querySelector('.kb-card[data-id="nvda"] .kb-cpx b').textContent)), '卡片上的收盤價維持原精度');
+  // 單檔大圖
+  await page.goto(base + '/futures/?s=nvda&p=D', { waitUntil: 'load' });
+  await page.waitForSelector('#futBody:not([hidden]) #futChart canvas', { timeout: 15000 }); await frames(page);
+  const sg = await page.evaluate(() => { const r = document.getElementById('futChart').getBoundingClientRect(); return { h: Math.round(r.height), w: Math.round(r.width), pw: document.querySelector('.kb-main').getBoundingClientRect().width }; });
+  ok(sg.h >= 800 && sg.h <= 822 && sg.w > 1200, '單檔大圖高約 min(80vh,820)＝820、右邊變寬：' + JSON.stringify(sg));
+  const spw = await page.evaluate(() => { const o = document.querySelector('#futChart .tv-lightweight-charts'); return o ? o.getBoundingClientRect().width : 0; });
+  ok(spw > 1200 && (await overflow(page)) <= 1, '單檔圖寬／水平捲動：' + spw);
+  const sfs = await page.evaluate(() => { const o = document.querySelector('#kbList'); return null; });
+  // 水平線：Alt+H 放線、拖曳後價位吸附到 0.01，不受價格軸格式影響
+  await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
+  const cb = await page.evaluate(() => { const r = document.getElementById('futChart').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.3 }; });
+  await page.mouse.move(cb.x, cb.y); await page.mouse.move(cb.x + 2, cb.y + 1);
+  await page.keyboard.press('Alt+h');
+  ok(await until(page, () => FUT.Lines.get('nvda').length === 1), 'Alt+H 放了一條水平線');
+  const p0 = await page.evaluate(() => FUT.Lines.get('nvda')[0].p);
+  ok(Math.abs(p0 * 100 - Math.round(p0 * 100)) < 1e-6, '放線價位吸附 0.01：' + p0);
+  const ly = await page.evaluate(() => { const L = FUT.Lines.get('nvda')[0], c = document.getElementById('futChart'); const ch = c._kbChart; const s = ch.panes()[0].getSeries()[0]; return c.getBoundingClientRect().top + s.priceToCoordinate(L.p); });
+  await page.mouse.move(cb.x + 50, ly); await page.mouse.down(); await page.mouse.move(cb.x + 50, ly + 25, { steps: 5 }); await page.mouse.up();
+  ok(await until(page, (p) => FUT.Lines.get('nvda')[0].p !== p, p0), '拖曳水平線改變價位');
+  const p1 = await page.evaluate(() => FUT.Lines.get('nvda')[0].p);
+  ok(Math.abs(p1 * 100 - Math.round(p1 * 100)) < 1e-6 && p1 < p0, '拖曳後價位吸附 0.01 且往下：' + p0 + ' → ' + p1);
+  await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
+  await shot(page, 'single-1920-light.png');
+  // 首頁期貨區（index.html）：解鎖後 YM／NQ／TX 三張圖、格式沒被看盤頁的設定影響、水平線可拖
+  await page.goto(base + '/', { waitUntil: 'load' });
+  await page.waitForSelector('#futHome form.fut-lock, #futHome canvas', { timeout: 15000 });
+  if (await page.$('#futHome form.fut-lock')) { await page.fill('#futHome form.fut-lock input[type=password]', FX.password); await page.click('#futHome form.fut-lock button.go'); }
+  await page.waitForFunction(() => document.querySelectorAll('#futHome .fut-mini .tv-lightweight-charts').length === 3, null, { timeout: 20000 });
+  const hm = await page.evaluate(() => [...document.querySelectorAll('#futHome .fut-mini')].map(m => ({ h: Math.round(m.getBoundingClientRect().height), c: m.querySelectorAll('.tv-lightweight-charts').length })));
+  ok(hm.length === 3 && hm.every(x => x.c === 1 && x.h >= 300), '首頁期貨區 3 張圖、高度沒變：' + JSON.stringify(hm));
+  ok((await overflow(page)) <= 1, '首頁整頁水平捲動');
+  const hf = await page.evaluate(() => { const m = document.querySelector('#futHome .fut-mini[data-code="nq"], #futHome [data-code="nq"] .fut-mini'); return !!m; });
+  ok(hf, '首頁有 NQ 圖');
+  ok(await page.evaluate(() => getComputedStyle(document.querySelector('main.wrap, .wrap')).maxWidth !== 'min(1880px, 100vw - 32px)' && !document.querySelector('.wrap-watch')), '首頁沒有套用看盤頁的加寬');
+  await page.mouse.move(1, 1);
+  // 首頁水平線拖曳
+  await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
+  const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  await frames(page);
+  const hb2 = await page.evaluate(() => { const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  await page.mouse.move(hb2.x, hb2.y); await page.mouse.move(hb2.x + 2, hb2.y + 1); await page.keyboard.press('Alt+h');
+  ok(await until(page, () => FUT.Lines.get('ym').length === 1), '首頁 YM 可放水平線');
+  await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
+  ok(errs.length === 0, '第三階段錯誤：' + errs.join(' | '));
+  await ctx.close();
+}
+
 (async () => {
   await new Promise(r => server.listen(0, '127.0.0.1', r));
   const base = 'http://127.0.0.1:' + server.address().port;
   const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
   try {
+    await phase3(browser, base);
     for (const scheme of ['light', 'dark']) {
       for (const w of [1280, 390]) {
         await gridPage(browser, base, w, scheme);
@@ -483,6 +593,7 @@ async function companyPages(browser, base, w, scheme) {
     const all = fs.readFileSync(path.join(ROOT, 'dist', 'artifacts', 'all.html'), 'utf8');
     ok(all.includes('\\"kbar\\":null,\\"kbarLink\\":\\"https://') && all.includes('/futures/?s=nvda'), '合併版 Artifact 的 D.kbar 為 null 且有 kbarLink');
     ok(!all.includes('kbar.js?v='), '合併版 Artifact 不載入站內 kbar.js');
+    ok(all.includes('class=\\"kb-bar\\"') && all.includes('在網站看盤頁開啟'), '合併版 Artifact 的 K 棒是整列橫條連結（K 棒圖 ↗ 在網站看盤頁開啟）');
   } catch (e) { bad++; console.log('  ✗ 測試中斷：', e && e.stack || e); }
   await browser.close(); server.close(); fs.rmSync(tmp, { recursive: true, force: true });
   console.log(bad ? `\n✗ ${bad} 項失敗` : '\n✓ 全部通過');

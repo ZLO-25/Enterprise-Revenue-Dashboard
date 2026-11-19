@@ -7,7 +7,7 @@
    資料誠實：讀不到的商品顯示「—」與原因，不顯示假數字；沒解鎖不顯示任何價格。 */
 const KB = (() => {
   const MAS = FUT.MAS, fmt = FUT.fmt, dstr = FUT.dstr, esc = FUT.esc;
-  const LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
+  const SIZE_LS = 'erd-watch-size', LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
   let C = { base: '../data/kbar/', futBase: '../data/futures/', companies: [], link: '../' };
   const futCodes = () => (FUT.SYMS || ['ym', 'nq']).slice();
@@ -80,7 +80,7 @@ const KB = (() => {
         : `${d.exchange} 連續近月合約（未調整${d.session ? '，' + d.session : ''}）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}${tail}`;
     }
     if (els.chart._kbChart) { els.chart._kbChart.remove(); els.chart._kbChart = null; }
-    const chart = FUT.chartInto(els.chart, d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true });
+    const chart = FUT.chartInto(els.chart, d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true, slim: true, fs: 11 });
     els.chart._kbChart = chart;
     FUT.linesList(els.lines, d);
     const idx = Object.fromEntries(bars.map((b, i) => [b.t, i]));
@@ -178,6 +178,7 @@ const KB = (() => {
     const validF = (v) => v === 'all' || sectors.includes(v);
     st.f = validF(q.get('g')) ? q.get('g') : validF(ls.get(FILT_LS)) ? ls.get(FILT_LS) : 'all';
     st.kd = false;
+    st.size = { s: 's', m: 'm', l: 'l' }[ls.get(SIZE_LS)] || 'm';   // 總覽卡片大小（小／中／大），預設中
     let mode = gmap[q.get('s')] ? 'single' : 'grid';
     let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];   // 記住的代號只用在「從總覽切到單檔」的預設商品；沒有 ?s= 的網址一律開總覽
     let d = null, seq = 0, locked = true, loaded = 0, order = [];
@@ -289,7 +290,7 @@ const KB = (() => {
       if (!bars.length) { box.innerHTML = '<p class="kb-empty">—　沒有 K 棒資料</p>'; return; }
       box.innerHTML = '';
       card._hm = !!d.histMissing;
-      card._chart = FUT.chartInto(box, d, bars, FUT.study(bars), { p: st.p, mas: new Set(MAS), vol: false, marks: false, kd: st.kd, compact: true, readonly: true, show: { D: 120, W: 104, M: 120 }[st.p] });
+      card._chart = FUT.chartInto(box, d, bars, FUT.study(bars), { p: st.p, mas: new Set(MAS), vol: false, marks: false, kd: st.kd, compact: true, readonly: true, slim: true, fs: 10.5, show: { D: 120, W: 104, M: 120 }[st.p] });
       updateCard(card);
     }
     let io = null;
@@ -299,7 +300,8 @@ const KB = (() => {
       $('#kbGP').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gp === st.p)));
       $('#kbGSort').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gsort === st.sort)));
       $('#kbGKD').setAttribute('aria-pressed', String(st.kd));
-      cardsEl.classList.toggle('kb-kd', st.kd);
+      cardsEl.classList.toggle('kb-kd', st.kd); cardsEl.dataset.size = st.size;
+      $('#kbGSize').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gz === st.size)));
       const list = items.filter(inF); let html = '';
       if (st.sort === 'sector') sectors.forEach(sc => { const arr = list.filter(i => i.sector === sc); if (!arr.length) return; if (st.f === 'all') html += `<h3 class="kb-gh">${esc(sc)}<span>${arr.length}</span></h3>`; html += arr.map(cardHTML).join(''); });
       else html = list.slice().sort((a, b) => (b.q && b.q.chg != null ? b.q.chg : -1e9) - (a.q && a.q.chg != null ? a.q.chg : -1e9)).map(cardHTML).join('');
@@ -407,6 +409,7 @@ const KB = (() => {
     });
     $('#kbChips').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (!b) return; st.f = b.dataset.f; ls.set(FILT_LS, st.f); rep(gUrl()); renderGrid(); });
     $('#kbGP').addEventListener('click', (e) => { const b = e.target.closest('button[data-gp]'); if (!b || b.dataset.gp === st.p) return; st.p = b.dataset.gp; rep(gUrl()); $('#kbGP').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gp === st.p))); rebuildAll(); });
+    $('#kbGSize').addEventListener('click', (e) => { const b = e.target.closest('button[data-gz]'); if (!b || b.dataset.gz === st.size) return; st.size = b.dataset.gz; ls.set(SIZE_LS, st.size); cardsEl.dataset.size = st.size; $('#kbGSize').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gz === st.size))); rebuildAll(); });
     $('#kbGKD').addEventListener('click', () => { st.kd = !st.kd; $('#kbGKD').setAttribute('aria-pressed', String(st.kd)); cardsEl.classList.toggle('kb-kd', st.kd); rebuildAll(); });
     $('#kbGSort').addEventListener('click', (e) => { const b = e.target.closest('button[data-gsort]'); if (!b) return; st.sort = b.dataset.gsort; ls.set(SORT_LS, st.sort); renderList(); renderGrid(); });
     cardsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (b) setMode('single', gmap[b.dataset.open], 'push'); });

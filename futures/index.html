@@ -304,7 +304,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fut-leg { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-data); font-size: 0.92rem; color: var(--ink-2); min-height: 2.6em; }
 .fut-leg .d { color: var(--ink); font-weight: 500; }
 .fut-leg b { font-weight: 500; color: var(--ink); }
-.fut-chart { position: relative; width: 100%; height: min(72vh, 640px); min-height: 420px; }
+.fut-chart { position: relative; width: 100%; height: min(80vh, 820px); min-height: 460px; }
 .fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
 .fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
 .fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
@@ -372,10 +372,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
 .kb-foot { margin-top: 8px; }
 /* 個股頁：K 棒收合區塊 */
-.kb-sec { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
-.kb-sech { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
-.kb-sech h3 { font-size: var(--step-0); margin: 0; }
-.kb-sech a.fut-toggle { text-decoration: none; }
+.kb-sec { margin: 14px 0 16px; }
 .kb-sec .kb-dy { margin-top: 10px; }
 .kb-sec .kb-dy[hidden] { display: none; }
 /* 看盤頁：總覽牆 */
@@ -392,10 +389,13 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-chip[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
 .kb-gctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .kb-gsort { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
-.kb-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards { --kb-min: 460px; --kb-h: 320px; --kb-hkd: 430px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kb-min)), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards[data-size="s"] { --kb-min: 340px; --kb-h: 220px; --kb-hkd: 320px; }
+.kb-cards[data-size="l"] { --kb-min: 680px; --kb-h: 460px; --kb-hkd: 600px; }
+@media (max-width: 639px) { .kb-cards { grid-template-columns: minmax(0, 1fr); } }
 .kb-gh { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
 .kb-gh:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
-.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; }
+.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 4px; }
 .kb-ch { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
 .kb-ct { font: inherit; font-size: 1rem; font-weight: 700; color: var(--ink); background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .kb-ct:hover { text-decoration: underline; }
@@ -405,8 +405,9 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-cpx .ch.kup { color: var(--kup); } .kb-cpx .ch.kdn { color: var(--kdn); }
 .kb-cm { font-size: 0.74rem; color: var(--muted); min-height: 1.2em; overflow-wrap: anywhere; }
 .kb-cm .pend { color: var(--bad-text); }
-.kb-cbox { position: relative; width: 100%; height: 220px; min-width: 0; overflow: hidden; }
-.kb-kd .kb-cbox { height: 320px; }
+.kb-cbox { position: relative; width: 100%; height: var(--kb-h, 320px); min-width: 0; overflow: hidden; }
+.kb-kd .kb-cbox { height: var(--kb-hkd, 430px); }
+@media (max-width: 639px) { .kb-cbox { height: min(var(--kb-h, 320px), 60vh); } .kb-kd .kb-cbox { height: min(var(--kb-hkd, 430px), 60vh); } }
 .kb-empty { font-size: 0.84rem; color: var(--muted); padding: 24px 4px; text-align: center; }
 .kb-cf { display: flex; justify-content: flex-end; }
 .kb-more { font: inherit; font-size: 0.8rem; color: var(--accent); background: transparent; border: 0; padding: 2px 0; cursor: pointer; }
@@ -506,10 +507,22 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
 .co-warn { color: var(--ink-2); }
 
+/* 看盤頁加寬（只有看盤頁；其他頁不變）：主內容與章節導覽同寬 */
+.wrap.wrap-watch { max-width: min(1880px, 100vw - 32px); }
+.secnav-watch .scroller { max-width: min(1880px, 100vw - 32px); }
+
+/* 個股頁 K 棒開合橫條：整條都是按鈕，一眼看得到 */
+.kb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; box-sizing: border-box; font: inherit; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--chip-bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin-bottom: 4px; cursor: pointer; text-align: left; text-decoration: none; }
+.kb-bar:hover { border-color: var(--accent); }
+.kb-bar-l { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.kb-bar-ic { color: var(--accent); width: 1em; flex: none; }
+.kb-bar-r { flex: none; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+@media (max-width: 480px) { .kb-bar { font-size: 0.88rem; padding: 8px 10px; } .kb-bar-r { font-size: 0.78rem; } }
+
 </style>
 
 <!-- 看盤 K 棒頁：指數期貨（YM、NQ、TX）＋個股（companies.json 有 price.yahoo 的公司）。資料加密，解鎖後才顯示；說明見 assets/futures.js、assets/kbar.js 開頭。 -->
-<div class="secnav" role="navigation" aria-label="章節">
+<div class="secnav secnav-watch" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="../">← 所有公司</a>
     <a href="#kbGrid" data-mode-link="grid">總覽</a>
@@ -519,7 +532,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   </div>
 </div>
 
-<main class="wrap">
+<main class="wrap wrap-watch">
   <header class="masthead" id="top">
     <div class="eyebrow">Watchlist · Futures + Stocks</div>
     <h1>看盤 K 棒</h1>
@@ -534,6 +547,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <div class="kb-chips" id="kbChips" role="group" aria-label="分類篩選"></div>
     <div class="kb-gctrl">
       <div class="seg" id="kbGP" role="group" aria-label="週期"><button type="button" data-gp="D">日K</button><button type="button" data-gp="W">週K</button><button type="button" data-gp="M">月K</button></div>
+      <span class="kb-gsort">大小 <span class="seg" id="kbGSize" role="group" aria-label="卡片大小"><button type="button" data-gz="s">小</button><button type="button" data-gz="m">中</button><button type="button" data-gz="l">大</button></span></span>
       <div class="seg" role="group" aria-label="KD"><button type="button" id="kbGKD" aria-pressed="false">KD</button></div>
       <span class="kb-gsort">排序 <span class="seg" id="kbGSort" role="group" aria-label="排序"><button type="button" data-gsort="sector">產業</button><button type="button" data-gsort="chg">漲跌幅</button></span></span>
       <div class="seg" role="group" aria-label="鎖定"><button type="button" id="kbGLock" title="清除這台裝置記住的密碼">上鎖</button></div>
@@ -865,6 +879,8 @@ const FUT = (() => {
   /* ---------- 顯示小工具 ---------- */
   const fmt = (n, dp = 2) => n == null ? '—' : n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
   const dp = (c) => c && typeof c === 'object' ? (c.dp ?? DP[c.code] ?? 2) : (DP[c] ?? 2);   // 傳資料物件時優先用它自己的 dp（個股 K 棒檔有 dp）
+  /* 價格軸小數位：最大價格 ≥ 1000 → 0 位；≥ 100 → 最多 1 位；其餘維持商品原本位數 */
+  const axisDp = (mx, q) => mx >= 1000 ? 0 : mx >= 100 ? Math.min(q, 1) : q;
   const minMove = (d) => d.kind === 'stock' ? (dp(d) ? 0.01 : 1) : (dp(d) ? 0.25 : 1);       // 個股用最小跳動 0.01；期貨維持原本的 0.25／1
   const dstr = (t) => t.replace(/-/g, '/');
   function fresh(lastDate) {
@@ -1063,9 +1079,9 @@ const FUT = (() => {
       const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
       const chart = LW.createChart(box, {
         autoSize: true,
-        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: 12, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
+        layout: { background: { color: 'transparent' }, textColor: T('--tick'), fontFamily: 'IBM Plex Mono, Noto Sans TC, monospace', fontSize: o.fs || 12, attributionLogo: true, panes: { separatorColor: T('--line'), enableResize: false } },
         grid: { vertLines: { color: grid }, horzLines: { color: grid } },
-        rightPriceScale: { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
+        rightPriceScale: o.slim ? { borderColor: T('--axis'), minimumWidth: 0 } : { borderColor: T('--axis') }, timeScale: { borderColor: T('--axis'), rightOffset: 4, minBarSpacing: 0.5 },
         crosshair: { mode: 0 }, localization: { locale: 'zh-TW', timeFormatter: (t) => {
           /* 十字線底下的日期：日 K = 2026/10/30（五），週 K = 該週第一個交易日起，月 K = 2026/10 */
           const ds = typeof t === 'string' ? t : `${t.year}-${String(t.month).padStart(2, '0')}-${String(t.day).padStart(2, '0')}`;
@@ -1075,7 +1091,9 @@ const FUT = (() => {
         } },
       });
       const toT = (b) => b.t;
-      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: minMove(d) } }, 0);
+      /* slim（看盤頁）：價格軸刻度與最新價標籤去掉不必要的小數（看畫面上最大價格）；資料、圖例、水平線的價位精度不變（minMove 與 attachLines 不動） */
+      const axQ = o.slim ? axisDp(Math.max(...bars.slice(-(o.show || { D: 160, W: 150, M: 160 }[o.p])).map(b => b.h)), q) : q;
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, axQ), minMove: minMove(d) } }, 0);
       candle.priceScale().applyOptions({ mode: o.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
       candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
       const maSeries = {};
@@ -1256,7 +1274,7 @@ const FUT = (() => {
 
   return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines,
     // 以下給 assets/kbar.js（看盤頁、個股頁 K 棒）使用
-    chartInto, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
+    chartInto, axisDp, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
 })();
 
 /* 看盤 K 棒：個股（companies.json 裡有 price.yahoo 的公司）＋指數期貨，共用 assets/futures.js（FUT）的解密、指標、K 棒圖與水平線。
@@ -1268,7 +1286,7 @@ const FUT = (() => {
    資料誠實：讀不到的商品顯示「—」與原因，不顯示假數字；沒解鎖不顯示任何價格。 */
 const KB = (() => {
   const MAS = FUT.MAS, fmt = FUT.fmt, dstr = FUT.dstr, esc = FUT.esc;
-  const LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
+  const SIZE_LS = 'erd-watch-size', LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
   let C = { base: '../data/kbar/', futBase: '../data/futures/', companies: [], link: '../' };
   const futCodes = () => (FUT.SYMS || ['ym', 'nq']).slice();
@@ -1341,7 +1359,7 @@ const KB = (() => {
         : `${d.exchange} 連續近月合約（未調整${d.session ? '，' + d.session : ''}）· 資料 ${dstr(d.firstDate)} – ${dstr(d.lastDate)}${tail}`;
     }
     if (els.chart._kbChart) { els.chart._kbChart.remove(); els.chart._kbChart = null; }
-    const chart = FUT.chartInto(els.chart, d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true });
+    const chart = FUT.chartInto(els.chart, d, bars, S, { p: st.p, mas: st.mas, vol: st.vol, marks: true, slim: true, fs: 11 });
     els.chart._kbChart = chart;
     FUT.linesList(els.lines, d);
     const idx = Object.fromEntries(bars.map((b, i) => [b.t, i]));
@@ -1439,6 +1457,7 @@ const KB = (() => {
     const validF = (v) => v === 'all' || sectors.includes(v);
     st.f = validF(q.get('g')) ? q.get('g') : validF(ls.get(FILT_LS)) ? ls.get(FILT_LS) : 'all';
     st.kd = false;
+    st.size = { s: 's', m: 'm', l: 'l' }[ls.get(SIZE_LS)] || 'm';   // 總覽卡片大小（小／中／大），預設中
     let mode = gmap[q.get('s')] ? 'single' : 'grid';
     let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];   // 記住的代號只用在「從總覽切到單檔」的預設商品；沒有 ?s= 的網址一律開總覽
     let d = null, seq = 0, locked = true, loaded = 0, order = [];
@@ -1550,7 +1569,7 @@ const KB = (() => {
       if (!bars.length) { box.innerHTML = '<p class="kb-empty">—　沒有 K 棒資料</p>'; return; }
       box.innerHTML = '';
       card._hm = !!d.histMissing;
-      card._chart = FUT.chartInto(box, d, bars, FUT.study(bars), { p: st.p, mas: new Set(MAS), vol: false, marks: false, kd: st.kd, compact: true, readonly: true, show: { D: 120, W: 104, M: 120 }[st.p] });
+      card._chart = FUT.chartInto(box, d, bars, FUT.study(bars), { p: st.p, mas: new Set(MAS), vol: false, marks: false, kd: st.kd, compact: true, readonly: true, slim: true, fs: 10.5, show: { D: 120, W: 104, M: 120 }[st.p] });
       updateCard(card);
     }
     let io = null;
@@ -1560,7 +1579,8 @@ const KB = (() => {
       $('#kbGP').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gp === st.p)));
       $('#kbGSort').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gsort === st.sort)));
       $('#kbGKD').setAttribute('aria-pressed', String(st.kd));
-      cardsEl.classList.toggle('kb-kd', st.kd);
+      cardsEl.classList.toggle('kb-kd', st.kd); cardsEl.dataset.size = st.size;
+      $('#kbGSize').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gz === st.size)));
       const list = items.filter(inF); let html = '';
       if (st.sort === 'sector') sectors.forEach(sc => { const arr = list.filter(i => i.sector === sc); if (!arr.length) return; if (st.f === 'all') html += `<h3 class="kb-gh">${esc(sc)}<span>${arr.length}</span></h3>`; html += arr.map(cardHTML).join(''); });
       else html = list.slice().sort((a, b) => (b.q && b.q.chg != null ? b.q.chg : -1e9) - (a.q && a.q.chg != null ? a.q.chg : -1e9)).map(cardHTML).join('');
@@ -1668,6 +1688,7 @@ const KB = (() => {
     });
     $('#kbChips').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (!b) return; st.f = b.dataset.f; ls.set(FILT_LS, st.f); rep(gUrl()); renderGrid(); });
     $('#kbGP').addEventListener('click', (e) => { const b = e.target.closest('button[data-gp]'); if (!b || b.dataset.gp === st.p) return; st.p = b.dataset.gp; rep(gUrl()); $('#kbGP').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gp === st.p))); rebuildAll(); });
+    $('#kbGSize').addEventListener('click', (e) => { const b = e.target.closest('button[data-gz]'); if (!b || b.dataset.gz === st.size) return; st.size = b.dataset.gz; ls.set(SIZE_LS, st.size); cardsEl.dataset.size = st.size; $('#kbGSize').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gz === st.size))); rebuildAll(); });
     $('#kbGKD').addEventListener('click', () => { st.kd = !st.kd; $('#kbGKD').setAttribute('aria-pressed', String(st.kd)); cardsEl.classList.toggle('kb-kd', st.kd); rebuildAll(); });
     $('#kbGSort').addEventListener('click', (e) => { const b = e.target.closest('button[data-gsort]'); if (!b) return; st.sort = b.dataset.gsort; ls.set(SORT_LS, st.sort); renderList(); renderGrid(); });
     cardsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (b) setMode('single', gmap[b.dataset.open], 'push'); });

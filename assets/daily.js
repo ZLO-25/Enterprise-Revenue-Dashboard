@@ -62,13 +62,13 @@ const DAILY = (() => {
     <div class="card wide">
       ${caps ? `<h3>離論點卡的估值門檻多遠</h3><ul class="sum-list">${caps}</ul>` : ''}
       <p class="how">近 52 週最高 ${nf(L.hi52, cur === 'KRW' ? 0 : 2)}、最低 ${nf(L.lo52, cur === 'KRW' ? 0 : 2)}，目前離最高 ${sg(L.fromHi)}。</p>
+      ${D.kbar ? `<div class="kb-sec"><button type="button" class="kb-bar" id="dyKToggle" aria-controls="dyKB" aria-expanded="false"><span class="kb-bar-l"><span class="kb-bar-ic" aria-hidden="true">▸</span>K 棒圖（日／週／月 K、均線、KD）</span><span class="kb-bar-r">展開</span></button><div class="kb-dy" id="dyKB" hidden></div></div>`
+        : D.kbarLink ? `<div class="kb-sec"><a class="kb-bar" href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）"><span class="kb-bar-l"><span class="kb-bar-ic" aria-hidden="true">▸</span>K 棒圖（日／週／月 K、均線、KD）</span><span class="kb-bar-r">K 棒圖 ↗ 在網站看盤頁開啟</span></a></div>` : ''}
       <div class="tbl-bar"><h3 id="dyT">近 5 年每日收盤價</h3>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
         <div class="seg" id="dyR" role="group" aria-label="期間">${RANGES.map(n => `<button type="button" data-r="${n}" aria-pressed="${n === range}">${n} 年</button>`).join('')}</div>
         <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="${k === 1}">收盤價</button><button type="button" data-k="2" aria-pressed="${k === 2}">本益比</button></div></div></div>
       <div class="chartbox short"><canvas id="cDY" aria-label="每日收盤價與本益比"></canvas></div>
-      ${D.kbar ? `<div class="kb-sec"><div class="kb-sech"><h3>K 棒（日／週／月 K、均線、KD）</h3><button type="button" class="fut-toggle" id="dyKToggle" aria-controls="dyKB" aria-expanded="false">展開 <span aria-hidden="true">▾</span></button></div><div class="kb-dy" id="dyKB" hidden></div></div>`
-        : D.kbarLink ? `<div class="kb-sec"><div class="kb-sech"><h3>K 棒（日／週／月 K、均線、KD）</h3><a class="fut-toggle" href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）">K 棒 ↗</a></div></div>` : ''}
             <p class="how pe-note">本益比 ＝ 收盤價 ÷ 近四季 EPS；市值 ＝ 收盤價 × 期末流通股數；P/S ＝ 市值 ÷ 近四季營收；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；距門檻 ＝ 門檻 ÷ 現值 − 1。
         股價：Yahoo Finance 日線收盤（分割調整、不含股利調整），還沒收盤的當天不收。${chk}
         圖為近 5 年（上市未滿 5 年從上市起）。預估本益比用分析師預估，不是財報數字。抓取時間 ${esc((X.fetched || '').replace('T', ' ').replace('Z', ' UTC'))}。</p>
@@ -112,7 +112,7 @@ const DAILY = (() => {
     };
     const kbTg = sec.querySelector('#dyKToggle');
     const setKB = (open, now) => {
-      kbOpen = open; kbTg.setAttribute('aria-expanded', String(open)); kbTg.innerHTML = open ? '收合 <span aria-hidden="true">▴</span>' : '展開 <span aria-hidden="true">▾</span>';
+      kbOpen = open; kbTg.setAttribute('aria-expanded', String(open)); kbTg.querySelector('.kb-bar-r').textContent = open ? '收合' : '展開'; kbTg.querySelector('.kb-bar-ic').textContent = open ? '▾' : '▸';
       const box = sec.querySelector('#dyKB'); box.hidden = !open;
       if (open) { if (box._kb) box._kb.reload(); else showKB(now); }
       else { const c = box.querySelector('.fut-chart'); if (c) { if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = ''; } }   // 收合就釋放圖，再展開重建（不會出現兩張）
