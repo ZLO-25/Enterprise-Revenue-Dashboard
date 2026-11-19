@@ -29,6 +29,7 @@ python3 tools/pe.py             # 本益比計算的固定測試案例
 python3 tools/daily_calc.py     # 每日估值公式的固定測試案例
 python3 tools/prices_update.py --check  # 股價是否已到最新（只有 GitHub Actions 會真的抓）
 python3 tools/daily.py          # 每日排程今天的工作清單與狀態（set／try／done 改 data/calendar.json）
+python3 tools/daily.py story    # 各公司核心故事線與類別（寫 milestones 前先對；屬於故事線的事件 cat 用 story.cats）
 python3 tools/daily.py brief    # 每日排程的一頁摘要（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
 python3 tools/daily.py inbox [代號]      # SEC 收件匣：Actions（daily-prep）預抓的財報新聞稿 data/inbox/<代號>/pr-*.txt＋XBRL 核對表（快報、核對先看，tools/sec_inbox.py）
 python3 tools/daily.py trend-facts    # 世界趨勢月報的事實表（網站財報數字一頁，tools/trend_facts.py）

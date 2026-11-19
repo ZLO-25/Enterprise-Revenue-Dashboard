@@ -16,10 +16,10 @@
 
 ## 步驟
 1. 取得 repo（`add_repo` owner `ZLO-25`、repo `Enterprise-Revenue-Dashboard`、access `push`），clone 一次、`register_repo_root`。先讀 `CLAUDE.md`（資料誠實規則）。
-2. `python3 tools/daily.py brief --wait-prep` 不用跑（週日不是檢查日）；若今天是週日且要順便刷新資料，用 `mcp__github__actions_run_trigger` 觸發 `daily-prep.yml` 一次，不必等。接著 `python3 tools/daily.py news-scope`：印出新聞範圍（從上次「每週新聞」日期到今天，最長 14 天；沒有紀錄就是過去 7 天）與 24 家公司代號、名稱、現有 `milestones` 最後一筆日期（避免重複寫）。
+2. `python3 tools/daily.py brief --wait-prep` 不用跑（週日不是檢查日）；若今天是週日且要順便刷新資料，用 `mcp__github__actions_run_trigger` 觸發 `daily-prep.yml` 一次，不必等。接著 `python3 tools/daily.py news-scope`：印出新聞範圍（從上次「每週新聞」日期到今天，最長 14 天；沒有紀錄就是過去 7 天）與 24 家公司代號、名稱、現有 `milestones` 最後一筆日期（避免重複寫），以及核心故事線與類別。
 3. **用一個 Sonnet 子代理做搜尋**（Agent，`model: "sonnet"`，同一回合送出所有搜尋，不要一家一個子代理）。給它範圍、公司清單與下面「達標標準」，要求只回傳達標候選：公司、日期、一句話、來源名稱與網址、是公司公告還是媒體。不要叫它判斷投資意義。
 4. 達標標準（和舊每日 ④ 相同）：財測或營運變化（預告財報、上下修財測、重大訂單或合約）、資本動作（併購、分割、大額回購、增資、股利變動）、人事（執行長、財務長異動）、監管與法律（出口管制、反壟斷、重大訴訟、調查）、產業事件（主要客戶或對手財報出現與本公司直接相關的訊息）。股價漲跌本身不算。
-5. 主流程對每個候選：能開到公司公告或申報文件就標「已證實」（附連結）；只有媒體報導 → 「待確定」，寫媒體名稱，`unc:1`，`note` 以「待確定：」開頭。寫進該公司 `data/<代號>.json` 的 `milestones[]`（格式 `{d, cat, t, src, st:"p", unc?, note?}`，見 docs/DATA_SCHEMA.md 的 milestones[]；`src` 必填）；沒達標的不寫。候選是併購、出售或分拆業務、新增或裁撤部門 → 回報加一行「<公司> 的公司簡介可能需要更新（原因）」，不自己改簡介。
+5. 主流程對每個候選：能開到公司公告或申報文件就標「已證實」（附連結）；只有媒體報導 → 「待確定」，寫媒體名稱，`unc:1`，`note` 以「待確定：」開頭。寫進該公司 `data/<代號>.json` 的 `milestones[]`（格式 `{d, cat, t, src, st:"p", unc?, note?}`，見 docs/DATA_SCHEMA.md 的 milestones[]；`src` 必填）；沒達標的不寫。**類別先對核心故事線**：寫入前看該公司頂層 `story`（`python3 tools/daily.py story` 一次列出全部公司的故事線與類別）。事件是在推進那條線（新世代量產、關鍵客戶或合約、監管核准、主要產能、故事線的挫折）→ `cat` 用 `story.cats` 裡的類別，頁面會自動標「核心」；不是 → 用一般類別。不可為了湊「核心」硬歸類；拿不準就用一般類別，並在回報寫一句。回報裡把歸到核心故事線的事件標「核心」。候選是併購、出售或分拆業務、新增或裁撤部門 → 回報加一行「<公司> 的公司簡介可能需要更新（原因）」，不自己改簡介。
 6. 有寫入：`python3 tools/build.py && python3 tools/validate.py`（沒過的公司還原，不發佈）→ commit「每週新聞 <日期>」→ push main → publish `dist/artifacts/all.html` 到 `companies.json` 的 `site.artifact`（先 `action:"read"`）。沒有寫入就跳過這一步。
 6b. **每月第一個週日才做：待確認清理**（今天的日期是當月 1～7 日才做；其他週日跳過這一步）。`python3 tools/daily.py pending` 看「近期」清單（reports/pending.md），挑**最多 6 項**，每項用一個 Sonnet 子代理去讀一手來源（申報文件或公司公告，**必須真的讀到那個數字**）。讀到 → 更新 `data/<代號>.json` 並刪掉那一行待確認；讀不到 → 原樣保留，不估計、不內插。做完 `python3 tools/validate.py` 必須通過，沒過就 `git checkout -- data/<代號>.json` 還原那家，不發佈。回報列出每一項的結果與來源連結（解掉的、仍待確認的各幾項）。資料誠實規則一條都不放寬。
 7. `python3 tools/daily.py mark news`（記錄本週新聞已跑），和下一步一起 commit。
