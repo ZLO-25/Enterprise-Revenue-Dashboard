@@ -9,6 +9,13 @@
    "tries": 0,
    "since": "2026-11-18",
    "flashDate": "2026-11-18"
+  },
+  "panw": {
+   "state": "flash",
+   "target": "1Q27",
+   "tries": 0,
+   "since": "2026-11-19",
+   "flashDate": "2026-11-19"
   }
  }
 }
