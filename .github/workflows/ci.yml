@@ -28,7 +28,9 @@ jobs:
           python3 tools/pe.py
           python3 tools/daily_calc.py
       - name: 單元測試（工具）
-        run: python3 -m unittest discover -s tools/tests
+        run: |
+          pip install --quiet cryptography   # test_kbar 要驗證加密後能解回；看盤頁瀏覽器測試的 fixture 也要用
+          python3 -m unittest discover -s tools/tests
       - name: 單元測試（回測）
         run: |
           pip install --quiet -r quant/scripts/requirements.txt
@@ -42,3 +44,11 @@ jobs:
           pip install --quiet playwright
           python3 -m playwright install --with-deps chromium
           python3 tools/smoke_test.py
+      - name: 瀏覽器測試（看盤頁、個股頁 K 棒；合成資料，不碰 data/）
+        run: |
+          # 沿用上一步 Python Playwright 已經裝好的 chromium；測試腳本用 node 版 playwright 驅動它
+          export PW_CHROMIUM="$(python3 -c 'from playwright.sync_api import sync_playwright as s; p = s().start(); print(p.chromium.executable_path); p.stop()')"
+          # node 版 playwright 釘成跟 Python 版同一個 major.minor（同一版 chromium）；補丁版號兩邊不一定都有，所以用 ~X.Y.0；裝不到才退回不釘
+          PW_MM="$(python3 -c 'import importlib.metadata as m; print(".".join(m.version("playwright").split(".")[:2]))')"
+          npm install --no-save --prefix "$RUNNER_TEMP/pw" "playwright@~$PW_MM.0" || npm install --no-save --prefix "$RUNNER_TEMP/pw" playwright
+          NODE_PATH="$RUNNER_TEMP/pw/node_modules" node tools/tests/kbar_browser.cjs

@@ -15,6 +15,7 @@
   {{CHARTJS}}      <script src=…chart.umd.js>（Pages 用本地副本，Artifact 用 CDN）
   {{HOME}}         回首頁的連結
   {{FUTURES_JS}}   assets/futures.js（指數期貨：解密、指標、首頁小卡、K 棒頁）
+  {{KBAR_JS}}      assets/kbar.js（看盤頁：個股＋期貨；個股頁的 K 棒檢視由 daily.js 延遲載入同一支檔）
   {{FUT_BASE}}     加密期貨資料的資料夾網址；{{FUT_LINK}} K 棒頁網址；{{LWC}} Lightweight Charts（首頁與 K 棒頁）
   首頁另有 {{COMPANIES}}、{{DATASETS}}、{{SITE_TITLE}}、{{REPO}}
 新增公司只要補 companies.json、data/<code>.json 與 companies/<code>/SOURCES.md；資料符合 v1 就用 templates/generic.frag.html，不必改本檔。
@@ -273,7 +274,7 @@ FUTJS = ""
 
 
 def main():
-    global LONGTERM, FUTJS, SIDEBAR, PRERENDER
+    global LONGTERM, FUTJS, KBARJS, SIDEBAR, PRERENDER
     PRERENDER = False
     cfg = json.loads(read("companies.json"))
     PRERENDER = bool(cfg["site"].get("prerender"))
@@ -289,6 +290,7 @@ def main():
         # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
     FUTJS = read("assets", "futures.js")
+    KBARJS = read("assets", "kbar.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
     datasets = {}
@@ -333,9 +335,16 @@ def main():
                                                ("{{CHARTJS}}", chart), ("{{DATA}}", js_json(data)), ("{{HOME}}", home)])
         if c.get("price"):
             data["dailyUrl"] = "../" * depth + "data/daily/" + c["code"] + ".json"
+            # 個股頁「今日股價與估值」的 K 棒檢視：選到 K 棒且區塊進入畫面時才動態載入這三支 script（不內嵌，公司頁維持輕量）
+            rel = "../" * depth
+            data["kbar"] = {"lwc": rel + "assets/vendor/lightweight-charts.standalone.production.js",
+                            "js": [rel + "assets/futures.js?v=" + asset_ver("assets", "futures.js"), rel + "assets/kbar.js?v=" + asset_ver("assets", "kbar.js")],
+                            "base": rel + "data/kbar/", "futBase": rel + "data/futures/", "link": rel + "futures/", "code": c["code"], "name": c["name"], "ticker": c.get("ticker", "")}
         write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth)), "../" * depth, "company", c["code"]), c["path"], "index.html")
         if c.get("price"):
             data["dailyUrl"] = pages_url + "data/daily/" + c["code"] + ".json"   # Artifact／合併版：讀 GitHub Pages 上的檔（讀不到就用建置時的版本）
+            data["kbar"] = None   # Artifact 不能載入站內 script：K 棒按鈕改成連到網站的看盤頁
+            data["kbarLink"] = pages_url + "futures/?s=" + c["code"]
         write(f"<title>{c['title']}</title>\n" + build(pages_url, CDN_CHART), "dist", "artifacts", c["code"] + ".html")
         print(f"{c['code']}: {c['path']}index.html（資料截至 {data['asOf']}）")
     home_t = read("templates", "home.frag.html")
@@ -352,11 +361,13 @@ def main():
     fb, fl, lwc = pages_url + "data/futures/", pages_url + "futures/", CDN_LWC
     write(f"<title>{cfg['site']['title']}</title>\n" + home(CDN_CHART), "dist", "artifacts", "home.html")
     # 指數期貨 K 棒頁（資料加密；頁面本身公開，解鎖後才有內容）
-    ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS),
+    kb_cos = [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c.get("sector") or "其他", "href": "../" + c["path"]}
+              for c in companies if (c.get("price") or {}).get("yahoo")]   # 清單順序＝companies.json 的順序（產業依第一次出現的順序）
+    ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS), ("{{KBAR_JS}}", KBARJS),
               ("{{LWC}}", '<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>'),
-              ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/")])
-    write(page("指數期貨 K 棒", "小道瓊、小那斯達克、大台指期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../", "futures"), "futures", "index.html")
-    print("futures/index.html（指數期貨 K 棒頁）")
+              ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/"), ("{{KB_BASE}}", "../data/kbar/"), ("{{KB_COMPANIES}}", js_json(kb_cos))])
+    write(page("看盤 K 棒", "指數期貨與追蹤中個股的日 K、週 K、月 K，搭配均線、扣抵值、KD 與成交量；資料加密，解鎖後顯示。", ft, "../", "futures"), "futures", "index.html")
+    print("futures/index.html（看盤 K 棒頁）")
     # 市值排名頁（資料 data/mcap/latest.json 由 Actions 每週寫入；頁面執行時才讀，所以每週更新不必重建網站）
     mt = fill(read("templates", "mcap.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MCAP_BASE}}", "../data/mcap/")])
     write(page("市值排名", "全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。", mt, "../", "mcap"), "mcap", "index.html")

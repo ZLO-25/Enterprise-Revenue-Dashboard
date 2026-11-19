@@ -338,6 +338,51 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
 .fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 
+/* 看盤 K 棒頁（assets/kbar.js、templates/futures.frag.html）與個股頁的 K 棒檢視（kb- 開頭）。
+   寬螢幕（≥900px）：左清單固定、可獨立捲動；窄螢幕：清單收成面板，用「商品清單」按鈕展開；整頁不可出現水平捲動 */
+.kb-app { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0; }
+.kb-main { min-width: 0; display: grid; gap: 28px; }
+.kb-main > div { min-width: 0; }
+.kb-side { min-width: 0; }
+.kb-tog { width: 100%; display: flex; align-items: center; gap: 8px; font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; text-align: left; }
+.kb-tog span { color: var(--muted); } .kb-tog b { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .kb-tog i { font-style: normal; color: var(--muted); }
+.kb-panel { display: none; margin-top: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; max-height: 60vh; overflow: auto; }
+.kb-open .kb-panel { display: block; }
+.kb-sum { font-size: 0.86rem; color: var(--ink-2); margin-bottom: 8px; }
+.kb-sum b { font-family: var(--font-data); font-weight: 600; } .kb-sum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-sortbar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.8rem; color: var(--muted); }
+.kb-grp { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 10px 6px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
+.kb-grp:first-child { border-top: 0; margin-top: 0; padding-top: 2px; }
+.kb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; width: 100%; font: inherit; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 8px; padding: 6px 8px; cursor: pointer; }
+/* 滑過的底色（--wash）和選取的底色（--chip-bg）幾乎一樣：選取列另加左側色條；觸控裝置點完不留滑過的底色 */
+@media (hover: hover) { .kb-row:hover { background: var(--wash); } }
+.kb-row[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); box-shadow: inset 3px 0 0 var(--accent); }
+.kb-row .n { font-size: 0.92rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-row .ch { font-family: var(--font-data); font-size: 0.88rem; font-weight: 500; text-align: right; color: var(--muted); }
+.kb-row .ch.kup { color: var(--kup); } .kb-row .ch.kdn { color: var(--kdn); }
+.kb-row .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-row .px { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); text-align: right; }
+.kb-row[aria-selected="true"] .c, .kb-row[aria-selected="true"] .px { color: inherit; opacity: 0.8; }
+.kb-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
+.kb-ttl { min-width: 0; flex: 1 1 260px; } .kb-ttl h2 { font-size: var(--step-2); }
+.kb-sub { font-size: 0.84rem; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; }
+.kb-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.kb-step { font: inherit; font-size: 0.82rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.kb-step:hover { color: var(--ink); }
+.kb-nav .go[hidden] { display: none; }
+.kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
+.kb-foot { margin-top: 8px; }
+.seg a { display: inline-flex; align-items: center; font-size: 0.82rem; color: var(--ink-2); padding: 6px 12px; text-decoration: none; border-left: 1px solid var(--line); }
+.seg a:hover { color: var(--ink); }
+@media (max-width: 640px) { .kb-embed .fut-chart, .kb-dy .fut-chart { height: 420px; } }
+@media (min-width: 900px) {
+  .kb-app { grid-template-columns: 272px minmax(0, 1fr); gap: 20px; }
+  .kb-side { position: sticky; top: 12px; max-height: calc(100vh - 24px); display: flex; flex-direction: column; }
+  .kb-tog { display: none; }
+  .kb-panel { display: flex; flex-direction: column; margin-top: 0; max-height: none; min-height: 0; overflow: hidden; }
+  .kb-list { overflow-y: auto; min-height: 0; scrollbar-width: thin; }
+}
+
 /* 每季一頁摘要（assets/summary.js）：四種來源標籤＋成績單 */
 .src-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 0.05em; white-space: nowrap; }
 .src-w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
@@ -1723,7 +1768,21 @@ const DAILY = (() => {
   const money = (m, cur) => m == null ? null : (m >= 1e6 ? nf(m / 1e6, 2) + ' 兆' : nf(m / 100, 0) + ' 億') + (CUR[cur] || cur || '');
 
   // 使用者選的指標與期間放在模組層：render() 可能跑兩次（建置內嵌版、再換成讀到的新檔），不能把選擇重設
-  let k = 1, range = 5;
+  let k = 1, range = 5, kInit = false;   // k：1 收盤價、2 本益比、3 K 棒（assets/kbar.js，延遲載入）
+  // 這台裝置解鎖過（期貨與 K 棒共用的金鑰記在 localStorage）才預設 K 棒；讀不到就維持收盤折線
+  const kbKeyed = () => { try { return !!localStorage.getItem('erd-futures-key-v1'); } catch (e) { return false; } };
+  let kbP = null;
+  const loadKB = (K) => kbP || (kbP = new Promise((res, rej) => {
+    const urls = (typeof LightweightCharts === 'undefined' ? [K.lwc] : []).concat(typeof FUT === 'undefined' ? [K.js[0]] : [], typeof KB === 'undefined' ? [K.js[1]] : []);
+    let i = 0;
+    const next = () => {
+      if (i >= urls.length) return res();
+      const el = document.createElement('script'); el.async = false; el.src = urls[i++]; el.onload = next;
+      el.onerror = () => { kbP = null; rej(new Error('載入失敗：' + el.src)); };
+      document.head.appendChild(el);
+    };
+    next();
+  }));
   const RANGES = [1, 3, 5];
   const cutoff = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCFullYear(t.getUTCFullYear() - n); return t.toISOString().slice(0, 10); };
 
@@ -1738,6 +1797,7 @@ const DAILY = (() => {
       return `<li><span class="chip ${c.ok ? 'chip-up' : 'chip-down'}">${c.ok ? '在門檻內' : '超出門檻'}</span> <b>${esc(c.name)} ${c.op === '<=' ? '≤' : '≥'} ${c.thr}${unit}</b>：現在 ${c.k === 'fcfY' ? nf(c.now) + '%' : x1(c.now)}，${word}${px}</li>`;
     }).join('');
     const chk = X.check ? `<span class="${X.check.ok === false ? 'st-plan' : ''}">${esc(X.check.note)}</span>。` : '';
+    const oldKB = sec.querySelector('#dyKB');   // render() 跑第二次時沿用已載入的 K 棒檢視（不重建、不重複綁事件）
     sec.innerHTML = `
     <div class="sec-head"><span class="sec-tag">每日收盤 · ${L.d.replace(/-/g, '/')}</span><h2>今日股價與估值</h2>
       <p class="sub">每個交易日收盤後由 GitHub Actions 自動抓收盤價，本益比、市值等用固定公式算出來（不經過 Claude）。財報數字一律用「那天為止已公布」的季度。</p>
@@ -1755,8 +1815,9 @@ const DAILY = (() => {
       <div class="tbl-bar"><h3 id="dyT">近 5 年每日收盤價</h3>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
         <div class="seg" id="dyR" role="group" aria-label="期間">${RANGES.map(n => `<button type="button" data-r="${n}" aria-pressed="${n === range}">${n} 年</button>`).join('')}</div>
-        <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="${k === 1}">收盤價</button><button type="button" data-k="2" aria-pressed="${k === 2}">本益比</button></div></div></div>
+        <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="${k === 1}">收盤價</button><button type="button" data-k="2" aria-pressed="${k === 2}">本益比</button>${D.kbar ? `<button type="button" data-k="3" aria-pressed="${k === 3}">K 棒</button>` : D.kbarLink ? `<a href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）">K 棒 ↗</a>` : ''}</div></div></div>
       <div class="chartbox short"><canvas id="cDY" aria-label="每日收盤價與本益比"></canvas></div>
+      <div class="kb-dy" id="dyKB" hidden></div>
       <p class="how pe-note">本益比 ＝ 收盤價 ÷ 近四季 EPS；市值 ＝ 收盤價 × 期末流通股數；P/S ＝ 市值 ÷ 近四季營收；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；距門檻 ＝ 門檻 ÷ 現值 − 1。
         股價：Yahoo Finance 日線收盤（分割調整、不含股利調整），還沒收盤的當天不收。${chk}
         圖為近 5 年（上市未滿 5 年從上市起）。預估本益比用分析師預估，不是財報數字。抓取時間 ${esc((X.fetched || '').replace('T', ' ').replace('Z', ' UTC'))}。</p>
@@ -1767,9 +1828,23 @@ const DAILY = (() => {
     const avail = RANGES.filter((n, i) => i === 0 || (first && first <= cutoff(L.d, RANGES[i - 1])));
     if (!avail.includes(range)) range = avail[avail.length - 1];
     sec.querySelectorAll('#dyR button').forEach(b => { b.hidden = !avail.includes(+b.dataset.r); b.setAttribute('aria-pressed', String(+b.dataset.r === range)); });
-    if (avail.length < 2) sec.querySelector('#dyR').hidden = true;
     let chart = null;
-    const draw = () => {
+    if (oldKB && (oldKB._kb || oldKB._loading)) sec.querySelector('#dyKB').replaceWith(oldKB);
+    const showKB = (now) => {   // now：使用者剛按下 K 棒 → 馬上載入；頁面一打開就預設 K 棒 → 等區塊接近畫面才載入
+      const box = sec.querySelector('#dyKB'); if (box._kb || box._loading) return;
+      const start = () => {
+        if (box._kb || box._loading) return; box._loading = true;
+        loadKB(D.kbar).then(() => { KB.init({ base: D.kbar.base, futBase: D.kbar.futBase, link: D.kbar.link }); box._kb = KB.stock(box, { code: D.kbar.code, name: D.kbar.name, ticker: D.kbar.ticker, link: D.kbar.link }); })
+          .catch((e) => { box.innerHTML = `<p class="fut-note">K 棒載入失敗（${esc(e.message || e)}）。可以改到<a href="${esc(D.kbar.link)}?s=${esc(D.kbar.code)}">看盤頁</a>看。</p>`; })
+          .finally(() => { box._loading = false; });
+      };
+      if (now || !('IntersectionObserver' in window)) start();
+      else { const io = new IntersectionObserver((en) => { if (en.some(x => x.isIntersecting)) { io.disconnect(); start(); } }, { rootMargin: '400px' }); io.observe(box); }
+    };
+    const draw = (now) => {
+      const kb = k === 3 && !!D.kbar;
+      sec.querySelector('#dyKB').hidden = !kb; sec.querySelector('.chartbox.short').hidden = kb; sec.querySelector('#dyR').hidden = kb || avail.length < 2;
+      if (kb) { sec.querySelector('#dyT').textContent = 'K 棒（日 K／週 K／月 K，均線、扣抵值、KD、成交量、水平線）'; showKB(now === true); return; }
       const cut = cutoff(L.d, range);
       const S = S0.filter(r => r[0] > cut);
       if (!window.Chart || !S.length) return;
@@ -1786,7 +1861,9 @@ const DAILY = (() => {
           scales: { y: { border: { display: false }, grid: { color: css('--grid'), drawTicks: false }, ticks: { color: css('--tick'), padding: 6, callback: (v) => k === 1 ? nf(v, 0) : v + '×', font: { family: 'IBM Plex Mono, monospace', size: 11 } } },
             x: { border: { color: css('--axis') }, grid: { display: false }, ticks: { color: css('--tick'), maxRotation: 0, autoSkip: true, maxTicksLimit: 7, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: function (v) { const l = this.getLabelForValue(v); return l ? l.slice(2, 7).replace('-', '/') : ''; } } } } } });
     };
-    sec.querySelector('#dyK').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; k = +b.dataset.k; sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+    if (!kInit) { kInit = true; if (D.kbar && kbKeyed()) k = 3; }
+    sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.k === k)));
+    sec.querySelector('#dyK').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; k = +b.dataset.k; sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(true); });
     sec.querySelector('#dyR').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; range = +b.dataset.r; sec.querySelectorAll('#dyR button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
     draw();
     if (!sec.__re) {
@@ -1985,7 +2062,8 @@ const FUT = (() => {
 
   /* ---------- 顯示小工具 ---------- */
   const fmt = (n, dp = 2) => n == null ? '—' : n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
-  const dp = (code) => DP[code] ?? 2;
+  const dp = (c) => c && typeof c === 'object' ? (c.dp ?? DP[c.code] ?? 2) : (DP[c] ?? 2);   // 傳資料物件時優先用它自己的 dp（個股 K 棒檔有 dp）
+  const minMove = (d) => d.kind === 'stock' ? (dp(d) ? 0.01 : 1) : (dp(d) ? 0.25 : 1);       // 個股用最小跳動 0.01；期貨維持原本的 0.25／1
   const dstr = (t) => t.replace(/-/g, '/');
   function fresh(lastDate) {
     // 台北早上看到的應該是美國「前一個交易日」；超過 4 天沒新 K 棒（連假除外）就提醒
@@ -2050,7 +2128,7 @@ const FUT = (() => {
 
   function attachLines(chart, candle, box, d, q) {
     if (box._linesOff) box._linesOff();
-    const code = d.code, step = q ? 0.25 : 1, snap = (p) => Math.round(p / step) * step;
+    const code = d.code, step = minMove(d), snap = (p) => Math.round(p / step) * step;
     const pls = new Map();               // 線的 id → 圖上的 price line
     let sel = null, hover = null, drag = null, lastY = null, raf = 0;
     const col = (L) => T(L.c || '--s1');
@@ -2159,7 +2237,7 @@ const FUT = (() => {
 
   /* K 棒頁：圖下方的「我的水平線」清單（價格、離最新收盤多遠、備註、刪除） */
   function linesList(el, d) {
-    const q = dp(d.code), last = d.bars[d.bars.length - 1][4];
+    const q = dp(d), last = d.bars[d.bars.length - 1][4];
     const L = Lines.get(d.code).sort((a, b) => b.p - a.p);
     if (!L.length) { el.innerHTML = `<p class="fut-note">還沒有水平線。按上面的「水平線」，再點圖上想要的價位；畫好的線會記在這台裝置，下次打開還在。</p>`; return; }
     el.innerHTML = `<div class="fut-lines-head"><b>${d.name}的水平線（${L.length} 條）</b><button type="button" class="tx" data-clear="1">全部刪除</button></div><table class="fut-lines-tbl"><thead><tr><th>價位</th><th>離最新收盤 ${fmt(last, q)}</th><th class="txt">備註</th><th></th></tr></thead><tbody>` +
@@ -2173,7 +2251,7 @@ const FUT = (() => {
 
   /* ---------- 畫一張 K 棒圖（首頁與 K 棒頁共用）：K 棒＋均線，選用成交量，最下方 KD ---------- */
   function chartInto(box, d, bars, S, o) {
-    const LW = window.LightweightCharts, q = dp(d.code);
+    const LW = window.LightweightCharts, q = dp(d);
       const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
       const chart = LW.createChart(box, {
         autoSize: true,
@@ -2189,7 +2267,7 @@ const FUT = (() => {
         } },
       });
       const toT = (b) => b.t;
-      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: minMove(d) } }, 0);
       candle.priceScale().applyOptions({ mode: o.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
       candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
       const maSeries = {};
@@ -2282,6 +2360,21 @@ const FUT = (() => {
       `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` + pendList(d);
   }
 
+  /* 美國期貨（YM／NQ）的來源說明；原本直接寫在 page() 裡，抽成函式讓看盤頁（assets/kbar.js）共用，文字與行為沒有改 */
+  function srcUS(d) {
+    const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
+    const checked = cr.ok || cme.length;
+    return `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上 7 點起每 15 分鐘檢查一次到晚上 11 點，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
+        `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
+        (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
+        (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
+        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
+        `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
+        `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
+        pendList(d);
+  }
+  const srcFut = (d) => d.market === 'TW' ? srcTW(d) : srcUS(d);
+
   /* ---------- K 棒頁 ---------- */
   function page(root, base) {
     const q = new URLSearchParams(location.search);
@@ -2330,17 +2423,7 @@ const FUT = (() => {
           const diff = last.c - x.c, nx = m + diff / n;
           return `<tr><td><i class="dot" style="background:${T(MA_COLOR(n))}"></i>MA${n}</td><td>${fmt(m, q)}</td><td>${fmt(x.c, q)}</td><td>${dstr(x.t)}</td><td class="${diff >= 0 ? 'kup' : 'kdn'}">${diff >= 0 ? '+' : '−'}${fmt(Math.abs(diff), q)}</td><td class="txt">${diff > 0 ? '均線上揚' : diff < 0 ? '均線下彎' : '均線持平'}，變成 ${fmt(nx, q)}</td></tr>`; }).join('') + '</tbody>';
       /* 來源與待確認 */
-      if (d.market === 'TW') { $r('#futSrc').innerHTML = srcTW(d); return; }
-      const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
-      const checked = cr.ok || cme.length;
-      $r('#futSrc').innerHTML = `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上 7 點起每 15 分鐘檢查一次到晚上 11 點，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
-        `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
-        (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
-        (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
-        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
-        `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
-        `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
-        pendList(d);
+      $r('#futSrc').innerHTML = srcFut(d);
     }
     root.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
@@ -2359,7 +2442,9 @@ const FUT = (() => {
     go();
   }
 
-  return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
+  return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines,
+    // 以下給 assets/kbar.js（看盤頁、個股頁 K 棒）使用
+    chartInto, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
 })();
 
 const COMPANIES = [{"code":"tsmc","name":"台積電","nameEn":"TSMC","ticker":"2330","exchange":"TWSE 2330 · NYSE TSM","sector":"半導體","currency":"TWD","frequency":"monthly+quarterly","path":"tsmc/","schema":"tsmc-legacy","template":"tsmc","title":"台積電財報追蹤板","description":"台積電（2330）2015 年以來月營收、季報、資本支出、製程結構、技術里程碑與建廠時程追蹤。","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"primarySource":{"n":"台積電投資人關係（月營收、季報）","url":"https://investor.tsmc.com/english/quarterly-results"},"price":{"yahoo":"2330.TW","from":"2015-01","currency":"TWD","twse":"2330"},"tz":"TW","pending":{"recent":0,"y3":1,"old":2,"noq":0}},{"code":"pltr","name":"Palantir","nameEn":"Palantir Technologies","ticker":"PLTR","exchange":"Nasdaq PLTR","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"pltr/","schema":"v1","template":"pltr","title":"Palantir 財報追蹤板","description":"Palantir（PLTR）上市以來每季營收、政府與商業拆分、獲利、現金流、合約與客戶指標、財測與重要事件追蹤。","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1321655"},"price":{"yahoo":"PLTR","from":"2020-09","currency":"USD"},"cik":"0001321655","tz":"US","pending":{"recent":1,"y3":1,"old":4,"noq":0}},{"code":"nvda","name":"輝達","nameEn":"NVIDIA","ticker":"NVDA","exchange":"Nasdaq NVDA","sector":"半導體","currency":"USD","frequency":"quarterly","path":"nvda/","schema":"v1","template":"generic","title":"輝達財報追蹤板","description":"輝達（NVDA）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1045810"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"NVDA","from":"2009-02","currency":"USD"},"cik":"0001045810","tz":"US","pending":{"recent":10,"y3":0,"old":3,"noq":0}},{"code":"tsla","name":"特斯拉","nameEn":"Tesla","ticker":"TSLA","exchange":"Nasdaq TSLA","sector":"電動車與太空","currency":"USD","frequency":"quarterly","path":"tsla/","schema":"v1","template":"generic","title":"特斯拉財報追蹤板","description":"特斯拉（TSLA）2010 年以來每季營收、利潤率、EPS、現金流，汽車／能源／服務拆分、交車與儲能、重要事件追蹤。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1318605"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"TSLA","from":"2010-06","currency":"USD"},"cik":"0001318605","tz":"US","pending":{"recent":1,"y3":7,"old":2,"noq":0}},{"code":"anet","name":"Arista","nameEn":"Arista Networks","ticker":"ANET","exchange":"NYSE ANET","sector":"硬體與網通","currency":"USD","frequency":"quarterly","path":"anet/","schema":"v1","template":"generic","title":"Arista 財報追蹤板","description":"Arista Networks（ANET）2014 年上市以來每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1596532"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"ANET","from":"2014-06","currency":"USD"},"cik":"0001596532","tz":"US","pending":{"recent":0,"y3":1,"old":5,"noq":0}},{"code":"spcx","name":"SpaceX","nameEn":"Space Exploration Technologies","ticker":"SPCX","exchange":"Nasdaq SPCX","sector":"電動車與太空","currency":"USD","frequency":"quarterly","path":"spcx/","schema":"v1","template":"generic","title":"SpaceX 財報追蹤板","description":"SpaceX（SPCX）2026 年上市後每季營收、三大部門、獲利、資本支出、Starlink 與發射指標、重要事件追蹤。","primarySource":{"n":"SpaceX 財報新聞稿與 SEC EDGAR（10-Q、8-K）","url":"https://ir.spacex.com/"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"SPCX","from":"2026-06","currency":"USD"},"cik":"0001181412","tz":"US","pending":{"recent":4,"y3":1,"old":0,"noq":1}},{"code":"samsung","name":"三星電子","nameEn":"Samsung Electronics","ticker":"005930","exchange":"KRX 005930","sector":"半導體","currency":"KRW","frequency":"quarterly","path":"samsung/","schema":"v1","template":"generic","title":"三星電子財報追蹤板","description":"三星電子（KRX 005930）2018 年以來每季營收、利潤率、EPS、現金流（K-IFRS 合併、百萬韓元）、初步業績與重要事件追蹤。","primarySource":{"n":"三星電子投資人關係（法說會簡報，K-IFRS 合併）","url":"https://www.samsung.com/global/ir/financial-information/earnings-release/"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"005930.KS","from":"2018-01","currency":"KRW"},"tz":"KR","pending":{"recent":5,"y3":0,"old":2,"noq":3}},{"code":"delta","name":"台達電","nameEn":"Delta Electronics","ticker":"2308","exchange":"TWSE 2308","sector":"硬體與網通","currency":"TWD","frequency":"quarterly","path":"delta/","schema":"v1","template":"generic","title":"台達電財報追蹤板","description":"台達電（2308）2019 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。","primarySource":{"n":"台達電投資人關係：合併財務報告與法說會簡報","url":"https://filecenter.deltaww.com/ir/download/financial_report/Q32026_chi_Consolidated%20Financial%20Report.pdf"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"2308.TW","from":"2019-01","currency":"TWD","twse":"2308"},"tz":"TW","pending":{"recent":2,"y3":0,"old":3,"noq":0}},{"code":"msft","name":"微軟","nameEn":"Microsoft","ticker":"MSFT","exchange":"Nasdaq MSFT","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"msft/","schema":"v1","template":"generic","title":"微軟財報追蹤板","description":"微軟（MSFT）FY2009（2008 年）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤（會計年度 7 月至隔年 6 月）。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=789019"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"MSFT","from":"2008-07","currency":"USD"},"cik":"0000789019","tz":"US","pending":{"recent":1,"y3":0,"old":5,"noq":1}},{"code":"mu","name":"美光","nameEn":"Micron Technology","ticker":"MU","exchange":"Nasdaq MU","sector":"半導體","currency":"USD","frequency":"quarterly","path":"mu/","schema":"v1","template":"generic","title":"美光財報追蹤板","description":"美光（MU）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤（會計年度約 9 月初結束）。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=723125"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"MU","from":"2009-09","currency":"USD"},"cik":"0000723125","tz":"US","pending":{"recent":2,"y3":0,"old":6,"noq":1}},{"code":"amzn","name":"亞馬遜","nameEn":"Amazon","ticker":"AMZN","exchange":"Nasdaq AMZN","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"amzn/","schema":"v1","template":"generic","title":"亞馬遜財報追蹤板","description":"亞馬遜（AMZN）2009 年以來每季營收、利潤率、EPS、現金流、資本支出、財測與重要事件追蹤。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1018724"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"AMZN","from":"2009-01","currency":"USD"},"cik":"0001018724","tz":"US","pending":{"recent":1,"y3":1,"old":10,"noq":0}},{"code":"aapl","name":"蘋果","nameEn":"Apple","ticker":"AAPL","exchange":"Nasdaq AAPL","sector":"硬體與網通","currency":"USD","frequency":"quarterly","path":"aapl/","schema":"v1","template":"generic","title":"蘋果財報追蹤板","description":"蘋果（AAPL）FY2009（2008 年 10 月）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤。","primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=320193"},"artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"price":{"yahoo":"AAPL","from":"2008-10","currency":"USD"},"cik":"0000320193","tz":"US","pending":{"recent":1,"y3":0,"old":9,"noq":0}},{"code":"meta","name":"Meta","nameEn":"Meta Platforms","ticker":"META","exchange":"Nasdaq META","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"meta/","schema":"v1","template":"generic","title":"Meta財報追蹤板","description":"Meta（META）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"META","from":"2012-05","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1326801"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001326801","pending":{"recent":3,"y3":1,"old":5,"noq":0}},{"code":"avgo","name":"博通","nameEn":"Broadcom","ticker":"AVGO","exchange":"Nasdaq AVGO","sector":"半導體","currency":"USD","frequency":"quarterly","path":"avgo/","schema":"v1","template":"generic","title":"博通財報追蹤板","description":"博通（AVGO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"AVGO","from":"2017-11","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1730168"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001730168","pending":{"recent":0,"y3":0,"old":5,"noq":0}},{"code":"mrvl","name":"邁威爾","nameEn":"Marvell Technology","ticker":"MRVL","exchange":"Nasdaq MRVL","sector":"半導體","currency":"USD","frequency":"quarterly","path":"mrvl/","schema":"v1","template":"generic","title":"邁威爾財報追蹤板","description":"邁威爾（MRVL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"MRVL","from":"2009-05","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1835632"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001835632","pending":{"recent":2,"y3":0,"old":13,"noq":0}},{"code":"amd","name":"超微","nameEn":"Advanced Micro Devices","ticker":"AMD","exchange":"Nasdaq AMD","sector":"半導體","currency":"USD","frequency":"quarterly","path":"amd/","schema":"v1","template":"generic","title":"超微財報追蹤板","description":"超微（AMD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"AMD","from":"2009-03","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=2488"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0000002488","pending":{"recent":0,"y3":0,"old":9,"noq":0}},{"code":"crwd","name":"CrowdStrike","nameEn":"CrowdStrike Holdings","ticker":"CRWD","exchange":"Nasdaq CRWD","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"crwd/","schema":"v1","template":"generic","title":"CrowdStrike財報追蹤板","description":"CrowdStrike（CRWD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"CRWD","from":"2019-06","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1535527"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001535527","pending":{"recent":0,"y3":3,"old":1,"noq":0}},{"code":"panw","name":"Palo Alto Networks","nameEn":"Palo Alto Networks","ticker":"PANW","exchange":"Nasdaq PANW","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"panw/","schema":"v1","template":"generic","title":"Palo Alto Networks財報追蹤板","description":"Palo Alto Networks（PANW）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"PANW","from":"2012-07","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1327567"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001327567","pending":{"recent":9,"y3":0,"old":0,"noq":0}},{"code":"rklb","name":"火箭實驗室","nameEn":"Rocket Lab","ticker":"RKLB","exchange":"Nasdaq RKLB","sector":"電動車與太空","currency":"USD","frequency":"quarterly","path":"rklb/","schema":"v1","template":"generic","title":"火箭實驗室財報追蹤板","description":"火箭實驗室（RKLB）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"RKLB","from":"2021-08","currency":"USD"},"primarySource":{"n":"SEC EDGAR","url":"https://www.sec.gov/edgar/browse/?CIK=1819994"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001819994","pending":{"recent":1,"y3":0,"old":0,"noq":1}},{"code":"gev","name":"GE Vernova","nameEn":"GE Vernova","ticker":"GEV","exchange":"NYSE GEV","sector":"能源與電力","currency":"USD","frequency":"quarterly","path":"gev/","schema":"v1","template":"generic","title":"GE Vernova財報追蹤板","description":"GE Vernova（GEV）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"GEV","from":"2024-04","currency":"USD"},"primarySource":{"n":"SEC EDGAR","url":"https://www.sec.gov/edgar/browse/?CIK=1996810"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001996810","pending":{"recent":1,"y3":1,"old":0,"noq":0}},{"code":"googl","name":"Google","nameEn":"Alphabet","ticker":"GOOGL","exchange":"Nasdaq GOOGL · GOOG","sector":"軟體與網路服務","currency":"USD","frequency":"quarterly","path":"googl/","schema":"v1","template":"generic","title":"Google財報追蹤板","description":"Google（GOOGL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"GOOGL","from":"2009-03","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=1652044"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0001652044","pending":{"recent":0,"y3":0,"old":2,"noq":0}},{"code":"csco","name":"思科","nameEn":"Cisco Systems","ticker":"CSCO","exchange":"Nasdaq CSCO","sector":"硬體與網通","currency":"USD","frequency":"quarterly","path":"csco/","schema":"v1","template":"generic","title":"思科財報追蹤板","description":"思科（CSCO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"CSCO","from":"2009-10","currency":"USD"},"primarySource":{"n":"SEC EDGAR（10-Q、10-K、8-K）","url":"https://www.sec.gov/edgar/browse/?CIK=858877"},"tz":"US","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0000858877","pending":{"recent":1,"y3":0,"old":0,"noq":0}},{"code":"asml","name":"艾司摩爾","nameEn":"ASML Holding","ticker":"ASML","exchange":"Euronext Amsterdam ASML · Nasdaq ASML","sector":"半導體","currency":"EUR","frequency":"quarterly","path":"asml/","schema":"v1","template":"generic","title":"艾司摩爾財報追蹤板","description":"艾司摩爾（ASML）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。","price":{"yahoo":"ASML.AS","from":"2009-03","currency":"EUR"},"primarySource":{"n":"SEC EDGAR（20-F、6-K）","url":"https://www.sec.gov/edgar/browse/?CIK=937966"},"tz":"EU","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"cik":"0000937966","pending":{"recent":0,"y3":0,"old":1,"noq":2}},{"code":"allring","name":"萬潤","nameEn":"All Ring Tech","ticker":"6187","exchange":"TPEx 6187","sector":"半導體","currency":"TWD","frequency":"quarterly","path":"allring/","schema":"v1","template":"generic","title":"萬潤財報追蹤板","description":"萬潤（6187，上櫃）2013 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。","price":{"yahoo":"6187.TWO","from":"2013-01","currency":"TWD","tpex":"6187"},"primarySource":{"n":"公開資訊觀測站：萬潤 IFRS 合併財務報告（t164sb01）","url":"https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=6187&SYEAR=2026&SSEASON=3&REPORT_ID=C"},"tz":"TW","artifact":"https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn","enabled":true,"pending":{"recent":1,"y3":0,"old":1,"noq":2}}];
@@ -2695,5 +2780,5 @@ new MutationObserver(rebuild).observe(document.documentElement, { attributes: tr
 
 </div>
 <div id="quant-dca-view" hidden></div>
-<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"e937d869","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"","page":"home","code":""}</script><script src="assets/sidebar.js?v=aa847528"></script>
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"e937d869","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"","page":"home","code":""}</script><script src="assets/sidebar.js?v=a8ee605c"></script>
 </body></html>

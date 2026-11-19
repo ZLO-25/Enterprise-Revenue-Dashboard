@@ -6,6 +6,7 @@
 #      GitHub 免費排程常漏跑，所以多排幾班；每班約 1 分鐘，收盤價沒變就不提交。
 #   ② 抓 Yahoo 近 5 年日線 → 台股最新一天對證交所／櫃買中心 → tools/daily_calc.py 公式算本益比等 → data/daily/<代號>.json
 #   ③ 頁面打開時直接讀 data/daily/<代號>.json，所以不必重建網站
+#   ⑤ 同一個 job 接著更新個股日 K（tools/kbar_update.py：Yahoo OHLCV → 與上面的每日收盤核對 → 加密 → data/kbar/，密碼同期貨 FUTURES_PASSWORD）
 #   ④ 財報季度、論點卡有更新（push 到 data/*.json、data/thesis/、data/prices/）→ 不上網，只用現有收盤價重算一次
 name: prices-daily
 on:
@@ -46,7 +47,7 @@ jobs:
           python-version: "3.12"
       - name: 安裝套件
         if: github.event_name != 'push'
-        run: pip install --quiet yfinance
+        run: pip install --quiet yfinance cryptography
       - name: 抓收盤價、核對、算本益比
         env:
           COMPANY: ${{ github.event.inputs.company }}
@@ -55,12 +56,21 @@ jobs:
           if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
           if [ "${{ github.event_name }}" = "push" ]; then ARGS="$ARGS --recalc"; fi
           python3 tools/prices_daily.py $ARGS
+      - name: 個股 K 棒（加密）
+        if: always() && github.event_name != 'push'
+        env:
+          FUTURES_PASSWORD: ${{ secrets.FUTURES_PASSWORD }}
+          COMPANY: ${{ github.event.inputs.company }}
+        run: |
+          ARGS=""
+          if [ -n "$COMPANY" ]; then ARGS="--company $COMPANY"; fi
+          python3 tools/kbar_update.py $ARGS
       - name: 有變動才提交
         if: always()
         run: |
           git config user.name "prices-daily-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p data/daily && git add data/daily
+          mkdir -p data/daily data/kbar && git add data/daily data/kbar
           if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
           git commit -q -m "每日收盤價與本益比 $(TZ=Asia/Taipei date +%Y-%m-%d\ %H:%M)"
           # 同時有另一班（例如 push 觸發的重算）先提交了 data/daily：以這一班的新檔為準（rebase 時 -X theirs＝保留這一班的提交）
@@ -75,4 +85,9 @@ jobs:
       - name: 落後檢查（台北 20:00 以後的任何一班；排程常晚 4～6 小時，不綁固定班次）
         if: github.event_name != 'push'
         run: |
-          if [ "$(TZ=Asia/Taipei date +%H)" -ge 20 ]; then python3 tools/prices_daily.py --stale-check; else echo "還沒到 20:00，不檢查"; fi
+          if [ "$(TZ=Asia/Taipei date +%H)" -ge 20 ]; then
+            rc=0
+            python3 tools/prices_daily.py --stale-check || rc=1
+            python3 tools/kbar_update.py --stale-check || rc=1
+            exit $rc
+          else echo "還沒到 20:00，不檢查"; fi

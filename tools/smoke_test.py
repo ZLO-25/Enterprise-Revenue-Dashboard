@@ -5,7 +5,7 @@ import functools, http.server, os, sys, threading
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/status/", "/calendar/"]
+PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/status/", "/calendar/", "/futures/"]
 COMPANY_PAGES = ("/tsmc/", "/nvda/", "/pltr/")   # 個股頁（含舊版型台積電、PLTR）必須有巴菲特＋蒙格檢查表 #buffett
 IGNORE = ("Failed to load resource", "net::ERR", "fonts.googleapis", "fonts.gstatic")
 
