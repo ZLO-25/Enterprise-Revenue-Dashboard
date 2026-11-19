@@ -81,5 +81,18 @@
   "平台化折扣壓低毛利率（看毛利率）",
   "硬體防火牆週期放緩（看營收年增）"
  ],
- "history": []
+ "history": [
+  {
+   "q": "1Q27",
+   "lights": {
+    "roe": "r",
+    "revYoy": "g",
+    "gm": "y",
+    "fcfRate": "g",
+    "fcfSbcRate": "n",
+    "dilYoy": "r",
+    "evS": "r"
+   }
+  }
+ ]
 }
