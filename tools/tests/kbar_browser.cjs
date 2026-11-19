@@ -235,6 +235,15 @@ async function companyPages(browser, base, w, scheme) {
     await p2.waitForSelector('#dyKB .kb-ebody:not([hidden]) canvas', { timeout: 15000 });
     ok(await p2.evaluate(() => document.querySelector('#dyK [data-k="3"]').getAttribute('aria-pressed') === 'true'), code + ' 已解鎖預設 K 棒');
     ok((await overflow(p2)) <= 1, `${code} 預設 K 棒時整頁水平捲動`);
+    ok(!/歷史檔讀不到/.test(await p2.textContent('#dyKB .kb-asof')), code + ' 歷史檔讀得到時不可標「歷史檔讀不到」');
+    if (code === 'nvda') {   // 歷史檔解不開的那一家：個股頁也要標示只顯示近期
+      await p2.goto(`${base}/${FX.staleHist[0]}/`, { waitUntil: 'load' });
+      await p2.waitForSelector('#dyKB', { state: 'attached' });
+      await p2.evaluate(() => document.getElementById('dyKB').scrollIntoView());
+      await p2.waitForSelector('#dyKB .kb-ebody:not([hidden]) canvas', { timeout: 15000 });
+      const asof = await p2.textContent('#dyKB .kb-asof');
+      ok(/歷史檔讀不到，只顯示 \d{4}\/\d{2}\/\d{2} 起的近期資料/.test(asof), '個股頁歷史檔讀不到要標示：' + asof);
+    }
     await p2.close();
     ok(errs.length === 0, code + ' 錯誤：' + errs.join(' | '));
     await ctx.close();

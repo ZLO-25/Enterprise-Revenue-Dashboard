@@ -1343,7 +1343,7 @@ const KB = (() => {
       d = x; lockbox.hidden = true; body.hidden = false;
       draw();
     }
-    function draw() { if (!d || body.hidden) return; sync(el, st); render(els, d, st, item); $('.kb-asof').textContent = `資料截至 ${dstr(d.lastDate)}。`; }
+    function draw() { if (!d || body.hidden) return; sync(el, st); render(els, d, st, item); $('.kb-asof').textContent = `資料截至 ${dstr(d.lastDate)}。` + (d.histMissing ? `歷史檔讀不到，只顯示 ${dstr(d.firstDate)} 起的近期資料（週 K、月 K、長天期均線與 KD 不完整）。` : ''); }
     el.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
       if (b.dataset.p) st.p = b.dataset.p; else if (b.dataset.ma) { const n = +b.dataset.ma; st.mas.has(n) ? st.mas.delete(n) : st.mas.add(n); } else if (b.dataset.vol) st.vol = !st.vol; else return;
