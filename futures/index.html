@@ -389,8 +389,9 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-chip[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
 .kb-gctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .kb-gsort { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
-.kb-cards { --kb-min: 450px; --kb-h: 320px; --kb-hkd: 430px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kb-min)), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards { --kb-min: 600px; --kb-h: 390px; --kb-hkd: 510px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kb-min)), 1fr)); gap: 12px; min-width: 0; }
 .kb-cards[data-size="s"] { --kb-min: 340px; --kb-h: 220px; --kb-hkd: 320px; }
+.kb-cards[data-size="m"] { --kb-min: 450px; --kb-h: 320px; --kb-hkd: 430px; }
 .kb-cards[data-size="l"] { --kb-min: 680px; --kb-h: 460px; --kb-hkd: 600px; }
 @media (max-width: 639px) { .kb-cards { grid-template-columns: minmax(0, 1fr); } }
 .kb-gh { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
@@ -549,7 +550,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     <div class="kb-chips" id="kbChips" role="group" aria-label="分類篩選"></div>
     <div class="kb-gctrl">
       <div class="seg" id="kbGP" role="group" aria-label="週期"><button type="button" data-gp="D">日K</button><button type="button" data-gp="W">週K</button><button type="button" data-gp="M">月K</button></div>
-      <span class="kb-gsort">大小 <span class="seg" id="kbGSize" role="group" aria-label="卡片大小"><button type="button" data-gz="s">小</button><button type="button" data-gz="m">中</button><button type="button" data-gz="l">大</button></span></span>
+      <span class="kb-gsort">大小 <span class="seg" id="kbGSize" role="group" aria-label="卡片大小"><button type="button" data-gz="s" title="1920 寬螢幕約一排 5 張">小</button><button type="button" data-gz="m" title="1920 寬螢幕約一排 4 張">中</button><button type="button" data-gz="x" title="1920 寬螢幕約一排 3 張（預設）">大</button><button type="button" data-gz="l" title="1920 寬螢幕約一排 2 張">特大</button></span></span>
       <div class="seg" role="group" aria-label="KD"><button type="button" id="kbGKD" aria-pressed="false">KD</button></div>
       <span class="kb-gsort">排序 <span class="seg" id="kbGSort" role="group" aria-label="排序"><button type="button" data-gsort="sector">產業</button><button type="button" data-gsort="chg">漲跌幅</button></span></span>
       <div class="seg" role="group" aria-label="鎖定"><button type="button" id="kbGLock" title="清除這台裝置記住的密碼">上鎖</button></div>
@@ -1307,7 +1308,7 @@ const FUT = (() => {
    資料誠實：讀不到的商品顯示「—」與原因，不顯示假數字；沒解鎖不顯示任何價格。 */
 const KB = (() => {
   const MAS = FUT.MAS, fmt = FUT.fmt, dstr = FUT.dstr, esc = FUT.esc;
-  const SIZE_LS = 'erd-watch-size', LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
+  const SIZE_LS = 'erd-watch-size-v2', LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
   let C = { base: '../data/kbar/', futBase: '../data/futures/', companies: [], link: '../' };
   const futCodes = () => (FUT.SYMS || ['ym', 'nq']).slice();
@@ -1478,7 +1479,7 @@ const KB = (() => {
     const validF = (v) => v === 'all' || sectors.includes(v);
     st.f = validF(q.get('g')) ? q.get('g') : validF(ls.get(FILT_LS)) ? ls.get(FILT_LS) : 'all';
     st.kd = false;
-    st.size = { s: 's', m: 'm', l: 'l' }[ls.get(SIZE_LS)] || 'm';   // 總覽卡片大小（小／中／大），預設中
+    st.size = { s: 's', m: 'm', x: 'x', l: 'l' }[ls.get(SIZE_LS)] || 'x';   // 總覽卡片大小（小／中／大／特大），預設大；鍵 v2 起不讀舊的 erd-watch-size
     let mode = gmap[q.get('s')] ? 'single' : 'grid';
     let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];   // 記住的代號只用在「從總覽切到單檔」的預設商品；沒有 ?s= 的網址一律開總覽
     let d = null, seq = 0, locked = true, loaded = 0, order = [];

@@ -252,7 +252,7 @@ async function gridPage(browser, base, w, scheme) {
   await unlock(page);
   await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
   await page.waitForFunction(() => ![...document.querySelectorAll('.kb-cpx b')].some(b => b.textContent === '…') && !/讀取中/.test(document.getElementById('kbGSum').textContent), null, { timeout: 20000 });
-  if (w > 600) { const bt = await page.evaluate(() => document.querySelector('.kb-card').getBoundingClientRect().bottom); ok(bt <= 1000, '1280 寬（中，圖高 320）：第一排卡片在 1000px 內（約 1080 高視窗的第一屏）：' + bt); }
+  if (w > 600) { const bt = await page.evaluate(() => document.querySelector('.kb-card').getBoundingClientRect().bottom); ok(bt <= 1080, '1280 寬（預設大，圖高 390）：第一排卡片在 1080px 內（1080 高視窗的第一屏）：' + bt); }
   const miss = await page.evaluate((id) => { const c = document.querySelector(`.kb-card[data-id="${id}"]`); return c && { px: c.querySelector('.kb-cpx').textContent, cm: c.querySelector('.kb-cm').textContent, chart: !!c.querySelector('canvas') }; }, FX.missing[0]);
   ok(miss && miss.px === '—' && /讀不到/.test(miss.cm) && !miss.chart, '讀不到資料檔的卡顯示「—」與原因、不畫圖：' + JSON.stringify(miss));
   const stale = await page.evaluate((id) => { const c = document.querySelector(`.kb-card[data-id="${id}"]`); return c && { px: c.querySelector('.kb-cpx').textContent, cm: c.querySelector('.kb-cm').textContent, chart: !!c.querySelector('canvas') }; }, FX.staleKey[0]);
@@ -271,9 +271,9 @@ async function gridPage(browser, base, w, scheme) {
   await page.evaluate((id) => document.querySelector(`.kb-card[data-id="${id}"]`).scrollIntoView(), lastId);
   await page.waitForFunction((id) => document.querySelector(`.kb-card[data-id="${id}"] canvas`), lastId, { timeout: 15000 });
   ok((await bad1()).length === 0, '每張卡最多 1 張圖');
-  ok(await page.evaluate(() => { const c = document.querySelector('.kb-card canvas'); const b = c.closest('.kb-cbox'); return b.getBoundingClientRect().height >= 300 && b.getBoundingClientRect().height <= 340; }), '日 K 小圖高約 320px（預設「中」）');
+  ok(await page.evaluate(() => { const c = document.querySelector('.kb-card canvas'); const b = c.closest('.kb-cbox'); return b.getBoundingClientRect().height >= 370 && b.getBoundingClientRect().height <= 410; }), '日 K 小圖高約 390px（預設「大」）');
   ok(await page.evaluate(() => !document.querySelector('.kb-card .fut-ltb') && !document.querySelector('.kb-card .fut-tool')), '總覽沒有畫線工具列');
-  if (w > 600) ok(await page.evaluate(() => { const x = getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length; return x === 2; }), '1280 寬（中）2 欄：' + await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns));
+  if (w > 600) ok(await page.evaluate(() => { const x = getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length; return x === 2; }), '1280 寬（預設大）2 欄：' + await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns));
   else ok(await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length === 1), '手機 1 欄');
   await page.evaluate(() => scrollTo(0, 0));
   ok((await overflow(page)) <= 1, `${tag} 整頁水平捲動 ${await overflow(page)}px`);
@@ -505,25 +505,27 @@ async function phase3(browser, base) {
   await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
   await page.waitForFunction(() => ![...document.querySelectorAll('.kb-cpx b')].some(b => b.textContent === '…') && !/讀取中/.test(document.getElementById('kbGSum').textContent), null, { timeout: 20000 });
   await settled(page);
-  const geo = () => page.evaluate(() => { const c = document.getElementById('kbCards'), bx = document.querySelector('.kb-cbox'); return { cols: getComputedStyle(c).gridTemplateColumns.split(' ').length, h: Math.round(bx.getBoundingClientRect().height), cw: Math.round(bx.getBoundingClientRect().width), size: c.dataset.size, ls: localStorage.getItem('erd-watch-size') }; });
+  const geo = () => page.evaluate(() => { const c = document.getElementById('kbCards'), bx = document.querySelector('.kb-cbox'); return { cols: getComputedStyle(c).gridTemplateColumns.split(' ').length, h: Math.round(bx.getBoundingClientRect().height), cw: Math.round(bx.getBoundingClientRect().width), size: c.dataset.size, ls: localStorage.getItem('erd-watch-size-v2') }; });
   const one = () => page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c.querySelectorAll('.tv-lightweight-charts').length > 1).length);
   const mw = await page.evaluate(() => ({ main: document.querySelector('main.wrap').getBoundingClientRect().width, nav: document.querySelector('.secnav .scroller').getBoundingClientRect().width, vw: innerWidth, cw: document.documentElement.clientWidth }));
   ok(mw.main > 1600 && mw.main <= 1880.5 && Math.abs(mw.nav - mw.main) <= 2, '1920 寬：看盤頁內容寬度 > 1600、章節導覽同寬：' + JSON.stringify(mw));
   ok(await fabClear(page), '1920 寬：左上角 ☰ 按鈕沒有蓋住章節導覽「← 所有公司」');
   let g = await geo();
-  ok(g.size === 'm' && g.h === 320 && g.cols >= 3 && g.ls === null, '預設「中」：圖高 320、1920 寬至少 3 欄：' + JSON.stringify(g));
-  say(`  1920 寬「中」一排 ${g.cols} 張、圖寬 ${g.cw}px`);
+  await page.evaluate(() => localStorage.setItem('erd-watch-size', 'l'));   // 舊鍵有值不影響
+  ok(g.size === 'x' && g.h === 390 && g.cols === 3 && g.ls === null, '預設「大」：圖高 390、1920 寬 3 欄、舊鍵不影響：' + JSON.stringify(g));
+  say(`  1920 寬預設「大」一排 ${g.cols} 張、圖寬 ${g.cw}px`);
   ok((await overflow(page)) <= 1, '1920 總覽水平捲動');
   const axis = await page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c._chart).slice(0, 8).map(c => [c.dataset.id, c._chart.priceScale('right').width()]));
   say('  價格軸寬度（slim 後）：' + JSON.stringify(axis));
   ok(axis.every(a => a[1] <= 66), '價格軸寬度 ≤ 66px（原本 66～86）：' + JSON.stringify(axis));
-  await gridShot(page, 'grid-1920-light-m-first.png', false);
-  await gridShot(page, 'grid-1920-light-m-full.png', true);
+  await gridShot(page, 'grid-1920-light-x-first.png', false);
+  await gridShot(page, 'grid-1920-light-x-full.png', true);
+  await gridShot(page, 'grid-1920-light-x.png', false);
   await page.evaluate(() => scrollTo(0, 0)); await settled(page);
   // 大小切換：小／大
   const lsn0 = await page.evaluate(() => { const on = FUT.Lines.on; window.__lsn = 0; FUT.Lines.on = (f) => { window.__lsn++; const off = on(f); return () => { window.__lsn--; off(); }; }; return 0; });
-  const sizes = { s: [220, 340], m: [320, 450], l: [460, 680] };
-  for (const z of ['l', 's', 'm', 'l']) {
+  const sizes = { s: [220, 340], m: [320, 450], x: [390, 600], l: [460, 680] };
+  for (const z of ['l', 's', 'm', 'x', 'l']) {
     await page.evaluate(() => { document.querySelectorAll('.kb-card .tv-lightweight-charts').forEach(e => { e.dataset.old = '1'; }); });
     await page.click(`#kbGSize [data-gz="${z}"]`);
     await page.waitForFunction((n) => { const l = [...document.querySelectorAll('.kb-card .tv-lightweight-charts')]; return l.length >= n && l.every(e => !e.dataset.old); }, 3, { timeout: 20000 });
@@ -535,8 +537,28 @@ async function phase3(browser, base) {
     ok(await page.evaluate((z) => document.querySelector(`#kbGSize [data-gz="${z}"]`).getAttribute('aria-pressed') === 'true' && document.querySelectorAll('#kbGSize [aria-pressed="true"]').length === 1, z), `大小 ${z}：按鈕狀態`);
     say(`  大小 ${z}：每排 ${g.cols} 欄、圖 ${g.cw}×${g.h}`);
     ok((await overflow(page)) <= 1, `大小 ${z} 整頁水平捲動`);
-    if (z === 'l') await gridShot(page, 'grid-1920-light-l.png', false);
+        if (z === 'l') await gridShot(page, 'grid-1920-light-l.png', false);
   }
+  // 欄數：用第一排卡片的 left 位置數
+  const rowCols = () => page.evaluate(() => new Set([...document.querySelectorAll('#kbCards .kb-card')].filter(c => c.offsetParent).map(c => Math.round(c.getBoundingClientRect().left))).size);
+  const setSize = async (z) => { await page.click(`#kbGSize [data-gz="${z}"]`); await settled(page); };
+  const colsAt = async (w, exp, label) => {
+    await page.setViewportSize({ width: w, height: 1000 }); await settled(page);
+    for (const z of Object.keys(exp)) { await setSize(z); const c = await rowCols(); ok(c === exp[z], `${label} 「${z}」一排 ${c} 欄（預期 ${exp[z]}）`); say(`  ${label} 大小 ${z}：${c} 欄`); }
+  };
+  await colsAt(1920, { s: 5, m: 4, x: 3, l: 2 }, '1920 寬');
+  const cwNow = await page.evaluate(() => document.documentElement.clientWidth);
+  if (cwNow > 1880) await colsAt(1873, { m: 4, x: 3 }, '1873 寬（無捲軸環境補驗）');
+  await colsAt(1280, { x: 2 }, '1280 寬');
+  await page.setViewportSize({ width: 1920, height: 1000 }); await settled(page);
+  await setSize('m');
+  await page.evaluate(() => localStorage.setItem('erd-watch-size-v2', 'zzz'));
+  await page.reload({ waitUntil: 'load' }); await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
+  ok((await geo()).size === 'x', 'localStorage 不合法值退回預設大');
+  await page.evaluate(() => localStorage.setItem('erd-watch-size-v2', 'x'));
+  await page.reload({ waitUntil: 'load' }); await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
+  ok((await geo()).size === 'x', 'localStorage 合法值 x 記得');
+  await page.click('#kbGSize [data-gz="l"]'); await settled(page);
   await page.reload({ waitUntil: 'load' }); await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
   ok((await geo()).size === 'l', '重新整理後記得大小（大）');
   await page.click('#kbGSize [data-gz="m"]'); await settled(page);
