@@ -6,9 +6,10 @@
   "nvda": {
    "state": "flash",
    "target": "3Q27",
-   "tries": 0,
+   "tries": 1,
    "since": "2026-11-18",
-   "flashDate": "2026-11-18"
+   "flashDate": "2026-11-18",
+   "note": "補完一半：開場說明已寫（mgmt＋口頭展望），問答段逐字稿未取得"
   },
   "panw": {
    "state": "flash",

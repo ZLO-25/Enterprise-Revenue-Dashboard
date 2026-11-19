@@ -1,5 +1,5 @@
 {
- "asOf": "2026-11-18",
+ "asOf": "2026-11-19",
  "company": {
   "code": "nvda",
   "name": "輝達",
@@ -2312,10 +2312,65 @@
       "n": "3Q27 財報新聞稿（2026-11-17）",
       "url": "https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000088/q3fy27pr.htm"
      }
+    },
+    {
+     "t": "口頭：預估 FY2028 營收年增約 75%（先前說 70%），CPU 營收與企業客戶營收都會超過一倍；雲端產業積壓訂單 2.5 兆美元（3 個月前 2 兆）。",
+     "tag": "o",
+     "src": {
+      "n": "3Q27 電話會議逐字稿（Motley Fool，第三方）",
+      "url": "https://www.fool.com/earnings/call-transcripts/2026/11/18/nvidia-nvda-q3-2027-earnings-call-transcript/",
+      "speaker": "Colette Kress（臨時執行長兼財務長）"
+     }
     }
    ]
   },
-  "mgmt": [],
+  "mgmt": [
+   {
+    "t": "Rubin 平台第一個出貨季就貢獻近 200 億美元營收，公司稱是史上最快的產品爬坡，從 Grace Blackwell 的轉換「非常順」。",
+    "tag": "o",
+    "src": {
+     "n": "3Q27 電話會議逐字稿（Motley Fool，第三方）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/18/nvidia-nvda-q3-2027-earnings-call-transcript/",
+     "speaker": "Colette Kress（臨時執行長兼財務長）"
+    }
+   },
+   {
+    "t": "需求仍大於供給：和 Kinsus、三星電機、矽品簽新的基板與封裝協議，採購承諾增加到 3,900 億美元。",
+    "tag": "o",
+    "src": {
+     "n": "3Q27 電話會議逐字稿（Motley Fool，第三方）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/18/nvidia-nvda-q3-2027-earnings-call-transcript/",
+     "speaker": "Colette Kress（臨時執行長兼財務長）"
+    }
+   },
+   {
+    "t": "已停止出貨獲許可的 Hopper 資料中心產品到中國（3Q27 這類營收 24 億美元），財測不含中國。",
+    "tag": "o",
+    "src": {
+     "n": "3Q27 電話會議逐字稿（Motley Fool，第三方）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/18/nvidia-nvda-q3-2027-earnings-call-transcript/",
+     "speaker": "Colette Kress（臨時執行長兼財務長）"
+    }
+   },
+   {
+    "t": "董事長 Harvey Jones 說 Jensen Huang 已自願辭去總裁、執行長與董事職務，董事會不打算讓他回任，正委託獵才公司找新執行長；會議不談原因與進行中的調查。",
+    "tag": "o",
+    "src": {
+     "n": "3Q27 電話會議逐字稿（Motley Fool，第三方）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/18/nvidia-nvda-q3-2027-earnings-call-transcript/",
+     "speaker": "Harvey Jones（董事長）"
+    }
+   },
+   {
+    "t": "3Q27 季末對外保證總額 1,180 億美元（其中 1,050 億是 PORTS-Pike 園區的信用支持），新雲端業者相關承諾 320 億美元。",
+    "tag": "o",
+    "src": {
+     "n": "3Q27 電話會議逐字稿（Motley Fool，第三方）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/18/nvidia-nvda-q3-2027-earnings-call-transcript/",
+     "speaker": "Colette Kress（臨時執行長兼財務長）"
+    }
+   }
+  ],
   "qa": [],
   "risks": [
    {
@@ -2333,7 +2388,7 @@
   ],
   "next": "4Q27（預估 2027 年 2 月下旬公布）看三件事：營收是否達 1,300 億美元左右（記得多一週）、GAAP 毛利率能否守在 71% 以上、資料中心季增是否延續。",
   "pending": [
-   "電話會議重點待補完"
+   "待確認：電話會議問答段逐字稿尚未取得（第三方頁面只讀到前半段的開場說明）"
   ]
  },
  "story": {
