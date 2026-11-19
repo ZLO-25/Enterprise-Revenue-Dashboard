@@ -100,7 +100,8 @@ const FUT = (() => {
 
   /* ---------- 顯示小工具 ---------- */
   const fmt = (n, dp = 2) => n == null ? '—' : n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
-  const dp = (code) => DP[code] ?? 2;
+  const dp = (c) => c && typeof c === 'object' ? (c.dp ?? DP[c.code] ?? 2) : (DP[c] ?? 2);   // 傳資料物件時優先用它自己的 dp（個股 K 棒檔有 dp）
+  const minMove = (d) => d.kind === 'stock' ? (dp(d) ? 0.01 : 1) : (dp(d) ? 0.25 : 1);       // 個股用最小跳動 0.01；期貨維持原本的 0.25／1
   const dstr = (t) => t.replace(/-/g, '/');
   function fresh(lastDate) {
     // 台北早上看到的應該是美國「前一個交易日」；超過 4 天沒新 K 棒（連假除外）就提醒
@@ -165,7 +166,7 @@ const FUT = (() => {
 
   function attachLines(chart, candle, box, d, q) {
     if (box._linesOff) box._linesOff();
-    const code = d.code, step = q ? 0.25 : 1, snap = (p) => Math.round(p / step) * step;
+    const code = d.code, step = minMove(d), snap = (p) => Math.round(p / step) * step;
     const pls = new Map();               // 線的 id → 圖上的 price line
     let sel = null, hover = null, drag = null, lastY = null, raf = 0;
     const col = (L) => T(L.c || '--s1');
@@ -274,7 +275,7 @@ const FUT = (() => {
 
   /* K 棒頁：圖下方的「我的水平線」清單（價格、離最新收盤多遠、備註、刪除） */
   function linesList(el, d) {
-    const q = dp(d.code), last = d.bars[d.bars.length - 1][4];
+    const q = dp(d), last = d.bars[d.bars.length - 1][4];
     const L = Lines.get(d.code).sort((a, b) => b.p - a.p);
     if (!L.length) { el.innerHTML = `<p class="fut-note">還沒有水平線。按上面的「水平線」，再點圖上想要的價位；畫好的線會記在這台裝置，下次打開還在。</p>`; return; }
     el.innerHTML = `<div class="fut-lines-head"><b>${d.name}的水平線（${L.length} 條）</b><button type="button" class="tx" data-clear="1">全部刪除</button></div><table class="fut-lines-tbl"><thead><tr><th>價位</th><th>離最新收盤 ${fmt(last, q)}</th><th class="txt">備註</th><th></th></tr></thead><tbody>` +
@@ -288,7 +289,7 @@ const FUT = (() => {
 
   /* ---------- 畫一張 K 棒圖（首頁與 K 棒頁共用）：K 棒＋均線，選用成交量，最下方 KD ---------- */
   function chartInto(box, d, bars, S, o) {
-    const LW = window.LightweightCharts, q = dp(d.code);
+    const LW = window.LightweightCharts, q = dp(d);
       const ink = T('--ink-2'), grid = T('--grid'), up = T('--kup'), dn = T('--kdn');
       const chart = LW.createChart(box, {
         autoSize: true,
@@ -304,7 +305,7 @@ const FUT = (() => {
         } },
       });
       const toT = (b) => b.t;
-      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: q ? 0.25 : 1 } }, 0);
+      const candle = chart.addSeries(LW.CandlestickSeries, { upColor: up, downColor: dn, borderUpColor: up, borderDownColor: dn, wickUpColor: up, wickDownColor: dn, priceLineVisible: false, priceFormat: { type: 'custom', formatter: (v) => fmt(v, q), minMove: minMove(d) } }, 0);
       candle.priceScale().applyOptions({ mode: o.p === 'M' ? 1 : 0 });   // 月 K 用對數刻度，20 年漲幅才看得清楚
       candle.setData(bars.map(b => ({ time: toT(b), open: b.o, high: b.h, low: b.l, close: b.c })));
       const maSeries = {};
@@ -397,6 +398,21 @@ const FUT = (() => {
       `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` + pendList(d);
   }
 
+  /* 美國期貨（YM／NQ）的來源說明；原本直接寫在 page() 裡，抽成函式讓看盤頁（assets/kbar.js）共用，文字與行為沒有改 */
+  function srcUS(d) {
+    const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
+    const checked = cr.ok || cme.length;
+    return `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上 7 點起每 15 分鐘檢查一次到晚上 11 點，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
+        `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
+        (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
+        (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
+        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
+        `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
+        `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
+        pendList(d);
+  }
+  const srcFut = (d) => d.market === 'TW' ? srcTW(d) : srcUS(d);
+
   /* ---------- K 棒頁 ---------- */
   function page(root, base) {
     const q = new URLSearchParams(location.search);
@@ -445,17 +461,7 @@ const FUT = (() => {
           const diff = last.c - x.c, nx = m + diff / n;
           return `<tr><td><i class="dot" style="background:${T(MA_COLOR(n))}"></i>MA${n}</td><td>${fmt(m, q)}</td><td>${fmt(x.c, q)}</td><td>${dstr(x.t)}</td><td class="${diff >= 0 ? 'kup' : 'kdn'}">${diff >= 0 ? '+' : '−'}${fmt(Math.abs(diff), q)}</td><td class="txt">${diff > 0 ? '均線上揚' : diff < 0 ? '均線下彎' : '均線持平'}，變成 ${fmt(nx, q)}</td></tr>`; }).join('') + '</tbody>';
       /* 來源與待確認 */
-      if (d.market === 'TW') { $r('#futSrc').innerHTML = srcTW(d); return; }
-      const cr = d.cross || {}, cme = (d.cme || []).filter(x => x.ok != null);
-      const checked = cr.ok || cme.length;
-      $r('#futSrc').innerHTML = `<li>價格：<a href="${d.source.url}" target="_blank" rel="noopener">${esc(d.source.n)}</a>，美國收盤後自動抓（台北早上 7 點起每 15 分鐘檢查一次到晚上 11 點，沒抓到會自動重試；這次抓取：${esc(d.fetchedAt.replace('T', ' ').slice(0, 16))} UTC）。延遲資料，只供研究，不能拿來下單。</li>` +
-        `<li>交叉核對：` + (cr.ok ? `<a href="${d.check.url}" target="_blank" rel="noopener">${esc(d.check.n)}</a> 收盤價比對 ${cr.compared} 天，差超過 0.1% 的有 ${cr.mismatch} 天（其中 ${cr.mismatchInRollWindow} 天在換月期間），最大差 ${cr.maxDiffPct}%。` : '') +
-        (cme.length ? `CME 官方結算價比對最近 ${cme.length} 天，${cme.filter(x => x.ok).length} 天一致（差 ≤ 0.1%）。` : '') +
-        (checked ? '' : `<span class="pend">待確認：這次兩個核對來源（Stooq、CME 官網）都擋住自動抓取，價格只有 Yahoo 單一來源。</span>`) + `</li>` +
-        `<li>收盤價：用 Yahoo 的日收盤價。它是否等於 CME 官方結算價：待確認。成交量顯示空白的日子是來源沒有提供成交量。</li>` +
-        `<li>換月：圖上「換月」圓點是依 CME 慣例（到期日前 8 天）推算的日期，不是來源公布的日期。連續合約沒有做價格調整，換月時會有小跳空。</li>` +
-        `<li>週 K、月 K 由日 K 合成；MA 為收盤價簡單平均，KD 為 (9,3,3) 台灣算法，扣抵值為下一根會被扣掉的那根收盤價。</li>` +
-        pendList(d);
+      $r('#futSrc').innerHTML = srcFut(d);
     }
     root.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
@@ -474,5 +480,7 @@ const FUT = (() => {
     go();
   }
 
-  return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines };
+  return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines,
+    // 以下給 assets/kbar.js（看盤頁、個股頁 K 棒）使用
+    chartInto, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
 })();

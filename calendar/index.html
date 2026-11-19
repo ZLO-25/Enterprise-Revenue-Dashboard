@@ -337,6 +337,50 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
 .fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 
+/* 看盤 K 棒頁（assets/kbar.js、templates/futures.frag.html）與個股頁的 K 棒檢視（kb- 開頭）。
+   寬螢幕（≥900px）：左清單固定、可獨立捲動；窄螢幕：清單收成面板，用「商品清單」按鈕展開；整頁不可出現水平捲動 */
+.kb-app { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0; }
+.kb-main { min-width: 0; display: grid; gap: 28px; }
+.kb-main > div { min-width: 0; }
+.kb-side { min-width: 0; }
+.kb-tog { width: 100%; display: flex; align-items: center; gap: 8px; font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; text-align: left; }
+.kb-tog span { color: var(--muted); } .kb-tog b { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .kb-tog i { font-style: normal; color: var(--muted); }
+.kb-panel { display: none; margin-top: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; max-height: 60vh; overflow: auto; }
+.kb-open .kb-panel { display: block; }
+.kb-sum { font-size: 0.86rem; color: var(--ink-2); margin-bottom: 8px; }
+.kb-sum b { font-family: var(--font-data); font-weight: 600; } .kb-sum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-sortbar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.8rem; color: var(--muted); }
+.kb-grp { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 10px 6px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
+.kb-grp:first-child { border-top: 0; margin-top: 0; padding-top: 2px; }
+.kb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; width: 100%; font: inherit; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 8px; padding: 6px 8px; cursor: pointer; }
+.kb-row:hover { background: var(--wash); }
+.kb-row[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); }
+.kb-row .n { font-size: 0.92rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-row .ch { font-family: var(--font-data); font-size: 0.88rem; font-weight: 500; text-align: right; color: var(--muted); }
+.kb-row .ch.kup { color: var(--kup); } .kb-row .ch.kdn { color: var(--kdn); }
+.kb-row .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-row .px { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); text-align: right; }
+.kb-row[aria-selected="true"] .c, .kb-row[aria-selected="true"] .px { color: inherit; opacity: 0.8; }
+.kb-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
+.kb-ttl { min-width: 0; flex: 1 1 260px; } .kb-ttl h2 { font-size: var(--step-2); }
+.kb-sub { font-size: 0.84rem; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; }
+.kb-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.kb-step { font: inherit; font-size: 0.82rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.kb-step:hover { color: var(--ink); }
+.kb-nav .go[hidden] { display: none; }
+.kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
+.kb-foot { margin-top: 8px; }
+.seg a { display: inline-flex; align-items: center; font-size: 0.82rem; color: var(--ink-2); padding: 6px 12px; text-decoration: none; border-left: 1px solid var(--line); }
+.seg a:hover { color: var(--ink); }
+@media (max-width: 640px) { .kb-embed .fut-chart, .kb-dy .fut-chart { height: 420px; } }
+@media (min-width: 900px) {
+  .kb-app { grid-template-columns: 272px minmax(0, 1fr); gap: 20px; }
+  .kb-side { position: sticky; top: 12px; max-height: calc(100vh - 24px); display: flex; flex-direction: column; }
+  .kb-tog { display: none; }
+  .kb-panel { display: flex; flex-direction: column; margin-top: 0; max-height: none; min-height: 0; overflow: hidden; }
+  .kb-list { overflow-y: auto; min-height: 0; scrollbar-width: thin; }
+}
+
 /* 每季一頁摘要（assets/summary.js）：四種來源標籤＋成績單 */
 .src-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 0.05em; white-space: nowrap; }
 .src-w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
@@ -569,5 +613,5 @@ if (typeof module !== 'undefined') module.exports = EVCAL;
 })();
 </script>
 
-<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"e937d869","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"../","page":"calendar","code":""}</script><script src="../assets/sidebar.js?v=aa847528"></script>
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"e937d869","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"}],"root":"../","page":"calendar","code":""}</script><script src="../assets/sidebar.js?v=a8ee605c"></script>
 </body></html>
