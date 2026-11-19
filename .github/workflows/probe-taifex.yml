@@ -1,0 +1,11 @@
+name: probe-taifex
+on:
+  push:
+    branches: [feat/taifex-tx]
+    paths: [.github/workflows/probe-taifex.yml, tools/probe_taifex.py]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/probe_taifex.py
