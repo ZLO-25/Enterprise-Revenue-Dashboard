@@ -474,6 +474,26 @@ async function companyPages(browser, base, w, scheme) {
   }
 }
 
+/* 寬螢幕（≥1280）側邊欄收合時左上角浮動的 ☰ 按鈕，不可蓋住章節導覽的第一個連結或頁首 */
+const fabClear = (page) => page.evaluate(() => {
+  const f = document.querySelector('.sb-fab'); if (!f || getComputedStyle(f).display === 'none') return 'no-fab';
+  const r = f.getBoundingClientRect();
+  const nav = document.querySelector('.secnav'), nb = nav ? nav.getBoundingClientRect().bottom : 0;   // 黏在上方的導覽列底下被蓋住的內容不算
+  return ![...document.querySelectorAll('.secnav a, .masthead *, main > *')].some(e => { const q = e.getBoundingClientRect(); return q.width > 0 && (e.closest('.secnav') || q.top >= nb - 1) && q.left < r.right && q.right > r.left && q.top < r.bottom && q.bottom > r.top; });
+});
+async function fabPages(browser, base) {
+  for (const w of [1280, 1440, 1920, 2400]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 1 });
+    const page = await ctx.newPage();
+    for (const u of ['/futures/', '/futures/?s=nvda', '/', '/nvda/', '/tsmc/', '/pltr/', '/mcap/', '/calendar/', '/status/']) {
+      await page.goto(base + u, { waitUntil: 'load' }); await page.waitForSelector('.sb-fab', { timeout: 10000 }).catch(() => {}); await frames(page);
+      const r = await fabClear(page);
+      ok(r === true, `${w} 寬 ${u}：☰ 按鈕沒有蓋住導覽或內容（${r}）`);
+    }
+    await ctx.close();
+  }
+}
+
 /* 第三階段：頁面加寬、卡片大小、價格軸、單檔放大、首頁期貨區與水平線沒壞 */
 async function phase3(browser, base) {
   say('— 第三階段（1920）');
@@ -489,6 +509,7 @@ async function phase3(browser, base) {
   const one = () => page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c.querySelectorAll('.tv-lightweight-charts').length > 1).length);
   const mw = await page.evaluate(() => ({ main: document.querySelector('main.wrap').getBoundingClientRect().width, nav: document.querySelector('.secnav .scroller').getBoundingClientRect().width, vw: innerWidth, cw: document.documentElement.clientWidth }));
   ok(mw.main > 1600 && mw.main <= 1880.5 && Math.abs(mw.nav - mw.main) <= 2, '1920 寬：看盤頁內容寬度 > 1600、章節導覽同寬：' + JSON.stringify(mw));
+  ok(await fabClear(page), '1920 寬：左上角 ☰ 按鈕沒有蓋住章節導覽「← 所有公司」');
   let g = await geo();
   ok(g.size === 'm' && g.h === 320 && g.cols >= 3 && g.ls === null, '預設「中」：圖高 320、1920 寬至少 3 欄：' + JSON.stringify(g));
   say(`  1920 寬「中」一排 ${g.cols} 張、圖寬 ${g.cw}px`);
@@ -529,6 +550,11 @@ async function phase3(browser, base) {
   const nv = real.find(r => r.id === 'nvda');
   ok(nv && nv.mm === 0.01, '個股 minMove 仍是 0.01（資料與水平線精度不變）：' + JSON.stringify(nv));
   ok(await page.evaluate(() => /\.\d\d/.test(document.querySelector('.kb-card[data-id="nvda"] .kb-cpx b').textContent)), '卡片上的收盤價維持原精度');
+  // 刻度依每個刻度值本身決定位數：跨度大的對數刻度（例如 NVDA 月 K 從不到 1 到 150）不會出現重複或被四捨五入成別的數
+  const tk = await page.evaluate(() => { const vs = [0.004, 0.025, 0.25, 0.3, 0.35, 0.5, 1, 2.5, 5, 12.5, 50, 99.95, 100, 102.25, 102.5, 150, 999.5, 1000, 1502.5, 2000]; return { vs, out: FUT.axisTicks(vs, 2), ym: FUT.axisTicks([41234, 41250], 0), lo: FUT.axisTicks([12.5, 50, 99.95], 2), nv: FUT.axisTicks([85, 90, 95, 100, 105, 160], 2) }; });
+  ok(new Set(tk.out).size === tk.vs.length && tk.out.every((t, i) => Math.abs(parseFloat(t.replace(/,/g, '')) - tk.vs[i]) < 1e-9), '價格軸刻度不重複、不被四捨五入成別的數：' + tk.out.join(' '));
+  ok(tk.out[tk.vs.indexOf(150)] === '150' && tk.out[tk.vs.indexOf(2000)] === '2,000' && tk.out[tk.vs.indexOf(0.004)] === '0.004' && tk.lo.join() === '12.50,50.00,99.95' && tk.nv.join() === '85,90,95,100,105,160' && tk.ym.join() === '41,234,41,250',
+    '刻度：畫面上最大刻度 ≥100 → 整數刻度不帶小數（同一軸位數一致）、<100 維持原本位數、期貨 0 位：' + [tk.out, tk.lo, tk.nv, tk.ym].map(x => x.join(' ')).join(' / '));
   // 單檔大圖
   await page.goto(base + '/futures/?s=nvda&p=D', { waitUntil: 'load' });
   await page.waitForSelector('#futBody:not([hidden]) #futChart canvas', { timeout: 15000 }); await frames(page);
@@ -536,7 +562,16 @@ async function phase3(browser, base) {
   ok(sg.h >= 800 && sg.h <= 822 && sg.w > 1200, '單檔大圖高約 min(80vh,820)＝820、右邊變寬：' + JSON.stringify(sg));
   const spw = await page.evaluate(() => { const o = document.querySelector('#futChart .tv-lightweight-charts'); return o ? o.getBoundingClientRect().width : 0; });
   ok(spw > 1200 && (await overflow(page)) <= 1, '單檔圖寬／水平捲動：' + spw);
-  const sfs = await page.evaluate(() => { const o = document.querySelector('#kbList'); return null; });
+  // 格式不能用建圖當下的最高價決定：台積電（最高價 ≥ 1000）的圖，捲／縮放到低價區時 12.34 仍要顯示 12.34（不是 12）
+  await page.goto(base + '/futures/?s=tsmc&p=M', { waitUntil: 'load' });
+  await page.waitForFunction(() => { const c = document.getElementById('futChart'); return c && c._kbChart && document.getElementById('futTitle').textContent.includes('台積電'); }, null, { timeout: 15000 }); await frames(page);
+  const tf = await page.evaluate(() => { const c = document.getElementById('futChart')._kbChart, s = c.panes()[0].getSeries()[0], o = s.options().priceFormat; const hi = Math.max(...s.data().map(b => b.high)); FUT.Lines.save('tsmc', [{ id: 'fmt-t', p: 1540.76 }]); return { hi, low: [o.formatter(12.34), o.formatter(0.35), o.formatter(99.95)], big: [o.formatter(1540.4), o.formatter(102.6)], ticks: typeof o.tickmarksFormatter === 'function' ? o.tickmarksFormatter([960, 1080, 1502.5]) : null }; });
+  ok(tf.hi >= 1000 && tf.low.join() === '12.34,0.35,99.95' && tf.big.join() === '1,540,102.6' && tf.ticks && tf.ticks.join() === '960,1,080,1,502.5', '價格格式依數值本身、不用建圖時的最高價：' + JSON.stringify(tf));
+  await frames(page);
+  const tl = await page.evaluate(() => { const o = document.getElementById('futChart')._kbChart.panes()[0].getSeries()[0].options().priceFormat; const r = [o.formatter(1540.76), o.formatter(1540.77)]; FUT.Lines.save('tsmc', []); return r; });
+  ok(tl[0] === '1,540.76' && tl[1] === '1,541', '水平線的價位標籤維持原本位數（其他價位照縮小規則）：' + tl);
+  await page.goto(base + '/futures/?s=nvda&p=D', { waitUntil: 'load' });
+  await page.waitForSelector('#futBody:not([hidden]) #futChart canvas', { timeout: 15000 }); await frames(page);
   // 水平線：Alt+H 放線、拖曳後價位吸附到 0.01，不受價格軸格式影響
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
   const cb = await page.evaluate(() => { const r = document.getElementById('futChart').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.3 }; });
@@ -581,6 +616,7 @@ async function phase3(browser, base) {
   const base = 'http://127.0.0.1:' + server.address().port;
   const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
   try {
+    await fabPages(browser, base);
     await phase3(browser, base);
     for (const scheme of ['light', 'dark']) {
       for (const w of [1280, 390]) {

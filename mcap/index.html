@@ -510,6 +510,8 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 /* 看盤頁加寬（只有看盤頁；其他頁不變）：主內容與章節導覽同寬 */
 .wrap.wrap-watch { max-width: min(1880px, 100vw - 32px); }
 .secnav-watch .scroller { max-width: min(1880px, 100vw - 32px); }
+/* ≥1280px 且全站側邊欄收合時，左上角浮動的 ☰ 按鈕（left 10px、寬 40px）會蓋住加寬後貼邊的「← 所有公司」：導覽列左側讓出按鈕的位置（畫面夠寬、本來就有留白時不加） */
+@media (min-width: 1280px) { html.sb-push:not(.sb-open) .secnav-watch .scroller { padding-left: max(0px, calc(42px - max(0px, (100vw - 1912px) / 2))); } }
 
 /* 個股頁 K 棒開合橫條：整條都是按鈕，一眼看得到 */
 .kb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; box-sizing: border-box; font: inherit; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--chip-bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin-bottom: 4px; cursor: pointer; text-align: left; text-decoration: none; }

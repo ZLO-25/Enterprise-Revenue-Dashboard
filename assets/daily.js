@@ -63,7 +63,7 @@ const DAILY = (() => {
       ${caps ? `<h3>離論點卡的估值門檻多遠</h3><ul class="sum-list">${caps}</ul>` : ''}
       <p class="how">近 52 週最高 ${nf(L.hi52, cur === 'KRW' ? 0 : 2)}、最低 ${nf(L.lo52, cur === 'KRW' ? 0 : 2)}，目前離最高 ${sg(L.fromHi)}。</p>
       ${D.kbar ? `<div class="kb-sec"><button type="button" class="kb-bar" id="dyKToggle" aria-controls="dyKB" aria-expanded="false"><span class="kb-bar-l"><span class="kb-bar-ic" aria-hidden="true">▸</span>K 棒圖（日／週／月 K、均線、KD）</span><span class="kb-bar-r">展開</span></button><div class="kb-dy" id="dyKB" hidden></div></div>`
-        : D.kbarLink ? `<div class="kb-sec"><a class="kb-bar" href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）"><span class="kb-bar-l"><span class="kb-bar-ic" aria-hidden="true">▸</span>K 棒圖（日／週／月 K、均線、KD）</span><span class="kb-bar-r">K 棒圖 ↗ 在網站看盤頁開啟</span></a></div>` : ''}
+        : D.kbarLink ? `<div class="kb-sec"><a class="kb-bar" href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）"><span class="kb-bar-l"><span class="kb-bar-ic" aria-hidden="true">↗</span>K 棒圖（日／週／月 K、均線、KD）</span><span class="kb-bar-r">在網站看盤頁開啟 ↗</span></a></div>` : ''}
       <div class="tbl-bar"><h3 id="dyT">近 5 年每日收盤價</h3>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
         <div class="seg" id="dyR" role="group" aria-label="期間">${RANGES.map(n => `<button type="button" data-r="${n}" aria-pressed="${n === range}">${n} 年</button>`).join('')}</div>
