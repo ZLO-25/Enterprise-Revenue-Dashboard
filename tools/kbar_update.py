@@ -190,7 +190,7 @@ def info_to_bar(info, d, tz, hh, mm):
     v = info.get("regularMarketVolume")
     if any(_nan(x) for x in (o, h, l, c, v)):
         return None
-    return [d.isoformat(), round(float(o), 4), round(float(h), 4), round(float(l), 4), round(float(c), 4), int(v)]
+    return [d.isoformat(), round(float(o), 4), round(float(h), 4), round(float(l), 4), round(float(c), 4), int(v) or None]   # 0 → null
 
 
 def info_close(info, d, tz, hh, mm):
@@ -210,10 +210,12 @@ def normalize_rows(raw, now_local, tz_close, info_fn):
     tz, hh, mm = tz_close
     done_today = now_local.hour * 60 + now_local.minute >= hh * 60 + mm + 20
     today = now_local.date()
-    last_df = max((r[0] for r in raw), default=None)
+    closed = lambda d: d < today or (d == today and done_today)
+    # 「最新一天」只看已收盤的列：盤中那根（今天還沒收）不算，否則昨天收盤 NaN 時就補不到
+    last_df = max((r[0] for r in raw if closed(r[0])), default=None)
     bars, prov = [], set()
     for d, o, h, l, c, v in raw:
-        if d > today or (d == today and not done_today):
+        if not closed(d):
             continue                                   # 還沒收盤：盤中價不收
         o, h, l, c, v = (_num(x) for x in (o, h, l, c, v))
         recent = d == today or d == last_df

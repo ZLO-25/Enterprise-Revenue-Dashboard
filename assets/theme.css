@@ -348,8 +348,9 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-grp { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 10px 6px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
 .kb-grp:first-child { border-top: 0; margin-top: 0; padding-top: 2px; }
 .kb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; width: 100%; font: inherit; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 8px; padding: 6px 8px; cursor: pointer; }
-.kb-row:hover { background: var(--wash); }
-.kb-row[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); }
+/* 滑過的底色（--wash）和選取的底色（--chip-bg）幾乎一樣：選取列另加左側色條；觸控裝置點完不留滑過的底色 */
+@media (hover: hover) { .kb-row:hover { background: var(--wash); } }
+.kb-row[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); box-shadow: inset 3px 0 0 var(--accent); }
 .kb-row .n { font-size: 0.92rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .kb-row .ch { font-family: var(--font-data); font-size: 0.88rem; font-weight: 500; text-align: right; color: var(--muted); }
 .kb-row .ch.kup { color: var(--kup); } .kb-row .ch.kdn { color: var(--kdn); }

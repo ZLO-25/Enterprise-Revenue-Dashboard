@@ -46,6 +46,7 @@ const DAILY = (() => {
       return `<li><span class="chip ${c.ok ? 'chip-up' : 'chip-down'}">${c.ok ? '在門檻內' : '超出門檻'}</span> <b>${esc(c.name)} ${c.op === '<=' ? '≤' : '≥'} ${c.thr}${unit}</b>：現在 ${c.k === 'fcfY' ? nf(c.now) + '%' : x1(c.now)}，${word}${px}</li>`;
     }).join('');
     const chk = X.check ? `<span class="${X.check.ok === false ? 'st-plan' : ''}">${esc(X.check.note)}</span>。` : '';
+    const oldKB = sec.querySelector('#dyKB');   // render() 跑第二次時沿用已載入的 K 棒檢視（不重建、不重複綁事件）
     sec.innerHTML = `
     <div class="sec-head"><span class="sec-tag">每日收盤 · ${L.d.replace(/-/g, '/')}</span><h2>今日股價與估值</h2>
       <p class="sub">每個交易日收盤後由 GitHub Actions 自動抓收盤價，本益比、市值等用固定公式算出來（不經過 Claude）。財報數字一律用「那天為止已公布」的季度。</p>
@@ -77,6 +78,7 @@ const DAILY = (() => {
     if (!avail.includes(range)) range = avail[avail.length - 1];
     sec.querySelectorAll('#dyR button').forEach(b => { b.hidden = !avail.includes(+b.dataset.r); b.setAttribute('aria-pressed', String(+b.dataset.r === range)); });
     let chart = null;
+    if (oldKB && (oldKB._kb || oldKB._loading)) sec.querySelector('#dyKB').replaceWith(oldKB);
     const showKB = (now) => {   // now：使用者剛按下 K 棒 → 馬上載入；頁面一打開就預設 K 棒 → 等區塊接近畫面才載入
       const box = sec.querySelector('#dyKB'); if (box._kb || box._loading) return;
       const start = () => {

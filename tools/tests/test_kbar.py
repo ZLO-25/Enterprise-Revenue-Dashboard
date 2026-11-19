@@ -199,6 +199,21 @@ class Provisional(unittest.TestCase):
         bars, _ = K.normalize_rows([(self.d1, 10, 11, 9, 10.5, 0)], ny(2026, 11, 18, 17, 0), TZ, lambda: {})
         self.assertIsNone(bars[0][5])
 
+    def test_yesterday_nan_close_with_intraday_today(self):
+        # 盤中（今天還沒收）時 Yahoo 已有今天那一列，昨天收盤仍是 NaN：昨天要用收盤後報價補，今天不收
+        d0 = dt.date(2026, 11, 16)
+        raw = [(d0, 10, 11, 9, 10.5, 100), (self.d1, 10, 12, 9, NAN, 777), (self.d2, 10, 11, 9, 10.2, 50)]
+        info = info_at(ny(2026, 11, 17, 16, 0))
+        bars, prov = K.normalize_rows(raw, ny(2026, 11, 18, 10, 0), TZ, lambda: info)
+        self.assertEqual([b[0] for b in bars], ["2026-11-16", "2026-11-17"])
+        self.assertEqual(bars[-1][4], 11.0)
+        self.assertEqual(prov, {"2026-11-17"})
+
+    def test_info_zero_volume_null(self):
+        b = K.info_to_bar(info_at(ny(2026, 11, 18, 16, 0), regularMarketVolume=0), self.d2, *TZ)
+        self.assertIsNotNone(b)
+        self.assertIsNone(b[5])
+
     def test_flag_in_finalize(self):
         bars, pend, prov = K.finalize([B("2026-11-18")], {"2026-11-18"})
         self.assertTrue(prov)
@@ -286,6 +301,18 @@ class Files(unittest.TestCase):
         self.write()
         self.assertEqual(K.decrypt(self.read("t.enc.json"), PW, self.tmp)["dp"], 0)
 
+    def test_new_year_moves_cut_and_rewrites_hist(self):
+        self.write()
+        o1 = self.read("t.enc.json")
+        bars = self.bars + [B("2026-01-02", 9)]
+        r = K.write_files(self.out, self.meta, bars, PW, K.cut_date("2027-01-04"), key_root=self.tmp)   # 2027 年：cut 變 2026-01-01
+        self.assertEqual(r["hist"], "rewrite")
+        o2 = self.read("t.enc.json")
+        self.assertNotEqual(o1["hist"]["sha"], o2["hist"]["sha"])
+        self.assertEqual((o2["hist"]["bars"], o2["hist"]["lastDate"]), (4, "2025-01-03"))
+        self.assertEqual(K.decrypt(o2, PW, self.tmp)["bars"], [bars[-1]])
+        self.assertEqual(K.decrypt(self.read("t.hist.enc.json"), PW, self.tmp)["bars"], self.bars)
+
     def test_no_plaintext_prices(self):
         self.write()
         raw = open(os.path.join(self.out, "t.enc.json")).read()
@@ -353,6 +380,41 @@ class Process(unittest.TestCase):
         os.makedirs(self.out)
         json.dump({"lastDate": "2026-11-18"}, open(os.path.join(self.out, "t.enc.json"), "w"))
         self.assertEqual(K.stale_list([self.c], self.out, self.dd), [])
+
+    def test_log_has_no_prices(self):
+        import contextlib, io
+        d1, d2 = dt.date(2026, 11, 17), dt.date(2026, 11, 18)
+        raw = [(dt.date(2024, 5, 1), 5.4321, 6.4321, 4.4321, 5.9876, 10), (d1, 123.4567, 124.5678, 122.3456, 123.9876, 100),
+               (d2, 223.4567, 224.5678, 222.3456, 223.9876, 200)]
+        self.set_daily([["2026-11-17", 123.9876], ["2026-11-18", 300.0]])   # 18 日對不上 → pending
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.run_p(raw)
+        out = buf.getvalue()
+        for p in ("5.4321", "5.9876", "123.4567", "123.9876", "223.9876", "300.0", "223.98", "123.99"):
+            self.assertNotIn(p, out)
+        self.assertIn("已寫入", out)
+
+    def test_one_company_failure_does_not_stop_others(self):
+        from unittest import mock
+        seen = []
+
+        def fake(c, pw, out, **kw):
+            seen.append(c["code"])
+            if c["code"] == "a":
+                raise RuntimeError("boom")
+            return "written"
+        cos = [{"code": "a"}, {"code": "b"}]
+        with mock.patch.dict(os.environ, {"FUTURES_PASSWORD": PW}), mock.patch.object(K, "companies", return_value=cos), \
+                mock.patch.object(K, "outdir_default", return_value=self.out), mock.patch.object(K, "process", side_effect=fake):
+            self.assertEqual(K.main([]), 0)
+        self.assertEqual(seen, ["a", "b"])
+
+    def test_short_password_exit1_and_writes_nothing(self):
+        from unittest import mock
+        with mock.patch.dict(os.environ, {"FUTURES_PASSWORD": "short"}), mock.patch.object(K, "outdir_default", return_value=self.out):
+            self.assertEqual(K.main([]), 1)
+        self.assertFalse(os.path.exists(self.out))
 
     def test_no_password_exit1(self):
         old = os.environ.pop("FUTURES_PASSWORD", None)

@@ -44,6 +44,7 @@ async function shot(page, name, el) {
   if (!shotsDir) return;
   fs.mkdirSync(shotsDir, { recursive: true });
   const file = path.join(shotsDir, name);
+  await page.mouse.move(0, 0);   // 游標留在清單上會讓那一列帶著滑過的底色，看起來像兩列被選取
   if (el) {   // 區塊截圖：標示放在區塊最上面（不是固定在視窗），用整頁座標裁切，避免黏住的導覽列疊在圖上
     await page.evaluate(([sel, t]) => { const h = document.querySelector(sel); if (h.querySelector('.fx-banner')) return; const d = document.createElement('div'); d.className = 'fx-banner'; d.textContent = t; d.style.cssText = 'background:#b00020;color:#fff;font:600 12px sans-serif;padding:3px 8px;text-align:center;margin-bottom:6px'; h.prepend(d); }, [el, BANNER]);
     await page.evaluate(() => scrollTo(0, 0));
@@ -84,6 +85,10 @@ async function watchPage(browser, base, w, scheme) {
   ok(await page.evaluate(() => !/\d{1,3}(,\d{3})*\.\d\d/.test(document.getElementById('kbList').textContent)), '未解鎖不該出現價格');
   ok(await page.evaluate(() => document.getElementById('futBody').hidden), '未解鎖不該顯示圖');
   ok((await overflow(page)) <= 1, `未解鎖有橫向捲動 ${await overflow(page)}px`);
+  // 焦點在輸入框（密碼欄）時，↑↓ 不能被拿去換商品
+  const sel0 = await page.evaluate(() => document.querySelector('.kb-row[aria-selected="true"]').dataset.id);
+  await page.focus('form.fut-lock input[type=password]'); await page.keyboard.press('ArrowDown'); await page.waitForTimeout(150);
+  ok((await page.evaluate(() => document.querySelector('.kb-row[aria-selected="true"]').dataset.id)) === sel0, '焦點在輸入框時 ↓ 不該換商品');
   // 2. 解鎖
   await unlock(page);
   await page.waitForSelector('#futBody:not([hidden]) canvas', { timeout: 15000 });
@@ -120,6 +125,11 @@ async function watchPage(browser, base, w, scheme) {
   await page.mouse.click(5, 5); await page.keyboard.press('ArrowDown');
   await page.waitForFunction((b) => document.querySelector('.kb-row[aria-selected="true"]').dataset.id !== b, before);
   const after = await sel(); ok(after !== before, '↓ 要換商品：' + before + '→' + after);
+  ok((await page.$$eval('.kb-row[aria-selected="true"]', r => r.length)) === 1, '清單只能有一列被選取');
+  for (let i = 0; i < 6; i++) { await page.keyboard.press(i % 2 ? 'ArrowUp' : 'ArrowDown'); await page.waitForTimeout(120); }
+  await page.waitForTimeout(400);
+  const leak = await page.evaluate(() => { const c = document.getElementById('futChart'); return { charts: c.querySelectorAll('.tv-lightweight-charts').length, tb: c.querySelectorAll('.fut-ltb').length }; });
+  ok(leak.charts === 1 && leak.tb === 1, '切換多次後只能留一張圖（舊圖要釋放）：' + JSON.stringify(leak));
   await page.keyboard.press('ArrowUp'); await page.waitForTimeout(200);
   ok((await sel()) === before, '↑ 要回到原商品');
   // 排序切換
