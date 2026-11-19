@@ -522,7 +522,7 @@ async function phase3(browser, base) {
   await page.evaluate(() => scrollTo(0, 0)); await settled(page);
   // 大小切換：小／大
   const lsn0 = await page.evaluate(() => { const on = FUT.Lines.on; window.__lsn = 0; FUT.Lines.on = (f) => { window.__lsn++; const off = on(f); return () => { window.__lsn--; off(); }; }; return 0; });
-  const sizes = { s: [220, 340], m: [320, 460], l: [460, 680] };
+  const sizes = { s: [220, 340], m: [320, 450], l: [460, 680] };
   for (const z of ['l', 's', 'm', 'l']) {
     await page.evaluate(() => { document.querySelectorAll('.kb-card .tv-lightweight-charts').forEach(e => { e.dataset.old = '1'; }); });
     await page.click(`#kbGSize [data-gz="${z}"]`);
