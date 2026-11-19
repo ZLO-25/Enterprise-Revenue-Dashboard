@@ -1,6 +1,11 @@
-"""小道瓊（YM）、小那斯達克（NQ）期貨日 K 每日更新（GitHub Actions 執行，不經過 Claude）。
+"""小道瓊（YM）、小那斯達克（NQ）、大台指（TX）期貨日 K 每日更新（GitHub Actions 執行，不經過 Claude）。
 
-流程：
+大台指（TX）另走 build_tx()：資料來自臺灣期貨交易所官方「期貨每日交易行情」下載（一次最多查一個月），
+只用「一般交易時段」（日盤 08:45–13:45），每天取近月合約（最早到期的單一月份合約，不含價差、週契約）。
+第一次從 1998-07 抓完整歷史；之後解開上一版、只重抓最近約 45 天合併。換月日是實際換約的日子（不是推算）。
+台灣假日無法事先算：抓取成功、而且已經過了隔天早上 07:00 仍沒有那一天，就當作休市（記在 checkedFor）。
+
+YM／NQ 流程：
   1. 抓 Yahoo Finance 連續近月合約（YM=F、NQ=F）全部日 K（主來源）
   2. 抓 Stooq（ym.f、nq.f）日 K（備援，只用來交叉核對收盤價）
   3. 核對：OHLC 合理、日期不重複；新的一根收盤價兩來源差 > 0.1% → 先不發佈，列入「待確認」
@@ -23,7 +28,11 @@ UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, 
 SYMBOLS = [
     {"code": "ym", "name": "小道瓊", "nameEn": "E-mini Dow ($5)", "yahoo": "YM=F", "stooq": "ym.f", "cme": 318, "exchange": "CBOT YM"},
     {"code": "nq", "name": "小那斯達克", "nameEn": "E-mini Nasdaq-100", "yahoo": "NQ=F", "stooq": "nq.f", "cme": 146, "exchange": "CME NQ"},
+    {"code": "tx", "name": "大台指", "nameEn": "TAIEX Futures (TX)", "taifex": "TX", "exchange": "TAIFEX TX", "market": "TW"},
 ]
+TPE = ZoneInfo("Asia/Taipei")
+TAIFEX_URL = "https://www.taifex.com.tw/cht/3/futDataDown"
+TX_FIRST = dt.date(1998, 7, 21)   # 台指期上市日
 TOL = 0.001  # 兩來源收盤價容許差距 0.1%
 
 
@@ -86,11 +95,47 @@ def expected_date(now=None):
     return d.isoformat()
 
 
-def stored_dates(outdir):
+def tw_expected_date(now=None):
+    """台灣：日盤 13:45 收盤，期交所下午公布；台北 16:30 以後才算今天有資料。只跳過週末（台灣假日由 checkedFor 處理）。"""
+    now = now or dt.datetime.now(TPE)
+    d = now.date() if now.time() >= dt.time(16, 30) else now.date() - dt.timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= dt.timedelta(days=1)
+    return d.isoformat()
+
+
+def tw_assume_closed(day, now=None):
+    """抓取成功但沒有 day 這一天：已經過了隔天台北 07:00 就當作休市（颱風、春節等）；還沒過就稍後重試。"""
+    now = now or dt.datetime.now(TPE)
+    nxt = dt.datetime.combine(dt.date.fromisoformat(day) + dt.timedelta(days=1), dt.time(7, 0), TPE)
+    return now >= nxt
+
+
+def expected_for(s, now=None):
+    if s.get("market") == "TW":
+        return tw_expected_date(now.astimezone(TPE) if now else None)
+    return expected_date(now.astimezone(CT) if now else None)
+
+
+def stored_meta(outdir):
     out = {}
     for s in SYMBOLS:
         p = os.path.join(outdir, s["code"] + ".enc.json")
-        out[s["code"]] = json.load(open(p)).get("lastDate", "") if os.path.exists(p) else ""
+        out[s["code"]] = json.load(open(p)) if os.path.exists(p) else {}
+    return out
+
+
+def stored_dates(outdir):
+    return {c: m.get("lastDate", "") for c, m in stored_meta(outdir).items()}
+
+
+def behind_list(meta, now=None):
+    """哪些商品落後：最新 K 棒早於應有日期，而且也還沒確認那天是休市（checkedFor）。"""
+    out = []
+    for s in SYMBOLS:
+        m, exp = meta.get(s["code"], {}), expected_for(s, now)
+        if max(m.get("lastDate", ""), m.get("checkedFor", "")) < exp:
+            out.append(s["code"])
     return out
 
 
@@ -104,11 +149,12 @@ def gh_output(**kv):
 
 def check():
     """確認：網站上的資料是否已經到最新交易日。只讀日期，不需要密碼、不抓資料。"""
-    exp = expected_date()
-    have = stored_dates(os.path.join(ROOT, "data", "futures"))
-    behind = [c for c, d in have.items() if d < exp]
+    meta = stored_meta(os.path.join(ROOT, "data", "futures"))
+    exp = {s["code"]: expected_for(s) for s in SYMBOLS}
+    have = {c: m.get("lastDate", "") for c, m in meta.items()}
+    behind = behind_list(meta)
     log(f"應有的最新交易日 {exp}；目前資料 {have}；" + ("落後：" + ",".join(behind) if behind else "已是最新"))
-    gh_output(stale="true" if behind else "false", expected=exp)
+    gh_output(stale="true" if behind else "false", expected=exp["ym"])
     return behind
 
 
@@ -295,6 +341,137 @@ def build(s, prev):
     }
 
 
+# ---------- 大台指（TAIFEX 官方每日行情） ----------
+def taifex_csv(a, b, tries=3):
+    """期交所「期貨每日交易行情」CSV（a、b 為 date，區間最多一個月）。回傳 list of rows（第一列為欄名）。"""
+    import urllib.parse
+    form = urllib.parse.urlencode({"down_type": "1", "commodity_id": "TX", "commodity_id2": "",
+                                   "queryStartDate": a.strftime("%Y/%m/%d"), "queryEndDate": b.strftime("%Y/%m/%d")}).encode()
+    err = None
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(TAIFEX_URL, data=form, headers=dict(UA, **{"Content-Type": "application/x-www-form-urlencoded"}))
+            with urllib.request.urlopen(req, timeout=60) as r:
+                raw, ct = r.read(), (r.headers.get("Content-Type") or "")
+            if "MS950" not in ct.upper() and not raw.startswith("交易日期".encode("cp950")):
+                raise RuntimeError("回傳的不是 CSV（可能查詢區間太長或網站維護）")
+            return list(csv.reader(io.StringIO(raw.decode("cp950", "replace"))))
+        except Exception as e:  # noqa: BLE001
+            err = e
+            time.sleep(5 * (i + 1))
+    raise RuntimeError(f"期交所 {a}~{b} 抓取失敗：{err}")
+
+
+def num(x):
+    x = (x or "").strip().replace(",", "")
+    return None if x in ("", "-") else float(x)
+
+
+def parse_taifex(rows):
+    """CSV → {日期: (到期月, [date,o,h,l,c,v])}：只取一般交易時段、單一月份合約中最早到期的（近月）。
+    近月那一列沒有成交（開高低收是「-」）→ 放進 missing，不改用別的月份。"""
+    import re
+    if not rows:
+        return {}, []
+    h = [x.strip() for x in rows[0]]
+    ix = lambda name: next((i for i, x in enumerate(h) if x.startswith(name)), None)
+    iD, iM, iO, iH, iL, iC, iV, iS = (ix(n) for n in ("交易日期", "到期月份", "開盤價", "最高價", "最低價", "收盤價", "成交量", "交易時段"))
+    if None in (iD, iM, iO, iH, iL, iC, iV):
+        raise RuntimeError("期交所 CSV 欄位和預期不同：" + ",".join(h[:12]))
+    best = {}
+    for r in rows[1:]:
+        if len(r) <= max(iD, iM, iC, iV):
+            continue
+        if iS is not None and len(r) > iS and r[iS].strip() not in ("一般", ""):
+            continue
+        m = r[iM].strip()
+        if not re.fullmatch(r"\d{6}", m):          # 價差（202611/202612）、週契約（202611W4）不要
+            continue
+        d = r[iD].strip().replace("/", "-")
+        if d not in best or m < best[d][0]:
+            best[d] = (m, r)
+    out, missing = {}, []
+    for d, (m, r) in best.items():
+        o, hi, lo, c, v = num(r[iO]), num(r[iH]), num(r[iL]), num(r[iC]), num(r[iV])
+        if None in (o, hi, lo, c):
+            missing.append(d)
+            continue
+        out[d] = (m, [d, o, hi, lo, c, int(v or 0)])
+    return out, missing
+
+
+def month_ranges(a, b):
+    """[a, b] 切成一個月一段（期交所一次最多查一個月）。"""
+    cur = a
+    while cur <= b:
+        nxt = (cur.replace(day=1) + dt.timedelta(days=32)).replace(day=1)
+        yield cur, min(b, nxt - dt.timedelta(days=1))
+        cur = nxt
+
+
+def tx_rolls(months):
+    """實際換月日：近月合約和前一個交易日不同的那天。months = [(date, 到期月)] 依日期排序。"""
+    out = []
+    for (d0, m0), (d1, m1) in zip(months, months[1:]):
+        if m1 != m0:
+            out.append({"date": d1, "from": m0, "to": m1})
+    return out
+
+
+def decrypt_password(file, password):
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+    from cryptography.hazmat.primitives import hashes
+    kp = json.load(open(os.path.join(ROOT, "data", "futures", "key.json")))
+    key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=base64.b64decode(kp["salt"]), iterations=kp["iter"]).derive(password.encode("utf8"))
+    return json.loads(zlib.decompress(AESGCM(key).decrypt(base64.b64decode(file["iv"]), base64.b64decode(file["ct"]), None)))
+
+
+def build_tx(s, prev, pw):
+    today = dt.datetime.now(TPE).date()
+    old, start, old_pend = {}, TX_FIRST, []
+    if prev.get("ct"):
+        try:
+            p = decrypt_password(prev, pw)
+            old = {b[0]: (m, b) for b, m in zip(p["bars"], p["months"])}
+            start = dt.date.fromisoformat(p["lastDate"]) - dt.timedelta(days=45)
+            old_pend = p.get("pending") or []
+        except Exception as e:  # noqa: BLE001
+            log(f"  上一版解不開（{str(e)[:60]}），重抓完整歷史")
+            old = {}
+    got, missing, n = {}, [], 0
+    for a, b in month_ranges(start, today):
+        part, miss = parse_taifex(taifex_csv(a, b))
+        got.update(part); missing += miss; n += 1
+        time.sleep(0.4)
+    if not got:
+        raise RuntimeError("期交所沒有回傳任何近月資料")
+    log(f"  期交所：查 {n} 個月，取得 {len(got)} 天（{min(got)} ~ {max(got)}）")
+    merged = dict(old); merged.update(got)
+    rows = [merged[d] for d in sorted(merged)]
+    bad = [b[0] for _, b in rows if not sane(b)]
+    keep = [(m, b) for m, b in rows if sane(b)]
+    pend_old = [x for x in old_pend if x["date"] < start.isoformat()]
+    pending = [{"date": d, "reason": "待確認：開高低收不合理（最高價低於開/收盤或最低價高於開/收盤），沒有採用"} for d in bad]
+    pending += [{"date": d, "reason": "待確認：期交所當天近月合約沒有開高低收（顯示「-」），沒有改用其他月份"} for d in sorted(set(missing)) if d not in merged]
+    bars = [b for _, b in keep]
+    for b in bars:
+        if b[5] == 0:
+            b[5] = None
+    months = [m for m, _ in keep]
+    log(f"  採用 {len(bars)} 根：{bars[0][0]} ~ {bars[-1][0]}；待確認 {len(pending)} 根")
+    return {
+        "code": s["code"], "name": s["name"], "nameEn": s["nameEn"], "exchange": s["exchange"], "market": "TW",
+        "session": "日盤 08:45–13:45",
+        "source": {"n": "臺灣期貨交易所 期貨每日交易行情（TX 近月合約，官方）", "url": "https://www.taifex.com.tw/cht/3/futDataDown"},
+        "fetchedAt": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+        "firstDate": bars[0][0], "lastDate": bars[-1][0],
+        "cols": ["date", "open", "high", "low", "close", "volume"], "bars": bars, "months": months,
+        "rolls": tx_rolls(list(zip([b[0] for b in bars], months))),
+        "pending": pend_old + pending,
+    }, set(got)
+
+
 def pack(obj):
     return zlib.compress(json.dumps(obj, separators=(",", ":"), ensure_ascii=False).encode("utf8"), 9)
 
@@ -334,19 +511,38 @@ def main():
         log(f"[{s['code']}] {s['name']}")
         path = os.path.join(outdir, s["code"] + ".enc.json")
         prev = json.load(open(path)) if os.path.exists(path) else {}
+        checked = prev.get("checkedFor", "")
         try:
-            data = build(s, prev)
+            if s.get("market") == "TW":
+                if dev:
+                    log("  開發模式不抓台指期")
+                    continue
+                data, seen = build_tx(s, prev, pw)
+                exp = tw_expected_date()
+                if exp not in seen and data["lastDate"] < exp and tw_assume_closed(exp):
+                    checked = exp
+                    log(f"  期交所沒有 {exp} 的資料，已過隔天早上，視為休市")
+            else:
+                data = build(s, prev)
         except Exception as e:  # noqa: BLE001
             log(f"  ✗ 失敗：{e}；保留上一版資料")
             failed.append(s["code"])
             continue
         if prev.get("lastDate") == data["lastDate"] and prev.get("pendingCount", 0) == len(data["pending"]):
-            log("  沒有新的 K 棒，不更新檔案")
+            if checked != prev.get("checkedFor", ""):
+                prev["checkedFor"] = checked
+                with open(path, "w") as f:
+                    json.dump(prev, f, separators=(",", ":"))
+                log("  沒有新的 K 棒；記下已確認休市的日期")
+            else:
+                log("  沒有新的 K 棒，不更新檔案")
             continue
         body = encrypt_pubkey(pack(data), dev) if dev else encrypt_password(pack(data), pw)
         # 檔案外層只放不含價格的資訊（日期、筆數、待確認數），讓首頁在解鎖前也能顯示新鮮度
         out = {"code": s["code"], "name": s["name"], "lastDate": data["lastDate"], "firstDate": data["firstDate"],
                "bars": len(data["bars"]), "pendingCount": len(data["pending"]), "fetchedAt": data["fetchedAt"], **body}
+        if checked > data["lastDate"]:
+            out["checkedFor"] = checked
         with open(path, "w") as f:
             json.dump(out, f, separators=(",", ":"))
         log(f"  ✓ 已寫入 {os.path.relpath(path, ROOT)}（加密）")
@@ -357,7 +553,7 @@ def main():
     # 確認：寫完之後再檢查一次是不是真的到最新交易日
     behind = check()
     if behind:
-        msg = f"還沒更新到 {expected_date()}（{','.join(behind)}）：可能 Yahoo 還沒出資料，或抓取失敗"
+        msg = f"還沒更新到最新交易日（{','.join(behind)}）：可能來源還沒出資料，或抓取失敗"
         if os.environ.get("FINAL_TRY") == "1":
             sys.exit("✗ 今天最後一次嘗試仍失敗，" + msg)   # 讓 Actions 變紅燈，GitHub 會寄信通知
         log("… " + msg + "；稍後重試")
