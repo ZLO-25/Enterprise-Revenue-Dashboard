@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-18T16:41Z",
+ "generated": "2026-11-19T00:19Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-18T16:32Z"
+   "note": "8 小時前成功",
+   "lastOk": "2026-11-18T16:41Z"
   },
   {
    "id": "sec-feed",
@@ -16,30 +16,30 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-18T16:41Z"
+   "lastOk": "2026-11-19T00:19Z"
   },
   {
    "id": "prices-daily",
    "label": "每日收盤價與本益比",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-18T16:37Z"
+   "note": "3 小時前成功",
+   "lastOk": "2026-11-18T21:24Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-18T16:33Z"
+   "note": "8 小時前成功",
+   "lastOk": "2026-11-18T16:41Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "13 小時前成功",
+   "note": "21 小時前成功",
    "lastOk": "2026-11-18T03:46Z"
   },
   {
@@ -47,7 +47,7 @@
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "60 小時前成功",
+   "note": "68 小時前成功",
    "lastOk": "2026-11-16T04:21Z"
   },
   {
@@ -55,7 +55,7 @@
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "31 小時前成功",
+   "note": "39 小時前成功",
    "lastOk": "2026-11-17T09:20Z"
   },
   {
@@ -63,7 +63,7 @@
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "58 小時前成功",
+   "note": "66 小時前成功",
    "lastOk": "2026-11-16T06:24Z"
   }
  ],
@@ -114,7 +114,7 @@
    "name": "Palantir",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-01",
@@ -135,7 +135,7 @@
    "name": "輝達",
    "quarter": "3Q27",
    "stage": "flash",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-24",
@@ -156,7 +156,7 @@
    "name": "特斯拉",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-02",
@@ -177,7 +177,7 @@
    "name": "Arista",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-16",
@@ -198,7 +198,7 @@
    "name": "SpaceX",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -219,7 +219,7 @@
    "name": "三星電子",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-18",
+   "close": "2026-11-17",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-08",
@@ -261,7 +261,7 @@
    "name": "微軟",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -282,7 +282,7 @@
    "name": "美光",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-17",
@@ -303,7 +303,7 @@
    "name": "亞馬遜",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-04",
@@ -324,7 +324,7 @@
    "name": "蘋果",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -345,7 +345,7 @@
    "name": "Meta",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -366,7 +366,7 @@
    "name": "博通",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-09",
@@ -387,7 +387,7 @@
    "name": "邁威爾",
    "quarter": "2Q27",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-01",
@@ -408,7 +408,7 @@
    "name": "超微",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-02",
@@ -429,7 +429,7 @@
    "name": "CrowdStrike",
    "quarter": "2Q27",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-01",
@@ -450,7 +450,7 @@
    "name": "Palo Alto Networks",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": null,
    "pending": {
@@ -467,7 +467,7 @@
    "name": "火箭實驗室",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-25",
@@ -488,7 +488,7 @@
    "name": "GE Vernova",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -509,7 +509,7 @@
    "name": "Google",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-03",
@@ -530,7 +530,7 @@
    "name": "思科",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-10",
@@ -551,7 +551,7 @@
    "name": "艾司摩爾",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-17",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -589,7 +589,18 @@
    "problems": []
   }
  ],
- "signals": [],
+ "signals": [
+  {
+   "d": "2026-11-18",
+   "code": "csco",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "rich",
+   "now": 5.93,
+   "thr": 5.1,
+   "op": "<="
+  }
+ ],
  "tokens": [],
  "alerts": []
 }
