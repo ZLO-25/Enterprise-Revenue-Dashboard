@@ -16,6 +16,7 @@
   python3 tools/daily.py brief [--wait-prep]  一頁摘要（--wait-prep：先叫醒 GitHub 的每日準備並等它做完，正式排程用；--today 測試模式不叫醒）（清單＋股價＋論點卡轉差＋本益比＋今天要讀哪些附件）
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
   python3 tools/daily.py news-scope           每週新聞（週日 06:00）的範圍與公司清單
+  python3 tools/daily.py story                各公司核心故事線與類別（寫 milestones 前先對）
   python3 tools/daily.py mark extra|trend|news|newsfire     記下今天已補觸發過（每天最多一次）
   python3 tools/daily.py inbox [CODE…]        SEC 收件匣：Actions 預抓的財報新聞稿＋XBRL 核對表（快報、核對先看這個）
   python3 tools/daily.py trend-facts          世界趨勢月報的事實表（各公司最新一季、四大雲端資本支出、記憶體毛利率）
@@ -251,7 +252,23 @@ def news_scope(today):
     for c in enabled():
         D = jload("data", c["code"] + ".json")
         ms = [m["d"] for m in D.get("milestones", []) if m.get("d") and m["d"] <= today.isoformat() and m.get("st") != "f"]
-        print(f"  {c['code']}\t{c.get('name') or c.get('title') or ''}\tmilestones 最後一筆：{max(ms) if ms else '無'}")
+        print(f"  {c['code']}\t{c.get('name') or c.get('title') or ''}\tmilestones 最後一筆：{max(ms) if ms else '無'}\t{story_line(D)}")
+
+
+def story_line(D):
+    """核心故事線一行：名稱＋類別（cat 代碼＝中文名）；新增事件時 cat 先對這裡。"""
+    S = D.get("story") or {}
+    if not S.get("cats"):
+        return "核心故事線：（缺，validate 會擋）"
+    names = {"contract": "合約", "product": "產品", "listing": "上市", "index": "指數", "profit": "獲利", "ma": "併購",
+             "node": "製程", "pkg": "先進封裝", "capacity": "產能", "mgmt": "經營層", "other": "其他", **(D.get("categories") or {})}
+    return f"核心故事線：{S.get('t', '')}［" + "、".join(f"{k}={names.get(k, k)}" for k in S["cats"]) + "］"
+
+
+def story_all():
+    for c in enabled():
+        D = jload("data", c["code"] + ".json")
+        print(f"  {c['code']}\t{story_line(D)}")
 
 
 def main():
@@ -271,6 +288,8 @@ def main():
         import daily_brief
         sys.argv = [sys.argv[0]] + (["--today", today.isoformat()] if test_mode else []) + (["--save-lights"] if a[0] == "save-lights" else []) + (["--wait-prep"] if "--wait-prep" in a and not test_mode else [])
         return daily_brief.main()
+    if a[0] == "story":  # 核心故事線一覽（新增 milestones 時 cat 先對這裡）
+        return story_all()
     if a[0] == "news-scope":  # 每週新聞的範圍與公司清單（見 docs/WEEKLY_NEWS_PROMPT.md）
         return news_scope(today)
     if a[0] == "pending":  # 待確認分級統計＋reports/pending.md（見 tools/pending.py）

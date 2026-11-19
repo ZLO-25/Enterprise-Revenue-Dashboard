@@ -31,8 +31,6 @@ class Missed(unittest.TestCase):
         self.assertEqual(daily.missed_days("2026-11-17", dt.date(2026, 11, 18)), [])
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class AddMonths(unittest.TestCase):
@@ -41,3 +39,16 @@ class AddMonths(unittest.TestCase):
 
     def test_end_of_month(self):
         self.assertEqual(daily.add_months(dt.date(2026, 11, 30), 3), dt.date(2027, 2, 28))
+
+
+class StoryLine(unittest.TestCase):
+    def test_custom_and_default_names(self):
+        D = {"story": {"t": "AI", "cats": ["arch", "product"]}, "categories": {"arch": "AI 晶片世代"}}
+        self.assertEqual(daily.story_line(D), "核心故事線：AI［arch=AI 晶片世代、product=產品］")
+
+    def test_missing(self):
+        self.assertIn("缺", daily.story_line({}))
+
+
+if __name__ == "__main__":
+    unittest.main()
