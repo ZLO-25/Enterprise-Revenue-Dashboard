@@ -4,6 +4,8 @@
    需要：playwright（node 套件，NODE_PATH 或本機 node_modules 找得到）與 chromium（PW_CHROMIUM 指定執行檔；沒指定就用 playwright 自己的）。
    流程：呼叫 tools/tests/kbar_fixture.py 在臨時資料夾產生合成期貨與個股 K 棒檔（含測試用 key.json 與密碼），
    起一個本機伺服器：網站檔案取自 repo，/data/futures/ 與 /data/kbar/ 改取臨時資料夾。
+   總覽牆（預設畫面）：卡片數＝商品數、未解鎖不顯示價格、延遲建圖、每張卡只有 1 張圖、分類篩選與家數、週期／KD／排序切換會重建、點卡片進單檔、?s= 直接進單檔、回總覽、讀不到的卡顯示「—」。
+   單檔檢視（?s= 進入）的檢查維持原樣。個股頁的 K 棒區塊預設收合，展開才載入。
    檢查：未解鎖（無 JS 錯誤、不顯示價格）→ 解鎖 → 清單／切換商品／日週月／鍵盤 ↑↓／深連結／讀不到的列顯示「—」／歷史檔合併／
          個股頁（tsmc、pltr、nvda 三種模板）K 棒延遲載入、解鎖後預設 K 棒；390px 與 1280px 都不可整頁水平捲動；淺色、深色各跑一次。
    --shots 會另存截圖（deviceScaleFactor 2；畫面角落標「合成測試資料」）。 */
@@ -76,7 +78,7 @@ async function watchPage(browser, base, w, scheme) {
   const page = await ctx.newPage(), errs = [];
   await watchErrors(page, errs);
   // 1. 未解鎖
-  await page.goto(base + '/futures/', { waitUntil: 'load' });
+  await page.goto(base + '/futures/?s=ym', { waitUntil: 'load' });   // 單檔檢視：有 ?s= 才會直接進單檔（沒有 ?s= 是總覽牆）
   await page.waitForSelector('form.fut-lock');
   await page.waitForFunction(() => document.querySelectorAll('.kb-row').length >= 20);
   await page.waitForTimeout(500);
@@ -174,7 +176,9 @@ async function watchPage(browser, base, w, scheme) {
   }
   // 選到的商品記住
   await page.goto(base + '/futures/', { waitUntil: 'load' });
-  await page.waitForFunction(() => document.querySelector('.kb-row[aria-selected="true"]'));
+  ok(await page.evaluate(() => !document.getElementById('kbGrid').hidden && document.getElementById('kbApp').hidden), '沒有 ?s= 的網址開總覽，不自動跳單檔');
+  await page.click('#kbMode [data-mode="single"]');
+  await page.waitForFunction(() => document.querySelector('.kb-row[aria-selected="true"]') && !document.getElementById('kbApp').hidden);
   ok((await sel()) === 'tsmc', '記住上次看的商品：' + await sel());
   // 窄螢幕的清單面板
   if (w < 900) {
@@ -199,6 +203,150 @@ async function watchPage(browser, base, w, scheme) {
   await ctx.close();
 }
 
+async function gridShot(page, name, full) {
+  if (!shotsDir) return;
+  fs.mkdirSync(shotsDir, { recursive: true });
+  if (full) {   // 延遲建圖：整頁截圖前先把每張卡捲過一遍
+    const h = await page.evaluate(() => document.documentElement.scrollHeight);
+    for (let y = 0; y < h; y += 500) { await page.evaluate((y) => scrollTo(0, y), y); await page.waitForTimeout(120); }
+    await page.waitForFunction(() => [...document.querySelectorAll('.kb-card')].every(c => c.querySelector('.tv-lightweight-charts') || c.querySelector('.kb-empty')), null, { timeout: 15000 });
+  }
+  await page.evaluate(([t, full]) => { if (!document.getElementById('fxBanner')) { const d = document.createElement('div'); d.id = 'fxBanner'; d.textContent = t; d.style.cssText = 'background:#b00020;color:#fff;font:600 13px sans-serif;padding:4px 8px;text-align:center;margin-bottom:8px'; document.querySelector('.kb-modebar').before(d); } const g = document.getElementById('fxBanner'); scrollTo(0, full ? 0 : g.getBoundingClientRect().top + scrollY - 60); }, [BANNER, !!full]);
+  await page.mouse.move(0, 0); await page.waitForTimeout(500);
+  await page.screenshot({ path: path.join(shotsDir, name), fullPage: !!full });
+  say('  截圖 ' + name);
+}
+
+async function gridPage(browser, base, w, scheme) {
+  const tag = `總覽牆 ${w}px ${scheme}`;
+  say('— ' + tag);
+  const ctx = await browser.newContext({ viewport: { width: w, height: w > 600 ? 900 : 844 }, deviceScaleFactor: 2, colorScheme: scheme });
+  const page = await ctx.newPage(), errs = [];
+  await watchErrors(page, errs);
+  const nCards = () => page.evaluate(() => document.querySelectorAll('.kb-card').length);
+  const bad1 = () => page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c.querySelectorAll('.tv-lightweight-charts').length > 1).map(c => c.dataset.id));
+  const built = () => page.evaluate(() => [...document.querySelectorAll('.kb-card')].filter(c => c.querySelector('.tv-lightweight-charts')).length);
+  // 1. 預設總覽、未解鎖
+  await page.goto(base + '/futures/', { waitUntil: 'load' });
+  await page.waitForSelector('form.fut-lock');
+  await page.waitForFunction(() => document.querySelectorAll('.kb-row').length >= 20);
+  await page.waitForTimeout(500);
+  const rows = await page.evaluate(() => document.querySelectorAll('.kb-row').length);
+  ok(await page.evaluate(() => !document.getElementById('kbGrid').hidden && document.getElementById('kbApp').hidden && document.getElementById('kbMode').querySelector('[data-mode="grid"]').getAttribute('aria-pressed') === 'true'), '預設是總覽');
+  ok((await nCards()) === rows && rows >= 20, `卡片數＝商品數：${await nCards()} / ${rows}`);
+  ok(await page.evaluate(() => !document.querySelector('.kb-card canvas') && !document.querySelector('.kb-cpx .ch.kup, .kb-cpx .ch.kdn')), '未解鎖不畫圖、不顯示漲跌');
+  ok(await page.evaluate(() => !/\d{1,3}(,\d{3})*\.\d\d/.test(document.getElementById('kbCards').textContent) && /資料截至/.test(document.querySelector('.kb-cm').textContent)), '未解鎖不出現價格，顯示「資料截至」');
+  ok((await overflow(page)) <= 1, `${tag} 未解鎖水平捲動 ${await overflow(page)}px`);
+  if (w > 600 && scheme === 'light') await gridShot(page, 'grid-1280-light-locked.png', false);
+  // 2. 解鎖
+  await unlock(page);
+  await page.waitForSelector('.kb-card canvas', { timeout: 15000 });
+  await page.waitForFunction(() => ![...document.querySelectorAll('.kb-cpx b')].some(b => b.textContent === '…') && !/讀取中/.test(document.getElementById('kbGSum').textContent), null, { timeout: 20000 });
+  await page.waitForTimeout(500);
+  const miss = await page.evaluate((id) => { const c = document.querySelector(`.kb-card[data-id="${id}"]`); return c && { px: c.querySelector('.kb-cpx').textContent, cm: c.querySelector('.kb-cm').textContent, chart: !!c.querySelector('canvas') }; }, FX.missing[0]);
+  ok(miss && miss.px === '—' && /讀不到/.test(miss.cm) && !miss.chart, '讀不到資料檔的卡顯示「—」與原因、不畫圖：' + JSON.stringify(miss));
+  const stale = await page.evaluate((id) => { const c = document.querySelector(`.kb-card[data-id="${id}"]`); return c && { px: c.querySelector('.kb-cpx').textContent, cm: c.querySelector('.kb-cm').textContent, chart: !!c.querySelector('canvas') }; }, FX.staleKey[0]);
+  ok(stale && stale.px === '—' && /解不開/.test(stale.cm) && !stale.chart, '近期檔解不開的卡顯示「—」與原因：' + JSON.stringify(stale));
+  ok(await page.evaluate(() => !!localStorage.getItem('erd-futures-key-v1') && document.getElementById('kbGLockBox').hidden), '某一檔解不開不可把整個網站上鎖');
+  ok(/上漲 \d+ · 下跌 \d+ · 平 \d+/.test(await page.textContent('#kbGSum')), '漲跌家數文字');
+  ok(await page.evaluate(() => document.querySelector('.kb-card[data-id="ym"] .kb-cpx .ch').className.includes('ku') || document.querySelector('.kb-card[data-id="ym"] .kb-cpx .ch').className.includes('kd')), '漲跌用 kup／kdn');
+  ok(await page.evaluate(() => [...document.querySelectorAll('.kb-gh')].length >= 4 && document.querySelector('.kb-gh').textContent.startsWith('指數期貨')), '產業排序有分段小標題，期貨在最前');
+  ok(await page.evaluate(() => { const c = document.querySelector('.kb-card[data-id="amd"]'); return /暫定/.test(c.querySelector('.kb-cm').textContent); }), '暫定標示保留');
+  ok(await page.evaluate(() => /待確認 1 天/.test(document.querySelector('.kb-card[data-id="csco"] .kb-cm').textContent)), '待確認標示保留');
+  // 3. 延遲建立：最下面的卡捲到之前沒有圖；大小與重疊
+  const total = await nCards(), b0 = await built();
+  const lastId = await page.evaluate(() => [...document.querySelectorAll('.kb-card')].pop().dataset.id);
+  ok(b0 > 0 && b0 < total, `延遲建立：目前只建 ${b0} / ${total} 張`);
+  ok(await page.evaluate((id) => !document.querySelector(`.kb-card[data-id="${id}"] canvas`), lastId), '最下面的卡在捲到之前沒有 canvas');
+  await page.evaluate((id) => document.querySelector(`.kb-card[data-id="${id}"]`).scrollIntoView(), lastId);
+  await page.waitForFunction((id) => document.querySelector(`.kb-card[data-id="${id}"] canvas`), lastId, { timeout: 15000 });
+  ok((await bad1()).length === 0, '每張卡最多 1 張圖');
+  ok(await page.evaluate(() => { const c = document.querySelector('.kb-card canvas'); const b = c.closest('.kb-cbox'); return b.getBoundingClientRect().height >= 200 && b.getBoundingClientRect().height <= 240; }), '日 K 小圖高約 220px');
+  ok(await page.evaluate(() => !document.querySelector('.kb-card .fut-ltb') && !document.querySelector('.kb-card .fut-tool')), '總覽沒有畫線工具列');
+  if (w > 600) ok(await page.evaluate(() => { const x = getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length; return x === 3; }), '1280 寬 3 欄：' + await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns));
+  else ok(await page.evaluate(() => getComputedStyle(document.getElementById('kbCards')).gridTemplateColumns.split(' ').length === 1), '手機 1 欄');
+  await page.evaluate(() => scrollTo(0, 0));
+  ok((await overflow(page)) <= 1, `${tag} 整頁水平捲動 ${await overflow(page)}px`);
+  // 4. 分類篩選
+  const chip = await page.evaluate(() => { const c = [...document.querySelectorAll('.kb-chip')].find(x => x.textContent.startsWith('半導體')); return c && { n: +c.querySelector('span').textContent }; });
+  ok(chip && chip.n > 0, '有「半導體」分類');
+  await page.evaluate(() => [...document.querySelectorAll('.kb-chip')].find(x => x.textContent.startsWith('半導體')).click());
+  await page.waitForFunction((n) => document.querySelectorAll('.kb-card').length === n, chip.n);
+  ok(page.url().includes('g=') && decodeURIComponent(page.url()).includes('g=半導體'), '網址反映分類：' + page.url());
+  ok(await page.evaluate(() => localStorage.getItem('erd-watch-filter') === '半導體'), '分類記在 erd-watch-filter');
+  await page.waitForFunction(() => [...document.querySelectorAll('.kb-card')].some(c => c.querySelector('canvas')), null, { timeout: 15000 });
+  await page.waitForTimeout(600);
+  const cnt = await page.evaluate(() => { const m = /上漲 (\d+) · 下跌 (\d+) · 平 (\d+)/.exec(document.getElementById('kbGSum').textContent); const cs = [...document.querySelectorAll('.kb-card')].filter(c => !['ym', 'nq', 'tx'].includes(c.dataset.id)); return { sum: m && m.slice(1).map(Number), up: cs.filter(c => c.querySelector('.ch.kup')).length, dn: cs.filter(c => c.querySelector('.ch.kdn')).length, n: cs.length, gh: document.querySelectorAll('.kb-gh').length }; });
+  ok(cnt.sum && cnt.sum[0] === cnt.up && cnt.sum[1] === cnt.dn && cnt.sum[0] + cnt.sum[1] + cnt.sum[2] <= cnt.n, '篩選後家數跟著變：' + JSON.stringify(cnt));
+  ok((await bad1()).length === 0 && cnt.gh === 0, '篩選後每張卡最多 1 張圖、單一分類不分段');
+  if (w > 600 && scheme === 'light') await gridShot(page, 'grid-1280-light-semi.png', false);
+  // 網址 ?g=指數期貨
+  await page.goto(base + '/futures/?g=' + encodeURIComponent('指數期貨'), { waitUntil: 'load' });
+  await page.waitForFunction(() => document.querySelectorAll('.kb-card').length === 3);
+  await page.waitForFunction(() => /沒有個股/.test(document.getElementById('kbGSum').textContent), null, { timeout: 15000 });
+  await page.waitForFunction(() => document.querySelectorAll('.kb-card canvas').length >= 3, null, { timeout: 15000 }).catch(async (e) => { console.log(await page.evaluate(() => document.getElementById('kbCards').innerText.slice(0, 400) + ' | ' + document.querySelectorAll('canvas').length + ' ' + localStorage.getItem('erd-futures-key-v1'))); throw e; });
+  // 沒有 g：用記住的分類；選回全部
+  await page.goto(base + '/futures/', { waitUntil: 'load' });   // 網址的 g 不改記住的分類；沒有 g 就用上次點選的「半導體」
+  await page.waitForFunction((n) => document.querySelectorAll('.kb-card').length === n, chip.n);
+  await page.evaluate(() => document.querySelector('.kb-chip[data-f="all"]').click());
+  await page.waitForFunction((n) => document.querySelectorAll('.kb-card').length === n, rows);
+  await page.waitForFunction(() => document.querySelectorAll('.kb-card canvas').length > 3, null, { timeout: 15000 });
+  // 5. 週期、KD、排序：舊圖要換掉、每張卡只有 1 張圖
+  await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(500);
+  await page.evaluate(() => { document.querySelectorAll('.kb-card .tv-lightweight-charts').forEach(e => { e.dataset.old = '1'; }); });
+  const b1 = await built();
+  await page.click('#kbGP [data-gp="W"]');
+  await page.waitForFunction((n) => { const l = [...document.querySelectorAll('.kb-card .tv-lightweight-charts')]; return l.length >= n && l.every(e => !e.dataset.old); }, Math.min(b1, 3), { timeout: 20000 });
+  await page.waitForTimeout(800);
+  ok(page.url().includes('p=W'), '網址記住週期');
+  ok((await bad1()).length === 0 && !(await page.evaluate(() => document.querySelector('.kb-card .tv-lightweight-charts[data-old]'))), '週 K：舊圖已移除、每張卡只有 1 張圖');
+  ok(await page.evaluate(() => document.querySelector('#kbGP [data-gp="W"]').getAttribute('aria-pressed') === 'true'), '週期按鈕狀態');
+  await page.click('#kbGKD'); await page.waitForTimeout(900);
+  ok(await page.evaluate(() => { const b = document.querySelector('.kb-card .kb-cbox'); return b.getBoundingClientRect().height >= 300; }), 'KD 開啟後卡片變高（約 320px）');
+  ok((await bad1()).length === 0 && (await built()) > 0, 'KD 切換後每張卡最多 1 張圖');
+  await page.click('#kbGKD'); await page.click('#kbGP [data-gp="M"]'); await page.waitForTimeout(800);
+  await page.click('#kbGP [data-gp="D"]'); await page.waitForTimeout(800);
+  ok((await bad1()).length === 0 && (await built()) > 0 && page.url().includes('p=D'), '切回日 K');
+  const leak = await page.evaluate(() => document.querySelectorAll('.tv-lightweight-charts').length - document.querySelectorAll('.kb-card .tv-lightweight-charts').length);
+  ok(leak === 0, '頁面上沒有卡片以外殘留的圖：' + leak);
+  await page.click('#kbGSort [data-gsort="chg"]'); await page.waitForTimeout(500);
+  const chs = await page.evaluate(() => ({ gh: document.querySelectorAll('.kb-gh').length, v: [...document.querySelectorAll('.kb-card')].map(c => c.querySelector('.kb-cpx .ch') ? parseFloat(c.querySelector('.kb-cpx .ch').textContent.replace('−', '-')) : NaN).filter(x => !isNaN(x)) }));
+  ok(chs.gh === 0 && chs.v.length > 20 && chs.v.every((x, i) => !i || x <= chs.v[i - 1] + 1e-9), '漲跌幅排序：不分段、由高到低');
+  await page.click('#kbGSort [data-gsort="sector"]'); await page.waitForTimeout(300);
+  // 6. 點卡片進單檔、回總覽
+  await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(300);
+  await page.click('.kb-card[data-id="nvda"] .kb-ct');
+  await page.waitForFunction(() => !document.getElementById('kbApp').hidden && /輝達 NVDA 日 K/.test(document.getElementById('futTitle').textContent));
+  await page.waitForSelector('#futBody:not([hidden]) canvas', { timeout: 15000 });
+  ok(page.url().includes('s=nvda') && page.url().includes('p=D') && await page.evaluate(() => document.getElementById('kbGrid').hidden), '點卡片進單檔，網址有 ?s=');
+  ok(await page.evaluate(() => document.querySelectorAll('.kb-card canvas').length === 0), '進單檔後總覽的圖已釋放');
+  ok((await overflow(page)) <= 1, `${tag} 單檔水平捲動`);
+  await page.click('#kbBack');
+  await page.waitForFunction(() => !document.getElementById('kbGrid').hidden && document.getElementById('kbApp').hidden);
+  ok(!page.url().includes('s='), '回總覽後網址沒有 ?s=');
+  ok(await page.evaluate(() => document.querySelectorAll('#futChart .tv-lightweight-charts').length === 0), '回總覽時單檔的圖已釋放');
+  await page.waitForFunction(() => document.querySelectorAll('.kb-card canvas').length > 0, null, { timeout: 15000 });
+  await page.click('.kb-card[data-id="tsmc"] .kb-more').catch(async () => { await page.evaluate(() => document.querySelector('.kb-card[data-id="tsmc"] .kb-more').click()); });
+  await page.waitForFunction(() => /台積電/.test(document.getElementById('futTitle').textContent) && !document.getElementById('kbApp').hidden);
+  await page.click('#kbMode [data-mode="grid"]');
+  await page.waitForFunction(() => !document.getElementById('kbGrid').hidden);
+  // ?s=nvda 直接進單檔
+  await page.goto(base + '/futures/?s=nvda&p=W', { waitUntil: 'load' });
+  await page.waitForSelector('#futBody:not([hidden]) canvas', { timeout: 15000 });
+  ok(await page.evaluate(() => document.getElementById('kbGrid').hidden && !document.getElementById('kbApp').hidden && /輝達 NVDA 週 K/.test(document.getElementById('futTitle').textContent)), '?s=nvda 直接進單檔');
+  await page.goto(base + '/futures/', { waitUntil: 'load' });
+  await page.waitForFunction(() => document.querySelectorAll('.kb-card canvas').length > 0, null, { timeout: 15000 });
+  // 7. 截圖
+  if (shotsDir && scheme === 'light' && w > 600) { await page.evaluate(() => document.querySelector('.kb-chip[data-f="all"]').click()); await page.waitForTimeout(300); await gridShot(page, 'grid-1280-light.png', true); }
+  if (shotsDir && scheme === 'dark' && w < 600) await gridShot(page, 'grid-390-dark.png', false);
+  ok((await overflow(page)) <= 1, `${tag} 整頁水平捲動 ${await overflow(page)}px`);
+  // 8. 上鎖
+  await page.click('#kbGLock'); await page.waitForSelector('#kbGLockBox form.fut-lock');
+  ok(await page.evaluate(() => !document.querySelector('.kb-cpx .ch.kup, .kb-cpx .ch.kdn') && !document.querySelector('.kb-card canvas')), '上鎖後不顯示漲跌、不留圖');
+  ok(errs.length === 0, '錯誤：' + errs.join(' | '));
+  await ctx.close();
+}
+
 async function companyPages(browser, base, w, scheme) {
   say(`— 個股頁 ${w}px ${scheme}`);
   for (const code of ['nvda', 'tsmc', 'pltr']) {
@@ -207,42 +355,66 @@ async function companyPages(browser, base, w, scheme) {
     await watchErrors(page, errs);
     await page.goto(`${base}/${code}/`, { waitUntil: 'load' });
     await page.waitForSelector('#today:not([hidden])');
-    // 沒解鎖：預設收盤折線；K 棒相關 script 不能被載入（延遲載入）
-    ok(await page.evaluate(() => document.querySelector('#dyK [data-k="1"]').getAttribute('aria-pressed') === 'true'), code + ' 未解鎖預設收盤折線');
-    ok(await page.evaluate(() => !document.querySelector('script[src*="kbar.js"], script[src*="futures.js"], script[src*="lightweight-charts"]') && typeof KB === 'undefined'), code + ' 沒點 K 棒前不載入 K 棒程式');
+    // K 棒區塊預設收合：沒解鎖、沒展開 → K 棒相關 script 不能被載入，也沒有 canvas
+    const kbScripts = () => page.evaluate(() => !!document.querySelector('script[src*="kbar.js"], script[src*="futures.js"], script[src*="lightweight-charts"]') || typeof KB !== 'undefined');
+    const nCharts = (pg) => pg.evaluate(() => document.querySelectorAll('#dyKB .tv-lightweight-charts').length);
+    ok(await page.evaluate(() => [...document.querySelectorAll('#dyK button')].map(b => b.dataset.k).join() === '1,2' && document.querySelector('#dyK [data-k="1"]').getAttribute('aria-pressed') === 'true'), code + ' 走勢圖切換只剩 收盤／本益比');
+    ok(await page.evaluate(() => { const t = document.getElementById('dyKToggle'); return t && t.getAttribute('aria-expanded') === 'false' && /展開/.test(t.textContent) && document.getElementById('dyKB').hidden; }), code + ' K 棒預設收合');
+    ok(!(await kbScripts()) && (await page.evaluate(() => !document.querySelector('#dyKB canvas'))), code + ' 收合時不載入 K 棒程式、沒有 canvas');
     ok(await page.evaluate(() => !document.documentElement.innerHTML.includes('const KB = (()')), code + ' kbar.js 沒有內嵌在公司頁');
-    await page.click('#dyK [data-k="3"]');
-    await page.waitForSelector('#dyKB form.fut-lock', { timeout: 15000 }).catch(async (e) => { console.log('  state:', errs.join('|'), await page.evaluate(() => document.getElementById('dyKB').outerHTML.slice(0, 200) + ' k=' + document.querySelector('#dyK [aria-pressed=true]').textContent + ' scripts=' + [...document.scripts].map(x => x.src).filter(Boolean).join(',') + ' rect=' + JSON.stringify(document.getElementById('dyKB').getBoundingClientRect()))); throw e; });
-    ok(await page.evaluate(() => !!document.querySelector('script[src*="kbar.js"]') && typeof KB !== 'undefined'), code + ' 點 K 棒後才載入');
+    ok(await page.evaluate(() => !localStorage.getItem('erd-stock-kbar-open')), code + ' 沒有記住值＝收合');
+    ok((await overflow(page)) <= 1, `${code} 收合時整頁水平捲動`);
+    if (code === 'nvda') await shot(page, `stock-collapsed-${w}-${scheme}.png`, '#today');
+    await page.click('#dyKToggle');
+    await page.waitForSelector('#dyKB form.fut-lock', { timeout: 15000 });
+    ok(await page.evaluate(() => !!document.querySelector('script[src*="kbar.js"]') && typeof KB !== 'undefined' && document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'true' && /收合/.test(document.getElementById('dyKToggle').textContent)), code + ' 展開後才載入、按鈕變「收合」；未解鎖顯示解鎖表單');
+    ok(await page.evaluate(() => localStorage.getItem('erd-stock-kbar-open') === '1'), code + ' 展開狀態記在 erd-stock-kbar-open');
     if (code === 'nvda') await shot(page, `stock-${w}-${scheme}-locked.png`, '#today');
     await unlock(page);
     await page.waitForSelector('#dyKB .kb-ebody:not([hidden]) canvas', { timeout: 15000 });
+    ok((await nCharts(page)) === 1, code + ' 展開後 1 張圖：' + await nCharts(page));
     ok(/看盤頁開啟/.test(await page.textContent('#dyKB')) && (await page.getAttribute('#dyKB a.go', 'href')).includes('futures/?s=' + code), code + ' 在看盤頁開啟連結');
     await page.click('#dyKB [data-p="W"]'); await page.waitForTimeout(200);
     ok(await page.evaluate(() => document.querySelector('#dyKB [data-p="W"]').getAttribute('aria-pressed') === 'true'), code + ' 切週 K');
-    await page.click('#dyKB [data-p="D"]');
-    ok(await page.evaluate(() => document.getElementById('dyR').hidden && document.querySelector('.chartbox.short').hidden), code + ' K 棒檢視要藏起 1/3/5 年與折線');
+    await page.click('#dyKB [data-p="D"]'); await page.waitForTimeout(200);
+    ok((await nCharts(page)) === 1, code + ' 切週期後仍只有 1 張圖');
     ok((await overflow(page)) <= 1, `${code} 整頁水平捲動 ${await overflow(page)}px`);
     if (code === 'nvda') await shot(page, `stock-${w}-${scheme}.png`, '#today');
-    // 切回折線
-    await page.click('#dyK [data-k="1"]'); await page.waitForTimeout(300);
-    ok(await page.evaluate(() => document.getElementById('dyKB').hidden && !document.querySelector('.chartbox.short').hidden), code + ' 切回收盤折線');
-    // 已解鎖的新頁面：預設 K 棒
+    // 收合 → 圖被釋放；再展開 → 仍只有 1 張
+    await page.click('#dyKToggle'); await page.waitForTimeout(200);
+    ok(await page.evaluate(() => document.getElementById('dyKB').hidden && document.querySelectorAll('#dyKB canvas').length === 0 && document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'false'), code + ' 收合要釋放圖');
+    ok(await page.evaluate(() => localStorage.getItem('erd-stock-kbar-open') === '0'), code + ' 收合記為 0');
+    for (let i = 0; i < 2; i++) {
+      await page.click('#dyKToggle'); await page.waitForSelector('#dyKB canvas', { timeout: 15000 }); await page.waitForTimeout(200);
+      ok((await nCharts(page)) === 1, code + ' 再展開只能 1 張圖：' + await nCharts(page));
+      await page.click('#dyKToggle'); await page.waitForTimeout(150);
+    }
+    await page.click('#dyKToggle'); await page.waitForSelector('#dyKB canvas', { timeout: 15000 });
+    // 重新整理：記得展開，區塊接近畫面才載入
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('#dyKToggle');
+    ok(await page.evaluate(() => document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'true'), code + ' 重新整理後記得展開');
+    await page.evaluate(() => document.getElementById('dyKB').scrollIntoView());
+    await page.waitForSelector('#dyKB .kb-ebody:not([hidden]) canvas', { timeout: 15000 });
+    ok((await nCharts(page)) === 1, code + ' 重新整理後 1 張圖');
+    ok((await overflow(page)) <= 1, `${code} 展開（重新整理後）整頁水平捲動`);
+    // 走勢圖切換與 1/3/5 年仍可用
+    await page.click('#dyK [data-k="2"]'); await page.waitForTimeout(200);
+    ok(await page.evaluate(() => document.getElementById('dyK').querySelector('[data-k="2"]').getAttribute('aria-pressed') === 'true' && !document.querySelector('.chartbox.short').hidden), code + ' 本益比切換');
+    await page.click('#dyK [data-k="1"]');
+    // 收合後新開的頁面（同一個已解鎖的環境）：預設收合
+    await page.click('#dyKToggle'); await page.waitForTimeout(150);
     const p2 = await ctx.newPage(); await watchErrors(p2, errs);
     await p2.goto(`${base}/${code}/`, { waitUntil: 'load' });
-    await p2.waitForSelector('#dyKB', { state: 'attached' });
-    await p2.evaluate(() => document.getElementById('dyKB').scrollIntoView());   // 預設 K 棒是等區塊接近畫面才載入
-    await p2.waitForSelector('#dyKB .kb-ebody:not([hidden]) canvas', { timeout: 15000 });
-    ok(await p2.evaluate(() => document.querySelector('#dyK [data-k="3"]').getAttribute('aria-pressed') === 'true'), code + ' 已解鎖預設 K 棒');
-    ok((await overflow(p2)) <= 1, `${code} 預設 K 棒時整頁水平捲動`);
-    ok(!/歷史檔讀不到/.test(await p2.textContent('#dyKB .kb-asof')), code + ' 歷史檔讀得到時不可標「歷史檔讀不到」');
-    if (code === 'nvda') {   // 歷史檔解不開的那一家：個股頁也要標示只顯示近期
+    await p2.waitForSelector('#dyKToggle');
+    ok(await p2.evaluate(() => document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'false' && !document.querySelector('script[src*="kbar.js"]') && !document.querySelector('#dyKB canvas')), code + ' 已解鎖也預設收合、不載入 K 棒程式');
+    if (code === 'nvda') {   // 歷史檔解不開的那一家：個股頁展開後也要標示只顯示近期
       await p2.goto(`${base}/${FX.staleHist[0]}/`, { waitUntil: 'load' });
-      await p2.waitForSelector('#dyKB', { state: 'attached' });
-      await p2.evaluate(() => document.getElementById('dyKB').scrollIntoView());
+      await p2.waitForSelector('#dyKToggle'); await p2.click('#dyKToggle');
       await p2.waitForSelector('#dyKB .kb-ebody:not([hidden]) canvas', { timeout: 15000 });
       const asof = await p2.textContent('#dyKB .kb-asof');
       ok(/歷史檔讀不到，只顯示 \d{4}\/\d{2}\/\d{2} 起的近期資料/.test(asof), '個股頁歷史檔讀不到要標示：' + asof);
+      await p2.click('#dyKToggle');
     }
     await p2.close();
     ok(errs.length === 0, code + ' 錯誤：' + errs.join(' | '));
@@ -257,6 +429,7 @@ async function companyPages(browser, base, w, scheme) {
   try {
     for (const scheme of ['light', 'dark']) {
       for (const w of [1280, 390]) {
+        await gridPage(browser, base, w, scheme);
         await watchPage(browser, base, w, scheme);
         await companyPages(browser, base, w, scheme);
       }

@@ -17,9 +17,10 @@ const DAILY = (() => {
   const money = (m, cur) => m == null ? null : (m >= 1e6 ? nf(m / 1e6, 2) + ' 兆' : nf(m / 100, 0) + ' 億') + (CUR[cur] || cur || '');
 
   // 使用者選的指標與期間放在模組層：render() 可能跑兩次（建置內嵌版、再換成讀到的新檔），不能把選擇重設
-  let k = 1, range = 5, kInit = false;   // k：1 收盤價、2 本益比、3 K 棒（assets/kbar.js，延遲載入）
-  // 這台裝置解鎖過（期貨與 K 棒共用的金鑰記在 localStorage）才預設 K 棒；讀不到就維持收盤折線
-  const kbKeyed = () => { try { return !!localStorage.getItem('erd-futures-key-v1'); } catch (e) { return false; } };
+  let k = 1, range = 5;   // k：1 收盤價、2 本益比
+  // K 棒區塊（assets/kbar.js）預設收合；收合時不載入任何 K 棒程式。展開／收合記在這台裝置，所有公司頁共用（'1'＝展開）
+  const KB_OPEN_LS = 'erd-stock-kbar-open';
+  let kbOpen = false; try { kbOpen = localStorage.getItem(KB_OPEN_LS) === '1'; } catch (e) { }
   let kbP = null;
   const loadKB = (K) => kbP || (kbP = new Promise((res, rej) => {
     const urls = (typeof LightweightCharts === 'undefined' ? [K.lwc] : []).concat(typeof FUT === 'undefined' ? [K.js[0]] : [], typeof KB === 'undefined' ? [K.js[1]] : []);
@@ -64,10 +65,11 @@ const DAILY = (() => {
       <div class="tbl-bar"><h3 id="dyT">近 5 年每日收盤價</h3>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
         <div class="seg" id="dyR" role="group" aria-label="期間">${RANGES.map(n => `<button type="button" data-r="${n}" aria-pressed="${n === range}">${n} 年</button>`).join('')}</div>
-        <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="${k === 1}">收盤價</button><button type="button" data-k="2" aria-pressed="${k === 2}">本益比</button>${D.kbar ? `<button type="button" data-k="3" aria-pressed="${k === 3}">K 棒</button>` : D.kbarLink ? `<a href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）">K 棒 ↗</a>` : ''}</div></div></div>
+        <div class="seg" id="dyK" role="group" aria-label="指標"><button type="button" data-k="1" aria-pressed="${k === 1}">收盤價</button><button type="button" data-k="2" aria-pressed="${k === 2}">本益比</button></div></div></div>
       <div class="chartbox short"><canvas id="cDY" aria-label="每日收盤價與本益比"></canvas></div>
-      <div class="kb-dy" id="dyKB" hidden></div>
-      <p class="how pe-note">本益比 ＝ 收盤價 ÷ 近四季 EPS；市值 ＝ 收盤價 × 期末流通股數；P/S ＝ 市值 ÷ 近四季營收；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；距門檻 ＝ 門檻 ÷ 現值 − 1。
+      ${D.kbar ? `<div class="kb-sec"><div class="kb-sech"><h3>K 棒（日／週／月 K、均線、KD）</h3><button type="button" class="fut-toggle" id="dyKToggle" aria-controls="dyKB" aria-expanded="false">展開 <span aria-hidden="true">▾</span></button></div><div class="kb-dy" id="dyKB" hidden></div></div>`
+        : D.kbarLink ? `<div class="kb-sec"><div class="kb-sech"><h3>K 棒（日／週／月 K、均線、KD）</h3><a class="fut-toggle" href="${esc(D.kbarLink)}" target="_blank" rel="noopener" title="K 棒在網站的看盤頁（解鎖後才看得到）">K 棒 ↗</a></div></div>` : ''}
+            <p class="how pe-note">本益比 ＝ 收盤價 ÷ 近四季 EPS；市值 ＝ 收盤價 × 期末流通股數；P/S ＝ 市值 ÷ 近四季營收；EV/Sales ＝（市值 ＋ 有息負債 − 現金與投資）÷ 近四季營收；距門檻 ＝ 門檻 ÷ 現值 − 1。
         股價：Yahoo Finance 日線收盤（分割調整、不含股利調整），還沒收盤的當天不收。${chk}
         圖為近 5 年（上市未滿 5 年從上市起）。預估本益比用分析師預估，不是財報數字。抓取時間 ${esc((X.fetched || '').replace('T', ' ').replace('Z', ' UTC'))}。</p>
     </div>`;
@@ -79,8 +81,8 @@ const DAILY = (() => {
     sec.querySelectorAll('#dyR button').forEach(b => { b.hidden = !avail.includes(+b.dataset.r); b.setAttribute('aria-pressed', String(+b.dataset.r === range)); });
     let chart = null;
     if (oldKB && (oldKB._kb || oldKB._loading)) sec.querySelector('#dyKB').replaceWith(oldKB);
-    const showKB = (now) => {   // now：使用者剛按下 K 棒 → 馬上載入；頁面一打開就預設 K 棒 → 等區塊接近畫面才載入
-      const box = sec.querySelector('#dyKB'); if (box._kb || box._loading) return;
+    const showKB = (now) => {   // now：使用者剛按下展開 → 馬上載入；頁面一打開就是展開（記住的狀態）→ 等區塊接近畫面才載入
+      const box = sec.querySelector('#dyKB'); if (!box || box._kb || box._loading) return;
       const start = () => {
         if (box._kb || box._loading) return; box._loading = true;
         loadKB(D.kbar).then(() => { KB.init({ base: D.kbar.base, futBase: D.kbar.futBase, link: D.kbar.link }); box._kb = KB.stock(box, { code: D.kbar.code, name: D.kbar.name, ticker: D.kbar.ticker, link: D.kbar.link }); })
@@ -91,9 +93,7 @@ const DAILY = (() => {
       else { const io = new IntersectionObserver((en) => { if (en.some(x => x.isIntersecting)) { io.disconnect(); start(); } }, { rootMargin: '400px' }); io.observe(box); }
     };
     const draw = (now) => {
-      const kb = k === 3 && !!D.kbar;
-      sec.querySelector('#dyKB').hidden = !kb; sec.querySelector('.chartbox.short').hidden = kb; sec.querySelector('#dyR').hidden = kb || avail.length < 2;
-      if (kb) { sec.querySelector('#dyT').textContent = 'K 棒（日 K／週 K／月 K，均線、扣抵值、KD、成交量、水平線）'; showKB(now === true); return; }
+      sec.querySelector('#dyR').hidden = avail.length < 2;
       const cut = cutoff(L.d, range);
       const S = S0.filter(r => r[0] > cut);
       if (!window.Chart || !S.length) return;
@@ -110,11 +110,19 @@ const DAILY = (() => {
           scales: { y: { border: { display: false }, grid: { color: css('--grid'), drawTicks: false }, ticks: { color: css('--tick'), padding: 6, callback: (v) => k === 1 ? nf(v, 0) : v + '×', font: { family: 'IBM Plex Mono, monospace', size: 11 } } },
             x: { border: { color: css('--axis') }, grid: { display: false }, ticks: { color: css('--tick'), maxRotation: 0, autoSkip: true, maxTicksLimit: 7, font: { family: 'IBM Plex Mono, monospace', size: 11 }, callback: function (v) { const l = this.getLabelForValue(v); return l ? l.slice(2, 7).replace('-', '/') : ''; } } } } } });
     };
-    if (!kInit) { kInit = true; if (D.kbar && kbKeyed()) k = 3; }
+    const kbTg = sec.querySelector('#dyKToggle');
+    const setKB = (open, now) => {
+      kbOpen = open; kbTg.setAttribute('aria-expanded', String(open)); kbTg.innerHTML = open ? '收合 <span aria-hidden="true">▴</span>' : '展開 <span aria-hidden="true">▾</span>';
+      const box = sec.querySelector('#dyKB'); box.hidden = !open;
+      if (open) { if (box._kb) box._kb.reload(); else showKB(now); }
+      else { const c = box.querySelector('.fut-chart'); if (c) { if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = ''; } }   // 收合就釋放圖，再展開重建（不會出現兩張）
+    };
+    if (kbTg) kbTg.addEventListener('click', () => { const v = !kbOpen; try { localStorage.setItem(KB_OPEN_LS, v ? '1' : '0'); } catch (e) { } setKB(v, true); });
     sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.k === k)));
-    sec.querySelector('#dyK').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; k = +b.dataset.k; sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(true); });
+    sec.querySelector('#dyK').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; k = +b.dataset.k; sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
     sec.querySelector('#dyR').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; range = +b.dataset.r; sec.querySelectorAll('#dyR button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
     draw();
+    if (kbTg) setKB(kbOpen, false);
     if (!sec.__re) {
       sec.__re = true;
       let t; const re = () => { clearTimeout(t); t = setTimeout(draw, 60); };

@@ -164,7 +164,7 @@ const FUT = (() => {
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && tool.armed) arm(false); });
 
-  function attachLines(chart, candle, box, d, q) {
+  function attachLines(chart, candle, box, d, q, rdOnly) {   // rdOnly：唯讀（總覽牆的小圖）：只畫線，不放工具列、不聽滑鼠與鍵盤
     if (box._linesOff) box._linesOff();
     const code = d.code, step = minMove(d), snap = (p) => Math.round(p / step) * step;
     const pls = new Map();               // 線的 id → 圖上的 price line
@@ -178,9 +178,15 @@ const FUT = (() => {
       if (sel && !ids.has(sel)) sel = null;
       bar();
     }
+    if (rdOnly) {
+      const off = Lines.on((c) => { if (c == null || c === code) sync(); });
+      box._linesOff = () => { off(); box._linesOff = null; };
+      sync(); return;
+    }
     /* 選取時浮出的小工具列 */
     const tb = document.createElement('div'); tb.className = 'fut-ltb'; tb.hidden = true; box.appendChild(tb);
     function bar() {
+      if (rdOnly) return;
       const L = sel && Lines.get(code).find(x => x.id === sel);
       if (!L) { tb.hidden = true; return; }
       tb.innerHTML = LINE_COLORS.map(c => `<button type="button" class="sw" data-c="${c}" style="background:${T(c)}" aria-label="顏色" aria-pressed="${(L.c || '--s1') === c}"></button>`).join('') +
@@ -323,19 +329,23 @@ const FUT = (() => {
         const vs = chart.addSeries(LW.HistogramSeries, { priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false }, pane++);
         vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
       }
+      const kd = o.kd !== false;   // kd:false（總覽牆的小圖）不畫 KD 窗格
       const kdPane = pane;
-      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
-      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      let kS = null, dS = null;
+      if (kd) {
+      kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
       kS.setData(bars.map((b, i) => S.K[i] == null ? { time: toT(b) } : { time: toT(b), value: S.K[i] }));
       dS.setData(bars.map((b, i) => S.D[i] == null ? { time: toT(b) } : { time: toT(b), value: S.D[i] }));
       [20, 80].forEach(v => kS.createPriceLine({ price: v, color: T('--axis'), lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
+      }
       const panes = chart.panes();
-      panes[0].setStretchFactor(o.vol ? 0.64 : 0.74); if (o.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25);
+      if (kd) { panes[0].setStretchFactor(o.vol ? 0.64 : 0.74); if (o.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25); }
       const n = bars.length, show = o.show || { D: 160, W: 150, M: 160 }[o.p];
       chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
       /* 首頁小圖：滑鼠滾輪／雙指縮放、按住拖曳平移；手機上下滑動仍是捲動頁面 */
       if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 0, horzLine: { visible: false, labelVisible: false }, vertLine: { labelVisible: true } } });
-      attachLines(chart, candle, box, d, q);
+      attachLines(chart, candle, box, d, q, !!o.readonly);
       return chart;
   }
 

@@ -9,9 +9,10 @@
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
-    <a href="#chart">K 棒</a>
-    <a href="#ma">均線與扣抵</a>
-    <a href="#sources">資料來源</a>
+    <a href="#kbGrid" data-mode-link="grid">總覽</a>
+    <a href="#chart" data-mode-link="single">K 棒</a>
+    <a href="#ma" data-mode-link="single">均線與扣抵</a>
+    <a href="#sources" data-mode-link="single">資料來源</a>
   </div>
 </div>
 
@@ -19,10 +20,25 @@
   <header class="masthead" id="top">
     <div class="eyebrow">Watchlist · Futures + Stocks</div>
     <h1>看盤 K 棒</h1>
-    <p class="lede">指數期貨（小道瓊、小那斯達克、大台指，<b>期貨</b>不是指數本身）與追蹤中的個股，日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值、KD 與成交量。每天收盤後自動更新。左邊清單點一下或按鍵盤 ↑↓ 切換。</p>
+    <p class="lede">指數期貨（小道瓊、小那斯達克、大台指，<b>期貨</b>不是指數本身）與追蹤中的個股，日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值、KD 與成交量。每天收盤後自動更新。預設是「總覽」：全部商品的小 K 棒攤開，可依分類篩選；點任何一張卡進「單檔」看大圖、均線扣抵與畫水平線（單檔裡可按鍵盤 ↑↓ 切換）。</p>
   </header>
 
-  <div class="kb-app" id="kbApp">
+  <div class="kb-modebar"><div class="seg" id="kbMode" role="group" aria-label="檢視"><button type="button" data-mode="grid">總覽</button><button type="button" data-mode="single">單檔</button></div></div>
+
+  <section class="kb-grid" id="kbGrid" aria-label="總覽牆" hidden>
+    <div class="kb-gsum" id="kbGSum"></div>
+    <div class="kb-chips" id="kbChips" role="group" aria-label="分類篩選"></div>
+    <div class="kb-gctrl">
+      <div class="seg" id="kbGP" role="group" aria-label="週期"><button type="button" data-gp="D">日K</button><button type="button" data-gp="W">週K</button><button type="button" data-gp="M">月K</button></div>
+      <div class="seg" role="group" aria-label="KD"><button type="button" id="kbGKD" aria-pressed="false">KD</button></div>
+      <span class="kb-gsort">排序 <span class="seg" id="kbGSort" role="group" aria-label="排序"><button type="button" data-gsort="sector">產業</button><button type="button" data-gsort="chg">漲跌幅</button></span></span>
+      <div class="seg" role="group" aria-label="鎖定"><button type="button" id="kbGLock" title="清除這台裝置記住的密碼">上鎖</button></div>
+    </div>
+    <div id="kbGLockBox" hidden></div>
+    <div class="kb-cards" id="kbCards"></div>
+  </section>
+
+  <div class="kb-app" id="kbApp" hidden>
     <aside class="kb-side" aria-label="商品清單">
       <button type="button" class="kb-tog" id="kbTog" aria-controls="kbPanel"><span>商品清單</span><b id="kbTogName"></b><i aria-hidden="true">▾</i></button>
       <div class="kb-panel" id="kbPanel">
@@ -39,7 +55,7 @@
           <div class="card wide">
             <div class="kb-head">
               <div class="kb-ttl"><h2 id="futTitle">看盤 K 棒</h2><p class="kb-sub" id="futSub"></p></div>
-              <div class="kb-nav"><button type="button" class="kb-step" id="kbPrev" aria-label="上一檔">‹ 上一檔</button><button type="button" class="kb-step" id="kbNext" aria-label="下一檔">下一檔 ›</button><a class="go" id="kbFin" href="#" hidden>看財報 →</a></div>
+              <div class="kb-nav"><button type="button" class="kb-step" id="kbBack">← 回總覽</button><button type="button" class="kb-step" id="kbPrev" aria-label="上一檔">‹ 上一檔</button><button type="button" class="kb-step" id="kbNext" aria-label="下一檔">下一檔 ›</button><a class="go" id="kbFin" href="#" hidden>看財報 →</a></div>
             </div>
             <div class="fut-ctrl">
               <div class="seg" role="group" aria-label="週期"><button type="button" data-p="D">日K</button><button type="button" data-p="W">週K</button><button type="button" data-p="M">月K</button></div>

@@ -371,6 +371,45 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .kb-nav .go[hidden] { display: none; }
 .kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
 .kb-foot { margin-top: 8px; }
+/* 個股頁：K 棒收合區塊 */
+.kb-sec { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+.kb-sech { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+.kb-sech h3 { font-size: var(--step-0); margin: 0; }
+.kb-sech a.fut-toggle { text-decoration: none; }
+.kb-sec .kb-dy { margin-top: 10px; }
+.kb-sec .kb-dy[hidden] { display: none; }
+/* 看盤頁：總覽牆 */
+.kb-app[hidden], .kb-grid[hidden], .kb-lockbox[hidden] { display: none; }
+.kb-modebar { margin: 4px 0 14px; }
+.kb-grid { display: grid; gap: 12px; min-width: 0; }
+.kb-gsum { font-size: 0.9rem; color: var(--ink-2); }
+.kb-gsum b { font-family: var(--font-data); font-weight: 600; } .kb-gsum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kb-chip { font: inherit; font-size: 0.84rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.kb-chip span { margin-left: 6px; font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-chip[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); border-color: var(--accent); }
+.kb-chip[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
+.kb-gctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.kb-gsort { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
+.kb-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 12px; min-width: 0; }
+.kb-gh { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
+.kb-gh:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; }
+.kb-ch { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.kb-ct { font: inherit; font-size: 1rem; font-weight: 700; color: var(--ink); background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-ct:hover { text-decoration: underline; }
+.kb-ch .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); flex: none; }
+.kb-cpx { margin-left: auto; display: flex; align-items: baseline; gap: 8px; font-family: var(--font-data); flex: none; }
+.kb-cpx b { font-size: 1.05rem; font-weight: 600; color: var(--ink); } .kb-cpx .ch { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
+.kb-cpx .ch.kup { color: var(--kup); } .kb-cpx .ch.kdn { color: var(--kdn); }
+.kb-cm { font-size: 0.74rem; color: var(--muted); min-height: 1.2em; overflow-wrap: anywhere; }
+.kb-cm .pend { color: var(--bad-text); }
+.kb-cbox { position: relative; width: 100%; height: 220px; min-width: 0; overflow: hidden; }
+.kb-kd .kb-cbox { height: 320px; }
+.kb-empty { font-size: 0.84rem; color: var(--muted); padding: 24px 4px; text-align: center; }
+.kb-cf { display: flex; justify-content: flex-end; }
+.kb-more { font: inherit; font-size: 0.8rem; color: var(--accent); background: transparent; border: 0; padding: 2px 0; cursor: pointer; }
+.kb-more:hover { text-decoration: underline; }
 .seg a { display: inline-flex; align-items: center; font-size: 0.82rem; color: var(--ink-2); padding: 6px 12px; text-decoration: none; border-left: 1px solid var(--line); }
 .seg a:hover { color: var(--ink); }
 @media (max-width: 640px) { .kb-embed .fut-chart, .kb-dy .fut-chart { height: 420px; } }
@@ -472,9 +511,10 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="../">← 所有公司</a>
-    <a href="#chart">K 棒</a>
-    <a href="#ma">均線與扣抵</a>
-    <a href="#sources">資料來源</a>
+    <a href="#kbGrid" data-mode-link="grid">總覽</a>
+    <a href="#chart" data-mode-link="single">K 棒</a>
+    <a href="#ma" data-mode-link="single">均線與扣抵</a>
+    <a href="#sources" data-mode-link="single">資料來源</a>
   </div>
 </div>
 
@@ -482,10 +522,25 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <header class="masthead" id="top">
     <div class="eyebrow">Watchlist · Futures + Stocks</div>
     <h1>看盤 K 棒</h1>
-    <p class="lede">指數期貨（小道瓊、小那斯達克、大台指，<b>期貨</b>不是指數本身）與追蹤中的個股，日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值、KD 與成交量。每天收盤後自動更新。左邊清單點一下或按鍵盤 ↑↓ 切換。</p>
+    <p class="lede">指數期貨（小道瓊、小那斯達克、大台指，<b>期貨</b>不是指數本身）與追蹤中的個股，日 K、週 K、月 K，搭配 MA5/10/20/50/100、扣抵值、KD 與成交量。每天收盤後自動更新。預設是「總覽」：全部商品的小 K 棒攤開，可依分類篩選；點任何一張卡進「單檔」看大圖、均線扣抵與畫水平線（單檔裡可按鍵盤 ↑↓ 切換）。</p>
   </header>
 
-  <div class="kb-app" id="kbApp">
+  <div class="kb-modebar"><div class="seg" id="kbMode" role="group" aria-label="檢視"><button type="button" data-mode="grid">總覽</button><button type="button" data-mode="single">單檔</button></div></div>
+
+  <section class="kb-grid" id="kbGrid" aria-label="總覽牆" hidden>
+    <div class="kb-gsum" id="kbGSum"></div>
+    <div class="kb-chips" id="kbChips" role="group" aria-label="分類篩選"></div>
+    <div class="kb-gctrl">
+      <div class="seg" id="kbGP" role="group" aria-label="週期"><button type="button" data-gp="D">日K</button><button type="button" data-gp="W">週K</button><button type="button" data-gp="M">月K</button></div>
+      <div class="seg" role="group" aria-label="KD"><button type="button" id="kbGKD" aria-pressed="false">KD</button></div>
+      <span class="kb-gsort">排序 <span class="seg" id="kbGSort" role="group" aria-label="排序"><button type="button" data-gsort="sector">產業</button><button type="button" data-gsort="chg">漲跌幅</button></span></span>
+      <div class="seg" role="group" aria-label="鎖定"><button type="button" id="kbGLock" title="清除這台裝置記住的密碼">上鎖</button></div>
+    </div>
+    <div id="kbGLockBox" hidden></div>
+    <div class="kb-cards" id="kbCards"></div>
+  </section>
+
+  <div class="kb-app" id="kbApp" hidden>
     <aside class="kb-side" aria-label="商品清單">
       <button type="button" class="kb-tog" id="kbTog" aria-controls="kbPanel"><span>商品清單</span><b id="kbTogName"></b><i aria-hidden="true">▾</i></button>
       <div class="kb-panel" id="kbPanel">
@@ -502,7 +557,7 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
           <div class="card wide">
             <div class="kb-head">
               <div class="kb-ttl"><h2 id="futTitle">看盤 K 棒</h2><p class="kb-sub" id="futSub"></p></div>
-              <div class="kb-nav"><button type="button" class="kb-step" id="kbPrev" aria-label="上一檔">‹ 上一檔</button><button type="button" class="kb-step" id="kbNext" aria-label="下一檔">下一檔 ›</button><a class="go" id="kbFin" href="#" hidden>看財報 →</a></div>
+              <div class="kb-nav"><button type="button" class="kb-step" id="kbBack">← 回總覽</button><button type="button" class="kb-step" id="kbPrev" aria-label="上一檔">‹ 上一檔</button><button type="button" class="kb-step" id="kbNext" aria-label="下一檔">下一檔 ›</button><a class="go" id="kbFin" href="#" hidden>看財報 →</a></div>
             </div>
             <div class="fut-ctrl">
               <div class="seg" role="group" aria-label="週期"><button type="button" data-p="D">日K</button><button type="button" data-p="W">週K</button><button type="button" data-p="M">月K</button></div>
@@ -870,7 +925,7 @@ const FUT = (() => {
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && tool.armed) arm(false); });
 
-  function attachLines(chart, candle, box, d, q) {
+  function attachLines(chart, candle, box, d, q, rdOnly) {   // rdOnly：唯讀（總覽牆的小圖）：只畫線，不放工具列、不聽滑鼠與鍵盤
     if (box._linesOff) box._linesOff();
     const code = d.code, step = minMove(d), snap = (p) => Math.round(p / step) * step;
     const pls = new Map();               // 線的 id → 圖上的 price line
@@ -884,9 +939,15 @@ const FUT = (() => {
       if (sel && !ids.has(sel)) sel = null;
       bar();
     }
+    if (rdOnly) {
+      const off = Lines.on((c) => { if (c == null || c === code) sync(); });
+      box._linesOff = () => { off(); box._linesOff = null; };
+      sync(); return;
+    }
     /* 選取時浮出的小工具列 */
     const tb = document.createElement('div'); tb.className = 'fut-ltb'; tb.hidden = true; box.appendChild(tb);
     function bar() {
+      if (rdOnly) return;
       const L = sel && Lines.get(code).find(x => x.id === sel);
       if (!L) { tb.hidden = true; return; }
       tb.innerHTML = LINE_COLORS.map(c => `<button type="button" class="sw" data-c="${c}" style="background:${T(c)}" aria-label="顏色" aria-pressed="${(L.c || '--s1') === c}"></button>`).join('') +
@@ -1029,19 +1090,23 @@ const FUT = (() => {
         const vs = chart.addSeries(LW.HistogramSeries, { priceFormat: { type: 'volume' }, priceLineVisible: false, lastValueVisible: false }, pane++);
         vs.setData(bars.map(b => b.v == null ? { time: toT(b) } : { time: toT(b), value: b.v, color: tint(b.c >= b.o ? up : dn, 0.55) }));
       }
+      const kd = o.kd !== false;   // kd:false（總覽牆的小圖）不畫 KD 窗格
       const kdPane = pane;
-      const kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
-      const dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      let kS = null, dS = null;
+      if (kd) {
+      kS = chart.addSeries(LW.LineSeries, { color: T('--s1'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
+      dS = chart.addSeries(LW.LineSeries, { color: T('--s2'), lineWidth: 2, priceLineVisible: false, lastValueVisible: true, priceFormat: { type: 'price', precision: 1, minMove: 0.1 } }, kdPane);
       kS.setData(bars.map((b, i) => S.K[i] == null ? { time: toT(b) } : { time: toT(b), value: S.K[i] }));
       dS.setData(bars.map((b, i) => S.D[i] == null ? { time: toT(b) } : { time: toT(b), value: S.D[i] }));
       [20, 80].forEach(v => kS.createPriceLine({ price: v, color: T('--axis'), lineWidth: 1, lineStyle: 2, axisLabelVisible: false }));
+      }
       const panes = chart.panes();
-      panes[0].setStretchFactor(o.vol ? 0.64 : 0.74); if (o.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25);
+      if (kd) { panes[0].setStretchFactor(o.vol ? 0.64 : 0.74); if (o.vol) panes[1].setStretchFactor(0.11); panes[kdPane].setStretchFactor(0.25); }
       const n = bars.length, show = o.show || { D: 160, W: 150, M: 160 }[o.p];
       chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, n - show), to: n + 3 });
       /* 首頁小圖：滑鼠滾輪／雙指縮放、按住拖曳平移；手機上下滑動仍是捲動頁面 */
       if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 0, horzLine: { visible: false, labelVisible: false }, vertLine: { labelVisible: true } } });
-      attachLines(chart, candle, box, d, q);
+      attachLines(chart, candle, box, d, q, !!o.readonly);
       return chart;
   }
 
@@ -1195,12 +1260,12 @@ const FUT = (() => {
    資料：data/kbar/<代號>.enc.json（近期：前一年 1/1 起）＋ <代號>.hist.enc.json（更早的歷史，外層 hist 指到它）。
          加密、金鑰、密碼都與期貨共用（解鎖一次，期貨與個股都能看）。檔案由 GitHub Actions（prices-daily 的 tools/kbar_update.py）寫入。
    兩個用法：
-     KB.watch(root, cfg)   看盤頁（futures/）：左清單＋大圖
+     KB.watch(root, cfg)   看盤頁（futures/）：預設「總覽牆」（全部商品的小 K 棒，依分類篩選）；點卡片進「單檔」（左清單＋大圖）；網址有 ?s= 直接進單檔
      KB.stock(el, opts)    個股頁「今日股價與估值」的 K 棒檢視（由 assets/daily.js 延遲載入本檔後呼叫）
    資料誠實：讀不到的商品顯示「—」與原因，不顯示假數字；沒解鎖不顯示任何價格。 */
 const KB = (() => {
   const MAS = FUT.MAS, fmt = FUT.fmt, dstr = FUT.dstr, esc = FUT.esc;
-  const LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort';
+  const LAST_LS = 'erd-watch-last', SORT_LS = 'erd-watch-sort', FILT_LS = 'erd-watch-filter';
   const ls = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
   let C = { base: '../data/kbar/', futBase: '../data/futures/', companies: [], link: '../' };
   const futCodes = () => (FUT.SYMS || ['ym', 'nq']).slice();
@@ -1343,7 +1408,7 @@ const KB = (() => {
       d = x; lockbox.hidden = true; body.hidden = false;
       draw();
     }
-    function draw() { if (!d || body.hidden) return; sync(el, st); render(els, d, st, item); $('.kb-asof').textContent = `資料截至 ${dstr(d.lastDate)}。` + (d.histMissing ? `歷史檔讀不到，只顯示 ${dstr(d.firstDate)} 起的近期資料（週 K、月 K、長天期均線與 KD 不完整）。` : ''); }
+    function draw() { if (!d || body.hidden || el.hidden || el.closest('[hidden]')) return; sync(el, st); render(els, d, st, item); $('.kb-asof').textContent = `資料截至 ${dstr(d.lastDate)}。` + (d.histMissing ? `歷史檔讀不到，只顯示 ${dstr(d.firstDate)} 起的近期資料（週 K、月 K、長天期均線與 KD 不完整）。` : ''); }
     el.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b || !b.closest('.fut-ctrl')) return;
       if (b.dataset.p) st.p = b.dataset.p; else if (b.dataset.ma) { const n = +b.dataset.ma; st.mas.has(n) ? st.mas.delete(n) : st.mas.add(n); } else if (b.dataset.vol) st.vol = !st.vol; else return;
@@ -1368,7 +1433,11 @@ const KB = (() => {
     const sectors = []; items.forEach(it => { if (!sectors.includes(it.sector)) sectors.push(it.sector); });
     const q = new URLSearchParams(location.search);
     const st = { p: { D: 'D', W: 'W', M: 'M' }[q.get('p')] || 'D', mas: new Set(MAS), vol: true, sort: ls.get(SORT_LS) === 'chg' ? 'chg' : 'sector' };
-    let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];
+    const validF = (v) => v === 'all' || sectors.includes(v);
+    st.f = validF(q.get('g')) ? q.get('g') : validF(ls.get(FILT_LS)) ? ls.get(FILT_LS) : 'all';
+    st.kd = false;
+    let mode = gmap[q.get('s')] ? 'single' : 'grid';
+    let cur = gmap[q.get('s')] || gmap[ls.get(LAST_LS)] || items[0];   // 記住的代號只用在「從總覽切到單檔」的預設商品；沒有 ?s= 的網址一律開總覽
     let d = null, seq = 0, locked = true, loaded = 0, order = [];
     const els = { leg: $('#futLeg'), chart: $('#futChart'), lines: $('#futLines'), title: $('#futTitle'), sub: $('#futSub'), ma: $('#futMaTbl'), src: $('#futSrc') };
 
@@ -1401,26 +1470,126 @@ const KB = (() => {
       }
       $('#kbTogName').textContent = `${cur.name} ${cur.ticker}`;
     }
-    let raf = 0; const soon = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderList(); }); };
+    let raf = 0; const soon = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderList(); if (mode === 'grid') updateGrid(); }); };
     /* 逐檔延遲讀取：一次 4 檔，讀好一檔就更新那一列，不等全部 */
     async function loadAll() {
       loaded = 0; items.forEach(it => { it.q = null; it.err = ''; });
       const todo = items.slice(); const worker = async () => {
         while (todo.length) {
           const it = todo.shift();
-          try { const r = await recent(it.code); if (r) it.q = quick(r); else if (!(await unlocked())) { locked = true; } }
+          try { const r = await recent(it.code); if (r) { it.q = quick(r); it.flags = { prov: !!r.provisional, pend: (r.pending || []).length }; } else if (!(await unlocked())) { locked = true; } }
           catch (e) { it.err = errWhy(e); }
           loaded++; soon();
         }
       };
       await Promise.all([worker(), worker(), worker(), worker()]);
       loaded = items.length; soon();
+      if (mode === 'grid' && st.sort === 'chg' && !locked) renderGrid();   // 漲跌幅排序要等全部讀完才排得準
     }
     const errWhy = (e) => /404/.test(e && e.message || '') ? '讀不到資料檔（第一次資料還在產生，或還沒有這一檔）' : '讀不到資料（' + ((e && e.message) || e) + '）';
     async function loadOuters() {
       const todo = items.slice();
       const worker = async () => { while (todo.length) { const it = todo.shift(); try { const o = await outer(it.code); it.lastDate = o.lastDate; if (o.name && it.kind === 'fut') it.name = o.name; it.err = ''; } catch (e) { it.err = errWhy(e); } soon(); } };
       await Promise.all([worker(), worker(), worker(), worker()]);
+    }
+
+    /* ----- 總覽牆 ----- */
+    const gridEl = $('#kbGrid'), cardsEl = $('#kbCards');
+    const inF = (it) => st.f === 'all' || it.sector === st.f;
+    const gUrl = () => { const u = new URLSearchParams(); if (st.f !== 'all') u.set('g', st.f); u.set('p', st.p); return '?' + u; };
+    /* 同時最多 4 張卡在取資料（週 K、月 K 要讀歷史檔） */
+    let act = 0; const wait = [];
+    const lim = (fn) => new Promise((res, rej) => {
+      const run = () => { act++; Promise.resolve().then(fn).then(res, rej).finally(() => { act--; const n = wait.shift(); if (n) n(); }); };
+      act < 4 ? run() : wait.push(run);
+    });
+    const cardHTML = (it) => `<article class="kb-card" data-id="${esc(it.id)}"><div class="kb-ch"><button type="button" class="kb-ct" data-open="${esc(it.id)}">${esc(it.name)}</button><span class="c">${esc(it.ticker)}</span><span class="kb-cpx"></span></div><div class="kb-cm"></div><div class="kb-cbox"></div><div class="kb-cf"><button type="button" class="kb-more" data-open="${esc(it.id)}">看大圖 →</button></div></article>`;
+    function updateCard(card) {
+      const it = gmap[card.dataset.id], x = it.q, px = card.querySelector('.kb-cpx'), cm = card.querySelector('.kb-cm'), box = card.querySelector('.kb-cbox');
+      if (locked) { px.innerHTML = '<b>🔒</b>'; cm.textContent = it.lastDate ? `資料截至 ${dstr(it.lastDate)}（解鎖後顯示價格）` : '資料截至 —'; return; }
+      if (x) {
+        px.innerHTML = `<b>${fmt(x.c, x.dp)}</b><span class="ch ${arrow(x.chg)}">${x.chg == null ? '—' : sp(x.chg, 2)}</span>`;
+        const f = it.flags || {};
+        cm.innerHTML = `資料 ${dstr(x.date)}` + (f.prov ? ' · <span class="pend">暫定（收盤後 Yahoo 日線未定案）</span>' : '') + (f.pend ? ` · <span class="pend">待確認 ${f.pend} 天</span>` : '') + (card._hm && st.p !== 'D' ? ' · <span class="pend">歷史檔讀不到，只顯示近期</span>' : '');
+      } else if (it.err) {
+        px.innerHTML = '<b>—</b>'; cm.innerHTML = `<span class="pend">${esc(it.err)}</span>`;
+        if (!card._chart && !box.firstChild) box.innerHTML = '<p class="kb-empty">—　沒有資料，不畫圖</p>';
+      } else { px.innerHTML = '<b>…</b>'; cm.textContent = '讀取中'; }
+    }
+    function updateGrid() {
+      cardsEl.querySelectorAll('.kb-card').forEach(updateCard);
+      const sum = $('#kbGSum'), stocks = items.filter(i => i.kind === 'stock' && inF(i));
+      if (locked) sum.textContent = '解鎖後顯示各檔漲跌與上漲／下跌家數';
+      else if (!stocks.length) sum.textContent = '這個分類沒有個股，不計上漲／下跌家數';
+      else {
+        const got = stocks.filter(i => i.q && i.q.chg != null), up = got.filter(i => i.q.chg > 0).length, dn = got.filter(i => i.q.chg < 0).length;
+        sum.innerHTML = `上漲 <b class="kup">${up}</b> · 下跌 <b class="kdn">${dn}</b> · 平 <b>${got.length - up - dn}</b><small>（目前分類 ${stocks.length} 檔個股，各商品最新一個交易日${loaded < items.length ? `；讀取中 ${loaded}/${items.length}` : ''}）</small>`;
+      }
+    }
+    function release(card) {
+      card._seq = (card._seq || 0) + 1;
+      const box = card.querySelector('.kb-cbox');
+      if (card._chart) { try { card._chart.remove(); } catch (e) { } card._chart = null; }
+      if (box._linesOff) box._linesOff();
+      box.innerHTML = '';
+    }
+    const releaseAll = () => cardsEl.querySelectorAll('.kb-card').forEach(release);
+    async function buildCard(card) {
+      const it = gmap[card.dataset.id], box = card.querySelector('.kb-cbox');
+      if (locked || it.err || card._chart) return;
+      const my = card._seq = (card._seq || 0) + 1;
+      let d;
+      try { d = await lim(() => st.p === 'D' ? recent(it.code) : full(it.code)); }
+      catch (e) { if (my !== card._seq || !card.isConnected) return; box.innerHTML = `<p class="kb-empty">—　${esc(errWhy(e))}</p>`; return; }
+      if (my !== card._seq || !card.isConnected) return;
+      if (!d) { locked = true; items.forEach(i => { i.q = null; }); renderList(); renderGrid(); return; }
+      const bars = FUT.aggregate(FUT.toBars(d), st.p);
+      if (!bars.length) { box.innerHTML = '<p class="kb-empty">—　沒有 K 棒資料</p>'; return; }
+      box.innerHTML = '';
+      card._hm = !!d.histMissing;
+      card._chart = FUT.chartInto(box, d, bars, FUT.study(bars), { p: st.p, mas: new Set(MAS), vol: false, marks: false, kd: st.kd, compact: true, readonly: true, show: { D: 120, W: 104, M: 120 }[st.p] });
+      updateCard(card);
+    }
+    let io = null;
+    function renderGrid() {
+      releaseAll(); if (io) io.disconnect();
+      $('#kbChips').innerHTML = ['all'].concat(sectors).map(f => `<button type="button" class="kb-chip" data-f="${esc(f)}" aria-pressed="${f === st.f}">${f === 'all' ? '全部' : esc(f)}<span>${f === 'all' ? items.length : items.filter(i => i.sector === f).length}</span></button>`).join('');
+      $('#kbGP').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gp === st.p)));
+      $('#kbGSort').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gsort === st.sort)));
+      $('#kbGKD').setAttribute('aria-pressed', String(st.kd));
+      cardsEl.classList.toggle('kb-kd', st.kd);
+      const list = items.filter(inF); let html = '';
+      if (st.sort === 'sector') sectors.forEach(sc => { const arr = list.filter(i => i.sector === sc); if (!arr.length) return; if (st.f === 'all') html += `<h3 class="kb-gh">${esc(sc)}<span>${arr.length}</span></h3>`; html += arr.map(cardHTML).join(''); });
+      else html = list.slice().sort((a, b) => (b.q && b.q.chg != null ? b.q.chg : -1e9) - (a.q && a.q.chg != null ? a.q.chg : -1e9)).map(cardHTML).join('');
+      cardsEl.innerHTML = html;
+      const lb = $('#kbGLockBox'); lb.hidden = !locked;
+      if (locked) FUT.lockForm(lb, C.futBase, () => { locked = false; loadAll(); renderGrid(); }); else lb.innerHTML = '';
+      updateGrid();
+      if (locked) return;
+      if ('IntersectionObserver' in window) {
+        io = io || new IntersectionObserver((es) => es.forEach(e => { e.target._near = e.isIntersecting; if (e.isIntersecting && !e.target._chart) buildCard(e.target); }), { rootMargin: '300px' });
+        cardsEl.querySelectorAll('.kb-card').forEach(c => io.observe(c));
+      } else cardsEl.querySelectorAll('.kb-card').forEach(c => buildCard(c));
+    }
+    function rebuildAll() { cardsEl.querySelectorAll('.kb-card').forEach(c => { release(c); updateCard(c); if (c._near || !io) buildCard(c); }); }
+    function setMode(m, it) {
+      mode = m;
+      $('#kbMode').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+      root.querySelectorAll('[data-mode-link]').forEach(a => { a.hidden = a.dataset.modeLink !== m; });
+      if (m === 'single') {
+        releaseAll(); if (io) io.disconnect();
+        gridEl.hidden = true; $('#kbApp').hidden = false;
+        if (it) cur = it;
+        $('#kbApp').classList.remove('kb-open');
+        renderList(); go();
+        if (it && $('#kbApp').scrollIntoView) $('#kbApp').scrollIntoView({ block: 'start' });
+      } else {
+        seq++; d = null;
+        const c = els.chart; if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = '';
+        $('#kbApp').hidden = true; gridEl.hidden = false;
+        history.replaceState(null, '', gUrl());
+        renderGrid();
+      }
     }
 
     /* ----- 選商品 ----- */
@@ -1478,7 +1647,16 @@ const KB = (() => {
       if (b.dataset.p) { history.replaceState(null, '', `?s=${cur.id}&p=${st.p}`); $('#futTitle').textContent = `${cur.name} ${cur.ticker} ${pNames[st.p]}`; }
       draw();
     });
+    $('#kbMode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.dataset.mode !== mode) setMode(b.dataset.mode, b.dataset.mode === 'single' ? cur : null); });
+    $('#kbBack').addEventListener('click', () => setMode('grid'));
+    $('#kbChips').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (!b) return; st.f = b.dataset.f; ls.set(FILT_LS, st.f); history.replaceState(null, '', gUrl()); renderGrid(); });
+    $('#kbGP').addEventListener('click', (e) => { const b = e.target.closest('button[data-gp]'); if (!b || b.dataset.gp === st.p) return; st.p = b.dataset.gp; history.replaceState(null, '', gUrl()); $('#kbGP').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.gp === st.p))); rebuildAll(); });
+    $('#kbGKD').addEventListener('click', () => { st.kd = !st.kd; $('#kbGKD').setAttribute('aria-pressed', String(st.kd)); cardsEl.classList.toggle('kb-kd', st.kd); rebuildAll(); });
+    $('#kbGSort').addEventListener('click', (e) => { const b = e.target.closest('button[data-gsort]'); if (!b) return; st.sort = b.dataset.gsort; ls.set(SORT_LS, st.sort); renderList(); renderGrid(); });
+    cardsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-open]'); if (b) setMode('single', gmap[b.dataset.open]); });
+    $('#kbGLock').addEventListener('click', () => { FUT.lock(); locked = true; items.forEach(i => { i.q = null; }); renderList(); renderGrid(); });
     document.addEventListener('keydown', (e) => {
+      if (mode !== 'single') return;
       if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       const t = e.target; if (t && (/INPUT|TEXTAREA|SELECT/.test(t.tagName || '') || t.isContentEditable)) return;
@@ -1487,7 +1665,7 @@ const KB = (() => {
     FUT.wireTool(root);
     FUT.Lines.on((c) => { if (d && (c == null || c === d.code)) FUT.linesList(els.lines, d); });
     $('#futMaBtns').innerHTML = maBtns();
-    onTheme(() => draw());
+    onTheme(() => { if (mode === 'single') draw(); else rebuildAll(); });
 
     /* ----- 開始 ----- */
     renderList();
@@ -1495,9 +1673,9 @@ const KB = (() => {
       locked = !(await unlocked());
       loadOuters().then(() => soon());
       if (!locked) loadAll();
-      renderList(); go();
+      renderList(); setMode(mode, mode === 'single' ? cur : null);
     })();
-    return { select: (id) => setCur(gmap[id]), items };
+    return { select: (id) => setCur(gmap[id]), items, setMode };
   }
 
   return { init, watch, stock, recent, full, outer, isFut };
