@@ -18,6 +18,7 @@
 - 股價檔 `data/prices/<代號>.json` **只由 GitHub Actions（prices-monthly）寫入**，Claude 不手填、不修改。本益比與預估本益比**不存檔、不手填**，由 `tools/pe.py` 在建置時算出。
 - 每個季度都要有 `rd`（那一季 EPS 第一次公開的日期）與 `rdB`；讀不到填 `null` 並在 `notes.unavailable` 寫「待確認：<季度> 的財報公布日（rd）：原因」，不可用季度結束後幾天推算。
 - 每日收盤價 `data/daily/<代號>.json` **只由 GitHub Actions（prices-daily）寫入**（每天多班、含重試；財報季度更新 push 後會自動重算）。裡面的每日本益比、市值、P/S、EV/Sales、距估值門檻都是 `tools/daily_calc.py` 的公式算的，Claude 不手填、不重算、不需要觸發。
+- 個股 K 棒 `data/kbar/` **只由 GitHub Actions（prices-daily，`tools/kbar_update.py`）寫入**，AES 加密（密碼與期貨共用 `FUTURES_PASSWORD`），Claude 不手改、不手填、不在本機產生。
 - 預估本益比（分析師預估）只有每月快照，**不回填**；它是網站上唯一不是財報／公司公告的數字，一律標「分析師預估」。
 
 ## 常用指令
