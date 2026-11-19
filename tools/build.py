@@ -355,7 +355,7 @@ def main():
     ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS),
               ("{{LWC}}", '<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>'),
               ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/")])
-    write(page("指數期貨 K 棒", "小道瓊、小那斯達克期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../", "futures"), "futures", "index.html")
+    write(page("指數期貨 K 棒", "小道瓊、小那斯達克、大台指期貨日 K、週 K、月 K 與均線、扣抵值、KD。", ft, "../", "futures"), "futures", "index.html")
     print("futures/index.html（指數期貨 K 棒頁）")
     # 市值排名頁（資料 data/mcap/latest.json 由 Actions 每週寫入；頁面執行時才讀，所以每週更新不必重建網站）
     mt = fill(read("templates", "mcap.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MCAP_BASE}}", "../data/mcap/")])
