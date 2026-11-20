@@ -21,7 +21,7 @@ Yahoo 的持股與費用率是第三方整理（不是發行商原始檔），�
   python3 tools/etf_update.py --recalc        # 不上網：用現有收盤價重算 latest.json
   python3 tools/etf_update.py --stale-check   # 有 ETF 收盤價落後（美股 4 天、台股 12 天）→ 結束碼 1
 """
-import datetime as dt, json, os, sys, time
+import copy, datetime as dt, json, os, sys, time
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -305,7 +305,7 @@ def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of,
     else:
         for k in ("holdings", "er", "aum"):
             if prev.get(k) is not None:
-                out[k] = prev[k]
+                out[k] = copy.deepcopy(prev[k])   # 不改到舊檔的物件，否則「有沒有變動」的比較會失靈
         if e.get("kind") == "commodity" and not (out.get("holdings") or {}).get("note"):
             out["holdings"] = {"rows": [], "note": e.get("holdingsNote") or "持有實物或期貨，沒有股票持股。"}
         for r in ((out.get("holdings") or {}).get("rows") or []):     # 中文簡稱：名單更新後也補上

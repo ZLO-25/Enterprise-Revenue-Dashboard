@@ -200,3 +200,10 @@ class Remap(unittest.TestCase):
         out = E.build_entry(e, None, prev, None, "2026-11-21", {"005930.KQ": "samsung"}, by, lambda c: (10.0, "2026-11-20"))
         r = out["holdings"]["rows"][0]
         self.assertEqual((r["code"], r["co"], r["r1y"]), ("samsung", "三星電子", 10.0))
+
+    def test_remap_does_not_mutate_prev(self):
+        e = {"code": "etf_x", "ticker": "X", "name": "X", "group": "g", "yahoo": "X", "currency": "USD", "issuer": "i", "why": "w"}
+        prev = {"holdings": {"asOf": "2026-11-20", "rows": [{"sym": "005930.KQ", "name": "Samsung", "w": 19.0}]}}
+        by = {"samsung": {"code": "samsung", "name": "三星電子", "path": "samsung/"}}
+        E.build_entry(e, None, prev, None, "2026-11-21", {"005930.KQ": "samsung"}, by, lambda c: None)
+        self.assertNotIn("code", prev["holdings"]["rows"][0])   # 舊資料不變，才比得出「有變動」
