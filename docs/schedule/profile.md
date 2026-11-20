@@ -1,6 +1,6 @@
 # 每日排程附件：公司簡介與營收比例
 
-> 每日排程的附件（由 docs/schedule/core.md 指示才讀）。內容與舊版 docs/SCHEDULE_PROMPT.md 同一節一字不改，只是拆出來，安靜日不用讀。
+> 每日排程的附件（`docs/SCHEDULE_PROMPT.md` 的 ⓪ 跑 `python3 tools/daily.py brief`，⑪ 列出才讀；安靜日不用讀）。2026-11-20 之前這段寫在 SCHEDULE_PROMPT.md 裡，現在只放這裡，改規則改這份。
 
 ## 公司簡介與營收比例（年度申報出來時才做）
 首頁公司列表展開列的「營收比例／主力產品／解決什麼痛點／護城河」來自 `data/profile/<代號>.json`（格式見 DATA_SCHEMA「公司簡介」）。
