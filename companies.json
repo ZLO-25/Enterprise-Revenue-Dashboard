@@ -961,6 +961,68 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0000040545"
+    },
+    {
+      "code": "yageo",
+      "name": "國巨",
+      "nameEn": "Yageo",
+      "ticker": "2327",
+      "exchange": "TWSE 2327",
+      "sector": "硬體與網通",
+      "currency": "TWD",
+      "frequency": "quarterly",
+      "path": "yageo/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "國巨財報追蹤板",
+      "description": "國巨（2327）2013 年以來每季營收、利潤率、基本 EPS（換成今天的股數基準）、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
+      "price": {
+        "yahoo": "2327.TW",
+        "from": "2013-01",
+        "currency": "TWD",
+        "twse": "2327",
+        "adj": [
+          {
+            "ex": "2013-09-05",
+            "r": 0.7
+          },
+          {
+            "ex": "2014-09-29",
+            "r": 0.302569
+          },
+          {
+            "ex": "2016-08-03",
+            "r": 0.800454
+          },
+          {
+            "ex": "2017-08-07",
+            "r": 0.6987845
+          },
+          {
+            "ex": "2018-07-09",
+            "r": 1.198117
+          },
+          {
+            "ex": "2022-10-20",
+            "r": 0.795925
+          },
+          {
+            "ex": "2024-08-15",
+            "r": 1.1948365
+          },
+          {
+            "ex": "2025-08-14",
+            "r": 4.0
+          }
+        ]
+      },
+      "primarySource": {
+        "n": "公開資訊觀測站：國巨 IFRS 合併財務報告（t164sb01）",
+        "url": "https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=2327&SYEAR=2026&SSEASON=3&REPORT_ID=C"
+      },
+      "tz": "TW",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false
     }
   ]
 }
