@@ -59,8 +59,9 @@
   </section>
 
   <section id="tokens">
-    <div class="sec-head"><h2>Claude 排程 token 用量（最近 4 週）</h2><p class="sub">估計值（結束前一刻的累計，不含子代理），不是帳單。</p></div>
-    <div class="card wide"><div class="tbl-wrap"><table class="st-tbl" id="stTok"></table></div></div>
+    <div class="sec-head"><h2>Claude 排程 token 用量（最近 4 週）</h2><p class="sub">每次排程結束時從工作階段紀錄檔加總（含子代理），之後換成執行結算的實際數字。費用是公開牌價換算，只用來比較，不是帳單；「估計」表示還沒換成實際結算。</p></div>
+    <div class="card wide"><h3>每週合計</h3><div class="tbl-wrap"><table class="st-tbl" id="stTok"></table></div></div>
+    <div class="card wide"><h3>每次明細</h3><div class="tbl-wrap"><table class="st-tbl" id="stTokRuns"></table></div></div>
   </section>
 </main>
 
@@ -98,9 +99,14 @@
       return "<tr><td class='n'>" + esc(e.d.slice(5)) + "</td><td><b>" + esc(e.code.toUpperCase()) + "</b></td><td>" + esc(e.name) + "</td><td>現值 " + esc(e.now) + "（門檻 " + esc(e.op) + " " + esc(e.thr) + "）" + ({ rich: "比門檻貴 15% 以上", cheap: "比門檻便宜 15% 以上", back: "回到門檻附近", exceed: "超出估值範圍（舊紀錄）" }[e.kind] || esc(e.kind)) + "</td></tr>";
     }), "最近 30 天沒有訊號");
     var mx = Math.max.apply(null, S.tokens.map(function (t) { return t.tokens; }).concat([1]));
-    tbl($("stTok"), [["週（週一起）", ""], ["總 token", "n"], ["", ""]], S.tokens.map(function (t) {
-      return "<tr><td class='n'>" + esc(t.week.slice(5)) + "</td><td class='n'>" + (t.tokens / 1e6).toFixed(2) + "M</td><td style='width:45%'><div class='st-bar' style='width:" + Math.max(2, Math.round(t.tokens / mx * 100)) + "%;background:var(--s1)'></div></td></tr>";
+    tbl($("stTok"), [["週（週一起）", ""], ["次數", "n"], ["總 token", "n"], ["約 USD", "n"], ["", "hide-s"]], S.tokens.map(function (t) {
+      return "<tr><td class='n'>" + esc(t.week.slice(5)) + "</td><td class='n'>" + esc(t.runs == null ? "—" : t.runs) + "</td><td class='n'>" + (t.tokens / 1e6).toFixed(2) + "M</td><td class='n'>" + (t.usd == null ? "—" : "$" + Number(t.usd).toFixed(2)) +
+        "</td><td class='hide-s' style='width:40%'><div class='st-bar' style='width:" + Math.max(2, Math.round(t.tokens / mx * 100)) + "%;background:var(--s1)'></div></td></tr>";
     }), "還沒有紀錄（排程第一次記錄後出現）");
+    tbl($("stTokRuns"), [["日期", ""], ["排程", ""], ["總 token", "n"], ["回覆次數", "n hide-s"], ["約 USD", "n"], ["來源", ""]], (S.tokenRuns || []).map(function (r) {
+      return "<tr><td class='n'>" + esc(r.date.slice(5)) + "</td><td>" + esc(r.routine) + "</td><td class='n'>" + (r.tokens / 1e6).toFixed(2) + "M</td><td class='n hide-s'>" + esc(r.turns == null ? "—" : r.turns) +
+        "</td><td class='n'>$" + Number(r.usd).toFixed(2) + "</td><td>" + (r.exact ? "實際結算" : "估計") + "</td></tr>";
+    }), "還沒有紀錄");
   }
   fetch(BASE + "latest.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(render).catch(function (e) {
     $("stSub").textContent = "讀取失敗（" + e.message + "）：每日準備還沒跑過，或網路有問題。";

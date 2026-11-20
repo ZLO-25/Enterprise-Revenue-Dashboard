@@ -163,21 +163,28 @@ def signals_block(today):
 
 
 def tokens_block(today):
+    """最近 4 週：每週合計（token、費用）＋每次明細（含是否為執行結算）。資料只來自 data/token-usage.json。"""
     T = jload("data", "token-usage.json", default={"runs": []}) or {"runs": []}
     cut = (today - dt.timedelta(days=28)).isoformat()
-    weeks = {}
+    names = {"daily": "每日檢查", "weekly-news": "每週新聞", "trend": "趨勢月報", "mcap": "市值檢查", "daily-shadow": "新版測試"}
+    weeks, runs = {}, []
     for r in T["runs"]:
         if r["date"] < cut:
             continue
+        n = r["input"] + r["cacheRead"] + r["cacheWrite"] + r["output"]
         d = dt.date.fromisoformat(r["date"])
         w = (d - dt.timedelta(days=d.weekday())).isoformat()
-        weeks[w] = weeks.get(w, 0) + r["input"] + r["cacheRead"] + r["cacheWrite"] + r["output"]
-    return [{"week": w, "tokens": n} for w, n in sorted(weeks.items())]
+        s = weeks.setdefault(w, {"week": w, "tokens": 0, "usd": 0.0, "runs": 0})
+        s["tokens"] += n; s["usd"] = round(s["usd"] + r.get("costUsd", 0), 2); s["runs"] += 1
+        runs.append({"date": r["date"], "routine": names.get(r["routine"], r["routine"]), "tokens": n, "usd": r.get("costUsd", 0),
+                     "turns": r.get("turns"), "exact": bool(r.get("exact"))})
+    return [weeks[w] for w in sorted(weeks)], runs[::-1][:30]
 
 
 def build(now, use_api=True):
     today = (now + TPE).date()
     act, rou, com = actions_block(now, use_api), routines_block(today), companies_block(today)
+    tok_w, tok_r = tokens_block(today)
     alerts = []
     for r in act + rou:
         if r["light"] == "red":
@@ -186,7 +193,7 @@ def build(now, use_api=True):
         if r["light"] == "red":
             alerts.append(f"{r['code']}：{'；'.join(r['problems'])}")
     return {"version": 1, "generated": now.strftime("%Y-%m-%dT%H:%MZ"), "actions": act, "routines": rou, "companies": com,
-            "signals": signals_block(today), "tokens": tokens_block(today), "alerts": alerts}
+            "signals": signals_block(today), "tokens": tok_w, "tokenRuns": tok_r, "alerts": alerts}
 
 
 def main():

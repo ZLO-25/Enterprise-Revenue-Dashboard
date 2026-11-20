@@ -11,7 +11,7 @@
    ├─ ② Sonnet 子代理：24 家公司各一次標題層級搜尋，只回傳「達標」的候選（附來源、日期）
    ├─ ③ 主流程：公司公告／申報證實 → 已證實；只有媒體 → 待確定；寫進 milestones[]
    ├─ ④ validate → build → commit → push → 更新 Artifact（有寫入才做）
-   └─ ⑤ 記 token：get_session（不帶 id）→ daily.py tokens add → tokens report → push，然後回報
+   └─ ⑤ 記 token：tokens fill → 補上週各排程的實際結算 → tokens auto weekly-news → push，然後回報
 ```
 
 ## 步驟
@@ -23,13 +23,12 @@
 6. 有寫入：`python3 tools/build.py && python3 tools/validate.py`（沒過的公司還原，不發佈）→ commit「每週新聞 <日期>」→ push main → publish `dist/artifacts/all.html` 到 `companies.json` 的 `site.artifact`（先 `action:"read"`）。沒有寫入就跳過這一步。
 6b. **每月第一個週日才做：待確認清理**（今天的日期是當月 1～7 日才做；其他週日跳過這一步）。`python3 tools/daily.py pending` 看「近期」清單（reports/pending.md），挑**最多 6 項**，每項用一個 Sonnet 子代理去讀一手來源（申報文件或公司公告，**必須真的讀到那個數字**）。讀到 → 更新 `data/<代號>.json` 並刪掉那一行待確認；讀不到 → 原樣保留，不估計、不內插。做完 `python3 tools/validate.py` 必須通過，沒過就 `git checkout -- data/<代號>.json` 還原那家，不發佈。回報列出每一項的結果與來源連結（解掉的、仍待確認的各幾項）。資料誠實規則一條都不放寬。
 7. `python3 tools/daily.py mark news`（記錄本週新聞已跑），和下一步一起 commit。
-8. **記 token**（最後一步，不要省）：呼叫 `get_session`（不帶 session_id），讀 `external_metadata.usage`，然後
-   ```
-   python3 tools/daily.py tokens add weekly-news --session <session id> --model <external_metadata.model 或 last_served_model> \
-       --input <input_tokens> --cache-read <cache_read_tokens> --cache-write <cache_write_tokens> --output <output_tokens> --cost <cost_usd>
-   python3 tools/daily.py tokens report
-   ```
-   commit「token 用量 <日期>」並 push main（和步驟 7 同一個 commit 也可以）。數字是結束前一刻的累計，比實際少最後一兩個回合，屬估計值。子代理的用量不在這個數字裡（它是另一個 session）；回報要寫明。
+8. **記 token**（最後一步，不要省）：
+   - 先補實際結算：`python3 tools/daily.py tokens fill` 會列出還是「估計」的排程紀錄（最多 7 筆）。對每一筆呼叫 `list_events(session_id=<id>, kinds=["result"], limit=100)`，取**時間最早的那筆** result（排程本身那一回合；之後若有人工對話不要算進去），把各模型 modelUsage 的 inputTokens、cacheReadInputTokens、cacheCreationInputTokens、outputTokens 相加，連同 total_cost_usd、num_turns 寫回：
+     `python3 tools/daily.py tokens exact <id> --cost <total_cost_usd> --input N --cache-read N --cache-write N --output N --turns <num_turns>`
+     讀不到（has_more 要往前翻才找到就翻一次，仍沒有就跳過）維持估計值，回報寫一行。
+   - 再記本次：`python3 tools/daily.py tokens auto weekly-news`（自動讀本工作階段紀錄檔，含子代理，並重寫 reports/token-usage.md；不用 get_session，那個欄位不存在）。
+   - commit「token 用量 <日期>」並 push main（和步驟 7 同一個 commit 也可以）。
 9. 回報（繁體中文，8～12 行）：
 
 ```

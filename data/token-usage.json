@@ -1,0 +1,192 @@
+{
+ "version": 2,
+ "note": "排程 token 用量。exact=true 是執行結算（list_events）的實際數字；false 是工作階段紀錄檔加總、費用為估計。只用 python3 tools/daily.py tokens 改。",
+ "runs": [
+  {
+   "date": "2026-11-13",
+   "routine": "daily",
+   "session": "session_01JFJ5ramqNPrwT8Z4QH3SqC",
+   "model": "claude-opus-5-5",
+   "input": 63,
+   "cacheRead": 3536165,
+   "cacheWrite": 153949,
+   "output": 13615,
+   "turns": 49,
+   "costUsd": 1.88,
+   "exact": true,
+   "src": "result",
+   "note": "2026-11-20 補記：list_events 第一筆 result（只算排程本身那一回合，不含之後的人工對話）",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 53,
+     "cacheRead": 3488928,
+     "cacheWrite": 122751,
+     "output": 9497,
+     "costUsd": 1.8699
+    },
+    "claude-haiku-5-5": {
+     "input": 10,
+     "cacheRead": 47237,
+     "cacheWrite": 31198,
+     "output": 4118,
+     "costUsd": 0.0064
+    }
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "routine": "daily",
+   "session": "session_01JFJ5rdJFmTviEQ7c9ejLig",
+   "model": "claude-opus-5-5",
+   "input": 36,
+   "cacheRead": 1953875,
+   "cacheWrite": 114106,
+   "output": 8665,
+   "turns": 44,
+   "costUsd": 1.33,
+   "exact": true,
+   "src": "result",
+   "note": "2026-11-20 補記：list_events 第一筆 result（只算排程本身那一回合，不含之後的人工對話）",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 32,
+     "cacheRead": 1949361,
+     "cacheWrite": 98987,
+     "output": 7101,
+     "costUsd": 1.3239
+    },
+    "claude-haiku-5-5": {
+     "input": 4,
+     "cacheRead": 4514,
+     "cacheWrite": 15119,
+     "output": 1564,
+     "costUsd": 0.0027
+    }
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "routine": "trend",
+   "session": "session_01JFJ5rdAfcbCRrB8WrgUUi6",
+   "model": "claude-opus-5-5",
+   "input": 7675,
+   "cacheRead": 1965431,
+   "cacheWrite": 130284,
+   "output": 18786,
+   "turns": 26,
+   "costUsd": 1.23,
+   "exact": true,
+   "src": "result",
+   "note": "2026-11-20 補記：list_events 第一筆 result（只算排程本身那一回合，不含之後的人工對話）",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 35,
+     "cacheRead": 1904110,
+     "cacheWrite": 71391,
+     "output": 13100,
+     "costUsd": 1.2141
+    },
+    "claude-haiku-5-5": {
+     "input": 7640,
+     "cacheRead": 61321,
+     "cacheWrite": 58893,
+     "output": 5686,
+     "costUsd": 0.0116
+    }
+   }
+  },
+  {
+   "date": "2026-11-18",
+   "routine": "daily",
+   "session": "session_01JFJ5raHaVfBwtFkv4rbkcn",
+   "model": "claude-opus-5-5",
+   "input": 77,
+   "cacheRead": 4879347,
+   "cacheWrite": 174344,
+   "output": 21279,
+   "turns": 46,
+   "costUsd": 2.48,
+   "exact": true,
+   "src": "result",
+   "note": "2026-11-20 補記：list_events 第一筆 result（只算排程本身那一回合，不含之後的人工對話）",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 69,
+     "cacheRead": 4854666,
+     "cacheWrite": 150635,
+     "output": 14729,
+     "costUsd": 2.4709
+    },
+    "claude-haiku-5-5": {
+     "input": 8,
+     "cacheRead": 24681,
+     "cacheWrite": 23709,
+     "output": 6550,
+     "costUsd": 0.0065
+    }
+   }
+  },
+  {
+   "date": "2026-11-19",
+   "routine": "daily",
+   "session": "session_01JFJ5rcApG2ZyrxR1G4KoF5",
+   "model": "claude-opus-5-5",
+   "input": 14650,
+   "cacheRead": 7659136,
+   "cacheWrite": 174780,
+   "output": 20113,
+   "turns": 57,
+   "costUsd": 3.11,
+   "exact": true,
+   "src": "result",
+   "note": "2026-11-20 補記：list_events 第一筆 result（只算排程本身那一回合，不含之後的人工對話）",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 102,
+     "cacheRead": 7654502,
+     "cacheWrite": 151577,
+     "output": 17981,
+     "costUsd": 3.1035
+    },
+    "claude-haiku-5-5": {
+     "input": 14548,
+     "cacheRead": 4634,
+     "cacheWrite": 23203,
+     "output": 2132,
+     "costUsd": 0.0055
+    }
+   }
+  },
+  {
+   "date": "2026-11-20",
+   "routine": "daily",
+   "session": "session_01JFJ5rbAztkyKtXiumWs2PK",
+   "model": "claude-opus-5-5",
+   "input": 37810,
+   "cacheRead": 7576066,
+   "cacheWrite": 298047,
+   "output": 62301,
+   "turns": 61,
+   "costUsd": 3.53,
+   "exact": true,
+   "src": "result",
+   "note": "2026-11-20 補記：list_events 第一筆 result（只算排程本身那一回合，不含之後的人工對話）",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 93,
+     "cacheRead": 7388976,
+     "cacheWrite": 184701,
+     "output": 26841,
+     "costUsd": 3.4926
+    },
+    "claude-haiku-5-5": {
+     "input": 37717,
+     "cacheRead": 187090,
+     "cacheWrite": 113346,
+     "output": 35460,
+     "costUsd": 0.0375
+    }
+   }
+  }
+ ]
+}

@@ -91,7 +91,7 @@
 2. commit（繁體中文簡述，例：「NVDA 3Q27 快報」「NVDA 3Q27 補完：電話會議重點」）→ `git push -u origin main`（先確認第 ⓪.3）。
 3. Artifact：只有一個合併版 Artifact，網址在 `companies.json` 的 `site.artifact`。有變動時 publish `dist/artifacts/all.html`（先 `action:"read"` 再 publish），`label` 寫這次變動。
 4. `python3 tools/daily.py done`（記 lastSuccess ＝ 今天）後 commit＋push `data/calendar.json`（和上一步同一個 commit 即可）。**如果某家失敗了，也要 `done`**——失敗的公司由 `try` 的計數接手，明天重試；沒跑完整個排程才不 `done`。
-5. **記 token**（最後一步）：`get_session`（不帶 id）讀 `external_metadata.usage`，執行 `python3 tools/daily.py tokens add daily --session <id> --model <model> --input <input_tokens> --cache-read <cache_read_tokens> --cache-write <cache_write_tokens> --output <output_tokens> --cost <cost_usd>`，commit＋push `data/token-usage.json`。
+5. **記 token**（最後一步，不要省）：`python3 tools/daily.py tokens auto daily`（自動讀本工作階段紀錄檔，含子代理，並重寫 reports/token-usage.md；不用 get_session，那個欄位不存在），commit＋push `data/token-usage.json`、`reports/token-usage.md`。指令失敗就在回報 ⑤ 寫一行原因，不要手填數字。
 6. 每次都用 PushNotification 通知（沒事的日子一行，有快報或紅燈時標題直接寫公司與重點）。
 
 ## 每日回報（最後一則訊息；固定五段，沒事的日子只有三四行）
