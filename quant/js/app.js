@@ -175,7 +175,7 @@ $("#csv-upload").addEventListener("change", async (e) => {
     refreshTickerSelects();
     alert(`已載入 ${s.symbol}：${s.dates[0]} ~ ${s.dates.at(-1)}，共 ${s.dates.length} 筆。\n在任何「投資標的」下拉選單的「我上傳的資料」群組裡就能選到「${s.symbol}」（重新整理頁面後會消失）。`);
   } catch (err) {
-    alert("" + err.message);
+    alert(err.message);
   }
   e.target.value = "";
 });
@@ -235,7 +235,7 @@ function renderChips(name) {
     const m = state.meta.get(s);
     const title = m ? `${m.name || ""}${m.start ? `｜資料 ${m.start} 起` : ""}${m.note ? `｜${m.note}` : ""}` : "";
     const missing = state.meta.size && !(m && m.file) ? " missing" : "";
-    return `<span class="chip${missing}" title="${esc(title || "查無資料")}">${missing ? "" : ""}${esc(s)}<button type="button" aria-label="移除 ${esc(s)}" data-sym="${esc(s)}">×</button></span>`;
+    return `<span class="chip${missing}" title="${esc(title || "查無資料")}">${esc(s)}<button type="button" aria-label="移除 ${esc(s)}" data-sym="${esc(s)}">×</button></span>`;
   }).join("");
   $$("button", el).forEach((b) => b.addEventListener("click", () => {
     state.pickers[name] = state.pickers[name].filter((x) => x !== b.dataset.sym);
@@ -291,9 +291,18 @@ function showTab(name) {
   if (tabBtn) {
     if (tabBtn.dataset.title) $("#q-title").textContent = tabBtn.dataset.title;
     $("#q-lede").textContent = tabBtn.dataset.lede || "";
+    // 手機上分頁列會橫向捲動：把選中的分頁捲到看得見的位置（只動分頁列自己，不捲整頁）
+    const sc = tabBtn.parentElement;
+    if (sc && sc.scrollWidth > sc.clientWidth) {
+      const r = tabBtn.getBoundingClientRect(), s = sc.getBoundingClientRect();
+      sc.scrollLeft += r.left - s.left - (s.width - r.width) / 2;
+    }
   }
   // 隱藏時畫的圖寬度會錯，切回來時重算
   setTimeout(() => $$(`#tab-${name} .js-plotly-plot`).forEach((p) => window.Plotly && Plotly.Plots.resize(p)), 30);
+  // 這個分頁隱藏期間切換過深淺色：圖的顏色是畫圖當下讀的，切回來時重畫一次
+  //（延後一拍：loadHash 接著自己會送出表單時，會先把標記清掉，避免同一組參數跑兩次）
+  setTimeout(() => { if (state.staleTabs.delete(name)) $(`#tab-${name} form`)?.requestSubmit(); }, 0);
 }
 $$("nav.tabs button").forEach((b) => b.addEventListener("click", () => {
   showTab(b.dataset.tab);
@@ -355,6 +364,7 @@ function loadViewPref() { try { return normMode(localStorage.getItem(VIEW_KEY));
 function saveViewPref(m) { try { localStorage.setItem(VIEW_KEY, m); } catch { /* 無痕模式 */ } }
 state.dcaView = loadViewPref();
 state.lastDca = null;
+state.staleTabs = new Set();   // 隱藏期間切換過深淺色、切回來要重畫的分頁（見 showTab、init 的 redraw）
 
 /** 把 v 參數寫進目前網址（兩者時移除），其他參數不動 */
 function syncViewToHash() {
@@ -901,11 +911,13 @@ function loadHash() {
   if (tab === "dca") {
     if (p.get("t")) { state.pickers.dca = p.get("t").split(",").slice(0, 5); renderChips("dca"); }
     state.dcaView = normMode(p.get("v"));   // 網址沒有 v ＝ 兩者（分享連結要一致）
+    state.staleTabs.delete("dca");          // 下面就會重新送出，不用再因為主題重畫一次
     set("#dca-amount", "a"); set("#dca-start", "s"); set("#dca-end", "e"); set("#dca-months", "m"); set("#dca-count", "n"); set("#dca-yield", "y");
     updatePlanHint();
     $("#form-dca").requestSubmit();
   } else if (tab === "rolling") {
     if (p.get("t")) { state.pickers.rolling = [p.get("t")]; renderChips("rolling"); }
+    state.staleTabs.delete("rolling");
     set("#roll-from", "f"); set("#roll-horizon", "h"); set("#roll-months", "m"); set("#roll-count", "n"); set("#roll-yield", "y");
     $("#form-rolling").requestSubmit();
   }
@@ -944,7 +956,12 @@ async function init() {
   await loadManifest();
   loadHash();
   // 切換深淺色（系統設定，或主站的 data-theme）時重畫圖表：顏色是畫圖當下讀主站變數，所以重畫就對了
-  const redraw = () => $$("section.tab.active form").forEach((f) => { if ($(".js-plotly-plot", f.parentElement)) f.requestSubmit(); });
+  //   目前分頁：馬上重新送出表單；其他畫過圖的分頁：記下來，切回去時再重畫（showTab）
+  //   升降息週期（#form-rates）沒有 submit 處理，對它 requestSubmit 會變成瀏覽器原生送出、整頁重新載入；它由 rates.js 自己重畫
+  const redraw = () => {
+    $$("section.tab:not(.active)").forEach((s) => { if (s.id !== "tab-rates" && $(".js-plotly-plot", s)) state.staleTabs.add(s.id.slice(4)); });
+    $$("section.tab.active form").forEach((f) => { if (f.id !== "form-rates" && $(".js-plotly-plot", f.parentElement)) f.requestSubmit(); });
+  };
   matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", redraw);
   new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 }

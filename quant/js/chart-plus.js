@@ -207,7 +207,8 @@ function pairHover(el) {
 // ⑤ 帳面損益小圖：資產價值 − 總投入金額（定期定額還沒投入的現金也算在資產裡，所以兩種策略的「總投入」相同）
 function pnlChart(el, traces, c) {
   const L = el.layout || {};
-  const line = (L.shapes || []).find((s) => s.type === "line" && s.y0 === s.y1 && s.xref === "paper");
+  // 用原始 shapes 找「投入本金」虛線：報酬率％模式會先把它改成 y=0（applyMode），直接讀 el.layout 會找不到本金、小圖整個不畫
+  const line = ((el.__qOrig && el.__qOrig.shapes) || L.shapes || []).find((s) => s.type === "line" && s.y0 === s.y1 && s.xref === "paper");
   if (!line || !(line.y0 > 0)) return;
   const base = line.y0;
   let wrap = el.parentNode.querySelector(".qplus-pnl-wrap");
@@ -232,7 +233,8 @@ function pnlChart(el, traces, c) {
     customdata: t.y.map((v) => (v == null ? null : v / base - 1)),
     name: t.name, mode: "lines", line: { ...(t.line || {}), width: 1.8 },
     visible: !hidden.has(groupOf(t.name)),
-    hovertemplate: "%{y:+,.0f}（%{customdata:+.1%}）",
+    // 只看單筆／只看定期定額時沒有成對的線，pairHover 不會接手，這個格式就是實際顯示的；這版 Plotly 的 "+,.0f" 會印出未格式化的小數，要用 "+,d"
+    hovertemplate: "%{y:+,d}（%{customdata:+.1%}）",
   }));
   const xr = L.xaxis && L.xaxis.range && !L.xaxis.autorange ? L.xaxis.range.slice() : undefined;
   window.Plotly.react(box, data, {

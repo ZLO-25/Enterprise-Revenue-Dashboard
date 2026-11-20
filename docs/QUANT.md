@@ -114,3 +114,6 @@ state.lastDca（上次回測結果）──切換──▶ renderDca(mode)   不
 ```
   網址參數 `v=ls|dca`（兩者時省略；網址沒有 v 就是兩者），localStorage `quant.dca.view` 記預設（沒有網址參數時使用）。
   「依模式挑哪些線、列、欄」都在 `quant/js/view-mode.js`（純函式），測試 `node --test quant/tests/view-mode.test.mjs`（CI 有跑）。
+- 深淺色切換（系統設定或主站 `data-theme`）：目前分頁馬上重畫；其他畫過圖的分頁記在 `state.staleTabs`，切回去時才重畫（app.js 的 showTab）。
+  升降息週期由 rates.js 自己監聽重畫（它的表單沒有 submit 處理，不能對它 requestSubmit，否則瀏覽器會整頁重新載入）。
+- 冒煙測試 `tools/smoke_test.py` 的 `quant()`：開 `/#dca`、用預設參數跑一次回測、切三種顯示篩選，檢查資產價值圖的線、按鈕 aria-pressed、扣款面板有無。

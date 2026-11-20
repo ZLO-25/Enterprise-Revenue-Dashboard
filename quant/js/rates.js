@@ -37,7 +37,8 @@ const fmtLen = (days) => (days < 45 ? `${days} 天` : days < 700 ? `${(days / 30
 
 const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", evKind: "hike", evSym: null, from: null, to: null, started: false, lastKey: "", obs: null };
 let CTX = null;   // 目前畫面用到的資料（圖上拉區間時，重算表格和報酬起點要用）
-const curKey = () => `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}|${S.from}|${S.to}`;
+// 最後一段是目前的主題字色：在別的分頁切換深淺色後回到這頁，key 不同就會重畫（顏色是畫圖當下讀的）
+const curKey = () => `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}|${S.from}|${S.to}|${themeColors().text}`;
 
 // ---------- 把分頁放進畫面（在 app.js 載入前呼叫） ----------
 export function inject() {
@@ -489,6 +490,9 @@ export function activate(hash) {
     const chips = $('.picker[data-picker="rates"] .chips');
     if (chips) new MutationObserver(schedule).observe(chips, { childList: true });
     matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if ($("#tab-rates").classList.contains("active")) render(); });
+    // 主站切換 data-theme（不是系統設定）時也要重畫；app.js 不會幫這個分頁重畫（這裡沒有 submit 處理）
+    new MutationObserver(() => { if ($("#tab-rates").classList.contains("active")) render(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   }
   applyHash(hash);
   const key = curKey();
