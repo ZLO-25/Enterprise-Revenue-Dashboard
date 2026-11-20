@@ -186,7 +186,18 @@ def tpex_month(stock, ym):
     raise RuntimeError(f"櫃買中心 {stock} {ym} 抓取失敗：{err}")
 
 
-def twse_check(stock, rows, kind="twse"):
+def adj_factor(adj, d):
+    """Yahoo 的收盤價已把股票分割／面額變更／股票股利往回調整；證交所是當天原始價。
+    adj = [{"ex": "YYYY-MM-DD", "r": 4}, ...]（companies.json price.adj，除權／換股日與比例），
+    d 在 ex 之前的價格要乘回 r 才能和原始價比。"""
+    f = 1.0
+    for a in adj or []:
+        if d < a["ex"]:
+            f *= a["r"]
+    return f
+
+
+def twse_check(stock, rows, kind="twse", adj=None):
     bad = 0
     name, fetch = ("證交所", twse_month) if kind == "twse" else ("櫃買中心", tpex_month)
     for r in rows:
@@ -198,7 +209,7 @@ def twse_check(stock, rows, kind="twse"):
         if t is None:
             r["x"] = kind + "-no-data"
             continue
-        diff = abs(r["c"] / t - 1)
+        diff = abs(r["c"] * adj_factor(adj, r["d"]) / t - 1)
         if diff > TOL:
             bad += 1
             r["why"] = f"待確認：與{name}收盤價差 {diff * 100:.2f}%"
@@ -273,10 +284,10 @@ def main():
             rc = 1
             continue
         if pc.get("twse"):
-            bad = twse_check(pc["twse"], new)
+            bad = twse_check(pc["twse"], new, adj=pc.get("adj"))
             log(f"[{code}] 證交所交叉核對完成，{bad} 個月份差超過 0.5%（已標待確認）")
         if pc.get("tpex"):
-            bad = twse_check(pc["tpex"], new, "tpex")
+            bad = twse_check(pc["tpex"], new, "tpex", adj=pc.get("adj"))
             log(f"[{code}] 櫃買中心交叉核對完成，{bad} 個月份差超過 0.5%（已標待確認）")
         fwd = list((old or {}).get("forward", []))
         if forward_window_open(last) and not any(f["m"] == last for f in fwd):
