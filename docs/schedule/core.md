@@ -29,7 +29,7 @@
 - repo `ZLO-25/Enterprise-Revenue-Dashboard`（main，GitHub Pages）；網站 https://zlo-25.github.io/Enterprise-Revenue-Dashboard/
 - `companies.json`（公司清單）、`data/<代號>.json`、`data/calendar.json`（只用 `tools/daily.py` 改）、`data/sec-feed.json`（Actions 寫）、`companies/<代號>/SOURCES.md`、`docs/DATA_SCHEMA.md`
 - 無法讀寫 repo（clone 或 push 被拒絕）：不要繞過，回報原因並結束。
-- 容器的 `curl` 對 sec.gov 與公司網站多半 403：讀網頁用 WebFetch／WebSearch。git push 用 `git push -u origin <分支>`，網路錯誤才重試（2s、4s、8s、16s）。
+- 容器的 `curl` 對 sec.gov 與公司網站多半 403：讀網頁用 WebFetch／WebSearch。WebFetch 單頁約 13 萬字上限：太長的 10-K 改讀 `FilingSummary.xml` → `R#.htm`；**電話會議逐字稿要分段讀**（分兩次問：一次只要「管理層發言與財測」，一次只要「問答段」），兩段都讀到才算補完，讀不到的那段照規則寫待確認。git push 用 `git push -u origin <分支>`，網路錯誤才重試（2s、4s、8s、16s）。
 
 ## ⓪ 準備（一回合）
 1. clone（沒權限先 `add_repo`：owner `ZLO-25`、repo `Enterprise-Revenue-Dashboard`、access `push`）。
