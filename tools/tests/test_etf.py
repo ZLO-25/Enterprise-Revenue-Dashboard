@@ -152,8 +152,40 @@ class KbarEtfHistory(unittest.TestCase):
     def test_default_from_and_refetch(self):
         it = [c for c in K.companies() if c["code"] == "etf_voo"][0]
         self.assertEqual(it["price"]["from"], K.ETF_FROM)
-        self.assertTrue(K.etf_short(it, {"firstDate": "2026-10-22"}))
-        self.assertFalse(K.etf_short(it, {"firstDate": "2016-01-04"}))
-        self.assertFalse(K.etf_short({"price": {"from": "2016-01"}}, {"firstDate": "2026-10-22"}))   # 公司不套用
-        dram = [c for c in K.companies() if c["code"] == "etf_dram"][0]
-        self.assertFalse(K.etf_short(dram, {"firstDate": "2026-04-02"}))
+        daily = {"rows": [["2010-09-09", 1.0], ["2026-11-19", 2.0]]}
+        self.assertTrue(K.etf_short(it, {"firstDate": "2016-01-04"}, daily))
+        self.assertFalse(K.etf_short(it, {"firstDate": "2010-09-09"}, daily))
+        self.assertFalse(K.etf_short({"price": {"from": "2016-01"}}, {"firstDate": "2026-10-22"}, daily))   # 公司不套用
+        self.assertTrue(K.etf_short(it, {"firstDate": "2026-10-22"}))          # 沒有每日檔：用 from 判斷
+
+
+class V2(unittest.TestCase):
+    def test_since_inception_and_10y(self):
+        rows = series("2012-01-02", 5400, lambda i: 100 + i * 0.05)
+        R = E.returns(rows)
+        self.assertIsNotNone(R["ret"]["y10"])
+        self.assertIsNotNone(R["ret"]["y10a"])
+        self.assertEqual(R["base"]["all"], "2012-01-02")
+        self.assertAlmostEqual(R["ret"]["all"], round((rows[-1][1] / 100 - 1) * 100, 2))
+        self.assertIsNotNone(R["ret"]["alla"])
+        short = E.returns(series("2026-06-01", 100, lambda i: 10 + i))
+        self.assertIsNone(short["ret"]["alla"])          # 不滿 1 年不算年化
+        self.assertIsNotNone(short["ret"]["all"])
+
+    def test_tw_names(self):
+        self.assertEqual(E.tw_code("2330.TW"), "2330")
+        self.assertEqual(E.tw_code("5274.TWO"), "5274")
+        self.assertIsNone(E.tw_code("NVDA"))
+        rows, _, _ = E.parse_holdings([("2454.TW", "MediaTek Inc", 0.07), ("NVDA", "NVIDIA", 0.1)], {}, {}, lambda c: None, {"2454": "聯發科"})
+        self.assertEqual(rows[0]["zh"], "聯發科")
+        self.assertNotIn("zh", rows[1])
+
+    def test_commodity_has_note_not_flag(self):
+        e = {"code": "etf_g", "ticker": "G", "name": "G", "group": "x", "yahoo": "G", "currency": "USD", "issuer": "i", "why": "w",
+             "kind": "commodity", "holdingsNote": "持有實物黃金，沒有股票持股。"}
+        out = E.build_entry(e, None, None, {"items": None, "er_ops": 0.004, "er_info": None}, "2026-11-20", {}, {}, lambda c: None)
+        self.assertEqual(out["holdings"]["note"], e["holdingsNote"])
+        self.assertNotIn("flag", out["holdings"])
+        self.assertEqual(out["er"]["pct"], 0.4)
+        out2 = E.build_entry(e, None, None, None, "2026-11-20", {}, {}, lambda c: None)
+        self.assertEqual(out2["holdings"]["note"], e["holdingsNote"])

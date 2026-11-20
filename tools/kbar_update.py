@@ -65,13 +65,21 @@ def etf_item(e):
             "price": {"yahoo": e["yahoo"], "currency": e.get("currency"), "from": e.get("from") or ETF_FROM}}
 
 
-ETF_FROM = "2016-01"   # ETF 沒寫 from（上市很久）：K 棒從這個月起（約 10 年，檔案不會太大）
+ETF_FROM = "1990-01"   # ETF 沒寫 from：K 棒從上市第一天起（Yahoo 有多早就抓多早）
 
 
-def etf_short(c, prev):
-    """ETF 的舊檔起點比設定的 from 晚很多（例如第一次只抓到一個月）→ 要重抓完整歷史。只用在 ETF。"""
+def etf_short(c, prev, daily=None):
+    """ETF 的舊 K 棒起點比每日收盤檔（data/etf/daily，上市以來）晚超過 10 天 → 重抓完整歷史。只用在 ETF。
+    沒有每日收盤檔可比時，退回用設定的 from 判斷。"""
+    if not (c.get("dailyDir") and prev):
+        return False
+    have = prev.get("firstDate") or ""
+    rows = (daily or {}).get("rows") or []
+    if rows:
+        d0 = dt.date.fromisoformat(rows[0][0])
+        return have > (d0 + dt.timedelta(days=10)).isoformat()
     frm = (c.get("price") or {}).get("from")
-    return bool(c.get("dailyDir") and prev and frm and (prev.get("firstDate") or "") > frm + "-31" and (prev.get("firstDate") or "")[:4] > str(int(frm[:4]) + 1))
+    return bool(frm and have > frm + "-31" and have[:4] > str(int(frm[:4]) + 1))
 
 
 # ---------- 切檔與 sha ----------
@@ -412,7 +420,7 @@ def process(c, password, outdir, *, daily_dir=None, fetcher=fetch_raw, now_utc=N
     daily = jload(os.path.join(c.get("dailyDir") or daily_dir or os.path.join(ROOT, "data", "daily"), code + ".json"))
     path = os.path.join(outdir, code + ".enc.json")
     prev = jload(path)
-    if not needs_fetch(prev, daily) and not etf_short(c, prev):
+    if not needs_fetch(prev, daily) and not etf_short(c, prev, daily):
         log(f"[{code}] 已是最新")
         return "up-to-date"
     tz, hh, mm = PD.exch(pc["yahoo"])
