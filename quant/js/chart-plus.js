@@ -1,9 +1,9 @@
-// 量化回測圖表的「好用度」加強（手寫；tools/quant_sync.py 不會覆蓋）
+// 量化回測圖表的「好用度」加強（手寫）
 //
 //   app.js 的 plot() 畫完圖後會呼叫 window.__quantChartPlus.after(el, traces, colors)：
 //
 //   ① 提示框看得清楚：背景用卡片色、字用正文色（原本深色模式是白底淺字，幾乎看不到）
-//   ② 時間軸圖表加「1年／3年／5年／10年／全部」快速縮放鈕
+//   ② 時間軸圖表加「1年／3年／5年／10年／全部」快速縮放鈕（HTML 的 .seg 膠囊按鈕，長相跟主站一致；不再用 Plotly 內建的 rangeselector）
 //   ③ 資產類圖表加「金額／報酬率％／對數」切換：
 //        金額     原始數字
 //        報酬率％  每條線 ÷ 自己的起點 − 1 → 不同幣別、不同金額也能放在一起比
@@ -17,7 +17,8 @@
 //        SPY   單筆 123,456 ｜ 定期定額 118,900
 //      做法：單筆那條線的提示文字同時帶出定期定額的數字，定期定額那條線不另外列；
 //      如果單筆那條被隱藏，定期定額那條自己列一行，數字不會消失
-//   （手機版圖表加高寫在 quant.css，由 tools/quant_sync.py 產生）
+//   ⑧ 只看單筆／只看定期定額時（app.js 只畫所選策略的線），提示框退回「一線一行」、帳面損益說明不提沒畫出來的線
+//   （手機版圖表加高寫在 quant.css）
 const VALUE_CHARTS = new Set(["chart-dca-value", "chart-alloc"]);
 const MODES = [["value", "金額"], ["pct", "報酬率 %"], ["log", "對數"]];
 const KEY = "quant.chart.mode.";
@@ -29,19 +30,43 @@ const TICKFMT = [{ dtickrange: [null, 86400000 * 28], value: "%Y/%m/%d" }, { dti
 function loadMode(id) { try { return localStorage.getItem(KEY + id) || "value"; } catch { return "value"; } }
 function saveMode(id, m) { try { localStorage.setItem(KEY + id, m); } catch { /* 無痕模式 */ } }
 
-function rangeButtons(c) {
-  return {
-    buttons: [
-      { count: 1, label: "1年", step: "year", stepmode: "backward" },
-      { count: 3, label: "3年", step: "year", stepmode: "backward" },
-      { count: 5, label: "5年", step: "year", stepmode: "backward" },
-      { count: 10, label: "10年", step: "year", stepmode: "backward" },
-      { step: "all", label: "全部" },
-    ],
-    x: 0, xanchor: "left", y: 1.0, yanchor: "bottom", pad: { b: 4 },
-    bgcolor: c.panel, activecolor: c.accent, bordercolor: c.border, borderwidth: 1,
-    font: { color: c.text, size: 13 },
-  };
+// ② 區間快速鈕：算出「最後一天往前 N 年」，用 relayout 設定時間軸範圍（拖曳、雙擊還原時按鈕狀態跟著清掉）
+const RANGES = [["1年", 1], ["3年", 3], ["5年", 5], ["10年", 10], ["全部", 0]];
+const addYears = (iso, n) => `${+iso.slice(0, 4) - n}${iso.slice(4, 10)}`;
+function dataSpan(traces) {
+  let lo = null, hi = null;
+  traces.forEach((t) => {
+    if (!Array.isArray(t.x) || !t.x.length || !isDate(t.x[0])) return;
+    const a = String(t.x[0]).slice(0, 10), b = String(t.x[t.x.length - 1]).slice(0, 10);
+    if (lo === null || a < lo) lo = a;
+    if (hi === null || b > hi) hi = b;
+  });
+  return [lo, hi];
+}
+function rangeBar(el, traces) {
+  let bar = el.parentNode.querySelector(".qplus-range");
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.className = "qplus-bar qplus-range";
+    bar.innerHTML = `<span class="qplus-lab">區間</span><span class="seg">` + RANGES.map(([t, n]) => `<button type="button" data-y="${n}">${t}</button>`).join("") + `</span>`;
+    el.parentNode.insertBefore(bar, el);
+    bar.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-y]"); if (!b || !el.__qSpan) return;
+      const n = +b.dataset.y, [lo, hi] = el.__qSpan;
+      const from = n ? addYears(hi, n) : lo;
+      window.Plotly.relayout(el, n && from > lo ? { "xaxis.range": [from, hi] } : { "xaxis.autorange": true });
+      bar.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    });
+  }
+  el.__qSpan = dataSpan(traces);
+  bar.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.y === "0")));
+  if (!el.__qRangeSync) {   // 使用者自己拖曳或雙擊還原：按鈕不再代表目前範圍
+    el.__qRangeSync = true;
+    el.on("plotly_relayout", (ev) => {
+      if (ev["xaxis.autorange"]) { bar.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.y === "0"))); return; }
+      if (ev["xaxis.range[0]"] !== undefined && !el.__qRangeBusy) bar.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", "false"));
+    });
+  }
 }
 
 // 依模式改寫 y 值：原始值存在 el.__qOrig，切換時都從原始值算，不會越算越歪
@@ -72,8 +97,8 @@ function toolbar(el, c) {
   if (!bar) {
     bar = document.createElement("div");
     bar.className = "qplus-bar qplus-mode";
-    bar.innerHTML = `<span class="qplus-lab">縱軸</span>` + MODES.map(([m, t]) =>
-      `<button type="button" data-m="${m}">${t}</button>`).join("");
+    bar.innerHTML = `<span class="qplus-lab">縱軸</span><span class="seg">` + MODES.map(([m, t]) =>
+      `<button type="button" data-m="${m}">${t}</button>`).join("") + `</span>`;
     el.parentNode.insertBefore(bar, el);
     bar.addEventListener("click", (e) => {
       const b = e.target.closest("button[data-m]"); if (!b) return;
@@ -121,8 +146,8 @@ function tickerBar(el, traces) {
   }
   el.__qHidden = new Set();   // 重新回測 = 全部重新顯示
   const esc = (x) => x.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
-  bar.innerHTML = `<span class="qplus-lab">標的</span>` + groups.map(({ g, color }) =>
-    `<button type="button" class="qplus-t" data-g="${esc(g)}" aria-pressed="true"><i class="qplus-sw" style="background:${esc(color)}"></i>${esc(g)}</button>`).join("");
+  bar.innerHTML = `<span class="qplus-lab">標的</span><span class="seg">` + groups.map(({ g, color }) =>
+    `<button type="button" class="qplus-t" data-g="${esc(g)}" aria-pressed="true"><i class="qplus-sw" style="background:${esc(color)}"></i>${esc(g)}</button>`).join("") + `</span>`;
 }
 
 // ⑦ 提示框一檔一行：找出「X 單筆」「X 定期定額」成對的線
@@ -190,11 +215,16 @@ function pnlChart(el, traces, c) {
     wrap = document.createElement("div");
     wrap.className = "qplus-pnl-wrap";
     wrap.innerHTML = `<div class="qplus-pnl-h">帳面損益（資產價值 − 總投入金額）</div>
-      <div class="qplus-pnl-sub">高於 0 = 帳面賺錢、低於 0 = 帳面賠錢。定期定額還沒投入的現金也算在資產裡，所以兩種策略的「總投入」一樣，可以直接比。</div>
+      <div class="qplus-pnl-sub"></div>
       <div class="qplus-pnl"></div>`;
     const anchor = el.nextElementSibling && el.nextElementSibling.classList.contains("qplus-tip") ? el.nextElementSibling : el;
     anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
   }
+  // 說明文字依畫出來的策略調整（只畫一種時不提沒畫出來的線）
+  const hasLs = traces.some((t) => String(t.name).endsWith(LS)), hasDca = traces.some((t) => String(t.name).endsWith(DCA));
+  wrap.querySelector(".qplus-pnl-sub").textContent = "高於 0 = 帳面賺錢、低於 0 = 帳面賠錢。"
+    + (hasLs && hasDca ? "定期定額還沒投入的現金也算在資產裡，所以兩種策略的「總投入」一樣，可以直接比。"
+      : hasDca ? "定期定額還沒投入的現金也算在資產裡，「總投入」就是你一開始準備的那筆錢。" : "");
   const box = wrap.querySelector(".qplus-pnl");
   const hidden = el.__qHidden || new Set();
   const data = traces.map((t) => ({
@@ -207,13 +237,13 @@ function pnlChart(el, traces, c) {
   const xr = L.xaxis && L.xaxis.range && !L.xaxis.autorange ? L.xaxis.range.slice() : undefined;
   window.Plotly.react(box, data, {
     paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-    font: { color: c.text, family: getComputedStyle(el).fontFamily, size: 12 },
+    font: { color: c.text, family: c.font, size: 12 },
     margin: { l: 60, r: 16, t: 8, b: 30 }, showlegend: false, hovermode: "x unified",
-    hoverlabel: { bgcolor: c.panel, bordercolor: c.border, font: { color: c.text, size: el.clientWidth && el.clientWidth < 560 ? 12 : 13 } },
-    xaxis: { gridcolor: c.border, linecolor: c.border, automargin: true, range: xr, autorange: !xr,
+    hoverlabel: { bgcolor: c.panel, bordercolor: c.axis, font: { color: c.text, size: el.clientWidth && el.clientWidth < 560 ? 12 : 13 } },
+    xaxis: { gridcolor: c.grid, linecolor: c.axis, tickfont: { color: c.tick }, automargin: true, range: xr, autorange: !xr,
       tickformatstops: TICKFMT, hoverformat: "%Y/%m/%d", spikecolor: c.muted, spikethickness: 1, spikedash: "dot" },
-    yaxis: { gridcolor: c.border, linecolor: c.border, automargin: true, tickformat: ",.0f",
-      zeroline: true, zerolinecolor: c.muted, zerolinewidth: 2, title: { text: "帳面損益" } },
+    yaxis: { gridcolor: c.grid, linecolor: c.axis, tickfont: { color: c.tick }, automargin: true, tickformat: ",.0f",
+      zeroline: true, zerolinecolor: c.axis, zerolinewidth: 2, title: { text: "帳面損益" } },
   }, { responsive: true, displaylogo: false, displayModeBar: false });
   box.__qFmt = "+,d";   // 註：這版 Plotly 的 "+,.0f" 不會加千分位，"+,d" 才會
    box.__qBase = base;
@@ -244,15 +274,14 @@ window.__quantChartPlus = {
     const timeSeries = traces.some((t) => Array.isArray(t.x) && isDate(t.x[0]) && t.x.length > 60);
     const upd = {
       // ① 提示框
-      "hoverlabel.bgcolor": c.panel, "hoverlabel.bordercolor": c.border,
+      "hoverlabel.bgcolor": c.panel, "hoverlabel.bordercolor": c.axis,
       "hoverlabel.font.color": c.text, "hoverlabel.font.size": el.clientWidth && el.clientWidth < 560 ? 12 : 13,
       "xaxis.spikecolor": c.muted, "xaxis.spikethickness": 1, "xaxis.spikedash": "dot",
     };
     if (timeSeries) {
-      // ② 快速縮放按鈕放在圖的左上方；圖例移到圖的下方，才不會跟右上角的工具列疊在一起
-      upd["xaxis.rangeselector"] = rangeButtons(c);
+      // ② 快速縮放鈕改成圖上方的 HTML 膠囊（rangeBar）；圖例移到圖的下方，才不會跟右上角的工具列疊在一起
       upd["xaxis.tickformatstops"] = TICKFMT; upd["xaxis.hoverformat"] = "%Y/%m/%d";
-      upd["margin.t"] = 44;
+      upd["margin.t"] = 24;
       upd["margin.b"] = 40 + 22 * Math.ceil(traces.length / 4);
       upd["legend.orientation"] = "h"; upd["legend.x"] = 0; upd["legend.y"] = -0.08; upd["legend.yanchor"] = "top";
       upd["legend.font.size"] = 13;
@@ -270,7 +299,7 @@ window.__quantChartPlus = {
       toolbar(el, c);
       tickerBar(el, traces);
     }
-    if (timeSeries) tip(el);
+    if (timeSeries) { rangeBar(el, traces); tip(el); }
     if (PNL_CHARTS.has(el.id) && timeSeries) pnlChart(el, traces, c);
   },
 };

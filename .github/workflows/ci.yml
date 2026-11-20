@@ -36,6 +36,7 @@ jobs:
           pip install --quiet -r quant/scripts/requirements.txt
           python3 -m unittest discover -s quant/tests -p 'test_*.py'
           node --test quant/tests/rates-core.test.mjs
+          node --test quant/tests/view-mode.test.mjs
           node --test tools/tests/today.test.js
       - name: JavaScript 語法檢查
         run: for f in assets/*.js quant/js/*.js; do node --check "$f" || exit 1; done

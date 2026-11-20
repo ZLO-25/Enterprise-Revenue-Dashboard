@@ -1,6 +1,7 @@
 """把「單筆 vs 定期定額」回測站（github.com/ZLO-25/Lump-Sum-v.s.-DCA）的前端搬進 quant/。
 
-用法：python3 tools/quant_sync.py <Lump-Sum-v.s.-DCA 的本機路徑>
+【2026-11-20 起已停用，需加 --force，見 GUARD】
+用法：python3 tools/quant_sync.py --force <Lump-Sum-v.s.-DCA 的本機路徑>
 
 為什麼要用程式搬、不手動複製？
   回測站之後還會繼續改。這支程式把「原始檔 → 主站版本」的每一個改動都寫死在下面，
@@ -138,10 +139,22 @@ READABILITY = f"""
 """
 
 
+GUARD = """【已停用】這支程式不能直接跑。
+2026-11-20 起 quant/ 的 view.html、quant.css、js/app.js、js/admin.js、js/engine.js 改為手寫維護
+（舊回測 repo 已封存；樣式已對齊主站、加了顯示篩選、移除看盤牆，產生器的輸出會把這些全部蓋掉）。
+真的要重新產生（只有在還原到舊版時才有意義）：加 --force，例如
+    python3 tools/quant_sync.py --force <Lump-Sum-v.s.-DCA 的本機路徑>
+"""
+
+
 def main():
-    if len(sys.argv) < 2:
+    if "--force" not in sys.argv[1:]:
+        print(GUARD)
+        sys.exit(1)
+    argv = [a for a in sys.argv[1:] if a != "--force"]
+    if not argv:
         sys.exit(__doc__)
-    src = os.path.abspath(sys.argv[1])
+    src = os.path.abspath(argv[0])
 
     # view.html
     html = rd(src, "index.html")
