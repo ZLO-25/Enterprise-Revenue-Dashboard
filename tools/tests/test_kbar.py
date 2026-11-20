@@ -387,6 +387,19 @@ class Process(unittest.TestCase):
         self.assertFalse(json.load(open(os.path.join(self.out, "t.enc.json")))["provisional"])
         self.assertEqual(self.run_p(raw2), "up-to-date")
 
+    def test_etf_backfill_history(self):
+        """ETF 第一次只抓到一個月 → 之後補到完整歷史：lastDate 一樣也要寫（不能判成「沒有新的 K 棒」）。"""
+        d1, d2 = dt.date(2026, 11, 17), dt.date(2026, 11, 18)
+        self.c = dict(self.c, code="t", dailyDir=self.dd)
+        self.set_daily([["2026-11-17", 10.5], ["2026-11-18", 10.8]])
+        short = [(d1, 10, 11, 9, 10.5, 100), (d2, 10, 11, 9, 10.8, 100)]
+        self.assertEqual(self.run_p(short), "written")
+        full = [(dt.date(2024, 1, 2), 5, 6, 4, 5.5, 10)] + short
+        self.assertEqual(self.run_p(full), "written")
+        o = json.load(open(os.path.join(self.out, "t.enc.json")))
+        self.assertEqual(o["firstDate"], "2024-01-02")
+        self.assertEqual(self.run_p(full), "up-to-date")
+
     def test_mismatch_goes_pending(self):
         d1, d2 = dt.date(2026, 11, 17), dt.date(2026, 11, 18)
         raw = [(d1, 10, 11, 9, 10.5, 100), (d2, 10, 12, 9, 11.0, 777)]
