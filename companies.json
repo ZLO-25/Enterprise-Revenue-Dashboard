@@ -732,7 +732,7 @@
       },
       "tz": "US",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
+      "enabled": false,
       "cik": "0000040533"
     },
     {
@@ -760,7 +760,7 @@
       },
       "tz": "US",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
+      "enabled": false,
       "cik": "0000936468"
     },
     {
@@ -788,7 +788,7 @@
       },
       "tz": "US",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
+      "enabled": false,
       "cik": "0001868275"
     }
   ]
