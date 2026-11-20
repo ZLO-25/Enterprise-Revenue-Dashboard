@@ -312,8 +312,13 @@ def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of,
             zh = (tw_names or {}).get(tw_code(r.get("sym")))
             if zh:
                 r["zh"] = zh
-        # 持股的 1 年報酬對照：每天用最新的 data/daily 重算（持股名單本身每週才抓）
+        # 持股對應本站公司、1 年報酬對照：每天重算（持股名單本身每週才抓；新增公司或代號對應後馬上生效）
         for r in ((out.get("holdings") or {}).get("rows") or []):
+            code = smap.get(str(r.get("sym") or "").upper())
+            for k in ("code", "href", "co"):
+                r.pop(k, None)
+            if code and code in cos_by_code:
+                r["code"], r["href"], r["co"] = code, cos_by_code[code]["path"], cos_by_code[code]["name"]
             if r.get("code"):
                 v = r1y_of(r["code"])
                 r.pop("r1y", None), r.pop("r1yD", None)

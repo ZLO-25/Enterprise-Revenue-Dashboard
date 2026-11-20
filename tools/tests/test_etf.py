@@ -113,7 +113,8 @@ class Entry(unittest.TestCase):
 
     def test_keeps_previous_fund_data(self):
         prev = {"holdings": {"asOf": "2026-11-13", "rows": [{"sym": "NVDA", "w": 10, "code": "nvda"}], "src": "s"}, "er": {"pct": 0.1, "asOf": "2026-11-13"}}
-        out = E.build_entry(self.e, {"rows": [["2026-11-19", 1.0]]}, prev, None, "2026-11-20", {}, {}, lambda c: (5.0, "2026-11-19"))
+        by = {"nvda": {"code": "nvda", "name": "輝達", "path": "nvda/"}}
+        out = E.build_entry(self.e, {"rows": [["2026-11-19", 1.0]]}, prev, None, "2026-11-20", {"NVDA": "nvda"}, by, lambda c: (5.0, "2026-11-19"))
         self.assertEqual(out["er"]["pct"], 0.1)
         self.assertEqual(out["holdings"]["rows"][0]["r1y"], 5.0)
         # 抓了但沒抓到 → 沿用並註明
@@ -189,3 +190,13 @@ class V2(unittest.TestCase):
         self.assertEqual(out["er"]["pct"], 0.4)
         out2 = E.build_entry(e, None, None, None, "2026-11-20", {}, {}, lambda c: None)
         self.assertEqual(out2["holdings"]["note"], e["holdingsNote"])
+
+
+class Remap(unittest.TestCase):
+    def test_daily_remap_without_refetch(self):
+        e = {"code": "etf_x", "ticker": "X", "name": "X", "group": "g", "yahoo": "X", "currency": "USD", "issuer": "i", "why": "w"}
+        prev = {"holdings": {"asOf": "2026-11-20", "rows": [{"sym": "005930.KQ", "name": "Samsung", "w": 19.0}]}}
+        by = {"samsung": {"code": "samsung", "name": "三星電子", "path": "samsung/"}}
+        out = E.build_entry(e, None, prev, None, "2026-11-21", {"005930.KQ": "samsung"}, by, lambda c: (10.0, "2026-11-20"))
+        r = out["holdings"]["rows"][0]
+        self.assertEqual((r["code"], r["co"], r["r1y"]), ("samsung", "三星電子", 10.0))
