@@ -1,0 +1,341 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/202058/000020205824000102/exhibit991q1cy24earnings.htm
+
+EX-99.1
+2
+exhibit991q1cy24earnings.htm
+EX-99.1
+Document
+ Exhibit 99.1
+ Earnings Release
+L3Harris Technologies Reports Strong First Quarter 2024 Results, 
+Increases 2024 Profitability Guidance 
+•Orders1 of $5.5 billion; book-to-bill of 1.06x
+•Revenue of $5.2 billion, up 17%, up 5% organically1
+•Operating margin of 7.3%; Adjusted segment operating margin1 of 15.1%
+•Earnings per share (EPS) of $1.48; Non-GAAP EPS1 of $3.06
+•2024 adjusted segment operating margin1 guidance increases from ~15% to >15%*
+•2024 non-GAAP EPS guidance range increases from $12.40 - $12.80 to $12.70 - $13.05*
+MELBOURNE, Fla., April 25, 2024 — L3Harris Technologies, Inc. (NYSE: LHX) reported first quarter 2024 net income attributable to L3Harris of $283 million, or diluted earnings per share (EPS) of $1.48, on first quarter revenue of $5.2 billion. First quarter 2024 non-GAAP1 net income attributable to L3Harris was $584 million, or non-GAAP1 diluted EPS of $3.06. A reconciliation of non-GAAP results are detailed in tables beginning on page 10.
+"We're off to a strong start to 2024, reporting solid revenue with higher operating margin across all four segments and our Trusted Disruptor strategy continues to drive demand for innovative, resilient and mission-critical solutions aligned with national security needs. We delivered double-digit top line growth while continuing to drive improvements to operational and program performance," said Christopher E. Kubasik, Chair and CEO. 
+Kubasik continued, "Given the strength of our first quarter, we are increasing 2024 profitability guidance, while reaffirming revenue and free cash flow commitments. With our progress, we remain confident in the financial framework that we laid out at investor day which is driven by operational rigor and structural enhancements from our LHX NeXt initiative." 
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 5 for more information.
+PAGE 1 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+SUMMARY FINANCIAL RESULTS AND 2024 GUIDANCE
+First Quarter | 2024 Guidance*
+($ millions, except per share data) | 2024 | 2023 | Change | Current | Prior
+Revenue
+Space & Airborne Systems | $ | 1,751 | $ | 1,655
+Integrated Mission Systems | 1,669 | 1,700
+Communication Systems | 1,294 | 1,163
+Aerojet Rocketdyne | 542 | —
+Corporate eliminations | (45) | (47)
+Revenue | $ | 5,211 | $ | 4,471 | 17% | $20.8B - $21.3B | $20.7B - $21.3B
+Operating income
+Space & Airborne Systems | $ | 216 | $ | 187
+Integrated Mission Systems | 190 | 185
+Communication Systems | 310 | 266
+Aerojet Rocketdyne | 72 | —
+Unallocated items | (410) | (245)
+Operating income | $ | 378 | $ | 393 | (4)%
+Operating margin | 7.3 | % | 8.8 | % | (150) bps
+Adjusted segment operating income1
+Space & Airborne Systems | $ | 216 | $ | 187
+Integrated Mission Systems | 190 | 185
+Communication Systems | 310 | 266
+Aerojet Rocketdyne | 72 | —
+Adjusted segment operating income1 | $ | 788 | $ | 638 | 24%
+Adjusted segment operating margin1 | 15.1 | % | 14.3 | % | 80 bps | > 15% | ~15%
+Effective tax rate (GAAP) | 1.7 | % | 9.1 | % | (740) bps
+Effective tax rate (non-GAAP1) | 13.1 | % | 13.4 | % | (30) bps
+EPS | $ | 1.48 | $ | 1.76 | (16)%
+Non-GAAP EPS1 | $ | 3.06 | $ | 2.86 | 7% | $12.70 - $13.05 | $12.40 - $12.80
+Cash from operations | $ | (104) | $ | 350 | (130)%
+Adjusted free cash flow1 | $ | (156) | $ | 315 | (150)% | ~$2.2B | ~$2.2B
+*When we provide our expectation for adjusted segment operating margin, effective tax rate on non-GAAP income, non-GAAP EPS and adjusted free cash flow on a forward-looking basis, a reconciliation of these non-GAAP financial measures to the corresponding GAAP measures is not available without unreasonable effort due to the unavailability of items for exclusion from the GAAP measure. We are unable to address the probable significance of this information, the variability of which may have a significant impact on future GAAP results. See Non-GAAP Financial Measures on page 5 for more information.
+Revenue: First quarter revenue increased 17%, primarily from the acquisition of Aerojet Rocketdyne (AR) and organic growth from continued growth in Space and classified programs within Space & Airborne Systems (SAS) segment and growth from tactical, broadband communication and vision products within the Communication Systems (CS) segment. These increases were partially offset by a decline in Intelligence, Surveillance and Reconnaissance (ISR) aircraft procurement activity within the Integrated Mission Systems (IMS) segment compared with the first quarter 2023. 
+Operating Margin:
+GAAP: First quarter operating margin decreased 150 bps to 7.3% driven by higher LHX NeXt implementation costs and intangible amortization from the Aerojet Rocketdyne acquisition. 
+Adjusted segment operating margin1: Expanded 80 bps to 15.1% due to improved operational and program performance across the SAS, IMS and CS segments and partially driven by LHX NeXt savings.
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 5 for more information.
+PAGE 2 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+EPS: 
+GAAP: First quarter EPS decreased 16% to $1.48 due to increased LHX NeXt implementation costs, intangible amortization from the Aerojet Rocketdyne acquisition, increased interest expense and lower pension income, partially offset by improved operating performance and a lower effective tax rate. 
+Non-GAAP1: Increased 7% to $3.06 driven by higher adjusted segment operating income1 and a lower effective tax rate on non-GAAP income, partially offset by lower pension income and higher interest expense. 
+Cash Flows: 
+GAAP: First quarter cash used in operations was ($104) million due to working capital timing.
+Adjusted free cash flow1: Use of ($156) million, down versus the prior year period due to working capital and capital expenditure timing.
+SEGMENT RESULTS AND GUIDANCE:
+Space & Airborne Systems (SAS)
+First Quarter | 2024 Guidance
+($ millions) | 2024 | 2023 | Change | Current | Prior
+Revenue | $ | 1,751 | $ | 1,655 | 6% | ~$7,000 | $6,900 - $7,100
+Operating margin | 12.3 | % | 11.3 | % | 100 bps | ~12%* | mid-high 11%*
+Revenue: First quarter revenue increased 6%, primarily from continued growth in Space Systems and classified program growth in Intel and Cyber. 
+Operating Margin: First quarter operating margin increased 100 bps largely due to improved operational and program performance, particularly in Space Systems reflecting progress on development programs and maturing capabilities resulting in net favorable program matters. Operating margin also benefited from higher volume which was partially offset by mix.
+Integrated Mission Systems (IMS)
+First Quarter | 2024 Guidance
+($ millions) | 2024 | 2023 | Change | Current | Prior
+Revenue | $ | 1,669 | $ | 1,700 | (2)% | $6,400 - $6,600 | $6,400 - $6,600
+Operating margin | 11.4 | % | 10.9 | % | 50 bps | low-mid 11%* | low-mid 11%*
+Revenue: First quarter revenue decreased 2%, primarily from lower ISR aircraft procurement activity compared with first quarter 2023. 
+Operating Margin: First quarter operating margin increased 50 bps from improved program performance, including stabilizing programs resulting in fewer negative Estimate as Completion (EAC) adjustments, partially offset by less favorable product mix.
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 5 for more information.
+PAGE 3 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+Communication Systems (CS)
+First Quarter | 2024 Guidance
+($ millions) | 2024 | 2023 | Change | Current | Prior
+Revenue | $ | 1,294 | $ | 1,163 | 11% | $5,300 - 5,400 | $5,300 - 5,400
+Operating margin | 24.0 | % | 22.9 | % | 110 bps | low-mid 24%* | low-mid 24%*
+Revenue: First quarter revenue increased 11%, primarily from higher volumes in Tactical Communications, Integrated Vision Systems and Broadband Communications.
+Operating Margin: First quarter operating margin increased 110 bps primarily from the benefit of higher volume and improved operational performance in Integrated Vision Systems, partially offset by higher domestic tactical radio mix.
+Aerojet Rocketdyne (AR)
+First Quarter | 2024 Guidance
+($ millions) | 2024 | 2023 | Change | Current | Prior
+Revenue | $ | 542 | $ | — | $2,400 - $2,500 | $2,400 - $2,500
+Operating margin | 13.3 | % | — | % | high 11%* | high 11%*
+Revenue and Operating Margin: First quarter results are attributed to program execution across Missile Solutions and Space Propulsion and Power Systems.
+SUPPLEMENTAL INFORMATION:
+2024 | 2023
+Other Information | Current | Prior | Actuals
+FAS/CAS operating adjustment | ~$30 million | ~$40 million | $110 million
+Non-service FAS pension income | ~$310 million | ~$260 million | $310 million
+Net interest expense | ~$650 million | ~$650 million | $543 million
+Effective tax rate on GAAP income | 1.9%
+Effective tax rate on non-GAAP income1* | 13.0% - 13.5% | 13.0% - 13.5% | 13.0%
+Average diluted shares | flat - up slightly | flat - up slightly | 190.6
+Capital expenditures | ~2% sales | ~2% sales | 2% sales
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 5 for more information.
+PAGE 4 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+Non-GAAP Financial Measures
+This press release contains Non-GAAP Financial Measures ("NGFMs") (as listed on page 15) within the meaning of Regulation G promulgated by the Securities and Exchange Commission (SEC). Management believes excluding the adjustments listed on page 15 for the purposes of calculating certain non-GAAP measures is useful to investors because these costs do not reflect our ongoing operating performance; however there is no guarantee that items excluded from non-GAAP financial measures will not reoccur in future periods. These adjustments, when considered together with the unadjusted GAAP financial measures, provide information that is useful to investors in understanding period-over-period operating results separate and apart from items that may, or could, have a disproportionately positive or negative impact on results in any particular period. Management also believes that these adjustments to our NGFMs enhance the ability of investors to analyze L3Harris business trends, to understand L3Harris performance and to evaluate our initiatives to drive improved financial performance. We utilize NGFMs as guides in forecasting, budgeting and long-term planning processes and to measure operating performance for compensation purposes. NGFMs should be considered in addition to, and not as a substitute for, financial measures presented in accordance with GAAP. See “Reconciliation of Non-GAAP Financial Measures” beginning on page 10 for detail on the adjustments to our NGFMs. We also provide our expectation of forward-looking NGFMs. A reconciliation of forward-looking NGFMs to comparable GAAP measures is not available without unreasonable effort because of inherent difficulty in forecasting and quantifying the comparable GAAP measures and the applicable adjustments and other amounts that would be necessary for such a reconciliation, including due to potentially high variability, complexity and low visibility as to the applicable adjustments and other amounts which could have an unpredictable and potentially disproportionate impact on future GAAP results, such as the impact of Aerojet Rocketdyne, costs associated with LHX NeXt, potential divestitures and their timing, other unusual gains and losses and extent of tax deductibility. 
+Conference Call and Webcast
+L3Harris Technologies will host a call tomorrow, April 26, 2024, at 8:30 a.m. Eastern Time (ET). 
+The dial-in numbers for the teleconference are (U.S.) 877-407-6184 and (International) 201-389-0877, and participants will be directed to an operator. Participants are encouraged to listen via webcast, which will be broadcast live at L3Harris.com/investors. A recording of the call will be available on the L3Harris website, beginning at approximately 12 p.m. ET on April 26, 2024.
+About L3Harris Technologies
+L3Harris Technologies is the Trusted Disruptor in the defense industry. With customers’ mission-critical needs always in mind, our ~50,000 employees deliver end-to-end technology solutions connecting the space, air, land, sea and cyber domains in the interest of national security.
+Investor Relations Contact:
+Mark Kratz, 321-724-3170
+investorrelations@l3harris.com
+Media Relations Contact: 
+Sara Banda, 321-306-8927
+sara.banda@l3harris.com
+PAGE 5 
+Forward-Looking Statements
+Statements in this press release that are not historical facts are forward-looking statements that reflect management's current expectations, assumptions and estimates of future performance and economic conditions. Such statements are made in reliance on the safe harbor provisions of Section 27A of the Securities Act of 1933 and Section 21E of the Securities Exchange Act of 1934. Forward-looking statements in this press release include but are not limited to: 2024 guidance; 2024-2026 capital deployment priorities; anticipated LHX NeXt program costs and savings targets and their impacts on operational performance, margin expansion and accelerating adjusted free cash flow growth; supplemental financial information for 2024; and other statements regarding the business outlook and financial performance guidance that are not historical facts. The company cautions investors that any forward-looking statements are subject to risks and uncertainties that may cause actual results and future trends to differ materially from those matters expressed in or implied by such forward-looking statements, including but not limited to: competitive markets and U.S. Government spending priorities; changes in the mix of fixed-price, cost-plus and time-and-material type contracts and the impact of a significant increase in or sustained period of increased inflation; the termination, impact of regulations, failure to fund, or negative audit findings for U.S. Government contracts; uncertain economic conditions; the consequences of future geo-political events; the impact of government investigations; the risks of doing business internationally; disruptions to our supply chain; the attraction and retention of key employees; the ability to develop new products and services and technologies that achieve market acceptance; natural disasters or other significant business disruptions; inability to achieve the expected results of LHX NeXt; indebtedness and ability to make payments on, repay or service indebtedness; unfunded defined benefit plans liability; the level of returns on defined benefit plan assets, changes in interest rates and other market factors; changes in effective tax rate or additional tax exposures; the ability to obtain export licenses or make sales to foreign governments; unforeseen environmental issues; the outcome of litigation or arbitration; potential claims related to infringement of intellectual property rights or environmental remediation or other contingencies; expanded operations, including related to handling of dangerous materials; risks related to other strategic transactions, including pending and contemplated divestitures. Further information relating to these and other factors that may impact the company's results, future trends and forward-looking statements are disclosed in the company's filings with the SEC. The forward-looking statements contained in this press release are made as of the date of this press release, and the company disclaims any intention or obligation, other than imposed by law, to update or revise any forward-looking statements, whether as a result of new information, future events, or otherwise. Persons reading this press release are cautioned not to place undue reliance on forward-looking statements.
+PAGE 6 
+Table 1 - Condensed Consolidated Statement of Operations (Unaudited)
+Quarter Ended
+(In millions, except per share amounts) | March 29, 2024 | March 31, 2023
+Revenue | $ | 5,211 | $ | 4,471
+Cost of revenue | (3,863) | (3,305)
+General and administrative expenses | (970) | (773)
+Operating income | 378 | 393
+Non-service FAS pension income and other | 88 | 82
+Interest expense, net | (176) | (102)
+Income before income taxes | 290 | 373
+Income taxes | (5) | (34)
+Net income | 285 | 339
+Noncontrolling interests, net of income taxes | (2) | (2)
+Net income attributable to L3Harris Technologies, Inc. | $ | 283 | $ | 337
+Net income per common share attributable to L3Harris Technologies, Inc. common shareholders
+Basic | $ | 1.49 | $ | 1.77
+Diluted | $ | 1.48 | $ | 1.76
+Basic weighted average common shares outstanding | 189.8 | 190.2
+Diluted weighted average common shares outstanding | 190.8 | 191.2
+PAGE 7 
+Table 2 - Consolidated Statement of Cash Flow (Unaudited)
+Quarter Ended
+(In millions) | March 29, 2024 | March 31, 2023
+Operating Activities
+Net income | $ | 285 | $ | 339
+Adjustments to reconcile net income to net cash (used in) provided by operating activities:
+Amortization of acquisition-related intangibles | 217 | 165
+Depreciation and other amortization | 103 | 85
+Share-based compensation | 26 | 23
+Share-based matching contributions under defined contribution plans | 70 | 57
+Pension and other postretirement benefit plan income | (72) | (71)
+Deferred income taxes | (111) | (115)
+(Increase) decrease in:
+Receivables, net | 7 | 48
+Contract assets | (340) | (269)
+Inventories | (21) | (86)
+Other current assets | 10 | (40)
+Increase (decrease) in:
+Accounts payable | 9 | 90
+Contract liabilities | (152) | 97
+Compensation and benefits | (170) | (115)
+Other accrued items | (18) | 63
+Income taxes | 103 | 130
+Other operating activities | (50) | (51)
+Net cash (used in) provided by operating activities | (104) | 350
+Investing Activities
+Net cash paid for acquired businesses | — | (1,973)
+Additions to property, plant and equipment | (115) | (71)
+Other investing activities | (1) | (4)
+Net cash used in investing activities | (116) | (2,048)
+Financing Activities
+Proceeds from borrowings, net of issuance cost | 2,237 | 2,248
+Repayments of borrowings | (2,250) | (255)
+Change in commercial paper, maturities under 90 days, net | 326 | —
+Proceeds from commercial paper, maturities over 90 days | 480 | —
+Repayments of commercial paper, maturities over 90 days | (205) | —
+Proceeds from exercises of employee stock options | 35 | 11
+Repurchases of common stock | (233) | (396)
+Cash dividends | (224) | (220)
+Other financing activities | (22) | (27)
+Net cash provided by financing activities | 144 | 1,361
+Effect of exchange rate changes on cash and cash equivalents | (7) | 2
+Net decrease in cash and cash equivalents | (83) | (335)
+Cash and cash equivalents, beginning of period | 560 | 880
+Cash and cash equivalents, end of period | $ | 477 | $ | 545
+PAGE 8 
+Table 3 - Condensed Consolidated Balance Sheet (Unaudited)
+(In millions) | March 29, 2024 | December 29, 2023
+Assets
+Current assets
+Cash and cash equivalents | $ | 477 | $ | 560
+Receivables, net | 1,209 | 1,230
+Contract assets | 3,502 | 3,196
+Inventories | 1,476 | 1,472
+Other current assets | 466 | 491
+Assets of business held for sale | 1,136 | 1,106
+Total current assets | 8,266 | 8,055
+Non-current assets
+Property, plant and equipment, net | 2,836 | 2,862
+Goodwill | 20,070 | 19,979
+Other intangible assets, net | 8,340 | 8,540
+Deferred income taxes | 113 | 91
+Other non-current assets | 2,191 | 2,160
+Total assets | $ | 41,816 | $ | 41,687
+Liabilities and equity
+Current liabilities
+Short-term debt | $ | 2,203 | $ | 1,602
+Current portion of long-term debt, net | 365 | 363
+Accounts payable | 2,112 | 2,106
+Contract liabilities | 1,777 | 1,900
+Compensation and benefits | 379 | 544
+Other accrued items | 1,174 | 1,129
+Income taxes payable | 182 | 88
+Liabilities of business held for sale | 245 | 272
+Total current liabilities | 8,437 | 8,004
+Non-current liabilities
+Long-term debt, net | 11,140 | 11,160
+Deferred income taxes | 683 | 815
+Other long-term liabilities | 2,826 | 2,879
+Total liabilities | 23,086 | 22,858
+Total equity | 18,730 | 18,829
+Total liabilities and equity | $ | 41,816 | $ | 41,687
+PAGE 9 
+Reconciliation of Non-GAAP Financial Measures
+Table 4 - Organic Revenue (Unaudited)
+Quarter Ended
+March 29, 2024
+(In millions) | GAAP | Adjustments1 | Organic
+SAS | $ | 1,751 | $ | — | $ | 1,751
+IMS | 1,669 | — | 1,669
+CS | 1,294 | — | 1,294
+AR | 542 | (542) | —
+Corporate eliminations | (45) | — | (45)
+Revenue | $ | 5,211 | $ | (542) | $ | 4,669
+Quarter Ended
+March 31, 2023
+(In millions) | GAAP | Adjustments2 | Organic
+SAS | $ | 1,655 | $ | (9) | $ | 1,646
+IMS | 1,700 | — | 1,700
+CS | 1,163 | — | 1,163
+AR | — | — | —
+Corporate eliminations | (47) | — | (47)
+Revenue | $ | 4,471 | $ | (9) | $ | 4,462
+1Adjustment to exclude amounts attributable to each acquired business.
+2Adjustment to exclude amounts attributable to each divested business.
+PAGE 10 
+Table 5 - Operating Income and Margin and Net Income and Adjusted Segment Operating Income and Margin and Non-GAAP Net Income (Unaudited)
+Quarter Ended
+(In millions) | March 29, 2024 | March 31, 2023
+Revenue (A) | $ | 5,211 | $ | 4,471
+Operating income (B) | $ | 378 | $ | 393
+Corporate items add back1 | 26 | (16)
+Significant and/or non-recurring items2:
+Amortization of acquisition-related intangibles | 217 | 165
+Additional cost of revenue related to the fair value step-up in inventory sold | — | 15
+Merger, acquisition, and divestiture-related expenses | 40 | 50
+Impairment of goodwill and other assets | — | 18
+LHX NeXt implementation costs | 127 | 13
+Total significant and/or non-recurring items2 | 384 | 261
+Adjusted segment operating income (C) | $ | 788 | $ | 638
+Margins
+Operating margin (B)/(A) | 7.3 | % | 8.8 | %
+Adjusted segment operating margin (C)/(A) | 15.1 | % | 14.3 | %
+Quarter Ended
+(In millions) | March 29, 2024 | March 31, 2023
+Net income attributable to L3Harris Technologies, Inc. | $ | 283 | $ | 337
+Significant and/or non-recurring items2: | 384 | 261
+Noncontrolling interest portion of significant and/or non-recurring items2 | — | (1)
+Taxes on significant and/or non-recurring items2 | (83) | (51)
+Total significant and/or non-recurring items after tax and noncontrolling interest portion of adjustments2 | 301 | 209
+Non-GAAP net income attributable to L3Harris Technologies, Inc. | $ | 584 | $ | 546
+1Corporate items add back includes unallocated corporate department expense, net of $33M and $6M for the quarter ended March 29, 2024 and March 31, 2023, respectively, and the FAS/CAS operating adjustment of $7M and $22M for the quarter ended March 29, 2024 and March 31, 2023, respectively. The FAS/CAS operating adjustment represents the difference between the service cost component of Financial Accounting Standards (“FAS”) pension and Other Postretirement Benefits (“OPEB”) income or expense and total U.S. Government Cost Accounting Standards (“CAS”) pension and OPEB cost. 2Refer to Non-GAAP Financial Measures on page 15
+PAGE 11 
+Table 6 - Effective Tax Rate on Non-GAAP Income
+Quarter Ended March 29, 2024
+(In millions) | Earnings Before Tax | Tax (Benefit) Expense | Effective Tax Rate
+Income before income taxes | $ | 290 | $ | 5 | 1.7 | %
+Merger, acquisition, and divestiture-related expenses1 | 40 | 9
+LHX NeXt implementation costs1 | 127 | 12
+Amortization of acquisition-related intangibles1 | 217 | 62
+Non-GAAP income before income taxes1 | $ | 674 | $ | 88 | 13.1 | %
+Quarter Ended March 31, 2023
+(In millions) | Earnings Before Tax | Tax Expense (Benefit) | Effective Tax Rate
+Income before income taxes | $ | 373 | $ | 34 | 9.1 | %
+Merger, acquisition, and divestiture-related expenses1 | 50 | 3
+LHX NeXt implementation costs1 | 13 | 2
+Amortization of acquisition-related intangibles and additional cost of revenue related to the fair value step-up in inventory sold1 | 180 | 43
+Impairment of goodwill and other assets1 | 18 | 3
+Non-GAAP income before income taxes1 | $ | 634 | $ | 85 | 13.4 | %
+1Refer to Non-GAAP Financial Measures on page 15.
+PAGE 12 
+Table 7 - Non-GAAP EPS (unaudited)
+Quarter Ended
+(In millions) | March 29, 2024 | March 31, 2023
+Diluted weighted average common shares outstanding | 190.8 | 191.2
+EPS | $ | 1.48 | $ | 1.76
+Significant and/or non-recurring items included in EPS above1:
+Amortization of acquisition-related intangibles | 1.14 | 0.86
+Additional cost of revenue related to the fair value step-up in inventory sold | — | 0.08
+Merger, acquisition, and divestiture-related expenses | 0.21 | 0.26
+Impairment of goodwill and other assets | — | 0.09
+LHX NeXt implementation costs | 0.67 | 0.07
+Income taxes on above adjustments | (0.44) | (0.26)
+Non-GAAP EPS | $ | 3.06 | $ | 2.86
+1Refer to Non-GAAP Financial Measures on page 15.
+PAGE 13 
+Table 8 - Adjusted Free Cash Flow
+Quarter Ended
+(In millions) | March 29, 2024 | March 31, 2023
+Net cash provided by operating activities | $ | (104) | $ | 350
+Additions to property, plant and equipment | (115) | (71)
+Free cash flow | (219) | 279
+Cash used for merger, acquisition and severance1,2 | 63 | 36
+Adjusted free cash flow1 | $ | (156) | $ | 315
+1Refer to Non-GAAP Financial Measures on page 15.21Q23 amount reclassified to include cash paid for severance.
+PAGE 14 
+Non-GAAP Terms and Definitions
+Description | Definition
+Amortization of acquisition-related intangibles | Consists of amortization of identifiable intangible assets acquired in connection with business combinations. Amortization charges are recorded over the estimated useful life of the related acquired intangible asset, and thus are generally recorded over multiple years.
+Additional cost of revenue related to the fair value step-up in inventory sold | Difference between the balance sheet value of inventory from the acquiree and the acquisition date fair value.
+Merger, acquisition, and divestiture-related expenses | Transaction and integration expenses associated with TDL and AR acquisitions. Also, includes external costs related to pursuing acquisition and divestiture portfolio optimization, non-transaction costs related to divestitures and salaries of employees in roles established for and dedicated to planned divestiture and acquisition activity.
+Impairment of goodwill and other assets | In 2023, charges for the impairment of contract assets and other assets related to the restructuring of a customer contract.
+LHX NeXt implementation costs | Costs associated with transforming multiple functions, systems and processes to increase agility and competitiveness. Costs related to the LHX NeXt initiative are expected to continue through 2025, and are expected to include workforce optimization costs ($64M in 1Q24) and incremental IT expenses for implementation of new systems, third-party consulting expenses and other related costs, including costs related to personnel dedicated to this project ($63M in 1Q24), totaling $400M. We expect gross run-rate savings of $1B exiting year 3.
+Orders | Represents the total value of funded and unfunded contract awards received from the U.S. Government, plus the total value of funded and unfunded contract awards received from customers other than the U.S. Government. This includes incremental funding and adjustments to previous awards, and excludes unexercised contract options and potential orders under ordering-type contracts, such as indefinite delivery, indefinite quantity (IDIQ) contracts.
+Organic revenue | Organic revenue excludes the impact of completed divestitures and first year revenue associated with acquisitions; refer to non-GAAP financial measure (NGFM) reconciliations in the tables accompanying this press release and to the disclosures in the non-GAAP section of this press release for more information. Organic revenue is reconciled in table 4.
+Adjusted segment operating income and margin | Adjusted segment operating income and margin on a consolidated basis represents operating income and margin (GAAP measures) excluding the FAS/CAS operating adjustment, corporate expenses and other unallocated items. Refer to the disclosures in the non-GAAP financial measures section of this press release for more information. Adjusted segment operating income and margin is reconciled in table 5.
+Non-GAAP net income attributable to L3Harris Technologies, Inc. | Non-GAAP net income attributable to L3Harris Technologies, Inc. represents net income attributable to L3Harris Technologies, Inc., a GAAP measure, adjusted for amortization of acquisition-related intangibles; additional cost of revenue related to the fair value step-up in inventory sold; merger, acquisition, and divestiture-related expenses; impairment of goodwill and other assets; LHX NeXt implementation costs, and the income tax and noncontrolling interest portion of the adjustments. Refer to the disclosures in the non-GAAP financial measures section of this press release for more information. Non-GAAP net income attributable to L3Harris Technologies, Inc. is reconciled in table 7.
+Non-GAAP EPS | Non-GAAP EPS represents EPS (net income per common share attributable to L3Harris Technologies, Inc. common shareholders, a GAAP measure) adjusted for amortization of acquisition-related intangibles; additional cost of revenue related to the fair value step-up in inventory sold; merger, acquisition, and divestiture-related expenses; impairment of goodwill and other assets; and LHX NeXt implementation costs. Refer to the disclosures in the non-GAAP financial measures section of this press release for more information. Non-GAAP EPS is reconciled in table 7.
+Adjusted Free Cash Flow (FCF) | Adjusted FCF represents net cash provided by operating activities (a GAAP measure) less capital expenditures (additions to property, plant and equipment less proceeds from sale of property, plant and equipment, net), cash used for merger, acquisition, and severance. Adjusted FCF is reconciled in table 8.
+Cash used for merger, acquisition, and severance | Cash related to merger and acquisition expenses as discussed in the "merger, acquisition, and divestiture-related expenses" heading above and cash related to severance costs included in our LHX NeXt implementation costs.
+Effective tax rate on non-GAAP income | Effective tax rate on non-GAAP income represents the effective tax rate (tax expense as a percentage of income before income taxes, a GAAP measure) adjusted for the tax effect associated with amortization of acquisition-related intangibles; additional cost of revenue related to the fair value step-up in inventory sold; merger, acquisition, and divestiture-related expenses; impairment of goodwill and other assets; and LHX NeXt implementation costs. Refer to the disclosures in the non-GAAP financial measures section of this press release for more information. Non-GAAP effective tax rate is reconciled in table 6.
+PAGE 15 

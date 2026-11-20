@@ -1,0 +1,437 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/202058/000020205821000053/exhibit991q3cy21earnings.htm
+
+EX-99.1
+2
+exhibit991q3cy21earnings.htm
+EX-99.1
+Document
+ Exhibit 99.1
+Investor Relations Contact:
+Rajeev Lalwani, 321-727-9383 
+rajeev.lalwani@l3harris.com 
+Media Relations Contact: 
+Jim Burke, 321-727-9131
+jim.burke@l3harris.com 
+L3Harris Technologies Reports Third Quarter 2021 Results
+•Orders and revenue 
+◦Orders of $4.5 billion; funded book-to-bill of 1.07
+◦Revenue of $4.2 billion, down 5% versus prior year, and down 1% on an organic basis; impacted by global electronic component shortages
+•Margins and earnings
+◦GAAP net income margin of 11.3%; GAAP earnings per share from continuing operations (EPS) of $2.39, up 20%
+◦Non-GAAP adjusted earnings before interest and taxes (EBIT) margin of 19.6%; non-GAAP EPS of $3.21, up 13% 
+•Cash flow and capital deployment
+◦Operating cash flow of $484 million; adjusted free cash flow (FCF) of $673 million 
+◦Returned $1.5 billion to shareholders 
+•Updated 2021 financial outlook
+___________________________________________________________________________________________
+MELBOURNE, Fla., October 29, 2021 — L3Harris Technologies, Inc. (NYSE: LHX) reported third quarter 2021 revenue of $4.2 billion, down 5% versus prior year, and down 1% on an organic1 basis. GAAP net income was $479 million, up 11% versus prior year. Adjusted EBIT2 was $830 million, up 4% versus prior year, and adjusted EBIT margin2 expanded 170 basis points (bps) to 19.6%. GAAP EPS was $2.39, up 20%, and non-GAAP EPS2 was $3.21, up 13% versus prior year. 
+“The L3Harris team delivered solid bookings, margins, and bottom-line results in the quarter, overcoming revenue headwinds due to supply chain delays and award timing. And in spite of unprecedented global supply chain disruptions that are reducing our organic revenue growth guidance for the year, we’re positioned to meet our earnings and cash flow commitments,” said Christopher E. Kubasik, Vice Chair and Chief Executive Officer. "We ultimately view these pandemic-related impacts as temporary and remain focused on creating value for our stakeholders over the long term."
+Summary Financial Results
+Third Quarter | Year-To-Date
+($ millions, except per share data) | 2021 | 2020 | Change | 2021 | 2020 | Change
+(GAAP comparison)
+Revenue | $ | 4,229 | $ | 4,463 | (5%) | $ | 13,464 | $ | 13,534 | (1%)
+Net income | $ | 479 | $ | 430 | 11% | $ | 1,358 | $ | 902 | 51%
+Net income margin | 11.3 | % | 9.6 | % | 170 bps | 10.1 | % | 6.7 | % | 340 bps
+EPS | $ | 2.39 | $ | 1.99 | 20% | $ | 6.64 | $ | 4.27 | 56%
+(Non-GAAP comparison)2
+Revenue | $ | 4,229 | $ | 4,463 | (5%) | $ | 13,464 | $ | 13,534 | (1%)
+Adjusted EBIT | $ | 830 | $ | 798 | 4% | $ | 2,561 | $ | 2,416 | 6%
+Adjusted EBIT margin | 19.6 | % | 17.9 | % | 170 bps | 19.0 | % | 17.9 | % | 110 bps
+EPS | $ | 3.21 | $ | 2.84 | 13% | $ | 9.65 | $ | 8.47 | 14%
+Organic revenue1 | $ | 4,229 | $ | 4,282 | (1%) | $ | 13,464 | $ | 13,163 | 2%
+Funded book-to-bill3 | 1.07 | 1.02 | 1.06 | 1.08
+Third quarter revenue decreased 5% versus prior year primarily due to strategic divestitures, ISR aircraft award timing in Integrated Mission Systems, and supply chain-related constraints within Communication Systems, which also contributed to a 1% decline on an organic basis. At the segment level, the organic revenue decline was driven by Communication Systems and Integrated Mission Systems, down 5% and 3%, respectively, partially offset by 3% growth in Space and Airborne Systems and 1% growth in Aviation Systems. Funded book-to-bill3 was 1.07 for the quarter and 1.06 year-to-date.
+Third quarter net income margin expanded 170 bps and adjusted EBIT margin expanded 170 bps to 19.6% versus prior year. GAAP EPS increased 20% versus prior year driven by e3 performance, integration benefits, cost management, and a lower share count, along with lower acquisition-related amortization, net of supply chain impacts. Non-GAAP EPS increased 13% versus prior year driven by e3 performance, integration benefits, cost management, and a lower share count, more than offsetting supply chain and divestiture-related impacts. 
+Segment Results
+Integrated Mission Systems 
+Third Quarter | Year-To-Date
+($ millions) | 2021 | 2020 | Change | 2021 | 2020 | Change
+Revenue | $ | 1,336 | $ | 1,372 | (3%) | $ | 4,281 | $ | 4,073 | 5%
+Operating income | $ | 222 | $ | 213 | 4% | $ | 691 | $ | 638 | 8%
+Operating margin | 16.6 | % | 15.5 | % | 110 bps | 16.1 | % | 15.7 | % | 40 bps
+Funded book-to-bill3 | 1.04 | 1.08 | 1.05 | 1.22
+Third quarter revenue decreased 3% due to timing of aircraft awards in ISR and product deliveries in Electro Optical, partially offset by a ramp on key platforms in Maritime. Third quarter operating income increased 4% to $222 million, and operating margin expanded 110 bps to 16.6% versus prior year from operational excellence, integration benefits, and higher pension income.
+Segment funded book-to-bill was 1.04 and 1.05 for the quarter and year-to-date, respectively.
+ISR received several key orders that strengthen its domestic and international presence, including:
+•Approximately $400 million in orders for advanced capabilities across incumbent platforms, such as the Rivet Joint reconnaissance, National Command Authority, Compass Call and classified aircraft, further solidifying the company's position as a partner of choice with the U.S. Air Force
+•$173 million, five-year, sole-source IDIQ contract to operate and sustain airborne sensor equipment for the U.S. Missile Defense Agency's High Altitude Observatory aircraft, with an initial $23 million task order 
+•More than $120 million contract to design and produce an integrated mission system for the United Arab Emirates B-250 aircraft
+•More than $100 million in follow-on orders to provide additional ISR aircraft to a NATO customer
+Within the Maritime business, key awards solidified its position as a leading provider of global solutions, including:
+•Approximately $400 million contract for the design and installation of the U.S. Navy's Undersea Warfare Training Range Increments II / III program, following successful execution on Increment I and maintaining L3Harris' prime incumbency on the program
+•More than $30 million follow-on award to provide subsystems and system integration for the U.S. Navy's Constellation (FFG-62) class frigate, with significant follow-on opportunity 
+•Multi-million-dollar contract for in-service support of the integrated platform management system on the Royal Canadian Navy's Halifax-class frigate
+In Electro Optical, demand for the company's WESCAM sensors remained strong with a multi-million-dollar order to deliver sighting systems in support of the U.S. Army's land-based Initial Maneuver Short-Range Air Defense capability, as well as approximately $100 million in orders for airborne, maritime and ground sensor systems from customers primarily in the European and Middle Eastern regions, further reinforcing L3Harris' international position.
+Space and Airborne Systems
+Third Quarter | Year-To-Date
+($ millions) | 2021 | 2020 | Change | 2021 | 2020 | Change
+Revenue | $ | 1,284 | $ | 1,249 | 3% | $ | 3,807 | $ | 3,690 | 3%
+Operating income | $ | 242 | $ | 231 | 5% | $ | 735 | $ | 687 | 7%
+Operating margin | 18.8 | % | 18.5 | % | 30 bps | 19.3 | % | 18.6 | % | 70 bps
+Organic revenue1 | $ | 1,284 | $ | 1,249 | 3% | $ | 3,807 | $ | 3,683 | 3%
+Funded book-to-bill3 | 0.98 | 1.04 | 1.05 | 1.05
+Third quarter revenue increased 3% versus prior year driven by Space, including a ramp on missile defense and other responsive programs. Growth from these drivers was reduced by the transition from development to production on the F-35 Technology Refresh 3 program in Mission Avionics, as well as program timing in Electronic Warfare and Intel & Cyber. Third quarter operating income increased 5% to $242 million, and operating margin expanded 30 bps to 18.8% versus prior year from e3 performance, increased pension income, and integration benefits, net of higher R&D investments and mix impacts from growth programs.
+Segment funded book-to-bill was 0.98 and 1.05 for the quarter and year-to-date, respectively.
+The Space business received key classified responsive and exquisite awards totaling more than $225 million, potentially leading to multi-billion-dollar follow-on opportunities. The company also was awarded a multi-million-dollar study contract for next-generation weather sounders in support of the U.S. National Oceanic and Atmospheric Administration's future Geostationary and Extended Observations satellite system, with significant follow-on opportunity.
+Within the Mission Avionics, Electronic Warfare, and Intel & Cyber businesses, key awards included:
+•More than $150 million in orders on the F-35 platform, primarily for the next production lot of avionics components and release systems, increasing total orders for the year to more than $600 million 
+•Multi-million-dollar award for the next production lot of the modernized open mission systems processor for the F/A-18 and EA-18G, a key element of platform upgrades and with significant follow-on opportunity
+•$947 million, 10-year, sole-source IDIQ contract from the U.S. Air Force to provide engineering services and upgraded countermeasure electronic warfare systems for the B-52, potentially expanding L3Harris' content on the platform
+•Over $200 million in classified orders primarily for complex mission solutions for domestic and international customers
+•$85 million sole-source IDIQ contract from the U.S. Air Force to produce up to 170 T7™ robots in support of explosive ordnance disposal (EOD) missions, following successful delivery of the company's initial robotic EOD program to the United Kingdom's Ministry of Defence
+Communication Systems
+Third Quarter | Year-To-Date
+($ millions) | 2021 | 2020 | Change | 2021 | 2020 | Change
+Revenue | $ | 1,030 | $ | 1,094 | (6%) | $ | 3,269 | $ | 3,300 | (1%)
+Operating income | $ | 271 | $ | 273 | (1%) | $ | 839 | $ | 788 | 6%
+Operating margin | 26.3 | % | 25.0 | % | 130 bps | 25.7 | % | 23.9 | % | 180 bps
+Organic revenue1 | $ | 1,030 | $ | 1,086 | (5%) | $ | 3,269 | $ | 3,259 | —%
+Funded book-to-bill3 | 1.20 | 0.99 | 1.13 | 0.94
+Third quarter revenue decreased 6% versus prior year and 5% on an organic basis due to product delivery delays from supply chain-related constraints mainly within Tactical Communications, lower volume on legacy unmanned platforms in Broadband Communications, delivery timing within Integrated Vision Solutions, and contract roll-offs in Global Communications Solutions. The decline from these drivers was partially offset by strong radio sales in Public Safety. Third quarter operating income decreased 1% to $271 million, and operating margin expanded 130 bps to 26.3% versus prior year from operational excellence, including program performance, favorable mix, and integration benefits, net of supply chain impacts and higher R&D investments.
+Segment funded book-to-bill was 1.20 and 1.13 for the quarter and year-to-date, respectively.
+Tactical Communications received several key orders that strengthen its global leadership, including:
+•$132 million and $72 million, majority share, initial full-rate production awards under the U.S. Army's $12.7 billion HMS Manpack and $3.9 billion two-channel Leader radio IDIQ contracts, respectively, reflecting key milestones in the Army's multi-year modernization strategy
+•$131 million to provide modernized software-defined vehicular and dismount radios to a country in the Middle East, reflecting a key revenue synergy for the company 
+•$64 million for the continued supply of secure, resilient Falcon III® radios to a European country 
+The Integrated Vision Solutions business received key awards from the U.S. Army for its next-generation systems, including a $100 million order for the Enhanced Night Vision Goggle – Binocular (ENVG-B) system, marking the second delivery order received under the $442 million ENVG-B Program of Record. L3Harris also was awarded a $92 million, four-year contract to provide advanced helmet-mounted image technology in support of the Aviator's Night Vision Imaging System III program.
+Within Broadband Communications, L3Harris received a $36 million follow-on award to provide advanced Manned-Unmanned Teaming airborne data link systems to the U.S. Army and international parties, increasing inception-to-date awards on the Apache platform to over $250 million.
+Aviation Systems
+Third Quarter | Year-To-Date
+($ millions) | 2021 | 2020 | Change | 2021 | 2020 | Change
+(GAAP comparison)
+Revenue | $ | 625 | $ | 792 | (21%) | $ | 2,248 | $ | 2,603 | (14%)
+Operating income (loss) | $ | 90 | $ | 100 | (10%) | $ | 253 | $ | (46) | n/m
+Operating margin | 14.4 | % | 12.6 | % | 180 bps | 11.3 | % | (1.8) | % | n/m
+(Non-GAAP comparison)2,4
+Revenue | $ | 625 | $ | 792 | (21%) | $ | 2,248 | $ | 2,603 | (14%)
+Operating income | $ | 90 | $ | 103 | (13%) | $ | 335 | $ | 350 | (4%)
+Operating margin | 14.4 | % | 13.0 | % | 140 bps | 14.9 | % | 13.4 | % | 150 bps
+Organic revenue1 | $ | 625 | $ | 619 | 1% | $ | 2,248 | $ | 2,280 | (1%)
+Funded book-to-bill3 | 1.10 | 0.94 | 0.94 | 1.08
+ _________________
+ n/m: Not meaningful
+Third quarter revenue decreased 21% versus prior year due to the divestitures of the Military Training and Combat Propulsion Systems businesses, and increased 1% on an organic basis driven by recovering training and avionics product sales within the commercial aerospace business. Organic growth from these drivers was reduced by flat sales in Mission Networks and lower Fuzing and Ordnance Systems volume due to contract roll-offs and delayed awards within Defense Aviation. Third quarter GAAP and non-GAAP operating income decreased 10% and 13%, respectively, to $90 million primarily due to divestitures. Third quarter GAAP and non-GAAP operating margin expanded 180 bps and 140 bps, respectively, to 14.4% versus prior year as expense management, commercial aerospace recovery, and integration benefits more than offset divestiture-related headwinds.
+Segment funded book-to-bill was 1.10 and 0.94 for the quarter and year-to-date, respectively.
+Mission Networks recorded more than $175 million in orders on long-term air traffic management contracts, including for the FAA Telecommunications Infrastructure and Automatic Dependent Surveillance-Broadcast programs. L3Harris also leveraged its incumbency with the FAA in order to capture a 10-year, potential $343 million contract to modernize Airservices Australia’s enterprise-wide telecommunications network, with an initial award for the planning and design phase.
+Defense Aviation received several awards for precision weapon systems and components, including a multi-vendor, $46 billion, 10-year IDIQ contract to provide future advanced weapons systems to the U.S. Air Force leveraging digital engineering, agile processes and open-systems architecture. In addition, the company received a $23 million initial full-rate production award under the U.S. Navy's Advanced Low-cost Munitions Ordnance program, increasing inception-to-date development and production awards to more than $250 million.
+Demand for L3Harris' commercial full-flight simulators increased in the quarter with orders from both domestic and international airlines.
+Cash Generation and Capital Deployment
+Third Quarter | Year-To-Date
+($ millions) | 2021 | 2020 | Change | 2021 | 2020 | Change
+Operating cash flow | $ | 484 | $ | 757 | $ | (273) | $ | 1,865 | $ | 2,092 | $ | (227)
+Adjusted free cash flow2 | $ | 673 | $ | 726 | $ | (53) | $ | 1,988 | $ | 2,044 | $ | (56)
+In the third quarter of fiscal 2021, L3Harris generated $484 million in operating cash flow and $673 million in adjusted free cash flow2, and returned $1.5 billion to shareholders through $1.3 billion in share repurchases and $202 million in dividends. On a year-to-date basis, the company returned $3.5 billion to shareholders through $2.9 billion in share repurchases and $618 million in dividends. 
+L3Harris also completed the divestiture of the Electron Devices business, with total gross proceeds in the quarter of $185 million. In addition, L3Harris entered into definitive agreements to sell its ESSCO and Narda-MITEQ businesses for a combined $130 million, bringing total gross proceeds from completed and announced divestitures since the merger to approximately $2.8 billion. The divestitures are subject to customary closing conditions, including receipt of regulatory approvals, and are expected to close in the fourth quarter of 2021.
+Guidance
+L3Harris updated 2021 guidance due to the effect of completed divestitures and global supply chain-related impacts as follows:
+Guidance (October 2021) | Previous Guidance (August 2021)
+Revenue5 | ~$17.9 billion | $18.1 billion - $18.5 billion
+Organic revenue growth | up ~2.0% | up 3.0% - 5.0%
+Adjusted EBIT margin | ~18.75% | ~18.5%
+Non-GAAP EPS | $12.85 - $13.00 | $12.80 - $13.00
+Adjusted free cash flow6 | $2.8 billion - $2.9 billion | $2.8 billion - $2.9 billion
+Share repurchases7 | ~$3.6 billion | ~$3.4 billion
+COVID
+Attempts to contain and reduce the spread of COVID, such as mandatory closures, “shelter-in-place” orders and travel and quarantine restrictions, have caused significant disruptions and adverse effects on the U.S. and global economies, including impacts to supply chains, customer demand, workforce, international trade and capital markets. L3Harris' response has involved increasing its focus on keeping its employees safe while striving to maintain continuity of operations, meet customer commitments and support suppliers. For example, the company instituted numerous types of precautions, protocols and other arrangements designed to protect employees from COVID infections and to comply with applicable regulations, including mandating its U.S.-based employees be fully vaccinated against COVID by December 8, 2021 to comply with President Biden’s executive order, and the company has also maintained an active dialog, and in some cases developed plans, with key suppliers in an effort to mitigate supply chain risks or otherwise minimize the potential impact from those risks. The U.S. Government response to COVID has included identifying the Defense Industrial Base as a Critical Infrastructure Sector and enhancing cash flow and liquidity for the Defense Industrial Base, such as by increasing progress payments and accelerating contract awards, which enabled the company to keep its U.S. production facilities largely operational in support of national security commitments to U.S. Government customers (as part of the Defense Industrial Base) and to accelerate payments to small business suppliers, which it expects to continue while the U.S. Government’s responsive actions remain in effect.
+Although the company believes that a large percentage of its revenue, earnings and cash flow that is derived from sales to the U.S. Government, whether directly or through prime contractors, will be relatively predictable, in part due to the U.S. Government’s responsive actions described above, the company's commercial and international businesses are at a higher risk of adverse COVID-related impacts, and the company cannot eliminate all potential impacts to its business from supply chain risks, such as longer lead times and shortages of electronics and other components. For example, while the company has started to see a recovery in the commercial aviation market, the severe decline in global air traffic from travel restrictions and the resulting downturn in the commercial aviation market and its impact on customer operations has significantly reduced demand for flight training, flight simulators and commercial avionics products in the company's Aviation Systems segment.
+The company’s 2021 guidance reflects the company’s current expectations and assumptions regarding COVID-related impacts, including on the U.S. and global economies. These assumptions continue to include a measured assessment of the downturn in the commercial aerospace business and in demand for public safety solutions, as well as additional potential risks from facility shutdowns, supply chain disruptions and international activity weakness. The company’s current expectations and assumptions could change, which could negatively affect the company’s outlook. The extent of these disruptions and impacts, including on the company's ability to perform under U.S. Government and other contracts within agreed timeframes and ultimately on its results of operations and cash flows, will depend on future developments, including COVID-related impacts and associated containment and mitigation actions taken by governmental authorities and consequences thereof, including COVID vaccine mandates, and global air traffic demand and governmental subsidies to airlines, and potential impacts to the company’s business from supply chain risks, all of which are uncertain and unpredictable, could exacerbate other risks described in the company’s filings with the SEC and could materially adversely impact the company’s financial condition, results of operations and cash flows. 
+Conference Call and Webcast
+L3Harris Technologies will host a conference call today, October 29, 2021, at 8:30 a.m. Eastern Time (ET) to discuss third quarter 2021 financial results. The dial-in numbers for the teleconference are (U.S.) 877-407-6184 and (International) 201-389-0877, and participants will be directed to an operator. Please allow at least 10 minutes before the scheduled start time to connect to the teleconference. Participants are encouraged to listen via webcast, and view management’s supporting slide presentation, which will be broadcast live at L3Harris.com/investors. A recording of the call will be available on the L3Harris website, beginning at approximately 12 p.m. ET on October 29, 2021. 
+About L3Harris Technologies
+L3Harris Technologies is an agile global aerospace and defense technology innovator, delivering end-to-end solutions that meet customers’ mission-critical needs. The company provides advanced defense and commercial technologies across space, air, land, sea and cyber domains. L3Harris has approximately 47,000 employees with customers in more than 100 countries. L3Harris.com
+Non-GAAP Measures
+This press release contains non-GAAP financial measures within the meaning of Regulation G promulgated by the Securities and Exchange Commission (“SEC”), including earnings per diluted share from continuing operations (“EPS”), adjusted earnings before interest and taxes (“EBIT”), adjusted EBIT margin and adjusted free cash flow for the third quarters and first three quarters of 2021 and 2020; organic revenue growth for the company and for its Space and Airborne Systems, Communication Systems and Aviation Systems segments for the third quarter and first three quarters of 2021; and segment operating income and margin for the Aviation Systems segment for the third quarters and first three quarters of 2021 and 2020; in each case, adjusted for certain costs, charges, expenses, losses or other amounts as set forth in the reconciliations of non-GAAP financial measures included in the financial statement tables accompanying this press release. A “non-GAAP financial measure” is generally defined as a numerical measure of a company’s historical or future performance that excludes or includes amounts, or is subject to adjustments, so as to be different from the most directly comparable measure calculated and presented in accordance with generally accepted accounting principles (“GAAP”). L3Harris management believes that these non-GAAP financial measures, when considered together with the GAAP financial measures, provide information that is useful to investors in understanding period-over-period operating results separate and apart from items that may, or could, have a disproportionately positive or negative impact on results in any particular period. L3Harris management also believes that these non-GAAP financial measures enhance the ability of investors to analyze L3Harris business trends and to understand L3Harris performance. In addition, L3Harris may utilize non-GAAP financial measures as guides in forecasting, budgeting and long-term planning processes and to measure operating performance for some management compensation purposes. Non-GAAP financial measures should be considered in addition to, and not as a substitute for, or superior to, financial measures presented in accordance with GAAP. This press release also contains forward-looking non-GAAP financial measures, including expected EPS, adjusted EBIT margin, adjusted free cash flow and organic revenue growth for full-year 2021, but a 
+reconciliation of forward-looking non-GAAP financial measures to comparable GAAP measures is not available without unreasonable effort because of inherent difficulty in forecasting and quantifying the comparable GAAP measures and the applicable adjustments and other amounts that would be necessary for such a reconciliation, including due to potentially high variability, complexity and low visibility as to the applicable adjustments and other amounts, which may, or could, have a disproportionately positive or negative impact on the company's future GAAP results, such as business divestiture-related gains and losses, and other unusual gains and losses, or their probable significance and extent of tax deductibility. The variability of the applicable adjustments and other amounts is unpredictable, and it is possible for them to significantly adversely impact the company’s future GAAP results.
+Attachments: Financial statements (8 tables) 
+Forward-Looking Statements 
+Statements in this press release that are not historical facts are forward-looking statements that reflect management's current expectations, assumptions and estimates of future performance and economic conditions. Such statements are made in reliance on the safe harbor provisions of Section 27A of the Securities Act of 1933 and Section 21E of the Securities Exchange Act of 1934. Forward-looking statements in this press release include but are not limited to: revenue, organic revenue growth, earnings per share, adjusted free cash flow, adjusted EBIT margin and share repurchase guidance for 2021; statements regarding being positioned to meet earnings and cash flow commitments and value creation over the long term; statements regarding anticipated timing of closing of divestitures; statements regarding expected, potential or contingent impacts or actual, potential or contingent plans or expectations related to COVID; program, contract and order opportunities and awards and the value or potential value and timing thereof; and other statements regarding outlook or that are not historical facts. The company cautions investors that any forward-looking statements are subject to risks and uncertainties that may cause actual results and future trends to differ materially from those matters expressed in or implied by such forward-looking statements. The company's consolidated results, future trends and forward-looking statements could be affected by many factors, risks and uncertainties, including but not limited to: actual impacts related to COVID; the loss of the company’s relationship with the U.S. Government or a change or reduction in U.S. Government funding; potential changes in U.S. Government or customer priorities and requirements (including potential deferrals of awards, terminations, reductions of expenditures, changes to respond to the priorities of Congress and the Administration, budgetary constraints, debt ceiling implications, sequestration, and cost-cutting initiatives); a security breach, through cyber attack or otherwise, or other significant disruptions of the company’s IT networks and systems or those the company operates for customers; the level of returns on defined benefit plan assets and changes in interest rates; risks inherent with large long-term fixed-price contracts, particularly the ability to contain cost overruns; changes in estimates used in accounting for the company’s programs; financial and government and regulatory risks relating to international sales and operations; effects of any non-compliance with laws; the company’s ability to continue to develop new products that achieve market acceptance; the consequences of uncertain economic conditions and future geo-political events; strategic transactions, including mergers, acquisitions, divestitures, spin-offs and the risks and uncertainties related thereto, including the company’s ability to manage and integrate acquired businesses and realize expected benefits, the potential disruption to relationships with employees, suppliers and customers, including the U.S. Government, and to the company’s business generally, 
+and potential tax, indemnification and other liabilities and exposures; performance of the company’s subcontractors and suppliers; potential claims related to infringement of intellectual property rights or environmental remediation or other contingencies, litigation and legal matters and the ultimate outcome thereof; downturns in global demand for air travel and other economic factors impacting the company’s commercial aviation products, systems and services business; risks inherent in developing new and complex technologies and/or that may not be covered adequately by insurance or indemnity; changes in the company’s effective tax rate; significant indebtedness and unfunded pension liability and potential downgrades in the company’s credit ratings; unforeseen environmental matters; natural disasters or other disruptions affecting the company’s operations; changes in future business or other market conditions that could cause business investments and/or recorded goodwill or other long-term assets to become impaired; and the company’s ability to attract and retain key employees and maintain reasonable relationships with unionized employees. The level and timing of share repurchases will depend on a number of factors, including the company’s financial condition, capital requirements, cash flow, results of operations, future business prospects and other factors. The timing, volume and nature of share repurchases also are subject to business and market conditions, applicable securities laws, and other factors, and are at the discretion of the company and may be suspended or discontinued at any time without prior notice. Further information relating to these and other factors that may impact the company's results, future trends and forward-looking statements are disclosed in the company's filings with the SEC. The forward-looking statements contained in this press release are made as of the date of this press release, and the company disclaims any intention or obligation, other than imposed by law, to update or revise any forward-looking statements, whether as a result of new information, future events, or otherwise. Persons reading this press release are cautioned not to place undue reliance on forward-looking statements.
+__________________________________________________________________________________________
+1Organic revenue growth excludes revenue attributable to each divested business for the portion of the prior-year period equivalent to the portion of the current-year period following the date the business was divested; refer to non-GAAP financial measure (NGFM) reconciliations in the tables accompanying this press release and to the disclosures in the non-GAAP section of this press release for more information.
+2Adjusted EBIT, adjusted EBIT margin, non-GAAP EPS and adjusted free cash flow (FCF) are NGFMs; refer to NGFM reconciliations in the tables accompanying this press release for applicable adjustments and/or exclusions and to the disclosures in the non-GAAP section of this press release for more information. 
+3Funded book-to-bill is calculated as the value of new contract awards received from the U.S. Government, for which the U.S. Government has appropriated funds, plus the value of new contract awards and orders received from customers other than the U.S. Government, divided by revenue. This includes incremental funding and adjustments to previous awards, and excludes unexercised contract options or potential orders under indefinite delivery, indefinite quantity contracts. The funded book-to-bill ratio is considered a key performance indicator in the Aerospace and Defense industry as it measures how much backlog is utilized in a certain period.
+4Excludes asset impairment and other COVID-related charges and adjustments; refer to NGFM reconciliations in the tables accompanying this press release and to the disclosures in the non-GAAP section of this press release for more information.
+5Revenue guidance (October 2021) includes the effect of completed divestitures.
+6Adjusted FCF guidance (October 2021) excludes cash income taxes paid or avoided related to taxable gains and losses resulting from sales of businesses, and also reflects the types of adjustments and/or exclusions presented in the FCF and Adjusted FCF NGFM reconciliation in the tables accompanying this release; refer to the disclosures in the non-GAAP section of this press release for more information.
+7Share repurchase guidance (October 2021) includes the use of net proceeds from completed divestitures.
+Table 1
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+CONDENSED CONSOLIDATED STATEMENT OF INCOME
+(Unaudited)
+Quarter Ended | Three Quarters Ended
+(In millions, except per share amounts) | October 1, 2021 | October 2, 2020 | October 1, 2021 | October 2, 2020
+Revenue from product sales and services | $ | 4,229 | $ | 4,463 | $ | 13,464 | $ | 13,534
+Cost of product sales and services | (2,921) | (3,152) | (9,385) | (9,625)
+Engineering, selling and administrative expenses | (793) | (817) | (2,485) | (2,484)
+Business divestiture-related gains (losses) | 27 | (10) | 192 | (62)
+Impairment of goodwill and other assets | — | — | (207) | (394)
+Non-operating income | 111 | 96 | 314 | 296
+Interest expense, net | (67) | (62) | (198) | (190)
+Income from continuing operations before income taxes | 586 | 518 | 1,695 | 1,075
+Income taxes | (107) | (87) | (336) | (171)
+Income from continuing operations | 479 | 431 | 1,359 | 904
+Discontinued operations, net of income taxes | — | (1) | (1) | (2)
+Net income | 479 | 430 | 1,358 | 902
+Noncontrolling interests, net of income taxes | 2 | (4) | 4 | 24
+Net income attributable to L3Harris Technologies, Inc. | $ | 481 | $ | 426 | $ | 1,362 | $ | 926
+Net income per common share attributable to L3Harris Technologies, Inc. common shareholders
+Basic Earnings Per Share
+Continuing operations | $ | 2.41 | $ | 2.00 | $ | 6.70 | $ | 4.31
+Discontinued operations | — | — | — | (0.01)
+$ | 2.41 | $ | 2.00 | $ | 6.70 | $ | 4.30
+Diluted Earnings Per Share
+Continuing operations | $ | 2.39 | $ | 1.99 | $ | 6.64 | $ | 4.27
+Discontinued operations | — | (0.01) | — | (0.01)
+$ | 2.39 | $ | 1.98 | $ | 6.64 | $ | 4.26
+Basic weighted average common shares outstanding | 199.5 | 213.4 | 203.3 | 215.5
+Diluted weighted average common shares outstanding | 201.6 | 215.1 | 205.2 | 217.3
+Table 2
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+BUSINESS SEGMENT INFORMATION
+(Unaudited)
+Quarter Ended | Three Quarters Ended
+(In millions) | October 1, 2021 | October 2, 2020 | October 1, 2021 | October 2, 2020
+Revenue
+Integrated Mission Systems | $ | 1,336 | $ | 1,372 | $ | 4,281 | $ | 4,073
+Space and Airborne Systems | 1,284 | 1,249 | 3,807 | 3,690
+Communication Systems | 1,030 | 1,094 | 3,269 | 3,300
+Aviation Systems | 625 | 792 | 2,248 | 2,603
+Corporate eliminations | (46) | (44) | (141) | (132)
+$ | 4,229 | $ | 4,463 | $ | 13,464 | $ | 13,534
+Income From Continuing Operations
+Segment Operating Income (Loss):
+Integrated Mission Systems | $ | 222 | $ | 213 | $ | 691 | $ | 638
+Space and Airborne Systems | 242 | 231 | 735 | 687
+Communication Systems | 271 | 273 | 839 | 788
+Aviation Systems | 90 | 100 | 253 | (46)
+825 | 817 | 2,518 | 2,067
+Unallocated Items:
+L3Harris Merger-related integration expenses | (34) | (27) | (75) | (95)
+Amortization of acquisition-related intangibles | (155) | (176) | (475) | (529)
+Additional cost of sales related to fair value step-up in inventory sold | — | — | — | (31)
+Business divestiture-related gains (losses) | 27 | (10) | 192 | (62)
+Other items | (8) | (2) | (61) | (19)
+Impairment of goodwill and other assets | — | — | (125) | (19)
+Unallocated corporate department expense | (2) | (21) | (59) | (51)
+(172) | (236) | (603) | (806)
+Pension adjustment | (111) | (97) | (336) | (292)
+Non-operating income, net | 111 | 96 | 314 | 296
+Income from continuing operations before interest and income taxes (“EBIT”) | 653 | 580 | 1,893 | 1,265
+% of total revenue | 15.4 | % | 13.0 | % | 14.1 | % | 9.3 | %
+Interest expense, net | (67) | (62) | (198) | (190)
+Income from continuing operations before income taxes | 586 | 518 | 1,695 | 1,075
+Income tax expense | (107) | (87) | (336) | (171)
+Income from continuing operations | 479 | 431 | 1,359 | 904
+Discontinued operations, net of income taxes | — | (1) | (1) | (2)
+Net income | $ | 479 | $ | 430 | $ | 1,358 | $ | 902
+Table 3
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+CONDENSED CONSOLIDATED STATEMENT OF CASH FLOWS
+(Unaudited)
+Three Quarters Ended
+(In millions) | October 1, 2021 | October 2, 2020
+Operating Activities
+Net income | $ | 1,358 | $ | 902
+Adjustments to reconcile net income to net cash provided by operating activities:
+Amortization of acquisition-related intangibles | 475 | 529
+Depreciation and other amortization | 248 | 239
+Share-based compensation | 100 | 71
+Share-based matching contributions under defined contribution plans | 165 | 168
+Qualified pension plan contributions | (5) | (7)
+Pension and other postretirement benefit plan income | (275) | (241)
+Investment and asset impairment charges | 244 | 394
+Business divestiture-related (gains) losses | (192) | 62
+(Increase) decrease in:
+Accounts receivable | 233 | (35)
+Contract assets | (615) | (98)
+Inventories | (108) | 139
+Prepaid expenses and other current assets | (38) | (18)
+Increase (decrease) in:
+Accounts payable | 270 | (2)
+Contract liabilities | 56 | (94)
+Other | (51) | 83
+Net cash provided by operating activities | 1,865 | 2,092
+Investing Activities
+Net additions of property, plant and equipment | (200) | (194)
+Proceeds from sales of businesses, net | 1,598 | 1,002
+Other investing activities | 2 | (10)
+Net cash provided by investing activities | 1,400 | 798
+Financing Activities
+Net proceeds from borrowings | 5 | 249
+Repayments of borrowings | (12) | (257)
+Proceeds from exercises of employee stock options | 94 | 39
+Repurchases of common stock | (2,875) | (1,850)
+Cash dividends | (618) | (546)
+Other financing activities | (7) | (8)
+Net cash used in financing activities | (3,413) | (2,373)
+Effect of exchange rate changes on cash and cash equivalents | (2) | —
+Net (decrease) increase in cash and cash equivalents | (150) | 517
+Cash and cash equivalents, beginning of year | 1,276 | 824
+Cash and cash equivalents, end of quarter | $ | 1,126 | $ | 1,341
+Table 4
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+CONDENSED CONSOLIDATED BALANCE SHEET
+(Unaudited)
+(In millions) | October 1, 2021 | January 1, 2021
+Assets
+Cash and cash equivalents | $ | 1,126 | $ | 1,276
+Receivables, net | 1,027 | 1,344
+Contract assets | 2,813 | 2,437
+Inventories | 1,024 | 973
+Inventory prepayments | 50 | 61
+Assets of businesses held for sale | 155 | 35
+Property, plant and equipment, net | 2,044 | 2,102
+Operating lease right-of-use assets | 788 | 766
+Goodwill | 18,207 | 18,876
+Other intangible assets, net | 6,796 | 7,908
+Other assets | 988 | 1,182
+$ | 35,018 | $ | 36,960
+Liabilities and Equity
+Short-term debt | $ | 2 | $ | 2
+Accounts payable | 1,608 | 1,406
+Contract liabilities | 1,174 | 1,198
+Compensation and benefits | 368 | 496
+Current portion of long-term debt, net | 11 | 10
+Liabilities of businesses held for sale | 60 | 13
+Defined benefit plans | 857 | 1,906
+Operating lease liabilities | 792 | 734
+Long-term debt, net | 7,053 | 6,943
+Other liabilities | 3,499 | 3,411
+Equity | 19,594 | 20,841
+$ | 35,018 | $ | 36,960
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+RECONCILIATION OF NON-GAAP FINANCIAL MEASURES AND REGULATION G DISCLOSURE
+To supplement our condensed consolidated financial statements presented in accordance with U.S. generally accepted accounting principles (GAAP), we provide additional measures of income from continuing operations per diluted common share, net income, net income margin, net cash provided by operating activities, revenue and segment operating income (loss), adjusted to exclude certain costs, charges, expenses and losses or other amounts. L3Harris management believes that these non-GAAP financial measures, when considered together with the GAAP financial measures, provide information that is useful to investors in understanding period-over-period operating results separate and apart from items that may, or could, have a disproportionately positive or negative impact on results in any particular period. L3Harris management also believes that these non-GAAP financial measures enhance the ability of investors to analyze L3Harris’ business trends and to understand L3Harris’ performance. In addition, L3Harris may utilize non-GAAP financial measures as guides in its forecasting, budgeting, and long-term planning processes and to measure operating performance for some management compensation purposes. Any analysis of non-GAAP financial measures should be used only in conjunction with results presented in accordance with GAAP. A reconciliation of these non-GAAP financial measures with the most directly comparable financial measures calculated in accordance with GAAP follows:
+Table 5
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+RECONCILIATION OF NON-GAAP FINANCIAL MEASURES
+Organic Revenue and U.S. and International Government Revenue
+(Unaudited)
+Quarter Ended October 2, 2020 | Three Quarters Ended October 2, 2020
+(In millions) | As Reported | Adjustment (A) | Organic | As Reported | Adjustment (A) | Organic
+Revenue from product sales and services
+Integrated Mission Systems segment | $ | 1,372 | $ | — | $ | 1,372 | $ | 4,073 | $ | — | $ | 4,073
+Space and Airborne Systems segment | 1,249 | — | 1,249 | 3,690 | (7) | 3,683
+Communication Systems segment | 1,094 | (8) | 1,086 | 3,300 | (41) | 3,259
+Aviation Systems segment | 792 | (173) | 619 | 2,603 | (323) | 2,280
+Corporate eliminations | (44) | — | (44) | (132) | — | (132)
+$ | 4,463 | $ | (181) | $ | 4,282 | $ | 13,534 | $ | (371) | $ | 13,163
+Fiscal Year Ended January 1, 2021
+(In millions) | As Reported | Adjustment (A) | Organic
+Revenue from product sales and services
+Integrated Mission Systems segment | $ | 5,538 | $ | — | $ | 5,538
+Space and Airborne Systems segment | 4,946 | (7) | 4,939
+Communication Systems segment | 4,443 | (41) | 4,402
+Aviation Systems segment | 3,448 | (588) | 2,860
+Corporate eliminations | (181) | — | (181)
+$ | 18,194 | $ | (636) | $ | 17,558
+(A)Adjustments to exclude revenue attributable to each divested business for the portion of the prior-year period equivalent to the portion of the current-year period following the date the business was divested.
+Table 6
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+RECONCILIATION OF NON-GAAP FINANCIAL MEASURES
+Operating Income, Adjusted EBIT and Adjusted EBIT Margin, and Income from Continuing Operations Per Share
+(Unaudited)
+Quarter Ended
+October 1, 2021 | October 2, 2020
+(In millions, except per share amounts) | As Reported | Adjustments1 | Adjusted | As Reported | Adjustments1 | Adjusted
+Revenue
+Integrated Mission Systems | $ | 1,336 | $ | — | $ | 1,336 | $ | 1,372 | $ | — | $ | 1,372
+Space and Airborne Systems | 1,284 | — | 1,284 | 1,249 | — | 1,249
+Communication Systems | 1,030 | — | 1,030 | 1,094 | — | 1,094
+Aviation Systems | 625 | — | 625 | 792 | — | 792
+Corporate eliminations | (46) | — | (46) | (44) | — | (44)
+$ | 4,229 | $ | — | $ | 4,229 | $ | 4,463 | $ | — | $ | 4,463
+Income From Continuing Operations
+Segment Operating Income (Loss):
+Integrated Mission Systems | $ | 222 | $ | — | $ | 222 | $ | 213 | $ | — | $ | 213
+Space and Airborne Systems | 242 | — | 242 | 231 | — | 231
+Communication Systems | 271 | — | 271 | 273 | — | 273
+Aviation Systems | 90 | — | 90 | 100 | 3 | 103
+825 | — | 825 | 817 | 3 | 820
+Unallocated Items:
+L3Harris Merger-related integration expenses | (34) | 34 | — | (27) | 27 | —
+Amortization of acquisition-related intangibles | (155) | 155 | — | (176) | 176 | —
+Business divestiture-related gains (losses) | 27 | (27) | — | (10) | 10 | —
+Other items | (8) | 8 | — | (2) | 2 | —
+Unallocated corporate department expense | (2) | — | (2) | (21) | — | (21)
+(172) | 170 | (2) | (236) | 215 | (21)
+Pension adjustment | (111) | — | (111) | (97) | — | (97)
+Non-operating income, net | 111 | 7 | 118 | 96 | — | 96
+EBIT | 653 | 177 | 830 | 580 | 218 | 798
+% of total revenue | 15.4 | % | 19.6 | % | 13.0 | % | 17.9 | %
+Interest expense, net | (67) | — | (67) | (62) | — | (62)
+Income tax expense | (107) | (9) | (116) | (87) | (38) | (125)
+Income from continuing operations | 479 | 168 | 647 | 431 | 180 | 611
+Discontinued operations, net of income taxes | — | — | — | (1) | — | (1)
+Net income | $ | 479 | $ | 168 | $ | 647 | $ | 430 | $ | 180 | $ | 610
+Per Share Information
+Diluted weighted average common shares outstanding | 201.6 | 201.6 | 201.6 | 215.1 | 215.1 | 215.1
+Income from continuing operations attributable to L3Harris Technologies, Inc. common shareholders2 | $ | 2.39 | $ | 0.82 | $ | 3.21 | $ | 1.99 | $ | 0.85 | $ | 2.84
+1 Non-GAAP EPS, non-GAAP segment operating income, adjusted EBIT and adjusted EBIT margin are NGFMs; refer to NGFM reconciliations and disclosures in other quarterly earnings materials and the L3Harris investor relations website.2The adjustment to non-GAAP EPS includes the per share impact of the adjustments in the table above and the noncontrolling interest portion of these adjustments.
+Table 7
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+RECONCILIATION OF NON-GAAP FINANCIAL MEASURES
+Operating Income, Adjusted EBIT and Adjusted EBIT Margin, and Income from Continuing Operations Per Share
+(Unaudited)
+Three Quarters Ended
+October 1, 2021 | October 2, 2020
+(In millions, except per share amounts) | As Reported | Adjustments1 | Adjusted | As Reported | Adjustments1 | Adjusted
+Revenue
+Integrated Mission Systems | $ | 4,281 | $ | — | $ | 4,281 | $ | 4,073 | $ | — | $ | 4,073
+Space and Airborne Systems | 3,807 | — | 3,807 | 3,690 | — | 3,690
+Communication Systems | 3,269 | — | 3,269 | 3,300 | — | 3,300
+Aviation Systems | 2,248 | — | 2,248 | 2,603 | — | 2,603
+Corporate eliminations | (141) | — | (141) | (132) | — | (132)
+$ | 13,464 | $ | — | $ | 13,464 | $ | 13,534 | $ | — | $ | 13,534
+Income From Continuing Operations
+Segment Operating Income (Loss):
+Integrated Mission Systems | $ | 691 | $ | — | $ | 691 | $ | 638 | $ | — | $ | 638
+Space and Airborne Systems | 735 | — | 735 | 687 | — | 687
+Communication Systems | 839 | — | 839 | 788 | — | 788
+Aviation Systems | 253 | 82 | 335 | (46) | 396 | 350
+2,518 | 82 | 2,600 | 2,067 | 396 | 2,463
+Unallocated Items:
+L3Harris Merger-related integration expenses | (75) | 75 | — | (95) | 95 | —
+Amortization of acquisition-related intangibles | (475) | 475 | — | (529) | 529 | —
+Additional cost of sales related to fair value step-up in inventory sold | — | — | — | (31) | 31 | —
+Business divestiture-related gains (losses) | 192 | (192) | — | (62) | 62 | —
+Other items | (61) | 61 | — | (19) | 19 | —
+Impairment of goodwill and other assets | (125) | 125 | — | (19) | 19 | —
+Unallocated corporate department expense | (59) | — | (59) | (51) | — | (51)
+(603) | 544 | (59) | (806) | 755 | (51)
+Pension adjustment | (336) | 3 | (333) | (292) | — | (292)
+Non-operating income, net | 314 | 39 | 353 | 296 | — | 296
+EBIT | 1,893 | 668 | 2,561 | 1,265 | 1,151 | 2,416
+% of total revenue | 14.1 | % | 19.0 | % | 9.3 | % | 17.9 | %
+Interest expense, net | (198) | — | (198) | (190) | — | (190)
+Income tax expense | (336) | (45) | (381) | (171) | (207) | (378)
+Income from continuing operations | 1,359 | 623 | 1,982 | $ | 904 | $ | 944 | $ | 1,848
+Discontinued operations, net of income taxes | (1) | — | (1) | (2) | — | (2)
+Net income | 1,358 | 623 | 1,981 | 902 | 944 | 1,846
+Per Share Information
+Diluted weighted average common shares outstanding | 205.2 | 205.2 | 205.2 | 217.3 | 217.3 | 217.3
+Income from continuing operations attributable to L3Harris Technologies, Inc common shareholders2 | $ | 6.64 | $ | 3.01 | $ | 9.65 | $ | 4.27 | $ | 4.20 | $ | 8.47
+1 Non-GAAP EPS, non-GAAP segment operating income, adjusted EBIT and adjusted EBIT margin are NGFMs; refer to NGFM reconciliations and disclosures in other quarterly earnings materials and the L3Harris investor relations website.2The adjustment to non-GAAP EPS includes the per share impact of the adjustments in the table above and the noncontrolling interest portion of these adjustments.
+Table 8
+L3HARRIS TECHNOLOGIES, INC.
+CY'21 Third Quarter Summary
+RECONCILIATION OF NON-GAAP FINANCIAL MEASURES
+Free Cash Flow and Adjusted Free Cash Flow
+(Unaudited)
+Quarter Ended | Three Quarters Ended
+(In millions) | October 1, 2021 | October 2, 2020 | October 1, 2021 | October 2, 2020
+Net cash provided by operating activities | $ | 484 | $ | 757 | $ | 1,865 | $ | 2,092
+Net additions of property, plant and equipment | (76) | (86) | (200) | (194)
+Free cash flow | 408 | 671 | 1,665 | 1,898
+Cash used for L3Harris Merger integration costs | 26 | 55 | 84 | 146
+Cash used for income taxes paid related to taxable gains and losses resulting from sales of businesses | 239 | — | 239 | —
+Adjusted free cash flow | $ | 673 | $ | 726 | $ | 1,988 | $ | 2,044

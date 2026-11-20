@@ -1,0 +1,383 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/202058/000020205824000010/exhibit991q4cy23earnings.htm
+
+EX-99.1
+2
+exhibit991q4cy23earnings.htm
+EX-99.1
+Document
+ Exhibit 99.1
+ Earnings Release
+L3Harris Technologies Reports Fourth Quarter and Full-Year 2023 Results; Initiates 2024 Guidance
+•Full year (FY) 2023 orders1 of $22.8 billion; book-to-bill of 1.18x
+•4Q23 revenue of $5.3 billion and FY23 of $19.4 billion, up 17% and 14% respectively
+•4Q23 operating margin of 2.9% and FY23 of 7.3%, reflecting goodwill impairment for pending business sale
+•4Q23 segment operating margin1 of 15.1% and FY23 of 14.8%
+•4Q23 earnings per share (EPS) of $0.83 and FY23 of $6.44; 4Q23 non-GAAP EPS1 of $3.35 and FY23 of $12.36
+•FY23 cash from operations of $2.1 billion, free cash flow1 of $2.0 billion
+MELBOURNE, Fla., January 25, 2024 — L3Harris Technologies, Inc. (NYSE: LHX) reported fourth quarter and full-year 2023 results, and initiated 2024 financial guidance. 
+“We delivered on our 2023 financial commitments and reported record backlog of $33 billion, further demonstrating that our strategy to be the industry's Trusted Disruptor is working. Our agility and innovation continue to resonate with customers, enabling us to broaden our capabilities into high-growth markets,” said Christopher E. Kubasik, Chair and CEO. “Last year, we also closed, integrated, and are benefiting from two acquisitions and we announced the sale of a non-core business. These actions are strengthening and better aligning our portfolio with the Department of Defense and U.S. allied partner priorities."
+Kubasik continued, “We are confident on achieving the financial framework that we shared in early December at our investor day, while we execute on our 2024-2026 capital allocation priorities of reducing leverage and returning excess cash to shareholders. Entering 2024, we remain focused on driving towards the $1 billion cost savings target from our LHX NeXt program to enable operational improvements, margin expansion and free cash flow growth.”
+PAGE 1 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+SUMMARY FINANCIAL RESULTS AND 2024 GUIDANCE
+Fourth Quarter | Full Year | 2024*
+($ millions, except per share data) | 2023 | 2022 | Change | 2023 | 2022 | Change | Guidance
+Revenue
+Space & Airborne Systems | $ | 1,800 | $ | 1,702 | $ | 6,856 | $ | 6,384
+Integrated Mission Systems | 1,627 | 1,729 | 6,630 | 6,626
+Communication Systems | 1,363 | 1,193 | 5,070 | 4,217
+Aerojet Rocketdyne | 597 | — | 1,052 | —
+Corporate eliminations | (47) | (46) | (189) | (165)
+Revenue | $ | 5,340 | $ | 4,578 | 17% | $ | 19,419 | $ | 17,062 | 14% | $20.7B - $21.3B
+Operating income (loss)
+Space & Airborne Systems | $ | 191 | $ | 193 | $ | 756 | $ | 665
+Integrated Mission Systems | (75) | 179 | 459 | 494
+Communication Systems | 356 | 297 | 1,229 | 667
+Aerojet Rocketdyne | 66 | — | 122 | —
+Unallocated items | (384) | (174) | (1,140) | (699)
+Operating income | $ | 154 | $ | 495 | (69)% | $ | 1,426 | $ | 1,127 | 27%
+Operating margin | 2.9 | % | 10.8 | % | nm | 7.3 | % | 6.6 | % | 70 bps
+Segment operating income1
+Space & Airborne Systems | $ | 191 | $ | 193 | $ | 783 | $ | 745
+Integrated Mission Systems | 194 | 179 | 740 | 861
+Communication Systems | 356 | 297 | 1,229 | 1,022
+Aerojet Rocketdyne | 66 | — | 122 | —
+Unallocated items | — | — | — | —
+Segment operating income1 | $ | 807 | $ | 669 | 21% | $ | 2,874 | $ | 2,628 | 9%
+Segment operating margin1 | 15.1 | % | 14.6 | % | 50 bps | 14.8 | % | 15.4 | % | (60) bps | ~15%
+Non-service FAS pension income and other | $ | 93 | $ | 112 | (17)% | $ | 338 | $ | 425 | (20)%
+Interest expense, net | $ | (171) | $ | (74) | 131% | $ | (543) | $ | (279) | 95%
+Effective tax rate (GAAP) | (66.7 | %) | 21.8 | % | nm | 1.9 | % | 16.7 | % | nm
+Effective tax rate (non-GAAP1) | 12.4 | % | 13.6 | % | (120) bps | 13.0 | % | 13.9 | % | (90) bps
+EPS | $ | 0.83 | $ | 2.17 | (62)% | $ | 6.44 | $ | 5.49 | 17%
+Non-GAAP EPS1 | $ | 3.35 | $ | 3.27 | 2% | $ | 12.36 | $ | 12.90 | (4)% | $12.40 - $12.80
+Diluted shares outstanding | 190.6 | 192.1 | (1)% | 190.6 | 193.5 | (1)%
+Cash from operations | $ | 789 | $ | 782 | 1% | $ | 2,096 | $ | 2,158 | (3)%
+Free cash flow1 | $ | 747 | $ | 748 | —% | $ | 2,009 | $ | 2,029 | (1)% | ~$2.2B
+nm = not meaningful
+* When we provide our expectation for segment operating margin, effective tax rate on non-GAAP income, non-GAAP EPS and free cash flow on a forward-looking basis, a reconciliation of these non-GAAP financial measures to the corresponding GAAP measures is not available without unreasonable effort due to the unavailability of items for exclusion from the GAAP measure. We are unable to address the probable significance of this information, the variability of which may have a significant impact on future GAAP results. See Non-GAAP Financial Measures on page 6 for more information.
+PAGE 2 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+Revenue: Fourth quarter revenue increased 17%, primarily from the acquisitions of Aerojet Rocketdyne (AR), its own reporting segment, and Tactical Data Links (TDL), reported in the Communication Systems (CS) segment. Fourth quarter revenue increases were also driven by 2% organic growth from the Space & Airborne Systems (SAS) and CS segments. Full year revenue increased 14%, primarily from the acquisitions of AR and TDL, and increased 6% on an organic1 basis primarily from growth in the SAS and CS segments.
+Operating Margin: Fourth quarter operating margin decreased, primarily from the impairment associated with the pending sale of the Commercial Aviation Solutions (CAS) business within the Integrated Mission Systems (IMS) segment. Segment operating margin1 expanded 50 bps to 15.1% due to efficiencies realized by increased revenue and favorable product mix. Full year operating margin increased 70 bps. 2022 had a higher level of impairments than 2023. This improvement was partially offset by unfavorable net changes in Estimates-at-Completion (EAC). Full year segment operating margin1 decreased 60 bps to 14.8% primarily due to the factors noted above excluding the impact of impairments and other non-recurring items detailed in table 5.
+Earnings Per Share (EPS): Fourth quarter EPS decreased to $0.83 driven primarily by the impairment associated with the pending sale of the CAS business, an increase in amortization of acquisition-related intangibles and higher interest expense from the funding of the AR and TDL acquisitions. Non-GAAP EPS1 increased 2% to $3.35 driven by higher segment operating income1 and a lower effective tax rate on non-GAAP income, partially offset by lower pension income and the higher interest expense. Full year EPS increased 17% to $6.44 driven primarily from lower impairments, partially offset by lower pension income and the higher interest expense. Full year Non-GAAP EPS1 decreased 4% to $12.36 driven by lower pension income and the higher interest expense, partially offset by higher segment operating income1, lower share count and a lower effective tax rate on non-GAAP income1.
+Cash Flows: Fourth quarter cash from operations increased 1% primarily from less cash used to fund net working capital. Fourth quarter free cash flow1 was comparable. Full year cash from operations decreased 3% due to acquisition-related expenses, higher tax payments and higher interest, partially offset by less cash used to fund net working capital. Full year free cash flow1 was down 1%. 
+PAGE 3 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+SEGMENT RESULTS AND GUIDANCE:
+This section contains reporting segment drivers of fourth quarter and full year for revenue, operating margin, a GAAP measure, and segment operating margin1, a non-GAAP measure, which excludes unallocated items, impairments to goodwill or other assets and the gain on the sale of plant, property and equipment. 
+Space & Airborne Systems (SAS)
+Fourth Quarter | Full Year | Guidance
+($ millions) | 2023 | 2022 | Change | 2023 | 2022 | Change | 2024
+Revenue | $ | 1,800 | $ | 1,702 | 6% | $ | 6,856 | $ | 6,384 | 7% | $6,900 - $7,100
+Operating margin | 10.6 | % | 11.3 | % | (70) bps | 11.0 | % | 10.4 | % | 60 bps
+Segment operating margin1 | 10.6 | % | 11.3 | % | (70) bps | 11.4 | % | 11.7 | % | (30) bps | mid-high 11%*
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 6 for more information.
+Revenue: Fourth quarter revenue increased 6%, primarily from growth in Space, Mission Networks and Intel and Cyber, partially offset by a decline in legacy airborne platform volume. Full year revenue increased 7% primarily from growth in Space Systems, Mission Networks and Intel and Cyber.
+Operating Margin: Fourth quarter operating margin and segment operating margin1 decreased 70 bps largely due to an increase in lower margin space revenue. Full year operating margin increased 60 bps. 2022 had a higher level of impairments. 2023 was negatively impacted by mix and net unfavorable EAC. Full year segment operating margin1 decreased 30 bps from the factors noted above, excluding impairments.
+Integrated Mission Systems (IMS)
+Fourth Quarter | Full Year | Guidance
+($ millions) | 2023 | 2022 | Change | 2023 | 2022 | Change | 2024
+Revenue | $ | 1,627 | $ | 1,729 | (6)% | $ | 6,630 | $ | 6,626 | —% | $6,400 - $6,600
+Operating margin | (4.6 | %) | 10.4 | % | nm | 6.9 | % | 7.5 | % | (60) bps
+Segment operating margin1 | 11.9 | % | 10.4 | % | 150 bps | 11.2 | % | 13.0 | % | (180) bps | low-mid 11%*
+nm = not meaningful
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 6 for more information.
+Revenue: Fourth quarter revenue decreased 6%, primarily from lower Intelligence, Surveillance and Reconnaissance (ISR) aircraft missionization efforts, partially offset by increases in CAS and Maritime. Full year revenue was flat primarily from lower ISR aircraft missionization volume, offset by higher revenue in Electro Optical, Maritime and CAS.
+Operating Margin: Fourth quarter operating margin was down primarily from the impairment associated with the pending sale of the CAS business. Fourth quarter segment operating margin1 increased 150 bps from improved program performance. Full year operating margin declined 60 bps primarily due to an unfavorable net change in EACs, the sale of end-of-life inventory in the prior year and higher volume of lower-margin domestic ISR aircraft revenue, partially offset by lower impairments and research and development expenses. Full year segment operating margin1 decreased 180 bps from the factors noted above excluding impairments.
+PAGE 4 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+Communication Systems (CS)
+Fourth Quarter | Full Year | Guidance
+($ millions) | 2023 | 2022 | Change | 2023 | 2022 | Change | 2024
+Revenue | $ | 1,363 | $ | 1,193 | 14% | $ | 5,070 | $ | 4,217 | 20% | $5,300 - 5,400
+Operating margin | 26.1 | % | 24.9 | % | 120 bps | 24.2 | % | 15.8 | % | 840 bps
+Segment operating margin1 | 26.1 | % | 24.9 | % | 120 bps | 24.2 | % | 24.2 | % | — bps | low-mid 24%*
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 6 for more information.
+Revenue: Fourth quarter revenue increased 14%, primarily from the TDL acquisition and higher volume of night-vision products. Full year revenue increased 20%, primarily from the TDL acquisition and higher volumes of legacy Broadband Communications programs, Tactical Communications and Public Safety products.
+Operating Margin: Fourth quarter operating margin and segment operating margin1 increased 120 bps primarily from the acquisition of TDL and efficiencies realized from higher volume. Full year segment operating margin increased 840 bps primarily from an impairment in the prior year. Full year segment operating margin1 was comparable.
+Aerojet Rocketdyne (AR)
+Fourth Quarter | Full Year | Guidance
+($ millions) | 2023 | 2022 | Change | 2023 | 2022 | Change | 2024
+Revenue | $ | 597 | $ | 1,052 | $2,400 - $2,500
+Operating margin | 11.1 | % | 11.6 | % | high 11%*
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 6 for more information.
+Revenue and Operating Margin: Fourth quarter and full year (5-month post acquisition period) results are attributed to program execution across missile and space programs.
+SUPPLEMENTAL INFORMATION:
+Other Information | 2024 | 2023
+FAS/CAS operating adjustment | ~$40 million | $110 million
+Non-service FAS pension income | ~$260 million | $310 million
+Net interest expense* | ~$650 million | $544 million
+Effective tax rate on GAAP income | 1.9%
+Effective tax rate on non-GAAP income1* | 13.0% - 13.5% | 13.0%
+Average diluted shares | Flat - up slightly | 190.6
+Capital expenditures | ~2% sales | 2% sales
+* A reconciliation is not available. See the note on page 2 and Non-GAAP Financial Measures on page 6 for more information.
+PAGE 5 
+1Key terms and Non-GAAP measures - see definitions at the end of this earnings release
+Non-GAAP Financial Measures
+This press release contains Non-GAAP Financial Measures ("NGFMs") (as listed on page 17) within the meaning of Regulation G promulgated by the Securities and Exchange Commission (SEC). Management believes excluding the adjustments listed on page 17 for the purposes of calculating certain non-GAAP measures is useful to investors because these costs do not reflect our ongoing operating performance; however there is no guarantee that items excluded from non-GAAP financial measures will not reoccur in future periods. These adjustments, when considered together with the unadjusted GAAP financial measures, provide information that is useful to investors in understanding period-over-period operating results separate and apart from items that may, or could, have a disproportionately positive or negative impact on results in any particular period. Management also believes that these adjustments to our NGFMs enhance the ability of investors to analyze L3Harris business trends, to understand L3Harris performance and to evaluate our initiatives to drive improved financial performance. We utilize NGFMs as guides in forecasting, budgeting and long-term planning processes and to measure operating performance for compensation purposes. NGFMs should be considered in addition to, and not as a substitute for, financial measures presented in accordance with GAAP. See “Reconciliation of Non-GAAP Financial Measures” beginning on page 12 for detail on the adjustments to our NGFMs. We also provide our expectation of forward-looking NGFMs. A reconciliation of forward-looking NGFMs to comparable GAAP measures is not available without unreasonable effort because of inherent difficulty in forecasting and quantifying the comparable GAAP measures and the applicable adjustments and other amounts that would be necessary for such a reconciliation, including due to potentially high variability, complexity and low visibility as to the applicable adjustments and other amounts, which may, or could, have a disproportionate impact on future GAAP results, such as the impact of Aerojet Rocketdyne and costs associated with LHX NeXt on our results and other potential business divestiture-related gains and losses, other unusual gains and losses, or their probable significance and extent of tax deductibility. The variability of adjustments and other amounts may have a significant, unpredictable impact on future GAAP results. 
+Conference Call and Webcast
+L3Harris Technologies will host a call tomorrow, January 26, 2024, at 8:30 a.m. Eastern Time (ET). 
+The dial-in numbers for the teleconference are (U.S.) 877-407-6184 and (International) 201-389-0877, and participants will be directed to an operator. Participants are encouraged to listen via webcast, which will be broadcast live at L3Harris.com/investors. A recording of the call will be available on the L3Harris website, beginning at approximately 12 p.m. ET on January 26, 2024.
+About L3Harris Technologies
+L3Harris Technologies is the Trusted Disruptor in the defense industry. With customers’ mission-critical needs always in mind, our 50,000 employees deliver end-to-end technology solutions connecting the space, air, land, sea and cyber domains in the interest of national security. 
+Investor Relations Contact:
+Mark Kratz, 321-724-3170
+investorrelations@l3harris.com
+Media Relations Contact: 
+Sara Banda, 321-306-8927
+sara.banda@l3harris.com
+Forward-Looking Statements
+Statements in this press release that are not historical facts are forward-looking statements that reflect management's current expectations, assumptions and estimates of future performance and economic conditions. Such statements are made in reliance on the safe harbor provisions of Section 27A of the Securities Act of 1933 and Section 21E of the Securities Exchange Act of 1934. Forward-looking statements in this press release include but are not limited to: 2024 guidance; 2024-2026 capital deployment priorities; the LHX NeXt program costs and savings targets and their impacts on operational performance, margin expansion and accelerating free cash flow growth; supplemental financial information for 2024; and other statements regarding the business outlook and financial performance guidance that are not historical facts. The company cautions investors that any forward-looking statements are subject to risks and uncertainties that may cause actual results and future trends to differ materially from those matters expressed in or implied by such forward-looking statements. The company's consolidated results, future trends and forward-looking statements could be affected by many factors, risks and uncertainties, including but not limited to: competitive markets and U.S. Government spending priorities; changes in the mix of fixed-price, cost-plus and time-and-material type contracts and the impact of a significant increase in or sustained period of increased inflation; the termination, failure to fund, or negative audit findings for U.S. Government contracts; the U.S. Government’s budget deficit and the national debt; uncertain economic conditions; the consequences of future geo-political events; the impact of government investigations; the risks of doing business internationally; disruptions to our supply chain; the attraction and retention of key employees; the ability to develop new products and services and technologies that achieve market acceptance; natural disasters or other significant business disruptions; inability to achieve the expected results of LHX NeXt; indebtedness and ability to make payments on, repay or service indebtedness; unfunded defined benefit plans liability; any downgrade in credit ratings; the level of returns on defined benefit plan assets, changes in interest rates and other market factors; changes in effective tax rate or additional tax exposures; the ability to obtain export licenses or make sales to foreign governments; unforeseen environmental issues, including regulations related to GHG emissions or change in customer sentiment related to environmental sustainability, the impact of any improper conduct of employees, agents or business partners; the outcome of litigation or arbitration; potential claims related to infringement of intellectual property rights or environmental remediation or other contingencies; expanded operations from the acquisitions of TDL and Aerojet Rocketdyne, including related to dangerous materials and real estate assets; risks related to other strategic transactions, including pending and contemplated divestitures. Further information relating to these and other factors that may impact the company's results, future trends and forward-looking statements are disclosed in the company's filings with the SEC. The forward-looking statements contained in this press release are made as of the date of this press release, and the company disclaims any intention or obligation, other than imposed by law, to update or revise any forward-looking statements, whether as a result of new information, future events, or otherwise. Persons reading this press release are cautioned not to place undue reliance on forward-looking statements.
+Table 1 - Condensed Consolidated Statement of Operations (Unaudited)
+Quarter Ended | Fiscal Year Ended
+(In millions, except per share amounts) | December 29, 2023 | December 30, 2022 | December 29, 2023 | December 30, 2022
+Revenue | $ | 5,340 | $ | 4,578 | $ | 19,419 | $ | 17,062
+Cost of revenue | (3,935) | (3,316) | (14,306) | (12,135)
+General and administrative expenses | (878) | (767) | (3,262) | (3,006)
+Asset group and business divestiture-related (losses) gains, net | (77) | — | (51) | 8
+Impairment of goodwill and other assets | (296) | — | (374) | (802)
+Operating income | 154 | 495 | 1,426 | 1,127
+Non-service FAS pension income and other | 93 | 112 | 338 | 425
+Interest expense, net | (171) | (74) | (543) | (279)
+Income before income taxes | 76 | 533 | 1,221 | 1,273
+Income taxes | 50 | (116) | (23) | (212)
+Net income | 126 | 417 | 1,198 | 1,061
+Noncontrolling interests, net of income taxes | 32 | (1) | 29 | 1
+Net income attributable to L3Harris Technologies, Inc. | $ | 158 | $ | 416 | $ | 1,227 | $ | 1,062
+Net income per common share attributable to L3Harris Technologies, Inc. common shareholders
+Basic | $ | 0.83 | $ | 2.18 | $ | 6.47 | $ | 5.54
+Diluted | $ | 0.83 | $ | 2.17 | $ | 6.44 | $ | 5.49
+Basic weighted average common shares outstanding | 189.6 | 190.7 | 189.6 | 191.8
+Diluted weighted average common shares outstanding | 190.6 | 192.1 | 190.6 | 193.5
+Table 2 - Consolidated Statement of Cash Flow (Unaudited)
+Quarter Ended | Fiscal Year Ended
+(In millions) | December 29, 2023 | December 30, 2022 | December 29, 2023 | December 30, 2022
+Operating Activities
+Net income | $ | 126 | $ | 417 | $ | 1,198 | $ | 1,061
+Adjustments to reconcile net income to net cash provided by operating activities:
+Amortization of acquisition-related intangibles | 233 | 151 | 779 | 605
+Depreciation and other amortization | 117 | 90 | 387 | 333
+Share-based compensation | 22 | 17 | 89 | 109
+Share-based matching contributions under defined contribution plans | 59 | 55 | 231 | 216
+Pension and other postretirement benefit plan income | (66) | (98) | (275) | (395)
+Impairment of goodwill and other assets | 296 | — | 374 | 802
+Asset group and business divestiture-related losses (gains), net | 77 | — | 51 | (8)
+Deferred income taxes | (146) | (142) | (423) | (596)
+(Increase) decrease in:
+Receivables, net | 71 | (117) | 124 | (210)
+Contract assets | 198 | 134 | 62 | 23
+Inventories | 13 | 47 | (182) | (310)
+Other current assets | 17 | (13) | (70) | 13
+Increase (decrease) in:
+Accounts payable | 105 | (132) | 87 | 180
+Contract liabilities | (7) | 254 | 195 | 121
+Compensation and benefits | 93 | 50 | 38 | (45)
+Other accrued items | (61) | (183) | (88) | (181)
+Income taxes | (333) | 240 | (318) | 499
+Other operating activities | (25) | 12 | (163) | (59)
+Net cash provided by operating activities | 789 | 782 | 2,096 | 2,158
+Investing Activities
+Net cash paid for acquired businesses | — | — | (6,688) | —
+Additions to property, plant and equipment | (137) | (71) | (449) | (252)
+Proceeds from sale of property, plant and equipment, net | 56 | 4 | 56 | 14
+Proceeds from sales of asset groups and businesses, net | — | 18 | 71 | 23
+Other investing activities | (2) | (13) | (11) | (35)
+Net cash used in investing activities | (83) | (62) | (7,021) | (250)
+Financing Activities
+Proceeds from borrowings, net of issuance cost | — | (1) | 7,568 | 4
+Repayments of borrowings | (11) | (2) | (3,170) | (14)
+Change in commercial paper, net | (432) | — | 1,599 | —
+Proceeds from exercises of employee stock options | 6 | 17 | 24 | 57
+Repurchases of common stock | — | (183) | (518) | (1,083)
+Cash dividends | (216) | (214) | (868) | (864)
+Other financing activities | (7) | (2) | (41) | (51)
+Net cash (used in) provided by financing activities | (660) | (385) | 4,594 | (1,951)
+Effect of exchange rate changes on cash and cash equivalents | 15 | 16 | 11 | (18)
+Net increase (decrease) in cash and cash equivalents | 61 | 351 | (320) | (61)
+Cash and cash equivalents, beginning of period | 499 | 529 | 880 | 941
+Cash and cash equivalents, end of period | $ | 560 | $ | 880 | $ | 560 | $ | 880
+Table 3 - Consolidated Balance Sheet (Unaudited)
+(In millions) | December 29, 2023 | December 30, 2022
+Assets
+Current assets
+Cash and cash equivalents | $ | 560 | $ | 880
+Receivables, net | 1,230 | 1,251
+Contract assets | 3,196 | 2,987
+Inventories | 1,472 | 1,291
+Other current assets | 491 | 298
+Assets of business held for sale | 1,106 | 47
+Total current assets | 8,055 | 6,754
+Non-current assets
+Property, plant and equipment, net | 2,862 | 2,104
+Goodwill | 19,979 | 17,283
+Other intangible assets, net | 8,540 | 6,001
+Deferred income taxes | 91 | 73
+Other non-current assets | 2,160 | 1,309
+Total assets | $ | 41,687 | $ | 33,524
+Liabilities and equity
+Current liabilities
+Short-term debt | $ | 1,602 | $ | 2
+Current portion of long-term debt, net | 363 | 818
+Accounts payable | 2,106 | 1,945
+Contract liabilities | 1,900 | 1,400
+Compensation and benefits | 544 | 398
+Other accrued items | 1,129 | 818
+Income taxes payable | 88 | 376
+Liabilities of business held for sale | 272 | 19
+Total current liabilities | 8,004 | 5,776
+Non-current liabilities
+Long-term debt, net | 11,160 | 6,225
+Deferred income taxes | 815 | 719
+Other long-term liabilities | 2,879 | 2,180
+Total liabilities | 22,858 | 14,900
+Total equity | 18,829 | 18,624
+Total liabilities and equity | $ | 41,687 | $ | 33,524
+Reconciliation of Non-GAAP Financial Measures
+Table 4 - Organic Revenue (Unaudited)
+Quarter Ended | Fiscal Year Ended
+December 29, 2023 | December 29, 2023
+(In millions) | GAAP | Adjustments1 | Organic | GAAP | Adjustments1,2 | Organic
+SAS | $ | 1,800 | $ | — | $ | 1,800 | $ | 6,856 | $ | (9) | $ | 6,847
+IMS | 1,627 | — | 1,627 | 6,630 | — | 6,630
+CS | 1,363 | (104) | 1,259 | 5,070 | (365) | 4,705
+AR | 597 | (597) | — | 1,052 | (1,052) | —
+Corporate eliminations | (47) | — | (47) | (189) | — | (189)
+Revenue | $ | 5,340 | $ | (701) | $ | 4,639 | $ | 19,419 | $ | (1,426) | $ | 17,993
+Quarter Ended | Fiscal Year Ended
+December 30, 2022 | December 30, 2022
+(In millions) | GAAP | Adjustments2 | Organic | GAAP | Adjustments2 | Organic
+SAS | $ | 1,702 | $ | (8) | $ | 1,694 | $ | 6,384 | $ | (22) | $ | 6,362
+IMS | 1,729 | — | 1,729 | 6,626 | (6) | 6,620
+CS | 1,193 | — | 1,193 | 4,217 | — | 4,217
+AR | — | — | — | — | — | —
+Corporate eliminations | (46) | — | (46) | (165) | — | (165)
+Revenue | $ | 4,578 | $ | (8) | $ | 4,570 | $ | 17,062 | $ | (28) | $ | 17,034
+1Adjustment to exclude amounts attributable to each acquired business.
+2Adjustment to exclude amounts attributable to each divested business.
+Table 5 - Operating Income and Margin and Segment Operating Income and Margin (Unaudited)
+Quarter Ended | Fiscal Year Ended
+(In millions) | December 29, 2023 | December 30, 2022 | December 29, 2023 | December 30, 2022
+Revenue (A) | $ | 5,340 | $ | 4,578 | $ | 19,419 | $ | 17,062
+Operating income (B) | $ | 154 | $ | 495 | $ | 1,426 | $ | 1,127
+Unallocated corporate department income (expense), net | 35 | 7 | 62 | (25)
+FAS/CAS operating adjustment1 | (38) | (30) | (110) | (95)
+Significant and/or non-recurring items included in operating income above2:
+Amortization of acquisition-related intangibles | 233 | 151 | 779 | 605
+Additional cost of revenue related to the fair value step-up in inventory sold | — | — | 30 | —
+Merger, acquisition, and divestiture-related expenses | 30 | 46 | 174 | 162
+Sale of asset group and business divestiture-related gains, net | 77 | — | 51 | (8)
+Impairment of goodwill and other assets | 296 | — | 374 | 802
+LHX NeXt implementation costs | 47 | — | 115 | —
+Gain on sale of property, plant and equipment | (27) | — | (27) | —
+Other3 | — | — | — | 60
+Total significant and/or non-recurring items included in operating income2 | 656 | 197 | 1,496 | 1,621
+Segment operating income (C) | $ | 807 | $ | 669 | $ | 2,874 | $ | 2,628
+Margins
+Operating margin (B)/(A) | 2.9 | % | 10.8 | % | 7.3 | % | 6.6 | %
+Segment operating margin (C)/(A) | 15.1 | % | 14.6 | % | 14.8 | % | 15.4 | %
+1Represents the difference between the service cost component of Financial Accounting Standards (“FAS”) pension and Other Postretirement Benefits (“OPEB”) income or expense and total U.S. Government Cost Accounting Standards (“CAS”) pension and OPEB cost, and 2023 includes AR. 2Refer to Non-GAAP Financial Measures on page 173Other includes charges for severance and other termination costs of $29 and charges related to an additional pre-merger legal contingency of $31 during fiscal year ended December 30, 2022.
+Table 6 - Segment Operating Income and Margin (Unaudited)
+Quarter Ended
+December 29, 2023
+(In millions) | SAS | IMS | CS | AR
+Revenue | $ | 1,800 | $ | 1,627 | $ | 1,363 | $ | 597
+Operating income | 191 | (75) | 356 | 66
+Impairment of goodwill and other assets1 | — | 296 | — | —
+Gain on sale of property, plant and equipment1 | — | (27) | — | —
+Segment operating income | $ | 191 | $ | 194 | $ | 356 | $ | 66
+Operating margin | 10.6 | % | (4.6) | % | 26.1 | % | 11.1 | %
+Segment operating margin | 10.6 | % | 11.9 | % | 26.1 | % | 11.1 | %
+Quarter Ended
+December 30, 2022
+(In millions) | SAS | IMS | CS
+Revenue | $ | 1,702 | $ | 1,729 | $ | 1,193
+Operating income | 193 | 179 | 297
+Impairment of goodwill and other assets1 | — | — | —
+Segment operating income | $ | 193 | $ | 179 | $ | 297
+Operating margin | 11.3 | % | 10.4 | % | 24.9 | %
+Segment operating margin | 11.3 | % | 10.4 | % | 24.9 | %
+Fiscal Year Ended
+December 29, 2023
+(In millions) | SAS | IMS | CS | AR
+Revenue | $ | 6,856 | $ | 6,630 | $ | 5,070 | $ | 1,052
+Operating income | 756 | 459 | 1,229 | 122
+Impairment of goodwill and other assets1 | 27 | 308 | — | —
+Gain on sale of property, plant and equipment1 | — | (27) | — | —
+Segment operating income | $ | 783 | $ | 740 | $ | 1,229 | $ | 122
+Operating margin | 11.0 | % | 6.9 | % | 24.2 | % | 11.6 | %
+Segment operating income margin | 11.4 | % | 11.2 | % | 24.2 | % | 11.6 | %
+Fiscal Year Ended
+December 30, 2022
+(In millions) | SAS | IMS | CS
+Revenue | $ | 6,384 | $ | 6,626 | $ | 4,217
+Operating income | 665 | 494 | 667
+Impairment of goodwill and other assets1 | 80 | 367 | 355
+Segment operating income | $ | 745 | $ | 861 | $ | 1,022
+Operating margin | 10.4 | % | 7.5 | % | 15.8 | %
+Segment operating margin | 11.7 | % | 13.0 | % | 24.2 | %
+1Refer to Non-GAAP Financial Measures on page 17.
+Table 7 - Effective Tax Rate on Non-GAAP Income
+Quarter Ended | Fiscal Year Ended
+December 29, 2023 | December 29, 2023
+(In millions) | Earnings Before Tax | Tax (Benefit) Expense | Effective Tax Rate | Earnings Before Tax | Tax Expense | Effective Tax Rate
+Income before income taxes | $ | 76 | $ | (50) | (65.8) | % | $ | 1,221 | $ | 23 | 1.9 | %
+Integration and project costs1 | 77 | 16 | 289 | 56
+Amortization of acquisition-related intangibles and additional cost of revenue related to the fair value step-up in inventory sold | 233 | 53 | 809 | 191
+Divestitures, restructuring and impairments2 | 346 | 72 | 398 | 83
+Non-GAAP income before income taxes | $ | 731 | $ | 91 | 12.4 | % | $ | 2,716 | $ | 353 | 13.0 | %
+Quarter Ended | Fiscal Year Ended
+December 29, 2022 | December 29, 2022
+(In millions) | Earnings Before Tax | Tax Expense (Benefit) | Effective Tax Rate | Earnings Before Tax | Tax Expense | Effective Tax Rate
+Income before income taxes | $ | 533 | $ | 116 | 21.8 | % | $ | 1,273 | $ | 212 | 16.7 | %
+Integration and project costs | 46 | 4 | 170 | 38
+Amortization of acquisition-related intangibles | 151 | (21) | 605 | 139
+Divestitures, restructuring and impairments | — | — | 854 | 14
+Non-GAAP income before income taxes | $ | 730 | $ | 99 | 13.6 | % | $ | 2,902 | $ | 403 | 13.9 | %
+1Includes: merger, acquisition, and divestiture-related expenses; LHX NeXt implementation costs and non-operating income adjustments.2Includes: asset group and business divestiture-related (losses) gains, net; impairment of goodwill and other assets; gain on sale of property, plant and equipment; and other (charges for severance and other termination costs and charges related to an additional pre-merger legal contingency).3Refer to Non-GAAP Financial Measures on page 17.
+Table 8 - Non-GAAP EPS (unaudited)
+Quarter Ended | Fiscal Year Ended
+(In millions) | December 29, 2023 | December 30, 2022 | December 29, 2023 | December 30, 2022
+Diluted weighted average common shares outstanding | 190.6 | 192.1 | 190.6 | 193.5
+EPS | $ | 0.83 | $ | 2.17 | $ | 6.44 | $ | 5.49
+Significant and/or non-recurring items included in EPS above1:
+Amortization of acquisition-related intangibles | 1.22 | 0.79 | 4.09 | 3.13
+Additional cost of revenue related to the fair value step-up in inventory sold | — | — | 0.16 | —
+Merger, acquisition, and divestiture-related expenses | 0.16 | 0.24 | 0.91 | 0.84
+Asset group and business divestiture-related losses (gains), net | 0.40 | — | 0.27 | (0.04)
+Impairment of goodwill and other assets | 1.55 | — | 1.96 | 4.14
+LHX NeXt implementation costs | 0.25 | — | 0.60 | —
+Gain on sale of property, plant and equipment | (0.14) | — | (0.14) | —
+Other2 | — | — | — | 0.31
+Non-operating income adjustment | — | — | — | 0.04
+Income taxes on above adjustments | (0.75) | 0.08 | (1.74) | (0.99)
+Noncontrolling interests portion of adjustment | (0.17) | (0.01) | (0.19) | (0.02)
+Non-GAAP EPS | $ | 3.35 | $ | 3.27 | $ | 12.36 | $ | 12.90
+1Refer to Non-GAAP Financial Measures on page 17.2Other includes charges for severance and other termination costs of $0.15 and charges related to an additional pre-merger legal contingency of $0.16 during fiscal year ended December 30, 2022.
+Table 9 - Free Cash Flow
+Quarter Ended | Fiscal Year Ended
+(In millions) | December 29, 2023 | December 30, 2022 | December 29, 2023 | December 30, 2022
+Net cash provided by operating activities | $ | 789 | $ | 782 | $ | 2,096 | $ | 2,158
+Additions to property, plant and equipment | (137) | (71) | (449) | (252)
+Proceeds from sale of property, plant and equipment, net | 56 | 4 | 56 | 14
+Cash used for merger, acquisition, and divestiture-related expenses1 | 39 | 33 | 306 | 109
+Free cash flow | $ | 747 | $ | 748 | $ | 2,009 | $ | 2,029
+1Refer to Non-GAAP Financial Measures on page 17.
+Non-GAAP Terms and Definitions
+Description | Definition
+Amortization of acquisition-related intangibles | Consists of amortization of identifiable intangible assets acquired in connection with business combinations. Amortization charges are recorded over the estimated useful life of the related acquired intangible asset, and thus are generally recorded over multiple years.
+Additional cost of revenue related to the fair value step-up in inventory sold | Difference between the balance sheet value of inventory from the acquiree and the acquisition date fair value.
+Merger, acquisition, and divestiture-related expenses | In 2023, transaction and integration expenses associated with TDL and AR acquisitions. In 2022, transaction and integration expenses associated with the L3Harris merger. Also, includes external costs related to pursuing acquisition and divestiture portfolio optimization, non-transaction costs related to divestitures and salaries of employees in roles established for and dedicated to planned divestiture and acquisition activity.
+Sale of asset group and business divestiture-related gains, net | In 2023, related to gains or losses associated with business divestitures. In 2022, related to an asset sale in our IMS segment.
+Impairment of goodwill and other assets | In 2023, charges for goodwill impairment recorded at our IMS segment related to the pending divestiture of our CAS business and charges at our IMS and SAS segment related to restructuring of a customer contract impacting both segments and facility closures in IMS. In 2022, charges for goodwill impairment recorded at our IMS and SAS segments related to a weakened outlook for precision weapons and other solutions and higher interest rates, and charges recorded at our CS segment related to a lower outlook on legacy platforms and higher interest rates.
+Gain on sale of property, plant and equipment | In 2023, related to the sale of a building in our IMS segment.
+LHX NeXt implementation costs | Costs associated with transforming multiple functions, systems and processes to increase agility and competitiveness. Costs related to the LHX NeXt effort are expected to continue through 2025, and are expected to include workforce optimization costs, incremental IT expenses for implementation of new systems, third party consulting expenses and other related costs totaling $400M. We expect gross run-rate savings of $1B exiting year 3. In 2023, costs consisted of third-party consulting, workforce optimization, incremental IT, and other.
+Non-operating income adjustments | 2022 includes an $8 million adjustment for equity method investment earnings.
+Other | Other includes charges associated with a formal restructuring plan and primarily related to employee severance and benefit arrangements. In 2022 we incurred charges associated with severance and other benefits related to employees that accepted a voluntary retirement plan with an effective retirement date of September 30, 2022. Other also includes an accrual associated with an ongoing legal matter that is disproportionately large related to our routine legal expenses or accruals.
+Orders | Represents the total value of funded and unfunded contract awards received from the U.S. Government, plus the total value of funded and unfunded contract awards received from customers other than the U.S. Government. This includes incremental funding and adjustments to previous awards, and excludes unexercised contract options and potential orders under ordering-type contracts, such as indefinite delivery, indefinite quantity (IDIQ) contracts.
+Organic revenue | Organic revenue excludes the impact of completed divestitures and first year revenue associated with acquisitions; refer to non-GAAP financial measure (NGFM) reconciliations in the tables accompanying this press release and to the disclosures in the non-GAAP section of this press release for more information. Organic revenue is reconciled in table 4.
+Segment operating income and margin | Segment operating income and margin for each segment represents each such segment's operating income and margin (GAAP measures), excluding impairment of goodwill and other assets and gain on sale of property, plant and equipment, as reconciled in table 5. Segment operating income and margin on a consolidated basis represents operating income and margin (GAAP measures) excluding the FAS/CAS operating adjustment, corporate expenses and other unallocated items, impairment of goodwill and other assets, and a gain on sale of property, plant and equipment, and eliminations, as reconciled in table 6.
+Non-GAAP EPS | Non-GAAP EPS represents EPS (net income per common share attributable to L3Harris Technologies, Inc. common shareholders, a GAAP measure) adjusted for amortization of acquisition-related intangibles; additional cost of revenue related to the fair value step-up in inventory sold; merger, acquisition, and divestiture-related expenses; asset group and business divestiture-related (losses) gains, net; impairment of goodwill and other assets; gain on sale of property, plant and equipment; LHX NeXt implementation costs; other (charges for severance and other termination costs and charges related to an additional pre-merger legal contingency); and non-operating income adjustments. Refer to the disclosures in the non-GAAP financial measures section of this press release for more information.Non-GAAP EPS is reconciled in table 8.
+Free Cash Flow (FCF) | FCF represents net cash provided by operating activities (a GAAP measure) less capital expenditures (additions to property, plant and equipment less proceeds from sale of property, plant and equipment, net) and cash used for merger, acquisition, and divestiture-related expenses. FCF is reconciled in table 9.
+Effective tax rate on non-GAAP income | Effective tax rate on non-GAAP earnings represents the effective tax rate (tax expense as a percentage of income before income taxes, a GAAP measure) adjusted for the tax effect associated with amortization of acquisition-related intangibles; additional cost of revenue related to the fair value step-up in inventory sold; merger, acquisition, and divestiture-related expenses; asset group and business divestiture-related (losses) gains, net; impairment of goodwill and other assets; gain on sale of property, plant and equipment; LHX NeXt implementation costs; other (charges for severance and other termination costs and charges related to an additional pre-merger legal contingency); and non-operating income adjustments. Refer to the disclosures in the non-GAAP financial measures section of this press release for more information. Non-GAAP effective tax rate is reconciled in table 7.
