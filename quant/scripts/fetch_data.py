@@ -34,10 +34,14 @@ def safe_name(symbol: str) -> str:
 
 
 def currency_of(symbol: str) -> str:
-    if symbol.endswith(".TW") or symbol == "^TWII":
+    if symbol.endswith(".TW") or symbol.endswith(".TWO") or symbol == "^TWII":   # .TWO＝上櫃
         return "TWD"
     if symbol.endswith(".HK") or symbol == "^HSI":
         return "HKD"
+    if symbol.endswith(".KS"):   # 韓國交易所
+        return "KRW"
+    if symbol.endswith(".AS"):   # 阿姆斯特丹（ASML.AS）
+        return "EUR"
     return "USD"
 
 

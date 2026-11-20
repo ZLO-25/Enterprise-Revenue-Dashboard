@@ -1,17 +1,2 @@
-/* 🏦 升降息週期分頁的樣式（手寫；tools/quant_sync.py 不會覆蓋）。每條規則都限定在 #quant-dca-view 內。 */
-#quant-dca-view .chart.tall { min-height: 720px; }
-#quant-dca-view #tab-rates .panel + .panel { margin-top: 16px; }
-#quant-dca-view #tab-rates ul.hint { margin: 6px 0 0; padding-left: 1.2em; }
-#quant-dca-view #tab-rates table.data td:nth-child(2) { white-space: normal; min-width: 150px; }
-@media (max-width: 767px) { #quant-dca-view .chart.tall { min-height: 560px; } }
-/* 時間區間：圖上方的快速按鈕 */
-#quant-dca-view .rates-range { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-#quant-dca-view .rates-range button { width: auto; flex: none; padding: 5px 10px; font-size: .84rem; }
-#quant-dca-view .rates-range button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-
-/* 事件前後圖：選單列 */
-#quant-dca-view .rates-evctl { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0; }
-#quant-dca-view .rates-evctl label { display: flex; align-items: center; gap: 6px; font-size: .9rem; }
-#quant-dca-view .rates-evctl select { width: auto; }
-#quant-dca-view #chart-rates-ev { min-height: 420px; }
+/* 升降息週期分頁的樣式：2026-11-20 起併入 quant.css 第 10 節（跟其他分頁同一套主站風格），這支檔留空，
+   讓 loader.js 的 site.rates 開關與載入流程不用改。 */

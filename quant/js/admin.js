@@ -1,4 +1,4 @@
-// 由 tools/quant_sync.py 從 Lump-Sum-v.s.-DCA/assets/js/admin.js 產生（標 [主站] 的是改動處），請不要手改
+// 原本由 tools/quant_sync.py 從 Lump-Sum-v.s.-DCA/assets/js/admin.js 產生；2026-11-20 起改為手寫維護（直接改這支檔）
 // ============================================================
 // admin.js — 用密碼在網站上編輯「標的清單」(scripts/tickers.json)
 //
@@ -132,7 +132,7 @@ if (typeof document !== "undefined") {
 
   function renderUnlock() {
     body.innerHTML = `
-      <h2>🔒 輸入密碼</h2>
+      <h2>輸入密碼</h2>
       <p class="hint">輸入管理密碼後才能編輯標的清單。</p>
       <form id="admin-unlock" novalidate>
         <div class="field"><label for="admin-pw">密碼</label><input type="password" id="admin-pw" autocomplete="current-password" required></div>
@@ -163,7 +163,7 @@ if (typeof document !== "undefined") {
 
   function renderSetup() {
     body.innerHTML = `
-      <h2>🛠️ 初次設定（只需要做一次）</h2>
+      <h2>初次設定（只需要做一次）</h2>
       <p>網站是公開的靜態網頁，沒有伺服器可以保存資料，所以存檔時會直接更新 GitHub 上的清單檔。這需要一把只能改這個 repo 的 GitHub Token：</p>
       <ol class="hint" style="font-size:.88rem">
         <li>打開 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → 建立 Fine-grained token</a></li>
@@ -197,7 +197,7 @@ if (typeof document !== "undefined") {
         try { sha = (await readFile(tok, KEY_PATH)).sha; } catch { /* 第一次設定沒有舊檔 */ }
         await writeFile(tok, KEY_PATH, JSON.stringify(blob, null, 2) + "\n", sha, "設定網站管理金鑰（已加密的 GitHub Token）");
         token = tok; keyBlob = blob; cfg = JSON.parse(f.text); cfgSha = f.sha;
-        renderEditor("✅ 設定完成。之後在任何電腦打開網站，輸入密碼就能編輯。");
+        renderEditor("設定完成。之後在任何電腦打開網站，輸入密碼就能編輯。");
       } catch (err) {
         msg(esc(err.message), "error");
         busy(btn, false, "加密並儲存設定");
@@ -213,7 +213,7 @@ if (typeof document !== "undefined") {
 
   function renderEditor(flash = "") {
     body.innerHTML = `
-      <h2>✏️ 編輯標的清單</h2>
+      <h2>編輯標的清單</h2>
       <p class="hint">代號請用 <a href="https://finance.yahoo.com/" target="_blank" rel="noopener">Yahoo Finance</a> 的寫法：台股 <code>0050.TW</code>、上櫃 <code>6488.TWO</code>、港股 <code>0005.HK</code>、美股 <code>AAPL</code>、指數 <code>^GSPC</code>。存檔後約 2 分鐘網站更新。</p>
       <div id="admin-msg" class="notice" hidden></div>
       <div id="admin-groups">${cfg.groups.map((g, gi) => `
@@ -229,15 +229,15 @@ if (typeof document !== "undefined") {
           </tbody></table></div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
             <button type="button" class="secondary small g-add">＋ 新增標的</button>
-            <button type="button" class="secondary small g-del">🗑️ 刪除整個群組</button>
+            <button type="button" class="secondary small g-del">刪除整個群組</button>
           </div>
         </fieldset>`).join("")}
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
         <button type="button" class="secondary small" id="admin-add-group">＋ 新增群組</button>
         <span style="flex:1"></span>
-        <button type="button" class="secondary small" id="admin-lock">🔒 鎖定</button>
-        <button type="button" class="primary" id="admin-save" style="width:auto">💾 儲存並重新部署</button>
+        <button type="button" class="secondary small" id="admin-lock">鎖定</button>
+        <button type="button" class="primary" id="admin-save" style="width:auto">儲存並重新部署</button>
       </div>`;
     if (flash) msg(flash);
 
@@ -282,10 +282,10 @@ if (typeof document !== "undefined") {
       try {
         const res = await writeFile(token, TICKERS_PATH, JSON.stringify(cfg, null, 2) + "\n", cfgSha, "從網站更新標的清單");
         cfgSha = res.content.sha;
-        renderEditor(`✅ 已儲存到 GitHub。網站約 2 分鐘後更新（可到 <a href="https://github.com/${REPO.owner}/${REPO.repo}/actions" target="_blank" rel="noopener">Actions</a> 看進度），完成後重新整理頁面即可在下拉選單看到新標的。`);
+        renderEditor(`已儲存到 GitHub。網站約 2 分鐘後更新（可到 <a href="https://github.com/${REPO.owner}/${REPO.repo}/actions" target="_blank" rel="noopener">Actions</a> 看進度），完成後重新整理頁面即可在下拉選單看到新標的。`);
       } catch (err) {
         msg(esc(err.message), "error");
-        busy(btn, false, "💾 儲存並重新部署");
+        busy(btn, false, "儲存並重新部署");
       }
     });
   }

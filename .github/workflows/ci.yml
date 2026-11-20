@@ -36,10 +36,12 @@ jobs:
           pip install --quiet -r quant/scripts/requirements.txt
           python3 -m unittest discover -s quant/tests -p 'test_*.py'
           node --test quant/tests/rates-core.test.mjs
+          node --test quant/tests/view-mode.test.mjs
+          node --test quant/tests/engine-phase2.test.mjs
           node --test tools/tests/today.test.js
       - name: JavaScript 語法檢查
         run: for f in assets/*.js quant/js/*.js; do node --check "$f" || exit 1; done
-      - name: 瀏覽器冒煙測試（首頁、個股頁、市值排名、系統健康）
+      - name: 瀏覽器冒煙測試（首頁、個股頁、市值排名、系統健康、量化回測 #dca／#monthly／#vol）
         run: |
           pip install --quiet playwright
           python3 -m playwright install --with-deps chromium

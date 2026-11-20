@@ -1,269 +1,291 @@
-/* ===== 由 tools/quant_sync.py 產生，請不要手改；要改就改回測站原始檔後重跑 ===== */
-/* 1. 擋住主站元素樣式滲入（只作用在量化視圖內） */
-#quant-dca-view p { margin: 1em 0; }
-#quant-dca-view h1, #quant-dca-view h2, #quant-dca-view h3 { text-wrap: wrap; font-family: inherit; }
-#quant-dca-view section { display: block; gap: normal; scroll-margin-top: 0; }
-#quant-dca-view table { font-size: inherit; font-variant-numeric: normal; width: auto; }
-#quant-dca-view th, #quant-dca-view td { padding: 1px; text-align: inherit; white-space: normal; border-bottom: 0; color: inherit;
-  background: none; position: static; font-family: inherit; font-weight: inherit; }
-#quant-dca-view th { font-weight: bold; text-align: center; }
-#quant-dca-view footer { font-size: inherit; color: inherit; }
-/*   主站也有同名的 class（.controls .card .chip）：先還原成沒有樣式的狀態 */
-#quant-dca-view .controls { display: block; flex-wrap: nowrap; gap: normal; align-items: normal; }
-#quant-dca-view .card { background: none; border: 0; border-radius: 0; padding: 0; display: block; gap: normal; min-width: auto; align-content: normal; }
-#quant-dca-view .chip { justify-self: auto; font-size: inherit; font-weight: inherit; padding: 0; border-radius: 0; background: none; color: inherit; }
-/* 2. 回測站原本的樣式（每條都加上 #quant-dca-view 前綴） */
+/* 量化回測與配置的樣式（原本由 tools/quant_sync.py 產生；2026-11-20 起改為手寫維護，直接改這支檔）
+ *
+ * 目標：切到量化分頁時，看起來和主站是同一個網站（assets/theme.css）：
+ *   暖色紙底、IBM Plex、1px 細邊框卡片、無陰影、pill／seg 控制項、同一組圖表色 --s1…--s8。
+ * 作法：容器內只用主站的 CSS 變數（--page --surface --ink --line --accent --s1… 在 :root 上，深淺色自動跟著主站），
+ *   不再有自己的深色區塊。程式碼裡沿用的舊變數名只是別名（下面第 1 節）。
+ *   注意：--muted、--accent 兩邊同名，不能寫成 `--muted: var(--muted)`（循環），所以直接繼承 :root。
+ * 每條規則都加上 #quant-dca-view 前綴（主站同名的 p、h1~h3、section、table、th、td、.card、.chip、.controls 要在容器內覆蓋）。
+ */
+
+/* 1. 舊變數名 → 主站變數（別名；改顏色請改 assets/theme.css，不要改這裡） */
 #quant-dca-view {
-  --bg: #f6f7f9;
-  --panel: #ffffff;
-  --text: #1c2430;
-  --muted: #5d6b7c;
-  --border: #dde2e8;
-  --accent: #2563eb;
-  --accent-soft: #e8efff;
-  --ls: #2563eb;      /* 單筆投入 */
-  --dca: #e8590c;     /* 定期定額 */
-  --good: #12805c;
-  --bad: #c92a2a;
-  --warn-bg: #fff6e0;
-  --warn-border: #f0c36d;
-  --code-bg: #f1f3f6;
+  --bg: var(--page);
+  --panel: var(--surface);
+  --text: var(--ink);
+  --border: var(--line);
+  --ls: var(--s1);          /* 單筆投入 */
+  --dca: var(--s2);         /* 定期定額 */
+  --good: var(--good-text);
+  --bad: var(--bad-text);
+  --accent-soft: var(--chip-bg);
+  --code-bg: var(--wash);
   --radius: 10px;
-  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) #quant-dca-view {
-    --bg: #0f1419; --panel: #171e26; --text: #e6e9ee; --muted: #9aa6b4; --border: #2b3542;
-    --accent: #6c9dff; --accent-soft: #1d2a44; --ls: #6c9dff; --dca: #ff8c42;
-    --good: #3ccf91; --bad: #ff6b6b; --warn-bg: #2d2615; --warn-border: #7a6125; --code-bg: #1e2732;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] #quant-dca-view {
-  --bg: #0f1419; --panel: #171e26; --text: #e6e9ee; --muted: #9aa6b4; --border: #2b3542;
-  --accent: #6c9dff; --accent-soft: #1d2a44; --ls: #6c9dff; --dca: #ff8c42;
-  --good: #3ccf91; --bad: #ff6b6b; --warn-bg: #2d2615; --warn-border: #7a6125; --code-bg: #1e2732;
-  color-scheme: dark;
 }
 
+/* 2. 容器與基本文字 */
+#quant-dca-view { display: block; margin: 0; min-height: 100vh; color: var(--ink); font-family: var(--font-ui); font-size: var(--step-1); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 #quant-dca-view * { box-sizing: border-box; }
-#quant-dca-view { margin: 0; }
-#quant-dca-view {
-  background: var(--bg); color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-  font-size: 15px; line-height: 1.6;
-}
+#quant-dca-view .q-wrap { max-width: 1180px; margin-inline: auto; }
+@media (min-width: 1280px) { html.sb-quant:not(.sb-open) #quant-dca-view .q-wrap { padding-left: max(0px, calc(56px - (100vw - 1180px) / 2)); } }
+#quant-dca-view p { margin: 0 0 .75em; }
+#quant-dca-view h1, #quant-dca-view h2, #quant-dca-view h3, #quant-dca-view h4 { font-family: var(--font-ui); margin: 0 0 .5em; line-height: 1.3; text-wrap: balance; }
+#quant-dca-view h4 { font-size: 1rem; font-weight: 600; }
 #quant-dca-view a { color: var(--accent); }
-#quant-dca-view h1, #quant-dca-view h2, #quant-dca-view h3, #quant-dca-view h4 { line-height: 1.3; margin: 0 0 .5em; }
-#quant-dca-view h2 { font-size: 1.25rem; }
-#quant-dca-view h3 { font-size: 1.05rem; }
-#quant-dca-view code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: .9em; }
+#quant-dca-view code { font-family: var(--font-data); font-size: .85em; background: var(--wash); padding: 1px 6px; border-radius: 4px; }
 #quant-dca-view pre.ascii {
-  background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px;
-  padding: 12px 14px; overflow-x: auto; font-size: 13px; line-height: 1.45;
-  font-family: ui-monospace, "Cascadia Mono", Consolas, "Noto Sans Mono CJK TC", monospace;
+  background: var(--wash); border: 1px solid var(--line); border-radius: 8px; color: var(--ink-2);
+  padding: 12px 14px; overflow-x: auto; font-size: .8rem; line-height: 1.45; margin: .75em 0;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, "Noto Sans Mono CJK TC", monospace;   /* 要對齊全形字，所以不用 IBM Plex Mono */
 }
+#quant-dca-view ul, #quant-dca-view ol { margin: 0 0 .75em; padding-left: 1.3em; }
+#quant-dca-view li { margin-bottom: .25em; }
+#quant-dca-view dl { margin: 0; }
+#quant-dca-view dt { font-weight: 600; margin-top: .75em; }
+#quant-dca-view dd { margin: 0; color: var(--ink-2); }
+#quant-dca-view .term { border-bottom: 1px dotted var(--muted); cursor: help; }
+#quant-dca-view .pos { color: var(--good-text); }
+#quant-dca-view .neg { color: var(--bad-text); }
 
-/* ---------- 版頭 ---------- */
-#quant-dca-view header.site {
-  background: var(--panel); border-bottom: 1px solid var(--border);
-  padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px;
+/* 3. 頁首（主站 masthead 樣式：eyebrow、h1、lede、meta-row 沿用 theme.css） */
+#quant-dca-view .q-masthead { padding-bottom: 20px; }
+#quant-dca-view .q-masthead h1 { margin: 0; }
+#quant-dca-view .q-masthead .lede { margin: 0; min-height: 1.6em; }
+#quant-dca-view .meta-row { align-items: center; }
+#quant-dca-view .data-status { font-family: var(--font-data); }
+#quant-dca-view .q-textbtn {
+  font: inherit; font-size: inherit; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer;
+  text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px;
 }
-#quant-dca-view header.site h1 { font-size: 1.2rem; margin: 0; }
-#quant-dca-view header.site .sub { color: var(--muted); font-size: .88rem; }
-#quant-dca-view header.site .spacer { flex: 1; }
-#quant-dca-view .data-status { font-size: .82rem; color: var(--muted); }
+#quant-dca-view .q-textbtn:hover { color: var(--ink); }
+#quant-dca-view .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: quant-spin .8s linear infinite; vertical-align: -3px; }
+@keyframes quant-spin { to { transform: rotate(360deg); } }
 
-#quant-dca-view nav.tabs {
-  display: flex; gap: 4px; overflow-x: auto; padding: 0 16px;
-  background: var(--panel); border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 20;
+/* 分頁列：主站 .secnav 的膠囊樣式（外框 sticky、選中＝chip-bg／chip-ink） */
+#quant-dca-view nav.secnav { margin-bottom: 20px; }
+#quant-dca-view nav.secnav button {
+  flex: none; font: inherit; font-size: var(--step-0); border: 0; background: none; color: var(--ink-2);
+  padding: 6px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap;
 }
-#quant-dca-view nav.tabs button {
-  border: 0; background: none; color: var(--muted); font: inherit; font-weight: 600;
-  padding: 12px 14px; cursor: pointer; white-space: nowrap; border-bottom: 3px solid transparent;
-}
-#quant-dca-view nav.tabs button:hover { color: var(--text); }
-#quant-dca-view nav.tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+#quant-dca-view nav.secnav button:hover { background: var(--wash); color: var(--ink); }
+#quant-dca-view nav.secnav button[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); }
 
-#quant-dca-view main { max-width: 1400px; margin: 0 auto; padding: 18px 16px 60px; }
+/* 4. 版面 */
+#quant-dca-view main { padding-bottom: 24px; }
 #quant-dca-view section.tab { display: none; }
-#quant-dca-view section.tab.active { display: block; }
-
-#quant-dca-view .layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 18px; align-items: start; }
+#quant-dca-view section.tab.active { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
+#quant-dca-view .layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: start; }
+#quant-dca-view .layout > * { min-width: 0; }
+#quant-dca-view [id^="out-"] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-content: start; min-width: 0; }
 @media (max-width: 900px) { #quant-dca-view .layout { grid-template-columns: minmax(0, 1fr); } }
 
-#quant-dca-view .panel {
-  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 16px; box-shadow: var(--shadow);
-}
-#quant-dca-view .panel + .panel { margin-top: 16px; }
-#quant-dca-view .controls { position: sticky; top: 58px; max-height: calc(100vh - 70px); overflow-y: auto; }
+/* .panel＝主站 .card：surface、1px line、radius 10、無陰影 */
+#quant-dca-view .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+#quant-dca-view .panel h2, #quant-dca-view .panel h3 { font-size: 1.1rem; font-weight: 600; }
+#quant-dca-view .panel h2 .sub { font-family: var(--font-data); font-size: .85rem; color: var(--muted); }
+#quant-dca-view .panel > :last-child { margin-bottom: 0; }
+/* 主站有同名的 .controls（flex 列），這裡是左側設定表單：還原成一般區塊 */
+#quant-dca-view .controls { display: block; position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow-y: auto; }
 @media (max-width: 900px) { #quant-dca-view .controls { position: static; max-height: none; } }
+#quant-dca-view .panel h2.q-h { font-size: 1.05rem; }
+#quant-dca-view .intro { color: var(--ink-2); font-size: var(--step-0); margin: 0 0 14px; }
+#quant-dca-view .placeholder { color: var(--muted); text-align: center; padding: 40px 20px; }
 
-#quant-dca-view .intro { color: var(--muted); margin: 0 0 14px; }
-
-/* ---------- 表單 ---------- */
+/* 5. 表單與按鈕（對齊主站 .fut-lock 的輸入框、.seg／.chip 的長相） */
 #quant-dca-view .field { margin-bottom: 14px; }
-#quant-dca-view .field > label, #quant-dca-view .field > .label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: 4px; }
+#quant-dca-view .field > label, #quant-dca-view .field > .label { display: block; font-weight: 600; font-size: var(--step-0); margin-bottom: 4px; }
 #quant-dca-view .hint { display: block; color: var(--muted); font-size: .8rem; font-weight: 400; margin-top: 3px; }
 #quant-dca-view input[type="text"], #quant-dca-view input[type="number"], #quant-dca-view input[type="date"], #quant-dca-view select, #quant-dca-view textarea {
-  width: 100%; padding: 8px 10px; font: inherit; color: var(--text);
-  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  width: 100%; font: inherit; font-size: .92rem; color: var(--ink); background: var(--page);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px;
 }
-#quant-dca-view input:focus, #quant-dca-view select:focus, #quant-dca-view textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+#quant-dca-view input[type="number"], #quant-dca-view input[type="date"] { font-family: var(--font-data); font-size: .88rem; }
+#quant-dca-view input::placeholder, #quant-dca-view textarea::placeholder { color: var(--tick); }
 #quant-dca-view .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 #quant-dca-view .row2 .field { margin-bottom: 0; }
-#quant-dca-view .group-title {
-  font-size: .78rem; font-weight: 700; letter-spacing: .04em; color: var(--muted);
-  text-transform: uppercase; margin: 18px 0 8px; padding-top: 12px; border-top: 1px dashed var(--border);
-}
-#quant-dca-view .checkbox { display: flex; gap: 8px; align-items: center; font-weight: 600; font-size: .9rem; }
+#quant-dca-view .row2 > * { min-width: 0; }
+#quant-dca-view .group-title { font-family: var(--font-data); font-size: .72rem; font-weight: 500; letter-spacing: .08em; color: var(--muted); margin: 18px 0 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+#quant-dca-view .checkbox { display: flex; gap: 8px; align-items: center; font-weight: 600; font-size: var(--step-0); }
 
 #quant-dca-view button.primary, #quant-dca-view button.secondary {
-  font: inherit; font-weight: 700; border-radius: 8px; padding: 10px 14px; cursor: pointer; width: 100%;
+  font: inherit; font-size: .92rem; font-weight: 600; border-radius: 8px; padding: 9px 14px; cursor: pointer; width: 100%;
 }
-#quant-dca-view button.primary { background: var(--accent); color: #fff; border: 0; }
-#quant-dca-view button.primary:hover { filter: brightness(1.08); }
-#quant-dca-view button.secondary { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
+#quant-dca-view button.primary { background: var(--chip-bg); color: var(--chip-ink); border: 1px solid transparent; }
+#quant-dca-view button.primary:hover { border-color: var(--chip-ink); }
+#quant-dca-view button.secondary { background: var(--surface); color: var(--ink-2); border: 1px solid var(--line); font-weight: 500; }
+#quant-dca-view button.secondary:hover { color: var(--ink); border-color: var(--axis); }
 #quant-dca-view button.small { width: auto; padding: 4px 10px; font-size: .82rem; }
 #quant-dca-view button:disabled { opacity: .5; cursor: not-allowed; }
+#quant-dca-view .icon-btn { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; padding: 2px 6px; }
+#quant-dca-view .icon-btn:hover { color: var(--bad-text); }
 
-/* 標的選擇器 */
+/* 標的選擇器：chips */
 #quant-dca-view .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 #quant-dca-view .chip {
   display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px 2px 10px; border-radius: 999px;
-  background: var(--accent-soft); color: var(--accent); font-size: .85rem; font-weight: 600;
+  background: var(--chip-bg); color: var(--chip-ink); font-size: .8rem; font-weight: 500;
 }
 #quant-dca-view .chip button { border: 0; background: none; color: inherit; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 4px; }
+#quant-dca-view .chip.missing { background: color-mix(in srgb, var(--neg) 15%, transparent); color: var(--bad-text); }
 #quant-dca-view .picker-row { display: flex; gap: 6px; }
 #quant-dca-view .picker-row input { flex: 1; }
 #quant-dca-view .picker-row button { width: auto; flex: none; }
+#quant-dca-view .picker-msg { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+#quant-dca-view .picker-msg:empty { display: none; }
+#quant-dca-view .picker-msg.bad { color: var(--bad-text); }
 
 /* 資產配置列 */
 #quant-dca-view .alloc-row { display: grid; grid-template-columns: 1fr 76px 28px; gap: 6px; margin-bottom: 6px; align-items: center; }
 #quant-dca-view .alloc-row button { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; }
-#quant-dca-view .alloc-sum { font-size: .85rem; font-weight: 700; }
-#quant-dca-view .alloc-sum.ok { color: var(--good); }
-#quant-dca-view .alloc-sum.bad { color: var(--bad); }
+#quant-dca-view .alloc-row .alloc-msg { grid-column: 1 / -1; margin-top: 0; }
+#quant-dca-view .alloc-sum { font-family: var(--font-data); font-size: .85rem; font-weight: 500; }
+#quant-dca-view .alloc-sum.ok { color: var(--good-text); }
+#quant-dca-view .alloc-sum.bad { color: var(--bad-text); }
 
-/* ---------- 結果 ---------- */
-#quant-dca-view .placeholder { color: var(--muted); text-align: center; padding: 50px 20px; }
-#quant-dca-view .placeholder .big { font-size: 2.2rem; }
-#quant-dca-view .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
-#quant-dca-view .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); }
-#quant-dca-view .card .k { font-size: .8rem; color: var(--muted); font-weight: 600; }
-#quant-dca-view .card .v { font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-#quant-dca-view .card .s { font-size: .82rem; color: var(--muted); }
-#quant-dca-view .card.ls { border-top: 3px solid var(--ls); }
-#quant-dca-view .card.dca { border-top: 3px solid var(--dca); }
-#quant-dca-view .verdict {
-  border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 8px;
-  padding: 12px 14px; margin-bottom: 16px;
-}
-#quant-dca-view .verdict h3 { margin-bottom: 4px; }
-#quant-dca-view .verdict p { margin: 4px 0; }
-#quant-dca-view .notice { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; font-size: .9rem; }
-#quant-dca-view .notice.error { border-color: var(--bad); }
+/* 6. 結果區 */
+#quant-dca-view .notice { font-size: var(--step-0); color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; margin: 0; }   /* 主站 .note 風格 */
+#quant-dca-view .notice.error { border-left-color: var(--neg); color: var(--bad-text); }
+#quant-dca-view .note { margin: 0; }
+#quant-dca-view .verdict { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: .95rem; color: var(--ink-2); }
+#quant-dca-view .verdict h3 { margin-bottom: 6px; color: var(--ink); }
+#quant-dca-view .verdict b { color: var(--ink); font-weight: 600; }
+#quant-dca-view .verdict b.pos { color: var(--good-text); }
+#quant-dca-view .verdict b.neg { color: var(--bad-text); }
+#quant-dca-view .verdict p { margin: 0 0 6px; }
+#quant-dca-view .verdict p:last-child { margin-bottom: 0; }
+#quant-dca-view .verdict .hint { color: var(--muted); }
+
+#quant-dca-view .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+#quant-dca-view .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+#quant-dca-view .card .k { font-size: .8rem; color: var(--muted); }
+#quant-dca-view .card .v { font-family: var(--font-data); font-size: 1.35rem; font-weight: 500; letter-spacing: -.01em; line-height: 1.2; overflow-wrap: anywhere; }
+#quant-dca-view .card .s { font-family: var(--font-data); font-size: .8rem; color: var(--ink-2); }
+#quant-dca-view .card.ls .k::before, #quant-dca-view .card.dca .k::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+#quant-dca-view .card.ls .k::before { background: var(--ls); }
+#quant-dca-view .card.dca .k::before { background: var(--dca); }
+
 #quant-dca-view .chart { width: 100%; min-height: 380px; }
 #quant-dca-view .chart.short { min-height: 300px; }
-#quant-dca-view .how-to-read { font-size: .88rem; color: var(--muted); margin: 6px 0 0; }
-#quant-dca-view .how-to-read b { color: var(--text); }
-
-#quant-dca-view .table-wrap { overflow-x: auto; }
-#quant-dca-view table.data { border-collapse: collapse; width: 100%; font-size: .88rem; font-variant-numeric: tabular-nums; }
-#quant-dca-view table.data th, #quant-dca-view table.data td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
-#quant-dca-view table.data th:first-child, #quant-dca-view table.data td:first-child { text-align: left; }
-#quant-dca-view table.data th { background: var(--code-bg); font-weight: 700; position: sticky; top: 0; }
-#quant-dca-view table.data td.pos, #quant-dca-view .pos { color: var(--good); }
-#quant-dca-view table.data td.neg, #quant-dca-view .neg { color: var(--bad); }
-#quant-dca-view table.data tr.win td:first-child::after { content: " 🏆"; }
-#quant-dca-view .term { border-bottom: 1px dotted var(--muted); cursor: help; }
-
-#quant-dca-view details.explain { margin-top: 12px; }
-#quant-dca-view details.explain summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+#quant-dca-view .how-to-read { font-size: .88rem; color: var(--ink-2); margin: 6px 0 0; }
+#quant-dca-view .how-to-read b { color: var(--ink); font-weight: 600; }
+#quant-dca-view details.explain { margin-top: 12px; font-size: var(--step-0); color: var(--ink-2); }
+#quant-dca-view details.explain summary { cursor: pointer; font-weight: 600; color: var(--accent); }
 #quant-dca-view details.explain[open] summary { margin-bottom: 8px; }
+#quant-dca-view details.explain.panel { margin-top: 0; }
+#quant-dca-view .q-h4 { margin: 14px 0 6px; }
 
-/* ---------- 觀念教室 ---------- */
-#quant-dca-view .lesson { max-width: 900px; margin: 0 auto; }
-#quant-dca-view .lesson .panel h2 { margin-top: 0; }
+/* 顯示篩選與圖表工具列：.seg 沿用 theme.css */
+#quant-dca-view .q-viewbar, #quant-dca-view .qplus-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+#quant-dca-view .q-viewbar { margin-bottom: -4px; }
+#quant-dca-view .qplus-bar { margin: 2px 0 8px; }
+#quant-dca-view .qplus-lab { font-size: .8rem; color: var(--muted); }
+#quant-dca-view .qplus-tip { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+#quant-dca-view .seg { max-width: 100%; flex-wrap: wrap; }
+#quant-dca-view .qplus-t { display: inline-flex; align-items: center; gap: 6px; }
+#quant-dca-view .qplus-sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+#quant-dca-view .qplus-tick button[aria-pressed="false"] { opacity: .5; text-decoration: line-through; }
+#quant-dca-view .qplus-pnl-wrap { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); }
+#quant-dca-view .qplus-pnl-h { font-weight: 600; font-size: .95rem; }
+#quant-dca-view .qplus-pnl-sub { font-size: .82rem; color: var(--muted); margin: 2px 0 4px; }
+#quant-dca-view .qplus-pnl { width: 100%; min-height: 240px; }
+
+/* 7. 表格：對齊主站表格（表頭小字 muted、列底線 --line、數字靠右等寬字） */
+#quant-dca-view .table-wrap { overflow-x: auto; max-width: 100%; }
+#quant-dca-view .table-wrap.scrollable::before { content: "← 表格可左右滑動 →"; display: block; font-size: .75rem; color: var(--muted); text-align: right; margin-bottom: 2px; }
+#quant-dca-view table.data { border-collapse: collapse; width: 100%; font-size: var(--step-0); font-variant-numeric: tabular-nums; }
+#quant-dca-view table.data th, #quant-dca-view table.data td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; vertical-align: top; }
+#quant-dca-view table.data th { font-family: var(--font-ui); font-size: .78rem; font-weight: 500; color: var(--muted); background: var(--surface); position: static; }
+#quant-dca-view table.data td { font-family: var(--font-data); color: var(--ink); background: none; }
+#quant-dca-view table.data th:first-child, #quant-dca-view table.data td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+#quant-dca-view table.data td:first-child { font-family: var(--font-ui); }
+#quant-dca-view table.data td.pos, #quant-dca-view table.data span.pos { color: var(--good-text); }
+#quant-dca-view table.data td.neg, #quant-dca-view table.data span.neg { color: var(--bad-text); }
+#quant-dca-view table.data .sub { display: block; font-size: .72rem; color: var(--muted); font-weight: 400; }
+#quant-dca-view table.data tr.win td:first-child::after {
+  content: "期末較高"; margin-left: 8px; font-family: var(--font-ui); font-size: .7rem; font-weight: 500;
+  padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink);
+}
+/* 「最難熬的時候」等欄位下面的小字（日期區間）可以換行，不要把表格撐出畫面 */
+#quant-dca-view table.wrapsub td, #quant-dca-view table.wrapsub th { white-space: normal; min-width: 120px; }
+#quant-dca-view table.wrapsub td:first-child, #quant-dca-view table.wrapsub th:first-child { min-width: 150px; }
+#quant-dca-view .q-tgroup { display: grid; gap: 8px; }
+#quant-dca-view .q-tgroup .q-h4 { margin: 14px 0 0; }
+#quant-dca-view .q-h4 .sub { font-family: var(--font-data); font-size: .78rem; font-weight: 400; color: var(--muted); margin-left: 8px; }
+/* 每月定期投入的卡片：金額長（例如 +NT$10,399,006），字小一點才不會在數字中間斷行 */
+#quant-dca-view .q-tgroup .card .v { font-size: 1.15rem; }
+/* 每月定期投入「最難熬的時候」：每檔一張卡片，自動換行（手機上直排，不用左右滑） */
+#quant-dca-view .q-worst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+#quant-dca-view .q-worst { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+#quant-dca-view .q-worst .q-h4 { margin: 0 0 4px; }
+#quant-dca-view .q-wk { font-size: .82rem; font-weight: 600; color: var(--ink-2); margin: 12px 0 4px; padding-top: 10px; border-top: 1px solid var(--line); }
+#quant-dca-view .q-worst .q-h4 + .q-wk { border-top: 0; padding-top: 0; }
+#quant-dca-view .q-wk .sub { display: block; font-weight: 400; font-size: .72rem; color: var(--muted); }
+#quant-dca-view dl.q-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 0; font-size: var(--step-0); }
+#quant-dca-view dl.q-kv dt { margin: 0; color: var(--muted); font-size: .8rem; }
+#quant-dca-view dl.q-kv dd { margin: 0; text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); }
+#quant-dca-view dl.q-kv .sub { display: block; font-size: .72rem; color: var(--muted); }
+#quant-dca-view dl.q-kv .neg { color: var(--bad-text); }
+#quant-dca-view .q-kv-none { color: var(--muted); font-size: .85rem; margin: 0; }
+/* 大跌與回本表：手機上改成直排卡片（每格前面放欄名），不用左右滑 */
+@media (max-width: 640px) {
+  #quant-dca-view table.ddt thead { display: none; }
+  #quant-dca-view table.ddt, #quant-dca-view table.ddt tbody { display: block; }
+  #quant-dca-view table.ddt tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; padding: 10px 2px; border-bottom: 1px solid var(--line); }
+  #quant-dca-view table.ddt tr[hidden] { display: none; }
+  #quant-dca-view table.ddt td { display: block; border: 0; padding: 0; text-align: left !important; white-space: normal; position: static; background: none; font-family: var(--font-data); }
+  #quant-dca-view table.ddt td::before { content: attr(data-k); display: block; font-family: var(--font-ui); font-size: .72rem; color: var(--muted); }
+  #quant-dca-view table.ddt td.wide { grid-column: 1 / -1; }
+}
+#quant-dca-view table.annual.one { max-width: 420px; }
+#quant-dca-view table.annual th, #quant-dca-view table.annual td { padding: 7px 8px; }
+
+/* 8. 觀念教室（只套樣式） */
+#quant-dca-view .lesson { max-width: 860px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+#quant-dca-view .lesson .panel h2 { font-size: 1.25rem; font-weight: 700; margin-top: 0; }
 #quant-dca-view .lesson p, #quant-dca-view .lesson li { max-width: 75ch; }
+#quant-dca-view .lesson .panel { color: var(--ink-2); }
+#quant-dca-view .lesson .panel h2 { color: var(--ink); }
+#quant-dca-view .lesson .panel b { color: var(--ink); font-weight: 600; }
 #quant-dca-view .toc { columns: 2; font-size: .92rem; }
 @media (max-width: 600px) { #quant-dca-view .toc { columns: 1; } }
+#quant-dca-view #out-timing { margin-top: 12px; display: grid; gap: 12px; }
 
-/* ---------- 看盤牆 ---------- */
-#quant-dca-view .wall-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 10px; }
-#quant-dca-view .wall-bar .field { margin: 0; min-width: 140px; }
-#quant-dca-view .wall-bar button { width: auto; }
-#quant-dca-view #tv-grid { display: grid; gap: 2px; background: var(--border); height: calc(100vh - 220px); min-height: 480px; border-radius: 8px; overflow: hidden; }
-#quant-dca-view #tv-grid > div { background: #131722; min-height: 0; }
-#quant-dca-view #tv-grid:fullscreen { height: 100vh; border-radius: 0; }
-#quant-dca-view .countdown { font-size: .85rem; color: var(--muted); font-family: ui-monospace, monospace; }
+#quant-dca-view footer.site { text-align: left; color: var(--muted); font-size: .82rem; padding: 8px 0 24px; }
 
-#quant-dca-view footer.site { text-align: center; color: var(--muted); font-size: .82rem; padding: 20px 16px 40px; }
-
-#quant-dca-view .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: quant-spin .8s linear infinite; vertical-align: -3px; }
-@keyframes quant-spin { to { transform: rotate(360deg); } }
-
-/* ---------- 管理標的（密碼編輯器） ---------- */
+/* 9. 管理標的（密碼編輯器） */
 #quant-dca-view dialog#admin-dialog {
   width: min(920px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow-y: auto;
-  background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.35);
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 18px;
 }
-#quant-dca-view dialog#admin-dialog::backdrop { background: rgba(0,0,0,.45); }
-#quant-dca-view .icon-btn { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; padding: 2px 6px; }
-#quant-dca-view .icon-btn:hover { color: var(--bad); }
-#quant-dca-view fieldset.admin-group { border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px 12px; margin: 0 0 12px; }
-#quant-dca-view fieldset.admin-group legend input { font-weight: 700; width: 260px; max-width: 70vw; }
+#quant-dca-view dialog#admin-dialog::backdrop { background: rgba(0, 0, 0, .45); }
+#quant-dca-view fieldset.admin-group { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px 12px; margin: 0 0 12px; }
+#quant-dca-view fieldset.admin-group legend input { font-weight: 600; width: 260px; max-width: 70vw; }
 #quant-dca-view table.admin-table td { padding: 3px 4px; }
 #quant-dca-view table.admin-table input { padding: 5px 8px; min-width: 90px; }
 #quant-dca-view table.admin-table td:nth-child(2) input { min-width: 180px; }
 
-/* 輸入框下方的提示 / 查無資料 */
-#quant-dca-view .picker-msg { font-size: .8rem; color: var(--muted); margin-top: 4px; }
-#quant-dca-view .picker-msg:empty { display: none; }
-#quant-dca-view .picker-msg.bad { color: var(--bad); }
-#quant-dca-view .alloc-row .alloc-msg { grid-column: 1 / -1; margin-top: 0; }
-#quant-dca-view .chip.missing { background: color-mix(in srgb, var(--bad) 15%, transparent); color: var(--bad); }
-/* 逐年表：每格兩行（報酬率 + 金額） */
-#quant-dca-view table.data .sub { display: block; font-size: .75rem; color: var(--muted); font-weight: 400; }
-#quant-dca-view table.annual td, #quant-dca-view table.annual th { padding: 6px 8px; }
-@media (max-width: 600px) {
-  #quant-dca-view table.data { font-size: .8rem; }
-  #quant-dca-view table.data th, #quant-dca-view table.data td { padding: 5px 6px; }
-}
-/* 表格太寬時提示可以左右滑動 */
-#quant-dca-view .table-wrap.scrollable::before { content: "← 表格可左右滑動 →"; display: block; font-size: .75rem; color: var(--muted); text-align: right; margin-bottom: 2px; }
+/* 10. 升降息週期分頁：區間快速鈕（.seg 長相）與事件前後圖的選單列 */
+#quant-dca-view .rates-range { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); margin-bottom: 8px; max-width: 100%; }
+#quant-dca-view .rates-range button { font: inherit; font-size: .82rem; font-weight: 400; width: auto; flex: none; border: 0; border-radius: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+#quant-dca-view .rates-range button + button { border-left: 1px solid var(--line); }
+#quant-dca-view .rates-range button:hover { color: var(--ink); }
+#quant-dca-view .rates-range button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; border-color: var(--line); }
+#quant-dca-view .rates-evctl { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0; }
+#quant-dca-view .rates-evctl label { display: flex; align-items: center; gap: 6px; font-size: var(--step-0); }
+#quant-dca-view .rates-evctl select { width: auto; }
+#quant-dca-view .chart.tall { min-height: 720px; }
+#quant-dca-view #chart-rates-ev { min-height: 420px; }
+#quant-dca-view #tab-rates ul.hint { margin: 6px 0 0; padding-left: 1.2em; }
+#quant-dca-view #tab-rates table.data td:nth-child(2) { white-space: normal; min-width: 150px; }
 
-/* 3. 量化視圖容器 */
-#quant-dca-view { display: block; margin: 0 -16px; min-height: 100vh; }
-
-/* 4. 整合進主站後的可讀性調整 */
-#quant-dca-view { font-family: var(--font-ui, "IBM Plex Sans", "Noto Sans TC", system-ui, sans-serif); font-size: 16px; -webkit-font-smoothing: antialiased; }
-#quant-dca-view .hint, #quant-dca-view .picker-msg, #quant-dca-view .data-status, #quant-dca-view .card .s, #quant-dca-view .card .k { font-size: .86rem; }
-#quant-dca-view .how-to-read, #quant-dca-view header.site .sub { font-size: .92rem; }
-#quant-dca-view table.data { font-size: .92rem; }
-#quant-dca-view table.data .sub, #quant-dca-view .table-wrap.scrollable::before { font-size: .8rem; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #quant-dca-view { --muted: #b4bfcc; --text: #f0f3f7; } }
-:root[data-theme="dark"] #quant-dca-view { --muted: #b4bfcc; --text: #f0f3f7; }
-#quant-dca-view .qplus-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0 6px; }
-#quant-dca-view .qplus-lab { font-size: .82rem; color: var(--muted); margin-right: 2px; }
-#quant-dca-view .qplus-bar button { font: inherit; font-size: .85rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; cursor: pointer;
-  border: 1px solid var(--border); background: var(--panel); color: var(--text); }
-#quant-dca-view .qplus-bar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-#quant-dca-view .qplus-tip { font-size: .8rem; color: var(--muted); margin-top: 4px; }
-#quant-dca-view .qplus-t { display: inline-flex; align-items: center; gap: 6px; }
-#quant-dca-view .qplus-sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-#quant-dca-view .qplus-tick button[aria-pressed="true"] { background: var(--panel); border-color: var(--accent); color: var(--text); }
-#quant-dca-view .qplus-tick button[aria-pressed="false"] { opacity: .5; text-decoration: line-through; }
-#quant-dca-view .qplus-pnl-wrap { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border); }
-#quant-dca-view .qplus-pnl-h { font-weight: 700; font-size: .95rem; }
-#quant-dca-view .qplus-pnl-sub { font-size: .82rem; color: var(--muted); margin: 2px 0 4px; }
-#quant-dca-view .qplus-pnl { width: 100%; min-height: 240px; }
+/* 11. 手機 */
 @media (max-width: 767.98px) {
   #quant-dca-view .chart { min-height: 540px; }
   #quant-dca-view .chart.short { min-height: 420px; }
+  #quant-dca-view .chart.tall { min-height: 560px; }
   #quant-dca-view .qplus-pnl { min-height: 320px; }
+  #quant-dca-view .q-masthead h1 { font-size: 1.7rem; }
+  #quant-dca-view table.data { font-size: .8rem; }
+  #quant-dca-view table.data th, #quant-dca-view table.data td { padding: 6px 7px; }
+  #quant-dca-view .panel { padding: 14px; }
 }

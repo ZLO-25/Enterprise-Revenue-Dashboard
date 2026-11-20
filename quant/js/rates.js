@@ -1,4 +1,4 @@
-// 🏦 升降息週期分頁（手寫；tools/quant_sync.py 不會覆蓋）
+// 升降息週期分頁（手寫）
 //
 //   loader.js 在載入 app.js 之前呼叫 inject()：把分頁按鈕與分頁內容放進 view.html 的容器
 //   （app.js 的 showTab／loadHash／標的選擇器本來就是通用的，會自動認得新分頁，所以不用改 app.js）
@@ -9,6 +9,7 @@
 //   畫面：政策利率階梯線（右軸）疊在各標的累積報酬（左軸，起點 100、對數軸）上，背景色＝四種階段
 //   時間區間：直接在圖上拖曳／拉下方滑桿／按快速按鈕；plotly_relayout → updateWindow() 重算表格與報酬起點
 import { DATA_BASE } from "./config.js";
+import { themeColors } from "./theme.js";
 import { PHASE, buildPhases, periodReturn, summarize, daysBetween, windowPoints, dayNum, eventPath, eventReturns, firstMoves } from "./rates-core.js";
 
 const QROOT = document.getElementById("quant-dca-view") || document;
@@ -23,14 +24,12 @@ const TICKFMT = [{ dtickrange: [null, 86400000 * 28], value: "%Y/%m/%d" }, { dti
 const isoDate = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(dayNum(v));
 const addYears = (iso, n) => { const d = new Date(Date.UTC(+iso.slice(0, 4) - n, +iso.slice(5, 7) - 1, +iso.slice(8, 10))); return d.toISOString().slice(0, 10); };
 const COUNTRY = { us: "美國", tw: "台灣" };
-const PCOLOR = {   // 背景色塊；深淺色模式都用半透明，再加文字標籤（不只靠顏色分辨）
-  hike: "rgba(226,83,60,0.20)", holdHigh: "rgba(150,150,150,0.20)",
-  cut: "rgba(34,160,110,0.20)", holdLow: "rgba(70,120,230,0.16)",
+// 階段背景色與升降息標記：語意色取主站圖表色（升息＝--s8 紅、降息＝--s3 綠、低檔停留＝--s1 藍、高檔停留＝--axis 灰），
+// 半透明，深淺色模式都看得到；階段名稱另外寫成文字，不只靠顏色分辨
+const alpha = (hex, a) => {
+  const m = /^#([0-9a-f]{6})$/i.exec(hex || ""); if (!m) return hex;
+  const n = parseInt(m[1], 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
 };
-const PBADGE = { hike: "🔺", holdHigh: "⏸", cut: "🔻", holdLow: "⏸" };
-const MOVE_COLOR = { hike: "rgba(226,83,60,0.95)", cut: "rgba(34,160,110,0.95)" };
-const EVC = ["#2563eb", "#e8590c", "#12805c", "#9c36b5", "#c2255c", "#0891b2", "#a16207", "#5f3dc4"];
-const LINE = ["#2563eb", "#e8590c", "#12805c", "#9c36b5", "#c2255c"];
 
 const fmtPct = (x, signed = true) => (x == null || !isFinite(x) ? "—" : `${signed && x > 0 ? "+" : ""}${(x * 100).toFixed(1)}%`);
 const cls = (x) => (x > 0 ? "pos" : x < 0 ? "neg" : "");
@@ -38,13 +37,14 @@ const fmtLen = (days) => (days < 45 ? `${days} 天` : days < 700 ? `${(days / 30
 
 const S = { rates: null, ratesErr: null, manifest: null, cache: new Map(), country: "us", show10y: false, scale: "log", layout: "overlay", evKind: "hike", evSym: null, from: null, to: null, started: false, lastKey: "", obs: null };
 let CTX = null;   // 目前畫面用到的資料（圖上拉區間時，重算表格和報酬起點要用）
-const curKey = () => `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}|${S.from}|${S.to}`;
+// 最後一段是目前的主題字色：在別的分頁切換深淺色後回到這頁，key 不同就會重畫（顏色是畫圖當下讀的）
+const curKey = () => `${chipSyms().join()}|${S.country}|${S.show10y}|${S.scale}|${S.layout}|${S.from}|${S.to}|${themeColors().text}`;
 
 // ---------- 把分頁放進畫面（在 app.js 載入前呼叫） ----------
 export function inject() {
   if ($("#tab-rates")) return;
   const btn = document.createElement("button");
-  btn.setAttribute("role", "tab"); btn.dataset.tab = "rates"; btn.textContent = "🏦 升降息週期";
+  btn.setAttribute("role", "tab"); btn.dataset.tab = "rates"; btn.textContent = "升降息週期"; btn.dataset.title = "升降息週期"; btn.dataset.lede = "Fed 與台灣央行升息、降息的每一輪週期裡，各標的實際漲了還是跌了？";
   const volBtn = $('nav.tabs button[data-tab="vol"]');
   if (volBtn) volBtn.after(btn); else $("nav.tabs").appendChild(btn);
   // 按分頁按鈕時（app.js 的處理會先改網址；這裡等它做完再啟動）
@@ -53,7 +53,7 @@ export function inject() {
   const sec = document.createElement("section");
   sec.className = "tab"; sec.id = "tab-rates";
   sec.innerHTML = `
-  <p class="notice" id="rates-note">觀點（意譯，不是原話）：利率像地心引力，利率越高，所有資產的價值被拉得越低，這值得看懂。但我們不預測利率，也不用它猜進出場的時機。這一頁是讓你看歷史上發生過什麼，不是叫你照著買賣。</p>
+  <p class="note" id="rates-note">觀點（意譯，不是原話）：利率像地心引力，利率越高，所有資產的價值被拉得越低，這值得看懂。但我們不預測利率，也不用它猜進出場的時機。這一頁是讓你看歷史上發生過什麼，不是叫你照著買賣。</p>
   <div class="layout">
     <form class="panel controls" id="form-rates" autocomplete="off" novalidate>
       <h2>設定</h2>
@@ -100,15 +100,16 @@ async function loadRates() {
 async function loadManifest() {
   if (S.manifest) return;
   const r = await fetch(`${DATA_BASE}manifest.json?t=${Date.now()}`, { cache: "no-store" });
-  S.manifest = new Map();
-  if (r.ok) for (const g of (await r.json()).groups) for (const t of g.tickers) S.manifest.set(t.symbol, t);
+  if (!r.ok) throw new Error(`manifest.json ${r.status}`);   // 讀不到就不設 S.manifest：下一次執行會重試，不會把「空清單」永久記住
+  const m = new Map();
+  for (const g of (await r.json()).groups) for (const t of g.tickers) m.set(t.symbol, t);
+  S.manifest = m;
 }
 function loadSeries(sym) {
+  const m = S.manifest && S.manifest.get(sym);
+  if (!m || !m.file) return Promise.resolve(null);   // 沒有清單或清單裡沒有這檔：回 null，但不快取（清單之後讀到了就能載入）
   if (!S.cache.has(sym)) {
-    const m = S.manifest.get(sym);
-    S.cache.set(sym, m && m.file
-      ? fetch(`${DATA_BASE}${m.file}`).then((r) => { if (!r.ok) throw new Error(`${sym} 下載失敗 (${r.status})`); return r.json(); }).catch((e) => { S.cache.delete(sym); throw e; })
-      : Promise.resolve(null));
+    S.cache.set(sym, fetch(`${DATA_BASE}${m.file}`).then((r) => { if (!r.ok) throw new Error(`${sym} 下載失敗 (${r.status})`); return r.json(); }).catch((e) => { S.cache.delete(sym); throw e; }));
   }
   return S.cache.get(sym);
 }
@@ -141,9 +142,12 @@ function writeHash() {
 
 // ---------- 畫圖 ----------
 function colors() {
-  const cs = getComputedStyle(QROOT);
-  const v = (n) => cs.getPropertyValue(n).trim();
-  return { text: v("--text"), muted: v("--muted"), border: v("--border"), panel: v("--panel") };
+  const c = themeColors(), p = c.palette;
+  return {
+    ...c,
+    pcolor: { hike: alpha(p[7], 0.18), holdHigh: alpha(c.axis, 0.32), cut: alpha(p[2], 0.18), holdLow: alpha(p[0], 0.14) },
+    move: { hike: alpha(p[7], 0.95), cut: alpha(p[2], 0.95) },
+  };
 }
 
 // 各標的的報酬線：x＝全部日期，y＝收盤 ÷ 區間第一天收盤 × 100（區間一變就重算，所以起點永遠是 100）
@@ -169,7 +173,7 @@ function phaseLabels(phases, win, c, perSymRet, use, moves) {
     const w = daysBetween(x0, x1);
     if (w > dpp * 60) out.push({ xref: "x", yref: "paper", x: x0, xanchor: "left", y: 1.0, yanchor: "bottom", showarrow: false, text: PHASE[p.type].label, font: { size: 10, color: c.muted } });
     if (perSymRet && !p.single && w > dpp * (28 + 9 * 7)) {
-      const lines = use.map((s, k) => { const r = perSymRet[s]?.[i]; return r ? `<span style="color:${LINE[k % LINE.length]}">${esc(s)} ${fmtPct(r.cum)}</span>` : null; }).filter(Boolean);
+      const lines = use.map((s, k) => { const r = perSymRet[s]?.[i]; return r ? `<span style="color:${c.palette[k % c.palette.length]}">${esc(s)} ${fmtPct(r.cum)}</span>` : null; }).filter(Boolean);
       if (lines.length) out.push({ xref: "x", yref: "paper", x: x0, xanchor: "left", y: 0.985, yanchor: "top", showarrow: false, align: "left",
         text: lines.join("<br>"), font: { size: 11, color: c.text }, bgcolor: c.panel, opacity: 0.88, borderpad: 2 });
     }
@@ -177,7 +181,7 @@ function phaseLabels(phases, win, c, perSymRet, use, moves) {
   for (const m of moves || []) {
     if (m.date < win.from || m.date > win.to) continue;
     out.push({ xref: "x", yref: "paper", x: m.date, xanchor: "center", y: 0, yanchor: "bottom", showarrow: false,
-      text: m.type === "hike" ? "▲" : "▼", font: { size: 13, color: MOVE_COLOR[m.type] } });
+      text: m.type === "hike" ? "▲" : "▼", font: { size: 13, color: c.move[m.type] } });
   }
   return out;
 }
@@ -191,7 +195,7 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate, moves) {
   // 先畫報酬（在下層），再畫利率（在上層），疊在一起時利率階梯線才不會被報酬線蓋住
   syms.forEach((sym, i) => {
     const d = loaded[sym], L = lineY(d, win.from);
-    traces.push({ x: d.dates, y: L ? L.y : d.close.map(() => null), type: "scatter", mode: "lines", line: { width: 2, color: LINE[i % LINE.length] }, name: sym,
+    traces.push({ x: d.dates, y: L ? L.y : d.close.map(() => null), type: "scatter", mode: "lines", line: { width: 2, color: c.palette[i % c.palette.length] }, name: sym,
       xaxis: "x", yaxis: idxAxis, hovertemplate: "%{y:.0f}" });
   });
   const pts = policy.points;
@@ -205,24 +209,25 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate, moves) {
       line: { width: 1.4, dash: "dot", color: c.muted }, name: `10 年期公債殖利率（月底${overlay ? "，右軸 " : ""}%）`, xaxis: "x", yaxis: rateAxis, hovertemplate: "%{y:.2f}%" });
   }
   const shapes = phasesAll.map((p) => ({ type: "rect", xref: "x", yref: "paper", x0: p.start, x1: p.end, y0: 0, y1: 1,
-    fillcolor: PCOLOR[p.type], line: { width: 0 }, layer: "below" }));
-  for (const m of moves) shapes.push({ type: "line", xref: "x", yref: "paper", x0: m.date, x1: m.date, y0: 0, y1: 1, line: { color: MOVE_COLOR[m.type], width: 1.3, dash: "dot" }, layer: "below" });
+    fillcolor: c.pcolor[p.type], line: { width: 0 }, layer: "below" }));
+  for (const m of moves) shapes.push({ type: "line", xref: "x", yref: "paper", x0: m.date, x1: m.date, y0: 0, y1: 1, line: { color: c.move[m.type], width: 1.3, dash: "dot" }, layer: "below" });
   const isLog = S.scale === "log";
   const idxAxisCfg = {
+    tickfont: { color: c.tick },
     title: { text: isLog ? "報酬指數（起點＝100，對數刻度）" : "報酬指數（起點＝100）", standoff: 18 }, type: isLog ? "log" : "linear",
-    gridcolor: c.border, zerolinecolor: c.border, automargin: true, fixedrange: true,
+    gridcolor: c.border, zerolinecolor: c.axis, automargin: true, fixedrange: true,
   };
-  const rateAxisCfg = { title: { text: "利率 %", standoff: 14 }, rangemode: "tozero", automargin: true, ticksuffix: "%", fixedrange: true };
+  const rateAxisCfg = { gridcolor: c.grid, tickfont: { color: c.tick }, title: { text: "利率 %", standoff: 14 }, rangemode: "tozero", automargin: true, ticksuffix: "%", fixedrange: true };
   const xaxis = {
-    range: [win.from, win.to], gridcolor: c.border, linecolor: c.border, automargin: true,
+    range: [win.from, win.to], gridcolor: c.grid, linecolor: c.axis, tickfont: { color: c.tick }, automargin: true,
     tickformatstops: TICKFMT, hoverformat: "%Y/%m/%d",
-    rangeslider: { visible: true, thickness: 0.07, range: [MIN_DATE, endDate], bgcolor: "rgba(128,128,128,0.10)", bordercolor: c.border, borderwidth: 1 },
+    rangeslider: { visible: true, thickness: 0.07, range: [MIN_DATE, endDate], bgcolor: "rgba(128,128,128,0.10)", bordercolor: c.axis, borderwidth: 1 },
   };
   const base = {
-    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, size: 12 },
+    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, family: c.font, size: 12 },
     margin: { l: 56, r: overlay ? 56 : 16, t: 64, b: 30 }, hovermode: "x unified", showlegend: true,
     legend: { orientation: "h", yref: "container", y: 1, yanchor: "top", x: 0 },
-    hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
+    hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.axis },
     dragmode: "zoom", shapes, annotations: [],
   };
   const layout = overlay ? {
@@ -231,7 +236,7 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate, moves) {
     yaxis2: { ...rateAxisCfg, overlaying: "y", side: "right", showgrid: false, zeroline: false },   // 右軸：利率（和報酬共用同一張圖）
   } : {
     ...base, xaxis: { ...xaxis, anchor: "y2" },
-    yaxis: { ...rateAxisCfg, domain: [0.60, 1], gridcolor: c.border, zerolinecolor: c.border },
+    yaxis: { ...rateAxisCfg, domain: [0.60, 1], gridcolor: c.border, zerolinecolor: c.axis },
     yaxis2: { ...idxAxisCfg, domain: [0, 0.52] },
   };
   return { traces, layout };
@@ -241,7 +246,7 @@ function chartFig(phasesAll, policy, tenY, loaded, syms, win, endDate, moves) {
 function tableHtml(phases, syms, perSymRet) {
   const head = `<tr><th>階段</th><th>期間</th><th>長度</th><th>利率</th>${syms.map((s) => `<th>${esc(s)}</th>`).join("")}</tr>`;
   const rows = phases.map((p, i) => {
-    const lab = `${PBADGE[p.type]} ${PHASE[p.type].label}${p.ongoing ? "（進行中）" : ""}${p.single ? '<span class="sub">單次調整，無報酬可算</span>' : ""}${p.n > 1 ? `<span class="sub">共 ${p.n} 次調整</span>` : ""}`;
+    const lab = `${PHASE[p.type].label}${p.ongoing ? "（進行中）" : ""}${p.single ? '<span class="sub">單次調整，無報酬可算</span>' : ""}${p.n > 1 ? `<span class="sub">共 ${p.n} 次調整</span>` : ""}`;
     const clip = (p.clippedFrom ? `實際始於 ${fmtYM(p.clippedFrom)}` : "") + (p.clippedFrom && p.clippedTo ? "、" : "") + (p.clippedTo ? `實際止於 ${fmtYM(p.clippedTo)}` : "");
     const period = `${fmtYM(p.start)}${p.clippedFrom ? "＊" : ""} → ${fmtYM(p.end)}${p.clippedTo ? "＊" : ""}${clip ? `<span class="sub">＊${clip}，只算所選區間內</span>` : ""}`;
     const rate = p.type === "hike" || p.type === "cut" ? `${p.rateFrom.toFixed(2)} → ${p.rateTo.toFixed(2)}%` : `${p.rateTo.toFixed(2)}%`;
@@ -258,7 +263,7 @@ function tableHtml(phases, syms, perSymRet) {
 function summaryHtml(phases, syms, perSymRet) {
   const sm = summarize(phases, perSymRet);
   const head = `<tr><th>階段</th>${syms.map((s) => `<th>${esc(s)}</th>`).join("")}</tr>`;
-  const rows = Object.keys(PHASE).map((t) => `<tr><td>${PBADGE[t]} ${PHASE[t].label}</td>${syms.map((s) => {
+  const rows = Object.keys(PHASE).map((t) => `<tr><td>${PHASE[t].label}</td>${syms.map((s) => {
     const x = sm[t][s];
     return x ? `<td class="${cls(x.median)}">中位數 ${fmtPct(x.median)}<span class="sub">平均 ${fmtPct(x.mean)}｜${x.up}/${x.n} 段上漲</span></td>` : "<td>—</td>";
   }).join("")}</tr>`).join("");
@@ -329,7 +334,7 @@ function renderEvents() {
   X.moves.filter((m) => m.type === kind).forEach((m, i) => {
     const e = eventPath(d, m.date);
     if (!e) { rows.push(`<tr><td>${fmtYM(m.date)}</td><td colspan="2" class="hint">${esc(S.evSym)} 那時還沒有資料</td></tr>`); return; }
-    const color = EVC[i % EVC.length];
+    const color = c.palette[i % c.palette.length];
     traces.push({ x: e.x, y: e.y, type: "scatter", mode: "lines", line: { width: 1.8, color }, name: `${fmtYM(m.date)}${e.hasBefore ? "" : "（前段資料不全）"}`, hovertemplate: "%{y:.0f}" });
     paths.push(e);
     const r = eventReturns(d, m.date, 182);
@@ -364,12 +369,12 @@ function renderEvents() {
     <p class="hint">橫軸＝距離事件日的月數（0＝事件日）。前／後 6 個月＝事件日往前／往後 182 天的報酬（含息還原價）；資料不夠（標的上市太晚、或事件太新）的那一格不算。只有幾次樣本，<b>只能看傾向，不是預測</b>。這張圖只看得到「股價先動了」，看不到當時市場預期的利率（需要利率期貨資料），所以不能證明是哪則消息造成的。</p></div>`;
   const ticks = [-12, -9, -6, -3, 0, 3, 6, 9, 12];
   Plotly.react($("#chart-rates-ev"), traces, {
-    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, size: 12 },
+    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: c.text, family: c.font, size: 12 },
     margin: { l: 52, r: 16, t: 20, b: 44 }, hovermode: "x unified", showlegend: true, legend: { orientation: "h", x: 0, y: -0.2 },
-    hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.border },
-    xaxis: { range: [-12, 12], gridcolor: c.border, linecolor: c.border, tickvals: ticks, ticktext: ticks.map((v) => (v === 0 ? "事件日" : v > 0 ? `+${v} 月` : `${v} 月`)), hoverformat: ".1f", fixedrange: true },
-    yaxis: { title: { text: `${S.evSym}（事件日＝100）`, standoff: 8 }, gridcolor: c.border, zerolinecolor: c.border, automargin: true, fixedrange: true },
-    shapes: [{ type: "line", xref: "x", yref: "paper", x0: 0, x1: 0, y0: 0, y1: 1, line: { color: MOVE_COLOR[kind], width: 1.6, dash: "dot" } }],
+    hoverlabel: { bgcolor: c.panel, font: { color: c.text }, bordercolor: c.axis },
+    xaxis: { range: [-12, 12], gridcolor: c.grid, linecolor: c.axis, tickfont: { color: c.tick }, tickvals: ticks, ticktext: ticks.map((v) => (v === 0 ? "事件日" : v > 0 ? `+${v} 月` : `${v} 月`)), hoverformat: ".1f", fixedrange: true },
+    yaxis: { title: { text: `${S.evSym}（事件日＝100）`, standoff: 8 }, gridcolor: c.border, zerolinecolor: c.axis, automargin: true, fixedrange: true },
+    shapes: [{ type: "line", xref: "x", yref: "paper", x0: 0, x1: 0, y0: 0, y1: 1, line: { color: c.move[kind], width: 1.6, dash: "dot" } }],
   }, { responsive: true, displaylogo: false, displayModeBar: false });
 }
 
@@ -393,14 +398,14 @@ function onRelayout(ev) {
 export async function render() {
   const out = $("#out-rates");
   await loadRates();
-  if (S.ratesErr) { out.innerHTML = `<div class="notice error">❌ ${esc(S.ratesErr)}</div>`; return; }
+  if (S.ratesErr) { out.innerHTML = `<div class="notice error">${esc(S.ratesErr)}</div>`; return; }
   try { await loadManifest(); } catch { /* 沒有 manifest 就沒有標的可選 */ }
   const R = S.rates, c = S.country;
   const policy = R.series[`${c}_policy`], tenY = S.show10y ? R.series[`${c}_10y`] : null;
   const notes = [];
   if (!policy || !policy.points.length) {
     const why = (R.unavailable || []).filter((u) => u.includes(c === "us" ? "美國" : "台灣"));
-    out.innerHTML = `<div class="notice">⚠️ ${COUNTRY[c]}的政策利率資料目前是<b>待確認</b>（沒有可驗證的官方來源，所以不顯示，也不估計）。</div>${why.length ? `<ul class="hint">${why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}<p class="hint">可以先把上方「用哪個國家的升降息週期」切回美國。</p>`;
+    out.innerHTML = `<div class="notice">${COUNTRY[c]}的政策利率資料目前是<b>待確認</b>（沒有可驗證的官方來源，所以不顯示，也不估計）。</div>${why.length ? `<ul class="hint">${why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}<p class="hint">可以先把上方「用哪個國家的升降息週期」切回美國。</p>`;
     CTX = null;
     return;
   }
@@ -421,7 +426,7 @@ export async function render() {
     try { const d = await loadSeries(s); if (d && d.dates?.length) loaded[s] = d; else missing.push(s); } catch { missing.push(s); }
   }));
   const use = syms.filter((s) => loaded[s]);
-  if (missing.length) notes.push(`查無資料、已跳過：<b>${missing.map(esc).join("、")}</b>（可到「⚙️ 管理標的」新增）。`);
+  if (missing.length) notes.push(`查無資料、已跳過：<b>${missing.map(esc).join("、")}</b>（可到「管理標的」新增）。`);
   for (const s of use) { const cur = S.manifest.get(s)?.note; if (cur) notes.push(`${esc(s)}：${esc(cur)}`); }
 
   const srcs = [policy, tenY].filter(Boolean).map((x) => `<li>${esc(x.name)}：${esc(x.source)}，資料截至 ${esc(fmtYM(x.through || x.asOf))}（<a href="${esc(x.url)}" target="_blank" rel="noopener">來源</a>）</li>`).join("");
@@ -431,7 +436,7 @@ export async function render() {
     <div class="panel"><h2>${COUNTRY[c]}升降息週期 vs 報酬<span class="sub" id="rates-win-title" style="font-weight:400"></span></h2>
       <div class="rates-range" id="rates-range" role="group" aria-label="快速選時間區間">${PRESETS.map(([t, n]) => `<button type="button" class="secondary small" data-years="${n}">${t}</button>`).join("")}</div>
       <div id="chart-rates" class="chart tall"></div>
-      <p class="hint">背景色＝階段：🔺升息期　⏸高檔停留　🔻降息期　⏸低檔停留。▲▼ 虛線＝每一輪第一次升息／降息。階段內的數字＝各標的在該階段的報酬；縱軸會貼著所選區間的最高、最低點，所以區間越短，起伏看起來越大（數字不變）。<b>選時間區間</b>：在圖上按住左右拖曳框選、拉圖下方的滑桿（拖兩端調整範圍、拖中間平移），或按上面的「1 年、3 年…」；雙擊圖面回到上一個範圍。滑鼠移到圖上看數字（日期顯示 年/月/日）。</p></div>
+      <p class="hint">背景色＝階段：升息期（紅）、高檔停留（灰）、降息期（綠）、低檔停留（藍）。▲▼ 虛線＝每一輪第一次升息／降息。階段內的數字＝各標的在該階段的報酬；縱軸會貼著所選區間的最高、最低點，所以區間越短，起伏看起來越大（數字不變）。<b>選時間區間</b>：在圖上按住左右拖曳框選、拉圖下方的滑桿（拖兩端調整範圍、拖中間平移），或按上面的「1 年、3 年…」；雙擊圖面回到上一個範圍。滑鼠移到圖上看數字（日期顯示 年/月/日）。</p></div>
     <div id="rates-win-notes"></div>
     <div id="rates-win-panels"></div>
     <div id="rates-events"></div>
@@ -486,6 +491,9 @@ export function activate(hash) {
     const chips = $('.picker[data-picker="rates"] .chips');
     if (chips) new MutationObserver(schedule).observe(chips, { childList: true });
     matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if ($("#tab-rates").classList.contains("active")) render(); });
+    // 主站切換 data-theme（不是系統設定）時也要重畫；app.js 不會幫這個分頁重畫（這裡沒有 submit 處理）
+    new MutationObserver(() => { if ($("#tab-rates").classList.contains("active")) render(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   }
   applyHash(hash);
   const key = curKey();
