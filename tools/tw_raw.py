@@ -39,7 +39,26 @@ def fetch(url, data=None, name=None):
         except Exception as e:  # noqa
             print("ERR", name, i, e, url, flush=True)
             time.sleep(20 * (i + 1))
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path + ".err", "w").write("failed " + url)
+
+
+def yf_dump(symbol, name):
+    """yfinance 的分割事件（Yahoo 用來往回調整收盤價的比例）＋月線 Close（auto_adjust=False）。"""
+    path = os.path.join("raw", name)
+    if os.path.exists(path):
+        return
+    import json
+    import yfinance as yf
+    t = yf.Ticker(symbol)
+    sp = t.splits
+    h = t.history(period="max", interval="1mo", auto_adjust=False, actions=True)
+    out = {"symbol": symbol, "splits": [[str(i.date()), float(v)] for i, v in sp.items()],
+           "monthly": [[str(i.date()), float(r["Close"]), float(r.get("Stock Splits", 0) or 0)] for i, r in h.iterrows()]}
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    open(path, "w").write(json.dumps(out, ensure_ascii=False, indent=0))
+    print("OK", name, len(out["monthly"]), out["splits"], flush=True)
+    checkpoint()
 
 
 for line in open("want.txt", encoding="utf-8"):
@@ -56,6 +75,11 @@ for line in open("want.txt", encoding="utf-8"):
                 y, s = y + 1, 1
     elif p[0] == "url":
         fetch(p[2], name=p[1])
+    elif p[0] == "yf":
+        try:
+            yf_dump(p[2], p[1])
+        except Exception as e:  # noqa
+            print("ERR yf", p, e, flush=True)
     elif p[0] == "post":
         fetch(p[2], data=p[3], name=p[1])
 
