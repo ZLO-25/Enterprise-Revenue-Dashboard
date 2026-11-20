@@ -1,11 +1,16 @@
-# 股價核對：櫃買中心個股日成交
-url 6187/px/tpex_new_202501.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2025/01/01&response=json
-url 6187/px/tpex_new_201301.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2013/01/01&response=json
-url 6187/px/tpex_new_201505.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2015/05/01&response=json
-url 6187/px/tpex_new_201506.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2015/06/01&response=json
-url 6187/px/tpex_new_202610.json https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?code=6187&date=2026/10/01&response=json
-url 6187/px/tpex_old_202501.json https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?l=zh-tw&d=114/01&stkno=6187
-
-# 2026-11-18 股票酬勞（現金流量表「股份基礎給付酬勞成本」）：台積電、台達電的合併財報
-fs 2308 2019 1 2026 3
-fs 2330 2015 1 2026 3
+# 2026-11-20 國巨（2327）：IFRS 合併財報＋歷年重大訊息
+fs 2327 2013 1 2026 3
+post 2327/mops/t05st01_102.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=102&month=&b_date=&e_date=
+post 2327/mops/t05st01_103.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=103&month=&b_date=&e_date=
+post 2327/mops/t05st01_104.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=104&month=&b_date=&e_date=
+post 2327/mops/t05st01_105.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=105&month=&b_date=&e_date=
+post 2327/mops/t05st01_106.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=106&month=&b_date=&e_date=
+post 2327/mops/t05st01_107.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=107&month=&b_date=&e_date=
+post 2327/mops/t05st01_108.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=108&month=&b_date=&e_date=
+post 2327/mops/t05st01_109.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=109&month=&b_date=&e_date=
+post 2327/mops/t05st01_110.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=110&month=&b_date=&e_date=
+post 2327/mops/t05st01_111.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=111&month=&b_date=&e_date=
+post 2327/mops/t05st01_112.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=112&month=&b_date=&e_date=
+post 2327/mops/t05st01_113.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=113&month=&b_date=&e_date=
+post 2327/mops/t05st01_114.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=114&month=&b_date=&e_date=
+post 2327/mops/t05st01_115.html https://mopsov.twse.com.tw/mops/web/ajax_t05st01 encodeURIComponent=1&step=1&firstin=1&off=1&keyword4=&code1=&TYPEK2=&checkbtn=&queryName=co_id&inpuType=co_id&TYPEK=all&co_id=2327&year=115&month=&b_date=&e_date=
