@@ -1,0 +1,116 @@
+{
+"code": "ceg",
+"fetched": "2026-11-20T06:33Z",
+"splits": [],
+"niCand": {
+"2021-03-31": -793.0,
+"2021-06-30": -61.0,
+"2021-09-30": 607.0,
+"2022-03-31": 106.0,
+"2022-06-30": -111.0,
+"2022-09-30": -188.0,
+"2023-03-31": 96.0,
+"2023-06-30": 833.0,
+"2023-09-30": 731.0,
+"2024-03-31": 883.0,
+"2024-06-30": 814.0,
+"2024-09-30": 1200.0,
+"2025-03-31": 118.0,
+"2025-06-30": 839.0,
+"2025-09-30": 930.0,
+"2026-03-31": 1590.0,
+"2026-06-30": 513.0,
+"2021-12-31": 42.0,
+"2022-12-31": 34.0,
+"2023-12-31": -37.0,
+"2024-12-31": 852.0,
+"2025-12-31": 432.0
+},
+"quarters": [
+{
+"q": "1Q24",
+"end": "2024-03-31",
+"vals": {
+"equity": 11199.0,
+"shOut": 315.0,
+"dilSh": 318.0,
+"pretax": 1048.0,
+"tax": 165.0,
+"buyback": 499.0,
+"cash": 562.0,
+"debt": 9983.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001868275-24-000026",
+"filed": "2024-05-09"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001868275-24-000026",
+"filed": "2024-05-09"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001868275-25-000044",
+"filed": "2025-05-06"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001868275-25-000044",
+"filed": "2025-05-06"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001868275-25-000044",
+"filed": "2025-05-06"
+}
+],
+"buyback": [
+{
+"c": "PaymentsForRepurchaseOfCommonStock",
+"acc": "0001868275-25-000044",
+"filed": "2025-05-06"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001868275-25-000044",
+"filed": "2025-05-06"
+}
+],
+"debt": [
+{
+"c": "LongTermDebtNoncurrent",
+"acc": "0001868275-24-000026",
+"filed": "2024-05-09"
+},
+{
+"c": "LongTermDebtAndCapitalLeaseObligationsCurrent",
+"acc": "0001868275-24-000026",
+"filed": "2024-05-09"
+},
+{
+"c": "ShortTermBorrowings",
+"acc": "0001868275-24-000026",
+"filed": "2024-05-09"
+}
+]
+},
+"why": {
+"sbc": "讀不到單季值"
+}
+}
+]
+}
