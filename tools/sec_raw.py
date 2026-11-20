@@ -43,6 +43,8 @@ def text(html):
     p=T(); p.feed(html.decode("utf-8","replace")); t="".join(p.out)
     t=re.sub(r"[ \t\xa0]+"," ",t); t=re.sub(r"\n\s*\n+","\n",t); return t
 EXTRA_SAMEDAY=os.environ.get("SAMEDAY","1")=="1"
+tk=get("https://www.sec.gov/files/company_tickers.json")
+if tk: json.dump(tk, open("raw/_tickers.json","w"))
 want=[l.split() for l in open("want.txt") if l.strip() and not l.startswith("#")]
 for code, cik in want:
     d=f"raw/{code}"; os.makedirs(d+"/pr", exist_ok=True)
