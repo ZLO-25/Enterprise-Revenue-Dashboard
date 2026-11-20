@@ -146,6 +146,19 @@ def merge(old, new, code, accept):
 
 
 # ---------- 證交所交叉核對 ----------
+def parse_twse_rows(rows):
+    """證交所 STOCK_DAY 的 data：日期（民國）、…、收盤價在第 7 欄。沒有成交的日子收盤價是 "--"，跳過。"""
+    out = {}
+    for row in rows:
+        y, mo, d = row[0].split("/")
+        c = row[6].replace(",", "").strip()
+        try:
+            out[f"{int(y) + 1911:04d}-{mo}-{d}"] = float(c)
+        except ValueError:
+            continue
+    return out
+
+
 def twse_month(stock, ym):
     url = f"https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date={ym.replace('-', '')}01&stockNo={stock}"
     for i in range(4):
@@ -155,10 +168,7 @@ def twse_month(stock, ym):
             if j.get("stat") != "OK":
                 return {}
             out = {}
-            for row in j["data"]:
-                y, mo, d = row[0].split("/")
-                out[f"{int(y) + 1911:04d}-{mo}-{d}"] = float(row[6].replace(",", ""))
-            return out
+            return parse_twse_rows(j["data"])
         except Exception as e:  # noqa: BLE001
             err = e
             time.sleep(5 * (i + 1))

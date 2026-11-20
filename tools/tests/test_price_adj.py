@@ -24,5 +24,11 @@ class AdjFactor(unittest.TestCase):
         self.assertAlmostEqual(pu.adj_factor(ADJ, "2013-01-31"), 4.8)
 
 
+class TwseRows(unittest.TestCase):
+    def test_skip_no_trade_day(self):
+        rows = [["107/04/02", "1", "1", "1", "1", "1", "1,050.00"], ["107/04/03", "0", "0", "--", "--", "--", "--"]]
+        self.assertEqual(pu.parse_twse_rows(rows), {"2018-04-02": 1050.0})
+
+
 if __name__ == "__main__":
     unittest.main()
