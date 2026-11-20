@@ -1,6 +1,6 @@
 # 每日排程附件：快報（到期的公司）
 
-> 每日排程的附件（由 docs/schedule/core.md 指示才讀）。內容與舊版 docs/SCHEDULE_PROMPT.md 同一節相同（兩邊同步改），只是拆出來，安靜日不用讀。
+> 每日排程的附件（`docs/SCHEDULE_PROMPT.md` 的 ⓪ 跑 `python3 tools/daily.py brief`，⑪ 列出才讀；安靜日不用讀）。2026-11-20 之前這段寫在 SCHEDULE_PROMPT.md 裡，現在只放這裡，改規則改這份。
 
 ### ① 快報（到期的公司）
 清單 ① 列出的公司才做。照該公司 `SOURCES.md` 的「更新步驟」，**只抓最新一期**：

@@ -1,6 +1,6 @@
 # 每日排程附件：公司分析（財報更新後）
 
-> 每日排程的附件（`python3 tools/daily.py brief` 的 ⑪ 列出「分析待寫」才讀）。舊版 docs/SCHEDULE_PROMPT.md 的「②b 公司分析」一節是同一份規則。
+> 每日排程的附件（`docs/SCHEDULE_PROMPT.md` 的 ⓪ 跑 `python3 tools/daily.py brief`，⑪ 列出才讀；安靜日不用讀）。2026-11-20 之前這段寫在 SCHEDULE_PROMPT.md 裡，現在只放這裡，改規則改這份。
 > ZL 2026-11-17 要求：每次財報更新都一起跑公司分析 skill，結論與重點放在個股頁標題下方，按 more 看全文。
 
 ```
