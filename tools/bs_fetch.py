@@ -60,6 +60,21 @@ def concept(cik, name):
     return out
 
 
+def concept_all(c, name, fetch=None):
+    """同一家公司換過 SEC 申報人（例如 2026-07 埃克森美孚改由新的控股公司申報）：
+    companies.json 的 cikPrev 列出舊代號，合併新舊代號的事實；同一筆（申報編號＋期間）只留一次。"""
+    fetch = fetch or concept
+    out, seen = [], set()
+    for k in [c["cik"]] + list(c.get("cikPrev") or []):
+        for f in fetch(k, name):
+            key = (f.get("accn"), f.get("start"), f.get("end"), f.get("unit"))
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(f)
+    return out
+
+
 def probe(cfg, only):
     for c in cfg["companies"]:
         if not c.get("cik") or not c.get("enabled") or (only and c["code"] != only):
@@ -224,8 +239,8 @@ def build(cfg, only, fields=None):
             continue
         names = set(n for v in specs.values() if isinstance(v, dict) for part in v.get("all", []) + v.get("opt", []) for n in part) | {"NetIncomeLoss"}
         names |= set(M.get("ni", ["NetIncomeLoss"]))
-        F = {n: concept(c["cik"], n) for n in sorted(names)}
-        F["cover"] = concept(c["cik"], "dei:EntityCommonStockSharesOutstanding")
+        F = {n: concept_all(c, n) for n in sorted(names)}
+        F["cover"] = concept_all(c, "dei:EntityCommonStockSharesOutstanding")
         ni_facts = [f for n in M.get("ni", ["NetIncomeLoss"]) for f in F.get(n, [])]
         ends, allends, cand = quarter_ends(ni_facts, Q, (D.get("company") or {}).get("fiscalYearEnd") or "12-31")
         need_split = any(v.get("shares") for v in specs.values())

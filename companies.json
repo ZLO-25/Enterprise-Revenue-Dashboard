@@ -874,6 +874,93 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0001551182"
+    },
+    {
+      "code": "bwxt",
+      "name": "BWX科技",
+      "nameEn": "BWX Technologies",
+      "ticker": "BWXT",
+      "exchange": "NYSE BWXT",
+      "sector": "能源與電力",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "bwxt/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "BWX科技財報追蹤板",
+      "description": "BWX科技（BWXT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "BWXT",
+        "from": "2016-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001486957"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0001486957"
+    },
+    {
+      "code": "xom",
+      "name": "埃克森美孚",
+      "nameEn": "ExxonMobil",
+      "ticker": "XOM",
+      "exchange": "NYSE XOM",
+      "sector": "能源與電力",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "xom/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "埃克森美孚財報追蹤板",
+      "description": "埃克森美孚（XOM）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "XOM",
+        "from": "2018-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002115436"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0002115436",
+      "cikPrev": [
+        "0000034088"
+      ]
+    },
+    {
+      "code": "ge",
+      "name": "奇異航太",
+      "nameEn": "GE Aerospace",
+      "ticker": "GE",
+      "exchange": "NYSE GE",
+      "sector": "國防與航太",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "ge/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "奇異航太財報追蹤板",
+      "description": "奇異航太（GE）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "GE",
+        "from": "2024-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040545"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0000040545"
     }
   ]
 }
