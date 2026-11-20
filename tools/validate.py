@@ -668,6 +668,14 @@ def main():
         for e in err:
             print("   -", e)
         failed |= bool(err)
+        import etf_update as ETF
+        err = ETF.check_config(ETF.config())
+        dup = {e["code"] for e in ETF.config()["etfs"]} & set(bycode)
+        err += [f"{c}：ETF 代號和公司代號撞名" for c in sorted(dup)]
+        print("[data/etf/config.json] " + ("通過" if not err else f"{len(err)} 項未通過"))
+        for e in err:
+            print("   -", e)
+        failed |= bool(err)
     for code in codes:
         err = []
         try:

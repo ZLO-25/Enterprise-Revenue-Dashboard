@@ -86,7 +86,10 @@ def build(outdir, today=None):
     cfg = json.load(open(os.path.join(ROOT, "companies.json"), encoding="utf8"))
     cut = K.cut_date(today)
     made = []
-    for i, c in enumerate(x for x in cfg["companies"] if x.get("enabled") and (x.get("price") or {}).get("yahoo")):
+    items = [x for x in cfg["companies"] if x.get("enabled") and (x.get("price") or {}).get("yahoo")]
+    ecfg = json.load(open(os.path.join(ROOT, "data", "etf", "config.json"), encoding="utf8"))
+    items += [{"code": e["code"], "name": e["name"], "price": {"yahoo": e["yahoo"]}} for e in ecfg["etfs"]]   # 看盤頁最後一組是 ETF
+    for i, c in enumerate(items):
         code, ysym = c["code"], c["price"]["yahoo"]
         if code in MISSING:
             continue

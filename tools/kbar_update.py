@@ -48,9 +48,21 @@ def outdir_default():
 
 # ---------- 公司清單 ----------
 def companies(only=None, cfg=None):
+    """公司（companies.json）＋ ETF（data/etf/config.json；只在讀真正的設定檔時加入）。
+    ETF 的核對用 data/etf/daily/<代號>.json（tools/etf_update.py 同一個 job 先寫好），所以帶 dailyDir。"""
+    real = cfg is None
     cfg = cfg or jload(os.path.join(ROOT, "companies.json"))
-    return [c for c in cfg["companies"] if c.get("enabled") is not False and (c.get("price") or {}).get("yahoo")
-            and (not only or c["code"] == only)]
+    out = [c for c in cfg["companies"] if c.get("enabled") is not False and (c.get("price") or {}).get("yahoo")
+           and (not only or c["code"] == only)]
+    if real:
+        ecfg = jload(os.path.join(ROOT, "data", "etf", "config.json")) or {}
+        out += [etf_item(e) for e in ecfg.get("etfs") or [] if not only or e["code"] == only]
+    return out
+
+
+def etf_item(e):
+    return {"code": e["code"], "name": e["name"], "dailyDir": os.path.join(ROOT, "data", "etf", "daily"),
+            "price": {"yahoo": e["yahoo"], "currency": e.get("currency"), "from": e.get("from")}}
 
 
 # ---------- 切檔與 sha ----------
@@ -153,7 +165,7 @@ def needs_fetch(prev_outer, daily):
 def stale_list(cos, outdir=None, daily_dir=None):
     out = []
     for c in cos:
-        daily = jload(os.path.join(daily_dir or os.path.join(ROOT, "data", "daily"), c["code"] + ".json"))
+        daily = jload(os.path.join(c.get("dailyDir") or daily_dir or os.path.join(ROOT, "data", "daily"), c["code"] + ".json"))
         dl = daily_last(daily)
         if dl is None:
             continue
@@ -388,7 +400,7 @@ def fetch_raw(sym, frm, now_date):
 def process(c, password, outdir, *, daily_dir=None, fetcher=fetch_raw, now_utc=None, key_root=None):
     """單一公司：判斷要不要抓 → 抓 → 整理 → 核對 daily → 寫檔。回傳狀態字串（up-to-date／written／unchanged／empty）。"""
     code, pc = c["code"], c["price"]
-    daily = jload(os.path.join(daily_dir or os.path.join(ROOT, "data", "daily"), code + ".json"))
+    daily = jload(os.path.join(c.get("dailyDir") or daily_dir or os.path.join(ROOT, "data", "daily"), code + ".json"))
     path = os.path.join(outdir, code + ".enc.json")
     prev = jload(path)
     if not needs_fetch(prev, daily):
