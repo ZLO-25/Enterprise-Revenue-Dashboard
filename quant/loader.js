@@ -33,6 +33,26 @@
     });
   }
 
+  // ── 載入失敗自動復原（2026-11-20 事故：GitHub Pages 的檔案 max-age=600，瀏覽器可能同時留著新舊檔）──
+  // 量化相關檔案清單。寫死在這裡（不另外抓 json，因為那份也可能是舊的）；
+  // quant/tests/test_cache_heal.py 會檢查 quant/js/*.js 都在清單內，新增檔案忘了加就會測試失敗。
+  var FILES = ["loader.js", "view.html", "quant.css", "rates.css",
+    "js/admin.js", "js/app.js", "js/chart-plus.js", "js/config.js", "js/engine.js",
+    "js/rates-core.js", "js/rates.js", "js/theme.js", "js/view-mode.js"];
+  var HEAL_KEY = "quant-heal-" + (V || "none");
+  function healFlag(set) {
+    try { if (set === undefined) return sessionStorage.getItem(HEAL_KEY); if (set) sessionStorage.setItem(HEAL_KEY, "1"); else sessionStorage.removeItem(HEAL_KEY); } catch (e) { /* 無痕模式等：當成沒試過會無限重載，所以讀不到時回傳「已試過」 */ return set === undefined ? "1" : null; }
+    return null;
+  }
+  // 用 cache:"reload" 強制重抓並更新 HTTP 快取：有版本與無版本的網址都抓，再抓目前頁面的 HTML，之後重新整理
+  function healAndReload() {
+    healFlag(true);
+    var urls = [location.href.replace(/#.*$/, "")];
+    FILES.forEach(function (f) { urls.push(BASE + f); if (q) urls.push(BASE + f + q); });
+    var jobs = urls.map(function (u) { return fetch(u, { cache: "reload" }).catch(function () {}); });
+    return Promise.all(jobs).then(function () { location.reload(); return new Promise(function () {}); });
+  }
+
   var app = null;
   window.QuantDCA = {
     mount: function (container, opts) {
@@ -53,10 +73,11 @@
       }).then(function () {
         app = window.__quantApp;
         return app && app.ready;
-      }).catch(function (e) {
+      }).then(function (r) { healFlag(false); return r; }, function (e) {
         console.error(e);
+        if (!healFlag()) return healAndReload();   // 這個分頁、這個版本還沒試過：重抓檔案並重新整理一次
         container.innerHTML = '<div style="max-width:720px;margin:48px auto;padding:24px;border:1px solid var(--neg);border-radius:10px;color:var(--ink)">' +
-          "量化回測工具載入失敗，請重新整理頁面。（" + String(e && e.message || e).replace(/</g, "&lt;") + "）</div>";
+          "量化回測工具載入失敗：瀏覽器可能留著舊版檔案。請按 Ctrl+F5（Mac：Cmd+Shift+R）強制重新整理；手機請清除此網站的快取。（原始錯誤：" + String(e && e.message || e).replace(/</g, "&lt;") + "）</div>";
       });
     },
     show: function (tab) {

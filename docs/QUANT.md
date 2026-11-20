@@ -148,3 +148,23 @@ xirr(flows)  二分法解 Σ金額/(1+r)^(天數/365)=0；用 Python 獨立重�
 - `rates.js` 的 `loadSeries`：manifest 讀不到時不再把 null 永久快取（下次執行會重試）。
 - 「單筆 vs 定期定額」切換顯示篩選時保留使用者關掉的標的與拉近的區間（`chart-plus.js` 的 `snapshot`／`restore`）；重新回測則回到預設。
 - 冒煙測試 `tools/smoke_test.py` 另外開 `#monthly?t=SPY,QQQ`、`#vol?t=SPY,QQQ`（換門檻）各跑一次，並檢查個股頁有 `.bt-link`。
+
+## 2026-11-20 事故：快取裡的舊檔混上新檔，「量化回測工具載入失敗」
+**現象**：量化回測改版上線後，剛看過網站的人看到「量化回測工具載入失敗，請重新整理頁面。」
+**原因**：GitHub Pages 的檔案是 `Cache-Control: max-age=600`（10 分鐘內瀏覽器不問伺服器）。快取是「每個網址」各管各的：
+```
+新 app.js?v=<新>  ──import "./engine.js"（沒有版本號）──▶  瀏覽器快取裡的舊 engine.js   → 缺 export drawdownEpisodes
+舊 index.html（快取）→ view.html?v=<舊>（伺服器對任何 ?v= 都回最新檔，或快取的舊檔）  → 新 app.js 找不到新元素 → null.addEventListener
+```
+**兩層防護**
+1. 根治：模組之間的 import 一律帶版本號。`tools/build.py` 的 `stamp_quant_imports()` 把 `quant/js/*.js` 的 `from "./x.js"` 改寫成 `from "./x.js?v=<qv>"`（`qv` 就是 `quant_ver()`，與 loader 動態 import 的版本同一個），所以新版 app.js 一定拿到新版 engine.js。
+   - `quant_ver()` 算雜湊前會把 `?v=…` 正規化掉，否則版本號寫進檔案又影響版本號、每次 build 都變；build 連跑兩次結果相同。
+   - 同一模組只能有一種網址形式，否則會變成兩份實例（`window.__quantApp`、`__quantRates`、theme 訂閱等狀態會分裂）。loader 的動態 import 與靜態 import 的網址完全相同（`.../js/engine.js?v=<qv>`）；實測七個分頁全載入後，每個模組只被請求一種網址。
+   - node 測試（`quant/tests/*.mjs`）直接 import `../js/engine.js`（不帶版本）仍可執行，`node --check` 不受影響。
+2. 保險：`quant/loader.js` 的 mount 失敗時，若這個分頁（sessionStorage，鍵含版本）還沒試過，就用 `fetch(url, {cache: "reload"})` 重抓目前頁面 HTML 與 `FILES` 清單內所有量化檔案（有版本與無版本網址都抓），然後 `location.reload()` 一次；已試過仍失敗才顯示錯誤，訊息帶「請按 Ctrl+F5」與原始錯誤，不會無限重載（sessionStorage 讀不到時視為已試過）。成功載入會清掉旗標。
+   `FILES` 寫死在 loader.js（不另抓 json，因為那份也可能是舊的）；`quant/tests/test_cache_heal.py` 檢查 `quant/js/*.js` 都在清單內。
+
+**限制**：使用者瀏覽器快取的是「修正前的舊 loader.js」（沒有復原邏輯）時，這一次轉換救不了，等 10 分鐘快取過期或 Ctrl+F5 就會好；新版上線後的每次改版則由兩層防護處理。
+
+**改 `quant/` 之後一定要跑 `python3 tools/build.py`**（會重算 `qv`、改寫 import 的版本、更新各頁的 sidebar 設定）。沒跑的話 `test_cache_heal.py` 會失敗（import 版本與現算的 `quant_ver()` 不一致），CI 也會擋。
+**測試**：`tools/smoke_test.py` 的 `stale_cache()` 用 route 模擬快取：(a) 無版本的舊 engine.js（不需重新整理）、(b) 舊 engine.js 卡在同一網址、(c) 舊 view.html（b、c 要自動復原且只重新整理一次）、(d) 救不回來時只重新整理一次並顯示 Ctrl+F5 說明。

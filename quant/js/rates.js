@@ -8,9 +8,9 @@
 //
 //   畫面：政策利率階梯線（右軸）疊在各標的累積報酬（左軸，起點 100、對數軸）上，背景色＝四種階段
 //   時間區間：直接在圖上拖曳／拉下方滑桿／按快速按鈕；plotly_relayout → updateWindow() 重算表格與報酬起點
-import { DATA_BASE } from "./config.js";
-import { themeColors } from "./theme.js";
-import { PHASE, buildPhases, periodReturn, summarize, daysBetween, windowPoints, dayNum, eventPath, eventReturns, firstMoves } from "./rates-core.js";
+import { DATA_BASE } from "./config.js?v=de78c79f";
+import { themeColors } from "./theme.js?v=de78c79f";
+import { PHASE, buildPhases, periodReturn, summarize, daysBetween, windowPoints, dayNum, eventPath, eventReturns, firstMoves } from "./rates-core.js?v=de78c79f";
 
 const QROOT = document.getElementById("quant-dca-view") || document;
 const $ = (sel, root = QROOT) => root.querySelector(sel);

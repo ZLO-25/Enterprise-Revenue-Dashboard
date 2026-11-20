@@ -132,6 +132,15 @@ def asset_ver(*p):
     return hashlib.sha1(open(path, "rb").read()).hexdigest()[:8] if os.path.exists(path) else ""
 
 
+# quant/js 模組之間的相對 import（from "./x.js"、import "./x.js"、import("./x.js"），含已帶 ?v= 的）
+QUANT_IMPORT = re.compile(r"""(\bfrom\s*|\bimport\s*\(?\s*)(["'])(\.{1,2}/[^"'?]+\.js)(?:\?v=[0-9a-f]*)?\2""")
+
+
+def _quant_js_norm(data):
+    # 算版本號時把 ?v=… 拿掉，否則「版本號寫進檔案、檔案又影響版本號」會每次 build 都變
+    return QUANT_IMPORT.sub(lambda m: m.group(1) + m.group(2) + m.group(3) + m.group(2), data.decode("utf8")).encode("utf8")
+
+
 def quant_ver():
     # quant/ 底下所有檔案一起算一個版本號：任何一個改了，瀏覽器就會重新下載
     import hashlib
@@ -139,8 +148,28 @@ def quant_ver():
     for d, dirs, files in os.walk(base):   # 不能寫 sorted(os.walk())：那樣會先走完全部，下面的排除就失效
         dirs[:] = sorted(x for x in dirs if x not in ("data", "__pycache__"))   # 價格資料每天變，不算進程式版本號
         for f in sorted(files):
-            h.update(f.encode()); h.update(open(os.path.join(d, f), "rb").read())
+            raw = open(os.path.join(d, f), "rb").read()
+            if f.endswith(".js") and os.path.basename(d) == "js":
+                raw = _quant_js_norm(raw)
+            h.update(f.encode()); h.update(raw)
     return h.hexdigest()[:8] if os.path.isdir(base) else ""
+
+
+def stamp_quant_imports(qv):
+    # 把 quant/js/*.js 的內部 import 改寫成 "./x.js?v=<qv>"（和 loader.js 動態 import 的網址形式完全相同，
+    # 所以每個模組只會有一份實例）。瀏覽器 HTTP 快取是「每個網址」各管各的：沒有版本號的 ./engine.js
+    # 可能留著舊版，新版 app.js 就會 import 到舊 engine（2026-11-20 事故，見 docs/QUANT.md）。冪等：連跑兩次結果相同。
+    jsdir = os.path.join(ROOT, "quant", "js")
+    if not qv or not os.path.isdir(jsdir):
+        return
+    for f in sorted(os.listdir(jsdir)):
+        if not f.endswith(".js"):
+            continue
+        path = os.path.join(jsdir, f)
+        old = open(path, encoding="utf8").read()
+        new = QUANT_IMPORT.sub(lambda m: f"{m.group(1)}{m.group(2)}{m.group(3)}?v={qv}{m.group(2)}", old)
+        if new != old:
+            open(path, "w", encoding="utf8", newline="").write(new)
 
 
 def page(title, desc, frag, rel="", kind=None, code=""):
@@ -281,7 +310,9 @@ def main():
     # 有價格資料可回測的代號（quant/tickers.json）：個股頁只有在這裡找得到才放「回測這檔」連結
     QUANT_SYMS = {t["symbol"] for g in json.loads(read("quant", "tickers.json"))["groups"] for t in g["tickers"]}
     if cfg["site"].get("sidebar"):
-        SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")),
+        QV = quant_ver()
+        stamp_quant_imports(QV)
+        SIDEBAR = {"title": cfg["site"]["title"], "qv": QV, "early": bool(cfg["site"].get("perf")),
                    "rates": bool(cfg["site"].get("rates")),   # 回測的「🏦 升降息週期」分頁；false 或沒有這個欄位 = 完全不出現
                    "companies": [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c["sector"], "path": c["path"]}
                                  for c in cfg["companies"] if c.get("enabled")]}
