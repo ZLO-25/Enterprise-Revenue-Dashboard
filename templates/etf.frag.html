@@ -34,7 +34,7 @@
 .ef-sub{font-size:.8rem;color:var(--muted);margin:10px 0 0}
 .ef-scroll{overflow-x:auto}
 .ef-tag{font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px;margin-left:4px;white-space:nowrap}
-@media (max-width:640px){.ef-ret th,.ef-ret td{padding:5px 2px;font-size:.74rem}.ef-ret small{font-size:.68rem}.ef-tbl .hide-s{display:none}.ef-card{padding:12px}.ef-tbl th,.ef-tbl td{padding:6px 5px}}
+@media (max-width:640px){.ef-hold{table-layout:fixed}.ef-hold td:first-child{overflow-wrap:anywhere;white-space:normal;word-break:break-word}.ef-hold .r1yd{display:none}.ef-hold th.n,.ef-hold td.n{width:5.6em;white-space:normal}.ef-ret th,.ef-ret td{padding:5px 2px;font-size:.74rem}.ef-ret small{font-size:.68rem}.ef-tbl .hide-s{display:none}.ef-card{padding:12px}.ef-tbl th,.ef-tbl td{padding:6px 5px}}
 </style>
 
 <!-- ETF 頁：資料 data/etf/latest.json 與 data/etf/daily/<代號>.json 由 GitHub Actions（prices-daily 的 tools/etf_update.py）寫入，本頁只讀不算。 -->
@@ -117,12 +117,12 @@
     var rows = h.rows || [];
     if (rows.length) {
       var mx = Math.max.apply(null, rows.map(function (r) { return r.w; }));
-      s += "<table class='ef-tbl'><thead><tr><th>前十大持股</th><th class='n'>權重</th><th class='n'>那家公司 1 年</th></tr></thead><tbody>" +
+      s += "<div class='ef-scroll'><table class='ef-tbl ef-hold'><thead><tr><th>前十大持股</th><th class='n'>權重</th><th class='n'>那家公司 1 年</th></tr></thead><tbody>" +
         rows.map(function (r) {
           var nm = r.href ? "<a href='" + esc("../" + r.href) + "'>" + esc(r.co || r.name) + "</a> <small>" + esc(r.sym) + "</small>" : esc(r.name || r.sym) + " <small>" + esc(r.sym) + "</small>";
           return "<tr><td>" + nm + "<div class='ef-w' style='width:" + Math.max(3, r.w / mx * 100).toFixed(0) + "%'></div></td><td class='n'>" + r.w.toFixed(2) + "%</td>" +
-            "<td class='n'>" + (r.code ? (r.r1y == null ? "<small>—</small>" : pct(r.r1y) + "<br><small>至 " + esc(r.r1yD) + "</small>") : "<small class='hide-s'>本站未追蹤</small>") + "</td></tr>";
-        }).join("") + "</tbody></table>" +
+            "<td class='n'>" + (r.code ? (r.r1y == null ? "<small>—</small>" : pct(r.r1y) + "<br><small class='r1yd'>至 " + esc(r.r1yD) + "</small>") : "<small class='hide-s'>本站未追蹤</small>") + "</td></tr>";
+        }).join("") + "</tbody></table></div>" +
         "<p class='ef-sub'>前十大合計 " + (h.sum == null ? "—" : h.sum.toFixed(1)) + "%・持股資料 " + esc(h.asOf) + "（" + esc(h.src) + "）" + flag(h.flag) + (h.stale ? "・" + esc(h.stale) : "") + "。對照：這檔 ETF 1 年 " + pct(R.y1) + "</p>";
     } else {
       s += "<p class='ef-sub'>前十大持股：" + (h.flag ? esc(h.flag) : "下次每週更新後才會有資料。") + "</p>";

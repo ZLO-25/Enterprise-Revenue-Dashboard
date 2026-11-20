@@ -146,3 +146,14 @@ class KbarIncludesEtf(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class KbarEtfHistory(unittest.TestCase):
+    def test_default_from_and_refetch(self):
+        it = [c for c in K.companies() if c["code"] == "etf_voo"][0]
+        self.assertEqual(it["price"]["from"], K.ETF_FROM)
+        self.assertTrue(K.etf_short(it, {"firstDate": "2026-10-22"}))
+        self.assertFalse(K.etf_short(it, {"firstDate": "2016-01-04"}))
+        self.assertFalse(K.etf_short({"price": {"from": "2016-01"}}, {"firstDate": "2026-10-22"}))   # 公司不套用
+        dram = [c for c in K.companies() if c["code"] == "etf_dram"][0]
+        self.assertFalse(K.etf_short(dram, {"firstDate": "2026-04-02"}))
