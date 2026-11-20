@@ -221,7 +221,7 @@
 #quant-dca-view .q-worst .q-h4 + .q-wk { border-top: 0; padding-top: 0; }
 #quant-dca-view .q-wk .sub { display: block; font-weight: 400; font-size: .72rem; color: var(--muted); }
 #quant-dca-view dl.q-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 0; font-size: var(--step-0); }
-#quant-dca-view dl.q-kv dt { color: var(--muted); font-size: .8rem; }
+#quant-dca-view dl.q-kv dt { margin: 0; color: var(--muted); font-size: .8rem; }
 #quant-dca-view dl.q-kv dd { margin: 0; text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); }
 #quant-dca-view dl.q-kv .sub { display: block; font-size: .72rem; color: var(--muted); }
 #quant-dca-view dl.q-kv .neg { color: var(--bad-text); }
