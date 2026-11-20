@@ -32,7 +32,9 @@
    "from": "2026-11-20",
    "until": null,
    "what": "提醒 ZL 刪除已停用的舊排程",
-   "how": "每日排程穩定滿一週後，回報「⑤ 未完成」加一行：可以到 claude.ai 刪除已停用的舊排程（每月 trig_01Wq3dypVA9U6dR57h7T9wpm、trig_01T3hgijJsrcW1aNGPyDQSZU、每週 trig_01Y6pSGjYZBcLrAWF3HDCLbc），排程工具不能幫忙刪。提醒一次後 watch-done。"
+   "how": "每日排程穩定滿一週後，回報「⑤ 未完成」加一行：可以到 claude.ai 刪除已停用的舊排程（每月 trig_01Wq3dypVA9U6dR57h7T9wpm、trig_01T3hgijJsrcW1aNGPyDQSZU、每週 trig_01Y6pSGjYZBcLrAWF3HDCLbc），排程工具不能幫忙刪。提醒一次後 watch-done。",
+   "done": "2026-11-20",
+   "result": "2026-11-20 每日回報已提醒 ZL"
   },
   {
    "id": "spcx-thesis",
