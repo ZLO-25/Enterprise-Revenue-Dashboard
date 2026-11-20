@@ -1022,7 +1022,7 @@
       },
       "tz": "TW",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": false
+      "enabled": true
     }
   ]
 }
