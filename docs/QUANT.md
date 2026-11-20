@@ -129,18 +129,20 @@ monthlyContribution(series, {monthly, initial, start, end})
   initial＝開始當天一次買進；可買零股；不計手續費、稅、匯率；資料起點晚於開始日 → 從資料第一天算（頁面提醒）
   輸出：累積投入、期末資產、帳面損益、XIRR（不滿 365 天不給）、
         最難熬的時候（帳面損益率＝資產÷累積投入−1 的最低點）、帳面低於本金的最長連續天數、逐年表
+        資產從高點回落最多的一次（valueDrawdown＝assetDrawdown(dates, value)：資產價值從先前最高點到之後最低點，取跌幅 % 最大的一次；
+          高點／低點日與金額、回落金額與 %、回到高點那天；持續投入的新錢也算在資產裡，所以實際市場跌幅更大，頁面有註明）
 xirr(flows)  二分法解 Σ金額/(1+r)^(天數/365)=0；用 Python 獨立重算 SPY/QQQ/0050.TW 的現金流，小數點後 12 位以上一致
 ```
 網址：`#monthly?t=SPY,QQQ&a=10000&i=0&s=2010-01-01&e=…`（t 標的、a 每月金額、i 起始資金、s／e 起迄日）。圖表沿用 chart-plus（區間鈕、標的開關、縱軸「金額／對數」；沒有「報酬率 %」，因為資產線一直有新錢進來）。
 
 **B. 波動與風險：大跌與回本**
 `drawdownEpisodes(dates, values, threshold)`：從前高算起，最大跌幅達門檻（預設 20%，可選 10／20／30／50%；剛好等於也算）的每一段；回到（>=）前高時結束，之後再跌是新的一段；還沒回本 → `recoveryDate: null`，記從高點到資料最後一天的天數。
-畫面：統計結果之前的「大跌與回本」面板（摘要、每檔一張表，預設最深 10 次、可展開全部、水下曲線緊接在表下面）；單日漲跌頻率、連漲連跌等照舊在後面。網址 `#vol?t=…&s=&e=&g=3,5,10,15&d=20`（g 單日門檻、d 大跌門檻）。
+畫面：統計結果之前的「大跌與回本」面板（摘要、每檔一張表，預設最深 10 次、可展開全部、水下曲線緊接在表下面；手機寬度 ≤640px 表格改直排卡片 table.ddt）；單日漲跌頻率、連漲連跌等照舊在後面。網址 `#vol?t=…&s=&e=&g=3,5,10,15&d=20`（g 單日門檻、d 大跌門檻）。
 
 **C. 個股頁「回測這檔」**
 個股頁標題區底下兩個文字連結：`每月定期投入` → `../#monthly?t=<代號>`、`單筆 vs 定期定額` → `../#dca?t=<代號>`。`tools/build.py` 在輸出個股頁時注入（三種模板共用一處；`site.sidebar` 為 false 或 Artifact／合併版不放）；代號取 `companies.json` 的 `price.yahoo`，且必須在 `quant/tickers.json` 裡。
 `quant/tickers.json` 新增群組「財報追蹤公司」，放啟用中、有 `price.yahoo`、原本不在清單裡的公司（代號全來自 companies.json）。價格由 GitHub Actions 的 quant-prices（tickers.json 改動時自動跑）抓；合併前本機沒有這些代號的資料，頁面照既有機制顯示「查無資料」。`fetch_data.py` 的 `currency_of` 補上 `.TWO`（TWD）、`.KS`（KRW）、`.AS`（EUR）。
-只帶 `t=` 的連結：其餘欄位一律用頁面預設值（`loadHash` 對缺的參數退回預設，不沿用上次手動改過的值），並自動跑一次。
+只帶 `t=` 的連結：其餘欄位一律用頁面預設值（`loadHash` 對缺的參數退回預設，不沿用上次手動改過的值；#dca／#monthly／#rolling／#vol 都一樣，下拉選單退回 HTML 標 selected 的那一項；結束日期只有 #dca、#monthly 預設今天，#vol 預設空白＝到資料最後一天），並自動跑一次。
 
 **D. 其他**
 - `rates.js` 的 `loadSeries`：manifest 讀不到時不再把 null 永久快取（下次執行會重試）。

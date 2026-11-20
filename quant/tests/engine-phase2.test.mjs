@@ -3,7 +3,7 @@
 // 全部用手算得出答案的小例子；沒有用任何真實價格。
 import test from "node:test";
 import assert from "node:assert/strict";
-import { xirr, monthlyContribution, drawdownEpisodes, toDay, fromDay } from "../js/engine.js";
+import { xirr, monthlyContribution, drawdownEpisodes, assetDrawdown, toDay, fromDay } from "../js/engine.js";
 
 const near = (a, b, eps = 1e-9) => assert.ok(Math.abs(a - b) <= eps, `${a} 應該約等於 ${b}`);
 
@@ -204,4 +204,42 @@ test("一路創新高、或跌幅都沒到門檻 → 空陣列；門檻越高段
   assert.equal(drawdownEpisodes(D(7), v, 0.1).length, 3);
   assert.equal(drawdownEpisodes(D(7), v, 0.3).length, 2);
   assert.equal(drawdownEpisodes(D(7), v, 0.5).length, 1);
+});
+
+test("相同高點：與前高持平不算回本後的新一段；水下期間的持平高點算從最後一次持平開始", () => {
+  // 100、100（持平，沒有跌）→ 70 → 100（回本）→ 100 → 60（新一段，從 01-05 的 100 算起）
+  const ep = drawdownEpisodes(D(7), [100, 100, 70, 100, 100, 60, 61], 0.2);
+  assert.equal(ep.length, 2);
+  assert.equal(ep[0].peakDate, "2020-01-02"); assert.equal(ep[0].recoveryDate, "2020-01-04");
+  assert.equal(ep[1].peakDate, "2020-01-05"); assert.equal(ep[1].recovered, false);
+});
+
+// ---------------- assetDrawdown（資產從高點回落最多的一次） ----------------
+test("assetDrawdown：以跌幅 % 最大的那一次為準（不是金額最大）", () => {
+  // 第一次 100 → 50（−50%，回落 50）；第二次 1000 → 700（−30%，回落 300）→ 取第一次
+  const v = [100, 50, 120, 1000, 700, 800];
+  const a = assetDrawdown(D(6), v);
+  assert.equal(a.peakDate, "2020-01-01"); assert.equal(a.troughDate, "2020-01-02");
+  near(a.pct, -0.5, 1e-12); near(a.amount, -50, 1e-12);
+  assert.equal(a.recoveryDate, "2020-01-03");
+});
+test("assetDrawdown：還沒回到高點 → recoveryDate null；一路上漲或持平 → null", () => {
+  const a = assetDrawdown(D(4), [100, 200, 150, 160]);
+  assert.equal(a.peakDate, "2020-01-02"); assert.equal(a.troughDate, "2020-01-03");
+  near(a.pct, -0.25, 1e-12); assert.equal(a.recoveryDate, null);
+  assert.equal(assetDrawdown(D(3), [1, 2, 3]), null);
+  assert.equal(assetDrawdown(D(3), [5, 5, 5]), null);
+});
+test("monthlyContribution 的 valueDrawdown：期間內新投入的錢也算在資產裡", () => {
+  // 每月 100；價格 1/1~1/14 是 10、1/15 起是 5。1/1 買 10 股 → 資產 100，持平到 1/14（持平取最早的高點 1/1）
+  // 1/15 資產 = 10 × 5 = 50 → 從 100 回落 50%（這段沒有新錢，和股價跌幅相同）
+  // 2/1 再投入 100 → 資產 150 ≥ 100：資產「回到高點」是新錢墊回來的，股價其實沒有回升
+  const s = mk("V", "2022-01-01", 59, (i, d) => (d < "2022-01-15" ? 10 : 5));
+  const r = monthlyContribution(s, { monthly: 100, initial: 0, start: "2022-01-01", end: "2022-02-28" });
+  assert.equal(r.valueDrawdown.peakDate, "2022-01-01");
+  near(r.valueDrawdown.peakValue, 100, 1e-9);
+  assert.equal(r.valueDrawdown.troughDate, "2022-01-15");
+  near(r.valueDrawdown.troughValue, 50, 1e-9);
+  near(r.valueDrawdown.pct, -0.5, 1e-12);
+  assert.equal(r.valueDrawdown.recoveryDate, "2022-02-01");
 });

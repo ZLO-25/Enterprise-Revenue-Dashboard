@@ -211,6 +211,31 @@
 #quant-dca-view .q-tgroup { display: grid; gap: 8px; }
 #quant-dca-view .q-tgroup .q-h4 { margin: 14px 0 0; }
 #quant-dca-view .q-h4 .sub { font-family: var(--font-data); font-size: .78rem; font-weight: 400; color: var(--muted); margin-left: 8px; }
+/* 每月定期投入的卡片：金額長（例如 +NT$10,399,006），字小一點才不會在數字中間斷行 */
+#quant-dca-view .q-tgroup .card .v { font-size: 1.15rem; }
+/* 每月定期投入「最難熬的時候」：每檔一張卡片，自動換行（手機上直排，不用左右滑） */
+#quant-dca-view .q-worst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+#quant-dca-view .q-worst { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+#quant-dca-view .q-worst .q-h4 { margin: 0 0 4px; }
+#quant-dca-view .q-wk { font-size: .82rem; font-weight: 600; color: var(--ink-2); margin: 12px 0 4px; padding-top: 10px; border-top: 1px solid var(--line); }
+#quant-dca-view .q-worst .q-h4 + .q-wk { border-top: 0; padding-top: 0; }
+#quant-dca-view .q-wk .sub { display: block; font-weight: 400; font-size: .72rem; color: var(--muted); }
+#quant-dca-view dl.q-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 0; font-size: var(--step-0); }
+#quant-dca-view dl.q-kv dt { color: var(--muted); font-size: .8rem; }
+#quant-dca-view dl.q-kv dd { margin: 0; text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); }
+#quant-dca-view dl.q-kv .sub { display: block; font-size: .72rem; color: var(--muted); }
+#quant-dca-view dl.q-kv .neg { color: var(--bad-text); }
+#quant-dca-view .q-kv-none { color: var(--muted); font-size: .85rem; margin: 0; }
+/* 大跌與回本表：手機上改成直排卡片（每格前面放欄名），不用左右滑 */
+@media (max-width: 640px) {
+  #quant-dca-view table.ddt thead { display: none; }
+  #quant-dca-view table.ddt, #quant-dca-view table.ddt tbody { display: block; }
+  #quant-dca-view table.ddt tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; padding: 10px 2px; border-bottom: 1px solid var(--line); }
+  #quant-dca-view table.ddt tr[hidden] { display: none; }
+  #quant-dca-view table.ddt td { display: block; border: 0; padding: 0; text-align: left !important; white-space: normal; position: static; background: none; font-family: var(--font-data); }
+  #quant-dca-view table.ddt td::before { content: attr(data-k); display: block; font-family: var(--font-ui); font-size: .72rem; color: var(--muted); }
+  #quant-dca-view table.ddt td.wide { grid-column: 1 / -1; }
+}
 #quant-dca-view table.annual.one { max-width: 420px; }
 #quant-dca-view table.annual th, #quant-dca-view table.annual td { padding: 7px 8px; }
 

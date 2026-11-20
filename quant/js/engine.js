@@ -686,6 +686,8 @@ export function monthlyContribution(series, opts) {
   }
   if (runStart >= 0) endRun(n - 1, null);
 
+  const valueDrawdown = assetDrawdown(dates, value);
+
   // 逐年
   const annual = [];
   let yr = "";
@@ -711,6 +713,35 @@ export function monthlyContribution(series, opts) {
     years, count: buys.length,
     totalInvested: inv, final, pnl, pnlRate: inv > 0 ? final / inv - 1 : null,
     xirr: s.days[n - 1] - s.days[0] >= 365 ? xirr(flows) : null,   // 不滿 365 天不算（年化會被放大）
-    worst, underwater: best, annual, flows,
+    worst, valueDrawdown, underwater: best, annual, flows,
+  };
+}
+
+/**
+ * 資產從高點回落最多的一次：資產價值（不是股價）從先前最高點跌到之後最低點，以「跌幅 %」最大的那一次為準
+ *（和股價的最大回撤同一種算法，只是對象換成「手上的資產」）。
+ * 注意：期間內持續投入的錢也算在資產裡，新錢會把資產往上墊，所以實際的市場跌幅比這個數字更大。
+ * 跌幅相同時取最早的那一次；高點與之後同值不算回落。
+ * @returns null（資產從來沒有從高點回落過）或
+ *   { peakDate, peakValue, troughDate, troughValue, amount（負數）, pct（負數）,
+ *     recoveryDate（之後第一次回到高點金額以上的那天；還沒回到 = null） }
+ */
+export function assetDrawdown(dates, value) {
+  const n = value.length;
+  let pk = 0, best = null;
+  for (let i = 1; i < n; i++) {
+    if (value[i] > value[pk]) { pk = i; continue; }
+    if (!(value[pk] > 0) || !(value[i] < value[pk])) continue;
+    const pct = value[i] / value[pk] - 1;
+    if (!best || pct < best.pct - 1e-12) best = { pi: pk, ti: i, pct };
+  }
+  if (!best) return null;
+  let rec = null;
+  for (let j = best.ti + 1; j < n; j++) if (value[j] >= value[best.pi]) { rec = j; break; }
+  return {
+    peakDate: dates[best.pi], peakValue: value[best.pi],
+    troughDate: dates[best.ti], troughValue: value[best.ti],
+    amount: value[best.ti] - value[best.pi], pct: best.pct,
+    recoveryDate: rec == null ? null : dates[rec],
   };
 }

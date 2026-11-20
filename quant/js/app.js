@@ -636,7 +636,9 @@ function renderMonthly(out, results, opts, warns0) {
     const bad = r.underwater
       ? `最難熬的時候是 <b>${ymd(r.worst.date)}</b>，帳面虧 <b class="neg">${fmtPct(r.worst.rate)}</b>。`
       : "期間內帳面沒有低於本金。";
-    return `<p><b>${esc(label(r.symbol))}</b>：${r.count} 次投入共 <b>${fmtMoney(r.totalInvested, cur)}</b>，期末資產 <b>${fmtMoney(r.final, cur)}</b>，帳面損益 <b class="${cls(r.pnl)}">${money(r.pnl, cur)}（${fmtPct(r.pnlRate)}）</b>。${bad}</p>`;
+    const vd = r.valueDrawdown;
+    const fall = vd ? `資產從高點最多一次回落 <b class="neg">${fmtPct(Math.abs(vd.pct), false)}</b>（${ymd(vd.peakDate)} → ${ymd(vd.troughDate)}）。` : "";
+    return `<p><b>${esc(label(r.symbol))}</b>：${r.count} 次投入共 <b>${fmtMoney(r.totalInvested, cur)}</b>，期末資產 <b>${fmtMoney(r.final, cur)}</b>，帳面損益 <b class="${cls(r.pnl)}">${money(r.pnl, cur)}（${fmtPct(r.pnlRate)}）</b>。${bad}${fall}</p>`;
   }).join("");
 
   const cards = results.map((r) => {
@@ -649,17 +651,33 @@ function renderMonthly(out, results, opts, warns0) {
     </div></div>`;
   }).join("");
 
-  // 最難熬的時候：每檔一欄
+  // 最難熬的時候：每檔一張卡片（兩個指標並列＋低於本金最長期間）；卡片自動換行，手機上直排，不用左右滑
   const none = (r) => !r.underwater;
-  const worstRows = [
-    ["帳面損益率最低的那天", (r) => (none(r) ? "期間內沒有低於本金" : ymd(r.worst.date))],
-    ["當時累積投入", (r) => (none(r) ? "—" : fmtMoney(r.worst.invested, currencyOf(r.symbol)))],
-    ["當時資產", (r) => (none(r) ? "—" : fmtMoney(r.worst.value, currencyOf(r.symbol)))],
-    ["當時帳面虧損", (r) => (none(r) ? "—" : `<span class="neg">${fmtPct(r.worst.rate)}</span>`)],
-    ["帳面低於本金的最長連續天數", (r) => (none(r) ? "—" : `${spanCell(r.underwater.days)}<span class="sub">${ymd(r.underwater.from)} ~ ${ymd(r.underwater.to)}${r.underwater.recovered ? `（${ymd(r.underwater.recoveryDate)} 回到本金以上）` : "（到資料最後一天仍低於本金）"}</span>`)],
-  ];
-  const worstTable = `<div class="table-wrap"><table class="data wrapsub"><thead><tr><th>最難熬的時候</th>${results.map((r) => `<th>${esc(r.symbol)}</th>`).join("")}</tr></thead>
-    <tbody>${worstRows.map(([k, f]) => `<tr><td>${k}</td>${results.map((r) => `<td>${f(r)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const kv = (rows) => `<dl class="q-kv">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`;
+  const worstTable = `<div class="q-worst-grid">${results.map((r) => {
+    const cur = currencyOf(r.symbol), vd = r.valueDrawdown, uw = r.underwater;
+    const a = none(r) ? `<p class="q-kv-none">期間內帳面沒有低於本金。</p>` : kv([
+      ["日期", ymd(r.worst.date)],
+      ["當時累積投入", fmtMoney(r.worst.invested, cur)],
+      ["當時資產", fmtMoney(r.worst.value, cur)],
+      ["帳面虧損", `<span class="neg">${fmtPct(r.worst.rate)}</span>`],
+    ]);
+    const b = !vd ? `<p class="q-kv-none">期間內資產沒有從高點回落過。</p>` : kv([
+      ["高點", `${ymd(vd.peakDate)}<span class="sub">${fmtMoney(vd.peakValue, cur)}</span>`],
+      ["之後最低點", `${ymd(vd.troughDate)}<span class="sub">${fmtMoney(vd.troughValue, cur)}</span>`],
+      ["回落", `<span class="neg">${money(vd.amount, cur)}</span><span class="sub neg">${fmtPct(vd.pct)}</span>`],
+      ["回到高點那天", vd.recoveryDate ? ymd(vd.recoveryDate) : `<span class="neg">還沒回到</span><span class="sub">到 ${ymd(r.actualEnd)}</span>`],
+    ]);
+    const c2 = none(r) ? `<p class="q-kv-none">—</p>` : kv([
+      ["天數", spanCell(uw.days)],
+      ["期間", `${ymd(uw.from)} ~ ${ymd(uw.to)}`],
+      ["結果", uw.recovered ? `${ymd(uw.recoveryDate)} 回到本金以上` : "到資料最後一天仍低於本金"],
+    ]);
+    return `<div class="q-worst"><h4 class="q-h4">${esc(label(r.symbol))}</h4>
+      <div class="q-wk">帳面虧最多的那天<span class="sub">資產 ÷ 累積投入 − 1 最低</span></div>${a}
+      <div class="q-wk">資產從高點回落最多的一次<span class="sub">資產價值從先前最高點跌到之後最低點</span></div>${b}
+      <div class="q-wk">帳面低於本金的最長連續期間</div>${c2}</div>`;
+  }).join("")}</div>`;
 
   const annual = results.map((r) => {
     const cur = currencyOf(r.symbol), lastY = r.annual.at(-1).year;
@@ -689,7 +707,7 @@ function renderMonthly(out, results, opts, warns0) {
     <div class="panel">
       <h3>最難熬的時候</h3>
       ${worstTable}
-      <p class="how-to-read"><b>這張表怎麼看：</b>每個月都投入的人，帳面最慘的時候不一定是股價最低的那天，而是「資產 ÷ 累積投入」最低的那天（早期投的錢多半已經賺很多，晚期才投的錢還沒時間緩衝）。「最長連續天數」是帳面一直低於累積投入本金的最長一段，也就是最久看不到賺錢的日子。</p>
+      <p class="how-to-read"><b>怎麼看：</b>每個月都投入的人，帳面最慘的時候不一定是股價最低的那天，而是「資產 ÷ 累積投入」最低的那天（早期投的錢多半已經賺很多，晚期才投的錢還沒時間緩衝），所以常常落在剛開始投的前幾個月。「資產從高點回落最多的一次」看的是另一件事：手上的資產從之前的最高點，最多一次縮水了多少錢、幾 %（以跌幅 % 最大的那一次為準）。<b>期間內每個月持續投入的錢也算在資產裡</b>，新錢會把資產往上墊，所以同一段時間實際的市場跌幅比這個數字更大；「回到高點那天」也可能是新錢墊回來的，不代表股價已經回升。「最長連續期間」是帳面一直低於累積投入本金的最長一段，也就是最久看不到賺錢的日子。</p>
     </div>
 
     <div class="panel">
@@ -1094,13 +1112,14 @@ function drawDd() {
 
   const blocks = eps.map(({ r, list }) => {
     if (!list.length) return "";
+    // data-k：手機上表格改成直排卡片（quant.css 的 table.ddt），每格前面用它當小標題
     const rows = list.map((e, i) => `<tr${i >= 10 ? ' class="more" hidden' : ""}>
-      <td>${ymd(e.peakDate)}</td><td>${ymd(e.troughDate)}</td><td class="neg">${fmtPct(e.depth)}</td><td>${spanCell(e.daysToTrough)}</td>
+      <td data-k="高點日">${ymd(e.peakDate)}</td><td data-k="低點日">${ymd(e.troughDate)}</td><td data-k="最大跌幅" class="neg">${fmtPct(e.depth)}</td><td data-k="高點→低點">${spanCell(e.daysToTrough)}</td>
       ${e.recovered
-        ? `<td>${ymd(e.recoveryDate)}</td><td>${spanCell(e.daysToRecover)}</td><td>${spanCell(e.daysTotal)}</td>`
-        : `<td colspan="3" style="text-align:left"><span class="neg">尚未回本</span><span class="sub">至資料最後一天（${ymd(e.lastDate)}）已 ${e.daysSincePeak.toLocaleString("en-US")} 天（${spanTxt(e.daysSincePeak)}）</span></td>`}</tr>`).join("");
+        ? `<td data-k="回到高點日">${ymd(e.recoveryDate)}</td><td data-k="低點→回本">${spanCell(e.daysToRecover)}</td><td data-k="高點→回本">${spanCell(e.daysTotal)}</td>`
+        : `<td colspan="3" class="wide" data-k="回到高點日" style="text-align:left"><span class="neg">尚未回本</span><span class="sub">至資料最後一天（${ymd(e.lastDate)}）已 ${e.daysSincePeak.toLocaleString("en-US")} 天${e.daysSincePeak < 45 ? "" : `（${spanTxt(e.daysSincePeak)}）`}</span></td>`}</tr>`).join("");
     return `<div class="q-ddblock"><h4 class="q-h4">${esc(label(r.symbol))}<span class="sub">跌 ${pct}% 以上共 ${list.length} 次，依跌幅由深到淺</span></h4>
-      <div class="table-wrap"><table class="data"><thead><tr><th>高點日</th><th>低點日</th><th>最大跌幅</th><th>高點→低點</th><th>回到高點日</th><th>低點→回本</th><th>高點→回本</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="table-wrap"><table class="data ddt"><thead><tr><th>高點日</th><th>低點日</th><th>最大跌幅</th><th>高點→低點</th><th>回到高點日</th><th>低點→回本</th><th>高點→回本</th></tr></thead><tbody>${rows}</tbody></table></div>
       ${list.length > 10 ? `<button type="button" class="q-textbtn" data-more="${list.length}" aria-expanded="false">顯示全部 ${list.length} 次</button>` : ""}</div>`;
   }).join("");
 
@@ -1161,8 +1180,12 @@ function loadHash() {
   if (!q) return;
   const p = new URLSearchParams(q);
   // 網址有的參數用網址的；沒有的退回頁面預設值（所以只帶 t 的連結，其餘欄位一律是預設，不會沿用上次手動改過的值）
-  // 結束日期的預設是「今天」（這個欄位的 value 是程式填的，defaultValue 是空的）
-  const set = (id, k) => { const el = $(id); el.value = p.has(k) ? p.get(k) : (el.defaultValue || (id.endsWith("-end") ? today : "")); };
+  // 結束日期的預設：dca／monthly 是「今天」（init 填的）；波動與風險的結束日預設空白（＝到資料最後一天），不能填成今天
+  const TODAY_END = new Set(["#dca-end", "#monthly-end"]);
+  // 下拉選單沒有 defaultValue：預設是 HTML 裡標 selected 的那一項
+  const defOf = (el, id) => (el.tagName === "SELECT" ? ([...el.options].find((o) => o.defaultSelected) || el.options[0] || {}).value || ""
+    : el.defaultValue || (TODAY_END.has(id) ? today : ""));
+  const set = (id, k) => { const el = $(id); el.value = p.has(k) ? p.get(k) : defOf(el, id); };
   const pick = (name, def, max = 5) => {
     const list = (p.get("t") || "").split(",").map((x) => x.trim()).filter(Boolean).slice(0, max);
     state.pickers[name] = list.length ? list : def.split(",");
@@ -1191,10 +1214,9 @@ function loadHash() {
     } else $$(".vol-t").forEach((el) => { el.value = el.defaultValue; });
     $("#form-vol").requestSubmit();
   } else if (tab === "rolling") {
-    if (p.get("t")) { state.pickers.rolling = [p.get("t")]; renderChips("rolling"); }
+    pick("rolling", $('.picker[data-picker="rolling"]').dataset.default, 1);
     state.staleTabs.delete("rolling");
-    const setR = (id, k) => { if (p.has(k)) $(id).value = p.get(k); };
-    setR("#roll-from", "f"); setR("#roll-horizon", "h"); setR("#roll-months", "m"); setR("#roll-count", "n"); setR("#roll-yield", "y");
+    set("#roll-from", "f"); set("#roll-horizon", "h"); set("#roll-months", "m"); set("#roll-count", "n"); set("#roll-yield", "y");
     $("#form-rolling").requestSubmit();
   }
 }

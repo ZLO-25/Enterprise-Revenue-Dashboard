@@ -56,6 +56,10 @@ def quant(pg, base, w, errs):
         lines: document.querySelector('#chart-monthly-value').data.map((t) => t.name) })""")
     if got["cards"] != 8:
         errs.append(f"每月定期投入：2 檔應有 8 張卡片，實際 {got['cards']}")
+    # 「最難熬的時候」：每檔一張卡片，裡面要有「資產從高點回落最多的一次」
+    worst = pg.evaluate("""() => [...document.querySelectorAll('#out-monthly .q-worst')].map((e) => e.textContent.includes('資產從高點回落最多的一次'))""")
+    if len(worst) != 2 or not all(worst):
+        errs.append(f"每月定期投入：最難熬的時候應有 2 張卡片、各含「資產從高點回落最多的一次」，實際 {worst}")
     if not any("投入本金" in n for n in got["lines"]):
         errs.append(f"每月定期投入：圖上沒有投入本金線（{got['lines']}）")
     over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
@@ -115,7 +119,7 @@ def main():
                 bad += bool(errs)
             errs.clear()
             quant(pg, base, w, errs)
-            print(("✗" if errs else "✓"), w, "/#dca（量化回測）", *errs)
+            print(("✗" if errs else "✓"), w, "/#dca、#monthly、#vol（量化回測）", *errs)
             bad += bool(errs)
         b.close()
     return 1 if bad else 0
