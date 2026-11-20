@@ -62,7 +62,16 @@ def companies(only=None, cfg=None):
 
 def etf_item(e):
     return {"code": e["code"], "name": e["name"], "dailyDir": os.path.join(ROOT, "data", "etf", "daily"),
-            "price": {"yahoo": e["yahoo"], "currency": e.get("currency"), "from": e.get("from")}}
+            "price": {"yahoo": e["yahoo"], "currency": e.get("currency"), "from": e.get("from") or ETF_FROM}}
+
+
+ETF_FROM = "2016-01"   # ETF 沒寫 from（上市很久）：K 棒從這個月起（約 10 年，檔案不會太大）
+
+
+def etf_short(c, prev):
+    """ETF 的舊檔起點比設定的 from 晚很多（例如第一次只抓到一個月）→ 要重抓完整歷史。只用在 ETF。"""
+    frm = (c.get("price") or {}).get("from")
+    return bool(c.get("dailyDir") and prev and frm and (prev.get("firstDate") or "") > frm + "-31" and (prev.get("firstDate") or "")[:4] > str(int(frm[:4]) + 1))
 
 
 # ---------- 切檔與 sha ----------
@@ -403,7 +412,7 @@ def process(c, password, outdir, *, daily_dir=None, fetcher=fetch_raw, now_utc=N
     daily = jload(os.path.join(c.get("dailyDir") or daily_dir or os.path.join(ROOT, "data", "daily"), code + ".json"))
     path = os.path.join(outdir, code + ".enc.json")
     prev = jload(path)
-    if not needs_fetch(prev, daily):
+    if not needs_fetch(prev, daily) and not etf_short(c, prev):
         log(f"[{code}] 已是最新")
         return "up-to-date"
     tz, hh, mm = PD.exch(pc["yahoo"])
@@ -419,7 +428,7 @@ def process(c, password, outdir, *, daily_dir=None, fetcher=fetch_raw, now_utc=N
         return "empty"
     provisional = bars[-1][0] in prov
     if prev and not provisional and not prev.get("provisional") and prev.get("lastDate") == bars[-1][0] \
-            and prev.get("pendingCount", 0) == len(pending):
+            and prev.get("pendingCount", 0) == len(pending) and (prev.get("firstDate") or "") <= bars[0][0]:   # 這次抓到更早的歷史（ETF 補歷史）→ 要寫
         log(f"[{code}] 沒有新的 K 棒，不更新檔案")
         return "unchanged"
     meta = {"code": code, "name": c["name"], "yahoo": pc["yahoo"], "currency": pc.get("currency"),
