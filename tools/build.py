@@ -406,6 +406,9 @@ def main():
     # 指數期貨 K 棒頁（資料加密；頁面本身公開，解鎖後才有內容）
     kb_cos = [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""), "sector": c.get("sector") or "其他", "href": "../" + c["path"]}
               for c in companies if (c.get("price") or {}).get("yahoo")]   # 清單順序＝companies.json 的順序（產業依第一次出現的順序）
+    etf_cfg = json.load(open(os.path.join(ROOT, "data", "etf", "config.json"), encoding="utf8"))
+    kb_cos += [{"code": e["code"], "name": e.get("zh") or e["name"], "ticker": e["ticker"], "sector": "ETF", "href": "../etf/#" + e["code"]}
+               for e in etf_cfg["etfs"]]   # ETF 放最後一組；K 棒由 kbar_update.py 一併產生（核對用 data/etf/daily）
     ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS), ("{{KBAR_JS}}", KBARJS),
               ("{{LWC}}", '<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>'),
               ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/"), ("{{KB_BASE}}", "../data/kbar/"), ("{{KB_COMPANIES}}", js_json(kb_cos))])
@@ -415,6 +418,10 @@ def main():
     mt = fill(read("templates", "mcap.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MCAP_BASE}}", "../data/mcap/")])
     write(page("市值排名", "全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。", mt, "../", "mcap"), "mcap", "index.html")
     print("mcap/index.html（市值排名頁）")
+    # ETF 頁（data/etf/latest.json、data/etf/daily/ 由 Actions 的 prices-daily 寫入；頁面執行時才讀，每日更新不必重建網站）
+    et = fill(read("templates", "etf.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{ETF_BASE}}", "../data/etf/")])
+    write(page("ETF 追蹤", "大盤、國防與航太、半導體、記憶體 ETF：每日收盤與報酬、費用率、前十大持股（連到本站追蹤的公司）。", et, "../", "etf"), "etf", "index.html")
+    print("etf/index.html（ETF 追蹤頁）")
     # 系統健康頁（資料 data/status/latest.json 由 daily-prep 每天寫入；頁面執行時才讀）
     st = fill(read("templates", "status.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{STATUS_BASE}}", "../data/status/")])
     write(page("系統健康", "自動工作、Claude 排程與各公司資料有沒有過期；紅燈會開 GitHub issue。", st, "../", "status"), "status", "index.html")

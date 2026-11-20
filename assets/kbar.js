@@ -355,7 +355,7 @@ const KB = (() => {
       const my = ++seq, it = cur;
       ls.set(LAST_LS, it.id);
       rep(`?s=${it.id}&p=${st.p}`);
-      const fin = $('#kbFin'); if (it.href) { fin.href = it.href; fin.hidden = false; } else fin.hidden = true;
+      const fin = $('#kbFin'); if (it.href) { fin.href = it.href; fin.textContent = it.sector === 'ETF' ? '看 ETF 持股 →' : '看財報 →'; fin.hidden = false; } else fin.hidden = true;
       $('#futTitle').textContent = `${it.name} ${it.ticker} ${pNames[st.p]}`;
       if (!(await unlocked())) { showLock(my); return; }
       let x;
