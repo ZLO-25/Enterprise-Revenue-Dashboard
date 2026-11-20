@@ -1,6 +1,6 @@
 {
  "code": "panw",
- "fetched": "2026-11-19T08:59Z",
+ "fetched": "2026-11-20T00:19Z",
  "quarters": [
   {
    "q": "3Q26",
@@ -126,9 +126,65 @@
   },
   {
    "q": "1Q27",
-   "end": null,
-   "rows": {},
-   "why": "SEC XBRL 還沒有這一季（10-Q／10-K 尚未申報，或淨利對不上）"
+   "end": "2026-10-31",
+   "rows": {
+    "rev": {
+     "ours": 3445.0,
+     "sec": 3445.0,
+     "c": "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    },
+    "gp": {
+     "ours": 2342.0,
+     "sec": 2342.0,
+     "c": "GrossProfit",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    },
+    "opInc": {
+     "ours": 96.0,
+     "sec": 96.0,
+     "c": "OperatingIncomeLoss",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    },
+    "ni": {
+     "ours": 482.0,
+     "sec": 482.0,
+     "c": "NetIncomeLoss",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    },
+    "eps": {
+     "ours": 0.57,
+     "sec": 0.57,
+     "c": "EarningsPerShareDiluted",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    },
+    "ocf": {
+     "ours": 1929.0,
+     "sec": 1929.0,
+     "c": "NetCashProvidedByUsedInOperatingActivities",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    },
+    "capex": {
+     "ours": 87.0,
+     "sec": 87.0,
+     "c": "PaymentsToAcquireProductiveAssets",
+     "acc": "0001327567-26-000033",
+     "filed": "2026-11-19",
+     "ok": true
+    }
+   }
   }
  ]
 }

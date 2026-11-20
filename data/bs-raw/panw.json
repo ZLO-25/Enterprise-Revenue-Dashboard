@@ -1,6 +1,6 @@
 {
 "code": "panw",
-"fetched": "2026-11-19T09:00Z",
+"fetched": "2026-11-20T00:19Z",
 "splits": [
 [
 "2022-09-14",
@@ -4616,15 +4616,15 @@
 "equity": [
 {
 "c": "StockholdersEquity",
-"acc": "0001327567-26-000023",
-"filed": "2026-09-10"
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
 }
 ],
 "shOut": [
 {
 "c": "CommonStockSharesOutstanding",
-"acc": "0001327567-26-000023",
-"filed": "2026-09-10"
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
 }
 ],
 "pretax": [
@@ -4651,20 +4651,25 @@
 "cash": [
 {
 "c": "CashAndCashEquivalentsAtCarryingValue",
-"acc": "0001327567-26-000023",
-"filed": "2026-09-10"
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
 },
 {
 "c": "ShortTermInvestments",
-"acc": "0001327567-26-000023",
-"filed": "2026-09-10"
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
 }
 ],
 "debt": [
 {
 "c": "ConvertibleDebtNoncurrent",
-"acc": "0001327567-26-000023",
-"filed": "2026-09-10"
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+},
+{
+"c": "ConvertibleDebtCurrent",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
 }
 ],
 "sbc": [
@@ -4681,11 +4686,87 @@
 },
 {
 "q": "1Q27",
-"end": null,
-"vals": {},
-"prov": {},
+"end": "2026-10-31",
+"vals": {
+"equity": 28665.0,
+"shOut": 819.0,
+"dilSh": 838.0,
+"pretax": 25.0,
+"tax": -457.0,
+"cash": 3055.0,
+"debt": 1930.0,
+"sbc": 596.0
+},
+"prov": {
+"equity": [
+{
+"c": "StockholdersEquity",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"shOut": [
+{
+"c": "CommonStockSharesOutstanding",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"dilSh": [
+{
+"c": "WeightedAverageNumberOfDilutedSharesOutstanding",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"pretax": [
+{
+"c": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"tax": [
+{
+"c": "IncomeTaxExpenseBenefit",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"cash": [
+{
+"c": "CashAndCashEquivalentsAtCarryingValue",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+},
+{
+"c": "ShortTermInvestments",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"debt": [
+{
+"c": "ConvertibleDebtNoncurrent",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+},
+{
+"c": "ConvertibleDebtCurrent",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+],
+"sbc": [
+{
+"c": "ShareBasedCompensation",
+"acc": "0001327567-26-000033",
+"filed": "2026-11-19"
+}
+]
+},
 "why": {
-"*": "淨利對不上 SEC 季度資料（可能早於 XBRL 或公司尚未上市）"
+"buyback": "讀不到單季值"
 }
 }
 ],
