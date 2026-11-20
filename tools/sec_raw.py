@@ -92,5 +92,12 @@ for code, cik in want:
         if not ex: ex=[n for n in items if re.search(r"earning|release|pressrel", n, re.I) and n.lower().endswith((".htm",".html")) and "index" not in n]
         if not ex: print("no ex99", code, acc, items); continue
         b=get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{ex[0]}", raw=True)
-        if b: open(fn,"w").write(f"SOURCE https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{ex[0]}\n"+text(b))
+        if b:
+            t=f"SOURCE https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{ex[0]}\n"+text(b)
+            if len(t)<5000:  # 短新聞稿（例如 L3Harris 2022～2023 把數字放在 99.2 投資人信）：附上其他 99 附件
+                for n in items:
+                    if n==ex[0] or not re.search(r"99", n) or not n.lower().endswith((".htm",".html")) or "index" in n.lower(): continue
+                    b2=get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{n}", raw=True)
+                    if b2: t+=f"\n\n=====\nSOURCE https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{n}\n"+text(b2)
+            open(fn,"w").write(t)
     print(code, "done", len(keep))
