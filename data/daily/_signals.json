@@ -6,12 +6,12 @@
   "pltr.pe": "rich",
   "nvda.pe": "cheap",
   "anet.pe": "rich",
-  "delta.pe": "rich",
+  "delta.pe": "normal",
   "msft.pe": "cheap",
   "mu.evS": "normal",
   "amzn.pe": "cheap",
   "aapl.pe": "rich",
-  "meta.pe": "normal",
+  "meta.pe": "cheap",
   "avgo.pe": "rich",
   "mrvl.evS": "normal",
   "amd.evS": "rich",
@@ -20,7 +20,7 @@
   "googl.evS": "normal",
   "csco.evS": "rich",
   "asml.pe": "normal",
-  "allring.pe": "rich"
+  "allring.pe": "normal"
  },
  "events": [
   {
@@ -50,6 +50,26 @@
    "name": "本益比",
    "kind": "back",
    "now": 21.0,
+   "thr": 24,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "delta",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 27.0,
+   "thr": 26,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "allring",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 26.4,
    "thr": 24,
    "op": "<="
   }
