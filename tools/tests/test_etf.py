@@ -113,7 +113,8 @@ class Entry(unittest.TestCase):
 
     def test_keeps_previous_fund_data(self):
         prev = {"holdings": {"asOf": "2026-11-13", "rows": [{"sym": "NVDA", "w": 10, "code": "nvda"}], "src": "s"}, "er": {"pct": 0.1, "asOf": "2026-11-13"}}
-        out = E.build_entry(self.e, {"rows": [["2026-11-19", 1.0]]}, prev, None, "2026-11-20", {}, {}, lambda c: (5.0, "2026-11-19"))
+        by = {"nvda": {"code": "nvda", "name": "輝達", "path": "nvda/"}}
+        out = E.build_entry(self.e, {"rows": [["2026-11-19", 1.0]]}, prev, None, "2026-11-20", {"NVDA": "nvda"}, by, lambda c: (5.0, "2026-11-19"))
         self.assertEqual(out["er"]["pct"], 0.1)
         self.assertEqual(out["holdings"]["rows"][0]["r1y"], 5.0)
         # 抓了但沒抓到 → 沿用並註明
