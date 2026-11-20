@@ -11,22 +11,22 @@
   "epsUnit": "美元",
   "fiscalYearEnd": "12-31",
   "frequency": "quarterly",
-  "lede": "",
+  "lede": "星座能源（Constellation Energy）是美國以核電為主的發電公司（公司自稱全美最大的無碳電力生產商），2022 年 2 月 1 日從 Exelon 分拆、2 月 2 日在 Nasdaq 掛牌。2026 年 1 月完成收購 Calpine（燃氣與地熱電廠），所以 2026 年起營收規模明顯變大。本頁從分拆後第一份財報的 1Q22 開始；會計年度為曆年；金額單位百萬美元，EPS 為 GAAP 稀釋 EPS（含大量衍生性商品公允價值變動，公司另有非 GAAP 的「調整後營運 EPS」）。",
   "cadence": [
    {
-    "when": "每季",
-    "what": "財報新聞稿",
-    "which": "營收、獲利、現金流、財測"
+    "when": "2、5、8、11 月上旬",
+    "what": "財報新聞稿與電話會議（8-K 附件 99.1）",
+    "which": "營收、GAAP 與調整後 EPS、現金流、全年調整後 EPS 財測"
    },
    {
-    "when": "財報後",
-    "what": "10-Q／10-K 或季報",
-    "which": "分部拆分與完整附註"
+    "when": "財報當天",
+    "what": "10-Q／10-K",
+    "which": "完整財報、資產負債表與附註"
    },
    {
     "when": "不定期",
-    "what": "新聞稿與媒體",
-    "which": "重大合約、產品、併購"
+    "what": "新聞稿",
+    "which": "資料中心購電合約、核電增容、併購"
    }
   ]
  },
@@ -46,15 +46,15 @@
    "dps": 0.14,
    "rd": "2022-05-12",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 327.0,
+   "dilSh": 328.0,
+   "cash": 1605.0,
+   "debt": 5819.0,
+   "buyback": 0.0,
+   "equity": 11105.0,
+   "pretax": 61.0,
+   "tax": -53.0,
+   "sbc": 14.0
   },
   {
    "q": "2Q22",
@@ -71,15 +71,15 @@
    "dps": 0.14,
    "rd": "2022-08-04",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 327.0,
+   "dilSh": 328.0,
+   "cash": 806.0,
+   "debt": 4891.0,
+   "buyback": 0.0,
+   "equity": 11000.0,
+   "pretax": -438.0,
+   "tax": -328.0,
+   "sbc": 18.0
   },
   {
    "q": "3Q22",
@@ -96,15 +96,15 @@
    "dps": 0.14,
    "rd": "2022-11-08",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 327.0,
+   "dilSh": 328.0,
+   "cash": 1192.0,
+   "debt": 5354.0,
+   "buyback": 0.0,
+   "equity": 10803.0,
+   "pretax": -312.0,
+   "tax": -123.0,
+   "sbc": 53.0
   },
   {
    "q": "4Q22",
@@ -121,15 +121,15 @@
    "dps": null,
    "rd": "2023-02-16",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 327.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 422.0,
+   "debt": 5768.0,
+   "buyback": 0.0,
+   "equity": 11018.0,
+   "pretax": 147.0,
+   "tax": 116.0,
+   "sbc": 31.0
   },
   {
    "q": "1Q23",
@@ -146,14 +146,14 @@
    "dps": 0.28,
    "rd": "2023-05-04",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 324.0,
+   "dilSh": 328.0,
+   "cash": 237.0,
+   "debt": 6629.0,
+   "buyback": 231.0,
+   "equity": 10728.0,
+   "pretax": 238.0,
+   "tax": 131.0,
    "sbc": null
   },
   {
@@ -171,14 +171,14 @@
    "dps": 0.28,
    "rd": "2023-08-03",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 322.0,
+   "dilSh": 325.0,
+   "cash": 269.0,
+   "debt": 7201.0,
+   "buyback": 268.0,
+   "equity": 11256.0,
+   "pretax": 1171.0,
+   "tax": 342.0,
    "sbc": null
   },
   {
@@ -196,14 +196,14 @@
    "dps": 0.28,
    "rd": "2023-11-06",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 319.0,
+   "dilSh": 323.0,
+   "cash": 1889.0,
+   "debt": 8155.0,
+   "buyback": 251.0,
+   "equity": 11666.0,
+   "pretax": 895.0,
+   "tax": 205.0,
    "sbc": null
   },
   {
@@ -221,14 +221,14 @@
    "dps": null,
    "rd": "2024-02-27",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 317.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "cash": 368.0,
+   "debt": 9261.0,
+   "buyback": 242.0,
+   "equity": 10925.0,
+   "pretax": 143.0,
+   "tax": 182.0,
    "sbc": null
   },
   {
@@ -271,14 +271,14 @@
    "dps": 0.3525,
    "rd": "2024-08-06",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 313.0,
+   "dilSh": 316.0,
+   "cash": 311.0,
+   "debt": 9124.0,
+   "buyback": 500.0,
+   "equity": 11425.0,
+   "pretax": 964.0,
+   "tax": 154.0,
    "sbc": null
   },
   {
@@ -296,14 +296,14 @@
    "dps": 0.3525,
    "rd": "2024-11-04",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 313.0,
+   "dilSh": 314.0,
+   "cash": 1793.0,
+   "debt": 8412.0,
+   "buyback": 0.0,
+   "equity": 12570.0,
+   "pretax": 1645.0,
+   "tax": 449.0,
    "sbc": null
   },
   {
@@ -321,14 +321,14 @@
    "dps": null,
    "rd": "2025-02-18",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 313.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "cash": 3022.0,
+   "debt": 8412.0,
+   "buyback": 0.0,
+   "equity": 13166.0,
+   "pretax": 859.0,
+   "tax": 6.0,
    "sbc": null
   },
   {
@@ -346,14 +346,14 @@
    "dps": 0.3878,
    "rd": "2025-05-06",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 313.0,
+   "dilSh": 314.0,
+   "cash": 1846.0,
+   "debt": 8358.0,
+   "buyback": 0.0,
+   "equity": 12956.0,
+   "pretax": 151.0,
+   "tax": 22.0,
    "sbc": null
   },
   {
@@ -371,14 +371,14 @@
    "dps": 0.3878,
    "rd": "2025-08-07",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 312.0,
+   "dilSh": 314.0,
+   "cash": 1974.0,
+   "debt": 8311.0,
+   "buyback": 400.0,
+   "equity": 13446.0,
+   "pretax": 1273.0,
+   "tax": 440.0,
    "sbc": null
   },
   {
@@ -396,14 +396,14 @@
    "dps": 0.3878,
    "rd": "2025-11-07",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "shOut": 312.0,
+   "dilSh": 313.0,
+   "cash": 3959.0,
+   "debt": 9037.0,
+   "buyback": 0.0,
+   "equity": 14350.0,
+   "pretax": 1395.0,
+   "tax": 466.0,
    "sbc": null
   },
   {
@@ -421,14 +421,14 @@
    "dps": null,
    "rd": "2026-02-24",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 312.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "cash": 3641.0,
+   "debt": 8992.0,
+   "buyback": 0.0,
+   "equity": 14517.0,
+   "pretax": 692.0,
+   "tax": 259.0,
    "sbc": null
   },
   {
@@ -446,14 +446,14 @@
    "dps": 0.4265,
    "rd": "2026-05-11",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
+   "shOut": 362.0,
+   "dilSh": 354.0,
+   "cash": 800.0,
+   "debt": 22466.0,
    "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "equity": 33483.0,
+   "pretax": 2125.0,
+   "tax": 530.0,
    "sbc": null
   },
   {
@@ -471,14 +471,14 @@
    "dps": 0.4265,
    "rd": "2026-08-06",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
+   "shOut": 355.0,
+   "dilSh": 360.0,
+   "cash": 697.0,
+   "debt": 24700.0,
    "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "equity": 31977.0,
+   "pretax": 900.0,
+   "tax": 398.0,
    "sbc": null
   },
   {
@@ -497,13 +497,13 @@
    "rd": "2026-11-09",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
+   "dilSh": 354.0,
    "cash": null,
    "debt": null,
    "buyback": null,
    "equity": null,
-   "pretax": null,
-   "tax": null,
+   "pretax": 2231.0,
+   "tax": 405.0,
    "sbc": null
   }
  ],
@@ -550,95 +550,285 @@
   }
  },
  "guidance": {
-  "issued": "2026-11-20",
+  "issued": "2026-11-09",
   "items": [
    {
-    "label": "下一季營收",
-    "period": "",
-    "lo": null,
-    "hi": null,
-    "unit": "百萬美元",
-    "note": ""
+    "label": "全年調整後營運 EPS（非 GAAP）",
+    "period": "2026",
+    "lo": 12.5,
+    "hi": 12.8,
+    "unit": "美元",
+    "note": "提高中點並縮小區間（原 11.50–12.50）；公司定義，非 GAAP"
    }
   ],
-  "note": ""
+  "note": "出自 3Q26 財報新聞稿（2026-11-09）。星座能源只給全年「調整後營運 EPS」財測（非 GAAP），不給營收財測；公司說明因衍生性商品等公允價值變動難以預測，無法對照 GAAP。"
  },
  "events": [
   {
-   "date": "2027-01-19",
-   "t": "下一季財報（預估日期，公司尚未公告）",
+   "date": "2027-02-23",
+   "t": "4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 2 月中下旬）",
    "est": 1
   }
  ],
  "waterfall": {
-  "q": "1Q24",
+  "q": "3Q26",
   "rows": [
    {
     "n": "營收",
-    "v": null,
+    "v": 9550,
     "t": 1
    },
    {
-    "n": "營業成本",
-    "v": null
+    "n": "購電與燃料成本",
+    "v": -4400
    },
    {
-    "n": "毛利",
-    "v": null,
+    "n": "毛利（營收 − 購電與燃料）",
+    "v": 5150,
     "t": 1
    },
    {
-    "n": "營業費用",
-    "v": null
+    "n": "營運維護、折舊、稅捐，扣資產處分利益",
+    "v": -2658
    },
    {
     "n": "營業利益",
-    "v": null,
+    "v": 2492,
     "t": 1
    },
    {
-    "n": "業外收支",
-    "v": null
+    "n": "利息與其他業外",
+    "v": -261
    },
    {
     "n": "所得稅",
-    "v": null
+    "v": -405
    },
    {
-    "n": "淨利（歸屬母公司）",
-    "v": null,
+    "n": "權益法投資收益",
+    "v": 9
+   },
+   {
+    "n": "淨利（歸屬普通股股東）",
+    "v": 1835,
     "t": 1
    }
   ],
-  "note": ""
+  "note": "3Q26 財報新聞稿的損益表，百萬美元。營運維護 1,991、折舊攤提 454、所得稅以外稅捐 225，資產處分利益 +12。非控制權益當季為 0。"
  },
  "segments": null,
  "extra": null,
- "milestones": [],
+ "milestones": [
+  {
+   "d": "2026-10",
+   "cat": "ppa",
+   "t": "與 Google 簽 20 年購電合約，支持 11 座核電機組約 890 MW 增容（首批預計 2028 年），另簽 2,700 MW 的 15 年負載跟隨合約",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-10",
+   "cat": "nuclear",
+   "t": "與美國能源部簽署最高 50 億美元的有條件貸款承諾，支持核電增容",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-09",
+   "cat": "ppa",
+   "t": "與 Amazon 簽 Calvert Cliffs 核電廠 20 年、690 MW 購電合約，支持超過 30 億美元投資與 190 MW 擴容（2030–2032 年）",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-11-09",
+   "cat": "ma",
+   "t": "協議以 7.15 億美元收購 Rhode Island State Energy Center（609 MW 燃氣複循環電廠）",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm",
+   "st": "f"
+  },
+  {
+   "d": "2026-01-07",
+   "cat": "ma",
+   "t": "完成收購 Calpine，成為全美最大的電力生產商（公司說法）",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000029/ceg-20260224991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-Q2",
+   "cat": "ppa",
+   "t": "與 Meta 簽 20 年購電合約，買下 Clinton 核電廠全部發電量（2027 年 6 月起），支持延役",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827525000070/ceg-20250807991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-01",
+   "cat": "ma",
+   "t": "簽署收購 Calpine 的最終協議：5,000 萬股新股加 45 億美元現金",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827525000020/ceg-20250218991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-Q3",
+   "cat": "ppa",
+   "t": "與 Microsoft 簽 20 年購電合約，重啟三哩島 1 號機（改名 Crane Clean Energy Center）",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827524000066/ceg-20241104991.htm",
+   "st": "p"
+  },
+  {
+   "d": "2022-02-02",
+   "cat": "listing",
+   "t": "2022-02-01 完成從 Exelon 分拆，2-02 在 Nasdaq 以 CEG 掛牌交易",
+   "src": "https://www.sec.gov/Archives/edgar/data/1868275/000186827522000042/ceg-20220512991.htm",
+   "st": "p"
+  }
+ ],
  "story": {
-  "t": "",
-  "why": "",
-  "cats": []
+  "t": "核電＋資料中心長期購電合約",
+  "why": "科技公司要 24 小時無碳電力，星座能源把既有核電廠的電以 20 年長約賣給 Microsoft、Meta、Amazon、Google，並用增容、重啟與延役增加核電產能；這決定未來十年的獲利能見度。",
+  "cats": [
+   "ppa",
+   "nuclear"
+  ]
  },
  "sources": [
   {
-   "n": "SEC EDGAR",
+   "n": "SEC EDGAR XBRL（companyfacts）",
+   "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001868275.json",
+   "note": "2022–2026 年 2Q 損益、現金流、EPS、資產負債表欄位"
+  },
+  {
+   "n": "3Q26 財報新聞稿（8-K 附件 99.1）",
+   "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm",
+   "note": "3Q26 全部損益與現金流數字（10-Q 的 XBRL 還沒進 companyfacts）、全年財測、購電合約"
+  },
+  {
+   "n": "2Q26 財報新聞稿",
+   "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000097/ceg-20260806991.htm",
+   "note": "上一次全年財測"
+  },
+  {
+   "n": "4Q25 財報新聞稿",
+   "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000029/ceg-20260224991.htm",
+   "note": "4Q25 單季 EPS、Calpine 收購完成"
+  },
+  {
+   "n": "星座能源投資人關係",
+   "url": "https://investors.constellationenergy.com",
+   "note": "新聞稿、財報日期"
+  },
+  {
+   "n": "SEC EDGAR（10-Q、10-K、8-K）",
    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001868275",
-   "note": "損益、現金流、EPS"
+   "note": "法定申報"
   }
  ],
  "notes": {
   "unavailable": [
-   "待確認：資產負債表欄位 期末流通股數（shOut）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 稀釋加權股數（dilSh）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 現金與投資（cash）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 有息負債（debt）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 回購金額（buyback）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 股東權益（equity）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 稅前淨利（pretax）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 所得稅費用（tax）：18 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 股票酬勞（sbc）：19 季沒有值（1Q22～3Q26）：提案沒有這一季（17 季）；讀不到單季值（1 季：1Q24）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季：3Q26）"
+   "2021 年以前：分拆前是 Exelon 的發電子公司，沒有 CEG 的每股盈餘，所以從分拆後第一份財報的 1Q22 開始（1Q22 的 1 月仍在 Exelon 旗下）",
+   "待確認：每股股利（dps）各年第四季與 3Q26：XBRL 的全年欄位標的是單季金額（例如 2025 全年標 0.3878），算不出第四季；3Q26 的 10-Q XBRL 還沒進 SEC companyfacts，新聞稿只有發放總額，沒有每股金額",
+   "待確認：資產負債表欄位 3Q26 的期末流通股數、現金、有息負債、股東權益、回購、股票酬勞：10-Q（2026-11-09 申報）的 XBRL 還沒進 SEC companyfacts，新聞稿沒有資產負債表；稅前淨利、所得稅、稀釋股數已從新聞稿補上",
+   "毛利（gp）＝營收 − 購電與燃料成本（Purchased power and fuel，取各季財報新聞稿）；電力公司的損益表不列毛利，這是業界常用的「毛利」近似",
+   "待確認：資產負債表欄位 期末流通股數（shOut）：1 季沒有值（3Q26～3Q26）：SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 稀釋加權股數（dilSh）：5 季沒有值（4Q22～3Q26）：讀不到單季值（4 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 現金與投資（cash）：1 季沒有值（3Q26～3Q26）：SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 有息負債（debt）：1 季沒有值（3Q26～3Q26）：SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 回購金額（buyback）：3 季沒有值（1Q26～3Q26）：讀不到單季值（2 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 股東權益（equity）：1 季沒有值（3Q26～3Q26）：SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 稅前淨利（pretax）：1 季沒有值（3Q26～3Q26）：SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 所得稅費用（tax）：1 季沒有值（3Q26～3Q26）：SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
+   "待確認：資產負債表欄位 股票酬勞（sbc）：15 季沒有值（1Q23～3Q26）：讀不到單季值（14 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季：3Q26）"
   ],
-  "general": "重要事件的來源列在事件明細的最後一欄；只有媒體報導、公司沒證實的標「待確定」。"
+  "general": "1Q22–2Q26 的季度數字取「該年 10-K 首次申報當時」的 XBRL 版本，第四季＝10-K 全年 − 前三季；第四季 EPS 取第四季財報新聞稿；3Q26 全部取 3Q26 財報新聞稿（第三季＝九個月累計 − 上半年）。GAAP 淨利含大量衍生性商品與核電除役信託基金的公允價值變動，季與季之間波動很大；看長期趨勢時建議同時參考公司的調整後營運 EPS（非 GAAP，本站不收進 eps 欄）。營業現金流在 2022–2024 年多為負值，主因是應收帳款出售後「遞延收款」的回收依會計規定列在投資活動，不是營運惡化。"
+ },
+ "guidanceHistory": [
+  {
+   "issued": "2026-08-06",
+   "items": [
+    {
+     "label": "全年調整後營運 EPS（非 GAAP）",
+     "period": "2026",
+     "lo": 11.5,
+     "hi": 12.5,
+     "unit": "美元",
+     "note": "公司定義，非 GAAP"
+    }
+   ]
+  }
+ ],
+ "categories": {
+  "ppa": "資料中心長約",
+  "nuclear": "核電增容與延役"
+ },
+ "summary": {
+  "q": "3Q26",
+  "status": "flash",
+  "flashDate": "2026-11-20",
+  "finalDate": null,
+  "headline": {
+   "t": "3Q26 營收 95.5 億美元（去年同期 65.7 億，主要是 Calpine 併入），GAAP 稀釋 EPS 5.19 美元（去年 2.97）、調整後營運 EPS 5.06 美元；公司提高全年調整後 EPS 財測中點到 12.50–12.80 美元。",
+   "tag": "w",
+   "src": {
+    "n": "3Q26 財報新聞稿",
+    "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm"
+   }
+  },
+  "scorecard": [
+   {
+    "k": "rev"
+   },
+   {
+    "k": "gm"
+   },
+   {
+    "k": "om"
+   },
+   {
+    "k": "eps"
+   }
+  ],
+  "scorecardNote": "星座能源只給全年調整後 EPS 財測（非 GAAP），沒有單季財測可對照；也沒有事前的市場預期快照（新加入的公司，不回補）。",
+  "outlook": {
+   "dir": "up",
+   "items": [
+    {
+     "t": "2026 全年調整後營運 EPS 財測從 11.50–12.50 美元改為 12.50–12.80 美元（提高中點並縮小區間，非 GAAP）。",
+     "tag": "w",
+     "src": {
+      "n": "3Q26 財報新聞稿",
+      "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm"
+     }
+    },
+    {
+     "t": "當季新簽 Amazon（Calvert Cliffs）、Google（核電增容）長約，並取得能源部最高 50 億美元有條件貸款承諾。",
+     "tag": "w",
+     "src": {
+      "n": "3Q26 財報新聞稿",
+      "url": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000116/ceg-20261109991.htm"
+     }
+    }
+   ]
+  },
+  "mgmt": [],
+  "qa": [],
+  "risks": [
+   {
+    "t": "GAAP EPS 受衍生性商品評價影響大，單季本益比會跳動；Calpine 併入後 2026 年與過去不能直接比較。",
+    "tag": "v"
+   },
+   {
+    "t": "核電增容與重啟要靠法規核准與工程進度（如 Crane 重啟），延誤會延後長約收入。",
+    "tag": "v"
+   },
+   {
+    "t": "電價與容量價格下跌、或資料中心用電需求不如預期，會壓低沒有長約的那部分發電收入。",
+    "tag": "v"
+   }
+  ],
+  "next": "4Q26（預估 2027 年 2 月下旬）看三件事：全年調整後 EPS 是否落在 12.50–12.80 美元、2027 年財測、Crane 重啟時程與新長約。",
+  "pending": [
+   "待確認：逐字稿尚未取得",
+   "待確認：3Q26 的 10-Q XBRL 尚未進 SEC companyfacts，資產負債表欄位待補"
+  ]
  }
 }

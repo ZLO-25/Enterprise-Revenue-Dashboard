@@ -11,22 +11,22 @@
   "epsUnit": "美元",
   "fiscalYearEnd": "12-31",
   "frequency": "quarterly",
-  "lede": "",
+  "lede": "洛克希德馬丁（Lockheed Martin）是美國國防與太空公司，四個部門：航空（F-35、F-16、機密專案）、飛彈與火控（PAC-3、THAAD、精準火箭）、旋翼與任務系統（黑鷹直升機、神盾系統）與太空（衛星、獵戶座太空船、飛彈防禦）。主要客戶是美國政府。本頁從 1Q09 開始；會計年度為曆年，但第一到第三季在最接近季末的週日結帳；金額單位百萬美元，EPS 為 GAAP 稀釋 EPS。",
   "cadence": [
    {
-    "when": "每季",
-    "what": "財報新聞稿",
-    "which": "營收、獲利、現金流、財測"
+    "when": "1、4、7、10 月下旬",
+    "what": "財報新聞稿與電話會議（8-K 附件 99.1）",
+    "which": "營收、獲利、現金流、各部門、在手訂單、全年財測"
    },
    {
-    "when": "財報後",
-    "what": "10-Q／10-K 或季報",
-    "which": "分部拆分與完整附註"
+    "when": "財報當天或隔幾天",
+    "what": "10-Q／10-K",
+    "which": "完整財報、資產負債表與附註"
    },
    {
-    "when": "不定期",
-    "what": "新聞稿與媒體",
-    "which": "重大合約、產品、併購"
+    "when": "每年 9～10 月",
+    "what": "股利調升新聞稿",
+    "which": "下一年度每季股利"
    }
   ]
  },
@@ -46,15 +46,15 @@
    "dps": 0.57,
    "rd": "2009-04-21",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 384.355,
    "dilSh": null,
-   "cash": null,
+   "cash": 2384.0,
    "debt": null,
-   "buyback": null,
+   "buyback": 499.0,
    "equity": null,
    "pretax": null,
-   "tax": null,
-   "sbc": null
+   "tax": 312.0,
+   "sbc": 30.0
   },
   {
    "q": "2Q09",
@@ -71,15 +71,15 @@
    "dps": 0.57,
    "rd": "2009-07-21",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 380.783,
+   "dilSh": 390.9,
+   "cash": 2672.0,
+   "debt": 3805.0,
+   "buyback": 470.0,
+   "equity": 2820.0,
+   "pretax": 1054.0,
+   "tax": 319.0,
+   "sbc": 42.0
   },
   {
    "q": "3Q09",
@@ -97,14 +97,14 @@
    "rd": "2009-10-20",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
+   "dilSh": 385.5,
+   "cash": 2709.0,
+   "debt": 3805.0,
+   "buyback": 393.0,
+   "equity": 3140.0,
    "pretax": null,
-   "tax": null,
-   "sbc": null
+   "tax": 262.0,
+   "sbc": 40.0
   },
   {
    "q": "4Q09",
@@ -121,15 +121,15 @@
    "dps": null,
    "rd": "2010-01-28",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 375.429,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
+   "cash": 2391.0,
+   "debt": 5052.0,
+   "buyback": 489.0,
+   "equity": 3966.0,
    "pretax": null,
-   "tax": null,
-   "sbc": null
+   "tax": 332.0,
+   "sbc": 42.0
   },
   {
    "q": "1Q10",
@@ -146,7 +146,7 @@
    "dps": 0.63,
    "rd": "2010-04-21",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 362.498,
    "dilSh": null,
    "cash": null,
    "debt": null,
@@ -171,7 +171,7 @@
    "dps": 0.63,
    "rd": "2010-07-27",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 360.128,
    "dilSh": null,
    "cash": null,
    "debt": null,
@@ -221,14 +221,14 @@
    "dps": null,
    "rd": "2011-01-27",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 346.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
+   "cash": 2261.0,
+   "debt": 5019.0,
    "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
+   "equity": 3497.0,
+   "pretax": 1056.0,
+   "tax": 223.0,
    "sbc": null
   },
   {
@@ -246,15 +246,15 @@
    "dps": 0.75,
    "rd": "2011-04-26",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 335.623,
+   "dilSh": 352.6,
+   "cash": 3357.0,
+   "debt": 5023.0,
+   "buyback": 314.0,
+   "equity": 3791.0,
+   "pretax": 798.0,
+   "tax": 238.0,
+   "sbc": 39.0
   },
   {
    "q": "2Q11",
@@ -271,15 +271,15 @@
    "dps": 0.75,
    "rd": "2011-07-26",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 323.57,
+   "dilSh": 346.6,
+   "cash": 3268.0,
+   "debt": 5031.0,
+   "buyback": 999.0,
+   "equity": 3288.0,
+   "pretax": 918.0,
+   "tax": 167.0,
+   "sbc": 40.0
   },
   {
    "q": "3Q11",
@@ -297,14 +297,14 @@
    "rd": "2011-10-26",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
+   "dilSh": 333.6,
+   "cash": 4564.0,
+   "debt": 7038.0,
+   "buyback": 1004.0,
+   "equity": 2943.0,
+   "pretax": 949.0,
    "tax": null,
-   "sbc": null
+   "sbc": 37.0
   },
   {
    "q": "4Q11",
@@ -321,15 +321,15 @@
    "dps": null,
    "rd": "2012-01-26",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 325.106,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
+   "cash": 3582.0,
+   "debt": 6460.0,
+   "buyback": 148.0,
+   "equity": 1001.0,
+   "pretax": 966.0,
    "tax": null,
-   "sbc": null
+   "sbc": 41.0
   },
   {
    "q": "1Q12",
@@ -346,15 +346,15 @@
    "dps": 1,
    "rd": "2012-04-26",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
+   "shOut": 324.416,
+   "dilSh": 328.6,
+   "cash": 3518.0,
+   "debt": 6472.0,
+   "buyback": 242.0,
+   "equity": 1573.0,
+   "pretax": 951.0,
    "tax": null,
-   "sbc": null
+   "sbc": 41.0
   },
   {
    "q": "2Q12",
@@ -371,15 +371,15 @@
    "dps": 1,
    "rd": "2012-07-24",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 323.587,
+   "dilSh": 328.8,
+   "cash": 3802.0,
+   "debt": 6493.0,
+   "buyback": 181.0,
+   "equity": 2204.0,
+   "pretax": 1117.0,
+   "tax": 336.0,
+   "sbc": 46.0
   },
   {
    "q": "3Q12",
@@ -397,14 +397,14 @@
    "rd": "2012-10-24",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 328.3,
+   "cash": 4652.0,
+   "debt": 6524.0,
+   "buyback": 285.0,
+   "equity": 2442.0,
+   "pretax": 1046.0,
+   "tax": 319.0,
+   "sbc": 42.0
   },
   {
    "q": "4Q12",
@@ -421,15 +421,15 @@
    "dps": null,
    "rd": "2013-01-24",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 321.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 1898.0,
+   "debt": 6308.0,
+   "buyback": 282.0,
+   "equity": 39.0,
+   "pretax": 958.0,
+   "tax": 389.0,
+   "sbc": 38.0
   },
   {
    "q": "1Q13",
@@ -446,15 +446,15 @@
    "dps": 1.15,
    "rd": "2013-04-23",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 320.937,
+   "dilSh": 326.3,
+   "cash": 3065.0,
+   "debt": 6304.0,
+   "buyback": 461.0,
+   "equity": 304.0,
+   "pretax": 1025.0,
+   "tax": 264.0,
+   "sbc": 53.0
   },
   {
    "q": "2Q13",
@@ -471,15 +471,15 @@
    "dps": 1.15,
    "rd": "2013-07-23",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 320.307,
+   "dilSh": 325.9,
+   "cash": 2845.0,
+   "debt": 6140.0,
+   "buyback": 465.0,
+   "equity": 694.0,
+   "pretax": 1211.0,
+   "tax": 352.0,
+   "sbc": 59.0
   },
   {
    "q": "3Q13",
@@ -497,14 +497,14 @@
    "rd": "2013-10-22",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 327.5,
+   "cash": 2661.0,
+   "debt": 6156.0,
+   "buyback": 607.0,
+   "equity": 1277.0,
+   "pretax": 1173.0,
+   "tax": 331.0,
+   "sbc": 38.0
   },
   {
    "q": "4Q13",
@@ -521,15 +521,15 @@
    "dps": 1.33,
    "rd": "2014-01-23",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 319.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 2617.0,
+   "debt": 6152.0,
+   "buyback": 229.0,
+   "equity": 4918.0,
+   "pretax": 746.0,
+   "tax": 258.0,
+   "sbc": 39.0
   },
   {
    "q": "1Q14",
@@ -546,15 +546,15 @@
    "dps": 1.33,
    "rd": "2014-04-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 317.388,
+   "dilSh": 325.1,
+   "cash": 3264.0,
+   "debt": 6152.0,
+   "buyback": 1106.0,
+   "equity": 4800.0,
+   "pretax": 1348.0,
+   "tax": 415.0,
+   "sbc": 48.0
   },
   {
    "q": "2Q14",
@@ -571,15 +571,15 @@
    "dps": 1.33,
    "rd": "2014-07-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 315.925,
+   "dilSh": 322.1,
+   "cash": 3436.0,
+   "debt": 6169.0,
+   "buyback": 124.0,
+   "equity": 4319.0,
+   "pretax": 1341.0,
+   "tax": 452.0,
+   "sbc": 49.0
   },
   {
    "q": "3Q14",
@@ -597,14 +597,14 @@
    "rd": "2014-10-21",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 321.8,
+   "cash": 2963.0,
+   "debt": 6165.0,
+   "buyback": 446.0,
+   "equity": 4574.0,
+   "pretax": 1311.0,
+   "tax": 423.0,
+   "sbc": 31.0
   },
   {
    "q": "4Q14",
@@ -621,15 +621,15 @@
    "dps": 1.5,
    "rd": "2015-01-27",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 314.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 1446.0,
+   "debt": 6142.0,
+   "buyback": 224.0,
+   "equity": 3400.0,
+   "pretax": 677.0,
+   "tax": 134.0,
+   "sbc": 36.0
   },
   {
    "q": "1Q15",
@@ -646,15 +646,15 @@
    "dps": 1.5,
    "rd": "2015-04-21",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 310.535,
+   "dilSh": 320.2,
+   "cash": 3486.0,
+   "debt": 8404.0,
+   "buyback": 604.0,
+   "equity": 3520.0,
+   "pretax": 1266.0,
+   "tax": 388.0,
+   "sbc": 40.0
   },
   {
    "q": "2Q15",
@@ -671,15 +671,15 @@
    "dps": 1.5,
    "rd": "2015-07-20",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 307.295,
+   "dilSh": 316.1,
+   "cash": 3202.0,
+   "debt": 8402.0,
+   "buyback": 937.0,
+   "equity": 2982.0,
+   "pretax": 1343.0,
+   "tax": 414.0,
+   "sbc": 49.0
   },
   {
    "q": "3Q15",
@@ -697,14 +697,14 @@
    "rd": "2015-10-20",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 312.7,
+   "cash": 3300.0,
+   "debt": 8412.0,
+   "buyback": 823.0,
+   "equity": 2813.0,
+   "pretax": 1089.0,
+   "tax": 333.0,
+   "sbc": 29.0
   },
   {
    "q": "4Q15",
@@ -721,15 +721,15 @@
    "dps": 1.65,
    "rd": "2016-01-26",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 303.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 1090.0,
+   "debt": 15261.0,
+   "buyback": 707.0,
+   "equity": 3097.0,
+   "pretax": 982.0,
+   "tax": 165.0,
+   "sbc": 20.0
   },
   {
    "q": "1Q16",
@@ -746,15 +746,15 @@
    "dps": 1.65,
    "rd": "2016-04-26",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 302.906,
+   "dilSh": 308.7,
+   "cash": 1452.0,
+   "debt": 15276.0,
+   "buyback": 501.0,
+   "equity": 3177.0,
+   "pretax": 994.0,
+   "tax": 188.0,
+   "sbc": 44.0
   },
   {
    "q": "2Q16",
@@ -771,15 +771,15 @@
    "dps": 1.65,
    "rd": "2016-07-19",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 292.977,
+   "dilSh": 307.1,
+   "cash": 1269.0,
+   "debt": 14809.0,
+   "buyback": 501.0,
+   "equity": 2997.0,
+   "pretax": 1210.0,
+   "tax": 311.0,
+   "sbc": 53.0
   },
   {
    "q": "3Q16",
@@ -797,14 +797,14 @@
    "rd": "2016-10-25",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 302.1,
+   "cash": 2895.0,
+   "debt": 14304.0,
+   "buyback": 278.0,
+   "equity": 2323.0,
+   "pretax": 1427.0,
+   "tax": 338.0,
+   "sbc": 27.0
   },
   {
    "q": "4Q16",
@@ -821,15 +821,15 @@
    "dps": 1.82,
    "rd": "2017-01-24",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 289.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 1837.0,
+   "debt": 14282.0,
+   "buyback": 816.0,
+   "equity": 1511.0,
+   "pretax": 1123.0,
+   "tax": 256.0,
+   "sbc": 25.0
   },
   {
    "q": "1Q17",
@@ -846,15 +846,15 @@
    "dps": 1.82,
    "rd": "2017-04-25",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 287.991,
+   "dilSh": 292.8,
+   "cash": 2216.0,
+   "debt": 14276.0,
+   "buyback": 500.0,
+   "equity": 1483.0,
+   "pretax": 1035.0,
+   "tax": 246.0,
+   "sbc": 44.0
   },
   {
    "q": "2Q17",
@@ -871,15 +871,15 @@
    "dps": 1.82,
    "rd": "2017-07-18",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 286.734,
+   "dilSh": 291.2,
+   "cash": 2452.0,
+   "debt": 14283.0,
+   "buyback": 500.0,
+   "equity": 1265.0,
+   "pretax": 1342.0,
+   "tax": 387.0,
+   "sbc": 57.0
   },
   {
    "q": "3Q17",
@@ -897,14 +897,14 @@
    "rd": "2017-10-24",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 290.0,
+   "cash": 2941.0,
+   "debt": 14268.0,
+   "buyback": 500.0,
+   "equity": 2098.0,
+   "pretax": 1297.0,
+   "tax": 334.0,
+   "sbc": 32.0
   },
   {
    "q": "4Q17",
@@ -921,15 +921,15 @@
    "dps": 2.0,
    "rd": "2018-01-29",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 284.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 2861.0,
+   "debt": 14263.0,
+   "buyback": 501.0,
+   "equity": -850.0,
+   "pretax": 1572.0,
+   "tax": 2389.0,
+   "sbc": 25.0
   },
   {
    "q": "1Q18",
@@ -946,15 +946,15 @@
    "dps": 2,
    "rd": "2018-04-24",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 284.781,
+   "dilSh": 287.9,
+   "cash": 2393.0,
+   "debt": 14223.0,
+   "buyback": 300.0,
+   "equity": -182.0,
+   "pretax": 1360.0,
+   "tax": 203.0,
+   "sbc": 38.0
   },
   {
    "q": "2Q18",
@@ -971,15 +971,15 @@
    "dps": 2,
    "rd": "2018-07-24",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 284.426,
+   "dilSh": 287.1,
+   "cash": 1181.0,
+   "debt": 14229.0,
+   "buyback": 310.0,
+   "equity": 416.0,
+   "pretax": 1420.0,
+   "tax": 257.0,
+   "sbc": 60.0
   },
   {
    "q": "3Q18",
@@ -997,14 +997,14 @@
    "rd": "2018-10-23",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 286.7,
+   "cash": 897.0,
+   "debt": 14236.0,
+   "buyback": 216.0,
+   "equity": 943.0,
+   "pretax": 1575.0,
+   "tax": 102.0,
+   "sbc": 50.0
   },
   {
    "q": "4Q18",
@@ -1021,15 +1021,15 @@
    "dps": 2.2,
    "rd": "2019-01-29",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 282.563,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 772.0,
+   "debt": 14104.0,
+   "buyback": 666.0,
+   "equity": 1394.0,
+   "pretax": 1483.0,
+   "tax": 230.0,
+   "sbc": 25.0
   },
   {
    "q": "1Q19",
@@ -1046,15 +1046,15 @@
    "dps": 2.2,
    "rd": "2019-04-23",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 282.398,
+   "dilSh": 284.3,
+   "cash": 991.0,
+   "debt": 12621.0,
+   "buyback": 281.0,
+   "equity": 2465.0,
+   "pretax": 1945.0,
+   "tax": 241.0,
+   "sbc": 37.0
   },
   {
    "q": "2Q19",
@@ -1072,14 +1072,14 @@
    "rd": "2019-07-23",
    "rdB": "p",
    "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "dilSh": 283.9,
+   "cash": 1167.0,
+   "debt": 12637.0,
+   "buyback": 219.0,
+   "equity": 2850.0,
+   "pretax": 1683.0,
+   "tax": 263.0,
+   "sbc": 67.0
   },
   {
    "q": "3Q19",
@@ -1096,15 +1096,15 @@
    "dps": 2.2,
    "rd": "2019-10-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 282.071,
+   "dilSh": 283.9,
+   "cash": 2539.0,
+   "debt": 12652.0,
+   "buyback": 210.0,
+   "equity": 3893.0,
+   "pretax": 1781.0,
+   "tax": 173.0,
+   "sbc": 54.0
   },
   {
    "q": "4Q19",
@@ -1121,15 +1121,15 @@
    "dps": 2.4,
    "rd": "2020-01-28",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 280.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 1514.0,
+   "debt": 12654.0,
+   "buyback": 490.0,
+   "equity": 3127.0,
+   "pretax": 1832.0,
+   "tax": 334.0,
+   "sbc": 31.0
   },
   {
    "q": "1Q20",
@@ -1146,15 +1146,15 @@
    "dps": 2.4,
    "rd": "2020-04-21",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 280.435,
+   "dilSh": 282.6,
+   "cash": 1988.0,
+   "debt": 11439.0,
+   "buyback": 756.0,
+   "equity": 3446.0,
+   "pretax": 2030.0,
+   "tax": 313.0,
+   "sbc": 42.0
   },
   {
    "q": "2Q20",
@@ -1171,15 +1171,15 @@
    "dps": 2.4,
    "rd": "2020-07-21",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 279.542,
+   "dilSh": 280.8,
+   "cash": 2855.0,
+   "debt": 12174.0,
+   "buyback": 259.0,
+   "equity": 3751.0,
+   "pretax": 1962.0,
+   "tax": 336.0,
+   "sbc": 73.0
   },
   {
    "q": "3Q20",
@@ -1196,15 +1196,15 @@
    "dps": 2.4,
    "rd": "2020-10-20",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 279.784,
+   "dilSh": 280.6,
+   "cash": 3585.0,
+   "debt": 11675.0,
+   "buyback": 85.0,
+   "equity": 4953.0,
+   "pretax": 2056.0,
+   "tax": 303.0,
+   "sbc": 67.0
   },
   {
    "q": "4Q20",
@@ -1221,15 +1221,15 @@
    "dps": 2.6,
    "rd": "2021-01-26",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 279.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 3160.0,
+   "debt": 12169.0,
+   "buyback": 0.0,
+   "equity": 6015.0,
+   "pretax": 2187.0,
+   "tax": 395.0,
+   "sbc": 39.0
   },
   {
    "q": "1Q21",
@@ -1246,15 +1246,15 @@
    "dps": 2.6,
    "rd": "2021-04-20",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 277.934,
+   "dilSh": 280.0,
+   "cash": 2933.0,
+   "debt": 11657.0,
+   "buyback": 1000.0,
+   "equity": 6312.0,
+   "pretax": 2211.0,
+   "tax": 374.0,
+   "sbc": 47.0
   },
   {
    "q": "2Q21",
@@ -1271,15 +1271,15 @@
    "dps": 2.6,
    "rd": "2021-07-26",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 276.916,
+   "dilSh": 278.4,
+   "cash": 2745.0,
+   "debt": 11665.0,
+   "buyback": 500.0,
+   "equity": 6522.0,
+   "pretax": 2170.0,
+   "tax": 355.0,
+   "sbc": 80.0
   },
   {
    "q": "3Q21",
@@ -1296,15 +1296,15 @@
    "dps": 2.6,
    "rd": "2021-10-26",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 275.786,
+   "dilSh": 277.3,
+   "cash": 2727.0,
+   "debt": 11668.0,
+   "buyback": 500.0,
+   "equity": 9631.0,
+   "pretax": 679.0,
+   "tax": 65.0,
+   "sbc": 62.0
   },
   {
    "q": "4Q21",
@@ -1321,15 +1321,15 @@
    "dps": 2.8,
    "rd": "2022-01-25",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 271.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 3604.0,
+   "debt": 11676.0,
+   "buyback": 2087.0,
+   "equity": 10959.0,
+   "pretax": 2490.0,
+   "tax": 441.0,
+   "sbc": 38.0
   },
   {
    "q": "1Q22",
@@ -1344,17 +1344,17 @@
    "capex": 268.0,
    "fcf": 1142.0,
    "dps": 2.8,
-   "rd": "2022-06-27",
+   "rd": "2022-04-19",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 266.107,
+   "dilSh": 269.2,
+   "cash": 1883.0,
+   "debt": 11145.0,
+   "buyback": 2000.0,
+   "equity": 10002.0,
+   "pretax": 2061.0,
+   "tax": 328.0,
+   "sbc": 54.0
   },
   {
    "q": "2Q22",
@@ -1371,15 +1371,15 @@
    "dps": 2.8,
    "rd": "2022-07-19",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 265.152,
+   "dilSh": 266.7,
+   "cash": 1775.0,
+   "debt": 11644.0,
+   "buyback": 356.0,
+   "equity": 11432.0,
+   "pretax": 330.0,
+   "tax": 21.0,
+   "sbc": 80.0
   },
   {
    "q": "3Q22",
@@ -1396,15 +1396,15 @@
    "dps": 2.8,
    "rd": "2022-10-18",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 262.074,
+   "dilSh": 265.1,
+   "cash": 2430.0,
+   "debt": 11480.0,
+   "buyback": 1338.0,
+   "equity": 11966.0,
+   "pretax": 2099.0,
+   "tax": 321.0,
+   "sbc": 61.0
   },
   {
    "q": "4Q22",
@@ -1421,15 +1421,15 @@
    "dps": 3.0,
    "rd": "2023-01-24",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 254.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 2547.0,
+   "debt": 15547.0,
+   "buyback": 4206.0,
+   "equity": 9266.0,
+   "pretax": 2190.0,
+   "tax": 278.0,
+   "sbc": 43.0
   },
   {
    "q": "1Q23",
@@ -1446,15 +1446,15 @@
    "dps": 3,
    "rd": "2023-04-18",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 253.253,
+   "dilSh": 255.7,
+   "cash": 2440.0,
+   "debt": 15600.0,
+   "buyback": 500.0,
+   "equity": 9646.0,
+   "pretax": 1994.0,
+   "tax": 305.0,
+   "sbc": 57.0
   },
   {
    "q": "2Q23",
@@ -1471,15 +1471,15 @@
    "dps": 3,
    "rd": "2023-07-18",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 251.831,
+   "dilSh": 253.6,
+   "cash": 3673.0,
+   "debt": 17545.0,
+   "buyback": 750.0,
+   "equity": 9240.0,
+   "pretax": 2006.0,
+   "tax": 325.0,
+   "sbc": 89.0
   },
   {
    "q": "3Q23",
@@ -1496,15 +1496,15 @@
    "dps": 3,
    "rd": "2023-10-17",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 248.099,
+   "dilSh": 250.2,
+   "cash": 3551.0,
+   "debt": 17389.0,
+   "buyback": 1750.0,
+   "equity": 9274.0,
+   "pretax": 1953.0,
+   "tax": 269.0,
+   "sbc": 75.0
   },
   {
    "q": "4Q23",
@@ -1521,15 +1521,15 @@
    "dps": 3.15,
    "rd": "2024-01-23",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 240.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 1442.0,
+   "debt": 17459.0,
+   "buyback": 3000.0,
+   "equity": 6835.0,
+   "pretax": 2145.0,
+   "tax": 279.0,
+   "sbc": 44.0
   },
   {
    "q": "1Q24",
@@ -1571,15 +1571,15 @@
    "dps": 3.15,
    "rd": "2024-07-23",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 238.358,
+   "dilSh": 239.6,
+   "cash": 2523.0,
+   "debt": 19257.0,
+   "buyback": 850.0,
+   "equity": 6175.0,
+   "pretax": 1948.0,
+   "tax": 307.0,
+   "sbc": 93.0
   },
   {
    "q": "3Q24",
@@ -1596,15 +1596,15 @@
    "dps": 3.15,
    "rd": "2024-10-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 237.035,
+   "dilSh": 238.6,
+   "cash": 3151.0,
+   "debt": 19321.0,
+   "buyback": 850.0,
+   "equity": 7200.0,
+   "pretax": 1918.0,
+   "tax": 295.0,
+   "sbc": 75.0
   },
   {
    "q": "4Q24",
@@ -1621,15 +1621,15 @@
    "dps": 3.3,
    "rd": "2025-01-28",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 234.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 2483.0,
+   "debt": 20270.0,
+   "buyback": 1000.0,
+   "equity": 6333.0,
+   "pretax": 519.0,
+   "tax": -8.0,
+   "sbc": 48.0
   },
   {
    "q": "1Q25",
@@ -1646,15 +1646,15 @@
    "dps": 3.3,
    "rd": "2025-04-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 234.296,
+   "dilSh": 235.3,
+   "cash": 1803.0,
+   "debt": 20304.0,
+   "buyback": 750.0,
+   "equity": 6683.0,
+   "pretax": 2036.0,
+   "tax": 324.0,
+   "sbc": 60.0
   },
   {
    "q": "2Q25",
@@ -1671,15 +1671,15 @@
    "dps": 3.3,
    "rd": "2025-07-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 233.465,
+   "dilSh": 234.3,
+   "cash": 1293.0,
+   "debt": 21638.0,
+   "buyback": 500.0,
+   "equity": 5334.0,
+   "pretax": 417.0,
+   "tax": 75.0,
+   "sbc": 81.0
   },
   {
    "q": "3Q25",
@@ -1696,15 +1696,15 @@
    "dps": 3.3,
    "rd": "2025-10-21",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 231.398,
+   "dilSh": 232.8,
+   "cash": 3470.0,
+   "debt": 22189.0,
+   "buyback": 1000.0,
+   "equity": 6181.0,
+   "pretax": 1938.0,
+   "tax": 319.0,
+   "sbc": 74.0
   },
   {
    "q": "4Q25",
@@ -1721,15 +1721,15 @@
    "dps": 3.45,
    "rd": "2026-01-29",
    "rdB": "p",
-   "shOut": null,
+   "shOut": 229.0,
    "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "cash": 4121.0,
+   "debt": 21700.0,
+   "buyback": 750.0,
+   "equity": 6721.0,
+   "pretax": 1531.0,
+   "tax": 187.0,
+   "sbc": 89.0
   },
   {
    "q": "1Q26",
@@ -1746,15 +1746,15 @@
    "dps": 3.45,
    "rd": "2026-04-23",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 230.564,
+   "dilSh": 231.1,
+   "cash": 1894.0,
+   "debt": 20697.0,
+   "buyback": 0.0,
+   "equity": 7489.0,
+   "pretax": 1774.0,
+   "tax": 286.0,
+   "sbc": 83.0
   },
   {
    "q": "2Q26",
@@ -1771,15 +1771,15 @@
    "dps": 3.45,
    "rd": "2026-07-23",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 230.791,
+   "dilSh": 231.1,
+   "cash": 3791.0,
+   "debt": 20538.0,
+   "buyback": 0.0,
+   "equity": 8768.0,
+   "pretax": 2178.0,
+   "tax": 342.0,
+   "sbc": 97.0
   },
   {
    "q": "3Q26",
@@ -1796,15 +1796,15 @@
    "dps": 3.45,
    "rd": "2026-10-22",
    "rdB": "p",
-   "shOut": null,
-   "dilSh": null,
-   "cash": null,
-   "debt": null,
-   "buyback": null,
-   "equity": null,
-   "pretax": null,
-   "tax": null,
-   "sbc": null
+   "shOut": 231.005,
+   "dilSh": 231.5,
+   "cash": 5960.0,
+   "debt": 20498.0,
+   "buyback": 0.0,
+   "equity": 10063.0,
+   "pretax": 2172.0,
+   "tax": 327.0,
+   "sbc": 89.0
   }
  ],
  "annual": {
@@ -1980,95 +1980,618 @@
   }
  },
  "guidance": {
-  "issued": "2026-11-20",
+  "issued": "2026-10-22",
   "items": [
    {
-    "label": "下一季營收",
-    "period": "",
-    "lo": null,
-    "hi": null,
+    "label": "全年營收",
+    "period": "2026",
+    "lo": 80000,
+    "hi": 82000,
+    "unit": "百萬美元",
+    "note": "上修（原 797.5–817.5 億美元）"
+   },
+   {
+    "label": "全年稀釋 EPS",
+    "period": "2026",
+    "lo": 30.35,
+    "hi": 30.75,
+    "unit": "美元",
+    "note": "上修（原 29.95–30.65）"
+   },
+   {
+    "label": "全年營業現金流",
+    "period": "2026",
+    "lo": 10000,
+    "hi": 10200,
+    "unit": "百萬美元",
+    "note": "上修（原 92–94 億美元）"
+   },
+   {
+    "label": "全年資本支出",
+    "period": "2026",
+    "lo": 2100,
+    "hi": 2300,
     "unit": "百萬美元",
     "note": ""
+   },
+   {
+    "label": "全年自由現金流（非 GAAP）",
+    "period": "2026",
+    "lo": 7800,
+    "hi": 8000,
+    "unit": "百萬美元",
+    "note": "上修（原 70–72 億美元）；公司定義，非 GAAP"
    }
   ],
-  "note": ""
+  "note": "出自 3Q26 財報新聞稿（2026-10-22）的 2026 Financial Outlook 表，數字前標「約」。洛克希德只給全年財測，不給單季。"
  },
  "events": [
   {
-   "date": "2027-01-19",
-   "t": "下一季財報（預估日期，公司尚未公告）",
+   "date": "2027-01-26",
+   "t": "4Q26 與 2026 全年財報（預估日期，公司尚未公告；往年在 1 月下旬）",
    "est": 1
   }
  ],
  "waterfall": {
-  "q": "1Q24",
+  "q": "3Q26",
   "rows": [
    {
     "n": "營收",
-    "v": null,
+    "v": 20711,
     "t": 1
    },
    {
     "n": "營業成本",
-    "v": null
+    "v": -18275
    },
    {
     "n": "毛利",
-    "v": null,
+    "v": 2436,
     "t": 1
    },
    {
-    "n": "營業費用",
-    "v": null
+    "n": "其他營業收入淨額",
+    "v": 7
    },
    {
     "n": "營業利益",
-    "v": null,
+    "v": 2443,
     "t": 1
    },
    {
-    "n": "業外收支",
-    "v": null
+    "n": "利息、非服務退休金費用與其他業外",
+    "v": -271
    },
    {
     "n": "所得稅",
-    "v": null
+    "v": -327
    },
    {
-    "n": "淨利（歸屬母公司）",
-    "v": null,
+    "n": "淨利",
+    "v": 1845,
     "t": 1
    }
   ],
-  "note": ""
+  "note": "3Q26 財報新聞稿的損益表，百萬美元。業外＝利息費用 −264、非服務退休金費用 −81、其他業外收入 +74。"
  },
- "segments": null,
+ "segments": {
+  "title": "營收拆分：四個部門",
+  "unit": "百萬美元",
+  "keys": [
+   {
+    "k": "aero",
+    "n": "航空"
+   },
+   {
+    "k": "mfc",
+    "n": "飛彈與火控"
+   },
+   {
+    "k": "rms",
+    "n": "旋翼與任務系統"
+   },
+   {
+    "k": "space",
+    "n": "太空"
+   }
+  ],
+  "quarters": [
+   {
+    "q": "1Q18",
+    "aero": 4398.0,
+    "mfc": 1677.0,
+    "rms": 3223.0,
+    "space": 2337.0
+   },
+   {
+    "q": "2Q18",
+    "aero": 5321.0,
+    "mfc": 2085.0,
+    "rms": 3566.0,
+    "space": 2426.0
+   },
+   {
+    "q": "3Q18",
+    "aero": 5642.0,
+    "mfc": 2273.0,
+    "rms": 3848.0,
+    "space": 2555.0
+   },
+   {
+    "q": "4Q18",
+    "aero": 5881.0,
+    "mfc": 2427.0,
+    "rms": 3613.0,
+    "space": 2490.0
+   },
+   {
+    "q": "1Q19",
+    "aero": 5584.0,
+    "mfc": 2350.0,
+    "rms": 3762.0,
+    "space": 2640.0
+   },
+   {
+    "q": "2Q19",
+    "aero": 5550.0,
+    "mfc": 2411.0,
+    "rms": 3768.0,
+    "space": 2698.0
+   },
+   {
+    "q": "3Q19",
+    "aero": 6178.0,
+    "mfc": 2601.0,
+    "rms": 3709.0,
+    "space": 2683.0
+   },
+   {
+    "q": "4Q19",
+    "aero": 6381.0,
+    "mfc": 2769.0,
+    "rms": 3889.0,
+    "space": 2839.0
+   },
+   {
+    "q": "1Q20",
+    "aero": 6369.0,
+    "mfc": 2619.0,
+    "rms": 3746.0,
+    "space": 2917.0
+   },
+   {
+    "q": "2Q20",
+    "aero": 6503.0,
+    "mfc": 2801.0,
+    "rms": 4039.0,
+    "space": 2877.0
+   },
+   {
+    "q": "3Q20",
+    "aero": 6680.0,
+    "mfc": 2971.0,
+    "rms": 3998.0,
+    "space": 2846.0
+   },
+   {
+    "q": "4Q20",
+    "aero": 6714.0,
+    "mfc": 2866.0,
+    "rms": 4212.0,
+    "space": 3240.0
+   },
+   {
+    "q": "1Q21",
+    "aero": 6387.0,
+    "mfc": 2749.0,
+    "rms": 4107.0,
+    "space": 3015.0
+   },
+   {
+    "q": "2Q21",
+    "aero": 6666.0,
+    "mfc": 2944.0,
+    "rms": 4242.0,
+    "space": 3177.0
+   },
+   {
+    "q": "3Q21",
+    "aero": 6568.0,
+    "mfc": 2781.0,
+    "rms": 3980.0,
+    "space": 2699.0
+   },
+   {
+    "q": "4Q21",
+    "aero": 7127.0,
+    "mfc": 3219.0,
+    "rms": 4460.0,
+    "space": 2923.0
+   },
+   {
+    "q": "1Q22",
+    "aero": 6401.0,
+    "mfc": 2452.0,
+    "rms": 3552.0,
+    "space": 2559.0
+   },
+   {
+    "q": "2Q22",
+    "aero": 5862.0,
+    "mfc": 2747.0,
+    "rms": 4012.0,
+    "space": 2825.0
+   },
+   {
+    "q": "3Q22",
+    "aero": 7089.0,
+    "mfc": 2831.0,
+    "rms": 3781.0,
+    "space": 2882.0
+   },
+   {
+    "q": "4Q22",
+    "aero": 7635.0,
+    "mfc": 3287.0,
+    "rms": 4803.0,
+    "space": 3266.0
+   },
+   {
+    "q": "1Q23",
+    "aero": 6269.0,
+    "mfc": 2388.0,
+    "rms": 3510.0,
+    "space": 2959.0
+   },
+   {
+    "q": "2Q23",
+    "aero": 6875.0,
+    "mfc": 2755.0,
+    "rms": 3897.0,
+    "space": 3166.0
+   },
+   {
+    "q": "3Q23",
+    "aero": 6717.0,
+    "mfc": 2939.0,
+    "rms": 4121.0,
+    "space": 3101.0
+   },
+   {
+    "q": "4Q23",
+    "aero": 7613.0,
+    "mfc": 3171.0,
+    "rms": 4711.0,
+    "space": 3379.0
+   },
+   {
+    "q": "1Q24",
+    "aero": 6845.0,
+    "mfc": 2993.0,
+    "rms": 4088.0,
+    "space": 3269.0
+   },
+   {
+    "q": "2Q24",
+    "aero": 7277.0,
+    "mfc": 3102.0,
+    "rms": 4548.0,
+    "space": 3195.0
+   },
+   {
+    "q": "3Q24",
+    "aero": 6487.0,
+    "mfc": 3175.0,
+    "rms": 4367.0,
+    "space": 3075.0
+   },
+   {
+    "q": "4Q24",
+    "aero": 8009.0,
+    "mfc": 3412.0,
+    "rms": 4261.0,
+    "space": 2940.0
+   },
+   {
+    "q": "1Q25",
+    "aero": 7057.0,
+    "mfc": 3373.0,
+    "rms": 4328.0,
+    "space": 3205.0
+   },
+   {
+    "q": "2Q25",
+    "aero": 7420.0,
+    "mfc": 3433.0,
+    "rms": 3995.0,
+    "space": 3307.0
+   },
+   {
+    "q": "3Q25",
+    "aero": 7256.0,
+    "mfc": 3624.0,
+    "rms": 4373.0,
+    "space": 3356.0
+   },
+   {
+    "q": "4Q25",
+    "aero": 8524.0,
+    "mfc": 4020.0,
+    "rms": 4616.0,
+    "space": 3161.0
+   },
+   {
+    "q": "1Q26",
+    "aero": 6953.0,
+    "mfc": 3649.0,
+    "rms": 3991.0,
+    "space": 3428.0
+   },
+   {
+    "q": "2Q26",
+    "aero": 8112.0,
+    "mfc": 4101.0,
+    "rms": 4354.0,
+    "space": 3496.0
+   },
+   {
+    "q": "3Q26",
+    "aero": 8214.0,
+    "mfc": 4501.0,
+    "rms": 4511.0,
+    "space": 3485.0
+   }
+  ],
+  "note": "出自各季財報新聞稿的部門營收表（四個部門加總＝總營收）。2017 年以前的新聞稿表格格式不同（4Q17 第一張表與營收對不起來），這次只收 1Q18 起。"
+ },
  "extra": null,
- "milestones": [],
+ "milestones": [
+  {
+   "d": "2026-Q3",
+   "cat": "f35",
+   "t": "F-35 第 20 批以後的生產合約仍在談判；第 20 批先期合約的已發生成本開始超過現有授權與撥款，公司警告若無追加授權會影響之後的獲利與現金流",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828026066780/ex991q32026.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q3",
+   "cat": "missile",
+   "t": "飛彈與火控部門營收年增 24%（彈藥擴產）；在手訂單比上一季增加 27%，創新高到 2,920 億美元",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828026066780/ex991q32026.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q2",
+   "cat": "missile",
+   "t": "取得 THAAD 攔截彈多年期生產合約，在手訂單創新高到 2,300 億美元",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828026049277/ex991q22026.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q1",
+   "cat": "missile",
+   "t": "與美國國防部簽署多年期框架協議，提高彈藥產量",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828026026683/ex991q12026.htm",
+   "st": "p"
+  },
+  {
+   "d": "2026-Q1",
+   "cat": "product",
+   "t": "獵戶座（Orion）太空船完成繞月任務",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828026026683/ex991q12026.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-10-21",
+   "cat": "profit",
+   "t": "季股利調升 5% 到 3.45 美元，庫藏股授權增加 20 億美元到 90 億美元",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828025045582/ex991q32025.htm",
+   "st": "p"
+  },
+  {
+   "d": "2025-Q2",
+   "cat": "profit",
+   "t": "認列專案虧損 16 億美元與其他費用 1.69 億美元（每股影響 5.83 美元），2Q25 EPS 只剩 1.46 美元",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828025035502/ex991q22025.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-Q4",
+   "cat": "profit",
+   "t": "機密專案認列稅前虧損 17 億美元（每股影響 5.45 美元），4Q24 EPS 2.22 美元",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000093646825000006/ex991q42024.htm",
+   "st": "p"
+  },
+  {
+   "d": "2024-Q3",
+   "cat": "f35",
+   "t": "F-35 第 18～19 批合約的追加授權與撥款延遲，影響當季 F-35 營收認列",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000162828025045582/ex991q32025.htm",
+   "st": "p"
+  },
+  {
+   "d": "2020-12-20",
+   "cat": "ma",
+   "t": "宣布以每股 56 美元現金收購 Aerojet Rocketdyne（火箭推進器）",
+   "src": "https://www.sec.gov/Archives/edgar/data/936468/000093646821000009/ex991q42020.htm",
+   "st": "p"
+  }
+ ],
  "story": {
-  "t": "",
-  "why": "",
-  "cats": []
+  "t": "F-35 與飛彈擴產",
+  "why": "F-35 是航空部門最大的專案、決定營收規模；PAC-3、THAAD、精準火箭等飛彈擴產是近年接單與在手訂單暴增的來源。兩者也是最大的風險（F-35 新批次合約、機密專案虧損）。",
+  "cats": [
+   "f35",
+   "missile"
+  ]
  },
  "sources": [
   {
-   "n": "SEC EDGAR",
+   "n": "SEC EDGAR XBRL（companyfacts）",
+   "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000936468.json",
+   "note": "2009–2026 損益、現金流、EPS、資產負債表欄位"
+  },
+  {
+   "n": "3Q26 財報新聞稿（8-K 附件 99.1）",
+   "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026066780/ex991q32026.htm",
+   "note": "最新一季、部門、在手訂單、全年財測"
+  },
+  {
+   "n": "2Q26 財報新聞稿",
+   "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026049277/ex991q22026.htm",
+   "note": "上一次全年財測"
+  },
+  {
+   "n": "4Q25 財報新聞稿",
+   "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026003970/ex991q42025.htm",
+   "note": "4Q25 單季 EPS（2021 年起各年第四季 EPS 都取當年第四季新聞稿）"
+  },
+  {
+   "n": "洛克希德馬丁投資人關係",
+   "url": "https://investors.lockheedmartin.com",
+   "note": "新聞稿、財報日期"
+  },
+  {
+   "n": "SEC EDGAR（10-Q、10-K、8-K）",
    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000936468",
-   "note": "損益、現金流、EPS"
+   "note": "法定申報"
   }
  ],
  "notes": {
   "unavailable": [
-   "待確認：資產負債表欄位 期末流通股數（shOut）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 稀釋加權股數（dilSh）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 現金與投資（cash）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 有息負債（debt）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 回購金額（buyback）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 股東權益（equity）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 稅前淨利（pretax）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 所得稅費用（tax）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季）",
-   "待確認：資產負債表欄位 股票酬勞（sbc）：70 季沒有值（1Q09～3Q26）：提案沒有這一季（69 季）；SEC XBRL 還沒有這一季的資料（最新一季常要等 10-Q 申報後再抓）（1 季：3Q26）"
+   "2008 年以前：SEC XBRL 從 2009 年中才開始，所以從 1Q09 開始",
+   "待確認：每股股利（dps）4Q09～4Q12 的第四季：本站用「實際發放」基準（XBRL CommonStockDividendsPerShareCashPaid），2009–2012 年 XBRL 只有前三季單季值、沒有全年值，第四季要讀當年 10-K 的股利表",
+   "待確認：資產負債表欄位 期末流通股數（shOut）：11 季沒有值（3Q09～2Q19）：缺 CommonStockSharesOutstanding（11 季）",
+   "待確認：資產負債表欄位 稀釋加權股數（dilSh）：21 季沒有值（1Q09～4Q25）：讀不到單季值（21 季）",
+   "待確認：資產負債表欄位 現金與投資（cash）：3 季沒有值（1Q10～3Q10）：缺 CashAndCashEquivalentsAtCarryingValue（3 季）",
+   "待確認：資產負債表欄位 有息負債（debt）：4 季沒有值（1Q09～3Q10）：缺 LongTermDebtNoncurrent（4 季）",
+   "待確認：資產負債表欄位 回購金額（buyback）：4 季沒有值（1Q10～4Q10）：讀不到單季值（4 季）",
+   "待確認：資產負債表欄位 股東權益（equity）：4 季沒有值（1Q09～3Q10）：缺 StockholdersEquity（4 季）",
+   "待確認：資產負債表欄位 稅前淨利（pretax）：6 季沒有值（1Q09～3Q10）：讀不到單季值（6 季）",
+   "待確認：資產負債表欄位 所得稅費用（tax）：6 季沒有值（1Q10～1Q12）：讀不到單季值（6 季）",
+   "待確認：資產負債表欄位 股票酬勞（sbc）：4 季沒有值（1Q10～4Q10）：讀不到單季值（4 季：1Q10、2Q10、3Q10、4Q10）"
   ],
-  "general": "重要事件的來源列在事件明細的最後一欄；只有媒體報導、公司沒證實的標「待確定」。"
+  "general": "每個會計年度的季度數字取「該年 10-K 首次申報當時」的版本；第四季營收、毛利、營業利益、淨利、現金流＝10-K 全年 − 前三季；第四季 EPS 在 2009–2020 年取 10-K XBRL 的單季值，2021 年起取當年第四季財報新聞稿。每股股利用「實際發放」基準：洛克希德常在第三季就宣告第四季的股利，用宣告基準會出現某季兩次、某季零次。毛利是公司損益表上的 Gross profit；營業利益另含「其他營業收入淨額」（權益法投資等），所以偶爾高於毛利。"
+ },
+ "guidanceHistory": [
+  {
+   "issued": "2026-07-23",
+   "items": [
+    {
+     "label": "全年營收",
+     "period": "2026",
+     "lo": 79750,
+     "hi": 81750,
+     "unit": "百萬美元",
+     "note": ""
+    },
+    {
+     "label": "全年稀釋 EPS",
+     "period": "2026",
+     "lo": 29.95,
+     "hi": 30.65,
+     "unit": "美元",
+     "note": ""
+    },
+    {
+     "label": "全年營業現金流",
+     "period": "2026",
+     "lo": 9200,
+     "hi": 9400,
+     "unit": "百萬美元",
+     "note": ""
+    },
+    {
+     "label": "全年資本支出",
+     "period": "2026",
+     "lo": 2000,
+     "hi": 2400,
+     "unit": "百萬美元",
+     "note": ""
+    },
+    {
+     "label": "全年自由現金流（非 GAAP）",
+     "period": "2026",
+     "lo": 7000,
+     "hi": 7200,
+     "unit": "百萬美元",
+     "note": "公司定義，非 GAAP"
+    }
+   ]
+  }
+ ],
+ "categories": {
+  "f35": "F-35",
+  "missile": "飛彈擴產"
+ },
+ "summary": {
+  "q": "3Q26",
+  "status": "flash",
+  "flashDate": "2026-11-20",
+  "finalDate": null,
+  "headline": {
+   "t": "3Q26 營收 207 億美元、年增 11%，四個部門都成長；稀釋 EPS 7.97 美元；在手訂單創新高到 2,920 億美元，公司第二次上修全年營收、EPS 與自由現金流財測。",
+   "tag": "w",
+   "src": {
+    "n": "3Q26 財報新聞稿",
+    "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026066780/ex991q32026.htm"
+   }
+  },
+  "scorecard": [
+   {
+    "k": "rev"
+   },
+   {
+    "k": "gm"
+   },
+   {
+    "k": "om"
+   },
+   {
+    "k": "eps"
+   }
+  ],
+  "scorecardNote": "洛克希德只給全年財測，沒有單季財測可對照；也沒有事前的市場預期快照（新加入的公司，不回補）。",
+  "outlook": {
+   "dir": "up",
+   "items": [
+    {
+     "t": "2026 全年營收財測從 797.5–817.5 億美元上修到約 800–820 億美元，稀釋 EPS 從 29.95–30.65 上修到約 30.35–30.75 美元。",
+     "tag": "w",
+     "src": {
+      "n": "3Q26 財報新聞稿",
+      "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026066780/ex991q32026.htm"
+     }
+    },
+    {
+     "t": "自由現金流財測從 70–72 億美元上修到約 78–80 億美元（公司定義，非 GAAP）。",
+     "tag": "w",
+     "src": {
+      "n": "3Q26 財報新聞稿",
+      "url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026066780/ex991q32026.htm"
+     }
+    }
+   ]
+  },
+  "mgmt": [],
+  "qa": [],
+  "risks": [
+   {
+    "t": "F-35 第 20 批以後的合約還沒談定，公司已經先墊成本；拖越久對現金流越不利。",
+    "tag": "v"
+   },
+   {
+    "t": "固定價格的機密專案在 4Q24、2Q25 兩度認列大額虧損，類似的專案虧損可能再發生。",
+    "tag": "v"
+   },
+   {
+    "t": "營收集中在美國政府，國防預算與撥款節奏直接影響營收。",
+    "tag": "v"
+   }
+  ],
+  "next": "4Q26（預估 2027 年 1 月下旬）看三件事：F-35 第 20 批合約有沒有談定、全年營收是否落在約 800–820 億美元、2027 年財測。",
+  "pending": [
+   "待確認：逐字稿尚未取得"
+  ]
  }
 }
