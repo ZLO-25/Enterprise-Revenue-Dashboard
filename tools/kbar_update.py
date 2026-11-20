@@ -428,7 +428,7 @@ def process(c, password, outdir, *, daily_dir=None, fetcher=fetch_raw, now_utc=N
         return "empty"
     provisional = bars[-1][0] in prov
     if prev and not provisional and not prev.get("provisional") and prev.get("lastDate") == bars[-1][0] \
-            and prev.get("pendingCount", 0) == len(pending):
+            and prev.get("pendingCount", 0) == len(pending) and (prev.get("firstDate") or "") <= bars[0][0]:   # 這次抓到更早的歷史（ETF 補歷史）→ 要寫
         log(f"[{code}] 沒有新的 K 棒，不更新檔案")
         return "unchanged"
     meta = {"code": code, "name": c["name"], "yahoo": pc["yahoo"], "currency": pc.get("currency"),
