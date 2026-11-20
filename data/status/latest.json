@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-20T04:07Z",
+ "generated": "2026-11-20T08:47Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "1 小時前成功",
-   "lastOk": "2026-11-20T02:51Z"
+   "note": "5 小時前成功",
+   "lastOk": "2026-11-20T04:07Z"
   },
   {
    "id": "sec-feed",
@@ -16,7 +16,7 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-20T04:06Z"
+   "lastOk": "2026-11-20T08:46Z"
   },
   {
    "id": "prices-daily",
@@ -24,30 +24,30 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-20T04:03Z"
+   "lastOk": "2026-11-20T08:40Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-20T03:57Z"
+   "note": "2 小時前成功",
+   "lastOk": "2026-11-20T07:00Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-20T03:37Z"
+   "note": "4 小時前成功",
+   "lastOk": "2026-11-20T04:51Z"
   },
   {
    "id": "mcap-weekly",
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "96 小時前成功",
+   "note": "100 小時前成功",
    "lastOk": "2026-11-16T04:21Z"
   },
   {
@@ -55,7 +55,7 @@
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "67 小時前成功",
+   "note": "71 小時前成功",
    "lastOk": "2026-11-17T09:20Z"
   },
   {
@@ -63,8 +63,8 @@
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "94 小時前成功",
-   "lastOk": "2026-11-16T06:24Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-20T08:34Z"
   }
  ],
  "routines": [
@@ -93,7 +93,7 @@
    "name": "台積電",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -219,7 +219,7 @@
    "name": "三星電子",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-08",
@@ -240,7 +240,7 @@
    "name": "台達電",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -555,7 +555,7 @@
    "name": "艾司摩爾",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-18",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -576,7 +576,7 @@
    "name": "萬潤",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -588,6 +588,195 @@
     "y3": 0,
     "old": 1,
     "noq": 2
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "gd",
+   "name": "通用動力",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-27",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 3,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "lmt",
+   "name": "洛克希德馬丁",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-26",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 0,
+    "y3": 1,
+    "old": 9,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "ceg",
+   "name": "星座能源",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-23",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 11,
+    "y3": 0,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "lhx",
+   "name": "L3哈里斯",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-28",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 2,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "rtx",
+   "name": "雷神技術",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-26",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "etn",
+   "name": "伊頓",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-02",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 7,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "bwxt",
+   "name": "BWX科技",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-02-22",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 2,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "xom",
+   "name": "埃克森美孚",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-29",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 2,
+    "y3": 0,
+    "old": 0,
+    "noq": 0
+   },
+   "light": "green",
+   "problems": []
+  },
+  {
+   "code": "ge",
+   "name": "奇異航太",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-19",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2027-01-26",
+    "t": "4Q26 與 2026 全年財報（預估日期，公司",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 1,
+    "old": 0,
+    "noq": 0
    },
    "light": "green",
    "problems": []
@@ -611,6 +800,36 @@
    "name": "本益比",
    "kind": "cheap",
    "now": 20.3,
+   "thr": 24,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-18",
+   "code": "meta",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 21.0,
+   "thr": 24,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "delta",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 27.0,
+   "thr": 26,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "allring",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 26.4,
    "thr": 24,
    "op": "<="
   }
