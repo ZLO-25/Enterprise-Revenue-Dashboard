@@ -790,6 +790,90 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0001868275"
+    },
+    {
+      "code": "lhx",
+      "name": "L3哈里斯",
+      "nameEn": "L3Harris Technologies",
+      "ticker": "LHX",
+      "exchange": "NYSE LHX",
+      "sector": "國防與航太",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "lhx/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "L3哈里斯財報追蹤板",
+      "description": "L3哈里斯（LHX）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "LHX",
+        "from": "2020-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000202058"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0000202058"
+    },
+    {
+      "code": "rtx",
+      "name": "雷神技術",
+      "nameEn": "RTX Corporation",
+      "ticker": "RTX",
+      "exchange": "NYSE RTX",
+      "sector": "國防與航太",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "rtx/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "雷神技術財報追蹤板",
+      "description": "雷神技術（RTX）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "RTX",
+        "from": "2021-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000101829"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0000101829"
+    },
+    {
+      "code": "etn",
+      "name": "伊頓",
+      "nameEn": "Eaton",
+      "ticker": "ETN",
+      "exchange": "NYSE ETN",
+      "sector": "能源與電力",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "etn/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "伊頓財報追蹤板",
+      "description": "伊頓（ETN）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "ETN",
+        "from": "2009-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001551182"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0001551182"
     }
   ]
 }
