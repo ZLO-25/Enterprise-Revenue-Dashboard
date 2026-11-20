@@ -2005,10 +2005,56 @@
       "n": "1Q27 財報新聞稿（2026-11-18）",
       "url": "https://www.sec.gov/Archives/edgar/data/1327567/000132756726000030/ex991q127earningsrelease.htm"
      }
+    },
+    {
+     "t": "（口頭）AI 輔助攻擊讓漏洞數量大增（約為去年月平均的 7 倍），至少未來 18 個月都還需要大量修補，修補造成的連帶損害會逐步下降。",
+     "tag": "o",
+     "src": {
+      "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+      "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+      "speaker": "董事長兼執行長 Nikesh Arora"
+     }
     }
    ]
   },
-  "mgmt": [],
+  "mgmt": [
+   {
+    "t": "1Q27 下一代安全 ARR 年增 66%、總營收年增 39%，每一項指標都高於財測；非 GAAP 營業利益率超過 30%。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "董事長兼執行長 Nikesh Arora"
+    }
+   },
+   {
+    "t": "約 170 家新增平台化客戶，是第一季紀錄；平台化客戶佔下一代安全 ARR 約三分之二，淨留存率超過 120%。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "董事長兼執行長 Nikesh Arora"
+    }
+   },
+   {
+    "t": "Prisma AIRS 上市 5 季 ARR 將近 1.7 億美元；Cortex 成長超過 50%（XSIAM 與可觀測性帶動）；今年稍早完成的 CyberArk 併購（Idira）擬制營收成長 23%。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "董事長兼執行長 Nikesh Arora"
+    }
+   },
+   {
+    "t": "Applied Compute 目標在 2029 會計年度為下一代安全 ARR 增加超過 10 億美元，到 2030 會計年度資本支出少於 30 億美元。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "董事長兼執行長 Nikesh Arora"
+    }
+   }
+  ],
   "qa": [],
   "risks": [
    {
@@ -2026,7 +2072,7 @@
   ],
   "next": "2Q27（預估 2027 年 2 月中旬公布）看三件事：營收是否落在 35.3–35.5 億美元、NGS ARR 是否達 102 億美元、GAAP 營業利益率能否回到兩位數。",
   "pending": [
-   "電話會議重點待補完"
+   "待確認：財務長說明與問答段落逐字稿未完整讀到（只讀到執行長開場），全年口頭展望、毛利率說明明天再試"
   ]
  },
  "story": {

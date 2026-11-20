@@ -1,22 +1,23 @@
 {
  "version": 1,
- "lastRun": "2026-11-19",
- "lastSuccess": "2026-11-19",
+ "lastRun": "2026-11-20",
+ "lastSuccess": "2026-11-20",
  "companies": {
   "nvda": {
    "state": "flash",
    "target": "3Q27",
-   "tries": 1,
+   "tries": 2,
    "since": "2026-11-18",
    "flashDate": "2026-11-18",
-   "note": "3Q27 電話會議逐字稿尚未取得（搜尋只找到去年 FY2026 的逐字稿）"
+   "note": "逐字稿只讀到前半，問答待補"
   },
   "panw": {
    "state": "flash",
    "target": "1Q27",
-   "tries": 0,
+   "tries": 1,
    "since": "2026-11-19",
-   "flashDate": "2026-11-19"
+   "flashDate": "2026-11-19",
+   "note": "逐字稿只讀到執行長開場，財務長與問答待補"
   }
  }
 }
