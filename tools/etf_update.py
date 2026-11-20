@@ -1,12 +1,14 @@
 """ETF 追蹤：每日收盤價、報酬、費用率、前十大持股（GitHub Actions 的 prices-daily 一併執行，不經過 Claude，不花 token）。
 
 流程（清單在 data/etf/config.json）：
-  1. 每檔 ETF 用 Yahoo 抓近 5 年日線 Close（和個股同一支 tools/prices_daily.py fetch_rows：還沒收盤的當天不收）
+  1. 每檔 ETF 用 Yahoo 抓上市以來的日線 Close（和個股同一支 tools/prices_daily.py fetch_rows：還沒收盤的當天不收）
      台股 ETF（twse 設定）最新一天對證交所官方收盤價，差超過 0.5% 那天不用（同個股規則）
      → data/etf/daily/<代號>.json（看盤 K 棒的 kbar_update.py 也拿它核對 ETF 的 K 棒）
-  2. 用收盤價算價格報酬（1 個月、3 個月、今年以來、1／3／5 年，3／5 年另算年化）；不含配息
+  2. 用收盤價算價格報酬（1／3 個月、今年以來、1／3／5／10 年、上市以來，3 年以上另算年化）；不含配息
   3. 每 holdingsEveryDays 天抓一次 Yahoo 的基金資料：前十大持股＋權重、費用率、資產規模
      抓不到 → 沿用上次的；從來沒抓到 → 寫「待確認」與原因（例如台股 ETF Yahoo 多半沒有持股資料）
+     台股持股名稱用證交所／櫃買中心公開資料的簡稱（data/etf/twnames.json，跟持股一起每週更新）
+     kind=commodity（實物黃金、期貨）沒有股票持股 → 顯示 holdingsNote
      持股若是網站有追蹤的公司 → 連到公司頁，並附那家公司自己的 1 年報酬（data/daily）做對照
   4. 寫 data/etf/latest.json（ETF 頁打開時直接讀，不必重建網站）
 資料誠實規則：價格、權重、費用率只來自來源原值，不估計、不內插；讀不到就 null＋原因。
@@ -28,7 +30,8 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 EDIR = os.path.join(ROOT, "data", "etf")
 SOURCE = "Yahoo Finance 日線 Close（已依分割調整、不含配息）"
 FUND_SRC = "Yahoo Finance 基金資料（第三方整理，未對發行商原始檔）"
-WINDOWS = [("m1", 0, 1), ("m3", 0, 3), ("y1", 1, 0), ("y3", 3, 0), ("y5", 5, 0)]   # (key, 年, 月)
+WINDOWS = [("m1", 0, 1), ("m3", 0, 3), ("y1", 1, 0), ("y3", 3, 0), ("y5", 5, 0), ("y10", 10, 0)]   # (key, 年, 月)
+TW_NAMES_SRC = "證交所／櫃買中心公開資料（公司簡稱）"
 
 
 def log(*a):
@@ -130,6 +133,12 @@ def returns(rows):
         put(k, _base(rows, tgt), y or None)
     ytd = f"{last.year - 1}-12-31"
     put("ytd", _base(rows, ytd) if ytd >= first else None)
+    # 上市以來（資料第一天起）；滿 1 年才算年化
+    f0 = valid[0]
+    yrs = (last - dt.date.fromisoformat(f0[0])).days / 365.25
+    ret["all"] = round((lc / f0[1] - 1) * 100, 2)
+    base["all"] = f0[0]
+    ret["alla"] = round(((lc / f0[1]) ** (1 / yrs) - 1) * 100, 2) if yrs >= 1 else None
     return {"last": {"d": ld, "c": lc}, "ret": ret, "base": base}
 
 
@@ -147,7 +156,16 @@ def symbol_map(companies, aliases):
     return m
 
 
-def parse_holdings(items, smap, cos_by_code, r1y_of):
+def tw_code(sym):
+    """'2330.TW' / '5274.TWO' → '2330'；不是台股代號 → None。"""
+    s = str(sym or "").upper()
+    for suf in (".TWO", ".TW"):
+        if s.endswith(suf):
+            return s[: -len(suf)]
+    return None
+
+
+def parse_holdings(items, smap, cos_by_code, r1y_of, tw_names=None):
     """items：[(symbol, name, weight 0~1)]。回傳 (rows, sum%, flag)。權重怪（負數、>1、合計 >105%）→ flag 待確認。"""
     rows, flag = [], None
     for sym, name, w in items:
@@ -159,6 +177,9 @@ def parse_holdings(items, smap, cos_by_code, r1y_of):
             continue
         code = smap.get(str(sym or "").upper())
         row = {"sym": sym, "name": name, "w": round(w * 100, 2)}
+        zh = (tw_names or {}).get(tw_code(sym))
+        if zh:
+            row["zh"] = zh
         if code and code in cos_by_code:
             row["code"] = code
             row["href"] = cos_by_code[code]["path"]
@@ -230,20 +251,44 @@ def fetch_fund(sym):
     return out
 
 
+def fetch_tw_names():
+    """證交所＋櫃買中心公開資料的「代號 → 公司簡稱」（含 ETF）。任一邊失敗就只用另一邊；都失敗回傳 {}。"""
+    import urllib.request
+    out = {}
+    srcs = [("https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL", "Code", "Name"),
+            ("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes", "SecuritiesCompanyCode", "CompanyName")]
+    for url, kc, kn in srcs:
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 Enterprise-Revenue-Dashboard"}), timeout=40) as r:
+                rows = json.loads(r.read())
+            n = 0
+            for x in rows:
+                c, nm = str(x.get(kc) or "").strip(), str(x.get(kn) or "").strip()
+                if c and nm:
+                    out[c] = nm
+                    n += 1
+            log(f"   台股名稱：{url.split('/')[2]} {n} 筆")
+        except Exception as ex:  # noqa: BLE001
+            log(f"   台股名稱讀取失敗（{url.split('/')[2]}）：{type(ex).__name__}")
+    return out
+
+
 # ---------- 主流程 ----------
-def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of):
+def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of, tw_names=None):
     """組 latest.json 的一檔。fund_new＝這次抓到的基金資料（沒抓就 None），fund_prev＝上次 latest 的那一檔。"""
     R = returns((daily or {}).get("rows"))
     links = {"issuer": e.get("issuerUrl"), "yahoo": ("https://tw.stock.yahoo.com/quote/" + e["yahoo"]) if e.get("twse")
              else "https://finance.yahoo.com/quote/" + e["yahoo"] + "/holdings"}
     if e.get("twse"):
         links["twse"] = "https://www.twse.com.tw/zh/ETFortune/etfInfo/" + e["twse"]
-    out = {k: e.get(k) for k in ("code", "ticker", "name", "zh", "group", "currency", "issuer", "index", "why", "from")}
+    out = {k: e.get(k) for k in ("code", "ticker", "name", "zh", "group", "currency", "issuer", "index", "why", "from", "kind")}
     out.update(links=links, last=R["last"], ret=R["ret"], base=R["base"], check=(daily or {}).get("check"))
     prev = fund_prev or {}
     if fund_new is not None:
-        rows, s, flag = parse_holdings(fund_new.get("items") or [], smap, cos_by_code, r1y_of)
-        if rows:
+        rows, s, flag = parse_holdings(fund_new.get("items") or [], smap, cos_by_code, r1y_of, tw_names)
+        if e.get("kind") == "commodity":
+            out["holdings"] = {"asOf": today, "rows": [], "note": e.get("holdingsNote") or "持有實物或期貨，沒有股票持股。"}
+        elif rows:
             out["holdings"] = {"asOf": today, "src": FUND_SRC, "rows": rows, "sum": s, "flag": flag}
         elif prev.get("holdings") and prev["holdings"].get("rows"):
             out["holdings"] = dict(prev["holdings"], stale="這次沒抓到，沿用 " + prev["holdings"].get("asOf", "?") + " 的資料")
@@ -261,6 +306,12 @@ def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of)
         for k in ("holdings", "er", "aum"):
             if prev.get(k) is not None:
                 out[k] = prev[k]
+        if e.get("kind") == "commodity" and not (out.get("holdings") or {}).get("note"):
+            out["holdings"] = {"rows": [], "note": e.get("holdingsNote") or "持有實物或期貨，沒有股票持股。"}
+        for r in ((out.get("holdings") or {}).get("rows") or []):     # 中文簡稱：名單更新後也補上
+            zh = (tw_names or {}).get(tw_code(r.get("sym")))
+            if zh:
+                r["zh"] = zh
         # 持股的 1 年報酬對照：每天用最新的 data/daily 重算（持股名單本身每週才抓）
         for r in ((out.get("holdings") or {}).get("rows") or []):
             if r.get("code"):
@@ -308,13 +359,23 @@ def main(argv=None):
     old = jload(latest_path, {}) or {}
     prev_by = {x["code"]: x for x in old.get("etfs") or []}
     rc, entries = 0, []
+    names_path = os.path.join(EDIR, "twnames.json")
+    tw = jload(names_path, {}) or {}
+    need_names = not recalc and any(e in etfs and (force_h or due(prev_by.get(e["code"]), today, cfg.get("holdingsEveryDays", 7)))
+                                    for e in cfg["etfs"]) or (not recalc and not tw.get("names"))
+    if need_names:
+        got = fetch_tw_names()
+        if len(got) > 500:                      # 抓到完整清單才換（避免只抓到一半就覆蓋）
+            tw = {"asOf": today, "src": TW_NAMES_SRC, "names": got}
+            jsave(names_path, tw)
+    tw_names = tw.get("names") or {}
     for e in cfg["etfs"]:
         code = e["code"]
         dpath = os.path.join(EDIR, "daily", code + ".json")
         daily = jload(dpath)
         if e in etfs and not recalc:
             try:
-                rows = PD.fetch_rows(e["yahoo"], e.get("from"))
+                rows = PD.fetch_rows(e["yahoo"], e.get("from"), full=True)   # ETF 頁要上市以來的完整歷史
                 pc = {"twse": e["twse"]} if e.get("twse") else {}
                 chk = PD.cross_check(pc, rows, daily)
                 if pc:
@@ -339,8 +400,8 @@ def main(argv=None):
                 log(f"[{code}] 基金資料：持股 {n} 筆、費用率{'有' if fund.get('er_ops') is not None or fund.get('er_info') is not None else '沒有'}")
             except Exception as ex:  # noqa: BLE001
                 log(f"[{code}] 基金資料失敗：{type(ex).__name__}；沿用上次")
-        entries.append(build_entry(e, daily, prev_by.get(code), fund, today, smap, cos_by_code, r1y_from_daily))
-    out = {"groups": cfg["groups"], "source": SOURCE, "fundSource": FUND_SRC, "etfs": entries}
+        entries.append(build_entry(e, daily, prev_by.get(code), fund, today, smap, cos_by_code, r1y_from_daily, tw_names))
+    out = {"groups": cfg["groups"], "source": SOURCE, "fundSource": FUND_SRC, "twNamesSrc": TW_NAMES_SRC if tw_names else None, "etfs": entries}
     if {k: v for k, v in old.items() if k != "updated"} != out:
         out = dict(out, updated=dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"))
         jsave(latest_path, out)

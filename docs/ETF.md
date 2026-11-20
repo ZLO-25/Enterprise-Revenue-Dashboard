@@ -7,9 +7,10 @@ data/etf/config.json（清單，Claude 可以改）
         │
         ▼  GitHub Actions：prices-daily（每天多班，和個股同一個 job，0 token）
 tools/etf_update.py
-  ├─ Yahoo 日線收盤（台股 ETF 最新一天對證交所）→ data/etf/daily/<代號>.json
-  ├─ 價格報酬 1M／3M／今年／1Y／3Y／5Y（不含配息）
+  ├─ Yahoo 日線收盤，上市以來全部（台股 ETF 最新一天對證交所）→ data/etf/daily/<代號>.json
+  ├─ 價格報酬 1M／3M／今年／1Y／3Y／5Y／10Y／上市以來（不含配息）
   └─ 每 7 天：Yahoo 基金資料 → 前十大持股、費用率、資產規模
+              證交所／櫃買中心公開資料 → 台股持股的中文簡稱（data/etf/twnames.json）
         │                       └─ 持股是本站公司 → 連公司頁＋那家公司 1 年報酬
         ▼
 data/etf/latest.json ──► etf/ 頁面打開時直接讀（不必重建網站）
@@ -20,6 +21,10 @@ data/etf/daily/      ──► tools/kbar_update.py 一併產生 ETF 的 K 棒�
 1. 改 `data/etf/config.json` 的 `etfs`：`code` 一律 `etf_` 開頭小寫；`group` 要在 `groups` 裡；台股加 `twse`（證交所代號）；上市不滿 5 年可加 `from`（YYYY-MM）。
 2. `why` 是**觀點**（Claude 的整理），頁面會標「觀點」。`issuerUrl` 要是查證過的發行商或證交所頁面。
 3. `python3 tools/validate.py`、`python3 tools/build.py`，開 PR。合併後手動觸發一次 prices-daily（或等下一班）就會有資料。
+
+## 頁面操作
+- 主題：「全部」照分類分段顯示，也可只看一類。期間：1／3／6 個月、今年、1／3／5／10 年、上市以來、自訂起訖日；刻度可切對數。選擇記在網址（可分享）與這台裝置。
+- `kind: "commodity"`（實物黃金、期貨）沒有股票持股，卡片顯示 `holdingsNote`。
 
 ## 資料誠實
 - `data/etf/latest.json`、`data/etf/daily/`、`data/kbar/etf_*` **只由 Actions 寫**，Claude 不手填。

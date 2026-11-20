@@ -554,6 +554,33 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 .ef-scroll{overflow-x:auto}
 .ef-tag{font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px;margin-left:4px;white-space:nowrap}
 @media (max-width:640px){.ef-hold{table-layout:fixed}.ef-hold td:first-child{overflow-wrap:anywhere;white-space:normal;word-break:break-word}.ef-hold .r1yd{display:none}.ef-hold th.n,.ef-hold td.n{width:5.6em;white-space:normal}.ef-ret th,.ef-ret td{padding:5px 2px;font-size:.74rem}.ef-ret small{font-size:.68rem}.ef-tbl .hide-s{display:none}.ef-card{padding:12px}.ef-tbl th,.ef-tbl td{padding:6px 5px}}
+.ef-bar{background:var(--page);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line)}
+@media (min-width:900px){.ef-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 50px);z-index:15}}
+.ef-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.ef-row+.ef-row{margin-top:8px}
+.ef-lab{font-size:.78rem;color:var(--muted);min-width:2.6em}
+.ef-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ef-chips button{font:inherit;font-size:.84rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:5px 11px;border-radius:999px;cursor:pointer}
+.ef-chips button small{opacity:.7;margin-left:3px;font-family:var(--font-data)}
+.ef-chips button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
+.ef-custom{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.84rem}
+.ef-custom input{font:inherit;font-size:.84rem;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.ef-custom[hidden]{display:none}
+#groups,.ef-bar,.ef-row,.ef-grp{min-width:0}
+.ef-grp{margin-top:22px}
+.ef-grp>h2{font-size:1.25rem;margin:0 0 10px;display:flex;align-items:baseline;gap:8px}
+.ef-grp>h2 small{font-size:.85rem;color:var(--muted);font-weight:500}
+.ef-tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:.8rem;box-shadow:0 4px 14px rgba(0,0,0,.12);white-space:nowrap;z-index:5}
+.ef-tip b{font-family:var(--font-data)}
+.ef-tip i{display:inline-block;width:10px;height:3px;background:var(--c);vertical-align:middle;margin-right:5px}
+.ef-cmp .xh{stroke:var(--muted);stroke-width:1;stroke-dasharray:2 3}
+.ef-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px;margin:10px 0 4px}
+.ef-stats div{background:var(--wash);border-radius:8px;padding:6px 8px}
+.ef-stats small{display:block;font-size:.72rem;color:var(--muted)}
+.ef-stats b{font-family:var(--font-data);font-weight:600;font-size:.9rem}
+.ef-stats em{display:block;font-style:normal;font-size:.7rem;color:var(--muted);font-family:var(--font-data)}
+.ef-note{font-size:.85rem;color:var(--ink-2);background:var(--wash);border-radius:8px;padding:8px 10px;margin-top:10px}
+@media (max-width:640px){.ef-row{flex-wrap:nowrap}.ef-row .ef-chips{flex:1 1 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;min-width:0}.ef-lab{flex:none}.ef-row .ef-chips::-webkit-scrollbar{display:none}.ef-chips button{flex:none;padding:4px 9px;font-size:.8rem}.ef-custom{flex-wrap:wrap}.ef-scl-note{display:none}}
 </style>
 
 <!-- ETF 頁：資料 data/etf/latest.json 與 data/etf/daily/<代號>.json 由 GitHub Actions（prices-daily 的 tools/etf_update.py）寫入，本頁只讀不算。 -->
@@ -569,33 +596,30 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
   <header class="masthead" id="top">
     <div class="eyebrow">ETF Tracker</div>
     <h1>ETF 追蹤</h1>
-    <p class="lede">用「一籃子股票」看市場：大盤、國防與航太、半導體、記憶體。每個交易日收盤後自動更新價格與報酬；前十大持股與費用率每週更新一次。持股若是本站有追蹤的公司，可以直接點進公司頁，並對照那家公司自己的 1 年報酬。</p>
+    <p class="lede">用「一籃子」看市場：大盤、國防與航太、半導體、記憶體、黃金與 AI 金屬。每個交易日收盤後自動更新價格與報酬（上市以來的完整歷史）；前十大持股與費用率每週更新一次。持股若是本站有追蹤的公司，可以直接點進公司頁，並對照那家公司自己的 1 年報酬。</p>
     <div class="meta-row"><span id="efSub">讀取中…</span></div>
   </header>
 
   <section id="groups">
-    <div class="card wide">
-      <div class="ef-ctrl">
-        <div class="seg" role="group" aria-label="主題" id="efGroups"></div>
-        <div class="seg" role="group" aria-label="期間" id="efRange">
-          <button type="button" data-r="1" aria-pressed="false">1 年</button>
-          <button type="button" data-r="3" aria-pressed="false">3 年</button>
-          <button type="button" data-r="5" aria-pressed="true">5 年</button>
-        </div>
-      </div>
-      <div class="ef-cmp" id="efCmp" aria-label="同主題 ETF 累積漲跌比較圖"></div>
-      <div class="ef-leg" id="efLeg"></div>
-      <p class="note">比較圖：同一主題的 ETF 從期間第一天都當作 0%，看之後漲跌多少（價格報酬，不含配息；各自以掛牌貨幣計）。上市不滿期間的 ETF 從它第一個交易日開始畫。</p>
+    <div class="ef-bar">
+      <div class="ef-row"><span class="ef-lab">主題</span><div class="ef-chips" id="efGroups" role="group" aria-label="主題"></div></div>
+      <div class="ef-row"><span class="ef-lab">期間</span><div class="ef-chips" id="efRange" role="group" aria-label="期間"></div></div>
+      <div class="ef-row"><span class="ef-lab">刻度</span><div class="ef-chips" id="efScale" role="group" aria-label="刻度"><button type="button" data-s="lin">一般刻度</button><button type="button" data-s="log" title="長期間建議用：每一格代表同樣的漲跌幅度">對數刻度</button></div><small class="note ef-scl-note" style="margin:0">期間拉長（10 年、上市以來）建議用對數刻度</small></div>
+      <div class="ef-row ef-custom" id="efCustom" hidden><span class="ef-lab">自訂</span>
+        <label>從 <input type="date" id="efFrom"></label><label>到 <input type="date" id="efTo"></label><small id="efCustomNote"></small></div>
     </div>
-    <div class="ef-grid" id="efCards"></div>
+    <div id="efBody"></div>
+    <p class="note">比較圖：同一主題的 ETF 從期間第一天都當作 0%，看之後漲跌多少（價格報酬，不含配息；各自以掛牌貨幣計）。上市比期間起點晚的 ETF 從它第一個交易日開始畫。滑鼠移到圖上（手機用手指按住滑動）可看每一天的數字。</p>
   </section>
 
   <section id="sources">
     <div class="sec-head"><h2>資料來源與口徑</h2></div>
     <ul class="fut-src">
-      <li><b>收盤價</b>：Yahoo Finance 日線收盤（已依分割調整、<b>不含配息</b>）。台股 ETF 的最新一天另對證交所官方收盤價，差超過 0.5% 那天不採用。</li>
-      <li><b>報酬</b>：用收盤價算的價格報酬。配息多的 ETF（例如 0050、00891）實際拿到的報酬會比這裡高。3 年、5 年另列年化。上市不滿期間就留空，不用較短期間代替。</li>
-      <li><b>前十大持股、費用率、資產規模</b>：Yahoo Finance 的基金資料（第三方整理，<b>未對發行商原始檔</b>），每 7 天更新。要確認請點卡片上的發行商或證交所連結。Yahoo 沒有資料的（多半是台股 ETF）標「待確認」。</li>
+      <li><b>收盤價</b>：Yahoo Finance 日線收盤（已依分割調整、<b>不含配息</b>），從上市第一天起。台股 ETF 的最新一天另對證交所官方收盤價，差超過 0.5% 那天不採用。</li>
+      <li><b>報酬</b>：用收盤價算的價格報酬。配息多的 ETF（例如 0050、00891）實際拿到的報酬會比這裡高。3 年以上另列年化。上市不滿期間就留空，不用較短期間代替。</li>
+      <li><b>前十大持股、費用率、資產規模</b>：Yahoo Finance 的基金資料（第三方整理，<b>未對發行商原始檔</b>），每 7 天更新。要確認請點卡片上的發行商或證交所連結。讀不到的標「待確認」。</li>
+      <li><b>台股持股名稱</b>：用證交所、櫃買中心公開資料的公司簡稱（跟持股一起每週更新）；讀不到才顯示英文名稱。</li>
+      <li><b>黃金與金屬 ETF</b>：多數持有實物金屬或期貨，沒有股票持股，卡片上會寫明。COPX 是銅礦公司的股票。</li>
       <li><b>持股對照</b>：持股是本站有追蹤的公司 → 顯示那家公司自己的 1 年報酬（本站每日收盤價），可以看「ETF 漲，是不是靠這幾家」。</li>
       <li><b>為什麼追這檔</b>：每張卡片上的說明是<b>觀點</b>（Claude 的整理），不是發行商的文字。</li>
       <li>ETF 不放進「市值排名」頁：ETF 持有的就是榜上的公司，放進去會重複計算。</li>
@@ -607,20 +631,35 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
 <script>
 (function () {
   "use strict";
-  var BASE = "../data/etf/", D = null, G = null, RANGE = 5, SERIES = {};
-  var COLORS = ["#2a78d6", "#e34948", "#1f9d55", "#d4a017", "#7c5cd6", "#0ea5b7"];
+  var BASE = "../data/etf/", D = null, SERIES = {};
+  var ST = { g: "all", r: "y5", s: "lin", from: "", to: "" };
+  var RANGES = [["m1", "1 個月"], ["m3", "3 個月"], ["m6", "6 個月"], ["ytd", "今年"], ["y1", "1 年"], ["y3", "3 年"], ["y5", "5 年"], ["y10", "10 年"], ["all", "上市以來"], ["custom", "自訂"]];
+  var COLORS = ["#2a78d6", "#e34948", "#1f9d55", "#d4a017", "#7c5cd6", "#0ea5b7", "#eb6834"];
+  var LS = "erd.etf.view.v2";
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-  function pct(x, digits) { return x == null ? "<small>—</small>" : "<span class='" + (x >= 0 ? "up" : "dn") + "'>" + (x > 0 ? "+" : "") + x.toFixed(digits == null ? 1 : digits) + "%</span>"; }
+  function pct(x, d) { return x == null ? "<small>—</small>" : "<span class='" + (x >= 0 ? "up" : "dn") + "'>" + (x > 0 ? "+" : "") + x.toFixed(d == null ? 1 : d) + "%</span>"; }
   function num(x) { return x == null ? "—" : x.toLocaleString("en-US", { maximumFractionDigits: 2 }); }
   function aum(a, cur) { if (!a || !a.v) return "—"; var v = a.v; return (cur === "TWD" ? "NT$" : "$") + (v >= 1e12 ? (v / 1e12).toFixed(2) + "T" : v >= 1e9 ? (v / 1e9).toFixed(1) + "B" : (v / 1e6).toFixed(0) + "M"); }
   function flag(t) { return t ? " <span class='ef-flag' title='" + esc(t) + "'>待確認</span>" : ""; }
-  function inG(e) { return e.group === G; }
   function color(i) { return COLORS[i % COLORS.length]; }
+  function iso(d) { return d.toISOString().slice(0, 10); }
 
+  // ---------- 期間 → [起, 迄]（迄＝資料最後一天） ----------
+  function window_(lastD) {
+    if (ST.r === "custom") return [ST.from || "1990-01-01", ST.to && ST.to < lastD ? ST.to : lastD];
+    var e = new Date(lastD + "T00:00:00Z"), s = new Date(e);
+    var m = { m1: [0, 1], m3: [0, 3], m6: [0, 6], y1: [1, 0], y3: [3, 0], y5: [5, 0], y10: [10, 0] }[ST.r];
+    if (ST.r === "ytd") return [(e.getUTCFullYear() - 1) + "-12-31", lastD];
+    if (ST.r === "all") return ["1900-01-01", lastD];
+    s.setUTCFullYear(s.getUTCFullYear() - m[0]); s.setUTCMonth(s.getUTCMonth() - m[1]);
+    return [iso(s), lastD];
+  }
+
+  // ---------- 卡片 ----------
+  function stat(lab, v, a) { return "<div><small>" + lab + "</small><b>" + pct(v) + "</b>" + (a != null ? "<em>年化 " + a.toFixed(1) + "%</em>" : "") + "</div>"; }
   function card(e, i) {
     var R = e.ret || {}, h = e.holdings || {}, er = e.er || {}, L = e.links || {};
-    var c = color(i);
-    var s = "<article class='ef-card' id='" + esc(e.code) + "' style='--c:" + c + "'>" +
+    var s = "<article class='ef-card' id='" + esc(e.code) + "' style='--c:" + color(i) + "'>" +
       "<h3><span class='ef-tk'>" + esc(e.ticker) + "</span>" + esc(e.zh || e.name) + "<small>" + esc(e.name) + "・" + esc(e.issuer) + (e.index ? "・追蹤 " + esc(e.index) : "") + "</small></h3>" +
       "<p class='ef-why'>" + esc(e.why) + "<span class='ef-tag'>觀點</span></p>" +
       "<div class='ef-kv'>" +
@@ -628,21 +667,22 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
         "<span>費用率 <b>" + (er.pct == null ? "—" : er.pct.toFixed(2) + "%") + "</b>" + flag(er.flag) + (er.stale ? " <small>" + esc(er.stale) + "</small>" : "") + "</span>" +
         "<span>資產規模 <b>" + aum(e.aum, e.currency) + "</b></span>" +
       "</div>" +
-      "<div class='ef-scroll'><table class='ef-tbl ef-ret'><thead><tr><th class='n hide-s'>1 個月</th><th class='n'>3 個月</th><th class='n'>今年</th><th class='n'>1 年</th><th class='n'>3 年<small class='hide-s'>（年化）</small></th><th class='n'>5 年<small class='hide-s'>（年化）</small></th></tr></thead><tbody><tr>" +
-        "<td class='n hide-s'>" + pct(R.m1) + "</td><td class='n'>" + pct(R.m3) + "</td><td class='n'>" + pct(R.ytd) + "</td><td class='n'>" + pct(R.y1) + "</td>" +
-        "<td class='n'>" + pct(R.y3) + "<br><small>" + (R.y3a == null ? "" : "年化 " + R.y3a.toFixed(1) + "%") + "</small></td>" +
-        "<td class='n'>" + pct(R.y5) + "<br><small>" + (R.y5a == null ? "" : "年化 " + R.y5a.toFixed(1) + "%") + "</small></td></tr></tbody></table></div>";
-    if (e.from && (R.y1 == null)) s += "<p class='ef-sub'>" + esc(e.from) + " 才掛牌，歷史還很短，長期報酬先留空。</p>";
+      "<div class='ef-stats'>" + stat("1 個月", R.m1) + stat("3 個月", R.m3) + stat("今年", R.ytd) + stat("1 年", R.y1) +
+        stat("3 年", R.y3, R.y3a) + stat("5 年", R.y5, R.y5a) + stat("10 年", R.y10, R.y10a) +
+        stat("上市以來" + (e.base && e.base.all ? "<br>" + esc(e.base.all.slice(0, 7)) + " 起" : ""), R.all, R.alla) + "</div>";
     var rows = h.rows || [];
     if (rows.length) {
       var mx = Math.max.apply(null, rows.map(function (r) { return r.w; }));
       s += "<div class='ef-scroll'><table class='ef-tbl ef-hold'><thead><tr><th>前十大持股</th><th class='n'>權重</th><th class='n'>那家公司 1 年</th></tr></thead><tbody>" +
         rows.map(function (r) {
-          var nm = r.href ? "<a href='" + esc("../" + r.href) + "'>" + esc(r.co || r.name) + "</a> <small>" + esc(r.sym) + "</small>" : esc(r.name || r.sym) + " <small>" + esc(r.sym) + "</small>";
-          return "<tr><td>" + nm + "<div class='ef-w' style='width:" + Math.max(3, r.w / mx * 100).toFixed(0) + "%'></div></td><td class='n'>" + r.w.toFixed(2) + "%</td>" +
+          var label = r.co || r.zh || r.name || r.sym;
+          var nm = r.href ? "<a href='" + esc("../" + r.href) + "'>" + esc(label) + "</a>" : esc(label);
+          return "<tr><td>" + nm + " <small>" + esc(r.sym) + "</small><div class='ef-w' style='width:" + Math.max(3, r.w / mx * 100).toFixed(0) + "%'></div></td><td class='n'>" + r.w.toFixed(2) + "%</td>" +
             "<td class='n'>" + (r.code ? (r.r1y == null ? "<small>—</small>" : pct(r.r1y) + "<br><small class='r1yd'>至 " + esc(r.r1yD) + "</small>") : "<small class='hide-s'>本站未追蹤</small>") + "</td></tr>";
         }).join("") + "</tbody></table></div>" +
         "<p class='ef-sub'>前十大合計 " + (h.sum == null ? "—" : h.sum.toFixed(1)) + "%・持股資料 " + esc(h.asOf) + "（" + esc(h.src) + "）" + flag(h.flag) + (h.stale ? "・" + esc(h.stale) : "") + "。對照：這檔 ETF 1 年 " + pct(R.y1) + "</p>";
+    } else if (h.note) {
+      s += "<p class='ef-note'>" + esc(h.note) + "</p>";
     } else {
       s += "<p class='ef-sub'>前十大持股：" + (h.flag ? esc(h.flag) : "下次每週更新後才會有資料。") + "</p>";
     }
@@ -658,69 +698,132 @@ td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
     return SERIES[code];
   }
 
-  function drawCmp(list) {
-    var box = document.getElementById("efCmp"), leg = document.getElementById("efLeg");
+  // ---------- 比較圖（SVG＋滑過顯示數值） ----------
+  function drawCmp(box, leg, list) {
     Promise.all(list.map(function (e) { return loadSeries(e.code); })).then(function (ds) {
-      var lines = [], lastD = "";
+      var lastD = "";
       ds.forEach(function (d) { if (d && d.rows && d.rows.length) { var x = d.rows[d.rows.length - 1][0]; if (x > lastD) lastD = x; } });
-      if (!lastD) { box.innerHTML = "<p class='note'>還沒有收盤價資料（第一次自動更新後才會有）。</p>"; leg.innerHTML = ""; return; }
-      var end = new Date(lastD + "T00:00:00Z"), start = new Date(end); start.setUTCFullYear(end.getUTCFullYear() - RANGE);
-      var s0 = start.toISOString().slice(0, 10);
+      if (!lastD) { box.innerHTML = "<p class='note'>還沒有收盤價資料（下一次自動更新後才會有）。</p>"; leg.innerHTML = ""; return; }
+      var w = window_(lastD), s0 = w[0], s1 = w[1], lines = [];
       ds.forEach(function (d, i) {
         if (!d || !d.rows) return;
-        var pts = d.rows.filter(function (r) { return r[0] >= s0 && r[1] != null; });
+        var pts = d.rows.filter(function (r) { return r[0] >= s0 && r[0] <= s1 && r[1] != null; });
         if (pts.length < 2) return;
         var b = pts[0][1];
-        lines.push({ e: list[i], c: color(i), pts: pts.map(function (r) { return [Date.parse(r[0] + "T00:00:00Z"), (r[1] / b - 1) * 100]; }), first: pts[0][0] });
+        lines.push({ e: list[i], c: color(i), pts: pts.map(function (r) { return [Date.parse(r[0] + "T00:00:00Z"), r[1] / b, r[0]]; }), first: pts[0][0] });
       });
       if (!lines.length) { box.innerHTML = "<p class='note'>這段期間沒有資料。</p>"; leg.innerHTML = ""; return; }
-      var W = 900, H = 300, pl = 46, pr = 12, pt = 10, pb = 24;
-      var x0 = start.getTime(), x1 = end.getTime(), lo = 0, hi = 0;
-      lines.forEach(function (l) { l.pts.forEach(function (p) { if (p[1] < lo) lo = p[1]; if (p[1] > hi) hi = p[1]; }); });
-      var pad = (hi - lo) * 0.06 || 1; lo -= pad; hi += pad;
-      var X = function (t) { return pl + (t - x0) / (x1 - x0) * (W - pl - pr); }, Y = function (v) { return pt + (hi - v) / (hi - lo) * (H - pt - pb); };
-      var step = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4))); [1, 2, 5, 10].some(function (m) { if ((hi - lo) / (step * m) <= 6) { step *= m; return true; } return false; });
-      var g = "";
-      for (var v = Math.ceil(lo / step) * step; v <= hi; v += step) g += "<line class='grid' x1='" + pl + "' x2='" + (W - pr) + "' y1='" + Y(v).toFixed(1) + "' y2='" + Y(v).toFixed(1) + "'/><text class='ax' x='" + (pl - 6) + "' y='" + (Y(v) + 4).toFixed(1) + "' text-anchor='end'>" + Math.round(v) + "%</text>";
-      for (var y = start.getUTCFullYear() + 1; y <= end.getUTCFullYear(); y++) { var t = Date.UTC(y, 0, 1); if (t > x0 && t < x1) g += "<text class='ax' x='" + X(t).toFixed(1) + "' y='" + (H - 6) + "' text-anchor='middle'>" + y + "</text>"; }
-      g += "<line class='zero' x1='" + pl + "' x2='" + (W - pr) + "' y1='" + Y(0).toFixed(1) + "' y2='" + Y(0).toFixed(1) + "'/>";
-      lines.forEach(function (l) { g += "<path fill='none' stroke='" + l.c + "' stroke-width='1.8' d='" + l.pts.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join("") + "'/>"; });
-      box.innerHTML = "<svg viewBox='0 0 " + W + " " + H + "' role='img' aria-label='累積漲跌比較'>" + g + "</svg>";
-      leg.innerHTML = lines.map(function (l) { var last = l.pts[l.pts.length - 1][1]; return "<div style='--c:" + l.c + "'><i></i>" + esc(l.e.ticker) + " " + pct(last) + (l.first > s0 ? " <small>（" + esc(l.first) + " 起）</small>" : "") + "</div>"; }).join("") +
-        "<div><small>至 " + esc(lastD) + "</small></div>";
+      var log = ST.s === "log";
+      var W = Math.max(300, Math.round(box.clientWidth || 900)), H = W < 600 ? 230 : 300, pl = 46, pr = 10, pt = 10, pb = 24;
+      var x0 = Infinity, x1 = Date.parse(s1 + "T00:00:00Z"), lo = Infinity, hi = -Infinity;
+      lines.forEach(function (l) { x0 = Math.min(x0, l.pts[0][0]); l.pts.forEach(function (p) { lo = Math.min(lo, p[1]); hi = Math.max(hi, p[1]); }); });
+      if (x1 <= x0) x1 = x0 + 864e5;
+      var f = log ? Math.log : function (v) { return v; };
+      var flo = f(lo), fhi = f(hi), pad = (fhi - flo) * 0.06 || 0.01; flo -= pad; fhi += pad;
+      var X = function (t) { return pl + (t - x0) / (x1 - x0) * (W - pl - pr); }, Y = function (v) { return pt + (fhi - f(v)) / (fhi - flo) * (H - pt - pb); };
+      var g = "", ticks = [];
+      var nT = H < 260 ? 4 : 6;
+      if (log && hi / lo > 4) {      // 對數：漲很多倍時用倍數格線（0%、+100%＝2 倍、+400%＝5 倍…）
+        [0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 20, 30, 50, 100, 200, 500].forEach(function (m) { if (f(m) >= flo && f(m) <= fhi) ticks.push(m); });
+      } else {
+        var span = (hi - lo) * 100, step = Math.pow(10, Math.floor(Math.log10(span / 4 || 1)));
+        [1, 2, 5, 10].some(function (k) { if (span / (step * k) <= nT) { step *= k; return true; } return false; });
+        for (var v = Math.ceil((lo - 1) * 100 / step) * step; v <= (hi - 1) * 100 + 1e-9; v += step) ticks.push(1 + v / 100);
+      }
+      ticks.forEach(function (m) { var y = Y(m).toFixed(1); g += "<line class='grid' x1='" + pl + "' x2='" + (W - pr) + "' y1='" + y + "' y2='" + y + "'/><text class='ax' x='" + (pl - 6) + "' y='" + (+y + 4) + "' text-anchor='end'>" + Math.round((m - 1) * 100) + "%</text>"; });
+      var days = (x1 - x0) / 864e5, d0 = new Date(x0), d1 = new Date(x1);
+      if (days > 500) { var ys = Math.ceil((d1.getUTCFullYear() - d0.getUTCFullYear()) / (W < 600 ? 5 : 10)); for (var y = d0.getUTCFullYear() + 1; y <= d1.getUTCFullYear(); y += ys) { var t = Date.UTC(y, 0, 1); g += "<text class='ax' x='" + X(t).toFixed(1) + "' y='" + (H - 6) + "' text-anchor='middle'>" + y + "</text>"; } }
+      else { var mm = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1)), stepM = (days > 200 ? 2 : 1) * (W < 600 ? 2 : 1); for (; mm.getTime() < x1; mm.setUTCMonth(mm.getUTCMonth() + stepM)) g += "<text class='ax' x='" + X(mm.getTime()).toFixed(1) + "' y='" + (H - 6) + "' text-anchor='middle'>" + mm.getUTCFullYear() + "/" + String(mm.getUTCMonth() + 1).padStart(2, "0") + "</text>"; }
+      if (f(1) >= flo && f(1) <= fhi) g += "<line class='zero' x1='" + pl + "' x2='" + (W - pr) + "' y1='" + Y(1).toFixed(1) + "' y2='" + Y(1).toFixed(1) + "'/>";
+      lines.forEach(function (l) {
+        var step = Math.max(1, Math.floor(l.pts.length / 1500));     // 點太多先抽樣（最後一點一定保留）
+        var pp = l.pts.filter(function (p, i) { return i % step === 0 || i === l.pts.length - 1; });
+        g += "<path fill='none' stroke='" + l.c + "' stroke-width='1.7' d='" + pp.map(function (p, i) { return (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join("") + "'/>";
+      });
+      g += "<line class='xh' id='xh' x1='0' x2='0' y1='" + pt + "' y2='" + (H - pb) + "' visibility='hidden'/>";
+      box.innerHTML = "<svg viewBox='0 0 " + W + " " + H + "' role='img' aria-label='累積漲跌比較'>" + g + "</svg><div class='ef-tip' hidden></div>";
+      leg.innerHTML = lines.map(function (l) { var last = l.pts[l.pts.length - 1][1]; return "<div style='--c:" + l.c + "'><i></i>" + esc(l.e.ticker) + " " + pct((last - 1) * 100) + (l.first > s0 && ST.r !== "custom" ? " <small>（" + esc(l.first) + " 起）</small>" : "") + "</div>"; }).join("") +
+        "<div><small>" + esc(lines.reduce(function (a, l) { return l.first < a ? l.first : a; }, "9999")) + " ～ " + esc(s1) + "</small></div>";
+      // 滑過：找每條線在那一天（或之前最近一天）的數值
+      var svg = box.querySelector("svg"), tip = box.querySelector(".ef-tip"), xh = svg.querySelector("#xh");
+      function at(l, t) { var a = 0, b = l.pts.length - 1; if (t < l.pts[0][0]) return null; while (a < b) { var m = (a + b + 1) >> 1; if (l.pts[m][0] <= t) a = m; else b = m - 1; } return l.pts[a]; }
+      function move(ev) {
+        var r = svg.getBoundingClientRect(), cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+        var vx = cx / r.width * W; if (vx < pl || vx > W - pr) { hide(); return; }
+        var t = x0 + (vx - pl) / (W - pl - pr) * (x1 - x0), day = null;
+        var rowsH = lines.map(function (l) { var p = at(l, t); if (p && (!day || p[2] > day)) day = p[2]; return p ? "<div style='--c:" + l.c + "'><i></i>" + esc(l.e.ticker) + " <b>" + pct((p[1] - 1) * 100) + "</b></div>" : ""; }).join("");
+        if (!day) { hide(); return; }
+        xh.setAttribute("x1", vx); xh.setAttribute("x2", vx); xh.setAttribute("visibility", "visible");
+        tip.innerHTML = "<div><small>" + esc(day) + "</small></div>" + rowsH; tip.hidden = false;
+        var tx = cx + 14; if (tx + tip.offsetWidth > r.width) tx = cx - tip.offsetWidth - 14;
+        tip.style.left = Math.max(0, tx) + "px"; tip.style.top = "8px";
+      }
+      function hide() { tip.hidden = true; xh.setAttribute("visibility", "hidden"); }
+      svg.addEventListener("mousemove", move); svg.addEventListener("mouseleave", hide);
+      svg.addEventListener("touchstart", move, { passive: true }); svg.addEventListener("touchmove", move, { passive: true }); svg.addEventListener("touchend", hide);
     });
   }
 
+  // ---------- 畫面 ----------
+  function chips(el, items, cur, attr) { el.innerHTML = items.map(function (x) { return "<button type='button' data-" + attr + "='" + esc(x[0]) + "' aria-pressed='" + (x[0] === cur) + "'>" + x[1] + "</button>"; }).join(""); }
+  function save() {
+    try { localStorage.setItem(LS, JSON.stringify(ST)); } catch (e) { /* 忽略 */ }
+    var q = "g=" + encodeURIComponent(ST.g) + "&r=" + ST.r + (ST.s === "log" ? "&s=log" : "") + (ST.r === "custom" ? "&from=" + ST.from + "&to=" + ST.to : "");
+    history.replaceState(null, "", "#" + q);
+  }
   function render() {
-    document.getElementById("efGroups").innerHTML = D.groups.map(function (g) {
-      var n = D.etfs.filter(function (e) { return e.group === g; }).length;
-      return "<button type='button' data-g='" + esc(g) + "' aria-pressed='" + (g === G) + "'>" + esc(g) + " <small>" + n + "</small></button>";
+    var groups = D.groups.filter(function (g) { return D.etfs.some(function (e) { return e.group === g; }); });
+    chips(document.getElementById("efGroups"), [["all", "全部 <small>" + D.etfs.length + "</small>"]].concat(groups.map(function (g) { return [g, esc(g) + " <small>" + D.etfs.filter(function (e) { return e.group === g; }).length + "</small>"]; })), ST.g, "g");
+    chips(document.getElementById("efRange"), RANGES, ST.r, "r");
+    document.querySelectorAll("#efScale [data-s]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === ST.s)); });
+    document.getElementById("efCustom").hidden = ST.r !== "custom";
+    var show = ST.g === "all" ? groups : [ST.g];
+    var body = document.getElementById("efBody");
+    body.innerHTML = show.map(function (g, k) {
+      var list = D.etfs.filter(function (e) { return e.group === g; });
+      return "<div class='ef-grp' id='grp-" + k + "'><h2>" + esc(g) + " <small>" + list.length + " 檔</small></h2>" +
+        "<div class='card wide'><div class='ef-cmp' aria-label='" + esc(g) + " 累積漲跌比較圖'></div><div class='ef-leg'></div></div>" +
+        "<div class='ef-grid'>" + list.map(card).join("") + "</div></div>";
     }).join("");
-    document.querySelectorAll("#efRange [data-r]").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-r") === RANGE)); });
-    var list = D.etfs.filter(inG);
-    document.getElementById("efCards").innerHTML = list.map(card).join("");
-    drawCmp(list);
-    try { localStorage.setItem("erd.etf.group", G); } catch (e) { /* 忽略 */ }
+    show.forEach(function (g, k) {
+      var el = document.getElementById("grp-" + k);
+      drawCmp(el.querySelector(".ef-cmp"), el.querySelector(".ef-leg"), D.etfs.filter(function (e) { return e.group === g; }));
+    });
+    save();
   }
 
-  document.getElementById("efGroups").addEventListener("click", function (ev) {
-    var b = ev.target.closest("[data-g]"); if (!b || !D) return;
-    G = b.getAttribute("data-g"); history.replaceState(null, "", "#" + encodeURIComponent(G)); render();
-  });
+  document.getElementById("efGroups").addEventListener("click", function (ev) { var b = ev.target.closest("[data-g]"); if (!b || !D) return; ST.g = b.getAttribute("data-g"); render(); });
   document.getElementById("efRange").addEventListener("click", function (ev) {
-    var b = ev.target.closest("[data-r]"); if (!b || !D) return;
-    RANGE = +b.getAttribute("data-r"); render();
+    var b = ev.target.closest("[data-r]"); if (!b || !D) return; ST.r = b.getAttribute("data-r");
+    if (ST.r === "custom" && !ST.from) { var t = new Date(); t.setUTCFullYear(t.getUTCFullYear() - 2); ST.from = iso(t); ST.to = ""; }
+    render();
+  });
+  document.getElementById("efScale").addEventListener("click", function (ev) { var b = ev.target.closest("[data-s]"); if (!b || !D) return; ST.s = b.getAttribute("data-s"); render(); });
+  ["efFrom", "efTo"].forEach(function (id) {
+    document.getElementById(id).addEventListener("change", function () {
+      ST.from = document.getElementById("efFrom").value; ST.to = document.getElementById("efTo").value;
+      var bad = ST.from && ST.to && ST.from >= ST.to;
+      document.getElementById("efCustomNote").textContent = bad ? "起日要早於迄日" : "";
+      if (!bad) render();
+    });
   });
 
+  var rw = 0, rt = null;     // 視窗寬度改變（轉手機方向）→ 重畫圖
+  window.addEventListener("resize", function () { if (!D || Math.abs(window.innerWidth - rw) < 40) return; clearTimeout(rt); rt = setTimeout(function () { rw = window.innerWidth; render(); }, 250); });
+  rw = window.innerWidth;
   fetch(BASE + "latest.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
     D = d;
-    var h = decodeURIComponent(location.hash.slice(1)), saved = null;
-    try { saved = localStorage.getItem("erd.etf.group"); } catch (e) { /* 忽略 */ }
-    var byCode = d.etfs.filter(function (e) { return e.code === h; })[0];
-    G = byCode ? byCode.group : d.groups.indexOf(h) >= 0 ? h : d.groups.indexOf(saved) >= 0 ? saved : d.groups[0];
+    try { var sv = JSON.parse(localStorage.getItem(LS) || "null"); if (sv) Object.keys(ST).forEach(function (k) { if (sv[k] != null) ST[k] = sv[k]; }); } catch (e) { /* 忽略 */ }
+    var h = decodeURIComponent(location.hash.slice(1)), jump = null;
+    if (h.indexOf("=") > 0) h.split("&").forEach(function (kv) { var p = kv.split("="); if (p[0] in ST) ST[p[0]] = decodeURIComponent(p[1] || ""); });
+    else if (h) { var byCode = d.etfs.filter(function (e) { return e.code === h; })[0]; if (byCode) { ST.g = byCode.group; jump = byCode.code; } else if (d.groups.indexOf(h) >= 0) ST.g = h; }
+    if (ST.g !== "all" && d.groups.indexOf(ST.g) < 0) ST.g = "all";
+    if (!RANGES.some(function (x) { return x[0] === ST.r; })) ST.r = "y5";
+    if (ST.s !== "log") ST.s = "lin";
+    document.getElementById("efFrom").value = ST.from || ""; document.getElementById("efTo").value = ST.to || "";
     document.getElementById("efSub").textContent = "資料更新：" + (d.updated || "—").replace("T", " ").replace("Z", " UTC") + "　·　" + d.etfs.length + " 檔 ETF";
     render();
-    if (byCode) setTimeout(function () { var el = document.getElementById(byCode.code); if (el) el.scrollIntoView(); }, 50);
+    if (jump) setTimeout(function () { var el = document.getElementById(jump); if (el) el.scrollIntoView(); }, 80);
   }).catch(function (e) {
     document.getElementById("efSub").textContent = "讀不到 ETF 資料（" + e.message + "）。第一次自動更新前這裡會是空的。";
   });

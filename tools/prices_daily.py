@@ -71,7 +71,8 @@ def closing_quote(yf, sym, d, tz, hh, mm):
         return None
 
 
-def fetch_rows(sym, frm=None):
+def fetch_rows(sym, frm=None, full=False):
+    """full=True（ETF 頁用）：從 frm（沒有就 1990-01）抓到今天的全部歷史，不只近 5 年。"""
     import yfinance as yf
     tz, hh, mm = exch(sym)
     now = dt.datetime.now(ZoneInfo(tz))
@@ -79,7 +80,8 @@ def fetch_rows(sym, frm=None):
     err = None
     for i in range(4):
         try:
-            df = yf.Ticker(sym).history(start=(now.date() - dt.timedelta(days=DAYS)).isoformat(), end=(now.date() + dt.timedelta(days=2)).isoformat(), auto_adjust=False, actions=False)   # end 明寫到後天：不寫的話 Yahoo 最新一天可能沒包含
+            start = ((frm or "1990-01") + "-01") if full else (now.date() - dt.timedelta(days=DAYS)).isoformat()
+            df = yf.Ticker(sym).history(start=start, end=(now.date() + dt.timedelta(days=2)).isoformat(), auto_adjust=False, actions=False)   # end 明寫到後天：不寫的話 Yahoo 最新一天可能沒包含
             if df is None or df.empty:
                 raise RuntimeError("沒有日線資料")
             tail = [(str(x.date()), round(float(v), 4)) for x, v in df["Close"].tail(3).items()]
