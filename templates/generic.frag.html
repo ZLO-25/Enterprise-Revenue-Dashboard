@@ -278,7 +278,7 @@ const G = D.guidance || null;
 const upcoming = (D.events || []).filter(e => e.date > D.asOf).slice(0, 3);
 $('#nextText').innerHTML =
   (upcoming.length ? upcoming.map(e => `${e.date.slice(5).replace('-', '/')} ${e.t}${e.est ? '（預估）' : ''}`).join('；') + '。' : '公司尚未公告下一個公布日。') +
-  (G && G.items && G.items.length ? ` 公司在 ${(G.issued || '').replace(/-/g, '/')} 給的財測：` + G.items.slice(0, 3).map(it => `${it.label} ${it.lo != null && it.hi != null && it.lo !== it.hi ? f0(it.lo) + '–' + f0(it.hi) : f0(it.lo ?? it.hi)}${it.unit ? ' ' + it.unit : ''}`).join('、') + '。' : '');
+  (G && G.items && G.items.length ? ` 公司在 ${(G.issued || '').replace(/-/g, '/')} 給的財測：` + G.items.slice(0, 3).map(it => { const fg = (n) => (n != null && !Number.isInteger(n) ? f2(n) : f0(n)); return `${it.label} ${it.lo != null && it.hi != null && it.lo !== it.hi ? fg(it.lo) + '–' + fg(it.hi) : fg(it.lo ?? it.hi)}${it.unit ? ' ' + it.unit : ''}`; }).join('、') + '。' : '');
 
 /* ---------- 長期觀察 ---------- */
 LT.render($('#ltCard'), N, M);
