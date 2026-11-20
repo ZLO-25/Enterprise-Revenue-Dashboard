@@ -502,6 +502,7 @@ export function volatilityStats(series, thresholds, start, end) {
     cagr: cagr(px[0], px[n - 1], years),
     perYear,
     drawdown: { dates, values: drawdownSeries(px) },
+    dates, px,   // 大跌與回本（drawdownEpisodes）用
   };
 }
 
@@ -544,5 +545,172 @@ export function yearlyTimingTest(series, { amount, fromYear, toYear }) {
     invested: amount * years.length,
     worst: sw * endPx, best: sb * endPx, first: sf * endPx,
     rows,
+  };
+}
+
+// ---------- 大跌與回本（波動與風險） ----------
+
+/**
+ * 找出「從前高算起，跌幅達門檻」的每一段大跌。
+ * 一段的定義：從某個高點（創新高或與前高持平的那天）開始，價格一直低於該高點，
+ * 直到價格回到（>=）該高點那天為止；回到高點之後再跌就是新的一段。
+ * 只收錄這一段的最大跌幅達到門檻的（剛好等於門檻也算）。
+ *
+ * @param dates     ["YYYY-MM-DD", ...]
+ * @param values    價格（還原權息價）
+ * @param threshold 門檻，正數小數（0.2 = 跌 20%）
+ * @returns 依時間排序的陣列，每段：
+ *   { peakDate, peakValue, troughDate, troughValue, depth（負數）, daysToTrough（高點→低點，日曆天）,
+ *     recoveryDate（還沒回本 = null）, daysToRecover（低點→回本）, daysTotal（高點→回本）,
+ *     recovered, daysSincePeak（還沒回本時：高點→資料最後一天；已回本 = null）, lastDate }
+ */
+export function drawdownEpisodes(dates, values, threshold = 0.2) {
+  const n = values.length;
+  const out = [];
+  if (n < 2) return out;
+  const EPS = 1e-9;
+  const days = dates.map(toDay);
+  let peak = values[0], peakIdx = 0, troughIdx = 0;
+  const close = (recIdx) => {
+    const depth = values[troughIdx] / peak - 1;
+    if (depth > -threshold + EPS) return;   // 沒達門檻
+    const rec = recIdx != null;
+    out.push({
+      peakDate: dates[peakIdx], peakValue: peak,
+      troughDate: dates[troughIdx], troughValue: values[troughIdx],
+      depth,
+      daysToTrough: days[troughIdx] - days[peakIdx],
+      recoveryDate: rec ? dates[recIdx] : null,
+      daysToRecover: rec ? days[recIdx] - days[troughIdx] : null,
+      daysTotal: rec ? days[recIdx] - days[peakIdx] : null,
+      recovered: rec,
+      daysSincePeak: rec ? null : days[n - 1] - days[peakIdx],
+      lastDate: dates[n - 1],
+    });
+  };
+  for (let i = 1; i < n; i++) {
+    const v = values[i];
+    if (v >= peak) {
+      if (troughIdx !== peakIdx) close(i);   // 回到前高：結束上一段
+      peak = v; peakIdx = i; troughIdx = i;
+    } else if (v < values[troughIdx]) {
+      troughIdx = i;
+    }
+  }
+  if (troughIdx !== peakIdx) close(null);   // 資料結束時還沒回本
+  return out;
+}
+
+// ---------- 每月定期投入（薪水定投） ----------
+
+/**
+ * 資金加權年化報酬率（XIRR）：找出一個年利率 r，讓所有現金流折現後加總為 0。
+ *   Σ 金額_i ÷ (1 + r)^((日期_i − 第一筆日期) ÷ 365) = 0
+ * flows：[{ date: "YYYY-MM-DD", amount }]，投入為負、期末資產（賣出）為正。
+ * 沒有正負都有、或找不到解時回傳 null。用二分法，不靠迭代初值，所以不會發散。
+ */
+export function xirr(flows) {
+  if (!flows || flows.length < 2) return null;
+  const fl = flows.filter((f) => f.amount !== 0);
+  if (!fl.some((f) => f.amount < 0) || !fl.some((f) => f.amount > 0)) return null;
+  const d0 = toDay(fl[0].date);
+  const t = fl.map((f) => (toDay(f.date) - d0) / 365);
+  const npv = (r) => fl.reduce((a, f, i) => a + f.amount / Math.pow(1 + r, t[i]), 0);
+  let lo = -0.999999, hi = 1;
+  let flo = npv(lo), fhi = npv(hi);
+  while (fhi > 0 && hi < 1e6) { hi *= 2; fhi = npv(hi); }   // 年報酬 100% 以上也找得到
+  if (!(isFinite(flo) && isFinite(fhi)) || flo * fhi > 0) return null;
+  for (let k = 0; k < 300; k++) {
+    const mid = (lo + hi) / 2, fm = npv(mid);
+    if (fm === 0) return mid;
+    if (flo * fm < 0) { hi = mid; fhi = fm; } else { lo = mid; flo = fm; }
+    if (hi - lo < 1e-13) break;
+  }
+  return (lo + hi) / 2;
+}
+
+/**
+ * 每月定期投入回測：每個月第一個交易日投入固定金額（開始日當月：開始日當天或之後第一個交易日）。
+ * 還原權息價、可買零股、不計手續費稅匯率。
+ * @param series  還原收盤價序列
+ * @param opts    { monthly, initial, start, end }
+ *   monthly 每月投入金額；initial 一開始已有的資金（開始當天一次買進，預設 0）
+ *   資料起點晚於 start 時，從資料第一天算起（回傳 actualStart）。
+ */
+export function monthlyContribution(series, opts) {
+  const monthly = +opts.monthly || 0, initial = +opts.initial || 0;
+  const s = sliceSeries(series, opts.start, opts.end);
+  const n = s.close.length;
+  if (n < 2) return { error: "所選期間內的交易日少於 2 天，無法回測。" };
+  if (!(monthly > 0 || initial > 0)) return { error: "每月投入金額與起始資金不能都是 0。" };
+  const { dates, close: px } = s;
+
+  const value = new Array(n), invested = new Array(n);
+  const buys = [], flows = [];
+  let shares = 0, inv = 0, prevYm = "";
+  for (let i = 0; i < n; i++) {
+    const ym = dates[i].slice(0, 7);
+    let spend = 0;
+    if (i === 0) spend += initial;
+    if (ym !== prevYm) { spend += monthly; prevYm = ym; }   // 每個月第一個交易日（這一天剛好是這個月第一筆資料）
+    if (spend > 0) {
+      shares += spend / px[i]; inv += spend;
+      buys.push({ date: dates[i], price: px[i], amount: spend, shares: spend / px[i] });
+      flows.push({ date: dates[i], amount: -spend });
+    }
+    value[i] = shares * px[i];
+    invested[i] = inv;
+  }
+  const final = value[n - 1];
+  flows.push({ date: dates[n - 1], amount: final });
+  const years = yearsBetween(s.days[0], s.days[n - 1]);
+  const pnl = final - inv;
+
+  // 帳面損益率 = 資產 ÷ 累積投入 − 1；最低點＝「最難熬的時候」
+  const rate = value.map((v, i) => (invested[i] > 0 ? v / invested[i] - 1 : 0));
+  let wi = 0;
+  for (let i = 1; i < n; i++) if (rate[i] < rate[wi]) wi = i;
+  const worst = { date: dates[wi], invested: invested[wi], value: value[wi], rate: rate[wi] };
+
+  // 帳面低於本金的最長連續期間（日曆天）：從第一天低於本金，到回到本金（含）以上的那一天之前
+  const UNDER = 1e-9;
+  let best = null, runStart = -1;
+  const endRun = (endIdx, recIdx) => {
+    const d = s.days[endIdx] - s.days[runStart] + 1;
+    if (!best || d > best.days) best = { from: dates[runStart], to: dates[endIdx], days: d, recovered: recIdx != null, recoveryDate: recIdx != null ? dates[recIdx] : null };
+  };
+  for (let i = 0; i < n; i++) {
+    const under = value[i] < invested[i] * (1 - UNDER);
+    if (under && runStart < 0) runStart = i;
+    else if (!under && runStart >= 0) { endRun(i - 1, i); runStart = -1; }
+  }
+  if (runStart >= 0) endRun(n - 1, null);
+
+  // 逐年
+  const annual = [];
+  let yr = "";
+  for (let i = 0; i < n; i++) {
+    const y = dates[i].slice(0, 4);
+    if (y !== yr) { annual.push({ year: y, contributed: 0 }); yr = y; }
+  }
+  buys.forEach((b) => { annual.find((a) => a.year === b.date.slice(0, 4)).contributed += b.amount; });
+  for (let i = 0; i < n; i++) {
+    const last = i === n - 1 || dates[i + 1].slice(0, 4) !== dates[i].slice(0, 4);
+    if (last) {
+      const a = annual.find((x) => x.year === dates[i].slice(0, 4));
+      a.endInvested = invested[i]; a.endValue = value[i];
+      a.pnlRate = invested[i] > 0 ? value[i] / invested[i] - 1 : null;
+      a.endDate = dates[i];
+    }
+  }
+
+  return {
+    symbol: series.symbol,
+    dates, price: px, value, invested, rate, buys,
+    actualStart: dates[0], actualEnd: dates[n - 1],
+    years, count: buys.length,
+    totalInvested: inv, final, pnl, pnlRate: inv > 0 ? final / inv - 1 : null,
+    xirr: s.days[n - 1] - s.days[0] >= 365 ? xirr(flows) : null,   // 不滿 365 天不算（年化會被放大）
+    worst, underwater: best, annual, flows,
   };
 }

@@ -205,6 +205,12 @@
   content: "期末較高"; margin-left: 8px; font-family: var(--font-ui); font-size: .7rem; font-weight: 500;
   padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink);
 }
+/* 「最難熬的時候」等欄位下面的小字（日期區間）可以換行，不要把表格撐出畫面 */
+#quant-dca-view table.wrapsub td, #quant-dca-view table.wrapsub th { white-space: normal; min-width: 120px; }
+#quant-dca-view table.wrapsub td:first-child, #quant-dca-view table.wrapsub th:first-child { min-width: 150px; }
+#quant-dca-view .q-tgroup { display: grid; gap: 8px; }
+#quant-dca-view .q-tgroup .q-h4 { margin: 14px 0 0; }
+#quant-dca-view .q-h4 .sub { font-family: var(--font-data); font-size: .78rem; font-weight: 400; color: var(--muted); margin-left: 8px; }
 #quant-dca-view table.annual.one { max-width: 420px; }
 #quant-dca-view table.annual th, #quant-dca-view table.annual td { padding: 7px 8px; }
 

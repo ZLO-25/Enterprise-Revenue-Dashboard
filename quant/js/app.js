@@ -4,7 +4,7 @@
 // ============================================================
 import {
   lumpSumVsDca, rollingComparison, assetAllocation, volatilityStats,
-  yearlyTimingTest, toDay,
+  yearlyTimingTest, toDay, monthlyContribution, drawdownEpisodes,
 } from "./engine.js";
 import { DATA_BASE } from "./config.js";
 import { themeColors, axisBase } from "./theme.js";
@@ -43,12 +43,22 @@ const state = {
 };
 
 // ---------- 格式化 ----------
-const curPrefix = (cur) => ({ TWD: "NT$", USD: "$", HKD: "HK$" }[cur] || "");
+const curPrefix = (cur) => ({ TWD: "NT$", USD: "$", HKD: "HK$", KRW: "₩", EUR: "€" }[cur] || "");
 const fmtMoney = (v, cur) => `${curPrefix(cur)}${Math.round(v).toLocaleString("en-US")}`;
 const fmtPct = (x, signed = true) =>
   x == null || !isFinite(x) ? "—" : `${signed && x > 0 ? "+" : ""}${(x * 100).toFixed(2)}%`;
 const fmtNum = (x, d = 2) => (x == null || !isFinite(x) ? "—" : x.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }));
 const cls = (x) => (x > 0 ? "pos" : x < 0 ? "neg" : "");
+const ymd = (d) => (d ? String(d).replace(/-/g, "/") : "—");   // yyyy/mm/dd
+/** 天數 → 「約 N 年 M 個月」（不到 45 天就只寫天數） */
+function spanTxt(days) {
+  if (days == null || !isFinite(days)) return "—";
+  if (days < 45) return `${days} 天`;
+  const tm = Math.round(days / 30.4375), y = Math.floor(tm / 12), m = tm % 12;
+  return `約 ${y ? `${y} 年` : ""}${y && m ? " " : ""}${m ? `${m} 個月` : ""}`;
+}
+/** 表格用：「1,234 天」下面一行小字「約 3 年 5 個月」 */
+const spanCell = (days) => (days == null ? "—" : `${days.toLocaleString("en-US")} 天${days < 45 ? "" : `<span class="sub">${spanTxt(days)}</span>`}`);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const label = (sym) => {
   const m = state.meta.get(sym);
@@ -379,7 +389,11 @@ function setDcaView(mode) {
   saveViewPref(state.dcaView);
   syncViewToHash();
   const last = state.lastDca;
-  if (last) renderDca($("#out-dca"), last.results, last.opts, last.warns);
+  if (!last) return;
+  // 切換顯示會整張重畫：保留使用者關掉的標的與拉近的區間（重新回測、改設定則照舊回到預設）
+  const snap = window.__quantChartPlus?.snapshot($("#chart-dca-value"));
+  renderDca($("#out-dca"), last.results, last.opts, last.warns);
+  window.__quantChartPlus?.restore($("#chart-dca-value"), snap);
 }
 
 function renderDca(out, results, opts, warns0) {
@@ -565,6 +579,165 @@ function annualTable(results, mode) {
     return `<h4 class="q-h4">${esc(label(r.symbol))}</h4>
       <div class="table-wrap"><table class="data annual${cols.gap ? "" : " one"}"><thead><tr><th>年度</th>${cols.ls ? "<th>單筆</th>" : ""}${cols.dca ? "<th>定期定額</th>" : ""}${cols.gap ? `<th>差距<br><span class="sub">定投 − 單筆</span></th>` : ""}</tr></thead><tbody>${rows}</tbody></table></div>`;
   }).join("");
+}
+
+// ============================================================
+// 1b. 每月定期投入（薪水定投）
+// ============================================================
+$("#form-monthly").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const out = $("#out-monthly");
+  try {
+    const tickers = state.pickers.monthly;
+    if (!tickers.length) throw new Error("請至少選一個投資標的");
+    const opts = {
+      monthly: readNum("#monthly-amount", { min: 1, name: "每月投入金額" }),
+      initial: readNum("#monthly-init", { min: 0, name: "一開始已有的資金" }),
+      start: $("#monthly-start").value,
+      end: $("#monthly-end").value || today,
+    };
+    if (!opts.start) throw new Error("請選擇開始日期");
+    if (opts.start >= opts.end) throw new Error("開始日期必須早於結束日期");
+    busy(out, "下載資料並計算中…");
+    saveHash("monthly", { t: tickers.join(","), a: opts.monthly, i: opts.initial || "", s: opts.start, e: $("#monthly-end").value });
+
+    const results = [], warns = [], missing = [];
+    for (const sym of tickers) {
+      try {
+        const series = await loadSeries(sym);
+        const r = monthlyContribution(series, opts);
+        if (r.error) { warns.push(`${esc(sym)}：${esc(r.error)}`); continue; }
+        results.push(r);
+      } catch (err) { missing.push(sym); }
+    }
+    showMissing("monthly", missing);
+    if (!results.length) { errorBox(out, missing.length ? "所有標的都查無資料，請看輸入框下方的說明。" : warns.join("；")); return; }
+    renderMonthly(out, results, opts, warns);
+  } catch (err) { errorBox(out, err.message); }
+});
+
+function renderMonthly(out, results, opts, warns0) {
+  const c = themeColors();
+  const warns = [...warns0];
+  for (const r of results) {
+    const gap = toDay(r.actualStart) - toDay(opts.start);
+    if (gap > 7) warns.push(`<b>${esc(r.symbol)}</b> 的資料從 ${ymd(state.meta.get(r.symbol)?.start || r.actualStart)} 開始，實際投入起點為 <b>${ymd(r.actualStart)}</b>（不是你選的 ${ymd(opts.start)}）。不同起點的標的不能直接比較。`);
+    if (r.xirr == null && r.years < 1) warns.push(`<b>${esc(r.symbol)}</b>：回測期間不到 1 年，不顯示年化報酬率（會被放大），請看帳面損益。`);
+    else if (r.xirr == null) warns.push(`<b>${esc(r.symbol)}</b>：年化報酬率（XIRR）算不出來（現金流找不到合理的解），請看帳面損益。`);
+  }
+  const curs = new Set(results.map((r) => currencyOf(r.symbol)).filter(Boolean));
+  if (curs.size > 1) warns.push(`同時包含不同幣別的標的（${[...curs].join("、")}），金額沒有換匯，請比較「報酬率」而不是金額。`);
+  if (results.some((r) => (state.meta.get(r.symbol)?.note || "").includes("不含股息"))) warns.push("指數（^GSPC、^TWII）是價格指數，<b>不含股息</b>，長期報酬會被低估。");
+
+  const sign = (x) => (x > 0 ? "+" : x < 0 ? "−" : "");
+  const money = (x, cur) => `${sign(x)}${fmtMoney(Math.abs(x), cur)}`;
+  const verdicts = results.map((r) => {
+    const cur = currencyOf(r.symbol);
+    const bad = r.underwater
+      ? `最難熬的時候是 <b>${ymd(r.worst.date)}</b>，帳面虧 <b class="neg">${fmtPct(r.worst.rate)}</b>。`
+      : "期間內帳面沒有低於本金。";
+    return `<p><b>${esc(label(r.symbol))}</b>：${r.count} 次投入共 <b>${fmtMoney(r.totalInvested, cur)}</b>，期末資產 <b>${fmtMoney(r.final, cur)}</b>，帳面損益 <b class="${cls(r.pnl)}">${money(r.pnl, cur)}（${fmtPct(r.pnlRate)}）</b>。${bad}</p>`;
+  }).join("");
+
+  const cards = results.map((r) => {
+    const cur = currencyOf(r.symbol);
+    return `<div class="q-tgroup"><h4 class="q-h4">${esc(label(r.symbol))}<span class="sub">${ymd(r.actualStart)} ~ ${ymd(r.actualEnd)}</span></h4><div class="cards">
+      <div class="card"><div class="k">累積投入</div><div class="v">${fmtMoney(r.totalInvested, cur)}</div><div class="s">${r.count} 次投入</div></div>
+      <div class="card"><div class="k">期末資產</div><div class="v">${fmtMoney(r.final, cur)}</div><div class="s">${ymd(r.actualEnd)} 收盤價（還原權息）</div></div>
+      <div class="card"><div class="k">帳面損益</div><div class="v ${cls(r.pnl)}">${money(r.pnl, cur)}</div><div class="s"><span class="${cls(r.pnlRate)}">${fmtPct(r.pnlRate)}</span>｜期末資產 ÷ 累積投入 − 1</div></div>
+      <div class="card"><div class="k">年化報酬率（資金加權）</div><div class="v ${cls(r.xirr)}">${r.xirr == null ? "—" : fmtPct(r.xirr)}</div><div class="s">${r.xirr == null ? (r.years < 1 ? "期間不到 1 年不顯示" : "算不出來") : "XIRR，見下方說明"}</div></div>
+    </div></div>`;
+  }).join("");
+
+  // 最難熬的時候：每檔一欄
+  const none = (r) => !r.underwater;
+  const worstRows = [
+    ["帳面損益率最低的那天", (r) => (none(r) ? "期間內沒有低於本金" : ymd(r.worst.date))],
+    ["當時累積投入", (r) => (none(r) ? "—" : fmtMoney(r.worst.invested, currencyOf(r.symbol)))],
+    ["當時資產", (r) => (none(r) ? "—" : fmtMoney(r.worst.value, currencyOf(r.symbol)))],
+    ["當時帳面虧損", (r) => (none(r) ? "—" : `<span class="neg">${fmtPct(r.worst.rate)}</span>`)],
+    ["帳面低於本金的最長連續天數", (r) => (none(r) ? "—" : `${spanCell(r.underwater.days)}<span class="sub">${ymd(r.underwater.from)} ~ ${ymd(r.underwater.to)}${r.underwater.recovered ? `（${ymd(r.underwater.recoveryDate)} 回到本金以上）` : "（到資料最後一天仍低於本金）"}</span>`)],
+  ];
+  const worstTable = `<div class="table-wrap"><table class="data wrapsub"><thead><tr><th>最難熬的時候</th>${results.map((r) => `<th>${esc(r.symbol)}</th>`).join("")}</tr></thead>
+    <tbody>${worstRows.map(([k, f]) => `<tr><td>${k}</td>${results.map((r) => `<td>${f(r)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+
+  const annual = results.map((r) => {
+    const cur = currencyOf(r.symbol), lastY = r.annual.at(-1).year;
+    const rows = r.annual.map((a) => `<tr><td>${a.year}${a.year === lastY && a.endDate && a.endDate.slice(5) < "12-25" ? `<span class="sub">到 ${a.endDate.slice(5).replace("-", "/")}</span>` : ""}</td>
+      <td>${fmtMoney(a.contributed, cur)}</td><td>${fmtMoney(a.endInvested, cur)}</td><td>${fmtMoney(a.endValue, cur)}</td>
+      <td><span class="${cls(a.pnlRate)}">${fmtPct(a.pnlRate)}</span></td></tr>`).join("");
+    return `<h4 class="q-h4">${esc(label(r.symbol))}</h4><div class="table-wrap"><table class="data annual"><thead><tr><th>年度</th><th>當年投入</th><th>年底累積投入</th><th>年底資產</th><th>帳面損益</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }).join("");
+
+  out.innerHTML = `
+    ${notices(warns)}
+    <div class="verdict"><h3>摘要</h3>${verdicts}
+      <p class="hint">計算規則：每月第一個交易日買進（開始日當月從開始日當天或之後第一個交易日）、還原權息價、可買零股；不計手續費、稅與匯率。這只是「一個起點」的歷史結果，不是預測。</p></div>
+    ${cards}
+
+    <div class="panel">
+      <h3>資產價值 vs 累積投入本金</h3>
+      <div class="chart" id="chart-monthly-value"></div>
+      <p class="how-to-read"><b>這張圖怎麼看：</b>彩色線是你手上的資產價值，灰色階梯線是你累積投入的本金（每個月多一階）。彩色線在灰線上方＝帳面賺錢、下方＝帳面賠錢，兩條線之間的距離就是帳面損益。時間拉長以後，彩色線通常會越離越遠，因為早期投入的錢已經滾了很久。縱軸可以切成「對數」，看長期走勢比較清楚。</p>
+      <div class="qplus-pnl-wrap" id="monthly-pnl-wrap">
+        <div class="qplus-pnl-h">帳面損益率（資產價值 ÷ 累積投入 − 1）</div>
+        <div class="qplus-pnl-sub">0% 以上＝帳面賺、以下＝帳面賠；圓點是各檔「最難熬的那天」。</div>
+        <div class="chart short" id="chart-monthly-pnl"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>最難熬的時候</h3>
+      ${worstTable}
+      <p class="how-to-read"><b>這張表怎麼看：</b>每個月都投入的人，帳面最慘的時候不一定是股價最低的那天，而是「資產 ÷ 累積投入」最低的那天（早期投的錢多半已經賺很多，晚期才投的錢還沒時間緩衝）。「最長連續天數」是帳面一直低於累積投入本金的最長一段，也就是最久看不到賺錢的日子。</p>
+    </div>
+
+    <div class="panel">
+      <h3>逐年</h3>
+      <p class="hint" style="margin-top:0">每年投入多少、年底累積投入、年底資產與帳面損益。第一年從開始日起算，最後一年到結束日為止（可能不滿一年）。</p>
+      ${annual}
+    </div>
+
+    <details class="explain panel"><summary>年化報酬率（資金加權，XIRR）是什麼意思？</summary>
+      <p>每個月投入的錢，在市場裡待的時間不一樣：十年前投的那筆待了十年，上個月投的才待一個月。所以不能把「總報酬 ÷ 總投入」直接除以年數。XIRR 把每一筆錢投入的日期都算進去，找出一個「平均每年報酬率」：假如每一筆投入都以這個年利率成長，到期末剛好變成現在的期末資產。</p>
+<pre class="ascii">
+投入（負）  -1萬   -1萬   -1萬   ……   -1萬        期末資產（正）
+日期        1/2    2/1    3/1    ……   今天         + 現在的資產
+            └──────┴──────┴──────┴──────┴──→ 找一個年利率 r，讓全部折現後剛好 = 0
+</pre>
+      <p>它和「總報酬率」回答不同的問題：總報酬率看的是「整體賺了幾成」，XIRR 看的是「平均每年約賺幾成」。期間不到 1 年時年化會被放大，所以不顯示。</p>
+    </details>
+    <details class="explain panel"><summary>這個回測的限制</summary>
+      <ul>
+        <li>每月第一個交易日買進，沒有算手續費、稅（美股股息有預扣稅，還原權息價假設股息全額再投入，會稍微高估）與匯率。</li>
+        <li>可買零股；實際下單有最小單位時，會有一點誤差。</li>
+        <li>指數（^GSPC、^TWII）不含股息，長期報酬會被低估。</li>
+        <li>只是「一個起點」的結果：換一個開始日期，最難熬的時候和結果都會不同。</li>
+        <li>過去績效不代表未來。</li>
+      </ul>
+    </details>`;
+
+  // 圖 1：資產價值 vs 累積投入本金（本金用階梯灰線；每檔的本金一樣時只畫一條）
+  const traces = [];
+  results.forEach((r, i) => traces.push({ x: r.dates, y: r.value, name: `${r.symbol} 資產價值`, mode: "lines",
+    line: { color: c.palette[i % c.palette.length], width: 2 }, hovertemplate: "%{y:,.0f}" }));
+  const seen = new Set();
+  results.forEach((r) => {
+    const key = `${r.actualStart}|${r.count}|${r.totalInvested}`;
+    const same = results.every((x) => `${x.actualStart}|${x.count}|${x.totalInvested}` === key);
+    if (same && seen.has(key)) return;
+    seen.add(key);
+    traces.push({ x: r.dates, y: r.invested, name: same && results.length > 1 ? "累積投入本金" : `${r.symbol} 投入本金`, mode: "lines",
+      line: { color: c.muted, width: 1.6, shape: "hv" }, hovertemplate: "%{y:,.0f}" });
+  });
+  plot($("#chart-monthly-value"), traces, { yaxis: { tickformat: ",.0f", title: { text: "金額" } } });
+
+  // 圖 2：帳面損益率
+  const pt = results.map((r, i) => ({ x: r.dates, y: r.rate.map((v) => v * 100), name: r.symbol, mode: "lines",
+    line: { color: c.palette[i % c.palette.length], width: 1.6 }, hovertemplate: "%{y:+.1f}%" }));
+  results.forEach((r, i) => { if (r.underwater) pt.push({ x: [r.worst.date], y: [r.worst.rate * 100], mode: "markers", showlegend: false, hoverinfo: "skip",
+    marker: { color: c.palette[i % c.palette.length], size: 9, line: { color: c.panel, width: 1.5 } } }); });
+  plot($("#chart-monthly-pnl"), pt, { yaxis: { ticksuffix: "%", zeroline: true, zerolinecolor: c.axis, zerolinewidth: 2, title: { text: "帳面損益率" } } });
 }
 
 // ============================================================
@@ -806,12 +979,27 @@ $("#form-vol").addEventListener("submit", async (e) => {
     }
     showMissing("vol", missing);
     if (!res.length) throw new Error(missing.length ? "所有標的都查無資料，請看輸入框下方的說明。" : warns.join("；") || "沒有可分析的資料");
+    saveHash("vol", { t: syms.join(","), s: $("#vol-start").value, e: $("#vol-end").value, g: ths.join(","), d: Math.round(state.ddThr * 100) });
     renderVol(out, res, ths, warns);
   } catch (err) { errorBox(out, err.message); }
 });
 
+// 「大跌與回本」的門檻（跌幾 % 才算一次大跌）：10／20／30／50，只決定表與圖怎麼畫，不重新下載；寫進網址參數 d
+const DD_CHOICES = [10, 20, 30, 50];
+state.ddThr = 0.2;
+state.lastVol = null;
+const normDd = (v) => (DD_CHOICES.includes(Math.round(+v)) ? Math.round(+v) / 100 : 0.2);
+function syncHashParam(tab, k, v) {
+  const [t, q] = location.hash.slice(1).split("?");
+  if (t !== tab || !q) return;
+  const p = new URLSearchParams(q);
+  v === "" || v == null ? p.delete(k) : p.set(k, v);
+  history.replaceState(null, "", `#${tab}?${p.toString()}`);
+}
+
 function renderVol(out, res, ths, warns) {
   const c = themeColors();
+  state.lastVol = { res, ths, warns };
   const starts = new Set(res.map((r) => r.start));
   if (starts.size > 1) warns.push("各標的資料起點不同（見表格「統計期間」），次數會受資料長度影響；比較時建議看「每年平均次數」或設定相同的開始日期。");
   const td = (v) => `<td>${v}</td>`;
@@ -831,6 +1019,15 @@ function renderVol(out, res, ths, warns) {
   ];
   out.innerHTML = `
     ${notices(warns)}
+    <div class="panel" id="vol-dd-panel">
+      <h3>大跌與回本</h3>
+      <p class="hint" style="margin-top:0">長期持有最真實的體驗：從前一個高點算起跌了多深、跌了多久、多久才回到原來的高點。一段大跌在價格回到前高時結束。</p>
+      <div class="q-viewbar"><span class="qplus-lab">大跌門檻（從前高算起）</span><span class="seg" id="vol-dd-seg" role="group" aria-label="大跌門檻">${DD_CHOICES.map((p) => `<button type="button" data-d="${p}" aria-pressed="${p === Math.round(state.ddThr * 100)}">跌 ${p}% 以上</button>`).join("")}</span></div>
+      <div id="vol-dd-body"></div>
+      <h4 class="q-h4">水下曲線（距離歷史高點的跌幅）</h4>
+      <div class="chart" id="chart-vol-dd"></div>
+      <p class="how-to-read"><b>這張圖怎麼看：</b>0% 代表創新高；越往下代表離高點越遠。曲線「泡在水下」越久，代表需要越久才能回本；上面表格裡的每一段大跌，就是這張圖裡跌破虛線（目前選的門檻）的那些「水坑」。</p>
+    </div>
     <div class="panel">
       <h3>統計結果</h3>
       <div class="table-wrap"><table class="data"><thead><tr><th>指標</th>${res.map((r) => `<th>${esc(r.symbol)}</th>`).join("")}</tr></thead>
@@ -846,9 +1043,25 @@ function renderVol(out, res, ths, warns) {
       </details>
     </div>
     <div class="panel"><h3>大漲大跌頻率（每年平均次數）</h3><div class="chart short" id="chart-vol-bar"></div>
-      <p class="how-to-read"><b>這張圖怎麼看：</b>向上的柱子是大漲次數、向下的是大跌次數，換算成「平均每年」以便比較不同長度的資料。</p></div>
-    <div class="panel"><h3>水下曲線（距離歷史高點的跌幅）</h3><div class="chart" id="chart-vol-dd"></div>
-      <p class="how-to-read"><b>這張圖怎麼看：</b>0% 代表創新高；越往下代表離高點越遠。曲線「泡在水下」越久，代表需要越久才能回本。</p></div>`;
+      <p class="how-to-read"><b>這張圖怎麼看：</b>向上的柱子是大漲次數、向下的是大跌次數，換算成「平均每年」以便比較不同長度的資料。</p></div>`;
+
+  $("#vol-dd-seg", out).addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-d]");
+    if (!b) return;
+    state.ddThr = normDd(b.dataset.d);
+    $$("#vol-dd-seg button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    syncHashParam("vol", "d", Math.round(state.ddThr * 100));
+    drawDd();
+  });
+  $("#vol-dd-body", out).addEventListener("click", (e) => {   // 「顯示全部 N 次」
+    const b = e.target.closest("button[data-more]");
+    if (!b) return;
+    const open = b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", String(open));
+    b.textContent = open ? "只顯示最深的 10 次" : `顯示全部 ${b.dataset.more} 次`;
+    b.closest(".q-ddblock").querySelectorAll("tr.more").forEach((tr) => { tr.hidden = !open; });
+  });
+  drawDd();
 
   const bars = [];
   res.forEach((r, i) => {
@@ -858,10 +1071,50 @@ function renderVol(out, res, ths, warns) {
   });
   plot($("#chart-vol-bar"), bars, { barmode: "group", hovermode: "closest", yaxis: { title: { text: "次數／年（正 = 大漲，負 = 大跌）" } } });
 
+}
+
+/** 「大跌與回本」：摘要＋每檔一張表＋水下曲線（換門檻時只重畫這一塊） */
+function drawDd() {
+  if (!state.lastVol) return;
+  const { res } = state.lastVol, c = themeColors(), thr = state.ddThr, pct = Math.round(thr * 100);
+  const body = $("#vol-dd-body");
+  if (!body) return;
+  const eps = res.map((r) => ({ r, list: drawdownEpisodes(r.dates, r.px, thr).sort((a, b) => a.depth - b.depth || (a.peakDate < b.peakDate ? -1 : 1)) }));
+
+  const summary = eps.map(({ r, list }) => {
+    if (!list.length) return `<p><b>${esc(label(r.symbol))}</b>：${ymd(r.start)} ~ ${ymd(r.end)} 沒有跌 ${pct}% 以上的大跌（最大回撤 <b class="neg">${fmtPct(r.mdd)}</b>）。</p>`;
+    const rec = list.filter((e) => e.recovered), open = list.find((e) => !e.recovered);
+    const longest = rec.length ? rec.reduce((a, e) => (e.daysTotal > a.daysTotal ? e : a)) : null;
+    const tail = [
+      longest ? `已回本的最久 <b>${spanTxt(longest.daysTotal)}</b>才回本（${ymd(longest.peakDate)} 高點 → ${ymd(longest.recoveryDate)}）` : "",
+      open ? `最近一段<b class="neg">尚未回本</b>（從 ${ymd(open.peakDate)} 的高點算起已 ${spanTxt(open.daysSincePeak)}）` : "",
+    ].filter(Boolean).join("；");
+    return `<p><b>${esc(label(r.symbol))}</b>：跌 ${pct}% 以上共 <b>${list.length}</b> 次，最深 <b class="neg">${fmtPct(list[0].depth)}</b>，${tail}。</p>`;
+  }).join("");
+
+  const blocks = eps.map(({ r, list }) => {
+    if (!list.length) return "";
+    const rows = list.map((e, i) => `<tr${i >= 10 ? ' class="more" hidden' : ""}>
+      <td>${ymd(e.peakDate)}</td><td>${ymd(e.troughDate)}</td><td class="neg">${fmtPct(e.depth)}</td><td>${spanCell(e.daysToTrough)}</td>
+      ${e.recovered
+        ? `<td>${ymd(e.recoveryDate)}</td><td>${spanCell(e.daysToRecover)}</td><td>${spanCell(e.daysTotal)}</td>`
+        : `<td colspan="3" style="text-align:left"><span class="neg">尚未回本</span><span class="sub">至資料最後一天（${ymd(e.lastDate)}）已 ${e.daysSincePeak.toLocaleString("en-US")} 天（${spanTxt(e.daysSincePeak)}）</span></td>`}</tr>`).join("");
+    return `<div class="q-ddblock"><h4 class="q-h4">${esc(label(r.symbol))}<span class="sub">跌 ${pct}% 以上共 ${list.length} 次，依跌幅由深到淺</span></h4>
+      <div class="table-wrap"><table class="data"><thead><tr><th>高點日</th><th>低點日</th><th>最大跌幅</th><th>高點→低點</th><th>回到高點日</th><th>低點→回本</th><th>高點→回本</th></tr></thead><tbody>${rows}</tbody></table></div>
+      ${list.length > 10 ? `<button type="button" class="q-textbtn" data-more="${list.length}" aria-expanded="false">顯示全部 ${list.length} 次</button>` : ""}</div>`;
+  }).join("");
+
+  body.innerHTML = `<div class="verdict"><h3>摘要</h3>${summary}</div>${blocks}
+    <details class="explain"><summary>這張表怎麼看？</summary><ul>
+      <li><b>一段大跌</b>：從一個高點開始，價格一直低於那個高點，直到價格回到（或超過）那個高點才算結束；只列最大跌幅達到門檻的。</li>
+      <li><b>高點→低點</b>：從高點日跌到最低點花了多久；<b>低點→回本</b>：從最低點漲回原高點花了多久；<b>高點→回本</b>：兩段加起來，也就是「帳面一直低於高點」的總時間。</li>
+      <li>用的是還原權息價，股息再投入已算進去；指數（^GSPC、^TWII）不含股息，回本會比實際慢。</li>
+      <li>天數是日曆天；「約幾年幾個月」只是方便閱讀。過去的大跌與回本時間不代表未來。</li></ul></details>`;
+
   plot($("#chart-vol-dd"), res.map((r, i) => ({
     x: r.drawdown.dates, y: r.drawdown.values.map((v) => v * 100), name: r.symbol, mode: "lines",
     line: { color: c.palette[i % c.palette.length], width: 1.2 }, fill: res.length === 1 ? "tozeroy" : "none", hovertemplate: "%{y:.1f}%",
-  })), { yaxis: { ticksuffix: "%" } });
+  })), { yaxis: { ticksuffix: "%" }, shapes: [{ type: "line", xref: "paper", x0: 0, x1: 1, y0: -pct, y1: -pct, line: { color: c.muted, dash: "dot", width: 1 } }] });
 }
 
 // ============================================================
@@ -907,18 +1160,41 @@ function loadHash() {
   showTab(tab);
   if (!q) return;
   const p = new URLSearchParams(q);
-  const set = (id, k) => { if (p.has(k)) $(id).value = p.get(k); };
+  // 網址有的參數用網址的；沒有的退回頁面預設值（所以只帶 t 的連結，其餘欄位一律是預設，不會沿用上次手動改過的值）
+  // 結束日期的預設是「今天」（這個欄位的 value 是程式填的，defaultValue 是空的）
+  const set = (id, k) => { const el = $(id); el.value = p.has(k) ? p.get(k) : (el.defaultValue || (id.endsWith("-end") ? today : "")); };
+  const pick = (name, def, max = 5) => {
+    const list = (p.get("t") || "").split(",").map((x) => x.trim()).filter(Boolean).slice(0, max);
+    state.pickers[name] = list.length ? list : def.split(",");
+    renderChips(name);
+  };
   if (tab === "dca") {
-    if (p.get("t")) { state.pickers.dca = p.get("t").split(",").slice(0, 5); renderChips("dca"); }
+    pick("dca", $('.picker[data-picker="dca"]').dataset.default);
     state.dcaView = normMode(p.get("v"));   // 網址沒有 v ＝ 兩者（分享連結要一致）
     state.staleTabs.delete("dca");          // 下面就會重新送出，不用再因為主題重畫一次
     set("#dca-amount", "a"); set("#dca-start", "s"); set("#dca-end", "e"); set("#dca-months", "m"); set("#dca-count", "n"); set("#dca-yield", "y");
     updatePlanHint();
     $("#form-dca").requestSubmit();
+  } else if (tab === "monthly") {
+    pick("monthly", $('.picker[data-picker="monthly"]').dataset.default);
+    state.staleTabs.delete("monthly");
+    set("#monthly-amount", "a"); set("#monthly-init", "i"); set("#monthly-start", "s"); set("#monthly-end", "e");
+    $("#form-monthly").requestSubmit();
+  } else if (tab === "vol") {
+    pick("vol", $('.picker[data-picker="vol"]').dataset.default);
+    state.staleTabs.delete("vol");
+    state.ddThr = normDd(p.get("d"));
+    set("#vol-start", "s"); set("#vol-end", "e");
+    if (p.get("g")) {
+      const g = p.get("g").split(",");
+      $$(".vol-t").forEach((el, i) => { el.value = g[i] != null && +g[i] > 0 ? g[i] : el.defaultValue; });
+    } else $$(".vol-t").forEach((el) => { el.value = el.defaultValue; });
+    $("#form-vol").requestSubmit();
   } else if (tab === "rolling") {
     if (p.get("t")) { state.pickers.rolling = [p.get("t")]; renderChips("rolling"); }
     state.staleTabs.delete("rolling");
-    set("#roll-from", "f"); set("#roll-horizon", "h"); set("#roll-months", "m"); set("#roll-count", "n"); set("#roll-yield", "y");
+    const setR = (id, k) => { if (p.has(k)) $(id).value = p.get(k); };
+    setR("#roll-from", "f"); setR("#roll-horizon", "h"); setR("#roll-months", "m"); setR("#roll-count", "n"); setR("#roll-yield", "y");
     $("#form-rolling").requestSubmit();
   }
 }
@@ -947,6 +1223,7 @@ window.addEventListener("resize", () => { clearTimeout(scrollTimer); scrollTimer
 async function init() {
   $$('input[type="date"][id$="-end"]').forEach((i) => { i.max = today; });
   $("#dca-end").value = today;
+  $("#monthly-end").value = today;
   $("#alloc-end").value = today;
   initEvents();
   initPickers();

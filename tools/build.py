@@ -20,7 +20,7 @@
   首頁另有 {{COMPANIES}}、{{DATASETS}}、{{SITE_TITLE}}、{{REPO}}
 新增公司只要補 companies.json、data/<code>.json 與 companies/<code>/SOURCES.md；資料符合 v1 就用 templates/generic.frag.html，不必改本檔。
 """
-import json, os, re, sys
+import json, os, re, sys, urllib.parse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe as PE
@@ -278,6 +278,8 @@ def main():
     PRERENDER = False
     cfg = json.loads(read("companies.json"))
     PRERENDER = bool(cfg["site"].get("prerender"))
+    # 有價格資料可回測的代號（quant/tickers.json）：個股頁只有在這裡找得到才放「回測這檔」連結
+    QUANT_SYMS = {t["symbol"] for g in json.loads(read("quant", "tickers.json"))["groups"] for t in g["tickers"]}
     if cfg["site"].get("sidebar"):
         SIDEBAR = {"title": cfg["site"]["title"], "qv": quant_ver(), "early": bool(cfg["site"].get("perf")),
                    "rates": bool(cfg["site"].get("rates")),   # 回測的「🏦 升降息週期」分頁；false 或沒有這個欄位 = 完全不出現
@@ -340,7 +342,17 @@ def main():
             data["kbar"] = {"lwc": rel + "assets/vendor/lightweight-charts.standalone.production.js",
                             "js": [rel + "assets/futures.js?v=" + asset_ver("assets", "futures.js"), rel + "assets/kbar.js?v=" + asset_ver("assets", "kbar.js")],
                             "base": rel + "data/kbar/", "futBase": rel + "data/futures/", "link": rel + "futures/", "code": c["code"], "name": c["name"], "ticker": c.get("ticker", "")}
-        write(page(c["title"], c["description"], build("../" * depth, LOCAL_CHART.format(rel="../" * depth)), "../" * depth, "company", c["code"]), c["path"], "index.html")
+        site_frag = build("../" * depth, LOCAL_CHART.format(rel="../" * depth))
+        ysym = (c.get("price") or {}).get("yahoo")
+        if SIDEBAR is not None and ysym in QUANT_SYMS:
+            # 「回測這檔」：個股頁標題區底下兩個低調的文字連結，帶到首頁量化分頁並預填這檔的代號（只放在站內頁面，Artifact／合併版沒有量化功能，不放）
+            q = urllib.parse.quote(ysym, safe=".")
+            r = "../" * depth
+            link = (f'<p class="bt-link"><span>回測這檔</span><a href="{r}#monthly?t={q}">每月定期投入</a>'
+                    f'<a href="{r}#dca?t={q}">單筆 vs 定期定額</a></p>\n  ')
+            assert site_frag.count("</header>") == 1, f"{c['template']}.frag.html 的 </header> 不是剛好一個"
+            site_frag = site_frag.replace("</header>", link + "</header>", 1)
+        write(page(c["title"], c["description"], site_frag, "../" * depth, "company", c["code"]), c["path"], "index.html")
         if c.get("price"):
             data["dailyUrl"] = pages_url + "data/daily/" + c["code"] + ".json"   # Artifact／合併版：讀 GitHub Pages 上的檔（讀不到就用建置時的版本）
             data["kbar"] = None   # Artifact 不能載入站內 script：K 棒按鈕改成連到網站的看盤頁

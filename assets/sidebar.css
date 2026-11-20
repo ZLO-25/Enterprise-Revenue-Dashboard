@@ -110,3 +110,8 @@ html.sb-open .sb-backdrop { display: block; }
 /* 量化視圖：寬螢幕收合時讓出左上角按鈕的位置，規則在 quant/quant.css（.q-wrap）。 */
 
 @media print { .sb-panel, .sb-fab, .sb-topbar, .sb-mini, .sb-backdrop { display: none !important; } html.sb-open body { margin-left: 0 !important; } }
+
+/* 個股頁標題區底下的「回測這檔」連結（tools/build.py 注入；只有 site.sidebar 開著才有） */
+.bt-link { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 0; font-size: .85rem; color: var(--muted); }
+.bt-link a { color: var(--accent); text-decoration: none; }
+.bt-link a:hover { text-decoration: underline; }

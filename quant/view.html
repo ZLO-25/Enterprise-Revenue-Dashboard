@@ -12,9 +12,10 @@
 
 <nav class="secnav tabs" role="tablist" aria-label="量化回測分頁"><div class="scroller">
   <button role="tab" data-tab="dca" aria-selected="true" data-title="單筆投入 vs 定期定額" data-lede="手上已經有一筆錢，要一次買進還是分批買進？用真實歷史資料算給你看。">單筆 vs 定期定額</button>
+  <button role="tab" data-tab="monthly" data-title="每月定期投入" data-lede="每個月從薪水固定投入一筆，從某年開始到現在會累積成多少？中間最慘帳面虧過多少？用真實歷史資料算給你看。">每月定期投入</button>
   <button role="tab" data-tab="rolling" data-title="勝率分析" data-lede="只看一個起點容易被運氣誤導：把過去每個月都當成起點，統計單筆投入贏過定期定額的機率。">勝率分析</button>
   <button role="tab" data-tab="alloc" data-title="資產配置" data-lede="股債比例、定期再平衡與退休提領，在歷史上撐不撐得住？">資產配置</button>
-  <button role="tab" data-tab="vol" data-title="波動與風險" data-lede="這檔標的有多刺激？單日大漲大跌的頻率、最長連漲連跌與最大回撤。">波動與風險</button>
+  <button role="tab" data-tab="vol" data-title="波動與風險" data-lede="這檔歷史上大跌過幾次？每次跌多深、跌多久、多久才回到原高點？另外也看單日大漲大跌的頻率與最長連漲連跌。">波動與風險</button>
   <button role="tab" data-tab="learn" data-title="觀念教室" data-lede="回測背後的觀念：兩種策略差在哪、怎樣算公平比較，每一段都可以拿去教別人。">觀念教室</button>
 </div></nav>
 
@@ -66,6 +67,48 @@
 
     <div id="out-dca">
       <div class="panel placeholder">設定好左邊的參數，按「開始回測」。<br>第一次使用？建議先試試「2007 金融海嘯高點」和「2009 金融海嘯低點」，比較看看差在哪。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 1b. 每月定期投入（薪水定投） ======================= -->
+<section class="tab" id="tab-monthly">
+  <div class="layout">
+    <form class="panel controls" id="form-monthly" autocomplete="off" novalidate>
+      <h2 class="q-h">設定</h2>
+      <p class="intro">每個月領薪水、固定投入一筆，從某個時間點開始一直投到現在，會累積成多少？（和「單筆 vs 定期定額」不同：那裡是假設手上已經有一整筆錢，這裡的錢是每個月才出現的，見<a href="#learn" data-go-tab="learn">觀念教室第 6 節</a>。）</p>
+
+      <div class="field">
+        <span class="label">投資標的 <span class="hint">最多 5 檔，從下拉選單選擇；按 × 移除</span></span>
+        <div class="picker" data-picker="monthly" data-default="SPY,QQQ,0050.TW" data-max="5"></div>
+      </div>
+
+      <div class="field">
+        <label for="monthly-amount">每月投入金額</label>
+        <input type="number" id="monthly-amount" value="10000" min="1" step="any">
+        <span class="hint">每個月第一個交易日買進，可買零股。台股視為新台幣、美股視為美元（不做匯率換算，請比較報酬率）</span>
+      </div>
+      <div class="field">
+        <label for="monthly-init">一開始已有的資金（可填 0）</label>
+        <input type="number" id="monthly-init" value="0" min="0" step="any">
+        <span class="hint">開始當天一次買進，之後照常每月投入。</span>
+      </div>
+
+      <div class="field">
+        <label for="monthly-event">快速選擇歷史事件</label>
+        <select id="monthly-event" data-event-for="monthly"></select>
+        <span class="hint">「高點」= 從最慘的時候開始投；「低點」= 從最好的時候開始投</span>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="monthly-start">開始日期</label><input type="date" id="monthly-start" value="2010-01-01"></div>
+        <div class="field"><label for="monthly-end">結束日期</label><input type="date" id="monthly-end"></div>
+      </div>
+
+      <button type="submit" class="primary">開始回測</button>
+    </form>
+
+    <div id="out-monthly">
+      <div class="panel placeholder">設定好左邊的參數，按「開始回測」。<br>想知道「從最慘的時候開始每月投入」會怎樣？試試快速選擇「2007 金融海嘯高點」。</div>
     </div>
   </div>
 </section>
@@ -171,7 +214,7 @@
   <div class="layout">
     <form class="panel controls" id="form-vol" autocomplete="off" novalidate>
       <h2 class="q-h">設定</h2>
-      <p class="intro">統計標的「股性」：單日大漲大跌的頻率、最長連漲連跌、最大回撤。</p>
+      <p class="intro">長期持有最在意的是「大跌與回本」：從前高跌了多深、花多久回到原高點。也看單日大漲大跌的頻率、最長連漲連跌、最大回撤。</p>
       <div class="field">
         <span class="label">投資標的 <span class="hint">最多 5 檔</span></span>
         <div class="picker" data-picker="vol" data-default="NVDA,TSLA,2330.TW" data-max="5"></div>
@@ -308,7 +351,7 @@ DCA 某一天的總資產 = 尚未投入的現金 × (1 + 利率)^經過時間
   └─ 分 12 個月每月買 10 萬             （錢本來就是分批出現的）
   ↑ 這是本工具在比較的問題           ↑ 這沒有選擇題，領到就投入就對了
 </pre>
-      <p>情境 B 的「每月定投」其實就是「錢一到手就單筆投入」，是很好的習慣。本工具討論的是情境 A。</p>
+      <p>情境 B 的「每月定投」其實就是「錢一到手就單筆投入」，是很好的習慣。「單筆 vs 定期定額」討論的是情境 A；情境 B 想知道「每月投 X 元、投了這些年會累積多少、中間最慘虧多少」，請用<a href="#monthly" data-go-tab="monthly">每月定期投入</a>分頁。</p>
     </div>
 
     <div class="panel" id="l7">

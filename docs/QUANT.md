@@ -24,7 +24,7 @@ quant/
 ```
 
 ## 網址
-`#dca` `#rolling` `#alloc` `#vol` `#learn`（別名 `#winrate` `#edu`；`#wall` 看盤牆已移除，舊連結導到 `#dca`）→ 量化視圖；
+`#dca` `#monthly` `#rolling` `#alloc` `#vol` `#learn`（別名 `#winrate` `#edu`；`#wall` 看盤牆已移除，舊連結導到 `#dca`）→ 量化視圖；
 `#dca?t=SPY,QQQ&a=…` 這類分享參數照舊還原。其他 hash（`#companies` 等錨點）或沒有 hash → 原主站。
 
 ## 資料（2026-11-14 起搬進主 repo）
@@ -117,3 +117,32 @@ state.lastDca（上次回測結果）──切換──▶ renderDca(mode)   不
 - 深淺色切換（系統設定或主站 `data-theme`）：目前分頁馬上重畫；其他畫過圖的分頁記在 `state.staleTabs`，切回去時才重畫（app.js 的 showTab）。
   升降息週期由 rates.js 自己監聽重畫（它的表單沒有 submit 處理，不能對它 requestSubmit，否則瀏覽器會整頁重新載入）。
 - 冒煙測試 `tools/smoke_test.py` 的 `quant()`：開 `/#dca`、用預設參數跑一次回測、切三種顯示篩選，檢查資產價值圖的線、按鈕 aria-pressed、扣款面板有無。
+
+## 2026-11-20 第二階段：每月定期投入、大跌與回本、個股頁「回測這檔」
+所有數字只由 `quant/data/prices` 的還原權息價算出；算不出來就寫原因，不估計。純函式在 `quant/js/engine.js`，測試 `node --test quant/tests/engine-phase2.test.mjs`（CI 有跑）。
+
+**A. 每月定期投入（`#monthly`，側邊欄與分頁列在「單筆 vs 定期定額」後面）**
+回答「每個月從薪水固定投 X 元，從某年到現在累積多少、中間最慘虧多少」（「單筆 vs 定期定額」是手上已有一整筆錢，兩者不同，觀念教室第 6 節與這個分頁互相連結）。
+```
+monthlyContribution(series, {monthly, initial, start, end})
+  每月第一個交易日買進（開始日當月：開始日當天或之後第一個交易日；月初休市順延）
+  initial＝開始當天一次買進；可買零股；不計手續費、稅、匯率；資料起點晚於開始日 → 從資料第一天算（頁面提醒）
+  輸出：累積投入、期末資產、帳面損益、XIRR（不滿 365 天不給）、
+        最難熬的時候（帳面損益率＝資產÷累積投入−1 的最低點）、帳面低於本金的最長連續天數、逐年表
+xirr(flows)  二分法解 Σ金額/(1+r)^(天數/365)=0；用 Python 獨立重算 SPY/QQQ/0050.TW 的現金流，小數點後 12 位以上一致
+```
+網址：`#monthly?t=SPY,QQQ&a=10000&i=0&s=2010-01-01&e=…`（t 標的、a 每月金額、i 起始資金、s／e 起迄日）。圖表沿用 chart-plus（區間鈕、標的開關、縱軸「金額／對數」；沒有「報酬率 %」，因為資產線一直有新錢進來）。
+
+**B. 波動與風險：大跌與回本**
+`drawdownEpisodes(dates, values, threshold)`：從前高算起，最大跌幅達門檻（預設 20%，可選 10／20／30／50%；剛好等於也算）的每一段；回到（>=）前高時結束，之後再跌是新的一段；還沒回本 → `recoveryDate: null`，記從高點到資料最後一天的天數。
+畫面：統計結果之前的「大跌與回本」面板（摘要、每檔一張表，預設最深 10 次、可展開全部、水下曲線緊接在表下面）；單日漲跌頻率、連漲連跌等照舊在後面。網址 `#vol?t=…&s=&e=&g=3,5,10,15&d=20`（g 單日門檻、d 大跌門檻）。
+
+**C. 個股頁「回測這檔」**
+個股頁標題區底下兩個文字連結：`每月定期投入` → `../#monthly?t=<代號>`、`單筆 vs 定期定額` → `../#dca?t=<代號>`。`tools/build.py` 在輸出個股頁時注入（三種模板共用一處；`site.sidebar` 為 false 或 Artifact／合併版不放）；代號取 `companies.json` 的 `price.yahoo`，且必須在 `quant/tickers.json` 裡。
+`quant/tickers.json` 新增群組「財報追蹤公司」，放啟用中、有 `price.yahoo`、原本不在清單裡的公司（代號全來自 companies.json）。價格由 GitHub Actions 的 quant-prices（tickers.json 改動時自動跑）抓；合併前本機沒有這些代號的資料，頁面照既有機制顯示「查無資料」。`fetch_data.py` 的 `currency_of` 補上 `.TWO`（TWD）、`.KS`（KRW）、`.AS`（EUR）。
+只帶 `t=` 的連結：其餘欄位一律用頁面預設值（`loadHash` 對缺的參數退回預設，不沿用上次手動改過的值），並自動跑一次。
+
+**D. 其他**
+- `rates.js` 的 `loadSeries`：manifest 讀不到時不再把 null 永久快取（下次執行會重試）。
+- 「單筆 vs 定期定額」切換顯示篩選時保留使用者關掉的標的與拉近的區間（`chart-plus.js` 的 `snapshot`／`restore`）；重新回測則回到預設。
+- 冒煙測試 `tools/smoke_test.py` 另外開 `#monthly?t=SPY,QQQ`、`#vol?t=SPY,QQQ`（換門檻）各跑一次，並檢查個股頁有 `.bt-link`。

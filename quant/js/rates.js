@@ -100,15 +100,16 @@ async function loadRates() {
 async function loadManifest() {
   if (S.manifest) return;
   const r = await fetch(`${DATA_BASE}manifest.json?t=${Date.now()}`, { cache: "no-store" });
-  S.manifest = new Map();
-  if (r.ok) for (const g of (await r.json()).groups) for (const t of g.tickers) S.manifest.set(t.symbol, t);
+  if (!r.ok) throw new Error(`manifest.json ${r.status}`);   // 讀不到就不設 S.manifest：下一次執行會重試，不會把「空清單」永久記住
+  const m = new Map();
+  for (const g of (await r.json()).groups) for (const t of g.tickers) m.set(t.symbol, t);
+  S.manifest = m;
 }
 function loadSeries(sym) {
+  const m = S.manifest && S.manifest.get(sym);
+  if (!m || !m.file) return Promise.resolve(null);   // 沒有清單或清單裡沒有這檔：回 null，但不快取（清單之後讀到了就能載入）
   if (!S.cache.has(sym)) {
-    const m = S.manifest.get(sym);
-    S.cache.set(sym, m && m.file
-      ? fetch(`${DATA_BASE}${m.file}`).then((r) => { if (!r.ok) throw new Error(`${sym} 下載失敗 (${r.status})`); return r.json(); }).catch((e) => { S.cache.delete(sym); throw e; })
-      : Promise.resolve(null));
+    S.cache.set(sym, fetch(`${DATA_BASE}${m.file}`).then((r) => { if (!r.ok) throw new Error(`${sym} 下載失敗 (${r.status})`); return r.json(); }).catch((e) => { S.cache.delete(sym); throw e; }));
   }
   return S.cache.get(sym);
 }

@@ -17,10 +17,14 @@
 //        SPY   單筆 123,456 ｜ 定期定額 118,900
 //      做法：單筆那條線的提示文字同時帶出定期定額的數字，定期定額那條線不另外列；
 //      如果單筆那條被隱藏，定期定額那條自己列一行，數字不會消失
+//   （每月定期投入的 chart-monthly-value：縱軸只有「金額／對數」，沒有「報酬率 %」；線名「代號 資產價值」「代號 投入本金」，標的開關用第一個詞分組）
 //   ⑧ 只看單筆／只看定期定額時（app.js 只畫所選策略的線），提示框退回「一線一行」、帳面損益說明不提沒畫出來的線
 //   （手機版圖表加高寫在 quant.css）
-const VALUE_CHARTS = new Set(["chart-dca-value", "chart-alloc"]);
+const VALUE_CHARTS = new Set(["chart-dca-value", "chart-alloc", "chart-monthly-value"]);
 const MODES = [["value", "金額"], ["pct", "報酬率 %"], ["log", "對數"]];
+// 每月定期投入的資產線會一直有新錢進來，「相對起點的報酬率」沒有意義：只給「金額／對數」
+const NO_PCT = new Set(["chart-monthly-value"]);
+const modesOf = (id) => (NO_PCT.has(id) ? MODES.filter((m) => m[0] !== "pct") : MODES);
 const KEY = "quant.chart.mode.";
 const PNL_CHARTS = new Set(["chart-dca-value"]);   // 有「總投入金額」那條水平線的圖
 const isDate = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}/.test(v);
@@ -97,7 +101,7 @@ function toolbar(el, c) {
   if (!bar) {
     bar = document.createElement("div");
     bar.className = "qplus-bar qplus-mode";
-    bar.innerHTML = `<span class="qplus-lab">縱軸</span><span class="seg">` + MODES.map(([m, t]) =>
+    bar.innerHTML = `<span class="qplus-lab">縱軸</span><span class="seg">` + modesOf(id).map(([m, t]) =>
       `<button type="button" data-m="${m}">${t}</button>`).join("") + `</span>`;
     el.parentNode.insertBefore(bar, el);
     bar.addEventListener("click", (e) => {
@@ -105,7 +109,8 @@ function toolbar(el, c) {
       saveMode(id, b.dataset.m); mark(bar, b.dataset.m); applyMode(el, b.dataset.m, c);
     });
   }
-  const m = loadMode(id); mark(bar, m);
+  let m = loadMode(id); if (!modesOf(id).some((x) => x[0] === m)) m = "value";
+  mark(bar, m);
   if (m !== "value") applyMode(el, m, c);
 }
 function mark(bar, m) { bar.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.m === m))); }
@@ -271,6 +276,28 @@ function pnlChart(el, traces, c) {
 }
 
 window.__quantChartPlus = {
+  // 重畫整張圖之前先記下使用者的選擇（關掉的標的、拉近的時間區間），重畫後用 restore 還原
+  //（單筆 vs 定期定額切換「顯示」時會整張重畫；縱軸模式本來就記在 localStorage）
+  snapshot(el) {
+    if (!el || !el.layout) return null;
+    const xa = el.layout.xaxis || {};
+    return { hidden: [...(el.__qHidden || [])], range: xa.range && !xa.autorange ? xa.range.slice() : null };
+  },
+  restore(el, snap) {
+    if (!el || !snap || !window.Plotly || !el.data) return;
+    const names = new Set(el.data.map((t) => groupOf(t.name)));
+    const hidden = new Set(snap.hidden.filter((g) => names.has(g)));
+    if (hidden.size) {
+      el.__qHidden = hidden;
+      const bar = el.parentNode.querySelector(".qplus-tick");
+      if (bar) bar.querySelectorAll("button[data-g]").forEach((b) => b.setAttribute("aria-pressed", String(!hidden.has(b.dataset.g))));
+      setVisible(el, hidden);
+    }
+    if (snap.range) {
+      window.Plotly.relayout(el, { "xaxis.range": snap.range });
+      el.parentNode.querySelectorAll(".qplus-range button").forEach((x) => x.setAttribute("aria-pressed", "false"));
+    }
+  },
   after(el, traces, c) {
     if (!el || !window.Plotly) return;
     const timeSeries = traces.some((t) => Array.isArray(t.x) && isDate(t.x[0]) && t.x.length > 60);

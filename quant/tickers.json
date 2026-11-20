@@ -191,6 +191,75 @@
           "note": "7 天 24 小時交易，一年約 365 個交易日"
         }
       ]
+    },
+    {
+      "name": "財報追蹤公司",
+      "tickers": [
+        {
+          "symbol": "PLTR",
+          "name": "Palantir"
+        },
+        {
+          "symbol": "ANET",
+          "name": "Arista"
+        },
+        {
+          "symbol": "SPCX",
+          "name": "SpaceX"
+        },
+        {
+          "symbol": "005930.KS",
+          "name": "三星電子"
+        },
+        {
+          "symbol": "2308.TW",
+          "name": "台達電"
+        },
+        {
+          "symbol": "MU",
+          "name": "美光"
+        },
+        {
+          "symbol": "AVGO",
+          "name": "博通"
+        },
+        {
+          "symbol": "MRVL",
+          "name": "邁威爾"
+        },
+        {
+          "symbol": "AMD",
+          "name": "超微"
+        },
+        {
+          "symbol": "CRWD",
+          "name": "CrowdStrike"
+        },
+        {
+          "symbol": "PANW",
+          "name": "Palo Alto Networks"
+        },
+        {
+          "symbol": "RKLB",
+          "name": "火箭實驗室"
+        },
+        {
+          "symbol": "GEV",
+          "name": "GE Vernova"
+        },
+        {
+          "symbol": "CSCO",
+          "name": "思科"
+        },
+        {
+          "symbol": "ASML.AS",
+          "name": "艾司摩爾"
+        },
+        {
+          "symbol": "6187.TWO",
+          "name": "萬潤"
+        }
+      ]
     }
   ]
 }

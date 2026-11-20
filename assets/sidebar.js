@@ -9,7 +9,7 @@
  *     #main-dashboard-view   原本的企業財報追蹤板（內容不動）
  *     #quant-dca-view        量化回測（第一次打開才載入 quant/）
  *   網址 hash 決定顯示哪一個：
- *     #dca #rolling #alloc #vol #learn（＋別名 #winrate #edu、#wall→#dca）→ 量化視圖
+ *     #dca #monthly #rolling #alloc #vol #learn（＋別名 #winrate #edu、#wall→#dca）→ 量化視圖
  *     其他（沒有 hash、#companies 這類錨點）                        → 原主站
  *
  *   只新增 DOM，不改原本頁面的任何元素；所有狀態都寫在 <html> 的 class 上。
@@ -27,13 +27,14 @@
   // ---- 量化分頁：hash 名稱與舊回測站相同（舊分享連結繼續有效）
   var QUANT = [
     { id: "dca", ico: "📈", label: "單筆 vs 定期定額" },
+    { id: "monthly", ico: "🗓️", label: "每月定期投入" },
     { id: "rolling", ico: "🎲", label: "勝率分析" },
     { id: "alloc", ico: "💼", label: "資產配置" },
     { id: "vol", ico: "⚡", label: "波動與風險" },
     { id: "learn", ico: "📚", label: "觀念教室" }
   ];
   // site.rates 開著時才有「升降息週期」（放在波動與風險後面）
-  if (CFG.rates) QUANT.splice(4, 0, { id: "rates", ico: "🏦", label: "升降息週期" });
+  if (CFG.rates) QUANT.splice(5, 0, { id: "rates", ico: "🏦", label: "升降息週期" });
   var ALIAS = { winrate: "rolling", edu: "learn", wall: "dca" };   // 看盤牆已移除（2026-11-18）：舊連結 #wall 導到 #dca
   function quantTab(hash) {
     var t = (hash || "").replace(/^#/, "").split("?")[0];
