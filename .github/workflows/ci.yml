@@ -23,6 +23,14 @@ jobs:
         run: python3 tools/validate.py
       - name: 建置網站
         run: python3 tools/build.py
+      - name: 量化回測版本號已建置（改了 quant/ 卻沒跑 build.py 會在這裡失敗）
+        run: |
+          # 上一步 build.py 會重新改寫 quant/js 的 import 版本號，所以 test_cache_heal.py 在 CI 永遠會過；要比對的是「repo 裡的檔案」
+          # 只看 quant/js 與 index.html 的 qv（其他網頁每天會因為收盤價不同而變，不比對）
+          git diff --exit-code -- quant/js || { echo "::error::quant/js 的 import 版本號不是最新：請跑 python3 tools/build.py 並一起 commit"; exit 1; }
+          old="$(git show HEAD:index.html | grep -o '"qv":"[0-9a-f]*"' | head -1)"
+          new="$(grep -o '"qv":"[0-9a-f]*"' index.html | head -1)"
+          [ "$old" = "$new" ] || { echo "::error::index.html 的 qv（$old）與現算的（$new）不同：請跑 python3 tools/build.py 並一起 commit"; exit 1; }
       - name: 公式固定測試案例
         run: |
           python3 tools/pe.py
@@ -41,7 +49,7 @@ jobs:
           node --test tools/tests/today.test.js
       - name: JavaScript 語法檢查
         run: for f in assets/*.js quant/js/*.js; do node --check "$f" || exit 1; done
-      - name: 瀏覽器冒煙測試（首頁、個股頁、市值排名、系統健康、量化回測 #dca／#monthly／#vol）
+      - name: 瀏覽器冒煙測試（首頁、個股頁、市值排名、系統健康、量化回測 #dca／#monthly／#vol、舊檔混新檔自動復原）
         run: |
           pip install --quiet playwright
           python3 -m playwright install --with-deps chromium
