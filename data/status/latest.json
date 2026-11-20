@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-20T02:51Z",
+ "generated": "2026-11-20T04:07Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "3 小時前成功",
-   "lastOk": "2026-11-20T00:20Z"
+   "note": "1 小時前成功",
+   "lastOk": "2026-11-20T02:51Z"
   },
   {
    "id": "sec-feed",
@@ -16,7 +16,7 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-20T02:50Z"
+   "lastOk": "2026-11-20T04:06Z"
   },
   {
    "id": "prices-daily",
@@ -24,30 +24,30 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-20T02:50Z"
+   "lastOk": "2026-11-20T04:03Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "1 小時前成功",
-   "lastOk": "2026-11-20T01:36Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-20T03:57Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "23 小時前成功",
-   "lastOk": "2026-11-19T03:44Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-20T03:37Z"
   },
   {
    "id": "mcap-weekly",
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "94 小時前成功",
+   "note": "96 小時前成功",
    "lastOk": "2026-11-16T04:21Z"
   },
   {
@@ -55,7 +55,7 @@
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "66 小時前成功",
+   "note": "67 小時前成功",
    "lastOk": "2026-11-17T09:20Z"
   },
   {
@@ -63,7 +63,7 @@
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "92 小時前成功",
+   "note": "94 小時前成功",
    "lastOk": "2026-11-16T06:24Z"
   }
  ],
