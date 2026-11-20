@@ -706,6 +706,90 @@
       "tz": "TW",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true
+    },
+    {
+      "code": "gd",
+      "name": "通用動力",
+      "nameEn": "General Dynamics",
+      "ticker": "GD",
+      "exchange": "NYSE GD",
+      "sector": "國防與航太",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "gd/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "通用動力財報追蹤板",
+      "description": "通用動力（GD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "GD",
+        "from": "2009-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040533"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0000040533"
+    },
+    {
+      "code": "lmt",
+      "name": "洛克希德馬丁",
+      "nameEn": "Lockheed Martin",
+      "ticker": "LMT",
+      "exchange": "NYSE LMT",
+      "sector": "國防與航太",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "lmt/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "洛克希德馬丁財報追蹤板",
+      "description": "洛克希德馬丁（LMT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "LMT",
+        "from": "2009-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000936468"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0000936468"
+    },
+    {
+      "code": "ceg",
+      "name": "星座能源",
+      "nameEn": "Constellation Energy",
+      "ticker": "CEG",
+      "exchange": "Nasdaq CEG",
+      "sector": "能源與電力",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "ceg/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "星座能源財報追蹤板",
+      "description": "星座能源（CEG）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "CEG",
+        "from": "2022-02",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001868275"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0001868275"
     }
   ]
 }
