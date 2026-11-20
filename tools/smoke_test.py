@@ -94,9 +94,11 @@ def stale_cache(b, base):
     assert old_engine != engine and old_view != view
     errs = []
 
-    def run(name, stale, heals, expect_ok, expect_navs):
+    def run(name, stale, heals, expect_ok, expect_navs, init=None):
         """stale：{路徑: (舊內容, content-type, 只有無 ?v= 的網址才舊)}；heals：被強制重抓後是否換回新版；expect_navs：頁面主文件載入次數（含自動重新整理）"""
         ctx = b.new_context()
+        if init:
+            ctx.add_init_script(init)
         pg = ctx.new_page()
         healed, navs, fetched = [False], [0], set()
         pg.on("request", lambda r: navs.__setitem__(0, navs[0] + 1) if r.resource_type == "document" and r.frame == pg.main_frame else None)
@@ -146,6 +148,9 @@ def stale_cache(b, base):
     run("c 舊 view.html 自動復原", {"quant/view.html": (old_view, "text/html", False)}, True, True, 2)
     # (d) 永遠是舊的（強制重抓也救不了）：只重新整理一次，然後顯示 Ctrl+F5 的說明，不會無限重載
     run("d 救不回來時不無限重載", {"quant/js/engine.js": js(old_engine)}, False, False, 2)
+    # (e) sessionStorage 可讀不可寫（舊版 Safari 無痕）：旗標寫不進去就不重新整理，直接顯示說明（否則會無限重載）
+    run("e 旗標寫不進去時不重載", {"quant/js/engine.js": js(old_engine)}, True, False, 1,
+        init="Storage.prototype.setItem = function () { throw new Error('QuotaExceededError'); };")
     return errs
 
 

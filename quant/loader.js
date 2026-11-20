@@ -40,13 +40,20 @@
     "js/admin.js", "js/app.js", "js/chart-plus.js", "js/config.js", "js/engine.js",
     "js/rates-core.js", "js/rates.js", "js/theme.js", "js/view-mode.js"];
   var HEAL_KEY = "quant-heal-" + (V || "none");
+  // healFlag()：讀旗標；healFlag(true)：設旗標，回傳是否真的寫進去；healFlag(false)：清掉
   function healFlag(set) {
-    try { if (set === undefined) return sessionStorage.getItem(HEAL_KEY); if (set) sessionStorage.setItem(HEAL_KEY, "1"); else sessionStorage.removeItem(HEAL_KEY); } catch (e) { /* 無痕模式等：當成沒試過會無限重載，所以讀不到時回傳「已試過」 */ return set === undefined ? "1" : null; }
+    try {
+      if (set === undefined) return sessionStorage.getItem(HEAL_KEY);
+      if (set) { sessionStorage.setItem(HEAL_KEY, "1"); return sessionStorage.getItem(HEAL_KEY) === "1"; }
+      sessionStorage.removeItem(HEAL_KEY);
+    } catch (e) {
+      // 無痕模式等：讀不到時回傳「已試過」；寫不進去（舊版 Safari 無痕可讀不可寫）回傳 false → 不重載。否則會無限重載
+      return set === undefined ? "1" : false;
+    }
     return null;
   }
   // 用 cache:"reload" 強制重抓並更新 HTTP 快取：有版本與無版本的網址都抓，再抓目前頁面的 HTML，之後重新整理
   function healAndReload() {
-    healFlag(true);
     var urls = [location.href.replace(/#.*$/, "")];
     FILES.forEach(function (f) { urls.push(BASE + f); if (q) urls.push(BASE + f + q); });
     var jobs = urls.map(function (u) { return fetch(u, { cache: "reload" }).catch(function () {}); });
@@ -75,7 +82,8 @@
         return app && app.ready;
       }).then(function (r) { healFlag(false); return r; }, function (e) {
         console.error(e);
-        if (!healFlag()) return healAndReload();   // 這個分頁、這個版本還沒試過：重抓檔案並重新整理一次
+        // 這個分頁、這個版本還沒試過，而且旗標寫得進去：重抓檔案並重新整理一次（旗標寫不進去就不重載，避免無限重載）
+        if (!healFlag() && healFlag(true)) return healAndReload();
         container.innerHTML = '<div style="max-width:720px;margin:48px auto;padding:24px;border:1px solid var(--neg);border-radius:10px;color:var(--ink)">' +
           "量化回測工具載入失敗：瀏覽器可能留著舊版檔案。請按 Ctrl+F5（Mac：Cmd+Shift+R）強制重新整理；手機請清除此網站的快取。（原始錯誤：" + String(e && e.message || e).replace(/</g, "&lt;") + "）</div>";
       });

@@ -72,7 +72,7 @@ jobs:
       - name: 提交重產的網頁
         if: steps.chk.outputs.stale == 'true' || github.event_name == 'workflow_dispatch'
         run: |
-          git add index.html */index.html
+          git add index.html */index.html quant/js   # build.py 也會改寫 quant/js 的 import 版本號（要和網頁裡的 qv 一起 commit，見 docs/QUANT.md）
           if git diff --cached --quiet; then echo "網頁沒有變更"; exit 0; fi
           git commit -m "重產網站（股價更新後）"
           for i in 1 2 3; do git pull --rebase -q -X theirs origin main && git push && break || sleep 5; done
