@@ -1,4 +1,5 @@
-# 第四輪：General Dynamics、Lockheed Martin、Constellation Energy
-gd 0000040533
-lmt 0000936468
-ceg 0001868275
+# 第五輪：L3Harris、RTX、Eaton（etncorp = 2012 年前的 Eaton Corporation）
+lhx 0000202058
+rtx 0000101829
+etn 0001551182
+etncorp 0000031277
