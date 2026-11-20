@@ -1,5 +1,5 @@
 {
- "asOf": "2026-11-19",
+ "asOf": "2026-11-20",
  "company": {
   "code": "panw",
   "name": "Palo Alto Networks",
@@ -1938,9 +1938,9 @@
  ],
  "summary": {
   "q": "1Q27",
-  "status": "flash",
+  "status": "final",
   "flashDate": "2026-11-19",
-  "finalDate": null,
+  "finalDate": "2026-11-20",
   "headline": {
    "t": "1Q27 營收 34.45 億美元、年增 39%，高於公司上季財測上緣（33.10 億）；NGS ARR 97.3 億美元、年增 66%。但 GAAP 營業利益只有 0.96 億美元（營業利益率 2.8%），淨利 4.82 億美元主要靠一次性所得稅利益。",
    "tag": "w",
@@ -2005,11 +2005,97 @@
       "n": "1Q27 財報新聞稿（2026-11-18）",
       "url": "https://www.sec.gov/Archives/edgar/data/1327567/000132756726000030/ex991q127earningsrelease.htm"
      }
+    },
+    {
+     "t": "口頭：FY2027 營業利益率（非 GAAP）約 29.5%、調整後自由現金流率 38%、非 GAAP EPS 4.26–4.30 美元，稀釋股數 8.44–8.47 億股（不含 Applied Compute）；Applied Compute 會讓營業利益率 FY2027 最多降 1 個百分點、FY2028 最多降 2 個百分點，FY2029 回到 29%–30%。",
+     "tag": "o",
+     "src": {
+      "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+      "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+      "speaker": "Dipak Golechha（CFO）"
+     }
     }
    ]
   },
-  "mgmt": [],
-  "qa": [],
+  "mgmt": [
+   {
+    "t": "每一項指標都超過財測：NGS ARR 年增 66%、營收年增 39%；整合大型收購的同時，非 GAAP 營業利益率仍超過 30%。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Nikesh Arora（董事長兼執行長）"
+    }
+   },
+   {
+    "t": "本季新增約 170 個平台化客戶，平台化客戶佔 NGS ARR 三分之二、淨留存率超過 120%；Cortex 成長超過 50%，Idira（原 CyberArk）本季從既有客戶新增 100 多個新客戶，是交叉銷售最好的一季。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Nikesh Arora（董事長兼執行長）"
+    }
+   },
+   {
+    "t": "AI 安全產品 Prisma AIRS 五季內 ARR 接近 1.7 億美元、超過 1,000 家客戶；SASE 上的 AI 代理流量年增約 9 倍。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Nikesh Arora（董事長兼執行長）"
+    }
+   },
+   {
+    "t": "收購 Applied Compute（全部用股票）：預期到 FY2029 為 NGS ARR 增加超過 10 億美元；到 FY2030 資本支出少於 30 億美元，預計 FY2027 第三季完成交易。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Nikesh Arora（董事長兼執行長）"
+    }
+   },
+   {
+    "t": "總毛利率 75.2%、年減 1.7 個百分點；硬體（約佔營收 10%）零件成本整個產業偏高，全年都會壓毛利率；本季沒有買回股票。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Dipak Golechha（CFO）"
+    }
+   }
+  ],
+  "qa": [
+   {
+    "q": "Saket Kalia（Barclays）：2027 年企業主管的資安預算會花在哪？",
+    "a": "Arora：本季做了約 170 個平台化，客戶對前沿 AI 防禦興趣很高，也在整併供應商。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Nikesh Arora"
+    }
+   },
+   {
+    "q": "Meta Marshall（Morgan Stanley）：漏洞修補太頻繁造成當機，客戶怎麼處理？",
+    "a": "Lee Klarich（產品技術長）：用虛擬修補先擋住，再讓團隊慢慢上真正的修補。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Lee Klarich（產品技術長）"
+    }
+   },
+   {
+    "q": "Shaul Eyal（TD Cowen）：防火牆訂單成長是 AI 需求還是換機潮？",
+    "a": "Arora：零件漲價、新雲端業者建置與整併都有，認為至少延續 12 個月；Golechha 補充客戶在往單一供應商集中。",
+    "tag": "o",
+    "src": {
+     "n": "1Q27 電話會議逐字稿（Motley Fool，2026-11-18 會議）",
+     "url": "https://www.fool.com/earnings/call-transcripts/2026/11/19/palo-alto-panw-q1-2027-earnings-call-transcript/",
+     "speaker": "Nikesh Arora、Dipak Golechha"
+    }
+   }
+  ],
   "risks": [
    {
     "t": "GAAP 營業利益率只有 2.8%（去年同期 12.5%）：併購攤銷（2.82 億）與股票酬勞相關費用（6.22 億）很重，非 GAAP 與 GAAP 差距越來越大。",
@@ -2022,12 +2108,14 @@
    {
     "t": "稀釋股數從去年同期 7.09 億股增加到 8.38 億股（約 18%），主要是用股票收購 CyberArk；又宣布新的收購，每股價值稀釋要持續追蹤。",
     "tag": "v"
+   },
+   {
+    "t": "電話會議只談非 GAAP 營業利益率，沒有說明 GAAP 營業利益率為何只有 2.8%、也沒有談本季的一次性所得稅利益；Applied Compute 又是全股票收購，股數還會增加。",
+    "tag": "v"
    }
   ],
   "next": "2Q27（預估 2027 年 2 月中旬公布）看三件事：營收是否落在 35.3–35.5 億美元、NGS ARR 是否達 102 億美元、GAAP 營業利益率能否回到兩位數。",
-  "pending": [
-   "電話會議重點待補完"
-  ]
+  "pending": []
  },
  "story": {
   "t": "平台化（整合資安產品）",

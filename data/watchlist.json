@@ -8,7 +8,7 @@
    "until": null,
    "auto": "ipo",
    "code": "anthropic",
-   "what": "Anthropic 上市觀察：S-1 已公開（2026-10-26），尚未定價",
+   "what": "Anthropic 上市觀察：已定價上市（424B4 2026-11-19），等第一份季報（10-Q 或 8-K Item 2.02）",
    "how": "看 data/sec-feed.json 的 anthropic.ipo（Actions 每天抓 SEC）。出現 424B4 → 回報置頂「Anthropic 已定價上市（日期）」，在 data/anthropic.json 的 milestones 加一筆（書面，附 424B4 連結），不改 enabled。出現第一份 10-Q 或 8-K Item 2.02 → 回報置頂「Anthropic 第一份季報已出，等 ZL 說『繼續 Anthropic』上架」，附申報連結與上架前要 ZL 決定的毛利口徑（見 companies/anthropic/SOURCES.md）。排程不自己上架。上架完成後 watch-done。"
   },
   {
