@@ -28,7 +28,7 @@
 5. 出現「黃金地上存量…可能已公布新一季」時（約每季一次）：用 WebFetch 讀該網址，只找「Total above-ground stock (end-Qx 20xx)」那一行的公噸數。真的讀到而且比 config 新，才改 `data/mcap/config.json` 的 `goldStock`（tonnes、asOf＝那季最後一天、label、checked＝今天），commit「市值排名：更新黃金地上存量 <label>」並 push main。讀不到就在回報寫「待確認：WGC 地上存量本季未讀到」，不改檔。
 
 ## 記 token（只在 Claude 排程還有跑的期間；停用後就不用）
-最後一步：`get_session`（不帶 id）讀 `external_metadata.usage`，執行 `python3 tools/daily.py tokens add mcap --session <id> --model <model> --input <input_tokens> --cache-read <cache_read_tokens> --cache-write <cache_write_tokens> --output <output_tokens> --cost <cost_usd>`，再 `python3 tools/daily.py tokens report`，commit 並 push。這是「不要 push」規則唯一的例外。
+最後一步：`python3 tools/daily.py tokens auto mcap`（自動讀本工作階段紀錄檔，含子代理，並重寫 reports/token-usage.md；不用 get_session，那個欄位不存在），commit 並 push。這是「不要 push」規則唯一的例外。
 
 ## 資料誠實規則（摘要，完整見 CLAUDE.md）
 - data/mcap 的數字只由 Actions 寫入；Claude 不手填、不估計、不從記憶補。

@@ -64,7 +64,7 @@
 3. commit（繁中，例「NVDA 3Q27 快報」）→ push main。
 4. Artifact：有變動時 publish `dist/artifacts/all.html` 到 `companies.json` 的 `site.artifact`（先 `action:"read"` 再 publish），`label` 寫這次變動。
 5. `python3 tools/daily.py done && python3 tools/daily.py save-lights`，commit＋push `data/calendar.json`、`data/brief-lights.json`（可和上一步同一個 commit）。某家失敗也要 `done`（失敗由 `try` 計數接手）；整個排程沒跑完才不 `done`。
-6. **記 token**（最後一步）：`get_session`（不帶 id）讀 `external_metadata.usage`，執行 `python3 tools/daily.py tokens add daily --session <id> --model <model> --input <input_tokens> --cache-read <cache_read_tokens> --cache-write <cache_write_tokens> --output <output_tokens> --cost <cost_usd>`，commit＋push `data/token-usage.json`（和第 5 步同一個 commit）。測試模式的排程名寫 `daily-shadow`。
+6. **記 token**（最後一步，不要省）：`python3 tools/daily.py tokens auto daily`（自動讀本工作階段紀錄檔，含子代理，並重寫 reports/token-usage.md；不用 get_session，那個欄位不存在），commit＋push `data/token-usage.json`、`reports/token-usage.md`（和第 5 步同一個 commit）。測試模式的排程名寫 `daily-shadow`。指令失敗就在回報寫一行原因，不要手填數字。
 7. PushNotification：沒事的日子一行；有快報或紅燈時標題寫公司與重點。
 
 ## 每日回報（最後一則訊息；固定五段，沒事的日子只有三四行）
