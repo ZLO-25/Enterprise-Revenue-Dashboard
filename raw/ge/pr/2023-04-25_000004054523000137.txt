@@ -1,0 +1,210 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/40545/000004054523000137/R99.htm
+
+XML
+113
+R99.htm
+IDEA: XBRL DOCUMENT
+v3.23.1
+INSURANCE LIABILITIES AND ANNUITY BENEFITS - Narrative (Details) - USD ($) $ in Millions | 3 Months Ended | 12 Months Ended | 24 Months Ended | 48 Months Ended
+Mar. 31, 2023 | Dec. 31, 2022 | Sep. 30, 2022 | Jun. 30, 2022 | Mar. 31, 2022 | Dec. 31, 2021 | Sep. 30, 2021 | Jun. 30, 2021 | Mar. 31, 2021 | Dec. 31, 2022 | Dec. 31, 2021 | Dec. 31, 2020 | Dec. 31, 2024 | Dec. 31, 2022
+Disaggregation of Revenue [Line Items]
+Insurance revenues | $ 2,957 | $ 3,101 | $ 2,865
+Net earnings (loss) | $ 2,213 | $ 165 | $ (863) | $ (1,108) | $ (3,852) | $ 1,467 | $ (1,210) | $ (2,813) | 407 | (6,408) | 5,546
+Assets | 188,851 | 205,378 | 188,851 | 205,378 | $ 188,851
+Gross premium income | 935 | 967
+Interest accretion | 1,735 | 1,730
+Favorable pre-tax adjustments, net premium ratio | 404 | 408
+Unfavorable adjustment, insufficient gross premium | 190 | 58
+Policyholder account balance | $ 1,964 | $ 2,124 | 1,964 | 2,124 | $ 1,964
+Policyholder account balance, surrender, withdrawal and benefit payments | 441 | 475
+Policyholder account balance, net additions and interest credited | $ 271 | $ 326
+Policyholder account balance, crediting rate | 3.00% | 6.00% | 3.00% | 6.00% | 3.00%
+Reinsurance recoveries | $ 321 | $ 351 | 350
+Reinsurance recoverables, allowances | $ 2,065 | 2,065 | 2,079
+Reinsurance recoverables, net | $ 255 | 6,596 | 255 | 6,596 | $ 255
+Reinsurance recoverable, credit loss increase, expense, pre-tax | 350
+Reinsurance recoverable, credit loss increase, expense, after-tax | $ 276
+Reinsurance recoverable, incurred but not yet reported claims | 2,396 | $ 2,396 | 2,396
+Reinsurance incremental loss (pre-tax) | 55
+Reinsurance incremental loss (after-tax) | $ 43
+Capital contributions to insurance subsidiaries | $ 1,815 | $ 13,215
+Statutory capital level requirement | 300.00% | 300.00% | 300.00%
+Long-term care
+Disaggregation of Revenue [Line Items]
+Gross premium income | $ 490 | 487
+Interest accretion | 1,224 | 1,194
+Life
+Disaggregation of Revenue [Line Items]
+Gross premium income | 415 | 448
+Interest accretion | 471 | 491
+Forecast
+Disaggregation of Revenue [Line Items]
+Capital contributions to insurance subsidiaries | $ 1,820
+Run-off Insurance Operations
+Disaggregation of Revenue [Line Items]
+Insurance revenues | 2,957 | 3,101 | 2,865
+Gross profit (loss) | 205 | 798 | 197
+Net earnings (loss) | 159 | 627 | $ 143
+Assets | $ 45,031 | $ 56,037 | $ 45,031 | $ 56,037 | $ 45,031
+X
+Name: | ge_CapitalContributionsToInsuranceSubsidiaries
+Namespace Prefix: | ge_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | ge_LiabilityForFuturePolicyBenefitFavorableAdjustmentNetPremiumRatio
+Namespace Prefix: | ge_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | ge_PolicyholderAccountBalanceIssuanceAndInterestCredit
+Namespace Prefix: | ge_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | ge_PolicyholderAccountBalanceSurrenderWithdrawalAndBenefitPaymentsNet
+Namespace Prefix: | ge_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | ge_ReinsuranceLossOnUncollectibleAccountsInPeriodNetOfTaxAmount
+Namespace Prefix: | ge_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | ge_ReinsuranceRecoverableCreditLossExpenseReversalAfterTax
+Namespace Prefix: | ge_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | ge_StatutoryCapitalandSurplusApplyingNationalAssociationofInsuranceCommissionersNAICLevelPercentage
+Namespace Prefix: | ge_
+Data Type: | dtr-types:percentItemType
+Balance Type: | na
+Period Type: | instant
+X
+Name: | us-gaap_Assets
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | instant
+X
+Name: | us-gaap_DisaggregationOfRevenueLineItems
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:stringItemType
+Balance Type: | na
+Period Type: | duration
+X
+Name: | us-gaap_GrossProfit
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | us-gaap_InsuranceServicesRevenue
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | us-gaap_LiabilityForFuturePolicyBenefitAdverseDevelopmentExpense
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | us-gaap_LiabilityForFuturePolicyBenefitGrossPremiumIncome
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | us-gaap_LiabilityForFuturePolicyBenefitInterestExpense
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | us-gaap_PolicyholderAccountBalanceWeightedAverageCreditingRate
+Namespace Prefix: | us-gaap_
+Data Type: | dtr-types:percentItemType
+Balance Type: | na
+Period Type: | instant
+X
+Name: | us-gaap_PolicyholderFunds
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | instant
+X
+Name: | us-gaap_ProfitLoss
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | us-gaap_ReinsuranceCostsAndRecoveriesNet
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | duration
+X
+Name: | us-gaap_ReinsuranceLossOnUncollectibleAccountsInPeriodAmount
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | us-gaap_ReinsuranceReceivablesIncurredButNotReportedClaims
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | instant
+X
+Name: | us-gaap_ReinsuranceRecoverableCreditLossExpenseReversal
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | duration
+X
+Name: | us-gaap_ReinsuranceRecoverables
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | debit
+Period Type: | instant
+X
+Name: | us-gaap_ReinsuranceRecoverablesAllowance
+Namespace Prefix: | us-gaap_
+Data Type: | xbrli:monetaryItemType
+Balance Type: | credit
+Period Type: | instant
+X
+Name: | srt_ProductOrServiceAxis=ge_LongTermCareInsuranceMember
+Namespace Prefix:
+Data Type: | na
+Balance Type:
+Period Type:
+X
+Name: | srt_ProductOrServiceAxis=us-gaap_LifeInsuranceSegmentMember
+Namespace Prefix:
+Data Type: | na
+Balance Type:
+Period Type:
+X
+Name: | srt_StatementScenarioAxis=srt_ScenarioForecastMember
+Namespace Prefix:
+Data Type: | na
+Balance Type:
+Period Type:
+X
+Name: | us-gaap_OtherCommitmentsAxis=ge_RunoffInsuranceOperationsMember
+Namespace Prefix:
+Data Type: | na
+Balance Type:
+Period Type:
