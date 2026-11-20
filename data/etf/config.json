@@ -2,7 +2,7 @@
   "_doc": "ETF 追蹤清單（docs/ETF.md）。Claude 可以改這份（加減 ETF、改說明）；data/etf/latest.json 與 data/etf/daily/ 只由 GitHub Actions（prices-daily 的 tools/etf_update.py）寫入。why＝觀點（Claude 的整理）。",
   "groups": ["大盤", "國防與航太", "半導體", "記憶體"],
   "holdingsEveryDays": 7,
-  "aliases": {"TSM": "tsmc", "2330.TW": "tsmc", "005930.KS": "samsung", "SSNLF": "samsung", "ASML": "asml", "ASML.AS": "asml", "2308.TW": "delta", "6187.TWO": "allring", "GOOG": "googl"},
+  "aliases": {"TSM": "tsmc", "2330.TW": "tsmc", "005930.KS": "samsung", "005930.KQ": "samsung", "SSNLF": "samsung", "ASML": "asml", "ASML.AS": "asml", "2308.TW": "delta", "6187.TWO": "allring", "GOOG": "googl"},
   "etfs": [
     {"code": "etf_voo", "ticker": "VOO", "name": "Vanguard S&P 500 ETF", "zh": "先鋒標普 500", "group": "大盤", "yahoo": "VOO", "currency": "USD",
      "issuer": "Vanguard", "index": "S&P 500", "issuerUrl": "https://investor.vanguard.com/investment-products/etfs/profile/voo",
