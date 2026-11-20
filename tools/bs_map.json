@@ -1924,5 +1924,276 @@
     ]
    ]
   }
+ },
+ "bwxt": {
+  "ni": [
+   "NetIncomeLoss",
+   "NetIncomeLossAvailableToCommonStockholdersBasic"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue"
+    ]
+   ],
+   "opt": []
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "LongTermDebtNoncurrent",
+     "LongTermDebt"
+    ]
+   ],
+   "opt": [
+    [
+     "LongTermDebtCurrent",
+     "DebtCurrent"
+    ]
+   ]
+  }
+ },
+ "xom": {
+  "ni": [
+   "NetIncomeLoss",
+   "NetIncomeLossAvailableToCommonStockholdersBasic"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashAndCashEquivalentsAtCarryingValue"
+    ]
+   ],
+   "opt": []
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "LongTermDebtAndCapitalLeaseObligations",
+     "LongTermDebtNoncurrent"
+    ]
+   ],
+   "opt": [
+    [
+     "DebtCurrent"
+    ]
+   ]
+  }
+ },
+ "ge": {
+  "ni": [
+   "NetIncomeLoss",
+   "NetIncomeLossAvailableToCommonStockholdersBasic"
+  ],
+  "equity": {
+   "kind": "inst",
+   "all": [
+    [
+     "StockholdersEquity"
+    ]
+   ]
+  },
+  "shOut": {
+   "kind": "inst",
+   "shares": true,
+   "all": [
+    [
+     "CommonStockSharesOutstanding"
+    ]
+   ],
+   "cover": true
+  },
+  "dilSh": {
+   "kind": "qonly",
+   "shares": true,
+   "all": [
+    [
+     "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+   ]
+  },
+  "pretax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"
+    ]
+   ]
+  },
+  "tax": {
+   "kind": "q",
+   "all": [
+    [
+     "IncomeTaxExpenseBenefit"
+    ]
+   ]
+  },
+  "buyback": {
+   "kind": "ytd",
+   "all": [
+    [
+     "PaymentsForRepurchaseOfCommonStock"
+    ]
+   ]
+  },
+  "sbc": {
+   "kind": "ytd",
+   "all": [
+    [
+     "ShareBasedCompensation",
+     "AllocatedShareBasedCompensationExpense"
+    ]
+   ]
+  },
+  "cash": {
+   "kind": "inst",
+   "all": [
+    [
+     "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"
+    ]
+   ],
+   "opt": []
+  },
+  "debt": {
+   "kind": "inst",
+   "all": [
+    [
+     "LongTermDebtAndCapitalLeaseObligations",
+     "LongTermDebtNoncurrent"
+    ]
+   ],
+   "opt": [
+    [
+     "DebtCurrent"
+    ]
+   ]
+  }
  }
 }
