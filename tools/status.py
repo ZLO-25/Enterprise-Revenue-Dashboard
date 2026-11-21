@@ -88,6 +88,7 @@ def actions_block(now, use_api):
             except Exception as e:  # noqa: BLE001
                 row["note"] = f"查詢失敗：{type(e).__name__}"
         rows.append(row)
+    rows.append(macro_row(jload("data", "macro", "latest.json", default=None), now))
     # SEC 清單用檔案時間判斷（由 daily-prep 寫入，比 workflow 紀錄更直接）
     feed = jload("data", "sec-feed.json", default={}) or {}
     if feed.get("fetched"):
@@ -95,6 +96,34 @@ def actions_block(now, use_api):
         light, note = eval_run_age("daily", ok, None, now)
         rows.insert(1, {"id": "sec-feed", "label": "SEC 新申報清單（檔案時間）", "kind": "daily", "light": light, "note": note, "lastOk": feed["fetched"]})
     return rows
+
+
+def macro_row(doc, now):
+    """總經儀表板的資料內容（不是 workflow 有沒有跑，而是抓回來的東西對不對）。
+      紅：資料檔超過 10 天沒更新（排程每週兩次＋每天被叫醒一次，10 天沒動代表壞了），或一半以上的序列抓不到
+      黃：有序列太久沒有新資料（來源停更、改代號）、有序列這次抓不到、有外部連結 404
+    """
+    row = {"id": "macro-data", "label": "總經資料（內容檢查：停更、抓不到、連結失效）", "kind": "weekly", "light": "yellow", "note": "還沒有資料檔"}
+    if not doc or not doc.get("updated"):
+        return row
+    at = dt.datetime.strptime(doc["updated"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=dt.timezone.utc)
+    age_d = (now - at).total_seconds() / 86400
+    row["lastOk"] = at.strftime("%Y-%m-%dT%H:%MZ")
+    stale = (doc.get("health") or {}).get("stale") or []
+    failed = [u for u in doc.get("unavailable") or []]
+    dead = (doc.get("links") or {}).get("dead") or []
+    total = len(doc.get("series") or {}) or 1
+    if age_d > 10:
+        row["light"], row["note"] = "red", f"資料檔已 {age_d:.0f} 天沒有更新"
+    elif len(failed) > total / 2:
+        row["light"], row["note"] = "red", f"{len(failed)} 條序列抓不到（共 {total} 條），來源可能改了格式"
+    elif stale or failed or dead:
+        parts = ([f"{len(stale)} 條太久沒有新資料（{'、'.join(x['name'] for x in stale[:3])}{'…' if len(stale) > 3 else ''}）"] if stale else []) + \
+                ([f"{len(failed)} 條這次抓不到"] if failed else []) + ([f"{len(dead)} 個外部連結 404"] if dead else [])
+        row["light"], row["note"] = "yellow", "；".join(parts) + "。細節在總經儀表板頁尾"
+    else:
+        row["light"], row["note"] = "green", f"{age_d:.0f} 天前更新，{total} 條序列都正常"
+    return row
 
 
 def routines_block(today):

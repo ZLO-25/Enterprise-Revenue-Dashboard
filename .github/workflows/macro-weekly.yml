@@ -2,7 +2,10 @@
 #
 #   觸發：① 台北週六、週日、週三各排幾班（GitHub 免費排程常晚幾小時或漏跑，多排幾班）
 #         ② tools/macro_fetch.py 或 data/macro/config.json 改了 ③ 手動
+#         ④ daily-prep 每天順手叫醒一次（GitHub 排程常漏跑；5 天內抓過就約 10 秒結束，所以天天叫也不花什麼）
 #   每班先看 data/macro/latest.json 是不是 5 天內抓過 → 抓過就約 10 秒結束，不重抓
+#   抓的時候順便做三件「長期運作」的事（結果寫在 latest.json，系統健康頁會亮燈）：
+#     哪條序列太久沒有新資料（來源停更、改代號）、外部連結有沒有 404、觀念提醒的條件有沒有成立
 #   資料：美國＝FRED（聖路易聯準銀行，免金鑰）；台灣＝國發會景氣指標查詢系統
 #   只會 git add data/macro/latest.json，不會動到其他任何檔案。
 name: macro-weekly
@@ -21,11 +24,11 @@ on:
   workflow_dispatch:
     inputs:
       probe:
-        description: "只試探：印出台灣官方資料檔頭尾、檢查外部連結有沒有失效（不寫檔）"
+        description: "只試探：印出台灣官方資料檔頭尾、所有外部連結的回應碼（不寫檔）"
         type: boolean
         default: false
       force:
-        description: "就算 5 天內抓過也重抓"
+        description: "就算 5 天內抓過也重抓（不勾：5 天內抓過就跳過）"
         type: boolean
         default: false
 permissions:
@@ -51,7 +54,8 @@ jobs:
         id: need
         if: ${{ !inputs.probe }}
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then python3 tools/macro_fetch.py --check; else echo "stale=true" >> "$GITHUB_OUTPUT"; fi
+          # 排程、被 daily-prep 叫醒（手動觸發但沒勾 force）：5 天內抓過就跳過。改了程式或設定（push）、或勾了 force：一定重抓
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ inputs.force }}" = "true" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else python3 tools/macro_fetch.py --check; fi
       - name: 下載總經資料
         if: ${{ !inputs.probe && steps.need.outputs.stale == 'true' }}
         run: python3 tools/macro_fetch.py

@@ -54,7 +54,8 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 
 ## 總經儀表板（macro/）
 - 說明在 [`docs/MACRO.md`](docs/MACRO.md)。指標清單、四階段對照表、外部連結在 `data/macro/config.json`（Claude 維護）；`data/macro/latest.json` **只由 GitHub Actions（macro-weekly，`tools/macro_fetch.py`）寫入**，Claude 不手填、不修改。
-- 愛榭克（Izaax）書裡的判讀來自讀者筆記：頁面標「整理，不是原話」，不可用引號假裝引述、不可補筆記裡沒有的門檻。這一頁不判定現在是哪個景氣階段。
+- 愛榭克（Izaax）的判讀來自書摘、他本人的公開文章、分享會聽眾筆記與讀書筆記（他部落格要登入的文章沒有讀、不引用）：頁面標「整理，不是原話」，不可用引號假裝引述、不可補來源裡沒有的門檻。每一則「他怎麼想」（`concepts`）都要指到 `about.sources` 的出處；本站自己的說明標「教學」。這一頁不判定現在是哪個景氣階段。
+- 觀念提醒（`reminders`）成立與否、警訊計數、基期、停更與連結失效，全部只在 `tools/macro_fetch.py` 算（Actions 跑），頁面只畫。方向燈門檻在 `config.json` 的 `light`。長期運作的檢修表在 `docs/MACRO.md`。
 - 「AI 資本支出鏈」由 `tools/capex_chain.py` 在建置時用各公司財報加總，不存檔；缺一家就留空標待確認。
 
 ## 文件
