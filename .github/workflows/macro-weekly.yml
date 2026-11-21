@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       probe:
-        description: "只試探台灣候選來源、印出回應（不寫檔）"
+        description: "只試探：印出台灣官方資料檔頭尾、檢查外部連結有沒有失效（不寫檔）"
         type: boolean
         default: false
       force:
@@ -45,7 +45,7 @@ jobs:
       - name: 單元測試（年增率、方向燈、衰退期間）
         run: python3 -m unittest discover -s tools/tests -p 'test_macro.py'
       - name: 試探來源
-        if: ${{ inputs.probe || (github.event_name == 'push' && github.ref_name != 'main') }}
+        if: ${{ inputs.probe }}
         run: python3 tools/macro_fetch.py --probe
       - name: 是否需要抓取
         id: need

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "總經儀表板的指標清單（Claude 維護）。數字只由 GitHub Actions 的 macro-weekly（tools/macro_fetch.py）寫進 data/macro/latest.json。show：level＝原始數值、yoy＝年增率（%）、chg＝和上一期的差。bad：往哪個方向走代表景氣轉差（up／down；空白＝不亮方向燈）。book：這個指標在《景氣循環投資》（愛榭克 Izaax）讀者筆記裡出現在哪個階段的判讀，是整理不是原話。",
+ "note": "總經儀表板的指標清單（Claude 維護）。數字只由 GitHub Actions 的 macro-weekly（tools/macro_fetch.py）寫進 data/macro/latest.json。show：level＝原始數值、yoy＝年增率（%）、chg＝和上一期的差。bad：往哪個方向走代表景氣轉差（up／down；空白＝不亮方向燈）。book：這個指標在《景氣循環投資》（愛榭克 Izaax）讀者筆記裡出現在哪個階段的判讀，是整理不是原話。 scale／showUnit／showDigits：只影響頁面顯示的單位換算（例如 千人 → 萬人），存檔的數字仍是來源的原始單位。",
  "since": "1990-01-01",
  "recession": "USREC",
  "groups": [
@@ -18,7 +18,10 @@
      "bad": "up",
      "digits": 0,
      "book": "復甦期：高峰出現在復甦起點。榮景期尾聲七大指標①：創新低代表榮景還會延伸至少三個季度；不再創新低、右端翹起（U 型）要提高警覺。",
-     "read": "每週公布，最即時。看 4 週平均比單週穩。下面「離三年低點多遠」就是在看 U 型的右端有沒有翹起來。"
+     "read": "每週公布，最即時。看 4 週平均比單週穩。展開後的「比三年低點高多少」，就是在看 U 型的右端有沒有翹起來。",
+     "scale": 0.0001,
+     "showUnit": "萬人",
+     "showDigits": 2
     },
     {
      "key": "payems",
@@ -29,7 +32,10 @@
      "bad": "down",
      "digits": 0,
      "book": "成長期：新增就業提升。書中提醒非農與失業率在轉折點常是假訊號或落後，不要單看。",
-     "read": "每月第一個週五公布。單月容易大修正，看 3 個月以上的趨勢。"
+     "read": "每月第一個週五公布。單月容易大修正，看 3 個月以上的趨勢。",
+     "scale": 0.1,
+     "showUnit": "萬人",
+     "showDigits": 1
     },
     {
      "key": "unrate",
@@ -51,7 +57,10 @@
      "bad": "down",
      "digits": 0,
      "book": "榮景期尾聲：和初領失業金一起看，職缺自高點反轉是警訊。",
-     "read": "公布比較慢（落後約兩個月）。趨勢至少看一年。"
+     "read": "公布比較慢（落後約兩個月）。趨勢至少看一年。",
+     "scale": 0.1,
+     "showUnit": "萬個",
+     "showDigits": 1
     },
     {
      "key": "uemp5",
@@ -62,7 +71,10 @@
      "bad": "up",
      "digits": 0,
      "book": "復甦期：短期失業人數改善時，景氣通常同步邁入復甦。",
-     "read": "剛失業的人數，比整體失業率更早反映裁員潮。"
+     "read": "剛失業的人數，比整體失業率更早反映裁員潮。",
+     "scale": 0.1,
+     "showUnit": "萬人",
+     "showDigits": 1
     }
    ]
   },
@@ -219,7 +231,10 @@
      "bad": "down",
      "digits": 0,
      "book": "榮景期延伸關鍵：房地產與民間投資是否穩定擴張。",
-     "read": "單月波動大，看 3 個月以上的趨勢。"
+     "read": "單月波動大，看 3 個月以上的趨勢。",
+     "scale": 0.1,
+     "showUnit": "萬戶",
+     "showDigits": 1
     },
     {
      "key": "permit",
@@ -230,7 +245,10 @@
      "bad": "down",
      "digits": 0,
      "book": "同上，營建許可領先新屋開工。",
-     "read": "先拿到許可才會開工，所以比開工更領先。"
+     "read": "先拿到許可才會開工，所以比開工更領先。",
+     "scale": 0.1,
+     "showUnit": "萬戶",
+     "showDigits": 1
     }
    ]
   },
@@ -416,7 +434,10 @@
      "bad": "",
      "digits": 0,
      "book": "聯準會以降息與量化寬鬆（QE）拯救景氣趨緩。",
-     "read": "往上是放水（QE），往下是收水（縮表）。"
+     "read": "往上是放水（QE），往下是收水（縮表）。",
+     "scale": 1e-06,
+     "showUnit": "兆美元",
+     "showDigits": 2
     }
    ]
   },
@@ -987,5 +1008,20 @@
     "url": "https://vocus.cc/article/66fe1794fd897800013fd620"
    }
   ]
+ },
+ "chain": {
+  "buyers": [
+   "msft",
+   "amzn",
+   "googl",
+   "meta"
+  ],
+  "suppliers": [
+   "nvda",
+   "avgo",
+   "tsmc"
+  ],
+  "lead": "總經數字裡的「民間非住宅固定投資」，現在很大一塊是雲端大廠蓋 AI 資料中心。這張表把本站追蹤的四家雲端大廠的資本支出加起來：它們花的錢，就是輝達、博通、台積電的營收來源。",
+  "read": "先看買方合計的年增率有沒有放慢，再看占營收的比重是不是高到撐不下去。買方踩煞車，通常比賣方的營收先看得到。"
  }
 }

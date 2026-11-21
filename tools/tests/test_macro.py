@@ -116,6 +116,12 @@ class StatsTest(unittest.TestCase):
         self.assertEqual(s["hi3"], 50.0)
         self.assertEqual(s["chg"], 0.0)       # 半年前也是 25
         self.assertTrue(0 < s["pct10"] < 30)
+        self.assertEqual(s["fromLo3"], 25.0)   # 25 比三年低點 20 高 25%
+        self.assertEqual(s["fromHi3"], -50.0)
+
+    def test_no_distance_when_low_is_not_positive(self):
+        s = M.stats(monthly([1, -2, 3, -1, 2] * 10), "m", "down")
+        self.assertNotIn("fromLo3", s)
 
     def test_quarterly_uses_two_quarters(self):
         pts = [(f"{2000 + i // 4}-{(i % 4) * 3 + 1:02d}-01", float(v)) for i, v in enumerate([2, 3, 3, 2] * 15 + [3, 3, 9])]

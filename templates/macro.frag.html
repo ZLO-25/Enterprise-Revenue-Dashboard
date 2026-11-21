@@ -1,0 +1,462 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+:root{--mx-good:#1f8a4c;--mx-bad:#c63b3b;--mx-flat:#8a8880;--mx-band:rgba(60,60,55,.10)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10)}}
+:root[data-theme="dark"]{--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10)}
+.mx-tag{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface);white-space:nowrap;vertical-align:1px}
+.mx-chain{display:flex;flex-wrap:wrap;gap:8px 4px;align-items:stretch}
+.mx-box{flex:1 1 132px;min-width:132px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;align-content:start}
+.mx-box:hover{border-color:var(--accent)}
+.mx-box b{font-size:.95rem}
+.mx-box .cnt{font-size:.78rem;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:2px 8px}
+.mx-arrow{align-self:center;color:var(--muted);font-family:var(--font-data);flex:none}
+.mx-dots{display:flex;flex-wrap:wrap;gap:3px}
+.mx-dot{width:9px;height:9px;border-radius:50%;background:var(--mx-flat);display:inline-block;flex:none}
+.mx-dot.better{background:var(--mx-good)} .mx-dot.worse{background:var(--mx-bad)} .mx-dot.none{background:transparent;border:1px solid var(--axis)}
+.mx-pill{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;white-space:nowrap;color:var(--ink-2)}
+.mx-pill.better{color:var(--mx-good)} .mx-pill.worse{color:var(--mx-bad)}
+.mx-moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.mx-moves ul{margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.9rem}
+.mx-moves li small{color:var(--muted);font-family:var(--font-data)}
+.mx-tbl{width:100%;border-collapse:collapse;font-size:.9rem}
+.mx-tbl th,.mx-tbl td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;white-space:normal}
+.mx-tbl th{font-size:.76rem;color:var(--muted);font-weight:600;white-space:nowrap}
+.mx-tbl td.n,.mx-tbl th.n{text-align:right;font-family:var(--font-data);white-space:nowrap}
+.mx-tbl td small{color:var(--muted);font-family:var(--font-data);font-size:.74rem}
+.mx-tbl tr.row{cursor:pointer}
+.mx-tbl tr.row:hover td{background:var(--wash)}
+.mx-tbl tr.row td:first-child{width:5.2em}
+.mx-name{font-weight:600}
+.mx-name button{all:unset;cursor:pointer;display:inline}
+.mx-name button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mx-name button::before{content:"▸";display:inline-block;width:1.1em;color:var(--muted);transition:transform .15s}
+tr.row[aria-expanded="true"] .mx-name button::before{transform:rotate(90deg)}
+.mx-range{position:relative;width:110px;height:6px;border-radius:3px;background:var(--grid);margin:6px 0 2px}
+.mx-range i{position:absolute;top:-3px;width:4px;height:12px;border-radius:2px;background:var(--accent);transform:translateX(-2px)}
+.mx-rl{display:flex;justify-content:space-between;width:110px;font-family:var(--font-data);font-size:.68rem;color:var(--muted)}
+.mx-spark{display:block}
+.mx-det td{background:var(--surface);padding:14px 12px 18px}
+.mx-det .grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px}
+.mx-det .txt{display:grid;gap:10px;align-content:start;font-size:.9rem}
+.mx-det .txt p{color:var(--ink-2)}
+.mx-det .txt p b{color:var(--ink)}
+.mx-det .facts{font-size:.82rem;color:var(--ink-2);display:grid;gap:3px;border-top:1px solid var(--line);padding-top:8px}
+.mx-chart{position:relative;height:260px}
+.mx-rg{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.mx-rg button{font:inherit;font-size:.78rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:3px 10px;border-radius:999px;cursor:pointer}
+.mx-rg button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
+.mx-rg span{font-size:.74rem;color:var(--muted)}
+.mx-phase{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.mx-phase .card h3{font-size:1.1rem}
+.mx-phase .mark{color:var(--ink-2);font-size:.92rem}
+.mx-chk{width:100%;border-collapse:collapse;font-size:.88rem;table-layout:fixed}
+.mx-chk td{padding:7px 8px;border-top:1px solid var(--line);border-bottom:0;vertical-align:top;white-space:normal;text-align:left}
+.mx-chk td:first-child{width:46%}
+.mx-chip{display:inline-flex;flex-wrap:wrap;align-items:center;gap:2px 5px;margin:0 10px 4px 0;font-size:.84rem;text-decoration:none;color:var(--ink);max-width:100%}
+.mx-chips{display:flex;flex-wrap:wrap}
+.mx-chip:hover{text-decoration:underline}
+.mx-chip small{font-family:var(--font-data);color:var(--muted)}
+.mx-inv{font-size:.9rem;border-left:3px solid var(--accent);padding-left:10px;color:var(--ink-2)}
+.mx-tw{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}
+.mx-lamp{display:inline-flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:700}
+.mx-lamp i{width:22px;height:22px;border-radius:50%;display:inline-block;background:var(--c,#999);box-shadow:0 0 0 3px color-mix(in srgb,var(--c,#999) 25%,transparent)}
+.mx-strip{display:flex;gap:3px;align-items:flex-end;flex-wrap:wrap}
+.mx-strip span{width:14px;height:14px;border-radius:50%;background:var(--c,#999);display:inline-block}
+.mx-strip small{font-size:.72rem;color:var(--muted);margin:0 4px;font-family:var(--font-data)}
+.mx-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mx-links ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:.9rem}
+.mx-links li small{display:block;color:var(--ink-2);font-size:.8rem}
+.mx-pre{font-family:var(--font-data);font-size:.78rem;line-height:1.45;white-space:pre;overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--ink-2)}
+.mx-warn{font-size:.86rem;color:var(--ink-2)}
+main.wrap>section,main.wrap>header,.card>*{min-width:0}
+@media (max-width:760px){
+  .mx-det .grid{grid-template-columns:minmax(0,1fr)}
+  .mx-tbl .hide-s{display:none}
+  .mx-tbl:not(.mx-plain),.mx-tbl:not(.mx-plain) tbody{display:block}
+  .mx-tbl:not(.mx-plain) tr:first-child:not(.row){display:none}
+  .mx-plain th,.mx-plain td{padding:7px 5px;font-size:.84rem}
+  .mx-tbl tr.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:10px 10px;border-bottom:1px solid var(--line)}
+  .mx-tbl tr.row td{border:0;padding:0;background:none!important}
+  .mx-tbl tr.row td:nth-child(1){grid-column:2;grid-row:1;width:auto;justify-self:end}
+  .mx-tbl tr.row td:nth-child(2){grid-column:1;grid-row:1}
+  .mx-tbl tr.row td:nth-child(3){grid-column:1;grid-row:2;text-align:left}
+  .mx-tbl tr.row td:nth-child(4){grid-column:2;grid-row:2}
+  .mx-tbl tr.row td br{display:none}
+  .mx-tbl tr.row td small{margin-left:6px}
+  .mx-tbl tr.mx-det,.mx-tbl tr.mx-det td{display:block}
+  .mx-tbl tr.mx-det[hidden]{display:none}
+  .mx-tbl:not(.mx-plain) tr:not(.row):not(.mx-det):not(:first-child){display:block;padding:10px}
+  .mx-arrow{display:none}
+  .mx-box{flex-basis:calc(50% - 4px);min-width:0}
+  .mx-chk td:first-child{width:auto}
+  .mx-chk,.mx-chk tbody,.mx-chk tr,.mx-chk td{display:block}
+  .mx-chk tr{border-top:1px solid var(--line);padding:6px 0}
+  .mx-chk td{border:0;padding:2px 0}
+  .mx-chart{height:220px}
+}
+</style>
+
+<!-- 總經儀表板：資料 data/macro/latest.json 由 GitHub Actions（macro-weekly，tools/macro_fetch.py）每週寫入；本頁只讀不算。
+     指標清單、四階段對照表、外部連結都在 data/macro/config.json（建置時內嵌）。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="{{HOME}}">← 所有公司</a>
+    <a href="#now">一眼看現況</a>
+    <a href="#phase">四個階段對照表</a>
+    <a href="#ind">全部指標</a>
+    <a href="#chain">AI 資本支出鏈</a>
+    <a href="#tw">台灣</a>
+    <a href="#links">外部網站</a>
+    <a href="#sources">怎麼算的與來源</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Macro Dashboard · Business Cycle</div>
+    <h1>總經儀表板</h1>
+    <p class="lede">個股頁回答「這家公司好不好、貴不貴」；這一頁回答「現在整體景氣在循環的哪一段」。指標清單照愛榭克（Izaax）《景氣循環投資》書裡用到的美國經濟數據整理，排成一條因果鏈：就業 → 所得與消費 → 訂單與投資 → 庫存 → 信用 → 通膨與利率 → 成長與獲利。</p>
+    <div class="meta-row"><span id="mxSub">讀取中…</span></div>
+    <p class="note" id="mxAbout"></p>
+    <p class="note"><b>怎麼用：</b>總經是背景，不是用來猜下週漲跌的。書裡的做法是多數時間都持有股票，只有在榮景期尾聲才分階段降低持股。這一頁只把數據與書裡的判讀並排，<b>不替你判定現在是哪個階段</b>；判斷留給你。</p>
+  </header>
+
+  <section id="now">
+    <div class="sec-head"><h2>一眼看現況</h2><p class="sub"><span class="mx-tag">公式</span> 每個圓點是一個指標的「方向燈」：最近半年的變動，和它自己過去十年平常的半年變動相比，明顯往好的方向走是綠色、明顯往壞的方向走是紅色、差不多就是灰色。空心圓是沒有固定好壞方向的指標（例如利率、油價）。算法在頁尾。</p></div>
+    <div class="mx-chain" id="mxChain"></div>
+    <div class="mx-moves" id="mxMoves"></div>
+  </section>
+
+  <section id="phase">
+    <div class="sec-head"><h2>四個階段對照表</h2><p class="sub"><span class="mx-tag">整理，不是原話</span> 書裡把景氣循環分成復甦期 → 成長期 → 榮景期 → 衰退期，四個階段依序出現、不會跳過，但每一段多長沒有固定答案，要看當下的數據。下面把書裡每個階段看的指標，接上這一頁的最新讀數。</p></div>
+    <div class="mx-phase" id="mxPhase"></div>
+  </section>
+
+  <section id="ind">
+    <div class="sec-head"><h2>全部指標（照因果鏈排）</h2><p class="sub"><span class="mx-tag">書面</span> 數字全部來自美國官方統計（經由 FRED）。點任何一列展開：長期走勢圖（灰底是美國官方認定的衰退期間）、書裡怎麼看、怎麼讀、來源連結。</p></div>
+    <div id="mxGroups" style="display:grid;grid-template-columns:minmax(0,1fr);gap:22px"></div>
+  </section>
+
+  <section id="chain">
+    <div class="sec-head"><h2>把總經接到持股：AI 資本支出鏈</h2><p class="sub" id="mxChainLead"></p></div>
+    <div class="card wide">
+      <h3>四家雲端大廠每季資本支出（億美元）與合計年增率</h3>
+      <div class="mx-chart" style="height:300px"><canvas id="c-chain" role="img" aria-label="四家雲端大廠每季資本支出堆疊圖與合計年增率"></canvas></div>
+      <div class="tbl-wrap"><table class="mx-tbl mx-plain" id="mxChainTbl"></table></div>
+    </div>
+    <div class="card wide">
+      <h3>下游：賣方最新一季的營收年增率</h3>
+      <div class="tbl-wrap"><table class="mx-tbl mx-plain" id="mxSupTbl"></table></div>
+      <p class="mx-warn" id="mxChainRead"></p>
+      <ul class="note" id="mxChainMiss" hidden></ul>
+    </div>
+  </section>
+
+  <section id="tw">
+    <div class="sec-head"><h2>台灣</h2><p class="sub" id="mxTwLead"></p></div>
+    <div class="card wide" id="mxTwCard"><div class="mx-tw" id="mxTwLamp"></div></div>
+    <div class="card wide"><div class="tbl-wrap"><table class="mx-tbl" id="mxTwTbl"></table></div></div>
+  </section>
+
+  <section id="links">
+    <div class="sec-head"><h2>外部網站</h2><p class="sub">想自己追下去時用。這一頁抓不到（沒有免費官方資料檔）的指標，例如美國 ISM 指數、經濟諮商局消費者信心、整體股市估值，也在這裡給連結。</p></div>
+    <div class="mx-links" id="mxLinks"></div>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head"><h2>怎麼算的與來源</h2></div>
+    <div class="card wide">
+      <h3>方向燈的算法</h3>
+      <div class="mx-pre">最新值 − 半年前的值 = 半年變動          （月資料往前 6 筆，季資料往前 2 筆）
+                    │
+                    ▼
+半年變動 ÷ 這個指標「平常的半年變動幅度」 = z
+          （過去 10 年每一個半年變動，取中位數算的幅度；
+            不怕 2020 年疫情那種極端值把尺度拉大）
+                    │
+        ┌───────────┼───────────┐
+     z 往好的方向      |z| &lt; 1       z 往壞的方向
+      超過 1 倍                      超過 1 倍
+        ▼             ▼             ▼
+      轉好           持平           轉差</div>
+      <p class="mx-warn">「好的方向」每個指標不同：失業金人數往下是好，零售銷售年增率往上是好。利率、油價、美元、儲蓄率這類沒有固定好壞方向的指標不亮燈。方向燈只說「最近半年明顯在變」，不代表景氣好或壞，更不是買賣訊號。年增率是和去年同一個月比；每日與每週的資料先取每月最後一筆再算。全部在 <code>tools/macro_fetch.py</code> 算，頁面只畫不算。</p>
+    </div>
+    <div class="card wide">
+      <h3>資料來源與更新</h3>
+      <p class="mx-warn">美國：聖路易聯準銀行 FRED 的公開資料檔（每一列展開後有該序列的連結）。台灣：國家發展委員會放在政府資料開放平臺的官方資料檔。每週由 GitHub Actions 自動抓兩次（台北週六與週三清晨），不經過 Claude，數字不手填。抓不到的序列沿用上一次的資料並在下面標「待確認」，不估計、不補值。各指標公布時間不同，所以每一列的「資料月份」不一樣，請看日期。</p>
+      <ul class="note" id="mxUn"></ul>
+      <p class="mx-warn" id="mxNotes"></p>
+    </div>
+  </section>
+</main>
+
+{{CHARTJS}}
+<script>
+(function () {
+  "use strict";
+  var CFG = {{MACRO_CFG}};
+  var CHAIN = {{CAPEX_CHAIN}};
+  var BASE = "{{MACRO_BASE}}";
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var css = function (n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); };
+  var LIGHT = { better: "轉好", flat: "持平", worse: "轉差" };
+  var TWC = { "紅": "#d9363e", "黃紅": "#f08a24", "綠": "#2e9d57", "黃藍": "#5aa9c9", "藍": "#2a5fb8" };
+  var SPEC = {}, DATA = null, charts = {};
+  CFG.groups.forEach(function (g) { g.series.forEach(function (s) { s.group = g.id; SPEC[s.key] = s; }); });
+  ((CFG.tw || {}).series || []).forEach(function (s) { s.group = "tw"; SPEC[s.key] = s; });
+
+  // ---- 顯示格式（只換單位，不改數字）
+  function num(spec, v, signed) {
+    if (v == null || isNaN(v)) return "—";
+    var x = v * (spec.scale || 1), d = spec.showDigits != null ? spec.showDigits : (spec.digits || 0);
+    var s = Math.abs(x).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+    if (!/[1-9]/.test(s)) return s;      // 四捨五入後是 0：不帶正負號（避免出現 −0.0）
+    return (x < 0 ? "−" : signed && x > 0 ? "+" : "") + s;
+  }
+  function unit(spec) { return spec.showUnit || spec.unit || ""; }
+  function val(spec, v, signed) { var u = unit(spec); return num(spec, v, signed) + (u === "%" ? "%" : u ? " " + u : ""); }
+  function when(freq, d) {
+    if (!d) return "—";
+    if (freq === "q") return d.slice(0, 4) + " Q" + (Math.floor((+d.slice(5, 7) - 1) / 3) + 1);
+    if (freq === "m") return d.slice(0, 4) + "/" + d.slice(5, 7);
+    return d.replace(/-/g, "/");
+  }
+  function series(key) { return SPEC[key].group === "tw" ? ((DATA.tw || {}).series || {})[key] : (DATA.series || {})[key]; }
+  function lightOf(key) { var s = series(key); return s && s.stats ? (s.stats.light || "none") : "missing"; }
+  function pill(l) {
+    if (l === "missing") return '<span class="mx-pill" title="這次沒有資料">待確認</span>';
+    if (l === "none") return '<span class="mx-pill" title="沒有固定好壞方向，不亮燈"><span class="mx-dot none"></span>不亮燈</span>';
+    return '<span class="mx-pill ' + l + '"><span class="mx-dot ' + l + '"></span>' + LIGHT[l] + "</span>";
+  }
+  function kindLabel(spec) { return spec.show === "yoy" ? "年增率" : spec.show === "chg" ? "較上期增減" : ""; }
+
+  // ---- 小走勢圖（最近 10 年）
+  function spark(s) {
+    var n = s.freq === "q" ? 40 : 120, p = s.points.slice(-n);
+    if (p.length < 3) return "";
+    var W = 120, H = 30, vs = p.map(function (x) { return x[1]; }), cl = clipRange(vs);
+    if (cl) vs = vs.map(function (v) { return Math.max(cl.min, Math.min(cl.max, v)); });      // 極端值頂到邊，和大圖同一個規則
+    var lo = Math.min.apply(null, vs), hi = Math.max.apply(null, vs), sp = hi - lo || 1;
+    var d = vs.map(function (v, i) { return (i ? "L" : "M") + (i / (vs.length - 1) * (W - 4) + 2).toFixed(1) + " " + (H - 3 - (v - lo) / sp * (H - 6)).toFixed(1); }).join("");
+    var ly = H - 3 - (vs[vs.length - 1] - lo) / sp * (H - 6);
+    var zero = lo < 0 && hi > 0 ? '<line x1="0" x2="' + W + '" y1="' + (H - 3 - (0 - lo) / sp * (H - 6)).toFixed(1) + '" y2="' + (H - 3 - (0 - lo) / sp * (H - 6)).toFixed(1) + '" stroke="var(--axis)" stroke-width="1" stroke-dasharray="2 2"/>' : "";
+    return '<svg class="mx-spark" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="最近十年走勢">' + zero +
+      '<path d="' + d + '" fill="none" stroke="var(--s1)" stroke-width="1.4"/><circle cx="' + (W - 2) + '" cy="' + ly.toFixed(1) + '" r="2.4" fill="var(--s1)"/></svg>';
+  }
+  function rangeBar(spec, st) {
+    if (st.hi3 == null || st.hi3 === st.lo3) return "";
+    var pos = Math.max(0, Math.min(100, (st.last - st.lo3) / (st.hi3 - st.lo3) * 100));
+    return '<div class="mx-range" title="三年低點 ' + num(spec, st.lo3) + "（" + st.lo3Date + "）、三年高點 " + num(spec, st.hi3) + "（" + st.hi3Date + '）"><i style="left:' + pos.toFixed(0) + '%"></i></div>' +
+      '<div class="mx-rl"><span>' + num(spec, st.lo3) + "</span><span>" + num(spec, st.hi3) + "</span></div>";
+  }
+
+  // ---- 一列指標（＋展開列）
+  function row(key) {
+    var spec = SPEC[key], s = series(key);
+    if (!s || !s.stats) return '<tr><td>' + pill("missing") + '</td><td class="mx-name">' + esc(spec.name) + '</td><td colspan="4"><small>待確認：這次沒有抓到資料</small></td></tr>';
+    var st = s.stats;
+    return '<tr class="row" id="r-' + key + '" data-key="' + key + '" aria-expanded="false">' +
+      "<td>" + pill(st.light || "none") + "</td>" +
+      '<td class="mx-name"><button type="button" aria-controls="d-' + key + '">' + esc(spec.name) + "</button></td>" +
+      '<td class="n"><b>' + val(spec, st.last) + "</b><br><small>" + when(s.freq, st.lastDate) + "</small></td>" +
+      '<td class="n">' + (st.chg == null ? "—" : unit(spec) === "%" ? num(spec, st.chg, true) + " 個百分點" : val(spec, st.chg, true)) + "<br><small>半年前 " + num(spec, st.prev) + "</small></td>" +
+      '<td class="hide-s">' + rangeBar(spec, st) + "</td>" +
+      '<td class="hide-s">' + spark(s) + "</td></tr>" +
+      '<tr class="mx-det" id="d-' + key + '" hidden><td colspan="6"></td></tr>';
+  }
+  function table(el, keys) {
+    el.innerHTML = '<tr><th>方向燈</th><th>指標</th><th class="n">最新</th><th class="n">半年變動</th><th class="hide-s">三年區間</th><th class="hide-s">十年走勢</th></tr>' + keys.map(row).join("");
+  }
+  function detail(key) {
+    var spec = SPEC[key], s = series(key), st = s.stats, k = kindLabel(spec);
+    var facts = [];
+    if (st.pct10 != null) facts.push("過去十年裡，有 " + st.pct10 + "% 的時間比現在低或一樣（100% ＝ 十年最高）。");
+    if (st.hi3 != null) facts.push("三年高點 " + val(spec, st.hi3) + "（" + when(s.freq, st.hi3Date) + "）；三年低點 " + val(spec, st.lo3) + "（" + when(s.freq, st.lo3Date) + "）。");
+    if (st.fromLo3 != null && spec.show === "level") facts.push("現在比三年低點高 " + st.fromLo3.toFixed(1) + "%，比三年高點低 " + Math.abs(st.fromHi3).toFixed(1) + "%。");
+    if (st.z != null) facts.push("半年變動是平常幅度的 " + (st.z > 0 ? "+" : st.z < 0 ? "−" : "") + Math.abs(st.z).toFixed(1) + " 倍（超過 1 倍才亮綠燈或紅燈）。");
+    if (s.rawLast) facts.push("原始數值：" + Number(s.rawLast[1]).toLocaleString("en-US") + "（" + when(s.freq, s.rawLast[0]) + "，來源的原始單位）；上面顯示的是" + k + "。");
+    var src = s.fred ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">FRED：' + esc(s.fred) + "</a>" : '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.src || "官方資料檔") + "</a>";
+    facts.push("來源：" + src + "。資料截至 " + esc(String(s.through).replace(/-/g, "/")) + "。");
+    return '<div class="grid"><div><div class="mx-rg" data-key="' + key + '">' +
+      [["5", "5 年"], ["10", "10 年"], ["20", "20 年"], ["0", "全部"]].map(function (r) { return '<button type="button" data-y="' + r[0] + '" aria-pressed="' + (r[0] === "10") + '">' + r[1] + "</button>"; }).join("") +
+      '<button type="button" data-full="1" aria-pressed="false" hidden></button>' +
+      "<span>" + esc(spec.name) + (unit(spec) ? "（" + esc(unit(spec)) + "）" : "") + (spec.group === "tw" ? "" : "　灰底＝美國衰退期間") + '</span></div><div class="mx-chart"><canvas id="c-' + key + '" role="img" aria-label="' + esc(spec.name) + ' 長期走勢"></canvas></div></div>' +
+      '<div class="txt"><p><span class="mx-tag">書裡怎麼看</span> ' + esc(spec.book) + '</p><p><span class="mx-tag">怎麼讀</span> ' + esc(spec.read) + '</p><div class="facts">' + facts.map(function (f) { return "<span>" + f + "</span>"; }).join("") + "</div></div></div>";
+  }
+
+  // ---- 大圖（Chart.js；灰底畫衰退期間）
+  var recPlugin = { id: "rec", beforeDatasetsDraw: function (c) {
+    var rec = c.options.plugins.rec && c.options.plugins.rec.ranges; if (!rec || !rec.length) return;
+    var L = c.data.labels, x = c.scales.x, a = c.chartArea, ctx = c.ctx; ctx.save(); ctx.fillStyle = css("--mx-band");
+    rec.forEach(function (r) {
+      var i0 = -1, i1 = -1;
+      for (var i = 0; i < L.length; i++) { var m = L[i].slice(0, 7); if (i0 < 0 && m >= r[0]) i0 = i; if (m <= r[1]) i1 = i; }
+      if (i0 < 0 || i1 < i0) return;
+      var x0 = x.getPixelForValue(i0), x1 = x.getPixelForValue(i1);
+      ctx.fillRect(x0, a.top, Math.max(2, x1 - x0), a.bottom - a.top);
+    });
+    ctx.restore();
+  } };
+  // 極端值（例如 2020 年疫情）會把整張圖壓成一條平線：預設把 y 軸縮到第 2～98 百分位再留一點邊，超出的部分頂到圖框；按「完整範圍」可以還原
+  function clipRange(vals) {
+    var v = vals.slice().sort(function (a, b) { return a - b; }), n = v.length;
+    if (n < 30) return null;
+    var p2 = v[Math.floor(n * 0.02)], p98 = v[Math.ceil(n * 0.98) - 1], r = p98 - p2;
+    if (r <= 0) return null;
+    var lo = p2 - r * 0.6, hi = p98 + r * 0.6;
+    return v[0] < lo || v[n - 1] > hi ? { min: Math.max(lo, v[0] - r * 0.05), max: Math.min(hi, v[n - 1] + r * 0.05) } : null;
+  }
+  var view = {};
+  function draw(key, years, full) {
+    if (!window.Chart) return;
+    var spec = SPEC[key], s = series(key), pts = s.points;
+    if (years == null) years = (view[key] || {}).years; if (years == null) years = 10;
+    if (full == null) full = !!(view[key] || {}).full;
+    view[key] = { years: years, full: full };
+    if (years) { var cut = String(+pts[pts.length - 1][0].slice(0, 4) - years) + pts[pts.length - 1][0].slice(4); pts = pts.filter(function (p) { return p[0] >= cut; }); }
+    var sc = spec.scale || 1;
+    var clip = clipRange(pts.map(function (p) { return p[1] * sc; })), fb = document.querySelector('.mx-rg[data-key="' + key + '"] [data-full]');
+    if (fb) { fb.hidden = !clip; fb.setAttribute("aria-pressed", String(full)); fb.textContent = full ? "完整範圍（已顯示）" : "有極端值超出圖框：顯示完整範圍"; }
+    if (full) clip = null;
+    if (charts[key]) charts[key].destroy();
+    charts[key] = new Chart($("c-" + key), {
+      type: "line",
+      data: { labels: pts.map(function (p) { return p[0]; }), datasets: [{ data: pts.map(function (p) { return p[1] * sc; }), borderColor: css("--s1"), borderWidth: 1.6, pointRadius: 0, pointHitRadius: 8, tension: 0, stepped: key === "ffr" ? "before" : false }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: "index", intersect: false },
+        plugins: { legend: { display: false }, rec: { ranges: spec.group === "tw" ? [] : (DATA.recessions || []) },
+          tooltip: { callbacks: { title: function (it) { return when(s.freq, it[0].label); }, label: function (it) { return " " + val(spec, it.parsed.y / sc); } } } },
+        scales: { x: { grid: { display: false }, ticks: { color: css("--tick"), maxTicksLimit: 8, maxRotation: 0, autoSkip: true, callback: function (v) { return this.getLabelForValue(v).slice(0, 4); } } },
+          y: { min: clip ? clip.min : undefined, max: clip ? clip.max : undefined, grid: { color: function (c) { return c.tick && c.tick.value === 0 ? css("--axis") : css("--grid"); } }, ticks: { color: css("--tick"), maxTicksLimit: 6, includeBounds: false } } } },
+      plugins: [recPlugin]
+    });
+  }
+  function toggle(key, forceOpen) {
+    var r = $("r-" + key), d = $("d-" + key); if (!r || !d) return;
+    var open = forceOpen || r.getAttribute("aria-expanded") !== "true";
+    r.setAttribute("aria-expanded", String(open)); d.hidden = !open;
+    if (open) { if (!d.firstChild.innerHTML) d.firstChild.innerHTML = detail(key); draw(key); }
+    else if (charts[key]) { charts[key].destroy(); delete charts[key]; }
+  }
+
+  // ---- 各區塊
+  function renderNow() {
+    var worse = [], better = [];
+    $("mxChain").innerHTML = CFG.groups.map(function (g, i) {
+      var c = { better: 0, flat: 0, worse: 0, none: 0, missing: 0 };
+      var dots = g.series.map(function (s) {
+        var l = lightOf(s.key); c[l]++;
+        if (l === "worse") worse.push(s.key); if (l === "better") better.push(s.key);
+        return '<span class="mx-dot ' + (l === "missing" ? "none" : l) + '" title="' + esc(s.name) + "：" + (LIGHT[l] || (l === "none" ? "不亮燈" : "待確認")) + '"></span>';
+      }).join("");
+      var cnt = ["better", "flat", "worse"].filter(function (k) { return c[k]; }).map(function (k) { return "<span>" + LIGHT[k] + " " + c[k] + "</span>"; }).join("");
+      return (i ? '<span class="mx-arrow" aria-hidden="true">→</span>' : "") + '<a class="mx-box" href="#g-' + g.id + '"><b>' + esc(g.name) + '</b><span class="mx-dots">' + dots + '</span><span class="cnt">' + (cnt || "<span>不亮燈</span>") + "</span></a>";
+    }).join("");
+    function list(keys) {
+      return keys.length ? "<ul>" + keys.map(function (k) { var s = series(k), sp = SPEC[k]; return '<li><a href="#r-' + k + '" data-jump="' + k + '">' + esc(sp.name) + "</a> <small>" + val(sp, s.stats.last) + "，半年 " + num(sp, s.stats.chg, true) + "</small></li>"; }).join("") + "</ul>" : '<p class="mx-warn">目前沒有。</p>';
+    }
+    $("mxMoves").innerHTML = '<div class="card"><h3>半年來明顯轉差（' + worse.length + '）</h3>' + list(worse) + '</div><div class="card"><h3>半年來明顯轉好（' + better.length + "）</h3>" + list(better) + "</div>";
+  }
+  function chip(k) {
+    var sp = SPEC[k], s = series(k), l = lightOf(k);
+    return '<a class="mx-chip" href="#r-' + k + '" data-jump="' + k + '"><span class="mx-dot ' + (l === "missing" ? "none" : l) + '" title="' + (LIGHT[l] || (l === "none" ? "不亮燈" : "待確認")) + '"></span>' + esc(sp.name) + " <small>" + (s && s.stats ? val(sp, s.stats.last) + "（" + when(s.freq, s.stats.lastDate) + "）" : "待確認") + "</small></a>";
+  }
+  function renderPhase() {
+    $("mxPhase").innerHTML = CFG.phases.map(function (p) {
+      return '<div class="card wide" id="p-' + p.id + '"><h3>' + esc(p.name) + '</h3><p class="mark">' + esc(p.mark) + '</p><table class="mx-chk"><tbody>' +
+        p.checks.map(function (c) { return "<tr><td>" + esc(c.t) + '</td><td><div class="mx-chips">' + c.keys.map(chip).join("") + "</div></td></tr>"; }).join("") +
+        '</tbody></table><p class="mx-inv"><b>書裡這個階段的做法：</b>' + esc(p.invest) + "</p></div>";
+    }).join("");
+  }
+  function renderGroups() {
+    $("mxGroups").innerHTML = CFG.groups.map(function (g) {
+      return '<div class="card wide" id="g-' + g.id + '"><h3>' + esc(g.name) + '</h3><p class="how">' + esc(g.lead) + '</p><div class="tbl-wrap"><table class="mx-tbl" id="t-' + g.id + '"></table></div></div>';
+    }).join("");
+    CFG.groups.forEach(function (g) { table($("t-" + g.id), g.series.map(function (s) { return s.key; })); });
+  }
+  function renderTw() {
+    var tw = CFG.tw || {}, d = DATA.tw;
+    $("mxTwLead").innerHTML = '<span class="mx-tag">書面</span> ' + esc(tw.lead || "");
+    if (!d || !d.series) { $("mxTwLamp").innerHTML = '<p class="mx-warn">待確認：台灣的資料這次沒有抓到，請先看下方「外部網站」的國發會連結。</p>'; $("mxTwTbl").parentNode.parentNode.hidden = true; return; }
+    var sc = d.series.twscore, html = "";
+    if (d.light && sc) {
+      html += '<span class="mx-lamp" style="--c:' + (TWC[d.light.name] || "#999") + '"><i></i>' + esc(d.light.name) + "燈　" + num(SPEC.twscore, sc.stats.last) + " 分</span><span class=\"mx-warn\">" + esc(d.light.date.replace("-", "/")) + " 景氣對策信號（國發會）</span>";
+      var ls = (d.lights || []).slice(-24);
+      html += '<div><div class="mx-strip" role="img" aria-label="最近 24 個月的燈號">' + ls.map(function (x) { return '<span style="--c:' + (TWC[x[1]] || "#999") + '" title="' + x[0].replace("-", "/") + " " + x[1] + '燈"></span>'; }).join("") + "</div>" +
+        (ls.length ? '<div class="mx-rl" style="width:auto"><span>' + ls[0][0].replace("-", "/") + "</span><span>" + ls[ls.length - 1][0].replace("-", "/") + "</span></div>" : "") + "</div>";
+    }
+    $("mxTwLamp").innerHTML = html || '<p class="mx-warn">待確認：燈號這次沒有抓到。</p>';
+    table($("mxTwTbl"), tw.series.map(function (s) { return s.key; }));
+  }
+  // ---- AI 資本支出鏈（數字在建置時由 tools/capex_chain.py 從各公司財報加總，這裡只畫）
+  function pct(v) { return v == null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%"; }
+  function renderChain() {
+    var ch = CFG.chain || {}, R = (CHAIN && CHAIN.rows) || [], B = (CHAIN && CHAIN.buyers) || [];
+    $("mxChainLead").innerHTML = '<span class="mx-tag">書面＋公式</span> ' + esc(ch.lead || "") + "數字來自各公司財報（現金流量表的資本支出），這裡只做加總；會計年度不同的公司（微軟）用季末月份對到同一個日曆季。";
+    if (!R.length || !B.length) { $("mxChainTbl").innerHTML = "<tr><td>待確認：沒有可加總的資料。</td></tr>"; return; }
+    var last = R.slice(-8).reverse(), yi = function (v) { return v == null ? "—" : (v / 100).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }); };
+    $("mxChainTbl").innerHTML = "<tr><th>日曆季</th>" + B.map(function (b) { return '<th class="n hide-s"><a href="{{HOME}}' + esc(b.path) + '">' + esc(b.name) + "</a></th>"; }).join("") + '<th class="n">合計（億美元）</th><th class="n">年增率</th><th class="n">占四家營收</th></tr>' +
+      last.map(function (r) { return "<tr><td class='n' style='text-align:left'>" + r.cq.replace("Q", " Q") + "</td>" + B.map(function (b) { return '<td class="n hide-s">' + yi(r.capex[b.code]) + "</td>"; }).join("") + '<td class="n"><b>' + yi(r.total) + '</b></td><td class="n">' + pct(r.yoy) + '</td><td class="n">' + (r.pctRev == null ? "—" : r.pctRev.toFixed(1) + "%") + "</td></tr>"; }).join("");
+    var S = (CHAIN.suppliers || []).filter(function (x) { return x.points.length; });
+    $("mxSupTbl").innerHTML = '<tr><th>公司</th><th class="n">最新一季</th><th class="n">營收年增率</th><th class="n hide-s">前一季</th><th class="n hide-s">前兩季</th></tr>' + S.map(function (x) {
+      var p = x.points.slice(-3).reverse();
+      return '<tr><td><a href="{{HOME}}' + esc(x.path) + '"><b>' + esc(x.name) + "</b></a></td><td class='n'>" + esc(p[0].q) + "<br><small>季末 " + esc(p[0].end.replace("-", "/")) + "</small></td><td class='n'><b>" + pct(p[0].yoy) + "</b></td><td class='n hide-s'>" + (p[1] ? pct(p[1].yoy) : "—") + "</td><td class='n hide-s'>" + (p[2] ? pct(p[2].yoy) : "—") + "</td></tr>";
+    }).join("");
+    $("mxChainRead").innerHTML = '<span class="mx-tag">觀點</span> ' + esc(ch.read || "") + "各家季末月份不同（輝達與博通的季末在 1、4、7、10 月前後），所以賣方不和買方硬對在同一季。";
+    var miss = CHAIN.missing || [];
+    $("mxChainMiss").hidden = !miss.length; $("mxChainMiss").innerHTML = miss.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("");
+    if (!window.Chart) return;
+    var W = R.slice(-28), cols = ["--s1", "--s2", "--s3", "--s4", "--s5", "--s7"];
+    new Chart($("c-chain"), {
+      data: { labels: W.map(function (r) { return r.cq.replace("Q", " Q"); }),
+        datasets: B.map(function (b, i) { return { type: "bar", label: b.name, stack: "c", yAxisID: "y", backgroundColor: css(cols[i % cols.length]), data: W.map(function (r) { return r.capex[b.code] == null ? null : r.capex[b.code] / 100; }) }; })
+          .concat([{ type: "line", label: "合計年增率（右軸）", yAxisID: "y2", borderColor: css("--ink"), backgroundColor: css("--ink"), borderWidth: 1.6, pointRadius: 2, tension: 0, data: W.map(function (r) { return r.yoy; }) }]) },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: "index", intersect: false },
+        plugins: { legend: { position: "bottom", labels: { color: css("--ink-2"), boxWidth: 12, font: { size: 11 } } },
+          tooltip: { callbacks: { label: function (it) { return " " + it.dataset.label + "：" + (it.parsed.y == null ? "—" : it.dataset.yAxisID === "y2" ? pct(it.parsed.y) : Math.round(it.parsed.y).toLocaleString("en-US") + " 億美元"); } } } },
+        scales: { x: { stacked: true, grid: { display: false }, ticks: { color: css("--tick"), maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
+          y: { stacked: true, grid: { color: css("--grid") }, ticks: { color: css("--tick"), maxTicksLimit: 6 }, title: { display: true, text: "億美元", color: css("--tick"), font: { size: 11 } } },
+          y2: { position: "right", grid: { display: false }, ticks: { color: css("--tick"), maxTicksLimit: 6, callback: function (v) { return v + "%"; } } } } }
+    });
+  }
+  function renderLinks() {
+    $("mxLinks").innerHTML = CFG.links.map(function (g) {
+      return '<div class="card"><h3>' + esc(g.group) + "</h3><ul>" + g.items.map(function (it) { return '<li><a href="' + esc(it.url) + '" target="_blank" rel="noopener">' + esc(it.name) + "</a><small>" + esc(it.note) + "</small></li>"; }).join("") + "</ul></div>";
+    }).join("");
+    var a = CFG.about || {};
+    $("mxAbout").innerHTML = "<b>關於來源：</b>" + esc(a.who || "") + esc(a.basis || "") + "筆記：" + (a.notes || []).map(function (n) { return '<a href="' + esc(n.url) + '" target="_blank" rel="noopener">' + esc(n.name) + "</a>"; }).join("、") + "。門檻與投資比例請以原書為準。";
+  }
+  function render(D) {
+    DATA = D;
+    var t = new Date(D.updated.replace(" UTC", "Z").replace(" ", "T"));
+    $("mxSub").textContent = "資料抓取時間（台北）：" + (isNaN(t) ? D.updated : t.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })) + "　每週自動更新兩次";
+    renderNow(); renderPhase(); renderGroups(); renderTw();
+    var un = D.unavailable || [];
+    $("mxUn").innerHTML = un.length ? un.map(function (u) { return "<li>" + esc(u) + "</li>"; }).join("") : "<li>這次全部序列都抓到了，沒有待確認項目。</li>";
+    if (location.hash.indexOf("#r-") === 0) jump(location.hash.slice(3));
+  }
+  function jump(key) { if (!$("r-" + key)) return; toggle(key, true); $("r-" + key).scrollIntoView({ behavior: "smooth", block: "center" }); }
+
+  document.addEventListener("click", function (e) {
+    var j = e.target.closest && e.target.closest("[data-jump]");
+    if (j) { e.preventDefault(); jump(j.getAttribute("data-jump")); return; }
+    var b = e.target.closest && e.target.closest(".mx-rg button");
+    if (b) {
+      var k = b.parentNode.getAttribute("data-key");
+      if (b.hasAttribute("data-full")) { draw(k, null, !view[k].full); return; }
+      [].forEach.call(b.parentNode.querySelectorAll("button[data-y]"), function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      draw(k, +b.getAttribute("data-y")); return;
+    }
+    var r = e.target.closest && e.target.closest("tr.row");
+    if (r) toggle(r.getAttribute("data-key"));
+  });
+  renderLinks();
+  try { renderChain(); } catch (e) { console.error(e); }
+  fetch(BASE + "latest.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(render).catch(function (e) {
+    $("mxSub").textContent = "讀取失敗（" + e.message + "）：資料檔還沒產生，或網路有問題。外部網站清單仍可使用。";
+  });
+})();
+</script>

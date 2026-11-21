@@ -1,0 +1,984 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>總經儀表板</title><meta name="description" content="照愛榭克（Izaax）景氣循環框架整理的美國與台灣總體經濟指標：就業、消費、投資、庫存、信用、通膨與利率，每週自動更新。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=bb07c09a"><script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: report column (max 1180px) — sticky section nav, KPI strip, then one section per metric family; charts sit two-up on wide screens, one-up on phones. */
+:root {
+  --page: #f3f3ef;
+  --surface: #fcfcfb;
+  --ink: #121211;
+  --ink-2: #4f4e4a;
+  --muted: #6c6a64;
+  --tick: #898781;
+  --grid: #e4e3dc;
+  --axis: #c3c2b7;
+  --line: rgba(11, 11, 11, 0.10);
+  --wash: rgba(42, 120, 214, 0.08);
+  --accent: #1c5cab;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --neg: #e34948;
+  --pos-soft: #86b6ef;
+  --n7: #86b6ef; --n5: #3987e5; --n3: #1c5cab; --n2: #0d366b;
+  --good-text: #006300;
+  --bad-text: #b42f2f;
+  --chip-bg: #e8f0fb; --chip-ink: #184f95;
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "Noto Sans TC", "IBM Plex Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem; --step-4: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+    --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+    --accent: #6da7ec;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --neg: #e66767; --pos-soft: #5598e7;
+    --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+    --good-text: #3fbf3f; --bad-text: #f08080;
+    --chip-bg: #16304f; --chip-ink: #b7d3f6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+  --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+  --accent: #6da7ec;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --neg: #e66767; --pos-soft: #5598e7;
+  --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+  --good-text: #3fbf3f; --bad-text: #f08080;
+  --chip-bg: #16304f; --chip-ink: #b7d3f6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; font-family: var(--font-ui); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-top: 28px; }
+.eyebrow { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.masthead h1 .code { font-family: var(--font-data); font-weight: 500; font-size: 0.55em; color: var(--muted); letter-spacing: 0; margin-left: 0.4em; vertical-align: 0.2em; }
+.lede { color: var(--ink-2); max-width: 68ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step-0); color: var(--muted); font-family: var(--font-data); }
+.meta-row b { color: var(--ink); font-weight: 500; }
+
+/* nav */
+.secnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.secnav .scroller { max-width: 1180px; margin-inline: auto; display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.secnav .scroller::-webkit-scrollbar { display: none; }
+.secnav a { flex: none; text-decoration: none; color: var(--ink-2); font-size: var(--step-0); padding: 6px 12px; border-radius: 999px; }
+.secnav a:hover { background: var(--wash); color: var(--ink); }
+.secnav a.on { background: var(--chip-bg); color: var(--chip-ink); }
+/* 公司頁：寬螢幕（≥1200px）把章節目錄從頂端橫條改成右側固定欄。
+   左邊留給全站側邊欄（App Shell），右邊放「本頁章節」，兩者不打架：
+   ┌────────┬──────────────────────────┬──────────┐
+   │ 全站選單 │ 內容（圖表、表格）           │ 本頁章節   │
+   │ (可收合) │                          │ 跟著畫面   │
+   └────────┴──────────────────────────┴──────────┘
+   窄螢幕維持原本的頂端橫條。 */
+@media (min-width: 1200px) {
+  .pg { display: grid; grid-template-columns: minmax(0, 1fr) 168px; column-gap: 40px; max-width: 1320px; margin-inline: auto; }
+  .pg > .wrap { grid-column: 1; grid-row: 1; max-width: none; margin: 0; min-width: 0; }
+  .pg > .secnav { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px);
+    margin: 32px 0 0; padding: 0; border: 0; background: none; max-height: calc(100vh - 40px); overflow-y: auto; scrollbar-width: thin; }
+  .pg > .secnav .scroller { display: grid; gap: 1px; padding: 0; overflow: visible; border-left: 1px solid var(--line); }
+  .pg > .secnav .scroller::before { content: "本頁章節"; padding: 0 0 8px 14px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; color: var(--muted); }
+  .pg > .secnav a { margin-left: -1px; padding: 5px 10px 5px 13px; border-left: 2px solid transparent; border-radius: 0 6px 6px 0; font-size: 0.86rem; line-height: 1.35; }
+  .pg > .secnav a.homelink { margin-bottom: 6px; }
+  .pg > .secnav a.on { border-left-color: var(--accent); background: var(--wash); color: var(--ink); font-weight: 600; }
+  .pg section { scroll-margin-top: 20px; }
+}
+/* ≥1280px 且全站側邊欄收合時，左上角有一顆浮動的 ☰ 按鈕：內容左邊至少留 56px，不被它蓋住 */
+@media (min-width: 1280px) { html.sb-push:not(.sb-open) .pg { padding-left: max(0px, calc(40px - (100vw - 1352px) / 2)); } }
+
+/* cadence strip */
+.cadence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.cadence > div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cadence > div + div { border-left: 1px solid var(--line); }
+.cadence .when { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.cadence .what { font-weight: 600; }
+.cadence .which { font-size: var(--step-0); color: var(--ink-2); }
+@media (max-width: 720px) {
+  .cadence { grid-template-columns: minmax(0, 1fr); }
+  .cadence > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi:last-child { grid-column: 1 / -1; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 0.8rem; color: var(--muted); }
+.kpi .value { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+.kpi .value small { font-size: 0.55em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.kpi .delta { font-size: 0.8rem; color: var(--ink-2); font-family: var(--font-data); }
+.up { color: var(--good-text); }
+.down { color: var(--bad-text); }
+.chip { justify-self: start; font-size: 0.7rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+
+/* sections */
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+.sec-head .sub { color: var(--ink-2); max-width: 72ch; font-size: 0.95rem; }
+.sec-tag { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.card.wide { grid-column: 1 / -1; }
+.card h3 { font-size: 1.02rem; font-weight: 600; }
+.card .how { font-size: 0.88rem; color: var(--ink-2); }
+.card .how b { color: var(--ink); font-weight: 600; }
+.chartbox { position: relative; height: 300px; width: 100%; }
+.chartbox.short { height: 190px; }
+.chartbox.tall { height: 340px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls .lab { font-size: 0.8rem; color: var(--muted); margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 0.82rem; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+
+/* waterfall */
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 7.5rem; gap: 12px; align-items: center; font-size: 0.86rem; }
+.wf-row .nm { color: var(--ink-2); min-width: 0; }
+.wf-row.total .nm { color: var(--ink); font-weight: 600; }
+.wf-track { position: relative; height: 18px; }
+.wf-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.wf-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; }
+.wf-row .v { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.8rem; }
+.wf-row .v em { font-style: normal; color: var(--muted); display: block; font-size: 0.72rem; }
+@media (max-width: 560px) {
+  .wf-row { grid-template-columns: minmax(0, 1fr) 6.5rem; }
+  .wf-row .wf-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* notes */
+.note { font-size: 0.86rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.callout { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 6px; }
+.callout b { color: var(--ink); }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+th { font-weight: 600; color: var(--ink-2); background: var(--surface); position: sticky; top: 0; font-family: var(--font-cjk); }
+td { font-family: var(--font-data); color: var(--ink); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td .y { display: block; font-size: 0.68rem; }
+td.tot { font-weight: 500; background: var(--wash); }
+.tbl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.btn { font: inherit; font-size: 0.82rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--wash); }
+.copied { font-size: 0.8rem; color: var(--good-text); }
+
+/* glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.gloss { margin: 0; }
+.gloss .item { padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.gloss dt { font-weight: 600; }
+.gloss dt code { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.gloss dd { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.gloss dd .f { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink); background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+.sources { font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 8px; }
+.sources ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+footer { font-size: 0.78rem; color: var(--muted); }
+
+/* timelines */
+.gantt-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px 12px 4px; }
+.gantt { min-width: 780px; display: grid; }
+.g-row { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; border-bottom: 1px solid var(--grid); }
+.g-row:last-child { border-bottom: 0; }
+.g-row .nm { font-size: 0.84rem; line-height: 1.3; min-width: 0; }
+.g-row .nm small { display: block; color: var(--muted); font-size: 0.7rem; }
+.g-track { position: relative; height: 28px; }
+.g-axis .g-track { height: 22px; }
+.g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--tick); }
+.g-grid { position: absolute; top: -6px; bottom: -6px; border-left: 1px solid var(--grid); }
+.g-today { position: absolute; top: -6px; bottom: -6px; border-left: 1.5px dashed var(--s8); }
+.g-line { position: absolute; top: 13px; height: 2px; background: var(--axis); }
+.g-line.plan { background: repeating-linear-gradient(90deg, var(--axis) 0 4px, transparent 4px 8px); }
+.g-mk { position: absolute; top: 7px; width: 14px; height: 14px; margin-left: -7px; background: var(--c); border: 2px solid var(--c); cursor: pointer; padding: 0; }
+.g-mk.plan { background: var(--surface); }
+.g-mk.k-a { transform: rotate(45deg) scale(0.82); }
+.g-mk.k-g { border-radius: 2px; }
+.g-mk.k-c { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: 0; }
+.g-mk.k-c.plan { opacity: 0.45; }
+.g-mk.k-m { border-radius: 50%; }
+.g-mk.unc { border-style: dashed; background: var(--surface); opacity: 0.8; }
+.g-mk.k-c.unc { opacity: 0.35; }
+.core-chip { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 0 6px; margin-right: 6px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); vertical-align: 1px; white-space: nowrap; }
+.story-line { margin: 0 0 10px; font-size: 0.9rem; color: var(--ink-2); }
+.unc-chip { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0 6px; margin-left: 6px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); vertical-align: 1px; white-space: nowrap; }
+.g-mk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.g-info { font-size: 0.86rem; color: var(--ink-2); min-height: 1.6em; }
+.g-info b { color: var(--ink); }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); align-items: center; }
+.g-key span { display: inline-flex; align-items: center; gap: 6px; }
+.g-key .g-mk { position: static; margin: 0; cursor: default; }
+.st-plan { color: var(--muted); }
+td.txt, th.txt { text-align: left; white-space: normal; min-width: 16rem; font-family: var(--font-cjk); }
+td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
+
+/* shared site chrome */
+.homelink { font-weight: 600; color: var(--accent) !important; }
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
+/* 指數期貨（assets/futures.js）：K 棒用台灣習慣，紅漲綠跌 */
+:root { --kup: #d23a3a; --kdn: #138a52; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
+:root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
+.kup { color: var(--kup); } .kdn { color: var(--kdn); }
+.fut-head .fut-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fut-toggle { font: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 5px 14px; border-radius: 999px; cursor: pointer; }
+.fut-toggle:hover { color: var(--ink); }
+#futHome { display: grid; gap: 12px; }
+#futHome[hidden] { display: none; }
+.fut-mini { position: relative; width: 100%; height: 360px; }
+.fut-co .co-top h2 { font-size: var(--step-2); }
+.fut-co .fut-px small { font-size: 0.75rem; color: var(--muted); font-family: var(--font-ui); }
+.fut-cards .fut-wide { grid-column: 1 / -1; }   /* 大台指：放在兩張美國期貨底下，整列寬 */
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
+.fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
+.fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }
+.fut-spark { width: 100%; height: 44px; display: block; }
+.fut-co.locked { opacity: 0.85; }
+.fut-note { font-size: 0.86rem; color: var(--muted); }
+.fut-lock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; background: var(--surface); border: 1px dashed var(--axis); border-radius: 12px; padding: 14px 16px; }
+.fut-lock svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.fut-lock .t { font-size: 0.88rem; color: var(--ink-2); flex: 1 1 220px; }
+.fut-lock input[type=password] { font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; flex: 1 1 180px; max-width: 260px; }
+.fut-lock button { border: 0; cursor: pointer; }
+.fut-lock .err { font-size: 0.82rem; color: var(--bad-text); width: 100%; }
+.fut-lock .err:empty { display: none; }
+#futLock { margin-top: -16px; }
+.fut-ctrl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.fut-ctrl .seg button i, .fut-leg i, .fut-ma-tbl i.dot { display: inline-block; width: 18px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.fut-ctrl .seg button[aria-pressed="false"] i { opacity: 0.35; }
+.fut-leg { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-data); font-size: 0.92rem; color: var(--ink-2); min-height: 2.6em; }
+.fut-leg .d { color: var(--ink); font-weight: 500; }
+.fut-leg b { font-weight: 500; color: var(--ink); }
+.fut-chart { position: relative; width: 100%; height: min(80vh, 820px); min-height: 460px; }
+.fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
+.fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
+.fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
+.fut-src .pend { color: var(--bad-text); }
+@media (max-width: 640px) { .fut-chart { height: 70vh; min-height: 380px; } }
+#futBody:not([hidden]) { display: grid; gap: 40px; }
+.fut-src details summary { cursor: pointer; }
+.fut-src details ul { margin-top: 6px; padding-left: 1.2em; display: grid; gap: 2px; font-size: 0.82rem; }
+
+#futHome .fut-mini { cursor: zoom-in; }
+.fut-hint { font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 640px) { .fut-leg { font-size: 0.82rem; gap: 2px 12px; } .fut-ctrl .seg button i, .fut-leg i { width: 14px; height: 3px; } }
+/* 水平線工具（assets/futures.js attachLines） */
+.fut-tool svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 4px; }
+.fut-tool[aria-pressed="true"] { outline: 2px solid var(--s1); outline-offset: -2px; }
+.fut-drawing, .fut-drawing * { cursor: crosshair !important; }
+.fut-onl, .fut-onl * { cursor: ns-resize !important; }
+.fut-ltb { position: absolute; left: 8px; z-index: 5; display: flex; gap: 4px; align-items: center; padding: 4px 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+.fut-ltb[hidden] { display: none; }
+.fut-ltb .sw { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; }
+.fut-ltb .sw[aria-pressed="true"] { border-color: var(--ink); }
+.fut-ltb .tx, .fut-lines .tx { font: inherit; font-size: 0.8rem; color: var(--ink-2); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+.fut-ltb .tx:hover, .fut-lines .tx:hover { color: var(--ink); }
+.fut-ltb .del, .fut-lines [data-del], .fut-lines [data-clear] { color: var(--bad-text); }
+.fut-lines { margin-top: 10px; font-size: 0.9rem; width: fit-content; max-width: 100%; overflow-x: auto; }
+.fut-lines-head { gap: 16px; }
+.fut-lines-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.fut-lines-tbl { width: 100%; border-collapse: collapse; font-family: var(--font-data); }
+.fut-lines-tbl th, .fut-lines-tbl td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--line); }
+.fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
+.fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+/* 看盤 K 棒頁（assets/kbar.js、templates/futures.frag.html）與個股頁的 K 棒檢視（kb- 開頭）。
+   寬螢幕（≥900px）：左清單固定、可獨立捲動；窄螢幕：清單收成面板，用「商品清單」按鈕展開；整頁不可出現水平捲動 */
+.kb-app { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0; }
+.kb-main { min-width: 0; display: grid; gap: 28px; }
+.kb-main > div { min-width: 0; }
+.kb-side { min-width: 0; }
+.kb-tog { width: 100%; display: flex; align-items: center; gap: 8px; font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; text-align: left; }
+.kb-tog span { color: var(--muted); } .kb-tog b { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .kb-tog i { font-style: normal; color: var(--muted); }
+.kb-panel { display: none; margin-top: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; max-height: 60vh; overflow: auto; }
+.kb-open .kb-panel { display: block; }
+.kb-sum { font-size: 0.86rem; color: var(--ink-2); margin-bottom: 8px; }
+.kb-sum b { font-family: var(--font-data); font-weight: 600; } .kb-sum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-sortbar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.8rem; color: var(--muted); }
+.kb-grp { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 10px 6px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
+.kb-grp:first-child { border-top: 0; margin-top: 0; padding-top: 2px; }
+.kb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; width: 100%; font: inherit; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 8px; padding: 6px 8px; cursor: pointer; }
+/* 滑過的底色（--wash）和選取的底色（--chip-bg）幾乎一樣：選取列另加左側色條；觸控裝置點完不留滑過的底色 */
+@media (hover: hover) { .kb-row:hover { background: var(--wash); } }
+.kb-row[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); box-shadow: inset 3px 0 0 var(--accent); }
+.kb-row .n { font-size: 0.92rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-row .ch { font-family: var(--font-data); font-size: 0.88rem; font-weight: 500; text-align: right; color: var(--muted); }
+.kb-row .ch.kup { color: var(--kup); } .kb-row .ch.kdn { color: var(--kdn); }
+.kb-row .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-row .px { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); text-align: right; }
+.kb-row[aria-selected="true"] .c, .kb-row[aria-selected="true"] .px { color: inherit; opacity: 0.8; }
+.kb-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
+.kb-ttl { min-width: 0; flex: 1 1 260px; } .kb-ttl h2 { font-size: var(--step-2); }
+.kb-sub { font-size: 0.84rem; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; }
+.kb-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.kb-step { font: inherit; font-size: 0.82rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.kb-step:hover { color: var(--ink); }
+.kb-nav .go[hidden] { display: none; }
+.kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
+.kb-foot { margin-top: 8px; }
+/* 個股頁：K 棒收合區塊 */
+.kb-sec { margin: 14px 0 16px; }
+.kb-sec .kb-dy { margin-top: 10px; }
+.kb-sec .kb-dy[hidden] { display: none; }
+/* 看盤頁：總覽牆 */
+.kb-app[hidden], .kb-grid[hidden], .kb-lockbox[hidden] { display: none; }
+.kb-views { display: grid; gap: 14px; min-width: 0; }   /* 「總覽｜單檔」切換緊貼下方的內容（main.wrap 的 40px 間距只留在頁首與這一塊之間） */
+.kb-modebar { margin: 0; }
+.kb-grid { display: grid; gap: 12px; min-width: 0; }
+.kb-gsum { font-size: 0.9rem; color: var(--ink-2); }
+.kb-gsum b { font-family: var(--font-data); font-weight: 600; } .kb-gsum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kb-chip { font: inherit; font-size: 0.84rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.kb-chip span { margin-left: 6px; font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-chip[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); border-color: var(--accent); }
+.kb-chip[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
+.kb-gctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.kb-gsort { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
+.kb-cards { --kb-min: 600px; --kb-h: 390px; --kb-hkd: 510px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kb-min)), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards[data-size="s"] { --kb-min: 340px; --kb-h: 220px; --kb-hkd: 320px; }
+.kb-cards[data-size="m"] { --kb-min: 450px; --kb-h: 320px; --kb-hkd: 430px; }
+.kb-cards[data-size="l"] { --kb-min: 680px; --kb-h: 460px; --kb-hkd: 600px; }
+@media (max-width: 639px) { .kb-cards { grid-template-columns: minmax(0, 1fr); } }
+.kb-gh { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
+.kb-gh:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 4px; }
+.kb-ch { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.kb-ct { font: inherit; font-size: 1rem; font-weight: 700; color: var(--ink); background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-ct:hover { text-decoration: underline; }
+.kb-ch .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); flex: none; }
+.kb-cpx { margin-left: auto; display: flex; align-items: baseline; gap: 8px; font-family: var(--font-data); flex: none; }
+.kb-cpx b { font-size: 1.05rem; font-weight: 600; color: var(--ink); } .kb-cpx .ch { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
+.kb-cpx .ch.kup { color: var(--kup); } .kb-cpx .ch.kdn { color: var(--kdn); }
+.kb-cm { font-size: 0.74rem; color: var(--muted); min-height: 1.2em; overflow-wrap: anywhere; }
+.kb-cm .pend { color: var(--bad-text); }
+.kb-cbox { position: relative; width: 100%; height: var(--kb-h, 320px); min-width: 0; overflow: hidden; }
+.kb-kd .kb-cbox { height: var(--kb-hkd, 430px); }
+@media (max-width: 639px) { .kb-cbox { height: min(var(--kb-h, 320px), 60vh); } .kb-kd .kb-cbox { height: min(var(--kb-hkd, 430px), 60vh); } }
+.kb-empty { font-size: 0.84rem; color: var(--muted); padding: 24px 4px; text-align: center; }
+.kb-cf { display: flex; justify-content: flex-end; }
+.kb-more { font: inherit; font-size: 0.8rem; color: var(--accent); background: transparent; border: 0; padding: 2px 0; cursor: pointer; }
+.kb-more:hover { text-decoration: underline; }
+.seg a { display: inline-flex; align-items: center; font-size: 0.82rem; color: var(--ink-2); padding: 6px 12px; text-decoration: none; border-left: 1px solid var(--line); }
+.seg a:hover { color: var(--ink); }
+@media (max-width: 640px) { .kb-embed .fut-chart, .kb-dy .fut-chart { height: 420px; } }
+@media (min-width: 900px) {
+  .kb-app { grid-template-columns: 272px minmax(0, 1fr); gap: 20px; }
+  .kb-side { position: sticky; top: 12px; max-height: calc(100vh - 24px); display: flex; flex-direction: column; }
+  .kb-tog { display: none; }
+  .kb-panel { display: flex; flex-direction: column; margin-top: 0; max-height: none; min-height: 0; overflow: hidden; }
+  .kb-list { overflow-y: auto; min-height: 0; scrollbar-width: thin; }
+}
+
+/* 每季一頁摘要（assets/summary.js）：四種來源標籤＋成績單 */
+.src-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 0.05em; white-space: nowrap; }
+.src-w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
+.src-o { background: rgba(235, 104, 52, 0.12); color: var(--s2); border-color: rgba(235, 104, 52, 0.4); }
+.src-e { background: rgba(74, 58, 167, 0.12); color: var(--s7); border-color: rgba(74, 58, 167, 0.4); }
+.src-v { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.src-m { background: rgba(237, 161, 0, 0.12); color: var(--s4); border-color: rgba(237, 161, 0, 0.4); }
+/* 公司分析（assets/analysis.js）：標題下方的結論卡，more 展開全文 */
+#analysis { margin-top: 8px; }
+.an-card, .an-full { min-width: 0; max-width: 100%; }
+.an-card > * { min-width: 0; }
+.an-full .tbl-wrap, .an-pre { max-width: 100%; }
+.an-card h3 { font-size: 1rem; margin: 16px 0 6px; }
+.an-full { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+.an-full h3, .an-full h4 { margin: 18px 0 6px; } .an-full h4 { font-size: 0.95rem; }
+.an-full p { margin: 6px 0; overflow-wrap: anywhere; }
+.an-pre { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; line-height: 1.45; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; }
+.an-more { margin-top: 14px; font: inherit; font-size: 0.86rem; font-weight: 600; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.an-more:hover { background: var(--chip-bg); }
+.sum-card h3 { font-size: 1rem; margin: 18px 0 6px; }
+.sum-head { font-size: 1.05rem; font-weight: 600; margin: 0 0 6px; }
+.sum-list { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.sum-list li { overflow-wrap: anywhere; }
+.sum-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.sum-tbl th, .sum-tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.sum-tbl td small { display: block; color: var(--muted); font-size: 0.75rem; }
+.sum-tbl thead th { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+.src-link { font-size: 0.8rem; }
+.chip-warn { background: rgba(237, 161, 0, 0.18); color: var(--s4); }
+.chip-up { background: rgba(27, 175, 122, 0.16); color: var(--s3); }
+.chip-down { background: rgba(227, 73, 72, 0.16); color: var(--s8); }
+.sum-card details { margin-top: 14px; }
+.tbl-wrap { overflow-x: auto; }
+
+/* 體質總覽（assets/health.js） */
+.h-tbl .h-row { cursor: pointer; }
+.h-tbl .h-row:hover { background: var(--wash); }
+.h-tbl .h-row:focus-visible { outline: 2px solid var(--s1); outline-offset: -2px; }
+.h-tbl .h-grp { font-weight: 600; color: var(--ink-2); vertical-align: top; white-space: nowrap; border-right: 1px solid var(--line); }
+.h-tbl .h-name { min-width: 11em; }
+.h-tbl .h-spark { width: 130px; }
+.h-tbl td.muted { color: var(--muted); }
+.h-tbl .h-chart td { background: var(--page); }
+.h-tbl .h-row::after { content: none; }
+
+/* 論點卡燈號（assets/thesis.js） */
+.light { display: inline-block; min-width: 2.2em; text-align: center; font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.light-g { background: rgba(27, 175, 122, 0.18); color: var(--s3); }
+.light-y { background: rgba(237, 161, 0, 0.2); color: var(--s4); }
+.light-r { background: rgba(227, 73, 72, 0.18); color: var(--s8); }
+.light-n { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.sum-tbl th small { display: block; font-weight: 400; color: var(--muted); font-size: 0.75rem; }
+.sum-tbl th small { white-space: normal; overflow-wrap: anywhere; min-width: 12em; }
+.note li, ul.note { overflow-wrap: anywhere; }
+
+/* 巴菲特＋蒙格檢查表（assets/buffett.js） */
+.bm-grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .bm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bm-grid > #bmInv { grid-column: 1 / -1; } }
+.bm-card { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+.bm-card > * { min-width: 0; max-width: 100%; }
+.bm-card h3 { margin: 0 0 6px; font-size: 1.02rem; }
+.bm-card h4 { margin: 12px 0 4px; font-size: 0.9rem; }
+.bm-ask { margin: 0 0 10px; font-weight: 600; }
+.bm-view { margin: 10px 0; font-size: 0.9rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.bm-vt { display: block; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+.bm-nums { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 8px 0; }
+.bm-n { display: grid; gap: 2px; align-content: start; min-width: 0; overflow-wrap: anywhere; }
+.bm-nl { font-size: 0.78rem; color: var(--muted); }
+.bm-nv { font-size: 1.05rem; font-weight: 600; }
+.bm-f { display: block; font-size: 0.74rem; color: var(--muted); font-weight: 400; line-height: 1.45; }
+.bm-why { color: var(--muted); font-size: 0.82rem; font-weight: 400; }
+.bm-self { margin-top: 10px; font-size: 0.9rem; }
+.bm-self ul { margin: 4px 0 0; padding-left: 1.2em; display: grid; gap: 3px; }
+.bm-det { margin-top: 10px; }
+.bm-det summary { cursor: pointer; font-size: 0.88rem; color: var(--ink-2); }
+.bm-tbl th, .bm-tbl td { white-space: nowrap; font-size: 0.82rem; padding: 6px 8px; }
+.bm-q { color: var(--muted); font-size: 0.82rem; }
+.bm-opt { margin: 0 0 12px; }
+.bm-card .up { color: var(--good-text); } .bm-card .down { color: var(--bad-text); }
+.bm-card .how, #buffett > .how { font-size: 0.82rem; color: var(--ink-2); line-height: 1.55; }
+.bm-card .how b { color: var(--ink); font-weight: 600; }
+.flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
+.co-warn { color: var(--ink-2); }
+
+/* 看盤頁加寬（只有看盤頁；其他頁不變）：主內容與章節導覽同寬 */
+.wrap.wrap-watch { max-width: min(1880px, 100vw - 32px); }
+.secnav-watch .scroller { max-width: min(1880px, 100vw - 32px); }
+/* ≥1280px 且全站側邊欄收合時，左上角浮動的 ☰ 按鈕（left 10px、寬 40px）會蓋住加寬後貼邊的「← 所有公司」：導覽列左側讓出按鈕的位置（畫面夠寬、本來就有留白時不加） */
+@media (min-width: 1280px) { html.sb-push:not(.sb-open) .secnav-watch .scroller { padding-left: max(0px, calc(42px - max(0px, (100vw - 1912px) / 2))); } }
+
+/* 個股頁 K 棒開合橫條：整條都是按鈕，一眼看得到 */
+.kb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; box-sizing: border-box; font: inherit; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--chip-bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin-bottom: 4px; cursor: pointer; text-align: left; text-decoration: none; }
+.kb-bar:hover { border-color: var(--accent); }
+.kb-bar-l { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.kb-bar-ic { color: var(--accent); width: 1em; flex: none; }
+.kb-bar-r { flex: none; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+@media (max-width: 480px) { .kb-bar { font-size: 0.88rem; padding: 8px 10px; } .kb-bar-r { font-size: 0.78rem; } }
+
+:root{--mx-good:#1f8a4c;--mx-bad:#c63b3b;--mx-flat:#8a8880;--mx-band:rgba(60,60,55,.10)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10)}}
+:root[data-theme="dark"]{--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10)}
+.mx-tag{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface);white-space:nowrap;vertical-align:1px}
+.mx-chain{display:flex;flex-wrap:wrap;gap:8px 4px;align-items:stretch}
+.mx-box{flex:1 1 132px;min-width:132px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;align-content:start}
+.mx-box:hover{border-color:var(--accent)}
+.mx-box b{font-size:.95rem}
+.mx-box .cnt{font-size:.78rem;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:2px 8px}
+.mx-arrow{align-self:center;color:var(--muted);font-family:var(--font-data);flex:none}
+.mx-dots{display:flex;flex-wrap:wrap;gap:3px}
+.mx-dot{width:9px;height:9px;border-radius:50%;background:var(--mx-flat);display:inline-block;flex:none}
+.mx-dot.better{background:var(--mx-good)} .mx-dot.worse{background:var(--mx-bad)} .mx-dot.none{background:transparent;border:1px solid var(--axis)}
+.mx-pill{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;white-space:nowrap;color:var(--ink-2)}
+.mx-pill.better{color:var(--mx-good)} .mx-pill.worse{color:var(--mx-bad)}
+.mx-moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.mx-moves ul{margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.9rem}
+.mx-moves li small{color:var(--muted);font-family:var(--font-data)}
+.mx-tbl{width:100%;border-collapse:collapse;font-size:.9rem}
+.mx-tbl th,.mx-tbl td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;white-space:normal}
+.mx-tbl th{font-size:.76rem;color:var(--muted);font-weight:600;white-space:nowrap}
+.mx-tbl td.n,.mx-tbl th.n{text-align:right;font-family:var(--font-data);white-space:nowrap}
+.mx-tbl td small{color:var(--muted);font-family:var(--font-data);font-size:.74rem}
+.mx-tbl tr.row{cursor:pointer}
+.mx-tbl tr.row:hover td{background:var(--wash)}
+.mx-tbl tr.row td:first-child{width:5.2em}
+.mx-name{font-weight:600}
+.mx-name button{all:unset;cursor:pointer;display:inline}
+.mx-name button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mx-name button::before{content:"▸";display:inline-block;width:1.1em;color:var(--muted);transition:transform .15s}
+tr.row[aria-expanded="true"] .mx-name button::before{transform:rotate(90deg)}
+.mx-range{position:relative;width:110px;height:6px;border-radius:3px;background:var(--grid);margin:6px 0 2px}
+.mx-range i{position:absolute;top:-3px;width:4px;height:12px;border-radius:2px;background:var(--accent);transform:translateX(-2px)}
+.mx-rl{display:flex;justify-content:space-between;width:110px;font-family:var(--font-data);font-size:.68rem;color:var(--muted)}
+.mx-spark{display:block}
+.mx-det td{background:var(--surface);padding:14px 12px 18px}
+.mx-det .grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px}
+.mx-det .txt{display:grid;gap:10px;align-content:start;font-size:.9rem}
+.mx-det .txt p{color:var(--ink-2)}
+.mx-det .txt p b{color:var(--ink)}
+.mx-det .facts{font-size:.82rem;color:var(--ink-2);display:grid;gap:3px;border-top:1px solid var(--line);padding-top:8px}
+.mx-chart{position:relative;height:260px}
+.mx-rg{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.mx-rg button{font:inherit;font-size:.78rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:3px 10px;border-radius:999px;cursor:pointer}
+.mx-rg button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
+.mx-rg span{font-size:.74rem;color:var(--muted)}
+.mx-phase{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.mx-phase .card h3{font-size:1.1rem}
+.mx-phase .mark{color:var(--ink-2);font-size:.92rem}
+.mx-chk{width:100%;border-collapse:collapse;font-size:.88rem;table-layout:fixed}
+.mx-chk td{padding:7px 8px;border-top:1px solid var(--line);border-bottom:0;vertical-align:top;white-space:normal;text-align:left}
+.mx-chk td:first-child{width:46%}
+.mx-chip{display:inline-flex;flex-wrap:wrap;align-items:center;gap:2px 5px;margin:0 10px 4px 0;font-size:.84rem;text-decoration:none;color:var(--ink);max-width:100%}
+.mx-chips{display:flex;flex-wrap:wrap}
+.mx-chip:hover{text-decoration:underline}
+.mx-chip small{font-family:var(--font-data);color:var(--muted)}
+.mx-inv{font-size:.9rem;border-left:3px solid var(--accent);padding-left:10px;color:var(--ink-2)}
+.mx-tw{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}
+.mx-lamp{display:inline-flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:700}
+.mx-lamp i{width:22px;height:22px;border-radius:50%;display:inline-block;background:var(--c,#999);box-shadow:0 0 0 3px color-mix(in srgb,var(--c,#999) 25%,transparent)}
+.mx-strip{display:flex;gap:3px;align-items:flex-end;flex-wrap:wrap}
+.mx-strip span{width:14px;height:14px;border-radius:50%;background:var(--c,#999);display:inline-block}
+.mx-strip small{font-size:.72rem;color:var(--muted);margin:0 4px;font-family:var(--font-data)}
+.mx-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mx-links ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:.9rem}
+.mx-links li small{display:block;color:var(--ink-2);font-size:.8rem}
+.mx-pre{font-family:var(--font-data);font-size:.78rem;line-height:1.45;white-space:pre;overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--ink-2)}
+.mx-warn{font-size:.86rem;color:var(--ink-2)}
+main.wrap>section,main.wrap>header,.card>*{min-width:0}
+@media (max-width:760px){
+  .mx-det .grid{grid-template-columns:minmax(0,1fr)}
+  .mx-tbl .hide-s{display:none}
+  .mx-tbl:not(.mx-plain),.mx-tbl:not(.mx-plain) tbody{display:block}
+  .mx-tbl:not(.mx-plain) tr:first-child:not(.row){display:none}
+  .mx-plain th,.mx-plain td{padding:7px 5px;font-size:.84rem}
+  .mx-tbl tr.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:10px 10px;border-bottom:1px solid var(--line)}
+  .mx-tbl tr.row td{border:0;padding:0;background:none!important}
+  .mx-tbl tr.row td:nth-child(1){grid-column:2;grid-row:1;width:auto;justify-self:end}
+  .mx-tbl tr.row td:nth-child(2){grid-column:1;grid-row:1}
+  .mx-tbl tr.row td:nth-child(3){grid-column:1;grid-row:2;text-align:left}
+  .mx-tbl tr.row td:nth-child(4){grid-column:2;grid-row:2}
+  .mx-tbl tr.row td br{display:none}
+  .mx-tbl tr.row td small{margin-left:6px}
+  .mx-tbl tr.mx-det,.mx-tbl tr.mx-det td{display:block}
+  .mx-tbl tr.mx-det[hidden]{display:none}
+  .mx-tbl:not(.mx-plain) tr:not(.row):not(.mx-det):not(:first-child){display:block;padding:10px}
+  .mx-arrow{display:none}
+  .mx-box{flex-basis:calc(50% - 4px);min-width:0}
+  .mx-chk td:first-child{width:auto}
+  .mx-chk,.mx-chk tbody,.mx-chk tr,.mx-chk td{display:block}
+  .mx-chk tr{border-top:1px solid var(--line);padding:6px 0}
+  .mx-chk td{border:0;padding:2px 0}
+  .mx-chart{height:220px}
+}
+</style>
+
+<!-- 總經儀表板：資料 data/macro/latest.json 由 GitHub Actions（macro-weekly，tools/macro_fetch.py）每週寫入；本頁只讀不算。
+     指標清單、四階段對照表、外部連結都在 data/macro/config.json（建置時內嵌）。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="../">← 所有公司</a>
+    <a href="#now">一眼看現況</a>
+    <a href="#phase">四個階段對照表</a>
+    <a href="#ind">全部指標</a>
+    <a href="#chain">AI 資本支出鏈</a>
+    <a href="#tw">台灣</a>
+    <a href="#links">外部網站</a>
+    <a href="#sources">怎麼算的與來源</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Macro Dashboard · Business Cycle</div>
+    <h1>總經儀表板</h1>
+    <p class="lede">個股頁回答「這家公司好不好、貴不貴」；這一頁回答「現在整體景氣在循環的哪一段」。指標清單照愛榭克（Izaax）《景氣循環投資》書裡用到的美國經濟數據整理，排成一條因果鏈：就業 → 所得與消費 → 訂單與投資 → 庫存 → 信用 → 通膨與利率 → 成長與獲利。</p>
+    <div class="meta-row"><span id="mxSub">讀取中…</span></div>
+    <p class="note" id="mxAbout"></p>
+    <p class="note"><b>怎麼用：</b>總經是背景，不是用來猜下週漲跌的。書裡的做法是多數時間都持有股票，只有在榮景期尾聲才分階段降低持股。這一頁只把數據與書裡的判讀並排，<b>不替你判定現在是哪個階段</b>；判斷留給你。</p>
+  </header>
+
+  <section id="now">
+    <div class="sec-head"><h2>一眼看現況</h2><p class="sub"><span class="mx-tag">公式</span> 每個圓點是一個指標的「方向燈」：最近半年的變動，和它自己過去十年平常的半年變動相比，明顯往好的方向走是綠色、明顯往壞的方向走是紅色、差不多就是灰色。空心圓是沒有固定好壞方向的指標（例如利率、油價）。算法在頁尾。</p></div>
+    <div class="mx-chain" id="mxChain"></div>
+    <div class="mx-moves" id="mxMoves"></div>
+  </section>
+
+  <section id="phase">
+    <div class="sec-head"><h2>四個階段對照表</h2><p class="sub"><span class="mx-tag">整理，不是原話</span> 書裡把景氣循環分成復甦期 → 成長期 → 榮景期 → 衰退期，四個階段依序出現、不會跳過，但每一段多長沒有固定答案，要看當下的數據。下面把書裡每個階段看的指標，接上這一頁的最新讀數。</p></div>
+    <div class="mx-phase" id="mxPhase"></div>
+  </section>
+
+  <section id="ind">
+    <div class="sec-head"><h2>全部指標（照因果鏈排）</h2><p class="sub"><span class="mx-tag">書面</span> 數字全部來自美國官方統計（經由 FRED）。點任何一列展開：長期走勢圖（灰底是美國官方認定的衰退期間）、書裡怎麼看、怎麼讀、來源連結。</p></div>
+    <div id="mxGroups" style="display:grid;grid-template-columns:minmax(0,1fr);gap:22px"></div>
+  </section>
+
+  <section id="chain">
+    <div class="sec-head"><h2>把總經接到持股：AI 資本支出鏈</h2><p class="sub" id="mxChainLead"></p></div>
+    <div class="card wide">
+      <h3>四家雲端大廠每季資本支出（億美元）與合計年增率</h3>
+      <div class="mx-chart" style="height:300px"><canvas id="c-chain" role="img" aria-label="四家雲端大廠每季資本支出堆疊圖與合計年增率"></canvas></div>
+      <div class="tbl-wrap"><table class="mx-tbl mx-plain" id="mxChainTbl"></table></div>
+    </div>
+    <div class="card wide">
+      <h3>下游：賣方最新一季的營收年增率</h3>
+      <div class="tbl-wrap"><table class="mx-tbl mx-plain" id="mxSupTbl"></table></div>
+      <p class="mx-warn" id="mxChainRead"></p>
+      <ul class="note" id="mxChainMiss" hidden></ul>
+    </div>
+  </section>
+
+  <section id="tw">
+    <div class="sec-head"><h2>台灣</h2><p class="sub" id="mxTwLead"></p></div>
+    <div class="card wide" id="mxTwCard"><div class="mx-tw" id="mxTwLamp"></div></div>
+    <div class="card wide"><div class="tbl-wrap"><table class="mx-tbl" id="mxTwTbl"></table></div></div>
+  </section>
+
+  <section id="links">
+    <div class="sec-head"><h2>外部網站</h2><p class="sub">想自己追下去時用。這一頁抓不到（沒有免費官方資料檔）的指標，例如美國 ISM 指數、經濟諮商局消費者信心、整體股市估值，也在這裡給連結。</p></div>
+    <div class="mx-links" id="mxLinks"></div>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head"><h2>怎麼算的與來源</h2></div>
+    <div class="card wide">
+      <h3>方向燈的算法</h3>
+      <div class="mx-pre">最新值 − 半年前的值 = 半年變動          （月資料往前 6 筆，季資料往前 2 筆）
+                    │
+                    ▼
+半年變動 ÷ 這個指標「平常的半年變動幅度」 = z
+          （過去 10 年每一個半年變動，取中位數算的幅度；
+            不怕 2020 年疫情那種極端值把尺度拉大）
+                    │
+        ┌───────────┼───────────┐
+     z 往好的方向      |z| &lt; 1       z 往壞的方向
+      超過 1 倍                      超過 1 倍
+        ▼             ▼             ▼
+      轉好           持平           轉差</div>
+      <p class="mx-warn">「好的方向」每個指標不同：失業金人數往下是好，零售銷售年增率往上是好。利率、油價、美元、儲蓄率這類沒有固定好壞方向的指標不亮燈。方向燈只說「最近半年明顯在變」，不代表景氣好或壞，更不是買賣訊號。年增率是和去年同一個月比；每日與每週的資料先取每月最後一筆再算。全部在 <code>tools/macro_fetch.py</code> 算，頁面只畫不算。</p>
+    </div>
+    <div class="card wide">
+      <h3>資料來源與更新</h3>
+      <p class="mx-warn">美國：聖路易聯準銀行 FRED 的公開資料檔（每一列展開後有該序列的連結）。台灣：國家發展委員會放在政府資料開放平臺的官方資料檔。每週由 GitHub Actions 自動抓兩次（台北週六與週三清晨），不經過 Claude，數字不手填。抓不到的序列沿用上一次的資料並在下面標「待確認」，不估計、不補值。各指標公布時間不同，所以每一列的「資料月份」不一樣，請看日期。</p>
+      <ul class="note" id="mxUn"></ul>
+      <p class="mx-warn" id="mxNotes"></p>
+    </div>
+  </section>
+</main>
+
+<script src="../assets/vendor/chart.umd.js"></script>
+<script>
+(function () {
+  "use strict";
+  var CFG = {"version":1,"since":"1990-01-01","recession":"USREC","groups":[{"id":"jobs","name":"就業","lead":"景氣的地基：有工作才有收入，有收入才敢消費。","series":[{"key":"icsa4","fred":"IC4WSA","name":"初領失業救濟金（4 週平均）","unit":"人","show":"level","bad":"up","digits":0,"book":"復甦期：高峰出現在復甦起點。榮景期尾聲七大指標①：創新低代表榮景還會延伸至少三個季度；不再創新低、右端翹起（U 型）要提高警覺。","read":"每週公布，最即時。看 4 週平均比單週穩。展開後的「比三年低點高多少」，就是在看 U 型的右端有沒有翹起來。","scale":0.0001,"showUnit":"萬人","showDigits":2},{"key":"payems","fred":"PAYEMS","name":"非農就業人數（每月增減）","unit":"千人","show":"chg","bad":"down","digits":0,"book":"成長期：新增就業提升。書中提醒非農與失業率在轉折點常是假訊號或落後，不要單看。","read":"每月第一個週五公布。單月容易大修正，看 3 個月以上的趨勢。","scale":0.1,"showUnit":"萬人","showDigits":1},{"key":"unrate","fred":"UNRATE","name":"失業率","unit":"%","show":"level","bad":"up","digits":1,"book":"書中說失業率不是觀察景氣轉折的好指引（落後）。","read":"落後指標：等它明顯上升時，股市通常已經跌一段了。拿來確認，不拿來預測。"},{"key":"jolts","fred":"JTSJOL","name":"職缺數（JOLTS）","unit":"千個","show":"level","bad":"down","digits":0,"book":"榮景期尾聲：和初領失業金一起看，職缺自高點反轉是警訊。","read":"公布比較慢（落後約兩個月）。趨勢至少看一年。","scale":0.1,"showUnit":"萬個","showDigits":1},{"key":"uemp5","fred":"UEMPLT5","name":"短期失業人數（不到 5 週）","unit":"千人","show":"level","bad":"up","digits":0,"book":"復甦期：短期失業人數改善時，景氣通常同步邁入復甦。","read":"剛失業的人數，比整體失業率更早反映裁員潮。","scale":0.1,"showUnit":"萬人","showDigits":1}]},{"id":"consume","name":"所得與消費","lead":"美國經濟約七成是民間消費。書中說：景氣循環始於消費，也終於消費。","series":[{"key":"rdpi","fred":"DSPIC96","name":"實質個人可支配所得（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"成長期：所得增速快於消費（遞延消費）。榮景期前：支出增速高於收入增速（透支消費）。","read":"和下一列「實質個人消費」比：消費長得比所得快，代表在動用儲蓄或借錢。"},{"key":"rpce","fred":"PCEC96","name":"實質個人消費支出（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"衰退確認兩數據之一：年增率出現兩次陡降（第一次可能只是基期）。","read":"扣掉通膨後的消費。這是書裡確認衰退最重要的一條線。"},{"key":"rrsfs","fred":"RRSFS","name":"實質零售銷售（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"復甦期：率先反彈，領先確認復甦。榮景期尾聲七大指標②：在榮景期先走弱要留意；同樣現象在復甦或成長期多半只是基期效應。落底三指標之一。","read":"每月中公布，比個人消費早兩週。"},{"key":"rdur","fred":"PCEDGC96","name":"實質耐久財消費（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"復甦期：耐久財消費向上反彈，領先確認復甦。","read":"車子、家電這類可以晚點再買的東西，對景氣最敏感。"},{"key":"psave","fred":"PSAVERT","name":"個人儲蓄率","unit":"%","show":"level","bad":"","digits":1,"book":"成長期：儲蓄率下降、消費跟上。","read":"沒有固定的好壞方向：太低代表消費透支，急升代表大家不敢花。所以不亮方向燈。"},{"key":"umich","fred":"UMCSENT","name":"密西根大學消費者信心","unit":"點","show":"level","bad":"down","digits":1,"book":"榮景期尾聲七大指標③：續創新高，美股還有高點；密西根指數下降是警訊。","read":"FRED 上的資料依來源要求延後一個月。經濟諮商局（Conference Board）的信心指數沒有免費資料檔，見下方連結。"}]},{"id":"invest","name":"訂單、投資與房市","lead":"消費好，企業才敢接單擴產。書中說民間投資比經濟成長率更早反轉。","series":[{"key":"dgo","fred":"DGORDER","name":"耐久財新訂單（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"復甦期：耐久財訂單落底，領先預告民間投資回溫。","read":"飛機訂單會讓它大幅跳動，搭配下一列（不含運輸）一起看。"},{"key":"dgoex","fred":"ADXTNO","name":"耐久財新訂單，不含運輸（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"榮景期尾聲七大指標④：第二次耐久財支出潮預告榮景尾聲。","read":"拿掉飛機與汽車後比較平滑，較能看出企業真實的設備需求。"},{"key":"gpdi","fred":"GPDIC1","name":"實質民間投資（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"衰退確認兩數據之一：比經濟成長率更早反轉；過去的衰退期都出現雙位數衰退。落底三指標之一。","read":"每季公布（跟著 GDP）。"},{"key":"gpdisaar","fred":"A006RL1Q225SBEA","name":"實質民間投資（季增年率）","unit":"%","show":"level","bad":"down","digits":1,"book":"落底三指標①：民間投資與設備支出的季增年率領先落底反彈，動能轉強是景氣谷底止穩的關鍵。","read":"這一季比上一季的成長換算成一年，波動很大。書裡只在判斷「落底了沒」時用它。"},{"key":"pnfi","fred":"PNFIC1","name":"實質民間非住宅固定投資（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"成長期：民間投資增長顯著跳階。","read":"企業蓋廠房、買設備、買軟體。AI 資料中心的資本支出也算在這裡。"},{"key":"prfi","fred":"PRFIC1","name":"實質民間住宅投資（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"成長期：私人住宅投資持續增長。","read":"對利率最敏感的一塊，通常最早轉弱。"},{"key":"houst","fred":"HOUST","name":"新屋開工（年化）","unit":"千戶","show":"level","bad":"down","digits":0,"book":"榮景期延伸關鍵：房地產與民間投資是否穩定擴張。","read":"單月波動大，看 3 個月以上的趨勢。","scale":0.1,"showUnit":"萬戶","showDigits":1},{"key":"permit","fred":"PERMIT","name":"營建許可（年化）","unit":"千戶","show":"level","bad":"down","digits":0,"book":"同上，營建許可領先新屋開工。","read":"先拿到許可才會開工，所以比開工更領先。","scale":0.1,"showUnit":"萬戶","showDigits":1}]},{"id":"stock","name":"庫存","lead":"東西賣不掉，庫存就會堆起來，接著就是砍單與減產。","series":[{"key":"isratio","fred":"ISRATIO","name":"整體商業庫存銷售比","unit":"倍","show":"level","bad":"up","digits":2,"book":"榮景期尾聲七大指標⑥：每個完整景氣循環會經歷三次明顯的庫存增加；庫存增加但消費與投資動能減退是警訊。","read":"庫存 ÷ 一個月的銷售。往上代表貨堆得比賣得快。公布落後約一個半月。"}]},{"id":"credit","name":"信用","lead":"借錢的人還不出來、銀行開始收傘，景氣就容易轉向。","series":[{"key":"drcl","fred":"DRCLACBS","name":"消費性貸款違約率","unit":"%","show":"level","bad":"up","digits":2,"book":"榮景期尾聲七大指標⑦：違約率在榮景期中段之後上揚；若銀行跟著緊縮銀根，可能觸發景氣轉向。","read":"每季公布，落後約兩個月。"},{"key":"drbl","fred":"DRBLACBS","name":"企業貸款違約率","unit":"%","show":"level","bad":"up","digits":2,"book":"同上（企業端）。","read":"每季公布。"},{"key":"hyoas","fred":"BAMLH0A0HYM2","name":"高收益債利差","unit":"%","show":"level","bad":"up","digits":2,"book":"榮景期：高收益債殖利率顯著升高（價格走跌）。復甦期：低評等債券浮現長期投資良機。","read":"垃圾債比公債多付的利息。市場越擔心倒帳，利差越大。每天都有，是最即時的信用溫度計。FRED 只提供最近三年的資料，所以圖比較短。"},{"key":"loans","fred":"TOTLL","name":"銀行放款（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"升息循環末期，整體貸款動能見頂走緩。","read":"銀行還願不願意借錢。"}]},{"id":"price","name":"通膨、利率與聯準會","lead":"通膨決定聯準會敢不敢降息；利率決定股票與債券的相對吸引力。","series":[{"key":"cpi","fred":"CPIAUCSL","name":"消費者物價 CPI（年增率）","unit":"%","show":"yoy","bad":"up","digits":1,"book":"榮景期尾聲進入衰退期前，通膨總是再度升溫。","read":"聯準會的目標是 2% 左右（它實際盯的是下面的核心 PCE）。"},{"key":"corecpi","fred":"CPILFESL","name":"核心 CPI（年增率）","unit":"%","show":"yoy","bad":"up","digits":1,"book":"成長期：溫和的通膨有助消費與經濟穩定擴張。","read":"拿掉食物與能源，比較看得出通膨的底層趨勢。"},{"key":"corepce","fred":"PCEPILFE","name":"核心 PCE 物價（年增率）","unit":"%","show":"yoy","bad":"up","digits":1,"book":"同上。","read":"聯準會最看重的通膨指標。"},{"key":"ppi","fred":"PPIACO","name":"生產者物價 PPI，全部商品（年增率）","unit":"%","show":"yoy","bad":"up","digits":1,"book":"復甦期：原物料相關品項常出現短缺與強勁漲勢。","read":"上游的價格，通常比 CPI 先動。"},{"key":"ffr","fred":"DFEDTARU","name":"聯邦基金利率目標（上限）","unit":"%","show":"level","bad":"","digits":2,"book":"復甦期：連續降息拉低市場利率。成長期到榮景期：升息循環。","read":"升降息對股票報酬的歷史統計，在回測的「升降息週期」分頁。"},{"key":"dgs10","fred":"DGS10","name":"10 年期公債殖利率","unit":"%","show":"level","bad":"","digits":2,"book":"榮景期：利率先升後降，公債價格出現上漲格局。衰退期：殖利率走跌、債券價格上漲。","read":"全世界資產定價的錨。個股頁的「盈餘殖利率減公債」就是和它比。"},{"key":"t10y2y","fred":"T10Y2Y","name":"10 年減 2 年殖利率利差","unit":"%","show":"level","bad":"down","digits":2,"book":"這一列不是書裡的指標，是市場最常用的衰退預警，放著對照。","read":"小於 0 叫殖利率曲線倒掛。歷史上倒掛之後一段時間常出現衰退，但時間差很不固定。"},{"key":"t10y3m","fred":"T10Y3M","name":"10 年減 3 個月殖利率利差","unit":"%","show":"level","bad":"down","digits":2,"book":"同上，不是書裡的指標。","read":"紐約聯準銀行的衰退機率模型用的是這一條。"},{"key":"mort30","fred":"MORTGAGE30US","name":"30 年房貸利率","unit":"%","show":"level","bad":"","digits":2,"book":"復甦期：降息同步拉低房貸利率。升息會連帶提升長期殖利率與房貸利率。","read":"直接影響房市與耐久財消費。"},{"key":"walcl","fred":"WALCL","name":"聯準會總資產","unit":"百萬美元","show":"level","bad":"","digits":0,"book":"聯準會以降息與量化寬鬆（QE）拯救景氣趨緩。","read":"往上是放水（QE），往下是收水（縮表）。","scale":1e-06,"showUnit":"兆美元","showDigits":2}]},{"id":"growth","name":"成長、貿易、政府與企業獲利","lead":"前面每一環加起來的結果。股價長期跟著企業獲利走。","series":[{"key":"rgdp","fred":"GDPC1","name":"實質 GDP（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"景氣循環對照圖的主線；榮景期尾聲通膨升溫、經濟成長率見高後下滑。","read":"每季公布，會修正兩次。"},{"key":"pcesaar","fred":"DPCERL1Q225SBEA","name":"實質個人消費（季增年率）","unit":"%","show":"level","bad":"down","digits":1,"book":"復甦期：民間消費成長加速。書中判斷落底時用季增年率，因為比年增率更早反彈。","read":"這一季比上一季的成長，換算成一年。波動比年增率大。"},{"key":"cp","fred":"CP","name":"企業稅後獲利（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"成長期：企業盈利增長穩定，股市穩步向上。","read":"全美國企業的獲利（國民所得帳口徑），不只上市公司。每季公布。"},{"key":"imports","fred":"BOPTIMP","name":"進口金額（年增率）","unit":"%","show":"yoy","bad":"down","digits":1,"book":"復甦期關鍵四指標④：美國進口金額的轉折時間點，就是復甦期的開端。","read":"美國人買不買外國貨。台灣是出口國，這一條和台灣的出口直接相關。"},{"key":"slgov","fred":"SLEXPND","name":"州與地方政府支出（年增率）","unit":"%","show":"yoy","bad":"","digits":1,"book":"榮景期尾聲七大指標⑤：地方政府支出年增率顯著增加。聯邦政府收入只能當輔助，容易受減稅政策干擾。","read":"景氣好、稅收多，地方政府就敢花錢，所以它在榮景期尾聲才明顯加速。沒有固定的好壞方向，不亮方向燈。"}]},{"id":"market","name":"原物料、美元與市場情緒","lead":"書裡各階段對照的資產價格。","series":[{"key":"wti","fred":"DCOILWTICO","name":"西德州原油","unit":"美元／桶","show":"level","bad":"","digits":1,"book":"油價下跌有利維持民間消費動能；榮景期尾聲低利率與弱勢美元是油價上漲推手。","read":"油價急漲等於對消費者加稅。"},{"key":"dxy","fred":"DTWEXBGS","name":"美元指數（聯準會廣義貿易加權）","unit":"點","show":"level","bad":"","digits":1,"book":"景氣衰退期間，美元升值是常態。","read":"聯準會自己編的美元指數，和常聽到的 DXY 成分不同，方向大致一樣。"},{"key":"vix","fred":"VIXCLS","name":"VIX 波動率指數","unit":"點","show":"level","bad":"up","digits":1,"book":"這一列不是書裡的指標，是市場恐慌程度的對照。","read":"俗稱恐慌指數。20 以下算平靜，30 以上代表市場很緊張。"},{"key":"usdtwd","fred":"DEXTAUS","name":"美元兌新台幣","unit":"元","show":"level","bad":"","digits":2,"book":"這一列不是書裡的指標。持有美股的台灣投資人，報酬要再乘上匯率。","read":"數字變小代表台幣升值，美元資產換回台幣會變少。"}]}],"tw":{"lead":"台灣是出口導向的小型經濟體，景氣跟著美國的消費與企業投資走。這一區不是愛榭克書裡的內容（他的書以美國數據為主），是給持有台股的人對照用的。","files":[{"id":"lights","dataset":6099,"match":"景氣指標與燈號","lightCol":"景氣對策信號","source":"國家發展委員會「景氣指標及燈號」（政府資料開放平臺）","url":"https://data.gov.tw/dataset/6099"},{"id":"pmi","dataset":6100,"source":"國家發展委員會「臺灣採購經理人指數」（政府資料開放平臺；中華經濟研究院編製）","url":"https://data.gov.tw/dataset/6100"}],"series":[{"key":"twscore","file":"lights","col":"景氣對策信號綜合分數","name":"景氣對策信號綜合分數","unit":"分","show":"level","bad":"","digits":0,"range":[9,45],"book":"不是書裡的指標。國發會每月把 9 個項目各打 1～5 分加總：9～16 藍燈（低迷）、17～22 黃藍燈、23～31 綠燈（穩定）、32～37 黃紅燈、38～45 紅燈（熱絡）。","read":"太熱（紅燈）和太冷（藍燈）都要注意，所以不亮方向燈。每月 27 日前後公布上個月的分數。"},{"key":"twlead","file":"lights","col":"領先指標不含趨勢指數","name":"領先指標（不含趨勢）","unit":"點","show":"level","bad":"down","digits":2,"range":[50,150],"book":"不是書裡的指標。由外銷訂單動向、貨幣供給 M1B、股價指數、受僱員工淨進入率、建築物開工面積等項目合成。","read":"設計上領先景氣約半年。看它連續上升或下降幾個月，比看單月數字有用。"},{"key":"twcoin","file":"lights","col":"同時指標不含趨勢指數","name":"同時指標（不含趨勢）","unit":"點","show":"level","bad":"down","digits":2,"range":[50,150],"book":"不是書裡的指標。由工業生產、用電量、製造業銷售量、批發零售餐飲營業額、加班工時、出口、機械設備進口合成。","read":"反映「現在」的景氣。"},{"key":"twpmi","file":"pmi","col":"PMI","name":"台灣製造業採購經理人指數 PMI","unit":"%","show":"level","bad":"down","digits":1,"range":[20,80],"book":"書裡的落底三指標③看的是美國 ISM 製造業指數（沒有免費資料檔，見下方連結）；這裡放台灣版對照。","read":"50 以上代表擴張、以下代表緊縮（官方說明）。建議看趨勢。"},{"key":"twnmi","file":"pmi","col":"NMI","name":"台灣非製造業經理人指數 NMI","unit":"%","show":"level","bad":"down","digits":1,"range":[20,80],"book":"同上（服務業）。","read":"50 以上代表擴張、以下代表緊縮。"}]},"phases":[{"id":"recovery","name":"復甦期","mark":"衰退剛結束。數據還很難看，但已經不再變差；聯準會連續降息、政府擴大支出。","checks":[{"t":"就業：初領失業救濟金的高峰出現在復甦起點；短期失業人數改善","keys":["icsa4","uemp5"]},{"t":"消費：實質零售銷售與耐久財消費率先向上反彈","keys":["rrsfs","rdur"]},{"t":"投資：耐久財訂單落底","keys":["dgo"]},{"t":"進出口：進口金額由跌轉升","keys":["imports"]}],"invest":"現金不可為王：股市領先經濟數據，不要等數據全部好轉才進場。高收益債與原物料在這個階段也有機會。"},{"id":"growth","name":"成長期","mark":"就業、所得、消費形成良性循環，企業開始擴編與擴產；通膨溫和。","checks":[{"t":"所得長得比消費快，儲蓄率之後下降（遞延消費）","keys":["rdpi","rpce","psave"]},{"t":"非農新增就業提升，初領失業救濟金下滑","keys":["payems","icsa4"]},{"t":"民間投資明顯跳升","keys":["pnfi"]},{"t":"住宅投資持續成長","keys":["prfi"]},{"t":"通膨溫和、經濟穩定擴張","keys":["corecpi","corepce","rgdp"]}],"invest":"持續買進並持有股票這類風險資產，拉回是加碼機會。避開公債（升息循環中債券價格下跌）。"},{"id":"boom","name":"榮景期","mark":"景氣加速、市場極度樂觀、風險意識最低；股市估值與本益比在高點。下面是書裡的「榮景期尾聲七大指標」。","checks":[{"t":"① 初領失業救濟金：創新低代表榮景還會延伸至少三個季度；不再創新低、右端翹起（U 型）要警覺。職缺數一起看","keys":["icsa4","jolts"]},{"t":"② 民間消費：零售銷售、個人消費與所得自高點反轉","keys":["rrsfs","rpce","rdpi"]},{"t":"③ 消費者信心：續創新高，股市還有高點；下降是警訊","keys":["umich"]},{"t":"④ 民間投資：第二次耐久財支出潮預告榮景尾聲","keys":["dgoex","gpdi"]},{"t":"⑤ 政府支出：地方政府支出年增率顯著增加","keys":["slgov"]},{"t":"⑥ 庫存：庫存增加，但消費與投資動能減退","keys":["isratio"]},{"t":"⑦ 債務違約率：明顯上揚，銀行開始緊縮銀根","keys":["drcl","drbl","hyoas"]}],"invest":"唯一需要動作的階段：分階段降低持股（讀者筆記記載的例子是 70% → 50% → 30%，最低不低於 30%），轉進美國長天期公債；避開高收益債與原物料。"},{"id":"recession","name":"衰退期","mark":"書裡用兩個數據確認衰退，再用三個指標判斷落底。","checks":[{"t":"確認衰退①：實質個人消費年增率出現兩次陡降（第一次可能只是基期）","keys":["rpce"]},{"t":"確認衰退②：民間投資年增率比經濟成長率更早反轉，且出現雙位數衰退","keys":["gpdi","rgdp"]},{"t":"落底①：民間投資的季增年率回升","keys":["gpdisaar"]},{"t":"落底②：實質零售銷售回升（書裡看月增年率，比年增率更早反彈）","keys":["rrsfs"]},{"t":"落底③：製造業採購經理人指數（ISM）止跌回升；服務業也要一起看。美國 ISM 沒有免費資料檔，見下方連結","keys":["twpmi"]}],"invest":"持有公債與美元；把握低檔分批布局股市（定期定額的好時機）。"}],"links":[{"group":"愛榭克（Izaax）本人","items":[{"name":"愛榭克部落格","url":"https://www.izaax.net/blog/","note":"他發表總經觀察的地方。"},{"name":"Smart 智富","url":"https://smart.businessweekly.com.tw/","note":"他是《Smart 智富》月刊的總體經濟專欄作家；《經濟指標告訴你＆沒告訴你的事》的出版社。"}]},{"group":"書裡圖表用的資料網站","items":[{"name":"FRED（聖路易聯準銀行）","url":"https://fred.stlouisfed.org/","note":"書裡大部分圖表的來源，也是這一頁美國資料的來源。免費，可以自己疊圖。"},{"name":"財經M平方：美國 ISM 製造業與非製造業指數","url":"https://www.macromicro.me/charts/7/ism","note":"ISM 指數有授權限制，FRED 沒有，這一頁也不抓；到這裡看。"},{"name":"財經M平方：消費者信心（密西根大學與經濟諮商局）","url":"https://www.macromicro.me/charts/22/consumer-confidence","note":"經濟諮商局的信心指數同樣沒有免費資料檔。"},{"name":"財經M平方：巴菲特指標與 Shiller 本益比","url":"https://www.macromicro.me/charts/14298/mei-gu-ba-fei-te-zhi-biao-Shiller-PE","note":"書裡用來看整體股市估值高不高。"},{"name":"美國經濟分析局 BEA：GDP","url":"https://www.bea.gov/data/gdp/gross-domestic-product","note":"GDP、民間投資、個人消費的原始發布機關；每年七月有年度修正。"}]},{"group":"美國官方原始來源（想查公布日期與新聞稿時用）","items":[{"name":"勞工統計局 BLS：就業報告","url":"https://www.bls.gov/news.release/empsit.toc.htm","note":"非農就業、失業率。每月第一個週五。"},{"name":"勞工部：每週失業救濟金","url":"https://www.dol.gov/ui/data.pdf","note":"初領失業救濟金。每週四。"},{"name":"普查局 Census：零售銷售","url":"https://www.census.gov/retail/index.html","note":"每月中。"},{"name":"普查局 Census：耐久財訂單與庫存（M3）","url":"https://www.census.gov/manufacturing/m3/index.html","note":"每月下旬。"},{"name":"BEA：個人所得與支出","url":"https://www.bea.gov/data/income-saving/personal-income","note":"實質個人消費、可支配所得、儲蓄率、核心 PCE 物價。每月底。"},{"name":"ISM：製造業與服務業報告","url":"https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/","note":"每月第一、第三個營業日。"},{"name":"經濟諮商局 Conference Board：消費者信心","url":"https://www.conference-board.org/topics/consumer-confidence","note":"每月最後一個週二。"},{"name":"密西根大學消費者調查","url":"https://www.sca.isr.umich.edu/","note":"每月中公布初值、月底終值。"},{"name":"聯準會：FOMC 會議日程","url":"https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm","note":"利率決策日期與會後聲明。"},{"name":"NBER：景氣循環認定日期","url":"https://www.nber.org/research/business-cycle-dating","note":"美國「衰退」的官方認定（圖上的灰底），通常事後一年左右才公布。"}]},{"group":"即時推估與市場預期（不是官方統計，當參考）","items":[{"name":"亞特蘭大聯準銀行 GDPNow","url":"https://www.atlantafed.org/cqer/research/gdpnow","note":"用已公布的數據即時推估本季 GDP。"},{"name":"紐約聯準銀行：殖利率曲線與衰退機率","url":"https://www.newyorkfed.org/research/capital_markets/ycfaq","note":"用 10 年減 3 個月利差推估未來 12 個月的衰退機率。"},{"name":"CME FedWatch","url":"https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html","note":"期貨市場認為下次會議升降息的機率。"}]},{"group":"台灣","items":[{"name":"國發會景氣指標查詢系統","url":"https://index.ndc.gov.tw/n/zh_tw","note":"景氣燈號、領先同時落後指標、PMI 的官方查詢頁。"},{"name":"政府資料開放平臺：景氣指標及燈號","url":"https://data.gov.tw/dataset/6099","note":"這一頁台灣燈號資料的來源檔。"},{"name":"政府資料開放平臺：臺灣採購經理人指數","url":"https://data.gov.tw/dataset/6100","note":"這一頁台灣 PMI 資料的來源檔。"},{"name":"主計總處","url":"https://www.dgbas.gov.tw/","note":"GDP、物價、失業率。"},{"name":"經濟部統計處","url":"https://www.moea.gov.tw/Mns/dos/home/Home.aspx","note":"外銷訂單、工業生產。"},{"name":"中央銀行","url":"https://www.cbc.gov.tw/","note":"利率、匯率、貨幣供給。"}]}],"about":{"who":"愛榭克（Izaax）是台灣的總體經濟作家，《Smart 智富》月刊專欄作家，著有《經濟指標告訴你＆沒告訴你的事》《道瓊三萬點》《景氣循環投資》。他的特色是只用公開的美國經濟數據，判斷景氣走到循環的哪一段。","basis":"這一頁的指標清單與各階段的判讀，整理自三份讀者筆記對《景氣循環投資》的記錄（不是原書原文，也不是原話）。","notes":[{"name":"書中提及指標網站連結（NaMilk，2020）","url":"https://hxc85421.pixnet.net/blog/posts/15323590462"},{"name":"景氣循環投資 筆記（HackMD）","url":"https://hackmd.io/@investing/Sk80bL02K"},{"name":"【閱讀筆記】景氣循環投資（昭昭的投資日常，2020）","url":"https://as223400.pixnet.net/blog/posts/8229261874"},{"name":"如何利用景氣循環做投資？（衛斯理，2021）","url":"https://vocus.cc/article/66fe1794fd897800013fd620"}]},"chain":{"buyers":["msft","amzn","googl","meta"],"suppliers":["nvda","avgo","tsmc"],"lead":"總經數字裡的「民間非住宅固定投資」，現在很大一塊是雲端大廠蓋 AI 資料中心。這張表把本站追蹤的四家雲端大廠的資本支出加起來：它們花的錢，就是輝達、博通、台積電的營收來源。","read":"先看買方合計的年增率有沒有放慢，再看占營收的比重是不是高到撐不下去。買方踩煞車，通常比賣方的營收先看得到。"}};
+  var CHAIN = {"buyers":[{"code":"msft","name":"微軟","path":"msft/"},{"code":"amzn","name":"亞馬遜","path":"amzn/"},{"code":"googl","name":"Google","path":"googl/"},{"code":"meta","name":"Meta","path":"meta/"}],"rows":[{"cq":"2015Q1","capex":{"msft":1391.0,"amzn":871.0,"googl":2927.0,"meta":502.0},"total":5691.0,"pctRev":8.7,"yoy":null},{"cq":"2015Q2","capex":{"msft":1781.0,"amzn":1213.0,"googl":2515.0,"meta":549.0},"total":6058.0,"pctRev":9.0,"yoy":null},{"cq":"2015Q3","capex":{"msft":1356.0,"amzn":1196.0,"googl":2373.0,"meta":780.0},"total":5705.0,"pctRev":8.3,"yoy":null},{"cq":"2015Q4","capex":{"msft":2024.0,"amzn":1309.0,"googl":2100.0,"meta":692.0},"total":6125.0,"pctRev":7.1,"yoy":null},{"cq":"2016Q1","capex":{"msft":2308.0,"amzn":1179.0,"googl":2428.0,"meta":1132.0},"total":7047.0,"pctRev":9.4,"yoy":23.8},{"cq":"2016Q2","capex":{"msft":2655.0,"amzn":1711.0,"googl":2123.0,"meta":995.0},"total":7484.0,"pctRev":9.5,"yoy":23.5},{"cq":"2016Q3","capex":{"msft":2163.0,"amzn":1841.0,"googl":2583.0,"meta":1095.0},"total":7682.0,"pctRev":9.1,"yoy":34.7},{"cq":"2016Q4","capex":{"msft":1988.0,"amzn":2006.0,"googl":3078.0,"meta":1269.0},"total":8341.0,"pctRev":8.0,"yoy":36.2},{"cq":"2017Q1","capex":{"msft":1695.0,"amzn":1861.0,"googl":2508.0,"meta":1271.0},"total":7335.0,"pctRev":8.0,"yoy":4.1},{"cq":"2017Q2","capex":{"msft":2283.0,"amzn":3401.0,"googl":2831.0,"meta":1444.0},"total":9959.0,"pctRev":10.1,"yoy":33.1},{"cq":"2017Q3","capex":{"msft":2132.0,"amzn":3074.0,"googl":3538.0,"meta":1755.0},"total":10499.0,"pctRev":9.9,"yoy":36.7},{"cq":"2017Q4","capex":{"msft":2586.0,"amzn":3619.0,"googl":4307.0,"meta":2263.0},"total":12775.0,"pctRev":9.5,"yoy":53.2},{"cq":"2018Q1","capex":{"msft":2934.0,"amzn":3098.0,"googl":7299.0,"meta":2812.0},"total":16143.0,"pctRev":13.3,"yoy":120.1},{"cq":"2018Q2","capex":{"msft":3980.0,"amzn":3243.0,"googl":5477.0,"meta":3460.0},"total":16160.0,"pctRev":12.5,"yoy":62.3},{"cq":"2018Q3","capex":{"msft":3602.0,"amzn":3352.0,"googl":5282.0,"meta":3342.0},"total":15578.0,"pctRev":11.7,"yoy":48.4},{"cq":"2018Q4","capex":{"msft":3707.0,"amzn":3734.0,"googl":7081.0,"meta":4301.0},"total":18823.0,"pctRev":11.7,"yoy":47.3},{"cq":"2019Q1","capex":{"msft":2565.0,"amzn":3290.0,"googl":4638.0,"meta":3837.0},"total":14330.0,"pctRev":10.1,"yoy":-11.2},{"cq":"2019Q2","capex":{"msft":4051.0,"amzn":3562.0,"googl":6126.0,"meta":3633.0},"total":17372.0,"pctRev":11.4,"yoy":7.5},{"cq":"2019Q3","capex":{"msft":3385.0,"amzn":4697.0,"googl":6732.0,"meta":3532.0},"total":18346.0,"pctRev":11.4,"yoy":17.8},{"cq":"2019Q4","capex":{"msft":3545.0,"amzn":5312.0,"googl":6052.0,"meta":4100.0},"total":19009.0,"pctRev":9.9,"yoy":1.0},{"cq":"2020Q1","capex":{"msft":3767.0,"amzn":6795.0,"googl":6005.0,"meta":3558.0},"total":20125.0,"pctRev":11.9,"yoy":40.4},{"cq":"2020Q2","capex":{"msft":4744.0,"amzn":7459.0,"googl":5391.0,"meta":3255.0},"total":20849.0,"pctRev":11.3,"yoy":20.0},{"cq":"2020Q3","capex":{"msft":4907.0,"amzn":11063.0,"googl":5406.0,"meta":3689.0},"total":25065.0,"pctRev":12.5,"yoy":36.6},{"cq":"2020Q4","capex":{"msft":4174.0,"amzn":14823.0,"googl":5479.0,"meta":4613.0},"total":29089.0,"pctRev":11.5,"yoy":53.0},{"cq":"2021Q1","capex":{"msft":5089.0,"amzn":12082.0,"googl":5942.0,"meta":4272.0},"total":27385.0,"pctRev":11.8,"yoy":36.1},{"cq":"2021Q2","capex":{"msft":6452.0,"amzn":14288.0,"googl":5496.0,"meta":4612.0},"total":30848.0,"pctRev":12.3,"yoy":48.0},{"cq":"2021Q3","capex":{"msft":5810.0,"amzn":15748.0,"googl":6819.0,"meta":4314.0},"total":32691.0,"pctRev":13.1,"yoy":30.4},{"cq":"2021Q4","capex":{"msft":5865.0,"amzn":18935.0,"googl":6383.0,"meta":5369.0},"total":36552.0,"pctRev":12.3,"yoy":25.7},{"cq":"2022Q1","capex":{"msft":5340.0,"amzn":14951.0,"googl":9786.0,"meta":5441.0},"total":35518.0,"pctRev":13.6,"yoy":29.7},{"cq":"2022Q2","capex":{"msft":6871.0,"amzn":15724.0,"googl":6828.0,"meta":7572.0},"total":36995.0,"pctRev":13.6,"yoy":19.9},{"cq":"2022Q3","capex":{"msft":6283.0,"amzn":16378.0,"googl":7276.0,"meta":9375.0},"total":39312.0,"pctRev":14.3,"yoy":20.3},{"cq":"2022Q4","capex":{"msft":6274.0,"amzn":16592.0,"googl":7595.0,"meta":9043.0},"total":39504.0,"pctRev":12.7,"yoy":8.1},{"cq":"2023Q1","capex":{"msft":6607.0,"amzn":14207.0,"googl":6289.0,"meta":6842.0},"total":33945.0,"pctRev":12.2,"yoy":-4.4},{"cq":"2023Q2","capex":{"msft":8943.0,"amzn":11455.0,"googl":6888.0,"meta":6216.0},"total":33502.0,"pctRev":11.3,"yoy":-9.4},{"cq":"2023Q3","capex":{"msft":9917.0,"amzn":12479.0,"googl":8055.0,"meta":6543.0},"total":36994.0,"pctRev":11.9,"yoy":-5.9},{"cq":"2023Q4","capex":{"msft":9735.0,"amzn":14588.0,"googl":11019.0,"meta":7665.0},"total":43007.0,"pctRev":12.0,"yoy":8.9},{"cq":"2024Q1","capex":{"msft":10952.0,"amzn":14925.0,"googl":12012.0,"meta":6400.0},"total":44289.0,"pctRev":13.7,"yoy":30.5},{"cq":"2024Q2","capex":{"msft":13873.0,"amzn":17620.0,"googl":13186.0,"meta":8173.0},"total":52852.0,"pctRev":15.7,"yoy":57.8},{"cq":"2024Q3","capex":{"msft":14923.0,"amzn":22620.0,"googl":13061.0,"meta":8258.0},"total":58862.0,"pctRev":16.7,"yoy":59.1},{"cq":"2024Q4","capex":{"msft":15804.0,"amzn":27834.0,"googl":14276.0,"meta":14425.0},"total":72339.0,"pctRev":18.0,"yoy":68.2},{"cq":"2025Q1","capex":{"msft":16745.0,"amzn":25019.0,"googl":17197.0,"meta":12941.0},"total":71902.0,"pctRev":20.1,"yoy":62.3},{"cq":"2025Q2","capex":{"msft":17079.0,"amzn":32183.0,"googl":22446.0,"meta":16538.0},"total":88246.0,"pctRev":22.7,"yoy":67.0},{"cq":"2025Q3","capex":{"msft":19394.0,"amzn":35095.0,"googl":23953.0,"meta":18829.0},"total":97271.0,"pctRev":23.6,"yoy":65.3},{"cq":"2025Q4","capex":{"msft":29876.0,"amzn":39522.0,"googl":27851.0,"meta":21383.0},"total":118632.0,"pctRev":25.3,"yoy":64.0},{"cq":"2026Q1","capex":{"msft":30876.0,"amzn":44203.0,"googl":35674.0,"meta":18997.0},"total":129750.0,"pctRev":30.1,"yoy":80.5},{"cq":"2026Q2","capex":{"msft":35802.0,"amzn":54208.0,"googl":44924.0,"meta":30116.0},"total":165050.0,"pctRev":35.0,"yoy":87.0},{"cq":"2026Q3","capex":{"msft":39367,"amzn":77259.0,"googl":51355.0,"meta":33942.0},"total":201923.0,"pctRev":41.5,"yoy":107.6}],"suppliers":[{"code":"nvda","name":"輝達","path":"nvda/","currency":"USD","points":[{"q":"4Q15","end":"2015-01","rev":1251.0,"yoy":9.3},{"q":"1Q16","end":"2015-04","rev":1151.0,"yoy":4.4},{"q":"2Q16","end":"2015-07","rev":1153.0,"yoy":4.5},{"q":"3Q16","end":"2015-10","rev":1305.0,"yoy":6.5},{"q":"4Q16","end":"2016-01","rev":1401.0,"yoy":12.0},{"q":"1Q17","end":"2016-04","rev":1305.0,"yoy":13.4},{"q":"2Q17","end":"2016-07","rev":1428.0,"yoy":23.9},{"q":"3Q17","end":"2016-10","rev":2004.0,"yoy":53.6},{"q":"4Q17","end":"2017-01","rev":2173.0,"yoy":55.1},{"q":"1Q18","end":"2017-04","rev":1937.0,"yoy":48.4},{"q":"2Q18","end":"2017-07","rev":2230.0,"yoy":56.2},{"q":"3Q18","end":"2017-10","rev":2636.0,"yoy":31.5},{"q":"4Q18","end":"2018-01","rev":2911.0,"yoy":34.0},{"q":"1Q19","end":"2018-04","rev":3207.0,"yoy":65.6},{"q":"2Q19","end":"2018-07","rev":3123.0,"yoy":40.0},{"q":"3Q19","end":"2018-10","rev":3181.0,"yoy":20.7},{"q":"4Q19","end":"2019-01","rev":2205.0,"yoy":-24.3},{"q":"1Q20","end":"2019-04","rev":2220.0,"yoy":-30.8},{"q":"2Q20","end":"2019-07","rev":2579.0,"yoy":-17.4},{"q":"3Q20","end":"2019-10","rev":3014.0,"yoy":-5.2},{"q":"4Q20","end":"2020-01","rev":3105.0,"yoy":40.8},{"q":"1Q21","end":"2020-04","rev":3080.0,"yoy":38.7},{"q":"2Q21","end":"2020-07","rev":3866.0,"yoy":49.9},{"q":"3Q21","end":"2020-10","rev":4726.0,"yoy":56.8},{"q":"4Q21","end":"2021-01","rev":5003.0,"yoy":61.1},{"q":"1Q22","end":"2021-04","rev":5661.0,"yoy":83.8},{"q":"2Q22","end":"2021-07","rev":6507.0,"yoy":68.3},{"q":"3Q22","end":"2021-10","rev":7103.0,"yoy":50.3},{"q":"4Q22","end":"2022-01","rev":7643.0,"yoy":52.8},{"q":"1Q23","end":"2022-04","rev":8288.0,"yoy":46.4},{"q":"2Q23","end":"2022-07","rev":6704.0,"yoy":3.0},{"q":"3Q23","end":"2022-10","rev":5931.0,"yoy":-16.5},{"q":"4Q23","end":"2023-01","rev":6051.0,"yoy":-20.8},{"q":"1Q24","end":"2023-04","rev":7192.0,"yoy":-13.2},{"q":"2Q24","end":"2023-07","rev":13507.0,"yoy":101.5},{"q":"3Q24","end":"2023-10","rev":18120.0,"yoy":205.5},{"q":"4Q24","end":"2024-01","rev":22103.0,"yoy":265.3},{"q":"1Q25","end":"2024-04","rev":26044.0,"yoy":262.1},{"q":"2Q25","end":"2024-07","rev":30040.0,"yoy":122.4},{"q":"3Q25","end":"2024-10","rev":35082.0,"yoy":93.6},{"q":"4Q25","end":"2025-01","rev":39331.0,"yoy":77.9},{"q":"1Q26","end":"2025-04","rev":44062.0,"yoy":69.2},{"q":"2Q26","end":"2025-07","rev":46743.0,"yoy":55.6},{"q":"3Q26","end":"2025-10","rev":57006.0,"yoy":62.5},{"q":"4Q26","end":"2026-01","rev":68127.0,"yoy":73.2},{"q":"1Q27","end":"2026-04","rev":81615.0,"yoy":85.2},{"q":"2Q27","end":"2026-07","rev":96221.0,"yoy":105.9},{"q":"3Q27","end":"2026-10","rev":115844.0,"yoy":103.2}]},{"code":"avgo","name":"博通","path":"avgo/","currency":"USD","points":[{"q":"1Q18","end":"2018-01","rev":5327,"yoy":null},{"q":"2Q18","end":"2018-04","rev":5014,"yoy":null},{"q":"3Q18","end":"2018-07","rev":5063,"yoy":null},{"q":"4Q18","end":"2018-10","rev":5444,"yoy":null},{"q":"1Q19","end":"2019-01","rev":5789,"yoy":8.7},{"q":"2Q19","end":"2019-04","rev":5517,"yoy":10.0},{"q":"3Q19","end":"2019-07","rev":5515,"yoy":8.9},{"q":"4Q19","end":"2019-10","rev":5776,"yoy":6.1},{"q":"1Q20","end":"2020-01","rev":5858,"yoy":1.2},{"q":"2Q20","end":"2020-04","rev":5742,"yoy":4.1},{"q":"3Q20","end":"2020-07","rev":5821,"yoy":5.5},{"q":"4Q20","end":"2020-10","rev":6467,"yoy":12.0},{"q":"1Q21","end":"2021-01","rev":6655,"yoy":13.6},{"q":"2Q21","end":"2021-04","rev":6610,"yoy":15.1},{"q":"3Q21","end":"2021-07","rev":6778,"yoy":16.4},{"q":"4Q21","end":"2021-10","rev":7407,"yoy":14.5},{"q":"1Q22","end":"2022-01","rev":7706,"yoy":15.8},{"q":"2Q22","end":"2022-04","rev":8103,"yoy":22.6},{"q":"3Q22","end":"2022-07","rev":8464,"yoy":24.9},{"q":"4Q22","end":"2022-10","rev":8930,"yoy":20.6},{"q":"1Q23","end":"2023-01","rev":8915,"yoy":15.7},{"q":"2Q23","end":"2023-04","rev":8733,"yoy":7.8},{"q":"3Q23","end":"2023-07","rev":8876,"yoy":4.9},{"q":"4Q23","end":"2023-10","rev":9295,"yoy":4.1},{"q":"1Q24","end":"2024-01","rev":11961,"yoy":34.2},{"q":"2Q24","end":"2024-04","rev":12487,"yoy":43.0},{"q":"3Q24","end":"2024-07","rev":13072,"yoy":47.3},{"q":"4Q24","end":"2024-10","rev":14054,"yoy":51.2},{"q":"1Q25","end":"2025-01","rev":14916,"yoy":24.7},{"q":"2Q25","end":"2025-04","rev":15004,"yoy":20.2},{"q":"3Q25","end":"2025-07","rev":15952,"yoy":22.0},{"q":"4Q25","end":"2025-10","rev":18015,"yoy":28.2},{"q":"1Q26","end":"2026-01","rev":19311,"yoy":29.5},{"q":"2Q26","end":"2026-04","rev":22187,"yoy":47.9},{"q":"3Q26","end":"2026-07","rev":29591,"yoy":85.5}]},{"code":"tsmc","name":"台積電","path":"tsmc/","currency":"TWD","points":[{"q":"1Q15","end":"2015-03","rev":222034,"yoy":null},{"q":"2Q15","end":"2015-06","rev":205440,"yoy":null},{"q":"3Q15","end":"2015-09","rev":212505,"yoy":null},{"q":"4Q15","end":"2015-12","rev":203518,"yoy":null},{"q":"1Q16","end":"2016-03","rev":203495,"yoy":-8.3},{"q":"2Q16","end":"2016-06","rev":221810,"yoy":8.0},{"q":"3Q16","end":"2016-09","rev":260406,"yoy":22.5},{"q":"4Q16","end":"2016-12","rev":262227,"yoy":28.8},{"q":"1Q17","end":"2017-03","rev":233914,"yoy":14.9},{"q":"2Q17","end":"2017-06","rev":213856,"yoy":-3.6},{"q":"3Q17","end":"2017-09","rev":252107,"yoy":-3.2},{"q":"4Q17","end":"2017-12","rev":277570,"yoy":5.9},{"q":"1Q18","end":"2018-03","rev":248079,"yoy":6.1},{"q":"2Q18","end":"2018-06","rev":233276,"yoy":9.1},{"q":"3Q18","end":"2018-09","rev":260348,"yoy":3.3},{"q":"4Q18","end":"2018-12","rev":289771,"yoy":4.4},{"q":"1Q19","end":"2019-03","rev":218704,"yoy":-11.8},{"q":"2Q19","end":"2019-06","rev":240999,"yoy":3.3},{"q":"3Q19","end":"2019-09","rev":293045,"yoy":12.6},{"q":"4Q19","end":"2019-12","rev":317237,"yoy":9.5},{"q":"1Q20","end":"2020-03","rev":310597,"yoy":42.0},{"q":"2Q20","end":"2020-06","rev":310699,"yoy":28.9},{"q":"3Q20","end":"2020-09","rev":356426,"yoy":21.6},{"q":"4Q20","end":"2020-12","rev":361533,"yoy":14.0},{"q":"1Q21","end":"2021-03","rev":362410,"yoy":16.7},{"q":"2Q21","end":"2021-06","rev":372145,"yoy":19.8},{"q":"3Q21","end":"2021-09","rev":414670,"yoy":16.3},{"q":"4Q21","end":"2021-12","rev":438189,"yoy":21.2},{"q":"1Q22","end":"2022-03","rev":491076,"yoy":35.5},{"q":"2Q22","end":"2022-06","rev":534141,"yoy":43.5},{"q":"3Q22","end":"2022-09","rev":613143,"yoy":47.9},{"q":"4Q22","end":"2022-12","rev":625532,"yoy":42.8},{"q":"1Q23","end":"2023-03","rev":508633,"yoy":3.6},{"q":"2Q23","end":"2023-06","rev":480841,"yoy":-10.0},{"q":"3Q23","end":"2023-09","rev":546733,"yoy":-10.8},{"q":"4Q23","end":"2023-12","rev":625529,"yoy":-0.0},{"q":"1Q24","end":"2024-03","rev":592644,"yoy":16.5},{"q":"2Q24","end":"2024-06","rev":673510,"yoy":40.1},{"q":"3Q24","end":"2024-09","rev":759692,"yoy":39.0},{"q":"4Q24","end":"2024-12","rev":868461,"yoy":38.8},{"q":"1Q25","end":"2025-03","rev":839254,"yoy":41.6},{"q":"2Q25","end":"2025-06","rev":933792,"yoy":38.6},{"q":"3Q25","end":"2025-09","rev":989918,"yoy":30.3},{"q":"4Q25","end":"2025-12","rev":1046090,"yoy":20.5},{"q":"1Q26","end":"2026-03","rev":1134103,"yoy":35.1},{"q":"2Q26","end":"2026-06","rev":1270381,"yoy":36.0},{"q":"3Q26","end":"2026-09","rev":1494243,"yoy":50.9}]}],"missing":[]};
+  var BASE = "../data/macro/";
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var css = function (n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); };
+  var LIGHT = { better: "轉好", flat: "持平", worse: "轉差" };
+  var TWC = { "紅": "#d9363e", "黃紅": "#f08a24", "綠": "#2e9d57", "黃藍": "#5aa9c9", "藍": "#2a5fb8" };
+  var SPEC = {}, DATA = null, charts = {};
+  CFG.groups.forEach(function (g) { g.series.forEach(function (s) { s.group = g.id; SPEC[s.key] = s; }); });
+  ((CFG.tw || {}).series || []).forEach(function (s) { s.group = "tw"; SPEC[s.key] = s; });
+
+  // ---- 顯示格式（只換單位，不改數字）
+  function num(spec, v, signed) {
+    if (v == null || isNaN(v)) return "—";
+    var x = v * (spec.scale || 1), d = spec.showDigits != null ? spec.showDigits : (spec.digits || 0);
+    var s = Math.abs(x).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+    if (!/[1-9]/.test(s)) return s;      // 四捨五入後是 0：不帶正負號（避免出現 −0.0）
+    return (x < 0 ? "−" : signed && x > 0 ? "+" : "") + s;
+  }
+  function unit(spec) { return spec.showUnit || spec.unit || ""; }
+  function val(spec, v, signed) { var u = unit(spec); return num(spec, v, signed) + (u === "%" ? "%" : u ? " " + u : ""); }
+  function when(freq, d) {
+    if (!d) return "—";
+    if (freq === "q") return d.slice(0, 4) + " Q" + (Math.floor((+d.slice(5, 7) - 1) / 3) + 1);
+    if (freq === "m") return d.slice(0, 4) + "/" + d.slice(5, 7);
+    return d.replace(/-/g, "/");
+  }
+  function series(key) { return SPEC[key].group === "tw" ? ((DATA.tw || {}).series || {})[key] : (DATA.series || {})[key]; }
+  function lightOf(key) { var s = series(key); return s && s.stats ? (s.stats.light || "none") : "missing"; }
+  function pill(l) {
+    if (l === "missing") return '<span class="mx-pill" title="這次沒有資料">待確認</span>';
+    if (l === "none") return '<span class="mx-pill" title="沒有固定好壞方向，不亮燈"><span class="mx-dot none"></span>不亮燈</span>';
+    return '<span class="mx-pill ' + l + '"><span class="mx-dot ' + l + '"></span>' + LIGHT[l] + "</span>";
+  }
+  function kindLabel(spec) { return spec.show === "yoy" ? "年增率" : spec.show === "chg" ? "較上期增減" : ""; }
+
+  // ---- 小走勢圖（最近 10 年）
+  function spark(s) {
+    var n = s.freq === "q" ? 40 : 120, p = s.points.slice(-n);
+    if (p.length < 3) return "";
+    var W = 120, H = 30, vs = p.map(function (x) { return x[1]; }), cl = clipRange(vs);
+    if (cl) vs = vs.map(function (v) { return Math.max(cl.min, Math.min(cl.max, v)); });      // 極端值頂到邊，和大圖同一個規則
+    var lo = Math.min.apply(null, vs), hi = Math.max.apply(null, vs), sp = hi - lo || 1;
+    var d = vs.map(function (v, i) { return (i ? "L" : "M") + (i / (vs.length - 1) * (W - 4) + 2).toFixed(1) + " " + (H - 3 - (v - lo) / sp * (H - 6)).toFixed(1); }).join("");
+    var ly = H - 3 - (vs[vs.length - 1] - lo) / sp * (H - 6);
+    var zero = lo < 0 && hi > 0 ? '<line x1="0" x2="' + W + '" y1="' + (H - 3 - (0 - lo) / sp * (H - 6)).toFixed(1) + '" y2="' + (H - 3 - (0 - lo) / sp * (H - 6)).toFixed(1) + '" stroke="var(--axis)" stroke-width="1" stroke-dasharray="2 2"/>' : "";
+    return '<svg class="mx-spark" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="最近十年走勢">' + zero +
+      '<path d="' + d + '" fill="none" stroke="var(--s1)" stroke-width="1.4"/><circle cx="' + (W - 2) + '" cy="' + ly.toFixed(1) + '" r="2.4" fill="var(--s1)"/></svg>';
+  }
+  function rangeBar(spec, st) {
+    if (st.hi3 == null || st.hi3 === st.lo3) return "";
+    var pos = Math.max(0, Math.min(100, (st.last - st.lo3) / (st.hi3 - st.lo3) * 100));
+    return '<div class="mx-range" title="三年低點 ' + num(spec, st.lo3) + "（" + st.lo3Date + "）、三年高點 " + num(spec, st.hi3) + "（" + st.hi3Date + '）"><i style="left:' + pos.toFixed(0) + '%"></i></div>' +
+      '<div class="mx-rl"><span>' + num(spec, st.lo3) + "</span><span>" + num(spec, st.hi3) + "</span></div>";
+  }
+
+  // ---- 一列指標（＋展開列）
+  function row(key) {
+    var spec = SPEC[key], s = series(key);
+    if (!s || !s.stats) return '<tr><td>' + pill("missing") + '</td><td class="mx-name">' + esc(spec.name) + '</td><td colspan="4"><small>待確認：這次沒有抓到資料</small></td></tr>';
+    var st = s.stats;
+    return '<tr class="row" id="r-' + key + '" data-key="' + key + '" aria-expanded="false">' +
+      "<td>" + pill(st.light || "none") + "</td>" +
+      '<td class="mx-name"><button type="button" aria-controls="d-' + key + '">' + esc(spec.name) + "</button></td>" +
+      '<td class="n"><b>' + val(spec, st.last) + "</b><br><small>" + when(s.freq, st.lastDate) + "</small></td>" +
+      '<td class="n">' + (st.chg == null ? "—" : unit(spec) === "%" ? num(spec, st.chg, true) + " 個百分點" : val(spec, st.chg, true)) + "<br><small>半年前 " + num(spec, st.prev) + "</small></td>" +
+      '<td class="hide-s">' + rangeBar(spec, st) + "</td>" +
+      '<td class="hide-s">' + spark(s) + "</td></tr>" +
+      '<tr class="mx-det" id="d-' + key + '" hidden><td colspan="6"></td></tr>';
+  }
+  function table(el, keys) {
+    el.innerHTML = '<tr><th>方向燈</th><th>指標</th><th class="n">最新</th><th class="n">半年變動</th><th class="hide-s">三年區間</th><th class="hide-s">十年走勢</th></tr>' + keys.map(row).join("");
+  }
+  function detail(key) {
+    var spec = SPEC[key], s = series(key), st = s.stats, k = kindLabel(spec);
+    var facts = [];
+    if (st.pct10 != null) facts.push("過去十年裡，有 " + st.pct10 + "% 的時間比現在低或一樣（100% ＝ 十年最高）。");
+    if (st.hi3 != null) facts.push("三年高點 " + val(spec, st.hi3) + "（" + when(s.freq, st.hi3Date) + "）；三年低點 " + val(spec, st.lo3) + "（" + when(s.freq, st.lo3Date) + "）。");
+    if (st.fromLo3 != null && spec.show === "level") facts.push("現在比三年低點高 " + st.fromLo3.toFixed(1) + "%，比三年高點低 " + Math.abs(st.fromHi3).toFixed(1) + "%。");
+    if (st.z != null) facts.push("半年變動是平常幅度的 " + (st.z > 0 ? "+" : st.z < 0 ? "−" : "") + Math.abs(st.z).toFixed(1) + " 倍（超過 1 倍才亮綠燈或紅燈）。");
+    if (s.rawLast) facts.push("原始數值：" + Number(s.rawLast[1]).toLocaleString("en-US") + "（" + when(s.freq, s.rawLast[0]) + "，來源的原始單位）；上面顯示的是" + k + "。");
+    var src = s.fred ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">FRED：' + esc(s.fred) + "</a>" : '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.src || "官方資料檔") + "</a>";
+    facts.push("來源：" + src + "。資料截至 " + esc(String(s.through).replace(/-/g, "/")) + "。");
+    return '<div class="grid"><div><div class="mx-rg" data-key="' + key + '">' +
+      [["5", "5 年"], ["10", "10 年"], ["20", "20 年"], ["0", "全部"]].map(function (r) { return '<button type="button" data-y="' + r[0] + '" aria-pressed="' + (r[0] === "10") + '">' + r[1] + "</button>"; }).join("") +
+      '<button type="button" data-full="1" aria-pressed="false" hidden></button>' +
+      "<span>" + esc(spec.name) + (unit(spec) ? "（" + esc(unit(spec)) + "）" : "") + (spec.group === "tw" ? "" : "　灰底＝美國衰退期間") + '</span></div><div class="mx-chart"><canvas id="c-' + key + '" role="img" aria-label="' + esc(spec.name) + ' 長期走勢"></canvas></div></div>' +
+      '<div class="txt"><p><span class="mx-tag">書裡怎麼看</span> ' + esc(spec.book) + '</p><p><span class="mx-tag">怎麼讀</span> ' + esc(spec.read) + '</p><div class="facts">' + facts.map(function (f) { return "<span>" + f + "</span>"; }).join("") + "</div></div></div>";
+  }
+
+  // ---- 大圖（Chart.js；灰底畫衰退期間）
+  var recPlugin = { id: "rec", beforeDatasetsDraw: function (c) {
+    var rec = c.options.plugins.rec && c.options.plugins.rec.ranges; if (!rec || !rec.length) return;
+    var L = c.data.labels, x = c.scales.x, a = c.chartArea, ctx = c.ctx; ctx.save(); ctx.fillStyle = css("--mx-band");
+    rec.forEach(function (r) {
+      var i0 = -1, i1 = -1;
+      for (var i = 0; i < L.length; i++) { var m = L[i].slice(0, 7); if (i0 < 0 && m >= r[0]) i0 = i; if (m <= r[1]) i1 = i; }
+      if (i0 < 0 || i1 < i0) return;
+      var x0 = x.getPixelForValue(i0), x1 = x.getPixelForValue(i1);
+      ctx.fillRect(x0, a.top, Math.max(2, x1 - x0), a.bottom - a.top);
+    });
+    ctx.restore();
+  } };
+  // 極端值（例如 2020 年疫情）會把整張圖壓成一條平線：預設把 y 軸縮到第 2～98 百分位再留一點邊，超出的部分頂到圖框；按「完整範圍」可以還原
+  function clipRange(vals) {
+    var v = vals.slice().sort(function (a, b) { return a - b; }), n = v.length;
+    if (n < 30) return null;
+    var p2 = v[Math.floor(n * 0.02)], p98 = v[Math.ceil(n * 0.98) - 1], r = p98 - p2;
+    if (r <= 0) return null;
+    var lo = p2 - r * 0.6, hi = p98 + r * 0.6;
+    return v[0] < lo || v[n - 1] > hi ? { min: Math.max(lo, v[0] - r * 0.05), max: Math.min(hi, v[n - 1] + r * 0.05) } : null;
+  }
+  var view = {};
+  function draw(key, years, full) {
+    if (!window.Chart) return;
+    var spec = SPEC[key], s = series(key), pts = s.points;
+    if (years == null) years = (view[key] || {}).years; if (years == null) years = 10;
+    if (full == null) full = !!(view[key] || {}).full;
+    view[key] = { years: years, full: full };
+    if (years) { var cut = String(+pts[pts.length - 1][0].slice(0, 4) - years) + pts[pts.length - 1][0].slice(4); pts = pts.filter(function (p) { return p[0] >= cut; }); }
+    var sc = spec.scale || 1;
+    var clip = clipRange(pts.map(function (p) { return p[1] * sc; })), fb = document.querySelector('.mx-rg[data-key="' + key + '"] [data-full]');
+    if (fb) { fb.hidden = !clip; fb.setAttribute("aria-pressed", String(full)); fb.textContent = full ? "完整範圍（已顯示）" : "有極端值超出圖框：顯示完整範圍"; }
+    if (full) clip = null;
+    if (charts[key]) charts[key].destroy();
+    charts[key] = new Chart($("c-" + key), {
+      type: "line",
+      data: { labels: pts.map(function (p) { return p[0]; }), datasets: [{ data: pts.map(function (p) { return p[1] * sc; }), borderColor: css("--s1"), borderWidth: 1.6, pointRadius: 0, pointHitRadius: 8, tension: 0, stepped: key === "ffr" ? "before" : false }] },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: "index", intersect: false },
+        plugins: { legend: { display: false }, rec: { ranges: spec.group === "tw" ? [] : (DATA.recessions || []) },
+          tooltip: { callbacks: { title: function (it) { return when(s.freq, it[0].label); }, label: function (it) { return " " + val(spec, it.parsed.y / sc); } } } },
+        scales: { x: { grid: { display: false }, ticks: { color: css("--tick"), maxTicksLimit: 8, maxRotation: 0, autoSkip: true, callback: function (v) { return this.getLabelForValue(v).slice(0, 4); } } },
+          y: { min: clip ? clip.min : undefined, max: clip ? clip.max : undefined, grid: { color: function (c) { return c.tick && c.tick.value === 0 ? css("--axis") : css("--grid"); } }, ticks: { color: css("--tick"), maxTicksLimit: 6, includeBounds: false } } } },
+      plugins: [recPlugin]
+    });
+  }
+  function toggle(key, forceOpen) {
+    var r = $("r-" + key), d = $("d-" + key); if (!r || !d) return;
+    var open = forceOpen || r.getAttribute("aria-expanded") !== "true";
+    r.setAttribute("aria-expanded", String(open)); d.hidden = !open;
+    if (open) { if (!d.firstChild.innerHTML) d.firstChild.innerHTML = detail(key); draw(key); }
+    else if (charts[key]) { charts[key].destroy(); delete charts[key]; }
+  }
+
+  // ---- 各區塊
+  function renderNow() {
+    var worse = [], better = [];
+    $("mxChain").innerHTML = CFG.groups.map(function (g, i) {
+      var c = { better: 0, flat: 0, worse: 0, none: 0, missing: 0 };
+      var dots = g.series.map(function (s) {
+        var l = lightOf(s.key); c[l]++;
+        if (l === "worse") worse.push(s.key); if (l === "better") better.push(s.key);
+        return '<span class="mx-dot ' + (l === "missing" ? "none" : l) + '" title="' + esc(s.name) + "：" + (LIGHT[l] || (l === "none" ? "不亮燈" : "待確認")) + '"></span>';
+      }).join("");
+      var cnt = ["better", "flat", "worse"].filter(function (k) { return c[k]; }).map(function (k) { return "<span>" + LIGHT[k] + " " + c[k] + "</span>"; }).join("");
+      return (i ? '<span class="mx-arrow" aria-hidden="true">→</span>' : "") + '<a class="mx-box" href="#g-' + g.id + '"><b>' + esc(g.name) + '</b><span class="mx-dots">' + dots + '</span><span class="cnt">' + (cnt || "<span>不亮燈</span>") + "</span></a>";
+    }).join("");
+    function list(keys) {
+      return keys.length ? "<ul>" + keys.map(function (k) { var s = series(k), sp = SPEC[k]; return '<li><a href="#r-' + k + '" data-jump="' + k + '">' + esc(sp.name) + "</a> <small>" + val(sp, s.stats.last) + "，半年 " + num(sp, s.stats.chg, true) + "</small></li>"; }).join("") + "</ul>" : '<p class="mx-warn">目前沒有。</p>';
+    }
+    $("mxMoves").innerHTML = '<div class="card"><h3>半年來明顯轉差（' + worse.length + '）</h3>' + list(worse) + '</div><div class="card"><h3>半年來明顯轉好（' + better.length + "）</h3>" + list(better) + "</div>";
+  }
+  function chip(k) {
+    var sp = SPEC[k], s = series(k), l = lightOf(k);
+    return '<a class="mx-chip" href="#r-' + k + '" data-jump="' + k + '"><span class="mx-dot ' + (l === "missing" ? "none" : l) + '" title="' + (LIGHT[l] || (l === "none" ? "不亮燈" : "待確認")) + '"></span>' + esc(sp.name) + " <small>" + (s && s.stats ? val(sp, s.stats.last) + "（" + when(s.freq, s.stats.lastDate) + "）" : "待確認") + "</small></a>";
+  }
+  function renderPhase() {
+    $("mxPhase").innerHTML = CFG.phases.map(function (p) {
+      return '<div class="card wide" id="p-' + p.id + '"><h3>' + esc(p.name) + '</h3><p class="mark">' + esc(p.mark) + '</p><table class="mx-chk"><tbody>' +
+        p.checks.map(function (c) { return "<tr><td>" + esc(c.t) + '</td><td><div class="mx-chips">' + c.keys.map(chip).join("") + "</div></td></tr>"; }).join("") +
+        '</tbody></table><p class="mx-inv"><b>書裡這個階段的做法：</b>' + esc(p.invest) + "</p></div>";
+    }).join("");
+  }
+  function renderGroups() {
+    $("mxGroups").innerHTML = CFG.groups.map(function (g) {
+      return '<div class="card wide" id="g-' + g.id + '"><h3>' + esc(g.name) + '</h3><p class="how">' + esc(g.lead) + '</p><div class="tbl-wrap"><table class="mx-tbl" id="t-' + g.id + '"></table></div></div>';
+    }).join("");
+    CFG.groups.forEach(function (g) { table($("t-" + g.id), g.series.map(function (s) { return s.key; })); });
+  }
+  function renderTw() {
+    var tw = CFG.tw || {}, d = DATA.tw;
+    $("mxTwLead").innerHTML = '<span class="mx-tag">書面</span> ' + esc(tw.lead || "");
+    if (!d || !d.series) { $("mxTwLamp").innerHTML = '<p class="mx-warn">待確認：台灣的資料這次沒有抓到，請先看下方「外部網站」的國發會連結。</p>'; $("mxTwTbl").parentNode.parentNode.hidden = true; return; }
+    var sc = d.series.twscore, html = "";
+    if (d.light && sc) {
+      html += '<span class="mx-lamp" style="--c:' + (TWC[d.light.name] || "#999") + '"><i></i>' + esc(d.light.name) + "燈　" + num(SPEC.twscore, sc.stats.last) + " 分</span><span class=\"mx-warn\">" + esc(d.light.date.replace("-", "/")) + " 景氣對策信號（國發會）</span>";
+      var ls = (d.lights || []).slice(-24);
+      html += '<div><div class="mx-strip" role="img" aria-label="最近 24 個月的燈號">' + ls.map(function (x) { return '<span style="--c:' + (TWC[x[1]] || "#999") + '" title="' + x[0].replace("-", "/") + " " + x[1] + '燈"></span>'; }).join("") + "</div>" +
+        (ls.length ? '<div class="mx-rl" style="width:auto"><span>' + ls[0][0].replace("-", "/") + "</span><span>" + ls[ls.length - 1][0].replace("-", "/") + "</span></div>" : "") + "</div>";
+    }
+    $("mxTwLamp").innerHTML = html || '<p class="mx-warn">待確認：燈號這次沒有抓到。</p>';
+    table($("mxTwTbl"), tw.series.map(function (s) { return s.key; }));
+  }
+  // ---- AI 資本支出鏈（數字在建置時由 tools/capex_chain.py 從各公司財報加總，這裡只畫）
+  function pct(v) { return v == null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%"; }
+  function renderChain() {
+    var ch = CFG.chain || {}, R = (CHAIN && CHAIN.rows) || [], B = (CHAIN && CHAIN.buyers) || [];
+    $("mxChainLead").innerHTML = '<span class="mx-tag">書面＋公式</span> ' + esc(ch.lead || "") + "數字來自各公司財報（現金流量表的資本支出），這裡只做加總；會計年度不同的公司（微軟）用季末月份對到同一個日曆季。";
+    if (!R.length || !B.length) { $("mxChainTbl").innerHTML = "<tr><td>待確認：沒有可加總的資料。</td></tr>"; return; }
+    var last = R.slice(-8).reverse(), yi = function (v) { return v == null ? "—" : (v / 100).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }); };
+    $("mxChainTbl").innerHTML = "<tr><th>日曆季</th>" + B.map(function (b) { return '<th class="n hide-s"><a href="../' + esc(b.path) + '">' + esc(b.name) + "</a></th>"; }).join("") + '<th class="n">合計（億美元）</th><th class="n">年增率</th><th class="n">占四家營收</th></tr>' +
+      last.map(function (r) { return "<tr><td class='n' style='text-align:left'>" + r.cq.replace("Q", " Q") + "</td>" + B.map(function (b) { return '<td class="n hide-s">' + yi(r.capex[b.code]) + "</td>"; }).join("") + '<td class="n"><b>' + yi(r.total) + '</b></td><td class="n">' + pct(r.yoy) + '</td><td class="n">' + (r.pctRev == null ? "—" : r.pctRev.toFixed(1) + "%") + "</td></tr>"; }).join("");
+    var S = (CHAIN.suppliers || []).filter(function (x) { return x.points.length; });
+    $("mxSupTbl").innerHTML = '<tr><th>公司</th><th class="n">最新一季</th><th class="n">營收年增率</th><th class="n hide-s">前一季</th><th class="n hide-s">前兩季</th></tr>' + S.map(function (x) {
+      var p = x.points.slice(-3).reverse();
+      return '<tr><td><a href="../' + esc(x.path) + '"><b>' + esc(x.name) + "</b></a></td><td class='n'>" + esc(p[0].q) + "<br><small>季末 " + esc(p[0].end.replace("-", "/")) + "</small></td><td class='n'><b>" + pct(p[0].yoy) + "</b></td><td class='n hide-s'>" + (p[1] ? pct(p[1].yoy) : "—") + "</td><td class='n hide-s'>" + (p[2] ? pct(p[2].yoy) : "—") + "</td></tr>";
+    }).join("");
+    $("mxChainRead").innerHTML = '<span class="mx-tag">觀點</span> ' + esc(ch.read || "") + "各家季末月份不同（輝達與博通的季末在 1、4、7、10 月前後），所以賣方不和買方硬對在同一季。";
+    var miss = CHAIN.missing || [];
+    $("mxChainMiss").hidden = !miss.length; $("mxChainMiss").innerHTML = miss.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("");
+    if (!window.Chart) return;
+    var W = R.slice(-28), cols = ["--s1", "--s2", "--s3", "--s4", "--s5", "--s7"];
+    new Chart($("c-chain"), {
+      data: { labels: W.map(function (r) { return r.cq.replace("Q", " Q"); }),
+        datasets: B.map(function (b, i) { return { type: "bar", label: b.name, stack: "c", yAxisID: "y", backgroundColor: css(cols[i % cols.length]), data: W.map(function (r) { return r.capex[b.code] == null ? null : r.capex[b.code] / 100; }) }; })
+          .concat([{ type: "line", label: "合計年增率（右軸）", yAxisID: "y2", borderColor: css("--ink"), backgroundColor: css("--ink"), borderWidth: 1.6, pointRadius: 2, tension: 0, data: W.map(function (r) { return r.yoy; }) }]) },
+      options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: "index", intersect: false },
+        plugins: { legend: { position: "bottom", labels: { color: css("--ink-2"), boxWidth: 12, font: { size: 11 } } },
+          tooltip: { callbacks: { label: function (it) { return " " + it.dataset.label + "：" + (it.parsed.y == null ? "—" : it.dataset.yAxisID === "y2" ? pct(it.parsed.y) : Math.round(it.parsed.y).toLocaleString("en-US") + " 億美元"); } } } },
+        scales: { x: { stacked: true, grid: { display: false }, ticks: { color: css("--tick"), maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
+          y: { stacked: true, grid: { color: css("--grid") }, ticks: { color: css("--tick"), maxTicksLimit: 6 }, title: { display: true, text: "億美元", color: css("--tick"), font: { size: 11 } } },
+          y2: { position: "right", grid: { display: false }, ticks: { color: css("--tick"), maxTicksLimit: 6, callback: function (v) { return v + "%"; } } } } }
+    });
+  }
+  function renderLinks() {
+    $("mxLinks").innerHTML = CFG.links.map(function (g) {
+      return '<div class="card"><h3>' + esc(g.group) + "</h3><ul>" + g.items.map(function (it) { return '<li><a href="' + esc(it.url) + '" target="_blank" rel="noopener">' + esc(it.name) + "</a><small>" + esc(it.note) + "</small></li>"; }).join("") + "</ul></div>";
+    }).join("");
+    var a = CFG.about || {};
+    $("mxAbout").innerHTML = "<b>關於來源：</b>" + esc(a.who || "") + esc(a.basis || "") + "筆記：" + (a.notes || []).map(function (n) { return '<a href="' + esc(n.url) + '" target="_blank" rel="noopener">' + esc(n.name) + "</a>"; }).join("、") + "。門檻與投資比例請以原書為準。";
+  }
+  function render(D) {
+    DATA = D;
+    var t = new Date(D.updated.replace(" UTC", "Z").replace(" ", "T"));
+    $("mxSub").textContent = "資料抓取時間（台北）：" + (isNaN(t) ? D.updated : t.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })) + "　每週自動更新兩次";
+    renderNow(); renderPhase(); renderGroups(); renderTw();
+    var un = D.unavailable || [];
+    $("mxUn").innerHTML = un.length ? un.map(function (u) { return "<li>" + esc(u) + "</li>"; }).join("") : "<li>這次全部序列都抓到了，沒有待確認項目。</li>";
+    if (location.hash.indexOf("#r-") === 0) jump(location.hash.slice(3));
+  }
+  function jump(key) { if (!$("r-" + key)) return; toggle(key, true); $("r-" + key).scrollIntoView({ behavior: "smooth", block: "center" }); }
+
+  document.addEventListener("click", function (e) {
+    var j = e.target.closest && e.target.closest("[data-jump]");
+    if (j) { e.preventDefault(); jump(j.getAttribute("data-jump")); return; }
+    var b = e.target.closest && e.target.closest(".mx-rg button");
+    if (b) {
+      var k = b.parentNode.getAttribute("data-key");
+      if (b.hasAttribute("data-full")) { draw(k, null, !view[k].full); return; }
+      [].forEach.call(b.parentNode.querySelectorAll("button[data-y]"), function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      draw(k, +b.getAttribute("data-y")); return;
+    }
+    var r = e.target.closest && e.target.closest("tr.row");
+    if (r) toggle(r.getAttribute("data-key"));
+  });
+  renderLinks();
+  try { renderChain(); } catch (e) { console.error(e); }
+  fetch(BASE + "latest.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(render).catch(function (e) {
+    $("mxSub").textContent = "讀取失敗（" + e.message + "）：資料檔還沒產生，或網路有問題。外部網站清單仍可使用。";
+  });
+})();
+</script>
+
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"3285c56f","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"},{"code":"gd","name":"通用動力","ticker":"GD","sector":"國防與航太","path":"gd/"},{"code":"lmt","name":"洛克希德馬丁","ticker":"LMT","sector":"國防與航太","path":"lmt/"},{"code":"ceg","name":"星座能源","ticker":"CEG","sector":"能源與電力","path":"ceg/"},{"code":"lhx","name":"L3哈里斯","ticker":"LHX","sector":"國防與航太","path":"lhx/"},{"code":"rtx","name":"雷神技術","ticker":"RTX","sector":"國防與航太","path":"rtx/"},{"code":"etn","name":"伊頓","ticker":"ETN","sector":"能源與電力","path":"etn/"},{"code":"bwxt","name":"BWX科技","ticker":"BWXT","sector":"能源與電力","path":"bwxt/"},{"code":"xom","name":"埃克森美孚","ticker":"XOM","sector":"能源與電力","path":"xom/"},{"code":"ge","name":"奇異航太","ticker":"GE","sector":"國防與航太","path":"ge/"},{"code":"yageo","name":"國巨","ticker":"2327","sector":"硬體與網通","path":"yageo/"}],"root":"../","page":"macro","code":""}</script><script src="../assets/sidebar.js?v=c1486da3"></script>
+</body></html>

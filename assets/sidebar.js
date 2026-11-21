@@ -82,6 +82,7 @@
       '<div class="sb-group"><div class="sb-label">市場總覽</div>' +
         '<a class="sb-item' + (PAGE === "futures" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "futures/") + '"><span class="sb-ico">📈</span>看盤 K 棒</a>' +
         '<a class="sb-item' + (PAGE === "calendar" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "calendar/") + '"><span class="sb-ico">📅</span>財報行事曆</a>' +
+        '<a class="sb-item' + (PAGE === "macro" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "macro/") + '"><span class="sb-ico">🌐</span>總經儀表板</a>' +
         '<a class="sb-item' + (PAGE === "mcap" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "mcap/") + '"><span class="sb-ico">🏆</span>市值排名</a>' +
         '<a class="sb-item' + (PAGE === "etf" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "etf/") + '"><span class="sb-ico">📦</span>ETF 追蹤</a>' +
         '<a class="sb-item' + (PAGE === "status" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "status/") + '"><span class="sb-ico">🩺</span>系統健康</a>' +

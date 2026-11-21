@@ -142,7 +142,7 @@ def stats(points, freq, bad):
                     不用一般的標準差：2020 年疫情那種極端值會把標準差拉到很大，之後十年燈都不會亮
       z = chg ÷ sd：|z| < 1 → 持平（flat）；≥ 1 且往 bad 的方向 → 轉差（worse）；反方向 → 轉好（better）
       bad 是空白的指標（沒有固定好壞方向）不亮燈（light = None）
-      另外給三年高低點（看「創新低」「右端翹起」用）與最新值在過去 10 年的百分位。"""
+      另外給三年高低點與離高低點多遠（看「創新低」「右端翹起」用），以及最新值在過去 10 年的百分位。"""
     if not points:
         return None
     step, yr = (2, 4) if freq == "q" else (6, 12)
@@ -165,6 +165,8 @@ def stats(points, freq, bad):
     w3 = points[-3 * yr:]
     hi, lo = max(w3, key=lambda p: p[1]), min(w3, key=lambda p: p[1])
     out.update(hi3=hi[1], hi3Date=hi[0], lo3=lo[1], lo3Date=lo[0])
+    if lo[1] > 0:      # 現在比三年低點高多少 %、比三年高點低多少 %（只有正數的序列才有意義；年增率這類會跨 0 的不算）
+        out["fromLo3"], out["fromHi3"] = round((last / lo[1] - 1) * 100, 1), round((last / hi[1] - 1) * 100, 1)
     w10 = vals[-10 * yr:]
     if len(w10) >= 2 * yr:
         out["pct10"] = round(100 * sum(1 for v in w10 if v <= last) / len(w10))
