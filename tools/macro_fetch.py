@@ -197,41 +197,69 @@ def build_series(spec, raw, since):
 # ---------------------------------------------------------------- 台灣：國發會景氣指標查詢系統
 
 NDC_PAGE = "https://index.ndc.gov.tw/n/zh_tw/data/eco"
-NDC_API = "https://index.ndc.gov.tw/n/json/data/eco/indicators"
+DATAGOV_API = "https://data.gov.tw/api/v2/rest/dataset/{id}"
+TW_LIGHT_DATASET = 6099     # 景氣指標及燈號（國發會；每月）
+TW_PMI_DATASET = 6100       # 臺灣採購經理人指數（國發會／中經院；每月）
+
+
+def http_bytes(url, timeout=60, tries=3):
+    last = None
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(3 * (i + 1))
+    raise last
+
+
+def decode(b):
+    for enc in ("utf-8-sig", "big5", "cp950"):
+        try:
+            return b.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return b.decode("utf-8", errors="replace")
+
+
+def datagov_files(dataset_id):
+    """政府資料開放平臺的資料集 → [(檔名, 文字內容)]。下載網址每次都向平臺的 API 查（網址換了也不會壞）；ZIP 會解開。"""
+    import zipfile
+    meta = json.loads(http_get(DATAGOV_API.format(id=dataset_id), timeout=40))
+    out = []
+    for dist in meta["result"]["distribution"]:
+        url, fmt = dist["resourceDownloadUrl"], (dist.get("resourceFormat") or "").upper()
+        b = http_bytes(url)
+        if fmt == "ZIP" or b[:2] == b"PK":
+            z = zipfile.ZipFile(io.BytesIO(b))
+            for info in z.infolist():
+                name = info.filename
+                try:
+                    name = name.encode("cp437").decode("big5")
+                except Exception:  # noqa: BLE001
+                    pass
+                out.append((name, decode(z.read(info))))
+        else:
+            out.append((url.rsplit("/", 1)[-1][:40], decode(b)))
+    return out
 
 
 def probe():
-    """台灣來源試探：只在 Actions 上跑，把每個候選網址的回應印出來，用來確認官方資料的網址與格式。"""
-    import re
-    cands = [
-        ("POST", NDC_API), ("GET", NDC_API),
-        ("GET", "https://data.gov.tw/api/v2/rest/dataset/6099"),
-        ("GET", "https://data.gov.tw/api/v2/rest/dataset/6100"),
-        ("GET", "https://data.gov.tw/api/v2/rest/dataset/31564"),
-        ("GET", NDC_PAGE),
-    ]
-    for method, url in cands:
-        print(f"\n===== {method} {url}")
+    """台灣來源試探：只在 Actions 上跑，把官方資料檔的檔名與頭尾幾行印出來，用來確認格式。"""
+    for did in (TW_LIGHT_DATASET, TW_PMI_DATASET):
+        print(f"\n===== data.gov.tw dataset {did}")
         try:
-            text = http_get(url, timeout=40, tries=1, data=(b"" if method == "POST" else None),
-                            headers={"Accept": "application/json, text/plain, */*", "Referer": NDC_PAGE,
-                                     "X-Requested-With": "XMLHttpRequest"})
+            files = datagov_files(did)
         except Exception as e:  # noqa: BLE001
             print(f"失敗：{type(e).__name__}: {e}")
             continue
-        print(f"[{len(text)} chars] 前 1500 字：")
-        print(text[:1500])
-        if text.lstrip().startswith("{") or text.lstrip().startswith("["):
-            try:
-                j = json.loads(text)
-                describe(j, "  ")
-            except Exception as e:  # noqa: BLE001
-                print(f"  不是合法 JSON：{e}")
-        else:
-            links = sorted(set(re.findall(r"""["']([^"']*(?:json|\.js|csv|zip|Download)[^"']*)["']""", text)))
-            print("疑似資料／程式連結：", len(links))
-            for l in links[:60]:
-                print("  ", l[:200])
+        for name, text in files:
+            lines = text.splitlines()
+            print(f"--- {name}：{len(lines)} 行")
+            for l in lines[:4] + ["..."] + lines[-4:]:
+                print("   ", l[:700])
 
 
 def describe(j, pad, depth=0):
