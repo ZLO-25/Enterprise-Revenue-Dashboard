@@ -25,7 +25,9 @@
    "from": "2026-11-18",
    "until": "2026-11-21",
    "what": "期貨 K 棒排程（每 15 分鐘）準時度觀察",
-   "how": "用 mcp__github__actions_list 看 futures-daily.yml 前一天的執行紀錄：前一個美股交易日的 K 棒是幾點（台北）第一次寫進 main。回報一行「期貨 K 棒 MM/DD 於 HH:MM 到位」。2026-11-18 起每日檢查會叫醒 daily-prep（它會手動觸發 futures-daily，約台北 08:20 就開始跑，不必等排程）。11/21 做總結：四天都在 10:00 前到位 → watch-done；有晚到 → 回報原因，由 ZL 決定。"
+   "how": "用 mcp__github__actions_list 看 futures-daily.yml 前一天的執行紀錄：前一個美股交易日的 K 棒是幾點（台北）第一次寫進 main。回報一行「期貨 K 棒 MM/DD 於 HH:MM 到位」。2026-11-18 起每日檢查會叫醒 daily-prep（它會手動觸發 futures-daily，約台北 08:20 就開始跑，不必等排程）。11/21 做總結：四天都在 10:00 前到位 → watch-done；有晚到 → 回報原因，由 ZL 決定。",
+   "done": "2026-11-21",
+   "result": "11/19–11/21 都在 08:20 前到位；11/18 晚到 12:01（當時每日檢查還沒叫醒期貨）。ZL 11/21 同意結案"
   },
   {
    "id": "delete-old-routines",
