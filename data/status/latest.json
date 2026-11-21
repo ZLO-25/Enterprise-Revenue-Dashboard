@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-20T08:47Z",
+ "generated": "2026-11-21T00:19Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "5 小時前成功",
-   "lastOk": "2026-11-20T04:07Z"
+   "note": "16 小時前成功",
+   "lastOk": "2026-11-20T08:47Z"
   },
   {
    "id": "sec-feed",
@@ -16,30 +16,30 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-20T08:46Z"
+   "lastOk": "2026-11-21T00:18Z"
   },
   {
    "id": "prices-daily",
    "label": "每日收盤價與本益比",
    "kind": "daily",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-20T08:40Z"
+   "note": "1 小時前成功",
+   "lastOk": "2026-11-20T23:07Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "2 小時前成功",
-   "lastOk": "2026-11-20T07:00Z"
+   "note": "8 小時前成功",
+   "lastOk": "2026-11-20T16:03Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "4 小時前成功",
+   "note": "19 小時前成功",
    "lastOk": "2026-11-20T04:51Z"
   },
   {
@@ -47,7 +47,7 @@
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "100 小時前成功",
+   "note": "116 小時前成功",
    "lastOk": "2026-11-16T04:21Z"
   },
   {
@@ -55,7 +55,7 @@
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "71 小時前成功",
+   "note": "87 小時前成功",
    "lastOk": "2026-11-17T09:20Z"
   },
   {
@@ -63,8 +63,8 @@
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "0 小時前成功",
-   "lastOk": "2026-11-20T08:34Z"
+   "note": "12 小時前成功",
+   "lastOk": "2026-11-20T12:39Z"
   }
  ],
  "routines": [
@@ -555,7 +555,7 @@
    "name": "艾司摩爾",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-18",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -780,6 +780,27 @@
    },
    "light": "green",
    "problems": []
+  },
+  {
+   "code": "yageo",
+   "name": "國巨",
+   "quarter": "3Q26",
+   "stage": "waiting",
+   "close": "2026-11-20",
+   "priceMonth": "2026-10",
+   "next": {
+    "d": "2026-12-08",
+    "t": "11 月自結合併營收公告（每月上旬公告）",
+    "est": true
+   },
+   "pending": {
+    "recent": 1,
+    "y3": 0,
+    "old": 1,
+    "noq": 2
+   },
+   "light": "green",
+   "problems": []
   }
  ],
  "signals": [
@@ -832,6 +853,16 @@
    "now": 26.4,
    "thr": 24,
    "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "asml",
+   "k": "pe",
+   "name": "本益比（近四季 EPS）",
+   "kind": "cheap",
+   "now": 33.4,
+   "thr": 40,
+   "op": "<="
   }
  ],
  "tokens": [
@@ -843,12 +874,20 @@
   },
   {
    "week": "2026-11-16",
-   "tokens": 25116808,
-   "usd": 11.68,
-   "runs": 5
+   "tokens": 25761575,
+   "usd": 11.99,
+   "runs": 6
   }
  ],
  "tokenRuns": [
+  {
+   "date": "2026-11-21",
+   "routine": "市值檢查",
+   "tokens": 644767,
+   "usd": 0.31,
+   "turns": 7,
+   "exact": false
+  },
   {
    "date": "2026-11-20",
    "routine": "每日檢查",
