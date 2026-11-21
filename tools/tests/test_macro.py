@@ -118,7 +118,7 @@ class StatsTest(unittest.TestCase):
         self.assertTrue(0 < s["pct10"] < 30)
 
     def test_quarterly_uses_two_quarters(self):
-        pts = [(f"{2000 + i // 4}-{(i % 4) * 3 + 1:02d}-01", float(v)) for i, v in enumerate([2, 3] * 30 + [3, 3, 9])]
+        pts = [(f"{2000 + i // 4}-{(i % 4) * 3 + 1:02d}-01", float(v)) for i, v in enumerate([2, 3, 3, 2] * 15 + [3, 3, 9])]
         s = M.stats(pts, "q", "down")
         self.assertEqual(s["prev"], 3.0)
         self.assertEqual(s["chg"], 6.0)
@@ -126,6 +126,21 @@ class StatsTest(unittest.TestCase):
 
     def test_empty(self):
         self.assertIsNone(M.stats([], "m", "up"))
+
+    def test_outlier_does_not_mute_the_light(self):
+        # 像 2020 年疫情：中間有一次極端跳動。用一般標準差的話之後的燈都不會亮；用中位數算的幅度不受影響
+        vals = self.wobble(80) + [10, 500, 10, 10, 10, 10] + self.wobble(60) + [10, 11, 12, 13, 14, 15, 16]
+        s = M.stats(monthly(vals), "m", "up")
+        self.assertEqual(s["light"], "worse")
+        self.assertLess(s["sd"], 5)
+
+    def test_robust_sd(self):
+        self.assertAlmostEqual(M.robust_sd([1, 2, 3, 4, 100]), 1.4826)
+        self.assertEqual(M.robust_sd([5, 5, 5, 5]), 0)
+
+    def test_no_light_when_series_never_moves(self):
+        s = M.stats(monthly([3.0] * 100 + [4.0]), "m", "up")
+        self.assertNotIn("light", s)          # 平常幅度是 0（例如長期不動的利率）→ 算不出 z，不亮燈
 
 
 class RecessionTest(unittest.TestCase):
@@ -152,6 +167,69 @@ class BuildTest(unittest.TestCase):
         self.assertFalse(M.is_stale({"updated": "2026-11-18 00:00 UTC"}, now))
 
 
+class TaiwanTest(unittest.TestCase):
+    HEAD = '"Date","領先指標不含趨勢指數","景氣對策信號綜合分數","景氣對策信號"\n'
+
+    def test_parse_skips_dash(self):
+        text = self.HEAD + "198201,100.3,-,-\n202608,104.1,40,紅\n202609,104.7,41,紅\n"
+        got = M.parse_ym_csv(text, ["領先指標不含趨勢指數", "景氣對策信號綜合分數", "景氣對策信號"])
+        self.assertEqual(got["景氣對策信號綜合分數"], [("2026-08-01", 40.0), ("2026-09-01", 41.0)])
+        self.assertEqual(len(got["領先指標不含趨勢指數"]), 3)
+        self.assertEqual(got["景氣對策信號"][-1], ("2026-09-01", "紅"))
+
+    def test_rejects_bad_input(self):
+        for text in ("<html>error</html>", self.HEAD + "2026-09,1,1,紅\n", self.HEAD + "202609,1,40,紅\n202608,1,40,紅\n",
+                     self.HEAD + "202609,1,40,紫\n", self.HEAD + "202613,1,40,紅\n"):
+            with self.assertRaises(ValueError):
+                M.parse_ym_csv(text, ["景氣對策信號綜合分數", "景氣對策信號"])
+
+    def test_missing_column(self):
+        with self.assertRaises(ValueError):
+            M.parse_ym_csv("Date,PMI\n202609,50\n", ["PMI", "NMI"])
+
+    def test_fetch_tw_marks_pending_on_failure(self):
+        cfg = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))
+        orig = M.datagov_files
+        M.datagov_files = lambda did: (_ for _ in ()).throw(OSError("網路不通"))
+        try:
+            tw, un = M.fetch_tw(cfg, "1990-01-01")
+        finally:
+            M.datagov_files = orig
+        self.assertIsNone(tw)
+        self.assertEqual(len(un), len(cfg["tw"]["files"]))
+        self.assertTrue(all(u.startswith("待確認：") for u in un))
+
+    def test_fetch_tw_ok(self):
+        cfg = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))
+        rows = "".join(f"{2020 + i // 12}{i % 12 + 1:02d},{100 + i * 0.1:.2f},{100 + i * 0.05:.2f},{20 + i % 20},綠\n" for i in range(60))
+        lights = '"Date","領先指標不含趨勢指數","同時指標不含趨勢指數","景氣對策信號綜合分數","景氣對策信號"\n' + rows
+        pmi = "Date,PMI,NMI\n" + "".join(f"{2020 + i // 12}{i % 12 + 1:02d},{50 + i % 5},{'-' if i < 3 else 52}\n" for i in range(60))
+        orig = M.datagov_files
+        M.datagov_files = lambda did: [("schema-景氣指標與燈號.csv", "name,title\n"), ("景氣指標與燈號.csv", lights)] if did == 6099 else [("x.csv", pmi)]
+        try:
+            tw, un = M.fetch_tw(cfg, "1990-01-01")
+        finally:
+            M.datagov_files = orig
+        self.assertEqual(un, [])
+        self.assertEqual(sorted(tw["series"]), ["twcoin", "twlead", "twnmi", "twpmi", "twscore"])
+        self.assertEqual(tw["light"], {"date": "2024-12", "name": "綠"})
+        self.assertEqual(len(tw["lights"]), 36)
+        self.assertEqual(len(tw["series"]["twnmi"]["points"]), 57)
+
+    def test_fetch_tw_rejects_out_of_range_score(self):
+        cfg = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))
+        rows = "".join(f"{2020 + i // 12}{i % 12 + 1:02d},100,100,{99 if i == 5 else 30},綠\n" for i in range(60))
+        lights = '"Date","領先指標不含趨勢指數","同時指標不含趨勢指數","景氣對策信號綜合分數","景氣對策信號"\n' + rows
+        orig = M.datagov_files
+        M.datagov_files = lambda did: [("景氣指標與燈號.csv", lights)] if did == 6099 else (_ for _ in ()).throw(OSError("x"))
+        try:
+            tw, un = M.fetch_tw(cfg, "1990-01-01")
+        finally:
+            M.datagov_files = orig
+        self.assertIsNone(tw)                 # 分數出現 99（不在 9～45）→ 整個檔不收
+        self.assertEqual(len(un), 2)
+
+
 class ConfigTest(unittest.TestCase):
     def test_config_is_well_formed(self):
         cfg = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))
@@ -166,9 +244,22 @@ class ConfigTest(unittest.TestCase):
                 self.assertIn(s.get("bad", ""), ("", "up", "down"))
                 for f in ("name", "unit", "book", "read"):
                     self.assertTrue(s.get(f), f"{s['key']} 缺 {f}")
-        for l in cfg.get("links", []):
-            for grp in l["items"]:
-                self.assertTrue(grp["url"].startswith("https://"), grp["url"])
+        for s in cfg["tw"]["series"]:
+            self.assertNotIn(s["key"], keys, "key 重複：" + s["key"])
+            keys.add(s["key"])
+            self.assertIn(s["file"], [f["id"] for f in cfg["tw"]["files"]])
+            for f in ("name", "unit", "book", "read", "col"):
+                self.assertTrue(s.get(f), f"{s['key']} 缺 {f}")
+        self.assertEqual([p["id"] for p in cfg["phases"]], ["recovery", "growth", "boom", "recession"])
+        for ph in cfg["phases"]:
+            for ch in ph["checks"]:
+                for k in ch["keys"]:
+                    self.assertIn(k, keys, f"{ph['name']} 的對照表用了不存在的指標：{k}")
+        self.assertTrue(cfg["links"])
+        for l in cfg["links"]:
+            for it in l["items"]:
+                self.assertTrue(it["url"].startswith("https://"), it["url"])
+                self.assertTrue(it["name"] and it["note"])
 
 
 if __name__ == "__main__":

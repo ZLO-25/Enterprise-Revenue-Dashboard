@@ -14,12 +14,11 @@
 用法：
   python3 tools/macro_fetch.py            正式抓取、寫檔（全部序列都失敗才回傳非 0）
   python3 tools/macro_fetch.py --check    只看 latest.json 是不是 5 天內抓過（寫 stale=true/false 到 $GITHUB_OUTPUT）
-  python3 tools/macro_fetch.py --probe    只試探台灣來源、印出回應（找官方資料網址用，不寫檔）
+  python3 tools/macro_fetch.py --probe    只試探：印出台灣官方資料檔的頭尾幾行、檢查外部連結有沒有失效（不寫檔）
 """
 import csv
 import io
 import json
-import math
 import os
 import sys
 import time
@@ -124,10 +123,23 @@ def transform(raw, show):
     return freq, pts, base
 
 
+def median(xs):
+    xs = sorted(xs)
+    n = len(xs)
+    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2
+
+
+def robust_sd(xs):
+    """不怕極端值的「平常幅度」：MAD（和中位數的距離的中位數）× 1.4826。"""
+    m = median(xs)
+    return 1.4826 * median([abs(x - m) for x in xs])
+
+
 def stats(points, freq, bad):
     """方向燈與幾個事實（全部是公式）。
       半年變動 chg ＝ 最新值 − 半年前的值（月資料往前 6 筆，季資料往前 2 筆）
-      sd          ＝ 過去 10 年「每一個半年變動」的標準差（這個指標平常半年會動多少）
+      sd          ＝ 過去 10 年「每一個半年變動」平常的幅度。用中位數算（MAD × 1.4826，常態分布下等於標準差），
+                    不用一般的標準差：2020 年疫情那種極端值會把標準差拉到很大，之後十年燈都不會亮
       z = chg ÷ sd：|z| < 1 → 持平（flat）；≥ 1 且往 bad 的方向 → 轉差（worse）；反方向 → 轉好（better）
       bad 是空白的指標（沒有固定好壞方向）不亮燈（light = None）
       另外給三年高低點（看「創新低」「右端翹起」用）與最新值在過去 10 年的百分位。"""
@@ -142,8 +154,7 @@ def stats(points, freq, bad):
         win = vals[-(10 * yr + step):]
         diffs = [b - a for a, b in zip(win, win[step:])]
         if len(diffs) >= 2 * yr:      # 至少兩年的樣本才算標準差
-            mean = sum(diffs) / len(diffs)
-            sd = math.sqrt(sum((x - mean) ** 2 for x in diffs) / (len(diffs) - 1))
+            sd = robust_sd(diffs)
             if sd > 0:
                 z = out["chg"] / sd
                 out["sd"], out["z"] = sd, z
@@ -196,10 +207,7 @@ def build_series(spec, raw, since):
 
 # ---------------------------------------------------------------- 台灣：國發會景氣指標查詢系統
 
-NDC_PAGE = "https://index.ndc.gov.tw/n/zh_tw/data/eco"
 DATAGOV_API = "https://data.gov.tw/api/v2/rest/dataset/{id}"
-TW_LIGHT_DATASET = 6099     # 景氣指標及燈號（國發會；每月）
-TW_PMI_DATASET = 6100       # 臺灣採購經理人指數（國發會／中經院；每月）
 
 
 def http_bytes(url, timeout=60, tries=3):
@@ -247,8 +255,9 @@ def datagov_files(dataset_id):
 
 
 def probe():
-    """台灣來源試探：只在 Actions 上跑，把官方資料檔的檔名與頭尾幾行印出來，用來確認格式。"""
-    for did in (TW_LIGHT_DATASET, TW_PMI_DATASET):
+    """來源試探：只在 Actions 上跑。印出台灣官方資料檔的檔名與頭尾幾行（確認格式），再把設定檔裡的外部連結各連一次（找失效連結）。"""
+    cfg = load_json(CFG)
+    for did in sorted({t["dataset"] for t in cfg.get("tw", {}).get("files", [])}):
         print(f"\n===== data.gov.tw dataset {did}")
         try:
             files = datagov_files(did)
@@ -258,30 +267,89 @@ def probe():
         for name, text in files:
             lines = text.splitlines()
             print(f"--- {name}：{len(lines)} 行")
-            for l in lines[:4] + ["..."] + lines[-4:]:
-                print("   ", l[:700])
+            for l in lines[:3] + ["..."] + lines[-3:]:
+                print("   ", l[:400])
+    print("\n===== 外部連結檢查（403 多半是網站擋機器人，不代表連結壞掉；404 才要修）")
+    for grp in cfg.get("links", []):
+        for it in grp["items"]:
+            try:
+                req = urllib.request.Request(it["url"], headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+                                                                "Accept": "text/html,*/*", "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8"})
+                with urllib.request.urlopen(req, timeout=25) as r:
+                    code = r.status
+            except Exception as e:  # noqa: BLE001
+                code = getattr(e, "code", None) or f"{type(e).__name__}: {e}"
+            print(f"  {code}  {it['name']}  {it['url']}")
 
 
-def describe(j, pad, depth=0):
-    """把 JSON 的結構印出來（鍵、型別、清單長度與頭尾），找欄位用。"""
-    if depth > 4:
-        return
-    if isinstance(j, dict):
-        for k, v in list(j.items())[:40]:
-            kind = type(v).__name__ + (f"[{len(v)}]" if isinstance(v, (list, dict, str)) else "")
-            brief = "" if isinstance(v, (dict, list)) else " = " + repr(v)[:120]
-            print(f"{pad}{k}: {kind}{brief}")
-            describe(v, pad + "  ", depth + 1)
-    elif isinstance(j, list) and j:
-        print(f"{pad}[0] {repr(j[0])[:300]}")
-        print(f"{pad}[-1] {repr(j[-1])[:300]}")
-        if isinstance(j[0], (dict, list)):
-            describe(j[0], pad + "  ", depth + 1)
+TW_LIGHTS = ("紅", "黃紅", "綠", "黃藍", "藍")
 
 
-def fetch_tw():
-    """台灣景氣燈號：來源格式確認前先回空，並標待確認（不猜格式、不填數字）。"""
-    return None, ["待確認：台灣景氣對策信號（國發會）：官方資料檔的網址與格式尚未確認，先只放外部連結"]
+def parse_ym_csv(text, cols):
+    """國發會開放資料的 CSV：第一欄 Date（YYYYMM），其餘是各指標；缺值是 '-' 或空白 → 跳過（不補）。
+    回傳 {欄名: [(YYYY-MM-01, 值)]}；文字欄（燈號）原樣保留。欄位不在表頭、日期格式不對或沒有遞增 → 丟錯（寧可標待確認）。"""
+    rows = list(csv.reader(io.StringIO(text)))
+    if not rows or rows[0][0].strip() != "Date":
+        raise ValueError("不是預期的國發會 CSV 格式：" + (",".join(rows[0])[:80] if rows else "空檔"))
+    head = [h.strip() for h in rows[0]]
+    for c in cols:
+        if c not in head:
+            raise ValueError(f"表頭沒有「{c}」這一欄：{head}")
+    out, prev = {c: [] for c in cols}, ""
+    for r in rows[1:]:
+        if not r or not r[0].strip():
+            continue
+        d = r[0].strip()
+        if len(d) != 6 or not d.isdigit() or not 1 <= int(d[4:]) <= 12:
+            raise ValueError(f"日期格式不對：{d!r}")
+        if d <= prev:
+            raise ValueError(f"日期沒有遞增：{d}")
+        prev = d
+        iso = f"{d[:4]}-{d[4:]}-01"
+        for c in cols:
+            v = r[head.index(c)].strip() if head.index(c) < len(r) else ""
+            if v in ("", "-"):
+                continue
+            if c == "景氣對策信號":
+                if v not in TW_LIGHTS:
+                    raise ValueError(f"不認得的燈號：{d} {v!r}")
+                out[c].append((iso, v))
+            else:
+                out[c].append((iso, float(v)))
+    return out
+
+
+def fetch_tw(cfg, since):
+    """台灣：國發會的景氣對策信號（分數與燈號）、領先／同時指標、採購經理人指數。來源＝政府資料開放平臺的官方資料檔。
+    回傳 (tw 區塊或 None, 待確認清單)。某個檔抓不到或格式不對 → 那個檔的指標不顯示並標待確認，不猜。"""
+    tw_cfg = cfg.get("tw") or {}
+    series, unavailable, light, lights = {}, [], None, []
+    for f in tw_cfg.get("files", []):
+        specs = [s for s in tw_cfg["series"] if s["file"] == f["id"]]
+        cols = [s["col"] for s in specs] + ([f["lightCol"]] if f.get("lightCol") else [])
+        try:
+            files = datagov_files(f["dataset"])
+            hit = [t for n, t in files if f["match"] in n] if f.get("match") else [t for _, t in files]
+            if not hit:
+                raise ValueError(f"資料集裡找不到「{f['match']}」這個檔（有：{[n for n, _ in files]}）")
+            got = parse_ym_csv(hit[0], cols)
+            for spec in specs:
+                pts = got[spec["col"]]
+                lo, hi = spec.get("range", [None, None])
+                bad_v = [p for p in pts if (lo is not None and p[1] < lo) or (hi is not None and p[1] > hi)]
+                if bad_v or len(pts) < 24:
+                    raise ValueError(f"{spec['name']} 的數值超出合理範圍或筆數太少：{bad_v[:3]}，共 {len(pts)} 筆")
+                series[spec["key"]] = dict(build_series(spec, pts, since), url=f["url"], src=f["source"])
+                print(f"{spec['key']:8s} 台灣 {len(pts):4d} 筆，最新 {pts[-1][0][:7]} = {pts[-1][1]}")
+            if f.get("lightCol"):
+                lights = [[d[:7], v] for d, v in got[f["lightCol"]]][-36:]
+                light = {"date": lights[-1][0], "name": lights[-1][1]} if lights else None
+        except Exception as e:  # noqa: BLE001
+            unavailable.append(f"待確認：台灣「{f['source']}」這次抓取失敗或格式不符，相關指標沿用舊資料或不顯示（{type(e).__name__}: {e}）")
+            print(f"台灣 {f['id']} 失敗：{type(e).__name__}: {e}")
+    if not series:
+        return None, unavailable
+    return {"series": series, "light": light, "lights": lights}, unavailable
 
 
 # ---------------------------------------------------------------- 主流程
@@ -343,9 +411,15 @@ def main(argv):
             recessions = [r for r in recession_ranges(parse_fred_csv(http_get(FRED_CSV.format(id=rid)))) if r[1] >= since[:7]]
         except Exception as e:  # noqa: BLE001
             unavailable.append(f"待確認：衰退期間灰底（FRED {rid}）這次抓取失敗，沿用舊的（{type(e).__name__}: {e}）")
-    tw, tw_un = fetch_tw()
-    if tw is None and prev.get("tw"):
-        tw = prev["tw"]
+    tw, tw_un = fetch_tw(cfg, since)
+    old_tw = prev.get("tw") or {}
+    if tw is None:
+        tw = old_tw or None
+    else:
+        for k, v in (old_tw.get("series") or {}).items():      # 這次沒抓到的台灣指標：沿用上一次的
+            tw["series"].setdefault(k, v)
+        if not tw.get("light") and old_tw.get("light"):
+            tw["light"], tw["lights"] = old_tw["light"], old_tw.get("lights") or []
     unavailable += tw_un
     if ok == 0:
         print("所有 FRED 序列都抓不到，不寫檔", file=sys.stderr)
