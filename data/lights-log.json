@@ -1,0 +1,15 @@
+{
+ "version": 1,
+ "note": "論點卡燈號變化紀錄（daily_brief.py --save-lights 寫）",
+ "changes": [
+  {
+   "d": "2026-11-21",
+   "code": "panw",
+   "k": "gm",
+   "name": "毛利率（近四季，GAAP）",
+   "g": "biz",
+   "from": "g",
+   "to": "y"
+  }
+ ]
+}

@@ -1,21 +1,24 @@
 {
- "date": "2026-11-17",
+ "date": "2026-11-21",
  "lights": {
   "tsmc": {
+   "roe": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
-   "roe": "g",
    "pe": "g"
   },
   "pltr": {
+   "roe": "g",
    "revYoy": "g",
    "om": "g",
    "fcfRate": "g",
+   "fcfSbcRate": "g",
    "dilYoy": "g",
    "pe": "r"
   },
   "nvda": {
+   "roe": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
@@ -30,6 +33,7 @@
    "fcfRate": "g"
   },
   "anet": {
+   "roe": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
@@ -43,6 +47,7 @@
    "gmQchg": "y"
   },
   "delta": {
+   "roe": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
@@ -50,54 +55,65 @@
    "pe": "r"
   },
   "msft": {
+   "roic": "g",
    "revYoy": "g",
    "om": "g",
    "fcfRate": "y",
-   "roic": "g",
-   "pe": "g"
+   "pe": "g",
+   "eySpread": "r"
   },
   "mu": {
    "gm": "g",
    "om": "g",
    "fcfRate": "g",
    "gmQchg": "g",
-   "evS": "y"
+   "evS": "y",
+   "eySpread": "g"
   },
   "amzn": {
+   "roic": "g",
    "revYoy": "g",
    "om": "g",
    "fcfRate": "y",
-   "roic": "g",
    "pe": "g"
   },
   "aapl": {
+   "roe": "g",
    "epsYoy": "g",
    "gm": "g",
    "fcfRate": "g",
    "dilYoy": "g",
-   "pe": "r"
+   "pe": "r",
+   "eySpread": "r"
   },
   "meta": {
+   "roe": "g",
    "revYoy": "g",
    "om": "g",
    "fcfRate": "y",
+   "fcfSbcRate": "y",
    "pe": "g"
   },
   "avgo": {
+   "roe": "g",
    "revYoy": "g",
    "om": "g",
    "gm": "g",
    "fcfRate": "g",
+   "fcfSbcRate": "g",
    "pe": "r"
   },
   "mrvl": {
+   "roe": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
    "fcfRate": "g",
+   "fcfSbcRate": "g",
    "evS": "r"
   },
   "amd": {
+   "roe": "r",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
@@ -108,12 +124,15 @@
    "revYoy": "g",
    "om": "r",
    "fcfRate": "g",
+   "fcfSbcRate": "g",
    "dilYoy": "y"
   },
   "panw": {
+   "roe": "r",
    "revYoy": "g",
-   "gm": "g",
+   "gm": "y",
    "fcfRate": "g",
+   "fcfSbcRate": "y",
    "dilYoy": "r",
    "evS": "r"
   },
@@ -131,24 +150,29 @@
    "evS": "g"
   },
   "googl": {
+   "roic": "r",
    "revYoy": "g",
    "om": "g",
    "fcfRate": "r",
-   "roic": "r",
-   "evS": "g"
+   "fcfSbcRate": "r",
+   "evS": "g",
+   "eySpread": "g"
   },
   "csco": {
+   "roe": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
    "fcfRate": "g",
-   "evS": "r"
+   "fcfSbcRate": "g",
+   "evS": "r",
+   "eySpread": "r"
   },
   "asml": {
+   "roic": "g",
    "revYoy": "g",
    "gm": "g",
    "om": "g",
-   "roic": "g",
    "pe": "r"
   },
   "allring": {
@@ -156,7 +180,8 @@
    "gm": "g",
    "om": "g",
    "fcfRate": "y",
-   "pe": "r"
+   "pe": "r",
+   "eySpread": "r"
   }
  }
 }
