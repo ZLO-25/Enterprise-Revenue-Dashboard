@@ -1,14 +1,14 @@
 {
  "version": 1,
- "generated": "2026-11-21T00:19Z",
+ "generated": "2026-11-21T04:07Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "16 小時前成功",
-   "lastOk": "2026-11-20T08:47Z"
+   "note": "4 小時前成功",
+   "lastOk": "2026-11-21T00:20Z"
   },
   {
    "id": "sec-feed",
@@ -16,46 +16,46 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-21T00:18Z"
+   "lastOk": "2026-11-21T04:06Z"
   },
   {
    "id": "prices-daily",
    "label": "每日收盤價與本益比",
    "kind": "daily",
    "light": "green",
-   "note": "1 小時前成功",
-   "lastOk": "2026-11-20T23:07Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-21T04:03Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "8 小時前成功",
-   "lastOk": "2026-11-20T16:03Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-21T03:55Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "19 小時前成功",
-   "lastOk": "2026-11-20T04:51Z"
+   "note": "1 小時前成功",
+   "lastOk": "2026-11-21T03:20Z"
   },
   {
    "id": "mcap-weekly",
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "116 小時前成功",
-   "lastOk": "2026-11-16T04:21Z"
+   "note": "0 小時前成功",
+   "lastOk": "2026-11-21T03:54Z"
   },
   {
    "id": "rates-weekly",
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "87 小時前成功",
+   "note": "91 小時前成功",
    "lastOk": "2026-11-17T09:20Z"
   },
   {
@@ -63,7 +63,7 @@
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "12 小時前成功",
+   "note": "15 小時前成功",
    "lastOk": "2026-11-20T12:39Z"
   }
  ],
@@ -72,7 +72,7 @@
    "id": "daily",
    "label": "每日檢查（Claude 排程）",
    "light": "green",
-   "note": "上次成功 2026-11-20"
+   "note": "上次成功 2026-11-21"
   },
   {
    "id": "news",
@@ -114,7 +114,7 @@
    "name": "Palantir",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-01",
@@ -135,7 +135,7 @@
    "name": "輝達",
    "quarter": "3Q27",
    "stage": "completed",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-24",
@@ -156,7 +156,7 @@
    "name": "特斯拉",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-02",
@@ -177,7 +177,7 @@
    "name": "Arista",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-16",
@@ -198,7 +198,7 @@
    "name": "SpaceX",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -261,7 +261,7 @@
    "name": "微軟",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -282,7 +282,7 @@
    "name": "美光",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-17",
@@ -303,7 +303,7 @@
    "name": "亞馬遜",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-04",
@@ -324,7 +324,7 @@
    "name": "蘋果",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -345,7 +345,7 @@
    "name": "Meta",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -366,7 +366,7 @@
    "name": "博通",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-09",
@@ -387,7 +387,7 @@
    "name": "邁威爾",
    "quarter": "2Q27",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-01",
@@ -408,7 +408,7 @@
    "name": "超微",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-02",
@@ -429,7 +429,7 @@
    "name": "CrowdStrike",
    "quarter": "2Q27",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-01",
@@ -449,8 +449,8 @@
    "code": "panw",
    "name": "Palo Alto Networks",
    "quarter": "1Q27",
-   "stage": "completed",
-   "close": "2026-11-19",
+   "stage": "waiting",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-17",
@@ -458,9 +458,9 @@
     "est": true
    },
    "pending": {
-    "recent": 9,
-    "y3": 0,
-    "old": 0,
+    "recent": 1,
+    "y3": 1,
+    "old": 1,
     "noq": 0
    },
    "light": "green",
@@ -471,7 +471,7 @@
    "name": "火箭實驗室",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-25",
@@ -492,7 +492,7 @@
    "name": "GE Vernova",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -513,7 +513,7 @@
    "name": "Google",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-03",
@@ -534,7 +534,7 @@
    "name": "思科",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-10",
@@ -597,7 +597,7 @@
    "name": "通用動力",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -618,7 +618,7 @@
    "name": "洛克希德馬丁",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-26",
@@ -639,7 +639,7 @@
    "name": "星座能源",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-23",
@@ -660,7 +660,7 @@
    "name": "L3哈里斯",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -681,7 +681,7 @@
    "name": "雷神技術",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-26",
@@ -702,7 +702,7 @@
    "name": "伊頓",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-02",
@@ -723,7 +723,7 @@
    "name": "BWX科技",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-22",
@@ -744,7 +744,7 @@
    "name": "埃克森美孚",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-29",
@@ -765,7 +765,7 @@
    "name": "奇異航太",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-19",
+   "close": "2026-11-20",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-26",
@@ -863,6 +863,46 @@
    "now": 33.4,
    "thr": 40,
    "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "mu",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "cheap",
+   "now": 4.52,
+   "thr": 5.7,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "avgo",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 38.9,
+   "thr": 37,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "mrvl",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "cheap",
+   "now": 11.46,
+   "thr": 14.5,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-20",
+   "code": "csco",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "back",
+   "now": 5.54,
+   "thr": 5.1,
+   "op": "<="
   }
  ],
  "tokens": [
@@ -874,9 +914,9 @@
   },
   {
    "week": "2026-11-16",
-   "tokens": 25761575,
-   "usd": 11.99,
-   "runs": 6
+   "tokens": 28351542,
+   "usd": 13.23,
+   "runs": 7
   }
  ],
  "tokenRuns": [
@@ -886,6 +926,14 @@
    "tokens": 644767,
    "usd": 0.31,
    "turns": 7,
+   "exact": false
+  },
+  {
+   "date": "2026-11-21",
+   "routine": "每日檢查",
+   "tokens": 2589967,
+   "usd": 1.24,
+   "turns": 23,
    "exact": false
   },
   {
