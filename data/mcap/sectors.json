@@ -19,6 +19,11 @@
   "industry": "Oil & Gas Integrated",
   "checked": "2026-11-16"
  },
+ "600519.SS": {
+  "sector": "Consumer Defensive",
+  "industry": "Beverages - Wineries & Distilleries",
+  "checked": "2026-11-21"
+ },
  "601288.SS": {
   "sector": "Financial Services",
   "industry": "Banks - Diversified",
@@ -73,6 +78,11 @@
   "sector": "Technology",
   "industry": "Computer Hardware",
   "checked": "2026-11-16"
+ },
+ "ANT": {
+  "sector": "Technology",
+  "industry": "Software - Application",
+  "checked": "2026-11-21"
  },
  "ASML": {
   "sector": "Technology",
