@@ -329,7 +329,8 @@ def fetch_tw(cfg, since):
         cols = [s["col"] for s in specs] + ([f["lightCol"]] if f.get("lightCol") else [])
         try:
             files = datagov_files(f["dataset"])
-            hit = [t for n, t in files if f["match"] in n] if f.get("match") else [t for _, t in files]
+            # 同一個 ZIP 裡還有 schema-xxx.csv（欄位說明）與 manifest.csv，要跳過
+            hit = [t for n, t in files if f["match"] in n and not n.startswith(("schema", "manifest"))] if f.get("match") else [t for _, t in files]
             if not hit:
                 raise ValueError(f"資料集裡找不到「{f['match']}」這個檔（有：{[n for n, _ in files]}）")
             got = parse_ym_csv(hit[0], cols)
