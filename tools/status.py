@@ -26,6 +26,7 @@ WORKFLOWS = [
     ("quant-prices.yml", "daily", "回測用股價"),
     ("mcap-weekly.yml", "weekly", "市值排名"),
     ("rates-weekly.yml", "weekly", "升降息資料"),
+    ("macro-weekly.yml", "weekly", "總經儀表板資料"),
     ("prices-monthly.yml", "monthly", "每月股價"),
 ]
 LIMIT_H = {"daily": 36, "weekly": 8.5 * 24, "monthly": 35 * 24}

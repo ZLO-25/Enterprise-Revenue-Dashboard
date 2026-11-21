@@ -38,6 +38,7 @@ python3 tools/daily.py trend-facts    # 世界趨勢月報的事實表（網站�
 python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json；含巴菲特＋蒙格檢查表摘要）
 python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘、股票酬勞與扣酬勞後現金流…）原始輸出
 python3 tools/bs_merge.py --only sbc <代號>…   # 把 data/bs-raw/ 的股票酬勞（sbc）單獨合併（SEC 抓取要用 GitHub Actions 的 bs-fetch，field 填 sbc；非 SEC 公司加 --no-source）
+python3 tools/capex_chain.py    # AI 資本支出鏈：四家雲端大廠資本支出合計（日曆季）與賣方營收年增率，印最近 8 季
 python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # 台股股票酬勞：讀現金流量表「股份基礎給付酬勞成本」產生 data/bs-raw/ 提案，再跑上一行合併（報表沒列這一行不當成 0）
 ```
 
@@ -50,6 +51,11 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 - GitHub 排程固定晚 4～6 小時、每個工作一天只跑 1～3 次（實測 2026-11），加備援班沒用。每日檢查用 `python3 tools/daily.py brief --wait-prep` 手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、叫醒股價與期貨、算健康狀態）並等它做完。
 - SEC 收件匣：`tools/sec_inbox.py`（只由 Actions 的 daily-prep 跑）寫 `data/inbox/`（新聞稿文字＋XBRL 核對表）並重算 `data/bs-raw/`；只是「準備」與「核對」，不自動改 `data/<代號>.json`。
 - 系統健康：`python3 tools/status.py` → `data/status/latest.json`（只由 Actions 寫，網站「系統健康」頁讀它）；紅燈才開 issue。估值門檻被穿越的訊號：`tools/signals.py` → `data/daily/_signals.json`（只由 Actions 寫）。
+
+## 總經儀表板（macro/）
+- 說明在 [`docs/MACRO.md`](docs/MACRO.md)。指標清單、四階段對照表、外部連結在 `data/macro/config.json`（Claude 維護）；`data/macro/latest.json` **只由 GitHub Actions（macro-weekly，`tools/macro_fetch.py`）寫入**，Claude 不手填、不修改。
+- 愛榭克（Izaax）書裡的判讀來自讀者筆記：頁面標「整理，不是原話」，不可用引號假裝引述、不可補筆記裡沒有的門檻。這一頁不判定現在是哪個景氣階段。
+- 「AI 資本支出鏈」由 `tools/capex_chain.py` 在建置時用各公司財報加總，不存檔；缺一家就留空標待確認。
 
 ## 文件
 - `docs/ADDING_A_COMPANY.md` 新增公司流程

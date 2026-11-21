@@ -1,0 +1,1027 @@
+{
+ "version": 1,
+ "note": "總經儀表板的指標清單（Claude 維護）。數字只由 GitHub Actions 的 macro-weekly（tools/macro_fetch.py）寫進 data/macro/latest.json。show：level＝原始數值、yoy＝年增率（%）、chg＝和上一期的差。bad：往哪個方向走代表景氣轉差（up／down；空白＝不亮方向燈）。book：這個指標在《景氣循環投資》（愛榭克 Izaax）讀者筆記裡出現在哪個階段的判讀，是整理不是原話。 scale／showUnit／showDigits：只影響頁面顯示的單位換算（例如 千人 → 萬人），存檔的數字仍是來源的原始單位。",
+ "since": "1990-01-01",
+ "recession": "USREC",
+ "groups": [
+  {
+   "id": "jobs",
+   "name": "就業",
+   "lead": "景氣的地基：有工作才有收入，有收入才敢消費。",
+   "series": [
+    {
+     "key": "icsa4",
+     "fred": "IC4WSA",
+     "name": "初領失業救濟金（4 週平均）",
+     "unit": "人",
+     "show": "level",
+     "bad": "up",
+     "digits": 0,
+     "book": "復甦期：高峰出現在復甦起點。榮景期尾聲七大指標①：創新低代表榮景還會延伸至少三個季度；不再創新低、右端翹起（U 型）要提高警覺。",
+     "read": "每週公布，最即時。看 4 週平均比單週穩。展開後的「比三年低點高多少」，就是在看 U 型的右端有沒有翹起來。",
+     "scale": 0.0001,
+     "showUnit": "萬人",
+     "showDigits": 2
+    },
+    {
+     "key": "payems",
+     "fred": "PAYEMS",
+     "name": "非農就業人數（每月增減）",
+     "unit": "千人",
+     "show": "chg",
+     "bad": "down",
+     "digits": 0,
+     "book": "成長期：新增就業提升。書中提醒非農與失業率在轉折點常是假訊號或落後，不要單看。",
+     "read": "每月第一個週五公布。單月容易大修正，看 3 個月以上的趨勢。",
+     "scale": 0.1,
+     "showUnit": "萬人",
+     "showDigits": 1
+    },
+    {
+     "key": "unrate",
+     "fred": "UNRATE",
+     "name": "失業率",
+     "unit": "%",
+     "show": "level",
+     "bad": "up",
+     "digits": 1,
+     "book": "書中說失業率不是觀察景氣轉折的好指引（落後）。",
+     "read": "落後指標：等它明顯上升時，股市通常已經跌一段了。拿來確認，不拿來預測。"
+    },
+    {
+     "key": "jolts",
+     "fred": "JTSJOL",
+     "name": "職缺數（JOLTS）",
+     "unit": "千個",
+     "show": "level",
+     "bad": "down",
+     "digits": 0,
+     "book": "榮景期尾聲：和初領失業金一起看，職缺自高點反轉是警訊。",
+     "read": "公布比較慢（落後約兩個月）。趨勢至少看一年。",
+     "scale": 0.1,
+     "showUnit": "萬個",
+     "showDigits": 1
+    },
+    {
+     "key": "uemp5",
+     "fred": "UEMPLT5",
+     "name": "短期失業人數（不到 5 週）",
+     "unit": "千人",
+     "show": "level",
+     "bad": "up",
+     "digits": 0,
+     "book": "復甦期：短期失業人數改善時，景氣通常同步邁入復甦。",
+     "read": "剛失業的人數，比整體失業率更早反映裁員潮。",
+     "scale": 0.1,
+     "showUnit": "萬人",
+     "showDigits": 1
+    }
+   ]
+  },
+  {
+   "id": "consume",
+   "name": "所得與消費",
+   "lead": "美國經濟約七成是民間消費。書中說：景氣循環始於消費，也終於消費。",
+   "series": [
+    {
+     "key": "rdpi",
+     "fred": "DSPIC96",
+     "name": "實質個人可支配所得（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "成長期：所得增速快於消費（遞延消費）。榮景期前：支出增速高於收入增速（透支消費）。",
+     "read": "和下一列「實質個人消費」比：消費長得比所得快，代表在動用儲蓄或借錢。"
+    },
+    {
+     "key": "rpce",
+     "fred": "PCEC96",
+     "name": "實質個人消費支出（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "衰退確認兩數據之一：年增率出現兩次陡降（第一次可能只是基期）。",
+     "read": "扣掉通膨後的消費。這是書裡確認衰退最重要的一條線。"
+    },
+    {
+     "key": "rrsfs",
+     "fred": "RRSFS",
+     "name": "實質零售銷售（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "復甦期：率先反彈，領先確認復甦。榮景期尾聲七大指標②：在榮景期先走弱要留意；同樣現象在復甦或成長期多半只是基期效應。落底三指標之一。",
+     "read": "每月中公布，比個人消費早兩週。"
+    },
+    {
+     "key": "rdur",
+     "fred": "PCEDGC96",
+     "name": "實質耐久財消費（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "復甦期：耐久財消費向上反彈，領先確認復甦。",
+     "read": "車子、家電這類可以晚點再買的東西，對景氣最敏感。"
+    },
+    {
+     "key": "psave",
+     "fred": "PSAVERT",
+     "name": "個人儲蓄率",
+     "unit": "%",
+     "show": "level",
+     "bad": "",
+     "digits": 1,
+     "book": "成長期：儲蓄率下降、消費跟上。",
+     "read": "沒有固定的好壞方向：太低代表消費透支，急升代表大家不敢花。所以不亮方向燈。"
+    },
+    {
+     "key": "umich",
+     "fred": "UMCSENT",
+     "name": "密西根大學消費者信心",
+     "unit": "點",
+     "show": "level",
+     "bad": "down",
+     "digits": 1,
+     "book": "榮景期尾聲七大指標③：續創新高，美股還有高點；密西根指數下降是警訊。",
+     "read": "FRED 上的資料依來源要求延後一個月。經濟諮商局（Conference Board）的信心指數沒有免費資料檔，見下方連結。"
+    }
+   ]
+  },
+  {
+   "id": "invest",
+   "name": "訂單、投資與房市",
+   "lead": "消費好，企業才敢接單擴產。書中說民間投資比經濟成長率更早反轉。",
+   "series": [
+    {
+     "key": "dgo",
+     "fred": "DGORDER",
+     "name": "耐久財新訂單（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "復甦期：耐久財訂單落底，領先預告民間投資回溫。",
+     "read": "飛機訂單會讓它大幅跳動，搭配下一列（不含運輸）一起看。"
+    },
+    {
+     "key": "dgoex",
+     "fred": "ADXTNO",
+     "name": "耐久財新訂單，不含運輸（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "榮景期尾聲七大指標④：第二次耐久財支出潮預告榮景尾聲。",
+     "read": "拿掉飛機與汽車後比較平滑，較能看出企業真實的設備需求。"
+    },
+    {
+     "key": "gpdi",
+     "fred": "GPDIC1",
+     "name": "實質民間投資（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "衰退確認兩數據之一：比經濟成長率更早反轉；過去的衰退期都出現雙位數衰退。落底三指標之一。",
+     "read": "每季公布（跟著 GDP）。"
+    },
+    {
+     "key": "gpdisaar",
+     "fred": "A006RL1Q225SBEA",
+     "name": "實質民間投資（季增年率）",
+     "unit": "%",
+     "show": "level",
+     "bad": "down",
+     "digits": 1,
+     "book": "落底三指標①：民間投資與設備支出的季增年率領先落底反彈，動能轉強是景氣谷底止穩的關鍵。",
+     "read": "這一季比上一季的成長換算成一年，波動很大。書裡只在判斷「落底了沒」時用它。"
+    },
+    {
+     "key": "pnfi",
+     "fred": "PNFIC1",
+     "name": "實質民間非住宅固定投資（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "成長期：民間投資增長顯著跳階。",
+     "read": "企業蓋廠房、買設備、買軟體。AI 資料中心的資本支出也算在這裡。"
+    },
+    {
+     "key": "prfi",
+     "fred": "PRFIC1",
+     "name": "實質民間住宅投資（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "成長期：私人住宅投資持續增長。",
+     "read": "對利率最敏感的一塊，通常最早轉弱。"
+    },
+    {
+     "key": "houst",
+     "fred": "HOUST",
+     "name": "新屋開工（年化）",
+     "unit": "千戶",
+     "show": "level",
+     "bad": "down",
+     "digits": 0,
+     "book": "榮景期延伸關鍵：房地產與民間投資是否穩定擴張。",
+     "read": "單月波動大，看 3 個月以上的趨勢。",
+     "scale": 0.1,
+     "showUnit": "萬戶",
+     "showDigits": 1
+    },
+    {
+     "key": "permit",
+     "fred": "PERMIT",
+     "name": "營建許可（年化）",
+     "unit": "千戶",
+     "show": "level",
+     "bad": "down",
+     "digits": 0,
+     "book": "同上，營建許可領先新屋開工。",
+     "read": "先拿到許可才會開工，所以比開工更領先。",
+     "scale": 0.1,
+     "showUnit": "萬戶",
+     "showDigits": 1
+    }
+   ]
+  },
+  {
+   "id": "stock",
+   "name": "庫存",
+   "lead": "東西賣不掉，庫存就會堆起來，接著就是砍單與減產。",
+   "series": [
+    {
+     "key": "isratio",
+     "fred": "ISRATIO",
+     "name": "整體商業庫存銷售比",
+     "unit": "倍",
+     "show": "level",
+     "bad": "up",
+     "digits": 2,
+     "book": "榮景期尾聲七大指標⑥：每個完整景氣循環會經歷三次明顯的庫存增加；庫存增加但消費與投資動能減退是警訊。",
+     "read": "庫存 ÷ 一個月的銷售。往上代表貨堆得比賣得快。公布落後約一個半月。"
+    }
+   ]
+  },
+  {
+   "id": "credit",
+   "name": "信用",
+   "lead": "借錢的人還不出來、銀行開始收傘，景氣就容易轉向。",
+   "series": [
+    {
+     "key": "drcl",
+     "fred": "DRCLACBS",
+     "name": "消費性貸款違約率",
+     "unit": "%",
+     "show": "level",
+     "bad": "up",
+     "digits": 2,
+     "book": "榮景期尾聲七大指標⑦：違約率在榮景期中段之後上揚；若銀行跟著緊縮銀根，可能觸發景氣轉向。",
+     "read": "每季公布，落後約兩個月。"
+    },
+    {
+     "key": "drbl",
+     "fred": "DRBLACBS",
+     "name": "企業貸款違約率",
+     "unit": "%",
+     "show": "level",
+     "bad": "up",
+     "digits": 2,
+     "book": "同上（企業端）。",
+     "read": "每季公布。"
+    },
+    {
+     "key": "hyoas",
+     "fred": "BAMLH0A0HYM2",
+     "name": "高收益債利差",
+     "unit": "%",
+     "show": "level",
+     "bad": "up",
+     "digits": 2,
+     "book": "榮景期：高收益債殖利率顯著升高（價格走跌）。復甦期：低評等債券浮現長期投資良機。",
+     "read": "垃圾債比公債多付的利息。市場越擔心倒帳，利差越大。每天都有，是最即時的信用溫度計。FRED 只提供最近三年的資料，所以圖比較短。"
+    },
+    {
+     "key": "loans",
+     "fred": "TOTLL",
+     "name": "銀行放款（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "升息循環末期，整體貸款動能見頂走緩。",
+     "read": "銀行還願不願意借錢。"
+    }
+   ]
+  },
+  {
+   "id": "price",
+   "name": "通膨、利率與聯準會",
+   "lead": "通膨決定聯準會敢不敢降息；利率決定股票與債券的相對吸引力。",
+   "series": [
+    {
+     "key": "cpi",
+     "fred": "CPIAUCSL",
+     "name": "消費者物價 CPI（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "up",
+     "digits": 1,
+     "book": "榮景期尾聲進入衰退期前，通膨總是再度升溫。",
+     "read": "聯準會的目標是 2% 左右（它實際盯的是下面的核心 PCE）。"
+    },
+    {
+     "key": "corecpi",
+     "fred": "CPILFESL",
+     "name": "核心 CPI（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "up",
+     "digits": 1,
+     "book": "成長期：溫和的通膨有助消費與經濟穩定擴張。",
+     "read": "拿掉食物與能源，比較看得出通膨的底層趨勢。"
+    },
+    {
+     "key": "corepce",
+     "fred": "PCEPILFE",
+     "name": "核心 PCE 物價（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "up",
+     "digits": 1,
+     "book": "同上。",
+     "read": "聯準會最看重的通膨指標。"
+    },
+    {
+     "key": "ppi",
+     "fred": "PPIACO",
+     "name": "生產者物價 PPI，全部商品（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "up",
+     "digits": 1,
+     "book": "復甦期：原物料相關品項常出現短缺與強勁漲勢。",
+     "read": "上游的價格，通常比 CPI 先動。"
+    },
+    {
+     "key": "ffr",
+     "fred": "DFEDTARU",
+     "name": "聯邦基金利率目標（上限）",
+     "unit": "%",
+     "show": "level",
+     "bad": "",
+     "digits": 2,
+     "book": "復甦期：連續降息拉低市場利率。成長期到榮景期：升息循環。",
+     "read": "升降息對股票報酬的歷史統計，在回測的「升降息週期」分頁。"
+    },
+    {
+     "key": "dgs10",
+     "fred": "DGS10",
+     "name": "10 年期公債殖利率",
+     "unit": "%",
+     "show": "level",
+     "bad": "",
+     "digits": 2,
+     "book": "榮景期：利率先升後降，公債價格出現上漲格局。衰退期：殖利率走跌、債券價格上漲。",
+     "read": "全世界資產定價的錨。個股頁的「盈餘殖利率減公債」就是和它比。"
+    },
+    {
+     "key": "t10y2y",
+     "fred": "T10Y2Y",
+     "name": "10 年減 2 年殖利率利差",
+     "unit": "%",
+     "show": "level",
+     "bad": "down",
+     "digits": 2,
+     "book": "這一列不是書裡的指標，是市場最常用的衰退預警，放著對照。",
+     "read": "小於 0 叫殖利率曲線倒掛。歷史上倒掛之後一段時間常出現衰退，但時間差很不固定。"
+    },
+    {
+     "key": "t10y3m",
+     "fred": "T10Y3M",
+     "name": "10 年減 3 個月殖利率利差",
+     "unit": "%",
+     "show": "level",
+     "bad": "down",
+     "digits": 2,
+     "book": "同上，不是書裡的指標。",
+     "read": "紐約聯準銀行的衰退機率模型用的是這一條。"
+    },
+    {
+     "key": "mort30",
+     "fred": "MORTGAGE30US",
+     "name": "30 年房貸利率",
+     "unit": "%",
+     "show": "level",
+     "bad": "",
+     "digits": 2,
+     "book": "復甦期：降息同步拉低房貸利率。升息會連帶提升長期殖利率與房貸利率。",
+     "read": "直接影響房市與耐久財消費。"
+    },
+    {
+     "key": "walcl",
+     "fred": "WALCL",
+     "name": "聯準會總資產",
+     "unit": "百萬美元",
+     "show": "level",
+     "bad": "",
+     "digits": 0,
+     "book": "聯準會以降息與量化寬鬆（QE）拯救景氣趨緩。",
+     "read": "往上是放水（QE），往下是收水（縮表）。",
+     "scale": 1e-06,
+     "showUnit": "兆美元",
+     "showDigits": 2
+    }
+   ]
+  },
+  {
+   "id": "growth",
+   "name": "成長、貿易、政府與企業獲利",
+   "lead": "前面每一環加起來的結果。股價長期跟著企業獲利走。",
+   "series": [
+    {
+     "key": "rgdp",
+     "fred": "GDPC1",
+     "name": "實質 GDP（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "景氣循環對照圖的主線；榮景期尾聲通膨升溫、經濟成長率見高後下滑。",
+     "read": "每季公布，會修正兩次。"
+    },
+    {
+     "key": "pcesaar",
+     "fred": "DPCERL1Q225SBEA",
+     "name": "實質個人消費（季增年率）",
+     "unit": "%",
+     "show": "level",
+     "bad": "down",
+     "digits": 1,
+     "book": "復甦期：民間消費成長加速。書中判斷落底時用季增年率，因為比年增率更早反彈。",
+     "read": "這一季比上一季的成長，換算成一年。波動比年增率大。"
+    },
+    {
+     "key": "cp",
+     "fred": "CP",
+     "name": "企業稅後獲利（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "成長期：企業盈利增長穩定，股市穩步向上。",
+     "read": "全美國企業的獲利（國民所得帳口徑），不只上市公司。每季公布。"
+    },
+    {
+     "key": "imports",
+     "fred": "BOPTIMP",
+     "name": "進口金額（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "down",
+     "digits": 1,
+     "book": "復甦期關鍵四指標④：美國進口金額的轉折時間點，就是復甦期的開端。",
+     "read": "美國人買不買外國貨。台灣是出口國，這一條和台灣的出口直接相關。"
+    },
+    {
+     "key": "slgov",
+     "fred": "SLEXPND",
+     "name": "州與地方政府支出（年增率）",
+     "unit": "%",
+     "show": "yoy",
+     "bad": "",
+     "digits": 1,
+     "book": "榮景期尾聲七大指標⑤：地方政府支出年增率顯著增加。聯邦政府收入只能當輔助，容易受減稅政策干擾。",
+     "read": "景氣好、稅收多，地方政府就敢花錢，所以它在榮景期尾聲才明顯加速。沒有固定的好壞方向，不亮方向燈。"
+    }
+   ]
+  },
+  {
+   "id": "market",
+   "name": "原物料、美元與市場情緒",
+   "lead": "書裡各階段對照的資產價格。",
+   "series": [
+    {
+     "key": "wti",
+     "fred": "DCOILWTICO",
+     "name": "西德州原油",
+     "unit": "美元／桶",
+     "show": "level",
+     "bad": "",
+     "digits": 1,
+     "book": "油價下跌有利維持民間消費動能；榮景期尾聲低利率與弱勢美元是油價上漲推手。",
+     "read": "油價急漲等於對消費者加稅。"
+    },
+    {
+     "key": "dxy",
+     "fred": "DTWEXBGS",
+     "name": "美元指數（聯準會廣義貿易加權）",
+     "unit": "點",
+     "show": "level",
+     "bad": "",
+     "digits": 1,
+     "book": "景氣衰退期間，美元升值是常態。",
+     "read": "聯準會自己編的美元指數，和常聽到的 DXY 成分不同，方向大致一樣。"
+    },
+    {
+     "key": "vix",
+     "fred": "VIXCLS",
+     "name": "VIX 波動率指數",
+     "unit": "點",
+     "show": "level",
+     "bad": "up",
+     "digits": 1,
+     "book": "這一列不是書裡的指標，是市場恐慌程度的對照。",
+     "read": "俗稱恐慌指數。20 以下算平靜，30 以上代表市場很緊張。"
+    },
+    {
+     "key": "usdtwd",
+     "fred": "DEXTAUS",
+     "name": "美元兌新台幣",
+     "unit": "元",
+     "show": "level",
+     "bad": "",
+     "digits": 2,
+     "book": "這一列不是書裡的指標。持有美股的台灣投資人，報酬要再乘上匯率。",
+     "read": "數字變小代表台幣升值，美元資產換回台幣會變少。"
+    }
+   ]
+  }
+ ],
+ "tw": {
+  "lead": "台灣是出口導向的小型經濟體，景氣跟著美國的消費與企業投資走。這一區不是愛榭克書裡的內容（他的書以美國數據為主），是給持有台股的人對照用的。",
+  "files": [
+   {
+    "id": "lights",
+    "dataset": 6099,
+    "match": "景氣指標與燈號",
+    "lightCol": "景氣對策信號",
+    "source": "國家發展委員會「景氣指標及燈號」（政府資料開放平臺）",
+    "url": "https://data.gov.tw/dataset/6099"
+   },
+   {
+    "id": "pmi",
+    "dataset": 6100,
+    "source": "國家發展委員會「臺灣採購經理人指數」（政府資料開放平臺；中華經濟研究院編製）",
+    "url": "https://data.gov.tw/dataset/6100"
+   }
+  ],
+  "series": [
+   {
+    "key": "twscore",
+    "file": "lights",
+    "col": "景氣對策信號綜合分數",
+    "name": "景氣對策信號綜合分數",
+    "unit": "分",
+    "show": "level",
+    "bad": "",
+    "digits": 0,
+    "range": [
+     9,
+     45
+    ],
+    "book": "不是書裡的指標。國發會每月把 9 個項目各打 1～5 分加總：9～16 藍燈（低迷）、17～22 黃藍燈、23～31 綠燈（穩定）、32～37 黃紅燈、38～45 紅燈（熱絡）。",
+    "read": "太熱（紅燈）和太冷（藍燈）都要注意，所以不亮方向燈。每月 27 日前後公布上個月的分數。"
+   },
+   {
+    "key": "twlead",
+    "file": "lights",
+    "col": "領先指標不含趨勢指數",
+    "name": "領先指標（不含趨勢）",
+    "unit": "點",
+    "show": "level",
+    "bad": "down",
+    "digits": 2,
+    "range": [
+     50,
+     150
+    ],
+    "book": "不是書裡的指標。由外銷訂單動向、貨幣供給 M1B、股價指數、受僱員工淨進入率、建築物開工面積等項目合成。",
+    "read": "設計上領先景氣約半年。看它連續上升或下降幾個月，比看單月數字有用。"
+   },
+   {
+    "key": "twcoin",
+    "file": "lights",
+    "col": "同時指標不含趨勢指數",
+    "name": "同時指標（不含趨勢）",
+    "unit": "點",
+    "show": "level",
+    "bad": "down",
+    "digits": 2,
+    "range": [
+     50,
+     150
+    ],
+    "book": "不是書裡的指標。由工業生產、用電量、製造業銷售量、批發零售餐飲營業額、加班工時、出口、機械設備進口合成。",
+    "read": "反映「現在」的景氣。"
+   },
+   {
+    "key": "twpmi",
+    "file": "pmi",
+    "col": "PMI",
+    "name": "台灣製造業採購經理人指數 PMI",
+    "unit": "%",
+    "show": "level",
+    "bad": "down",
+    "digits": 1,
+    "range": [
+     20,
+     80
+    ],
+    "book": "書裡的落底三指標③看的是美國 ISM 製造業指數（沒有免費資料檔，見下方連結）；這裡放台灣版對照。",
+    "read": "50 以上代表擴張、以下代表緊縮（官方說明）。建議看趨勢。"
+   },
+   {
+    "key": "twnmi",
+    "file": "pmi",
+    "col": "NMI",
+    "name": "台灣非製造業經理人指數 NMI",
+    "unit": "%",
+    "show": "level",
+    "bad": "down",
+    "digits": 1,
+    "range": [
+     20,
+     80
+    ],
+    "book": "同上（服務業）。",
+    "read": "50 以上代表擴張、以下代表緊縮。"
+   }
+  ]
+ },
+ "phases": [
+  {
+   "id": "recovery",
+   "name": "復甦期",
+   "mark": "衰退剛結束。數據還很難看，但已經不再變差；聯準會連續降息、政府擴大支出。",
+   "checks": [
+    {
+     "t": "就業：初領失業救濟金的高峰出現在復甦起點；短期失業人數改善",
+     "keys": [
+      "icsa4",
+      "uemp5"
+     ]
+    },
+    {
+     "t": "消費：實質零售銷售與耐久財消費率先向上反彈",
+     "keys": [
+      "rrsfs",
+      "rdur"
+     ]
+    },
+    {
+     "t": "投資：耐久財訂單落底",
+     "keys": [
+      "dgo"
+     ]
+    },
+    {
+     "t": "進出口：進口金額由跌轉升",
+     "keys": [
+      "imports"
+     ]
+    }
+   ],
+   "invest": "現金不可為王：股市領先經濟數據，不要等數據全部好轉才進場。高收益債與原物料在這個階段也有機會。"
+  },
+  {
+   "id": "growth",
+   "name": "成長期",
+   "mark": "就業、所得、消費形成良性循環，企業開始擴編與擴產；通膨溫和。",
+   "checks": [
+    {
+     "t": "所得長得比消費快，儲蓄率之後下降（遞延消費）",
+     "keys": [
+      "rdpi",
+      "rpce",
+      "psave"
+     ]
+    },
+    {
+     "t": "非農新增就業提升，初領失業救濟金下滑",
+     "keys": [
+      "payems",
+      "icsa4"
+     ]
+    },
+    {
+     "t": "民間投資明顯跳升",
+     "keys": [
+      "pnfi"
+     ]
+    },
+    {
+     "t": "住宅投資持續成長",
+     "keys": [
+      "prfi"
+     ]
+    },
+    {
+     "t": "通膨溫和、經濟穩定擴張",
+     "keys": [
+      "corecpi",
+      "corepce",
+      "rgdp"
+     ]
+    }
+   ],
+   "invest": "持續買進並持有股票這類風險資產，拉回是加碼機會。避開公債（升息循環中債券價格下跌）。"
+  },
+  {
+   "id": "boom",
+   "name": "榮景期",
+   "mark": "景氣加速、市場極度樂觀、風險意識最低；股市估值與本益比在高點。下面是書裡的「榮景期尾聲七大指標」。",
+   "checks": [
+    {
+     "t": "① 初領失業救濟金：創新低代表榮景還會延伸至少三個季度；不再創新低、右端翹起（U 型）要警覺。職缺數一起看",
+     "keys": [
+      "icsa4",
+      "jolts"
+     ]
+    },
+    {
+     "t": "② 民間消費：零售銷售、個人消費與所得自高點反轉",
+     "keys": [
+      "rrsfs",
+      "rpce",
+      "rdpi"
+     ]
+    },
+    {
+     "t": "③ 消費者信心：續創新高，股市還有高點；下降是警訊",
+     "keys": [
+      "umich"
+     ]
+    },
+    {
+     "t": "④ 民間投資：第二次耐久財支出潮預告榮景尾聲",
+     "keys": [
+      "dgoex",
+      "gpdi"
+     ]
+    },
+    {
+     "t": "⑤ 政府支出：地方政府支出年增率顯著增加",
+     "keys": [
+      "slgov"
+     ]
+    },
+    {
+     "t": "⑥ 庫存：庫存增加，但消費與投資動能減退",
+     "keys": [
+      "isratio"
+     ]
+    },
+    {
+     "t": "⑦ 債務違約率：明顯上揚，銀行開始緊縮銀根",
+     "keys": [
+      "drcl",
+      "drbl",
+      "hyoas"
+     ]
+    }
+   ],
+   "invest": "唯一需要動作的階段：分階段降低持股（讀者筆記記載的例子是 70% → 50% → 30%，最低不低於 30%），轉進美國長天期公債；避開高收益債與原物料。"
+  },
+  {
+   "id": "recession",
+   "name": "衰退期",
+   "mark": "書裡用兩個數據確認衰退，再用三個指標判斷落底。",
+   "checks": [
+    {
+     "t": "確認衰退①：實質個人消費年增率出現兩次陡降（第一次可能只是基期）",
+     "keys": [
+      "rpce"
+     ]
+    },
+    {
+     "t": "確認衰退②：民間投資年增率比經濟成長率更早反轉，且出現雙位數衰退",
+     "keys": [
+      "gpdi",
+      "rgdp"
+     ]
+    },
+    {
+     "t": "落底①：民間投資的季增年率回升",
+     "keys": [
+      "gpdisaar"
+     ]
+    },
+    {
+     "t": "落底②：實質零售銷售回升（書裡看月增年率，比年增率更早反彈）",
+     "keys": [
+      "rrsfs"
+     ]
+    },
+    {
+     "t": "落底③：製造業採購經理人指數（ISM）止跌回升；服務業也要一起看。美國 ISM 沒有免費資料檔，見下方連結",
+     "keys": [
+      "twpmi"
+     ]
+    }
+   ],
+   "invest": "持有公債與美元；把握低檔分批布局股市（定期定額的好時機）。"
+  }
+ ],
+ "links": [
+  {
+   "group": "愛榭克（Izaax）本人",
+   "items": [
+    {
+     "name": "愛榭克部落格",
+     "url": "https://www.izaax.net/blog/",
+     "note": "他發表總經觀察的地方。"
+    },
+    {
+     "name": "Smart 智富",
+     "url": "https://smart.businessweekly.com.tw/",
+     "note": "他是《Smart 智富》月刊的總體經濟專欄作家；《經濟指標告訴你＆沒告訴你的事》的出版社。"
+    }
+   ]
+  },
+  {
+   "group": "書裡圖表用的資料網站",
+   "items": [
+    {
+     "name": "FRED（聖路易聯準銀行）",
+     "url": "https://fred.stlouisfed.org/",
+     "note": "書裡大部分圖表的來源，也是這一頁美國資料的來源。免費，可以自己疊圖。"
+    },
+    {
+     "name": "財經M平方：美國 ISM 製造業與非製造業指數",
+     "url": "https://www.macromicro.me/charts/7/ism",
+     "note": "ISM 指數有授權限制，FRED 沒有，這一頁也不抓；到這裡看。"
+    },
+    {
+     "name": "財經M平方：消費者信心（密西根大學與經濟諮商局）",
+     "url": "https://www.macromicro.me/charts/22/consumer-confidence",
+     "note": "經濟諮商局的信心指數同樣沒有免費資料檔。"
+    },
+    {
+     "name": "財經M平方：巴菲特指標與 Shiller 本益比",
+     "url": "https://www.macromicro.me/charts/14298/mei-gu-ba-fei-te-zhi-biao-Shiller-PE",
+     "note": "書裡用來看整體股市估值高不高。"
+    },
+    {
+     "name": "美國經濟分析局 BEA：GDP",
+     "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
+     "note": "GDP、民間投資、個人消費的原始發布機關；每年七月有年度修正。"
+    }
+   ]
+  },
+  {
+   "group": "美國官方原始來源（想查公布日期與新聞稿時用）",
+   "items": [
+    {
+     "name": "勞工統計局 BLS：就業報告",
+     "url": "https://www.bls.gov/news.release/empsit.toc.htm",
+     "note": "非農就業、失業率。每月第一個週五。"
+    },
+    {
+     "name": "勞工部：每週失業救濟金",
+     "url": "https://www.dol.gov/ui/data.pdf",
+     "note": "初領失業救濟金。每週四。"
+    },
+    {
+     "name": "普查局 Census：零售銷售",
+     "url": "https://www.census.gov/retail/index.html",
+     "note": "每月中。"
+    },
+    {
+     "name": "普查局 Census：耐久財訂單與庫存（M3）",
+     "url": "https://www.census.gov/manufacturing/m3/index.html",
+     "note": "每月下旬。"
+    },
+    {
+     "name": "BEA：個人所得與支出",
+     "url": "https://www.bea.gov/data/income-saving/personal-income",
+     "note": "實質個人消費、可支配所得、儲蓄率、核心 PCE 物價。每月底。"
+    },
+    {
+     "name": "ISM：製造業與服務業報告",
+     "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/",
+     "note": "每月第一、第三個營業日。"
+    },
+    {
+     "name": "經濟諮商局 Conference Board：消費者信心",
+     "url": "https://www.conference-board.org/topics/consumer-confidence",
+     "note": "每月最後一個週二。"
+    },
+    {
+     "name": "密西根大學消費者調查",
+     "url": "https://www.sca.isr.umich.edu/",
+     "note": "每月中公布初值、月底終值。"
+    },
+    {
+     "name": "聯準會：FOMC 會議日程",
+     "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+     "note": "利率決策日期與會後聲明。"
+    },
+    {
+     "name": "NBER：景氣循環認定日期",
+     "url": "https://www.nber.org/research/business-cycle-dating",
+     "note": "美國「衰退」的官方認定（圖上的灰底），通常事後一年左右才公布。"
+    }
+   ]
+  },
+  {
+   "group": "即時推估與市場預期（不是官方統計，當參考）",
+   "items": [
+    {
+     "name": "亞特蘭大聯準銀行 GDPNow",
+     "url": "https://www.atlantafed.org/cqer/research/gdpnow",
+     "note": "用已公布的數據即時推估本季 GDP。"
+    },
+    {
+     "name": "紐約聯準銀行：殖利率曲線與衰退機率",
+     "url": "https://www.newyorkfed.org/research/capital_markets/ycfaq",
+     "note": "用 10 年減 3 個月利差推估未來 12 個月的衰退機率。"
+    },
+    {
+     "name": "CME FedWatch",
+     "url": "https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html",
+     "note": "期貨市場認為下次會議升降息的機率。"
+    }
+   ]
+  },
+  {
+   "group": "台灣",
+   "items": [
+    {
+     "name": "國發會景氣指標查詢系統",
+     "url": "https://index.ndc.gov.tw/n/zh_tw",
+     "note": "景氣燈號、領先同時落後指標、PMI 的官方查詢頁。"
+    },
+    {
+     "name": "政府資料開放平臺：景氣指標及燈號",
+     "url": "https://data.gov.tw/dataset/6099",
+     "note": "這一頁台灣燈號資料的來源檔。"
+    },
+    {
+     "name": "政府資料開放平臺：臺灣採購經理人指數",
+     "url": "https://data.gov.tw/dataset/6100",
+     "note": "這一頁台灣 PMI 資料的來源檔。"
+    },
+    {
+     "name": "主計總處",
+     "url": "https://www.dgbas.gov.tw/",
+     "note": "GDP、物價、失業率。"
+    },
+    {
+     "name": "經濟部統計處",
+     "url": "https://www.moea.gov.tw/Mns/dos/home/Home.aspx",
+     "note": "外銷訂單、工業生產。"
+    },
+    {
+     "name": "中央銀行",
+     "url": "https://www.cbc.gov.tw/",
+     "note": "利率、匯率、貨幣供給。"
+    }
+   ]
+  }
+ ],
+ "about": {
+  "who": "愛榭克（Izaax）是台灣的總體經濟作家，《Smart 智富》月刊專欄作家，著有《經濟指標告訴你＆沒告訴你的事》《道瓊三萬點》《景氣循環投資》。他的特色是只用公開的美國經濟數據，判斷景氣走到循環的哪一段。",
+  "basis": "這一頁的指標清單與各階段的判讀，整理自三份讀者筆記對《景氣循環投資》的記錄（不是原書原文，也不是原話）。",
+  "notes": [
+   {
+    "name": "書中提及指標網站連結（NaMilk，2020）",
+    "url": "https://hxc85421.pixnet.net/blog/posts/15323590462"
+   },
+   {
+    "name": "景氣循環投資 筆記（HackMD）",
+    "url": "https://hackmd.io/@investing/Sk80bL02K"
+   },
+   {
+    "name": "【閱讀筆記】景氣循環投資（昭昭的投資日常，2020）",
+    "url": "https://as223400.pixnet.net/blog/posts/8229261874"
+   },
+   {
+    "name": "如何利用景氣循環做投資？（衛斯理，2021）",
+    "url": "https://vocus.cc/article/66fe1794fd897800013fd620"
+   }
+  ]
+ },
+ "chain": {
+  "buyers": [
+   "msft",
+   "amzn",
+   "googl",
+   "meta"
+  ],
+  "suppliers": [
+   "nvda",
+   "avgo",
+   "tsmc"
+  ],
+  "lead": "總經數字裡的「民間非住宅固定投資」，現在很大一塊是雲端大廠蓋 AI 資料中心。這張表把本站追蹤的四家雲端大廠的資本支出加起來：它們花的錢，就是輝達、博通、台積電的營收來源。",
+  "read": "先看買方合計的年增率有沒有放慢，再看占營收的比重是不是高到撐不下去。買方踩煞車，通常比賣方的營收先看得到。"
+ }
+}

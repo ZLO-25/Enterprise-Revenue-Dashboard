@@ -1,0 +1,70 @@
+# 總經儀表板（macro/ 頁）的資料：每週自動更新（不經過 Claude）
+#
+#   觸發：① 台北週六、週日、週三各排幾班（GitHub 免費排程常晚幾小時或漏跑，多排幾班）
+#         ② tools/macro_fetch.py 或 data/macro/config.json 改了 ③ 手動
+#   每班先看 data/macro/latest.json 是不是 5 天內抓過 → 抓過就約 10 秒結束，不重抓
+#   資料：美國＝FRED（聖路易聯準銀行，免金鑰）；台灣＝國發會景氣指標查詢系統
+#   只會 git add data/macro/latest.json，不會動到其他任何檔案。
+name: macro-weekly
+on:
+  schedule:
+    - cron: "23 22 * * 5"     # 台北週六 06:23（美國週五的數據都出來之後）
+    - cron: "53 1 * * 6"      # 台北週六 09:53（備援）
+    - cron: "53 1 * * 0"      # 台北週日 09:53（備援）
+    - cron: "23 22 * * 2"     # 台北週三 06:23（週中補一次：CPI、零售銷售多在週二～三公布）
+    - cron: "53 3 * * 3"      # 台北週三 11:53（備援）
+  push:
+    paths:
+      - "tools/macro_fetch.py"
+      - "data/macro/config.json"
+      - ".github/workflows/macro-weekly.yml"
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: "只試探：印出台灣官方資料檔頭尾、檢查外部連結有沒有失效（不寫檔）"
+        type: boolean
+        default: false
+      force:
+        description: "就算 5 天內抓過也重抓"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: macro-weekly-${{ github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 單元測試（年增率、方向燈、衰退期間）
+        run: python3 -m unittest discover -s tools/tests -p 'test_macro.py'
+      - name: 試探來源
+        if: ${{ inputs.probe }}
+        run: python3 tools/macro_fetch.py --probe
+      - name: 是否需要抓取
+        id: need
+        if: ${{ !inputs.probe }}
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then python3 tools/macro_fetch.py --check; else echo "stale=true" >> "$GITHUB_OUTPUT"; fi
+      - name: 下載總經資料
+        if: ${{ !inputs.probe && steps.need.outputs.stale == 'true' }}
+        run: python3 tools/macro_fetch.py
+      - name: 有變動才提交
+        if: ${{ !inputs.probe && steps.need.outputs.stale == 'true' }}
+        run: |
+          git config user.name "macro-weekly-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/macro/latest.json
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -q -m "總經儀表板資料自動更新 $(date -u +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "推送失敗（可能別的排程剛好也在推），第 $i 次重試"; sleep 15
+          done
+          exit 1
