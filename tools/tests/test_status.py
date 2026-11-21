@@ -38,5 +38,37 @@ class RunAge(unittest.TestCase):
         self.assertEqual(S.eval_run_age("daily", None, None, t("2026-11-18T01:00:00"))[0], "yellow")
 
 
+class MacroRowTest(unittest.TestCase):
+    """總經資料的內容檢查：壞掉要看得到，但不要因為一條序列晚公布就寄信。"""
+    NOW = S.parse("2026-11-21T18:00:00Z")
+
+    def doc(self, **kw):
+        d = {"updated": "2026-11-20 18:00 UTC", "series": {str(i): {} for i in range(60)}, "unavailable": [], "health": {"stale": []}, "links": {"dead": []}}
+        d.update(kw)
+        return d
+
+    def test_green(self):
+        r = S.macro_row(self.doc(), self.NOW)
+        self.assertEqual(r["light"], "green")
+        self.assertIn("60 條", r["note"])
+
+    def test_missing_file_yellow(self):
+        self.assertEqual(S.macro_row(None, self.NOW)["light"], "yellow")
+
+    def test_stale_series_yellow_not_red(self):
+        r = S.macro_row(self.doc(health={"stale": [{"key": "a", "name": "甲", "days": 200}]}, links={"dead": ["https://x/"]}), self.NOW)
+        self.assertEqual(r["light"], "yellow")
+        self.assertIn("甲", r["note"])
+        self.assertIn("404", r["note"])
+
+    def test_old_file_red(self):
+        r = S.macro_row(self.doc(updated="2026-11-09 00:00 UTC"), self.NOW)
+        self.assertEqual(r["light"], "red")
+
+    def test_most_series_failed_red(self):
+        r = S.macro_row(self.doc(unavailable=["待確認：x"] * 31), self.NOW)
+        self.assertEqual(r["light"], "red")
+
+
 if __name__ == "__main__":
     unittest.main()

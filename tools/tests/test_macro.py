@@ -470,6 +470,9 @@ class ConfigTest(unittest.TestCase):
                 self.assertIn(s.get("bad", ""), ("", "up", "down"))
                 for f in ("name", "unit", "book", "read"):
                     self.assertTrue(s.get(f), f"{s['key']} 缺 {f}")
+        for s in list(specs.values()) + cfg["tw"]["series"]:
+            if s["show"] in ("yoy", "ann3"):
+                self.assertEqual(s["unit"], "%", f"{s['key']} 顯示的是年增率，單位要寫 %（原始單位不會顯示）")
         order = [s["key"] for g in cfg["groups"] for s in g["series"]]
         for s in specs.values():
             for part in s.get("diff", []):
