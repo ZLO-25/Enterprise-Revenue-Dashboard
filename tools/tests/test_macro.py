@@ -3,7 +3,7 @@ import json
 import os
 import sys
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 import macro_fetch as M
@@ -170,7 +170,8 @@ class BuildTest(unittest.TestCase):
         now = datetime(2026, 11, 21, 12, 0, tzinfo=timezone.utc)
         self.assertTrue(M.is_stale({}, now))
         self.assertTrue(M.is_stale({"updated": "2026-11-15 00:00 UTC"}, now))
-        self.assertFalse(M.is_stale({"updated": "2026-11-18 00:00 UTC"}, now))
+        self.assertTrue(M.is_stale({"updated": (now - timedelta(hours=19)).strftime("%Y-%m-%d %H:%M UTC")}, now))      # 昨天這個時候抓的 → 今天要重抓
+        self.assertFalse(M.is_stale({"updated": (now - timedelta(hours=6)).strftime("%Y-%m-%d %H:%M UTC")}, now))      # 同一天稍早抓過 → 跳過
 
 
 class TaiwanTest(unittest.TestCase):

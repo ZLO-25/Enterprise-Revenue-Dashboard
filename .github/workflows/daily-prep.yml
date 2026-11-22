@@ -55,7 +55,7 @@ jobs:
         run: |
           gh workflow run prices-daily.yml || echo "prices-daily 觸發失敗"
           gh workflow run futures-daily.yml || echo "futures-daily 觸發失敗"
-          gh workflow run macro-weekly.yml || echo "macro-weekly 觸發失敗"      # 總經：5 天內抓過就自己跳過
+          gh workflow run macro-weekly.yml || echo "macro-weekly 觸發失敗"      # 總經：18 小時內抓過就自己跳過，所以平日每天重抓一次
           sleep 5
       - name: ⑤ 算系統健康狀態
         run: python3 tools/status.py

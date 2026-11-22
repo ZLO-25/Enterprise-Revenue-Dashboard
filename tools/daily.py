@@ -17,6 +17,7 @@
   python3 tools/daily.py save-lights          排程做完時記下論點卡燈號（明天比較轉差）
   python3 tools/daily.py news-scope           每週新聞（週日 06:00）的範圍與公司清單
   python3 tools/daily.py story                各公司核心故事線與類別（寫 milestones 前先對）
+  python3 tools/daily.py macro                總經一週摘要：換燈、觀念提醒的新增與消失、警訊計數、資料健康（每週日排程用，見 tools/macro_brief.py）
   python3 tools/daily.py mark extra|trend|news|newsfire     記下今天已補觸發過（每天最多一次）
   python3 tools/daily.py inbox [CODE…]        SEC 收件匣：Actions 預抓的財報新聞稿＋XBRL 核對表（快報、核對先看這個）
   python3 tools/daily.py trend-facts          世界趨勢月報的事實表（各公司最新一季、四大雲端資本支出、記憶體毛利率）
@@ -292,6 +293,9 @@ def main():
         return story_all()
     if a[0] == "news-scope":  # 每週新聞的範圍與公司清單（見 docs/WEEKLY_NEWS_PROMPT.md）
         return news_scope(today)
+    if a[0] == "macro":  # 總經一週摘要（見 tools/macro_brief.py；只讀檔，和一週前的版本比）
+        import macro_brief
+        return macro_brief.main(today)
     if a[0] == "pending":  # 待確認分級統計＋reports/pending.md（見 tools/pending.py）
         import pending
         return pending.main()

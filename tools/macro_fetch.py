@@ -15,7 +15,7 @@
 
 用法：
   python3 tools/macro_fetch.py            正式抓取、寫檔（全部序列都失敗才回傳非 0）
-  python3 tools/macro_fetch.py --check    只看 latest.json 是不是 5 天內抓過（寫 stale=true/false 到 $GITHUB_OUTPUT）
+  python3 tools/macro_fetch.py --check    只看 latest.json 是不是 18 小時內抓過（寫 stale=true/false 到 $GITHUB_OUTPUT）
   python3 tools/macro_fetch.py --probe    只試探：印出台灣官方資料檔的頭尾幾行、檢查外部連結有沒有失效（不寫檔）
 """
 import csv
@@ -33,7 +33,7 @@ OUT = os.path.join(ROOT, "data", "macro", "latest.json")
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={id}"
 FRED_PAGE = "https://fred.stlouisfed.org/series/{id}"
 UA = "Mozilla/5.0 (macro-weekly; +https://github.com/ZLO-25/Enterprise-Revenue-Dashboard)"
-STALE_DAYS = 5
+STALE_HOURS = 18        # 這麼多小時內抓過就不重抓：daily-prep 平日每天叫醒一次 → 等於平日每天抓一次（VIX、利差、殖利率等日資料才不會落後好幾天）
 
 
 def http_get(url, timeout=60, tries=3, data=None, headers=None):
@@ -657,7 +657,7 @@ def is_stale(doc, now=None):
         return True
     now = now or datetime.now(timezone.utc)
     age = now - datetime.strptime(doc["updated"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc)
-    return age.days >= STALE_DAYS
+    return age.total_seconds() >= STALE_HOURS * 3600
 
 
 def main(argv):

@@ -128,6 +128,11 @@ table.co-tbl { font-size: 0.84rem; }
 .td-tag.alert{border-color:var(--bad-text);color:var(--bad-text);font-weight:600}.td-tag.event{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent}
 .td-quiet{color:var(--muted)}.td-more{font-size:.85rem;color:var(--muted)}
 .td-foot{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.85rem;margin-top:4px}
+.td-mood{border-top:1px dashed var(--line);margin:8px 0 6px;padding-top:8px;line-height:1.6}
+.td-mood .mm{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}.td-mood b{font-family:var(--font-data);font-size:1.05rem}
+.td-mood .mz{font-weight:600}.td-mood .mz.tense{color:var(--bad-text)}.td-mood .td-tag.tense{border-color:var(--bad-text);color:var(--bad-text);font-weight:600}
+.td-mood .ms{font-size:.8rem;color:var(--muted);margin-top:2px}.td-mood .ms a{color:inherit;text-decoration:underline}
+.td-mood svg{flex:none;width:84px;height:20px;color:var(--muted);align-self:center}
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -141,6 +146,7 @@ table.co-tbl { font-size: 0.84rem; }
   <section id="today" aria-label="今天該看什麼">
     <div class="td-box"><div class="td-head"><h2>今天該看什麼</h2><span class="td-date" id="tdDate"></span></div>
       <ul class="td-list" id="tdList"><li class="td-quiet">讀取中…</li></ul>
+      <div class="td-mood" id="tdMood" hidden></div>
       <div class="td-foot"><a href="{{CAL_LINK}}">財報行事曆（未來 90 天）→</a><a href="{{STATUS_LINK}}">系統健康 →</a></div>
     </div>
   </section>
@@ -482,6 +488,29 @@ applyFilter();
     }
     if (r.more) li.push(`<li class="td-more">還有 ${r.more} 則 → <a href="${CL}">行事曆</a>／<a href="${SL}">系統健康</a></li>`);
     $('#tdList').innerHTML = li.join('');
+  });
+  /* 市場情緒：VIX 每日收盤（data/market/vix.json，只由 GitHub Actions 的 prices-daily 寫；數字都在 tools/vix_update.py 算好，這裡只畫） */
+  get('market/vix.json').then(v => {
+    if (!v || !v.last || typeof v.last.c !== 'number') return;
+    const Z = { calm: '平靜', mid: '偏高', tense: '很緊張' }, zs = v.zones || { calm: 20, tense: 30 };
+    const chg = typeof v.chg === 'number' ? '，比前一天 ' + (v.chg > 0 ? '+' : v.chg < 0 ? '−' : '') + Math.abs(v.chg).toFixed(2) : '';
+    const old = (Date.parse(today) - Date.parse(v.last.d)) / 864e5 > 6;
+    const pts = (v.points || []).slice(-60).map(p => p[1]);
+    let spark = '';
+    if (pts.length > 5) {
+      const lo = Math.min.apply(null, pts), hi = Math.max.apply(null, pts), W = 84, H = 20;
+      const xy = pts.map((c, i) => (i * W / (pts.length - 1)).toFixed(1) + ',' + (H - 2 - (hi > lo ? (c - lo) / (hi - lo) : .5) * (H - 4)).toFixed(1)).join(' ');
+      spark = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="VIX 最近 ${pts.length} 個交易日的走勢"><polyline fill="none" stroke="currentColor" stroke-width="1.3" points="${xy}"/></svg>`;
+    }
+    const x = v.xcheck && v.xcheck.ok === false ? `<span class="mz tense">${esc(v.xcheck.note)}</span>` : '';
+    const el = $('#tdMood');
+    el.innerHTML = `<div class="mm"><span class="td-tag ${v.zone === 'tense' ? 'tense' : ''}">市場情緒</span><span>VIX（恐慌指數）<b>${v.last.c.toFixed(2)}</b></span>` +
+      `<span class="mz ${esc(v.zone || '')}">${Z[v.zone] || ''}</span><span>${EVCAL.mdw(v.last.d)} 收盤${chg}</span>` +
+      (typeof v.pct10 === 'number' ? `<span>十年位置：第 ${v.pct10} 百分位</span>` : '') + spark + x +
+      `<a href="${SL.replace(/status\/$/, 'macro/')}#now">總經儀表板 →</a></div>` +
+      `<div class="ms"><span class="tag-src tag-v" title="教學：本站的說明，不是買賣訊號">教學</span> ${zs.calm} 以下通常算平靜，${zs.tense} 以上代表市場很緊張。恐慌來得快、去得也快：它是情緒，不是景氣轉折的證據，先回頭看就業與消費有沒有跟著變差。` +
+      `每天更新一次收盤值${old ? '（<b>資料可能過時</b>，最新只到 ' + esc(v.last.d) + '）' : ''}；來源：<a href="${esc(v.sourceUrl || '#')}" target="_blank" rel="noopener">${esc(v.source || '')}</a>。</div>`;
+    el.hidden = false;
   });
 })();
 FUT.home(document.getElementById('futures'), '{{FUT_BASE}}', '{{FUT_LINK}}');
