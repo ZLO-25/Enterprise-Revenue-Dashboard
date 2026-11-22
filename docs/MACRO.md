@@ -137,6 +137,21 @@ tools/status.py（daily-prep 每天跑）→ 系統健康頁「總經資料」
 
 排程：GitHub 的定時排程常晚到或漏跑，所以除了每週幾班，`daily-prep` 每天也會叫醒 `macro-weekly` 一次；五天內抓過就約 10 秒結束。
 
+## 每天更新、每週摘要、首頁的 VIX（2026-11-22）
+
+```
+平日每天   daily-prep 叫醒 macro-weekly → 18 小時內沒抓過就重抓（STALE_HOURS）→ latest.json
+           prices-daily 的 tools/vix_update.py → data/market/vix.json → 首頁「市場情緒」那一行
+每週日     排程照 docs/WEEKLY_NEWS_PROMPT.md 步驟 6c 跑 python3 tools/daily.py macro
+           （tools/macro_brief.py：把現在的 latest.json 和 git 裡一週前那一版相比）→ 回報「總經」段
+```
+
+- **為什麼有兩個 VIX**：總經儀表板的 VIX 來自 FRED（慢一個交易日左右），用來算方向燈與觀念提醒；首頁那一行要「今天早上就看到昨晚收盤」，所以另外抓 Cboe 官方每日檔與 Yahoo ^VIX，取最新一筆比較新的那個，兩邊都有的最近一天互相核對（差超過 1% 記待確認）。兩處各自標日期與來源。
+- **只收收盤、一天一次**：VIX 是情緒，照「先基本面、再資金面」排在最後；不做盤中。Yahoo 在美股盤中會給盤中值，`drop_unfinished()` 會把還沒收盤那一天拿掉。
+- **區間門檻**（20 以下平靜、30 以上很緊張）是經驗分界，寫在 `tools/vix_update.py` 的 `ZONES`，首頁標「教學」，不是買賣訊號。
+- **壞了怎麼查**：Actions 手動跑 prices-daily 看「VIX 收盤」那一步的 log（每個來源抓到幾筆、最新日期、核對結果）；或在本機以外的環境跑 `python3 tools/vix_update.py --probe`。晚上那一班的落後檢查會在最新一筆超過 6 天時亮紅燈。
+- **每週摘要不解讀**：`tools/macro_brief.py` 只列差異（換燈、提醒新增與消失、警訊計數、台灣燈號、資料健康），不寫買賣建議、不判定景氣階段（測試會擋這些字）。
+
 ## 怎麼改
 
 | 想做的事 | 改哪裡 |
