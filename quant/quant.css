@@ -236,6 +236,17 @@
   #quant-dca-view table.ddt td::before { content: attr(data-k); display: block; font-family: var(--font-ui); font-size: .72rem; color: var(--muted); }
   #quant-dca-view table.ddt td.wide { grid-column: 1 / -1; }
 }
+/* 歷次股災回顧：事件欄要能換行（有一句說明），其他欄維持不換行 */
+#quant-dca-view #crash-panel h2 .sub { font-family: var(--font-ui); font-weight: 400; margin-left: 6px; }
+#quant-dca-view table.crash-t td:first-child { white-space: normal; min-width: 190px; max-width: 340px; font-family: var(--font-ui); }
+#quant-dca-view table.crash-t td .sub, #quant-dca-view table.crash-cmp td .sub { display: block; font-size: .75rem; color: var(--muted); font-family: var(--font-ui); white-space: normal; }
+#quant-dca-view table.crash-t td:last-child { white-space: nowrap; }
+#quant-dca-view #crash-body .verdict { margin-bottom: 10px; }
+#quant-dca-view #crash-body details.explain { margin-top: 10px; }
+@media (max-width: 640px) {
+  #quant-dca-view table.crash-t td:first-child { max-width: none; }
+  #quant-dca-view table.crash-t td[data-k=""]::before { content: none; }
+}
 #quant-dca-view table.annual.one { max-width: 420px; }
 #quant-dca-view table.annual th, #quant-dca-view table.annual td { padding: 7px 8px; }
 

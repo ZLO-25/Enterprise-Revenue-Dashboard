@@ -211,6 +211,11 @@
 
 <!-- ======================= 5. 波動與風險 ======================= -->
 <section class="tab" id="tab-vol">
+  <!-- 歷次股災回顧：事件清單在 quant/config/crashes.json，數字由 engine.js 的 crashInWindow() 用指數歷史資料算（app.js 的 renderCrash） -->
+  <div class="panel" id="crash-panel">
+    <h2 class="q-h">歷次股災回顧 <span class="sub">大跌的時候拿來對照：以前跌多深、跌多久、多久回來</span></h2>
+    <div id="crash-body"><p class="hint" style="margin:0">讀取中…</p></div>
+  </div>
   <div class="layout">
     <form class="panel controls" id="form-vol" autocomplete="off" novalidate>
       <h2 class="q-h">設定</h2>

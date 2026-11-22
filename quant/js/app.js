@@ -4,14 +4,14 @@
 // ============================================================
 import {
   lumpSumVsDca, rollingComparison, assetAllocation, volatilityStats,
-  yearlyTimingTest, toDay, monthlyContribution, drawdownEpisodes,
-} from "./engine.js?v=3285c56f";
-import { DATA_BASE } from "./config.js?v=3285c56f";
-import { themeColors, axisBase } from "./theme.js?v=3285c56f";
+  yearlyTimingTest, toDay, fromDay, monthlyContribution, drawdownEpisodes, crashInWindow,
+} from "./engine.js?v=7952f807";
+import { DATA_BASE, CRASH_CONFIG, MACRO_LATEST } from "./config.js?v=7952f807";
+import { themeColors, axisBase } from "./theme.js?v=7952f807";
 import {
   normMode, hashValue, VIEW_LABELS, valueTraceSpecs, metricRows, winnerStrategy,
   annualColumns, showBuysPanel, showLsMarks,
-} from "./view-mode.js?v=3285c56f";
+} from "./view-mode.js?v=7952f807";
 // [主站] 所有選取都限定在量化容器內，不會選到主站的元素
 const QROOT = document.getElementById("quant-dca-view") || document;
 
@@ -308,6 +308,7 @@ function showTab(name) {
       sc.scrollLeft += r.left - s.left - (s.width - r.width) / 2;
     }
   }
+  if (name === "vol" && state.manifest) loadCrash();   // 歷次股災回顧：第一次打開才讀三個指數
   // 隱藏時畫的圖寬度會錯，切回來時重算
   setTimeout(() => $$(`#tab-${name} .js-plotly-plot`).forEach((p) => window.Plotly && Plotly.Plots.resize(p)), 30);
   // 這個分頁隱藏期間切換過深淺色：圖的顏色是畫圖當下讀的，切回來時重畫一次
@@ -1167,6 +1168,132 @@ $("#form-timing").addEventListener("submit", async (e) => {
 });
 
 // ============================================================
+// 歷次股災回顧（波動與風險分頁最上面；第一次打開這個分頁才讀資料）
+//   事件名稱與視窗：quant/config/crashes.json（手寫設定，不含任何跌幅數字）
+//   每個數字：engine.js 的 crashInWindow() 用指數日線算；1990 年台股用國發會的月平均補，並標明
+// ============================================================
+const crash = { loading: null, cfg: null, table: null, monthly: {}, idx: 0 };
+const median = (a) => { const b = [...a].sort((x, y) => x - y), n = b.length; return n ? (n % 2 ? b[(n - 1) / 2] : (b[n / 2 - 1] + b[n / 2]) / 2) : null; };
+
+/** 每個指數 × 每個事件算一次；回傳 { rows: [{ev, cells:[{state, r, start}]}], current: [...] } */
+function crashTable(cfg, series) {
+  const cell = (s, from, to) => {
+    if (!s || !s.dates.length) return { state: "nodata", start: null };
+    if (to != null && s.dates[0] > to) return { state: "nodata", start: s.dates[0] };
+    const r = crashInWindow(s.dates, s.close, from, to);
+    return r ? { state: "ok", r } : { state: "flat" };
+  };
+  const rows = cfg.events.map((ev) => ({ ev, cells: series.map((s) => cell(s, ev.from, ev.to)) }));
+  const current = series.map((s) => (s && s.dates.length ? cell(s, fromDay(toDay(s.dates[s.dates.length - 1]) - cfg.current.days), null) : { state: "nodata", start: null }));
+  return { rows, current };
+}
+
+function loadCrash() {
+  if (!crash.loading) crash.loading = (async () => {
+    const res = await fetch(`${CRASH_CONFIG}?v=${encodeURIComponent(state.manifest?.updated || "")}`);
+    if (!res.ok) throw new Error(`事件清單讀不到（${res.status}）`);
+    crash.cfg = await res.json();
+    const series = await Promise.all(crash.cfg.indices.map((ix) => loadSeries(ix.sym).catch(() => null)));
+    crash.series = series;
+    crash.table = crashTable(crash.cfg, series);
+    renderCrash();
+    // 月平均補充（例如 1990 年台股）：另外讀總經儀表板的資料檔，讀不到就維持「沒有資料」
+    if (crash.cfg.events.some((e) => e.monthly)) fetch(MACRO_LATEST, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).then((doc) => {
+      if (!doc) return;
+      for (const [k, m] of Object.entries(crash.cfg.monthly || {})) {
+        const pts = m.path.split(".").reduce((o, key) => (o == null ? o : o[key]), doc);
+        if (Array.isArray(pts) && pts.length > 12) crash.monthly[k] = { dates: pts.map((p) => p[0]), close: pts.map((p) => p[1]) };
+      }
+      renderCrash();
+    }).catch(() => {});
+  })().catch((e) => { crash.loading = null; $("#crash-body").innerHTML = `<div class="notice error">${esc(e.message)}</div>`; });
+  return crash.loading;
+}
+
+function renderCrash() {
+  const body = $("#crash-body"), { cfg, table } = crash;
+  if (!body || !cfg || !table) return;
+  const k = crash.idx, ix = cfg.indices[k], sym = ix.sym;
+  const month = (d) => ymd(d).slice(0, 7);
+  const recTxt = (r) => (r.recovered ? spanTxt(r.daysTotal) : "尚未回本");
+  const none = (c, colspan) => `<td colspan="${colspan}" class="wide" data-k="這個指數" style="text-align:left"><span class="sub" style="display:inline">${c.state === "flat" ? "這段時間沒有下跌" : c.start ? `沒有資料（日線從 ${ymd(c.start)} 開始）` : "沒有資料（尚未收錄）"}</span></td>`;
+  // 一列：事件｜高點→低點｜跌多久｜跌幅｜多久回本｜看走勢
+  const detail = (name, what, c, from, to, extra = "") => {
+    const first = `<td data-k="事件" class="wide"><b>${esc(name)}</b><span class="sub">${esc(what || "")}</span>${extra}</td>`;
+    if (c.state !== "ok") return `<tr>${first}${none(c, 5)}</tr>`;
+    const r = c.r, mon = c.monthly;
+    const fd = mon ? month : ymd, span = (d) => (mon ? spanTxt(d) : spanCell(d));
+    const rec = r.recovered
+      ? `${span(r.daysTotal)}<span class="sub">${fd(r.recoveryDate)} 回到高點（低點起算 ${spanTxt(r.daysToRecover)}）</span>`
+      : `<span class="neg">尚未回本</span><span class="sub">至 ${fd(r.lastDate)} 已 ${spanTxt(r.daysSincePeak)}，離高點 ${fmtPct(r.fromPeakNow)}</span>`;
+    const go = mon ? "" : `<button type="button" class="q-textbtn" data-crash-go="${esc(from)}|${esc(r.recoveryDate || to || "")}">看這一段走勢</button>`;
+    return `<tr>${first}
+      <td data-k="高點 → 低點">${fd(r.peakDate)}<span class="sub">→ ${fd(r.troughDate)}</span></td>
+      <td data-k="下跌多久">${span(r.daysToTrough)}</td>
+      <td data-k="跌幅" class="neg">${fmtPct(r.depth)}${mon ? '<span class="sub">月平均，日線會更深</span>' : ""}${r.partial && !mon ? '<span class="sub">資料較晚開始，高點可能更早</span>' : ""}</td>
+      <td data-k="多久回本（高點起算）">${rec}</td>
+      <td data-k="" class="wide" style="text-align:left">${go}</td></tr>`;
+  };
+  let skipped = 0;
+  const rowsHtml = table.rows.map(({ ev, cells }) => {
+    let c = cells[k], extra = "";
+    if (c.state === "nodata" && !(ev.monthly && sym === "^TWII")) { skipped++; return ""; }   // 這個指數沒有那段時間的資料：不佔版面，表格下面說一聲
+    const m = ev.monthly && cfg.monthly && cfg.monthly[ev.monthly], ms = ev.monthly && crash.monthly[ev.monthly];
+    if (c.state === "nodata" && m && sym === "^TWII") {
+      if (ms) { const r = crashInWindow(ms.dates, ms.close, ev.from, ev.to); if (r) { c = { state: "ok", r, monthly: true }; extra = `<span class="sub">※ ${esc(m.name)}：${esc(m.note)}</span>`; } }
+      else extra = `<span class="sub">待確認：日線沒有涵蓋這一段，月平均資料讀取中或讀不到。</span>`;
+    }
+    return detail(ev.name, ev.what, c, ev.from, ev.to, extra);
+  }).join("");
+  const cur = table.current[k];
+  const curHtml = detail(cfg.current.name, cfg.current.what, cur, cur.state === "ok" ? fromDay(toDay(cur.r.lastDate) - cfg.current.days) : "", "");
+
+  // 摘要：已回本的事件，高點到回本要多久（只算日線算得出來的）
+  const done = table.rows.map((x) => x.cells[k]).filter((c) => c.state === "ok");
+  const recd = done.filter((c) => c.r.recovered);
+  const worst = done.length ? done.reduce((a, c) => (c.r.depth < a.r.depth ? c : a)) : null;
+  const longest = recd.length ? recd.reduce((a, c) => (c.r.daysTotal > a.r.daysTotal ? c : a)) : null;
+  const summary = done.length
+    ? `<p><b>${esc(ix.name)}</b>：表上有日線可算的 ${done.length} 次事件，跌幅的中位數 <b class="neg">${fmtPct(median(done.map((c) => c.r.depth)))}</b>，最深 <b class="neg">${fmtPct(worst.r.depth)}</b>。` +
+      (recd.length ? `已回本的 ${recd.length} 次裡，從高點到回本的中位數是 <b>${spanTxt(Math.round(median(recd.map((c) => c.r.daysTotal))))}</b>，最久 <b>${spanTxt(longest.r.daysTotal)}</b>。` : "") +
+      (cur.state === "ok" ? `<br>這一次：從 ${ymd(cur.r.peakDate)} 的高點算起最深 <b class="neg">${fmtPct(cur.r.depth)}</b>，${cur.r.recovered ? `已在 ${ymd(cur.r.recoveryDate)} 回到高點` : `至 ${ymd(cur.r.lastDate)} 離高點 <b class="neg">${fmtPct(cur.r.fromPeakNow)}</b>`}。` : "") + "</p>"
+    : `<p><b>${esc(ix.name)}</b>：${cur.state === "nodata" && !crash.series[k] ? "這個指數還沒有收錄資料（新增後約一個工作天內會有）。" : "表上的事件都沒有資料。"}</p>`;
+
+  // 三個指數並列：只放跌幅與回本時間
+  const cmp = (c) => (c.state === "ok" ? `<span class="neg">${fmtPct(c.r.depth)}</span><span class="sub">${recTxt(c.r)}${c.r.recovered ? "回本" : ""}</span>` : `<span class="sub" style="display:inline">${c.state === "flat" ? "沒有下跌" : "沒有資料"}</span>`);
+  const cmpRows = [...table.rows.map(({ ev, cells }) => [ev.name, cells]), [cfg.current.name, table.current]]
+    .map(([name, cells]) => `<tr><td>${esc(name)}</td>${cells.map((c, i) => `<td data-k="${esc(cfg.indices[i].name)}">${cmp(c)}</td>`).join("")}</tr>`).join("");
+
+  body.innerHTML = `
+    <div class="q-viewbar" style="margin-bottom:8px"><span class="qplus-lab">看哪個指數</span><span class="seg" id="crash-seg" role="group" aria-label="指數">${cfg.indices.map((x, i) => `<button type="button" data-i="${i}" aria-pressed="${i === k}">${esc(x.name)}</button>`).join("")}</span><span class="hint" style="display:inline">${esc(ix.note || "")}</span></div>
+    <div class="verdict">${summary}</div>
+    <div class="table-wrap"><table class="data ddt crash-t"><thead><tr><th>事件</th><th>高點 → 低點</th><th>下跌多久</th><th>跌幅</th><th>多久回本（高點起算）</th><th></th></tr></thead><tbody>${rowsHtml}${curHtml}</tbody></table></div>
+    ${skipped ? `<p class="hint" style="margin:6px 0 0">另有 ${skipped} 個事件，${esc(ix.name)}沒有那段時間的資料，所以沒有列出；可以切到其他指數，或看下面的並列比較。</p>` : ""}
+    <details class="explain"><summary>三個指數並列比較（跌幅與回本時間）</summary>
+      <div class="table-wrap"><table class="data crash-cmp"><thead><tr><th>事件</th>${cfg.indices.map((x) => `<th>${esc(x.name)}</th>`).join("")}</tr></thead><tbody>${cmpRows}</tbody></table></div></details>
+    <details class="explain"><summary>這張表怎麼算、怎麼讀？（教學）</summary><ul>
+      <li><b>怎麼算</b>：每個事件給一段時間（例如金融海嘯是 2007 年 6 月到 2009 年底），在那段時間裡找「先高後低、跌最深」的一段當作高點與低點；回本是低點之後第一次收盤回到那個高點。每個數字都附日期，可以自己對。</li>
+      <li><b>指數不含股息</b>：這三個都是價格指數，沒有把股息算進去。實際持有（股息再投入）會比表上更早回本。</li>
+      <li><b>「多久回本」說的是最倒楣的人</b>：也就是剛好在最高那一天一次買滿、之後完全沒有再投入的人。下跌期間持續投入的人，成本會被拉低，回本會快很多；可以到「每月定期投入」分頁用同一段時間試算。</li>
+      <li><b>事件的名稱與時間範圍是本站訂的</b>（寫在設定檔），同一個事件在不同指數的高點、低點日期不一樣是正常的。</li>
+      <li><b>它不能告訴你這次會跌到哪裡</b>：樣本只有十次上下，每次原因都不同。它的用途是在恐慌時提醒自己：以前也跌過、也回來過，以及回來可能要等多久。</li>
+      <li>資料來源：${esc(state.manifest?.source || "Yahoo Finance 日線")}；1990 年台股那一列用國發會景氣指標檔的每月平均。社群上流傳的股災數字常常沒寫是哪個指數、哪一天到哪一天，這裡不引用，一律重算。</li></ul></details>`;
+}
+
+$("#crash-body").addEventListener("click", (e) => {
+  const seg = e.target.closest("#crash-seg button");
+  if (seg) { crash.idx = +seg.dataset.i; renderCrash(); return; }
+  const go = e.target.closest("[data-crash-go]");
+  if (go) {
+    const [s, en] = go.dataset.crashGo.split("|"), sym = crash.cfg.indices[crash.idx].sym;
+    const q = new URLSearchParams({ t: sym, s, d: "10" }); if (en) q.set("e", en);
+    history.replaceState(null, "", `#vol?${q}`);
+    loadHash();
+    $("#out-vol").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+});
+
+// ============================================================
 // 網址參數（方便把設定好的回測分享給別人）
 // ============================================================
 function saveHash(tab, params) {
@@ -1254,6 +1381,7 @@ async function init() {
   updatePlanHint();
   await loadManifest();
   loadHash();
+  if ($("#tab-vol").classList.contains("active")) loadCrash();   // 直接開在波動與風險分頁：清單讀完後補讀歷次股災回顧
   // 切換深淺色（系統設定，或主站的 data-theme）時重畫圖表：顏色是畫圖當下讀主站變數，所以重畫就對了
   //   目前分頁：馬上重新送出表單；其他畫過圖的分頁：記下來，切回去時再重畫（showTab）
   //   升降息週期（#form-rates）沒有 submit 處理，對它 requestSubmit 會變成瀏覽器原生送出、整頁重新載入；它由 rates.js 自己重畫

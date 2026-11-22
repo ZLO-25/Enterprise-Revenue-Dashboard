@@ -10,6 +10,9 @@
 //     └─ config/admin-key.json   ← 「管理標的」用的加密 Token（第一次設定時產生）
 const QUANT = new URL("../", import.meta.url);           // …/quant/
 export const DATA_BASE = new URL("data/", QUANT).href;
+// 歷次股災回顧：事件清單（手寫設定）與 1990 年那一次用的月平均（總經儀表板的資料檔，只由 GitHub Actions 寫）
+export const CRASH_CONFIG = new URL("config/crashes.json", QUANT).href;
+export const MACRO_LATEST = new URL("../data/macro/latest.json", QUANT).href;
 export const ADMIN = {
   repo: { owner: "ZLO-25", repo: "Enterprise-Revenue-Dashboard", branch: "main" },
   keyUrl: "quant/config/admin-key.json",   // 同時是網址（相對首頁）和 repo 裡的路徑

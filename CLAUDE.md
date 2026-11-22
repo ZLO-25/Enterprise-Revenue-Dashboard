@@ -75,5 +75,8 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 - 檢查表指標只有 `tools/buffett.py` 一個計算處（建置時算，前端只畫）；算不出來寫原因。能力圈與「反過來想」只有提問，不做表單。
 - 論點卡：`role`（core／aux）、`warnWhen`／`breakWhen` 兩層、type 含 option；compounder 要通過十年紀錄資格。分析結論五選一，預設不動。
 
+## 回測頁的歷次股災回顧
+- 事件清單在 `quant/config/crashes.json`（Claude 維護，只放名稱與時間視窗）；跌幅、天數、回本時間**一律由 `quant/js/engine.js` 的 `crashInWindow()` 用指數歷史資料算**，不手填、不引用社群貼文或媒體的數字。算不出來就顯示沒有資料或待確認。說明在 `docs/QUANT.md`。
+
 ## 公司分析 skill
 使用者說「分析 X」「X 財報快評」「趨勢分析」時，用 `.claude/skills/long-term-company-analysis/`。作者觀點檔放在專案資料夾，不進 repo（repo 公開、內容含付費文章轉述）。
