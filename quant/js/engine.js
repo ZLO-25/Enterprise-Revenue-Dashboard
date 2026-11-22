@@ -798,3 +798,32 @@ export function assetDrawdown(dates, value) {
     recoveryDate: rec == null ? null : dates[rec],
   };
 }
+
+/**
+ * 歷次股災回顧「幾個指數一起比較」的摘要。rows＝每個事件一列，每列是各指數的格子 { state, r, monthly }
+ * （state "ok" 才有 r＝crashInWindow 的結果；monthly＝用月平均補的，跌幅會被算淺）。
+ *   deepest[i]  第 i 列跌最深的是第幾個指數；比不出來＝-1（算得出來的不到兩個，或有月平均的格子而它不是最深的那個）
+ *   common      每個指數都有日線可算的列數；wins／medDepth／medRecover 只用這些列，三邊才是同一批事件
+ *   wins[j]     這些列裡第 j 個指數跌最深的次數
+ *   medDepth[j] 跌幅中位數；medRecover[j] = { days: 高點到回本天數的中位數（只算已回本的）, n: 已回本幾次 }
+ */
+export function crashCompare(rows) {
+  const n = rows.reduce((m, cells) => Math.max(m, cells.length), 0);
+  const ok = (c) => !!(c && c.state === "ok" && c.r);
+  const med = (a) => { const b = [...a].sort((x, y) => x - y), m = b.length; return m ? (m % 2 ? b[(m - 1) / 2] : (b[m / 2 - 1] + b[m / 2]) / 2) : null; };
+  const deepest = rows.map((cells) => {
+    const have = cells.map((c, i) => (ok(c) ? i : -1)).filter((i) => i >= 0);
+    if (have.length < 2) return -1;
+    const best = have.reduce((a, i) => (cells[i].r.depth < cells[a].r.depth ? i : a));
+    return have.some((i) => cells[i].monthly && i !== best) ? -1 : best;
+  });
+  const idx = rows.map((_, i) => i).filter((i) => n > 0 && rows[i].length === n && rows[i].every((c) => ok(c) && !c.monthly));
+  const wins = Array(n).fill(0);
+  for (const i of idx) if (deepest[i] >= 0) wins[deepest[i]]++;
+  const col = (j) => idx.map((i) => rows[i][j].r);
+  return {
+    deepest, common: idx.length, wins,
+    medDepth: Array.from({ length: n }, (_, j) => med(col(j).map((r) => r.depth))),
+    medRecover: Array.from({ length: n }, (_, j) => { const d = col(j).filter((r) => r.recovered).map((r) => r.daysTotal); return { days: med(d), n: d.length }; }),
+  };
+}
