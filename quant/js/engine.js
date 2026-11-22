@@ -601,6 +601,59 @@ export function drawdownEpisodes(dates, values, threshold = 0.2) {
   return out;
 }
 
+/**
+ * 歷次股災回顧用：某個「事件視窗」[from, to] 裡跌最深的一段，以及之後多久回到那個高點。
+ *
+ *   高點、低點：視窗內「先高後低」跌幅最大的那一對（＝視窗內的最大回撤），兩個日期都在視窗裡
+ *   回本：低點之後第一次收盤 ≥ 那個高點（一路找到資料最後一天，可以超出視窗）
+ *
+ * 和 drawdownEpisodes 的差別：那個從「歷史新高」算起，所以前一次大跌還沒回本時，下一次事件會被併進同一段；
+ * 這個只看視窗裡的高點，才能把每次事件分開來談。
+ *
+ * @param dates  已排序的日期字串（YYYY-MM-DD）
+ * @param values 收盤價
+ * @param from   視窗開始日（含）
+ * @param to     視窗結束日（含）；null ＝ 到資料最後一天
+ * @returns null（資料沒有涵蓋這個視窗，或視窗裡沒有下跌）或
+ *   { peakDate, peakValue, troughDate, troughValue, depth（負數）, daysToTrough,
+ *     recoveryDate, daysToRecover, daysTotal, recovered, daysSincePeak, lastDate, lastValue, fromPeakNow（最後一天離那個高點多遠，負數）,
+ *     partial（資料比視窗晚開始：真正的高點可能更早，跌幅可能被低估） }
+ */
+export function crashInWindow(dates, values, from, to = null) {
+  const n = values.length;
+  if (n < 2) return null;
+  let i0 = 0;
+  while (i0 < n && dates[i0] < from) i0++;
+  let i1 = n - 1;
+  if (to != null) while (i1 >= 0 && dates[i1] > to) i1--;
+  if (i0 >= n || i1 < i0 + 1) return null;          // 視窗裡不到兩筆資料
+  let peakIdx = i0, bestPeak = i0, bestTrough = i0, best = 0;
+  for (let i = i0 + 1; i <= i1; i++) {
+    if (values[i] > values[peakIdx]) peakIdx = i;
+    const dd = values[i] / values[peakIdx] - 1;
+    if (dd < best) { best = dd; bestPeak = peakIdx; bestTrough = i; }
+  }
+  if (best >= 0) return null;                        // 視窗裡一路上漲
+  const peak = values[bestPeak];
+  let rec = -1;
+  for (let i = bestTrough + 1; i < n; i++) if (values[i] >= peak) { rec = i; break; }
+  const d = (i) => toDay(dates[i]);
+  return {
+    peakDate: dates[bestPeak], peakValue: peak,
+    troughDate: dates[bestTrough], troughValue: values[bestTrough],
+    depth: best,
+    daysToTrough: d(bestTrough) - d(bestPeak),
+    recoveryDate: rec >= 0 ? dates[rec] : null,
+    daysToRecover: rec >= 0 ? d(rec) - d(bestTrough) : null,
+    daysTotal: rec >= 0 ? d(rec) - d(bestPeak) : null,
+    recovered: rec >= 0,
+    daysSincePeak: rec >= 0 ? null : d(n - 1) - d(bestPeak),
+    lastDate: dates[n - 1], lastValue: values[n - 1],
+    fromPeakNow: values[n - 1] / peak - 1,
+    partial: dates[0] > from,
+  };
+}
+
 // ---------- 每月定期投入（薪水定投） ----------
 
 /**

@@ -243,3 +243,81 @@ test("monthlyContribution 的 valueDrawdown：期間內新投入的錢也算在�
   near(r.valueDrawdown.pct, -0.5, 1e-12);
   assert.equal(r.valueDrawdown.recoveryDate, "2022-02-01");
 });
+
+// ---------------- crashInWindow（歷次股災回顧） ----------------
+import { crashInWindow } from "../js/engine.js";
+
+test("crashInWindow：視窗內先高後低的最大跌幅，回本找到視窗外", () => {
+  // 每天一筆：100 → 漲到 120（第 4 天）→ 跌到 60（第 9 天）→ 第 20 天回到 120
+  const px = [100, 105, 110, 115, 120, 110, 100, 90, 70, 60, 70, 80, 90, 95, 100, 105, 110, 112, 115, 118, 120, 125];
+  const s = mk("X", "2020-01-01", px.length, (i) => px[i]);
+  const r = crashInWindow(s.dates, s.close, "2020-01-01", "2020-01-12");
+  assert.equal(r.peakDate, "2020-01-05"); assert.equal(r.troughDate, "2020-01-10");
+  near(r.depth, -0.5);
+  assert.equal(r.daysToTrough, 5);
+  assert.equal(r.recoveryDate, "2020-01-21"); assert.equal(r.daysToRecover, 11); assert.equal(r.daysTotal, 16);
+  assert.equal(r.recovered, true); assert.equal(r.partial, false);
+});
+
+test("crashInWindow：視窗前面有更低的價位也不會被當成低點（一定是先高後低）", () => {
+  const px = [50, 60, 100, 80, 90, 120];
+  const s = mk("X", "2021-03-01", px.length, (i) => px[i]);
+  const r = crashInWindow(s.dates, s.close, "2021-03-01", "2021-03-06");
+  assert.equal(r.peakDate, "2021-03-03"); assert.equal(r.troughDate, "2021-03-04");
+  near(r.depth, -0.2);
+  assert.equal(r.recoveryDate, "2021-03-06");
+});
+
+test("crashInWindow：前一次大跌還沒回本，視窗內的事件仍然單獨計算", () => {
+  // 200 的歷史高點一直沒回去；視窗只看後面 100 → 70 那一段
+  const px = [200, 100, 90, 100, 95, 70, 80, 100, 101];
+  const s = mk("X", "2022-01-01", px.length, (i) => px[i]);
+  const r = crashInWindow(s.dates, s.close, "2022-01-04", "2022-01-07");
+  assert.equal(r.peakDate, "2022-01-04"); assert.equal(r.troughDate, "2022-01-06");
+  near(r.depth, -0.3);
+  assert.equal(r.recoveryDate, "2022-01-08");
+});
+
+test("crashInWindow：還沒回本 → recovered=false，並回報離高點多遠", () => {
+  const px = [100, 110, 80, 70, 88];
+  const s = mk("X", "2023-05-01", px.length, (i) => px[i]);
+  const r = crashInWindow(s.dates, s.close, "2023-05-01", null);
+  assert.equal(r.recovered, false); assert.equal(r.recoveryDate, null);
+  near(r.depth, 70 / 110 - 1); near(r.fromPeakNow, 88 / 110 - 1);
+  assert.equal(r.daysSincePeak, 3); assert.equal(r.lastDate, "2023-05-05");
+});
+
+test("crashInWindow：資料沒有涵蓋視窗 → null；資料比視窗晚開始 → partial", () => {
+  const px = [100, 90, 95, 101];
+  const s = mk("X", "2000-06-01", px.length, (i) => px[i]);
+  assert.equal(crashInWindow(s.dates, s.close, "1990-01-01", "1991-12-31"), null);
+  const r = crashInWindow(s.dates, s.close, "2000-01-01", "2000-12-31");
+  assert.equal(r.partial, true); near(r.depth, -0.1);
+});
+
+test("crashInWindow：視窗裡一路上漲 → null", () => {
+  const s = mk("X", "2024-01-01", 5, (i) => 100 + i);
+  assert.equal(crashInWindow(s.dates, s.close, "2024-01-01", "2024-01-05"), null);
+});
+
+// ---------------- 歷次股災回顧的設定檔（quant/config/crashes.json） ----------------
+import { readFileSync } from "node:fs";
+const readJson = (rel) => JSON.parse(readFileSync(new URL(rel, import.meta.url), "utf8"));
+
+test("crashes.json：只有名稱與視窗，不放任何跌幅數字；指數都在 tickers.json 裡", () => {
+  const cfg = readJson("../config/crashes.json"), tk = readJson("../tickers.json");
+  const syms = new Set(tk.groups.flatMap((g) => g.tickers.map((t) => t.symbol)));
+  for (const ix of cfg.indices) assert.ok(syms.has(ix.sym), `${ix.sym} 要先加進 quant/tickers.json 才會有資料`);
+  const iso = /^\d{4}-\d{2}-\d{2}$/, ids = new Set();
+  for (const e of cfg.events) {
+    assert.deepEqual(Object.keys(e).filter((k) => !["id", "name", "from", "to", "what", "monthly"].includes(k)), [], `${e.id} 有多餘的欄位（數字要用算的，不能寫在設定檔）`);
+    assert.ok(iso.test(e.from) && iso.test(e.to) && e.from < e.to, `${e.id} 的視窗日期不對`);
+    assert.ok(!ids.has(e.id), `${e.id} 重複`); ids.add(e.id);
+    assert.ok(e.name && e.what, `${e.id} 要有名稱與一句話說明`);
+    assert.ok(!/%/.test(e.name + e.what), `${e.id} 的文字裡不要寫百分比（跌幅一律用算的）`);
+    if (e.monthly) assert.ok(cfg.monthly[e.monthly], `${e.id} 指到不存在的月平均來源`);
+  }
+  const sorted = [...cfg.events].sort((a, b) => (a.from < b.from ? -1 : 1));
+  assert.deepEqual(cfg.events.map((e) => e.id), sorted.map((e) => e.id), "事件要照時間排");
+  assert.ok(cfg.current.days >= 180 && cfg.current.name);
+});

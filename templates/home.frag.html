@@ -507,7 +507,7 @@ applyFilter();
     el.innerHTML = `<div class="mm"><span class="td-tag ${v.zone === 'tense' ? 'tense' : ''}">市場情緒</span><span>VIX（恐慌指數）<b>${v.last.c.toFixed(2)}</b></span>` +
       `<span class="mz ${esc(v.zone || '')}">${Z[v.zone] || ''}</span><span>${EVCAL.mdw(v.last.d)} 收盤${chg}</span>` +
       (typeof v.pct10 === 'number' ? `<span>十年位置：第 ${v.pct10} 百分位</span>` : '') + spark + x +
-      `<a href="${SL.replace(/status\/$/, 'macro/')}#now">總經儀表板 →</a></div>` +
+      `<a href="${SL.replace(/status\/$/, 'macro/')}#now">總經儀表板 →</a><a href="${SL.replace(/status\/$/, '')}#vol">歷次股災回顧 →</a></div>` +
       `<div class="ms"><span class="tag-src tag-v" title="教學：本站的說明，不是買賣訊號">教學</span> ${zs.calm} 以下通常算平靜，${zs.tense} 以上代表市場很緊張。恐慌來得快、去得也快：它是情緒，不是景氣轉折的證據，先回頭看就業與消費有沒有跟著變差。` +
       `每天更新一次收盤值${old ? '（<b>資料可能過時</b>，最新只到 ' + esc(v.last.d) + '）' : ''}；來源：<a href="${esc(v.sourceUrl || '#')}" target="_blank" rel="noopener">${esc(v.source || '')}</a>。</div>`;
     el.hidden = false;
