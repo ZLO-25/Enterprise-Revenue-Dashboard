@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21 03:20 UTC",
+ "updated": "2026-11-22 01:16 UTC",
  "source": "Yahoo Finance（透過 yfinance，Adj Close 還原權息價）",
  "groups": [
   {
@@ -14,6 +14,16 @@
      "start": "1927-12-30",
      "end": "2026-11-20",
      "rows": 24841
+    },
+    {
+     "symbol": "^IXIC",
+     "name": "那斯達克綜合指數",
+     "note": "價格指數，不含股息；歷次股災回顧用",
+     "file": "prices/_IXIC.json",
+     "currency": "USD",
+     "start": "1971-02-05",
+     "end": "2026-11-20",
+     "rows": 14067
     },
     {
      "symbol": "SPY",
@@ -172,8 +182,8 @@
      "file": "prices/0050.TW.json",
      "currency": "TWD",
      "start": "2009-01-02",
-     "end": "2026-11-19",
-     "rows": 4376
+     "end": "2026-11-20",
+     "rows": 4377
     },
     {
      "symbol": "006208.TW",
@@ -182,8 +192,8 @@
      "file": "prices/006208.TW.json",
      "currency": "TWD",
      "start": "2012-06-22",
-     "end": "2026-11-19",
-     "rows": 3516
+     "end": "2026-11-20",
+     "rows": 3517
     },
     {
      "symbol": "^TWII",
@@ -232,8 +242,8 @@
      "file": "prices/00631L.TW.json",
      "currency": "TWD",
      "start": "2014-10-23",
-     "end": "2026-11-19",
-     "rows": 2944
+     "end": "2026-11-20",
+     "rows": 2945
     }
    ]
   },
@@ -257,8 +267,8 @@
      "file": "prices/2800.HK.json",
      "currency": "HKD",
      "start": "2008-01-02",
-     "end": "2026-11-19",
-     "rows": 4653
+     "end": "2026-11-20",
+     "rows": 4654
     }
    ]
   },
@@ -358,8 +368,8 @@
      "file": "prices/BTC-USD.json",
      "currency": "USD",
      "start": "2014-09-17",
-     "end": "2026-11-21",
-     "rows": 4448
+     "end": "2026-11-22",
+     "rows": 4449
     },
     {
      "symbol": "ETH-USD",
@@ -368,8 +378,8 @@
      "file": "prices/ETH-USD.json",
      "currency": "USD",
      "start": "2017-11-09",
-     "end": "2026-11-21",
-     "rows": 3299
+     "end": "2026-11-22",
+     "rows": 3300
     }
    ]
   },
@@ -508,8 +518,8 @@
      "file": "prices/ASML.AS.json",
      "currency": "EUR",
      "start": "1998-07-20",
-     "end": "2026-11-19",
-     "rows": 7293
+     "end": "2026-11-20",
+     "rows": 7294
     },
     {
      "symbol": "6187.TWO",
