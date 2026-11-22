@@ -247,6 +247,28 @@
   #quant-dca-view table.crash-t td:first-child { max-width: none; }
   #quant-dca-view table.crash-t td[data-k=""]::before { content: none; }
 }
+/* 歷次股災回顧：三個指數一起比較。三欄等寬、橫條用同一把尺（整條＝跌 100%），手機上一個事件一張卡、三個指數直排 */
+#quant-dca-view table.crash-cmp { table-layout: fixed; min-width: 720px; }
+#quant-dca-view table.crash-cmp th, #quant-dca-view table.crash-cmp td { text-align: left; white-space: normal; }
+#quant-dca-view table.crash-cmp th:first-child { width: 25%; }
+#quant-dca-view table.crash-cmp td:first-child { font-family: var(--font-ui); }
+#quant-dca-view table.crash-cmp .crash-d { font-weight: 600; font-size: 1rem; }
+#quant-dca-view .crash-tag { display: inline-block; margin-left: 6px; padding: 0 7px; border: 1px solid var(--line); border-radius: 999px; font-family: var(--font-ui); font-size: .7rem; line-height: 1.5; color: var(--muted); vertical-align: 1px; white-space: nowrap; }
+#quant-dca-view .crash-tag.deep { border-color: var(--bad-text); color: var(--bad-text); }
+#quant-dca-view .crash-bar { display: block; height: 6px; margin: 5px 0 4px; border-radius: 3px; background: var(--wash); overflow: hidden; }
+#quant-dca-view .crash-bar i { display: block; height: 100%; border-radius: 3px; background: var(--bad-text); opacity: .75; }
+#quant-dca-view table.crash-cmp tr.crash-now td, #quant-dca-view table.crash-cmp tr.crash-med td { background: var(--wash); }
+#quant-dca-view table.crash-cmp tr.crash-med .crash-bar { background: var(--surface); }
+#quant-dca-view table.crash-cmp tr.crash-now .crash-bar { background: var(--surface); }
+@media (max-width: 640px) {
+  #quant-dca-view table.crash-cmp { min-width: 0; }
+  #quant-dca-view table.crash-cmp tr { grid-template-columns: 1fr; gap: 8px; }
+  #quant-dca-view table.crash-cmp td:first-child::before { content: none; }
+  #quant-dca-view table.crash-cmp td + td { display: grid; grid-template-columns: 5.2em 1fr; gap: 0 8px; align-items: start; }
+  #quant-dca-view table.crash-cmp td + td::before { padding-top: 3px; }
+  #quant-dca-view table.crash-cmp tr.crash-now, #quant-dca-view table.crash-cmp tr.crash-med { background: var(--wash); padding-left: 10px; padding-right: 10px; border-radius: 8px; }
+  #quant-dca-view table.crash-cmp tr.crash-now td, #quant-dca-view table.crash-cmp tr.crash-med td { background: none; }
+}
 #quant-dca-view table.annual.one { max-width: 420px; }
 #quant-dca-view table.annual th, #quant-dca-view table.annual td { padding: 7px 8px; }
 

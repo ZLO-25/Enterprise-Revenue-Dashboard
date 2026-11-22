@@ -300,6 +300,45 @@ test("crashInWindow：視窗裡一路上漲 → null", () => {
   assert.equal(crashInWindow(s.dates, s.close, "2024-01-01", "2024-01-05"), null);
 });
 
+// ---------------- crashCompare（歷次股災回顧：幾個指數一起比較） ----------------
+import { crashCompare } from "../js/engine.js";
+const okc = (depth, daysTotal = null, monthly = false) => ({ state: "ok", monthly, r: { depth, recovered: daysTotal != null, daysTotal } });
+const nod = { state: "nodata", start: "1997-07-02" };
+
+test("crashCompare：每列誰跌最深；只有三個都有日線的列才算次數與中位數", () => {
+  const rows = [
+    [nod, okc(-0.86, 9000), nod],                                 // 只有一個算得出來 → 比不出來
+    [nod, okc(-0.48, 2700), okc(-0.60, 2000)],                    // 兩個算得出來 → 那斯達克最深，但不算進「三個都有」
+    [okc(-0.66, 6300), okc(-0.49, 2600), okc(-0.78, 5500)],       // 三個都有：第 3 個最深
+    [okc(-0.58, 2800), okc(-0.57, 2000), okc(-0.56, 1300)],       // 三個都有：第 1 個最深
+    [okc(-0.30, 100), okc(-0.20, 200), okc(-0.40, null)],         // 三個都有：第 3 個最深，而且還沒回本
+  ];
+  const c = crashCompare(rows);
+  assert.deepEqual(c.deepest, [-1, 2, 2, 0, 2]);
+  assert.equal(c.common, 3);
+  assert.deepEqual(c.wins, [1, 0, 2]);
+  assert.deepEqual(c.medDepth, [-0.58, -0.49, -0.56]);
+  assert.deepEqual(c.medRecover, [{ days: 2800, n: 3 }, { days: 2000, n: 3 }, { days: 3400, n: 2 }]);
+});
+
+test("crashCompare：月平均的格子會把跌幅算淺：它最深才標，它不是最深就不標；也不算進共同事件", () => {
+  const tw = okc(-0.757, 11000, true);
+  assert.deepEqual(crashCompare([[tw, okc(-0.20, 200), okc(-0.33, 400)]]).deepest, [0]);        // 月平均都已經最深 → 一定最深
+  const c = crashCompare([[okc(-0.25, 300, true), okc(-0.20, 200), okc(-0.33, 400)]]);
+  assert.deepEqual(c.deepest, [-1]);                                                             // 月平均不是最深 → 用日線可能反超，比不出來
+  assert.equal(c.common, 0);
+  assert.deepEqual(c.wins, [0, 0, 0]);
+  assert.deepEqual(c.medDepth, [null, null, null]);
+  assert.deepEqual(c.medRecover[0], { days: null, n: 0 });
+});
+
+test("crashCompare：沒有任何列、或這段時間沒有下跌的格子，都不會出錯", () => {
+  assert.deepEqual(crashCompare([]), { deepest: [], common: 0, wins: [], medDepth: [], medRecover: [] });
+  const c = crashCompare([[{ state: "flat" }, okc(-0.1, 30), okc(-0.2, 60)]]);
+  assert.deepEqual(c.deepest, [2]);
+  assert.equal(c.common, 0);
+});
+
 // ---------------- 歷次股災回顧的設定檔（quant/config/crashes.json） ----------------
 import { readFileSync } from "node:fs";
 const readJson = (rel) => JSON.parse(readFileSync(new URL(rel, import.meta.url), "utf8"));
