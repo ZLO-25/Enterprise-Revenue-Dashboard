@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # 2026-11 ubuntu-latest 換成 26.04 後 playwright --with-deps 裝不到字型套件，先釘 24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
