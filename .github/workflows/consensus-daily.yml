@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
       - run: pip install --quiet yfinance
       - name: 拍照（失敗會標紅燈，GitHub 寄信通知）
-        run: python3 tools/consensus.py
+        run: tools/retry.sh 3 60 python3 tools/consensus.py
       - name: 有新快照才提交
         if: always()
         run: |

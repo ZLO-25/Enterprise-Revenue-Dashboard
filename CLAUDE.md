@@ -52,6 +52,7 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 ## 每日準備與系統健康
 - GitHub 排程固定晚 4～6 小時、每個工作一天只跑 1～3 次（實測 2026-11），加備援班沒用。每日檢查用 `python3 tools/daily.py brief --wait-prep` 手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、叫醒股價與期貨、算健康狀態）並等它做完。
 - SEC 收件匣：`tools/sec_inbox.py`（只由 Actions 的 daily-prep 跑）寫 `data/inbox/`（新聞稿文字＋XBRL 核對表）並重算 `data/bs-raw/`；只是「準備」與「核對」，不自動改 `data/<代號>.json`。
+- 所有自動工作登記在 `data/status/jobs.json`（頻率、做法、重試；Claude 維護，文字照 workflow 與程式實際寫的）；新增 workflow 或 Claude 排程要同時登記，`tools/tests/test_jobs.py` 會擋。重試用 `tools/retry.sh <次數> <第一次等待秒數> <指令…>`。
 - 系統健康：`python3 tools/status.py` → `data/status/latest.json`（只由 Actions 寫，網站「系統健康」頁讀它）；紅燈才開 issue。估值門檻被穿越的訊號：`tools/signals.py` → `data/daily/_signals.json`（只由 Actions 寫）。
 
 ## 總經儀表板（macro/）

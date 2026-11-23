@@ -33,7 +33,7 @@ jobs:
       - name: 單元測試（台股資料校正規則）
         run: python -m unittest discover -s quant/tests -p 'test_*.py'
       - name: 下載最新價格
-        run: python quant/scripts/fetch_data.py
+        run: tools/retry.sh 3 120 python quant/scripts/fetch_data.py
       - name: 有變動才提交
         run: |
           git config user.name "quant-prices-bot"
