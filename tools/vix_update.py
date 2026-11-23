@@ -1,4 +1,4 @@
-"""VIX（恐慌指數）每日收盤 → data/market/vix.json。只由 GitHub Actions（prices-daily）執行，Claude 不手填、不修改。
+"""VIX（恐慌指數）每日收盤 → data/market/vix.json 與 data/market/vix-history.json。只由 GitHub Actions（prices-daily）執行，Claude 不手填、不修改。
 
   python3 tools/vix_update.py                抓一次並寫檔（抓不到就保留舊檔，印原因，不讓整個工作變紅）
   python3 tools/vix_update.py --stale-check  最新一筆是不是太舊（超過 STALE_DAYS 天 → 結束碼 1，prices-daily 晚上那一班用）
@@ -11,12 +11,17 @@
   兩邊都有的最近一天互相核對，差超過 1% 就在 xcheck 記「待確認」。只抓到一個就用那一個。
 首頁「市場情緒」那一行直接讀這個檔；總經儀表板的 VIX 另外來自 FRED（慢一個交易日左右，用來算方向燈）。
 所有數字（比前一天、十年位置、52 週高低、落在哪個區間）都在這裡算好，頁面只畫。
+另外寫 data/market/vix-history.json：所有抓得到的每日收盤（Cboe 檔從 1990 年起）＋20 日簡單平均（前 19 筆是 null），
+給首頁「走勢圖」用。歷史只增不減：先讀舊檔，這一班的新資料只補舊檔沒有的日期（官方 Cboe 檔可以覆蓋舊值），再整份重算 20 日平均。
+最新日期與內容都沒變就不重寫。
 區間門檻（20、30）是常見的經驗分界，頁面標「教學」，不是買賣訊號。
 """
 import csv, datetime as dt, io, json, os, sys, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "market", "vix.json")
+HIST = os.path.join(ROOT, "data", "market", "vix-history.json")
+MA_N = 20               # 歷史檔的移動平均天數（簡單平均，含當天）
 CBOE_CSV = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
 CBOE_PAGE = "https://www.cboe.com/tradable_products/vix/vix_historical_data/"
 YAHOO_PAGE = "https://finance.yahoo.com/quote/%5EVIX/history/"
@@ -157,8 +162,46 @@ def cross_check(a_name, a_pts, b_name, b_pts, tol=XCHECK_TOL):
     return None
 
 
-def update(sources=SOURCES, now=None):
-    """每個來源都試；用最新一筆日期最新的那個（一樣新取排前面的）。回傳 (內容或 None, 每個來源的結果說明)。"""
+def moving_avg(points, n=MA_N):
+    """[(日期, 收盤)] → [[日期, 收盤, n 日簡單平均或 None]]；前 n-1 筆是 None，平均四捨五入到小數 2 位。"""
+    out, run = [], 0.0
+    for i, (d, c) in enumerate(points):
+        run += c
+        if i >= n:
+            run -= points[i - n][1]
+        out.append([d, round(c, 2), round(run / n, 2) if i >= n - 1 else None])
+    return out
+
+
+def merge_history(old, new, official=False):
+    """舊歷史檔的 points（[日期, 收盤, 平均]）＋這一班的 [(日期, 收盤)] → [(日期, 收盤)]，依日期排序，只增不減。
+    舊檔有的日期保留舊值；official=True（Cboe 官方檔）才覆蓋舊值。回傳前用 check() 檢查（日期不重複、範圍合理）。"""
+    m = {p[0]: float(p[1]) for p in (old or [])}
+    for d, c in new:
+        if official or d not in m:
+            m[d] = float(c)
+    return check(sorted(m.items()))
+
+
+def build_history(points, source, url, now=None):
+    """[(日期, 收盤)]（已排序）→ vix-history.json 的內容；平均在這裡算好，頁面只畫。"""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    return {
+        "updated": now.strftime("%Y-%m-%d %H:%M UTC"),
+        "source": source, "sourceUrl": url,
+        "from": points[0][0], "to": points[-1][0], "n": len(points), "ma": MA_N,
+        "points": moving_avg(points),
+        "note": f"VIX 每日收盤與 {MA_N} 日簡單平均（含當天，前 {MA_N - 1} 筆沒有平均）。歷史只增不減：新資料只補沒有的日期。",
+    }
+
+
+def history_changed(prev, doc):
+    """內容（日期範圍與每個點）有沒有變；只有 updated 時間不同不算。"""
+    return not prev or prev.get("points") != doc["points"] or prev.get("to") != doc["to"]
+
+
+def update_ex(sources=SOURCES, now=None):
+    """每個來源都試；用最新一筆日期最新的那個（一樣新取排前面的）。回傳 (內容或 None, 說明, 選中來源的點或 None, 是不是官方檔)。"""
     notes, got = [], []
     for name, url, fn in sources:
         try:
@@ -168,7 +211,7 @@ def update(sources=SOURCES, now=None):
         except Exception as e:  # 任何一種失敗都只是少一個來源
             notes.append(f"{name}：失敗（{type(e).__name__}: {str(e)[:120]}）")
     if not got:
-        return None, notes
+        return None, notes, None, False
     best = max(got, key=lambda g: g[2][-1][0])          # max 遇到一樣大的回傳第一個＝官方檔優先
     doc = build(best[2], best[0], best[1], now)
     others = [g for g in got if g is not best]
@@ -177,7 +220,12 @@ def update(sources=SOURCES, now=None):
         if x:
             doc["xcheck"] = x
             notes.append("核對：" + x["note"])
-    return doc, notes
+    return doc, notes, best[2], best[0] == sources[0][0]   # 第一個來源＝官方檔
+
+
+def update(sources=SOURCES, now=None):
+    """update_ex 的舊介面：回傳 (內容或 None, 每個來源的結果說明)。"""
+    return update_ex(sources, now)[:2]
 
 
 def is_stale(doc, today=None):
@@ -197,6 +245,31 @@ def jload(path):
         return None
 
 
+def jdump(path, doc):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(doc, f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
+
+
+def write_history(pts, official, source, url, path=None, now=None):
+    """合併舊歷史檔與這一班的資料，內容有變才寫。回傳是否寫檔。合併後的資料不合理就不寫、保留舊檔（不讓整個工作變紅）。"""
+    path = path or HIST
+    prev = jload(path)
+    try:
+        merged = merge_history((prev or {}).get("points"), pts, official)
+    except ValueError as e:
+        log(f"VIX 歷史：合併後資料不合理，保留舊檔（{e}）")
+        return False
+    doc = build_history(merged, source, url, now)
+    if not history_changed(prev, doc):
+        log(f"VIX 歷史：最新仍是 {doc['to']}（{doc['n']} 筆），不重寫")
+        return False
+    jdump(path, doc)
+    log(f"VIX 歷史：{doc['from']} ～ {doc['to']}，{doc['n']} 筆")
+    return True
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     if "--probe" in argv:
@@ -213,12 +286,13 @@ def main(argv=None):
             return 1
         log(f"VIX 最新一筆 {prev['last']['d']}，沒有落後")
         return 0
-    doc, notes = update()
+    doc, notes, pts, official = update_ex()
     for n in notes:
         log("  " + n)
     if doc is None:
         log("VIX：這一班兩個來源都抓不到，保留舊檔（晚上的落後檢查會看是不是一直抓不到）")
         return 0
+    write_history(pts, official, doc["source"], doc["sourceUrl"])
     if prev and prev.get("last") == doc["last"] and prev.get("source") == doc["source"] and (prev.get("xcheck") or {}).get("ok") == (doc.get("xcheck") or {}).get("ok"):
         log(f"VIX：最新仍是 {doc['last']['d']}，不重寫")
         return 0
@@ -226,9 +300,7 @@ def main(argv=None):
         log(f"VIX：抓到的最新日期 {doc['last']['d']} 比現有的 {prev['last']['d']} 舊，保留舊檔")
         return 0
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(doc, f, ensure_ascii=False, separators=(",", ":"))
-        f.write("\n")
+    jdump(OUT, doc)
     log(f"VIX：{doc['last']['d']} 收 {doc['last']['c']}（{doc['chg']:+.2f}），十年位置第 {doc['pct10']} 百分位，來源 {doc['source']}")
     return 0
 
