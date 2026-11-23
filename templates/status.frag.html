@@ -10,6 +10,16 @@
 .st-tbl td.n{font-family:var(--font-data);white-space:nowrap}
 .st-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--muted)}
 .st-dot.green{background:var(--good-text)} .st-dot.red{background:var(--bad-text)} .st-dot.yellow{background:#d9a300}
+.st-dot.gray{background:#8a8f98;box-shadow:inset 0 0 0 1px var(--muted)}
+.st-job th,.st-job td{white-space:normal;text-align:left}
+.st-job td{font-family:inherit}
+.st-job th:nth-child(2),.st-job td:nth-child(2){min-width:230px;width:46%}
+.st-job td:nth-child(3){min-width:130px}
+.st-job td:nth-child(4){min-width:110px}
+.st-job small.st-freq-s{display:none}
+@media (max-width:640px){.st-job th:nth-child(2),.st-job td:nth-child(2){min-width:0;width:auto}.st-job td:nth-child(4){min-width:96px;width:30%}.st-job small.st-freq-s{display:block}}
+.st-job th:first-child,.st-job td:first-child{position:static;width:22px}
+.st-tbl small.st-how{display:block;margin-top:3px;line-height:1.45}
 .st-sum{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
 .st-pill{font-size:.85rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
 .st-pill.red{border-color:var(--bad-text);color:var(--bad-text);font-weight:600}
@@ -23,6 +33,7 @@
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
     <a href="#actions">自動工作</a>
     <a href="#routines">Claude 排程</a>
+    <a href="#ondemand">不定期工作</a>
     <a href="#companies">各公司資料</a>
     <a href="#signals">估值訊號</a>
     <a href="#tokens">token 用量</a>
@@ -33,19 +44,24 @@
   <header class="masthead" id="top">
     <div class="eyebrow">System Health</div>
     <h1>系統健康</h1>
-    <p class="lede">這頁回答一個問題：「現在哪些自動工作有跑、哪些資料過期了？」紅燈代表需要你注意（同時會開 GitHub issue 寄信），黃燈只是提醒，綠燈代表正常。</p>
+    <p class="lede">這頁回答一個問題：「現在哪些自動工作有跑、哪些資料過期了？」紅燈代表需要你注意（同時會開 GitHub issue 寄信），黃燈只是提醒，綠燈代表正常。每一列都寫了多久跑一次、怎麼跑、失敗會怎麼重試。</p>
     <div class="meta-row"><span id="stSub">讀取中…</span></div>
     <div class="st-sum" id="stSum"></div>
   </header>
 
   <section id="actions">
     <div class="sec-head"><h2>自動工作（GitHub Actions，不花 token）</h2><p class="sub">GitHub 的排程常晚 4～6 小時，所以每天由每日檢查叫醒「每日準備」；表格看「多久前成功」。</p></div>
-    <div class="card wide"><div class="tbl-wrap"><table class="st-tbl" id="stAct"></table></div></div>
+    <div class="card wide"><div class="tbl-wrap"><table class="st-tbl st-job" id="stAct"></table></div></div>
   </section>
 
   <section id="routines">
     <div class="sec-head"><h2>Claude 排程</h2></div>
-    <div class="card wide"><div class="tbl-wrap"><table class="st-tbl" id="stRou"></table></div></div>
+    <div class="card wide"><div class="tbl-wrap"><table class="st-tbl st-job" id="stRou"></table></div></div>
+  </section>
+
+  <section id="ondemand">
+    <div class="sec-head"><h2>不定期工作（手動或 PR 時才跑）</h2><p class="sub">這些工作沒有固定班次，所以不判紅黃燈（灰點），只列最近一次執行的結果。</p></div>
+    <div class="card wide"><div class="tbl-wrap"><table class="st-tbl st-job" id="stOnd"></table></div></div>
   </section>
 
   <section id="companies">
@@ -71,7 +87,7 @@
   var BASE = "{{STATUS_BASE}}";
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
-  var LAB = { green: "正常", yellow: "提醒", red: "紅燈" };
+  var LAB = { green: "正常", yellow: "提醒", red: "紅燈", gray: "不定期" };
   var dot = function (l) { return '<span class="st-dot ' + l + '" role="img" aria-label="' + LAB[l] + '"></span>'; };
   function tbl(el, head, rows, empty) {
     el.innerHTML = rows.length ? "<tr>" + head.map(function (h) { return "<th" + (h[1] ? ' class="' + h[1] + '"' : "") + ">" + h[0] + "</th>"; }).join("") + "</tr>" + rows.join("")
@@ -82,13 +98,45 @@
     var d = new Date(iso); if (isNaN(d)) return esc(iso);
     return d.toLocaleString("zh-TW", { timeZone: "Asia/Taipei", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false });
   }
-  function render(S) {
+  // 工作列：名稱下方小字寫「做法」「重試」；頻率獨立一欄
+  function jobRow(r) {
+    return "<tr><td>" + dot(r.light) + "</td><td>" + esc(r.label) +
+      '<small class="st-how st-freq-s">頻率：' + esc(r.freq || "待確認") + '</small><small class="st-how">做法：' + esc(r.method || "待確認") + '</small><small class="st-how">重試：' + esc(r.retry || "待確認") + "</small></td><td class='hide-s'>" + esc(r.freq || "待確認") + "</td><td>" + esc(r.note) + "</td></tr>";
+  }
+  var JOB_HEAD = function (name) { return [["", ""], [name, ""], ["頻率", "hide-s"], ["狀況", ""]]; };
+  // latest.json 還是舊版（沒有 freq、少了新工作）時，用 jobs.json 補：依 id 補頻率／做法／重試；
+  // jobs.json 有、latest.json 沒有的工作照 jobs.json 的順序補一列灰點「下次每日準備後更新」。
+  function fill(rows, jobs, groups) {
+    rows = (rows || []).map(function (r) {
+      if (r.id === "sec-feed" && /檔案時間/.test(r.label || "")) { var c = {}; for (var k0 in r) c[k0] = r[k0]; c.id = "sec-feed-file"; r = c; }   // 舊版把檔案時間列也叫 sec-feed
+      var j = jobs && jobs[r.id];
+      if (r.freq || !j) return r;
+      var o = {}; for (var k in r) o[k] = r[k];
+      o.freq = j.freq; o.method = j.method; o.retry = j.retry;
+      return o;
+    });
+    if (!jobs) return rows;
+    var have = {}; rows.forEach(function (r) { have[r.id] = r; });
+    var out = [], used = {};
+    Object.keys(jobs).forEach(function (id) {
+      var j = jobs[id]; if (groups.indexOf(j.group) < 0) return;
+      used[id] = 1;
+      out.push(have[id] || { id: id, label: j.label, light: "gray", note: "下次每日準備後更新", freq: j.freq, method: j.method, retry: j.retry });
+    });
+    return out.concat(rows.filter(function (r) { return !used[r.id]; }));
+  }
+  function render(S, J) {
+    var jobs = null;
+    if (J && J.jobs) { jobs = {}; J.jobs.forEach(function (j) { jobs[j.id] = j; }); }
+    S.actions = fill(S.actions, jobs, ["actions", "check"]); S.routines = fill(S.routines, jobs, ["routine"]);
+    var ond = fill(S.ondemand, jobs, ["ondemand"]);
     $("stSub").textContent = "資料產生時間（台北）：" + tpe(S.generated);
     var all = S.actions.concat(S.routines), red = all.filter(function (r) { return r.light === "red"; }).length + S.companies.filter(function (r) { return r.light === "red"; }).length;
     var yel = all.filter(function (r) { return r.light === "yellow"; }).length;
     $("stSum").innerHTML = '<span class="st-pill ' + (red ? "red" : "") + '">' + (red ? "紅燈 " + red + " 項" : "沒有紅燈") + "</span>" + (yel ? '<span class="st-pill">提醒 ' + yel + " 項</span>" : "");
-    tbl($("stAct"), [["", ""], ["工作", ""], ["狀況", ""]], S.actions.map(function (r) { return "<tr><td>" + dot(r.light) + "</td><td>" + esc(r.label) + "</td><td>" + esc(r.note) + "</td></tr>"; }), "沒有資料");
-    tbl($("stRou"), [["", ""], ["排程", ""], ["狀況", ""]], S.routines.map(function (r) { return "<tr><td>" + dot(r.light) + "</td><td>" + esc(r.label) + "</td><td>" + esc(r.note) + "</td></tr>"; }), "沒有資料");
+    tbl($("stAct"), JOB_HEAD("工作"), S.actions.map(jobRow), "沒有資料");
+    tbl($("stRou"), JOB_HEAD("排程"), S.routines.map(jobRow), "沒有資料");
+    tbl($("stOnd"), JOB_HEAD("工作"), ond.map(jobRow), "沒有資料");
     tbl($("stCom"), [["", ""], ["公司", ""], ["最新季", "hide-s"], ["階段", ""], ["收盤日", ""], ["股價月", "hide-s"], ["下次事件", "hide-s"], ["待確認（近期／近三年／歷史）", "n"], ["問題", ""]],
       S.companies.map(function (c) {
         return "<tr><td>" + dot(c.light) + "</td><td><b>" + esc(c.code.toUpperCase()) + "</b></td><td class='hide-s'>" + esc(c.quarter || "—") + "</td><td>" + esc(c.stage) + "</td><td class='n'>" + esc(c.close ? c.close.slice(5) : "—") +
@@ -108,7 +156,8 @@
         "</td><td class='n'>$" + Number(r.usd).toFixed(2) + "</td><td>" + (r.exact ? "實際結算" : "估計") + "</td></tr>";
     }), "還沒有紀錄");
   }
-  fetch(BASE + "latest.json", { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(render).catch(function (e) {
+  function getJson(name) { return fetch(BASE + name, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  Promise.all([getJson("latest.json"), getJson("jobs.json").catch(function () { return null; })]).then(function (a) { render(a[0], a[1]); }).catch(function (e) {
     $("stSub").textContent = "讀取失敗（" + e.message + "）：每日準備還沒跑過，或網路有問題。";
   });
 })();

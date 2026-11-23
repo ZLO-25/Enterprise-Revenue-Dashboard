@@ -1,7 +1,15 @@
 """系統健康狀態：把「哪些自動工作有跑、哪些資料過期」算成 data/status/latest.json（網站「系統健康」頁讀它）。
 
 誰會呼叫：GitHub Actions 的 daily-prep（每日檢查一開始會手動觸發它）。不花 Claude token。
-紅燈（red）才會開 issue（GitHub 寄信）；黃燈（yellow）只顯示在頁面上。
+紅燈（red）才會開 issue（GitHub 寄信）；黃燈（yellow）只顯示在頁面上；灰燈（gray，不定期工作）不判紅黃、不進 alerts。
+
+工作清單只有一份：data/status/jobs.json（Claude 維護；每個工作的 freq 頻率、method 做法、retry 重試、group 分類）。
+  group=actions   排程的 GitHub workflow（在 main）→ 輸出 actions，依 kind 判斷多久沒成功算紅燈
+  group=routine   Claude 排程（daily、news、trend、mcap）→ 輸出 routines
+  group=check     不是 workflow 的檢查列（sec-feed-file：SEC 清單檔案時間；macro-data：總經資料內容）→ 輸出在 actions
+  group=ondemand  不定期工作（ci、bs-fetch、rd-twse、sec-raw、tw-raw）→ 輸出 ondemand，只顯示最近一次執行，燈號固定 gray
+每一列都帶 group／freq／method／retry。新增 workflow 或 Claude 排程要同時登記到 jobs.json，tools/tests/test_jobs.py 會擋。
+GitHub API 查詢失敗時最多試 3 次（等 2、4 秒）。輸出 version 2（新增 ondemand、group／freq／method／retry）。
 用法：
   python3 tools/status.py              算完寫 data/status/latest.json，印摘要；有紅燈也不報錯（issue 由 workflow 開）
   python3 tools/status.py --no-api     不查 GitHub 執行紀錄（本機測試用；沒有 GITHUB_TOKEN 也會自動略過）
@@ -12,23 +20,13 @@ import datetime as dt
 import json
 import os
 import sys
+import time
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "status", "latest.json")
 TPE = dt.timedelta(hours=8)
 
-# 自動工作：file＝workflow 檔名；kind＝多久該跑一次（daily／weekly／monthly）；label＝頁面上的中文名
-WORKFLOWS = [
-    ("daily-prep.yml", "daily", "每日準備（SEC、預估、股價、期貨）"),
-    ("prices-daily.yml", "daily", "每日收盤價與本益比"),
-    ("futures-daily.yml", "daily", "指數期貨 K 棒"),
-    ("quant-prices.yml", "daily", "回測用股價"),
-    ("mcap-weekly.yml", "weekly", "市值排名"),
-    ("rates-weekly.yml", "weekly", "升降息資料"),
-    ("macro-weekly.yml", "weekly", "總經儀表板資料"),
-    ("prices-monthly.yml", "monthly", "每月股價"),
-]
 LIMIT_H = {"daily": 36, "weekly": 8.5 * 24, "monthly": 35 * 24}
 
 
@@ -66,18 +64,44 @@ def fmt_tpe(t):
     return (t + TPE).strftime("%m/%d %H:%M")
 
 
-def fetch_runs(repo, wf, token):
-    url = f"https://api.github.com/repos/{repo}/actions/workflows/{wf}/runs?status=completed&per_page=10"
+def http_json(url, token):
     req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "status-bot"})
     with urllib.request.urlopen(req, timeout=20) as r:
-        return json.load(r).get("workflow_runs", [])
+        return json.load(r)
+
+
+def fetch_runs(repo, wf, token, branch=None, tries=3):
+    """某個 workflow 最近 10 次已完成的執行。GitHub API 失敗最多試 tries 次（失敗後等 2、4 秒）；branch 只給不在 main 的 workflow（sec-raw、tw-raw）。"""
+    url = f"https://api.github.com/repos/{repo}/actions/workflows/{wf}/runs?status=completed&per_page=10" + (f"&branch={branch}" if branch else "")
+    for i in range(1, tries + 1):
+        try:
+            return http_json(url, token).get("workflow_runs", [])
+        except Exception:  # noqa: BLE001
+            if i >= tries:
+                raise
+            time.sleep(2 * i)
+
+
+def jobs_of(group):
+    return [j for j in (jload("data", "status", "jobs.json", default={}) or {}).get("jobs", []) if j.get("group") == group]
+
+
+def check_job(i):
+    """group=check：不是 workflow 的檢查列（SEC 清單檔案時間、總經資料內容）；jobs.json 沒有就回「待確認」。"""
+    return next((j for j in jobs_of("check") if j["id"] == i), {"group": "check", "label": i, "freq": "待確認", "method": "待確認", "retry": "待確認"})
+
+
+def info(j):
+    """每一列都帶的說明欄位（頻率、做法、重試、分類）。"""
+    return {"group": j["group"], "freq": j["freq"], "method": j["method"], "retry": j["retry"]}
 
 
 def actions_block(now, use_api):
     repo, token = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
     rows = []
-    for wf, kind, label in WORKFLOWS:
-        row = {"id": wf[:-4], "label": label, "kind": kind, "light": "yellow", "note": "未查詢（沒有 GitHub 權限）"}
+    for j in jobs_of("actions"):
+        wf, kind = j["workflow"], j["kind"]
+        row = {"id": wf[:-4], "label": j["label"], "kind": kind, "light": "yellow", "note": "未查詢（沒有 GitHub 權限）", **info(j)}
         if use_api and repo and token:
             try:
                 runs = fetch_runs(repo, wf, token)
@@ -89,12 +113,36 @@ def actions_block(now, use_api):
                 row["note"] = f"查詢失敗：{type(e).__name__}"
         rows.append(row)
     rows.append(macro_row(jload("data", "macro", "latest.json", default=None), now))
-    # SEC 清單用檔案時間判斷（由 daily-prep 寫入，比 workflow 紀錄更直接）
+    # SEC 清單用檔案時間判斷（由 daily-prep 寫入，比 workflow 紀錄更直接）。放在 sec-feed workflow 那列後面
     feed = jload("data", "sec-feed.json", default={}) or {}
     if feed.get("fetched"):
         ok = parse(feed["fetched"])
         light, note = eval_run_age("daily", ok, None, now)
-        rows.insert(1, {"id": "sec-feed", "label": "SEC 新申報清單（檔案時間）", "kind": "daily", "light": light, "note": note, "lastOk": feed["fetched"]})
+        at = next((n + 1 for n, r in enumerate(rows) if r["id"] == "sec-feed"), 1)
+        rows.insert(at, {"id": "sec-feed-file", "label": check_job("sec-feed-file")["label"], "kind": "daily", "light": light, "note": note, "lastOk": feed["fetched"], **info(check_job("sec-feed-file"))})
+    return rows
+
+
+def ondemand_block(now, use_api):
+    """不定期工作：只查 GitHub 最近一次完成的執行。燈號固定 gray，不進 alerts。"""
+    repo, token = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
+    rows = []
+    for j in jobs_of("ondemand"):
+        row = {"id": j["id"], "label": j["label"], "kind": None, "light": "gray", "note": "未查詢（沒有 GitHub 權限）", **info(j)}
+        if use_api and repo and token:
+            try:
+                runs = fetch_runs(repo, j["workflow"], token, branch=j["branch"] if j.get("branch") not in (None, "main") else None)
+                if runs:
+                    c = runs[0]["conclusion"]
+                    row["note"] = f"最近一次 {fmt_tpe(parse(runs[0]['updated_at']))} " + {"success": "成功", "failure": "失敗", "cancelled": "取消"}.get(c, f"結束（{c}）")
+                    row["lastRun"] = parse(runs[0]["updated_at"]).strftime("%Y-%m-%dT%H:%MZ")
+                    if j["id"] == "ci" and c == "failure":
+                        row["note"] += "（PR 檢查，失敗不一定是問題）"
+                else:
+                    row["note"] = "查不到紀錄"
+            except Exception as e:  # noqa: BLE001
+                row["note"] = f"查詢失敗：{type(e).__name__}"
+        rows.append(row)
     return rows
 
 
@@ -103,7 +151,8 @@ def macro_row(doc, now):
       紅：資料檔超過 10 天沒更新（排程每週兩次＋每天被叫醒一次，10 天沒動代表壞了），或一半以上的序列抓不到
       黃：有序列太久沒有新資料（來源停更、改代號）、有序列這次抓不到、有外部連結 404
     """
-    row = {"id": "macro-data", "label": "總經資料（內容檢查：停更、抓不到、連結失效）", "kind": "weekly", "light": "yellow", "note": "還沒有資料檔"}
+    cj = check_job("macro-data")
+    row = {"id": "macro-data", "label": cj["label"], "kind": "weekly", "light": "yellow", "note": "還沒有資料檔", **info(cj)}
     if not doc or not doc.get("updated"):
         return row
     at = dt.datetime.strptime(doc["updated"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=dt.timezone.utc)
@@ -129,22 +178,35 @@ def macro_row(doc, now):
 def routines_block(today):
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import daily
+    J = {j["id"]: j for j in jobs_of("routine")}
+
+    def row(i, light, note):
+        j = J.get(i) or {"group": "routine", "label": i, "freq": "待確認", "method": "待確認", "retry": "待確認"}
+        return {"id": i, "label": j["label"], "light": light, "note": note, **info(j)}
     rows = []
     cal = daily.load_cal()
     ms = daily.missed_days(cal.get("lastSuccess"), today)
     light = "red" if len(ms) >= 2 else ("yellow" if ms else "green")
-    rows.append({"id": "daily", "label": "每日檢查（Claude 排程）", "light": light,
-                 "note": f"上次成功 {cal.get('lastSuccess') or '無紀錄'}" + (f"，缺跑 {len(ms)} 天" if ms else "")})
+    rows.append(row("daily", light, f"上次成功 {cal.get('lastSuccess') or '無紀錄'}" + (f"，缺跑 {len(ms)} 天" if ms else "")))
     last = (cal.get("fired") or {}).get("news")
     ref = last or "2026-11-22"   # 第一次預定日（同 daily_brief.NEWS_FIRST）
     days = (today - dt.date.fromisoformat(ref)).days
-    rows.append({"id": "news", "label": "每週新聞（週日 06:00）", "light": "red" if days > 9 else "green",
-                 "note": f"上次 {last}（{days} 天前）" if last else ("第一次預定 2026-11-22" if days < 0 else f"從第一次預定日起 {days} 天還沒跑過")})
+    rows.append(row("news", "red" if days > 9 else "green",
+                    f"上次 {last}（{days} 天前）" if last else ("第一次預定 2026-11-22" if days < 0 else f"從第一次預定日起 {days} 天還沒跑過")))
     ym = today.strftime("%Y-%m")
     if today.day >= 5 and not os.path.exists(os.path.join(ROOT, "reports", "trend", f"{ym}_世界趨勢.md")):
-        rows.append({"id": "trend", "label": "世界趨勢月報", "light": "red", "note": f"{ym} 還沒產出"})
+        rows.append(row("trend", "red", f"{ym} 還沒產出"))
     else:
-        rows.append({"id": "trend", "label": "世界趨勢月報", "light": "green", "note": "本月已產出或還沒到時間"})
+        rows.append(row("trend", "green", "本月已產出或還沒到時間"))
+    # 市值檢查（Claude）：資料由 Actions 的 mcap-weekly 負責，Claude 版之後會停用，所以最多黃燈，不紅
+    T = jload("data", "token-usage.json", default={"runs": []}) or {"runs": []}
+    ds = [r["date"] for r in T.get("runs", []) if r.get("routine") == "mcap"]
+    if not ds:
+        rows.append(row("mcap", "yellow", "token 紀錄裡沒有市值檢查的紀錄"))
+    else:
+        d = max(ds)
+        n = (today - dt.date.fromisoformat(d)).days
+        rows.append(row("mcap", "yellow" if n > 9 else "green", f"上次 {d}（{n} 天前）" + ("；資料由 mcap-weekly 負責，Claude 版之後會停用" if n > 9 else "")))
     return rows
 
 
@@ -213,7 +275,7 @@ def tokens_block(today):
 
 def build(now, use_api=True):
     today = (now + TPE).date()
-    act, rou, com = actions_block(now, use_api), routines_block(today), companies_block(today)
+    act, rou, com, ond = actions_block(now, use_api), routines_block(today), companies_block(today), ondemand_block(now, use_api)
     tok_w, tok_r = tokens_block(today)
     alerts = []
     for r in act + rou:
@@ -222,7 +284,7 @@ def build(now, use_api=True):
     for r in com:
         if r["light"] == "red":
             alerts.append(f"{r['code']}：{'；'.join(r['problems'])}")
-    return {"version": 1, "generated": now.strftime("%Y-%m-%dT%H:%MZ"), "actions": act, "routines": rou, "companies": com,
+    return {"version": 2, "generated": now.strftime("%Y-%m-%dT%H:%MZ"), "actions": act, "routines": rou, "ondemand": ond, "companies": com,
             "signals": signals_block(today), "tokens": tok_w, "tokenRuns": tok_r, "alerts": alerts}
 
 

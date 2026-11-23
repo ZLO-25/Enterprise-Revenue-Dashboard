@@ -182,6 +182,14 @@ def main():
                     errs.append("個股頁沒有「回測這檔」的兩個連結（.bt-link）")
                 if path in COMPANY_PAGES and "盈餘殖利率" not in (pg.text_content("#gloss") or ""):
                     errs.append("個股頁的指標小辭典沒有巴菲特＋蒙格的新名詞（BUFFETT.GLOSS）")
+                if path == "/status/":
+                    # 自動工作、Claude 排程、不定期工作三張表：欄位（頻率）、做法、重試都要有；不定期工作要有灰點
+                    for tid in ("stAct", "stRou", "stOnd"):
+                        txt = pg.text_content("#" + tid) or ""
+                        if "頻率" not in txt or "做法：" not in txt or "重試：" not in txt:
+                            errs.append(f"系統健康頁 #{tid} 缺少頻率／做法／重試欄位")
+                    if not pg.query_selector("#ondemand .st-dot.gray"):
+                        errs.append("系統健康頁沒有「不定期工作」區塊的灰點")
                 if w == 390 and over > 2:
                     errs.append(f"手機版有橫向捲動（多 {over}px）")
                 if shots:

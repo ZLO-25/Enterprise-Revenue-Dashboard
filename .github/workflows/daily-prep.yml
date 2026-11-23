@@ -33,7 +33,7 @@ jobs:
       - name: ① SEC 新申報清單
         id: sec
         continue-on-error: true
-        run: python3 tools/sec_feed.py
+        run: tools/retry.sh 3 15 python3 tools/sec_feed.py
       - name: ①b SEC 收件匣（新財報新聞稿預抓、XBRL 核對表、資產負債表提案；失敗不擋後面）
         continue-on-error: true
         timeout-minutes: 6
@@ -41,7 +41,7 @@ jobs:
       - name: ② 分析師預估快照（失敗不擋後面）
         id: cons
         continue-on-error: true
-        run: python3 tools/consensus.py
+        run: tools/retry.sh 3 15 python3 tools/consensus.py
       - name: ③ 提交 SEC 清單與預估快照
         run: |
           git config user.name "prep-bot"
@@ -53,9 +53,9 @@ jobs:
           fi
       - name: ④ 叫醒股價與期貨（立刻跑，不等排程）
         run: |
-          gh workflow run prices-daily.yml || echo "prices-daily 觸發失敗"
-          gh workflow run futures-daily.yml || echo "futures-daily 觸發失敗"
-          gh workflow run macro-weekly.yml || echo "macro-weekly 觸發失敗"      # 總經：18 小時內抓過就自己跳過，所以平日每天重抓一次
+          tools/retry.sh 3 10 gh workflow run prices-daily.yml || echo "prices-daily 觸發失敗"
+          tools/retry.sh 3 10 gh workflow run futures-daily.yml || echo "futures-daily 觸發失敗"
+          tools/retry.sh 3 10 gh workflow run macro-weekly.yml || echo "macro-weekly 觸發失敗"      # 總經：18 小時內抓過就自己跳過，所以平日每天重抓一次
           sleep 5
       - name: ⑤ 算系統健康狀態
         run: python3 tools/status.py

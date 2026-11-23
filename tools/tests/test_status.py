@@ -70,5 +70,88 @@ class MacroRowTest(unittest.TestCase):
         self.assertEqual(r["light"], "red")
 
 
+class FetchRunsRetry(unittest.TestCase):
+    def setUp(self):
+        self.sleeps = []
+        self._sl, S.time.sleep = S.time.sleep, self.sleeps.append
+        self._hj = S.http_json
+
+    def tearDown(self):
+        S.time.sleep = self._sl
+        S.http_json = self._hj
+
+    def test_retries_then_succeeds(self):
+        calls = []
+
+        def fake(url, token):
+            calls.append(url)
+            if len(calls) < 3:
+                raise OSError("boom")
+            return {"workflow_runs": [{"conclusion": "success"}]}
+        S.http_json = fake
+        self.assertEqual(S.fetch_runs("o/r", "x.yml", "t"), [{"conclusion": "success"}])
+        self.assertEqual(len(calls), 3)
+        self.assertEqual(self.sleeps, [2, 4])
+
+    def test_gives_up_after_three(self):
+        def fake(url, token):
+            raise OSError("boom")
+        S.http_json = fake
+        with self.assertRaises(OSError):
+            S.fetch_runs("o/r", "x.yml", "t")
+        self.assertEqual(self.sleeps, [2, 4])
+
+    def test_branch_param(self):
+        urls = []
+        S.http_json = lambda url, token: urls.append(url) or {"workflow_runs": []}
+        S.fetch_runs("o/r", "sec-raw.yml", "t", branch="sec-raw")
+        S.fetch_runs("o/r", "ci.yml", "t")
+        self.assertTrue(urls[0].endswith("&branch=sec-raw"))
+        self.assertNotIn("branch=", urls[1])
+
+
+class OndemandAndMcap(unittest.TestCase):
+    NOW = S.parse("2026-11-23T03:00:00Z")
+
+    def setUp(self):
+        self._fr, self._env = S.fetch_runs, dict(os.environ)
+        os.environ["GITHUB_REPOSITORY"], os.environ["GITHUB_TOKEN"] = "o/r", "t"
+
+    def tearDown(self):
+        S.fetch_runs = self._fr
+        os.environ.clear(); os.environ.update(self._env)
+
+    def test_ondemand_gray_never_alerts(self):
+        S.fetch_runs = lambda repo, wf, tok, branch=None, tries=3: [{"conclusion": "failure", "updated_at": "2026-11-20T00:00:00Z"}]
+        rows = S.ondemand_block(self.NOW, True)
+        self.assertEqual({r["id"] for r in rows}, {"ci", "bs-fetch", "rd-twse", "sec-raw", "tw-raw"})
+        self.assertTrue(all(r["light"] == "gray" and r["group"] == "ondemand" and r["freq"] and r["retry"] for r in rows))
+        self.assertIn("11/20 08:00 失敗", rows[0]["note"])
+        ci = next(r for r in rows if r["id"] == "ci")
+        self.assertIn("失敗不一定是問題", ci["note"])
+        self.assertNotIn("失敗不一定是問題", next(r for r in rows if r["id"] == "bs-fetch")["note"])
+        S.fetch_runs = lambda *a, **k: []
+        self.assertTrue(all(r["note"] == "查不到紀錄" for r in S.ondemand_block(self.NOW, True)))
+        S.fetch_runs = lambda repo, wf, tok, branch=None, tries=3: [{"conclusion": "failure", "updated_at": "2026-11-20T00:00:00Z"}]
+        out = S.build(self.NOW, True)
+        self.assertFalse([a for a in out["alerts"] if "PR 自動檢查" in a or "SEC 原始資料" in a or "資產負債表" in a])
+        self.assertEqual(out["version"], 2)
+        self.assertIn("ondemand", out)
+
+    def test_every_row_has_info(self):
+        out = S.build(self.NOW, False)
+        for r in out["actions"] + out["routines"] + out["ondemand"]:
+            for k in ("group", "freq", "method", "retry"):
+                self.assertTrue(r.get(k), f"{r['id']} 缺 {k}")
+
+    def test_mcap_row(self):
+        rows = S.routines_block(dt.date(2026, 11, 23))
+        m = next(r for r in rows if r["id"] == "mcap")
+        self.assertNotEqual(m["light"], "red")
+        self.assertEqual(m["group"], "routine")
+        far = S.routines_block(dt.date(2027, 6, 1))   # 太久沒有紀錄：黃燈、不紅
+        self.assertEqual(next(r for r in far if r["id"] == "mcap")["light"], "yellow")
+
+
 if __name__ == "__main__":
     unittest.main()

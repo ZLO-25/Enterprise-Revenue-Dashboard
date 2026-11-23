@@ -5,13 +5,13 @@
 import {
   lumpSumVsDca, rollingComparison, assetAllocation, volatilityStats,
   yearlyTimingTest, toDay, fromDay, monthlyContribution, drawdownEpisodes, crashInWindow, crashCompare,
-} from "./engine.js?v=7977f5bb";
-import { DATA_BASE, CRASH_CONFIG, MACRO_LATEST } from "./config.js?v=7977f5bb";
-import { themeColors, axisBase } from "./theme.js?v=7977f5bb";
+} from "./engine.js?v=dc4a96da";
+import { DATA_BASE, CRASH_CONFIG, MACRO_LATEST } from "./config.js?v=dc4a96da";
+import { themeColors, axisBase } from "./theme.js?v=dc4a96da";
 import {
   normMode, hashValue, VIEW_LABELS, valueTraceSpecs, metricRows, winnerStrategy,
   annualColumns, showBuysPanel, showLsMarks,
-} from "./view-mode.js?v=7977f5bb";
+} from "./view-mode.js?v=dc4a96da";
 // [主站] 所有選取都限定在量化容器內，不會選到主站的元素
 const QROOT = document.getElementById("quant-dca-view") || document;
 
