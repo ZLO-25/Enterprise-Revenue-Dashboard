@@ -541,15 +541,19 @@ applyFilter();
       Chart.defaults.color = T('--tick');
       const med = typeof v.med10 === 'number' ? v.med10 : null;
       const refs = [{ y: zs.calm, t: `${zs.calm} 平靜（教學）`, c: T('--tick'), dash: [4, 4] }, { y: zs.tense, t: `${zs.tense} 很緊張（教學）`, c: T('--bad-text'), dash: [4, 4] }]
-        .concat(med != null ? [{ y: med, t: `十年中位數 ${med.toFixed(1)}`, c: T('--axis'), dash: [2, 3] }] : []);
+        .concat(med != null ? [{ y: med, t: `十年中位數 ${med.toFixed(1)}`, c: T('--axis'), dash: [2, 3], med: 1 }] : []);
       /* 水平參考線＋小標籤（不另外引入函式庫）；標籤畫在線的上方、靠左 */
+      const bg = T('--surface') || T('--page');
       const refPlugin = { id: 'vxRefs', afterDatasetsDraw(ch) {
         const { ctx, chartArea: a, scales: { y } } = ch; ctx.save();
         ctx.font = '600 10px IBM Plex Sans, Noto Sans TC, system-ui, sans-serif'; ctx.textBaseline = 'bottom';
         refs.forEach(r => { const py = y.getPixelForValue(r.y); if (py < a.top || py > a.bottom) return;
           ctx.strokeStyle = r.c; ctx.fillStyle = r.c; ctx.lineWidth = 1; ctx.setLineDash(r.dash);
           ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke(); ctx.setLineDash([]);
-          ctx.fillText(r.t, a.left + 4, py - 2); });
+          /* 標籤底下墊一塊底色，線穿過也看得清楚；中位數放右邊、線的下方，才不會和 20 的標籤疊在一起 */
+          const right = r.med, w = ctx.measureText(r.t).width, tx = right ? a.right - 4 - w : a.left + 4, ty = right ? py + 13 : py - 2;
+          ctx.fillStyle = bg; ctx.fillRect(tx - 2, ty - 11, w + 4, 12); ctx.fillStyle = r.c;
+          ctx.fillText(r.t, tx, ty); });
         ctx.restore(); } };
       const years = rows.length > 1 && (Date.parse(rows[rows.length - 1][0]) - Date.parse(rows[0][0])) / 864e5 > 800;
       chart = new Chart($('#vxCv'), { type: 'line', plugins: [refPlugin],
