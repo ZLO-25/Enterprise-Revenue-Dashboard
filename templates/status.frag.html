@@ -16,6 +16,8 @@
 .st-job th:nth-child(2),.st-job td:nth-child(2){min-width:230px;width:46%}
 .st-job td:nth-child(3){min-width:130px}
 .st-job td:nth-child(4){min-width:110px}
+.st-job small.st-freq-s{display:none}
+@media (max-width:640px){.st-job th:nth-child(2),.st-job td:nth-child(2){min-width:0;width:auto}.st-job td:nth-child(4){min-width:96px;width:30%}.st-job small.st-freq-s{display:block}}
 .st-job th:first-child,.st-job td:first-child{position:static;width:22px}
 .st-tbl small.st-how{display:block;margin-top:3px;line-height:1.45}
 .st-sum{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
@@ -99,27 +101,35 @@
   // 工作列：名稱下方小字寫「做法」「重試」；頻率獨立一欄
   function jobRow(r) {
     return "<tr><td>" + dot(r.light) + "</td><td>" + esc(r.label) +
-      '<small class="st-how">做法：' + esc(r.method || "待確認") + '</small><small class="st-how">重試：' + esc(r.retry || "待確認") + "</small></td><td>" + esc(r.freq || "待確認") + "</td><td>" + esc(r.note) + "</td></tr>";
+      '<small class="st-how st-freq-s">頻率：' + esc(r.freq || "待確認") + '</small><small class="st-how">做法：' + esc(r.method || "待確認") + '</small><small class="st-how">重試：' + esc(r.retry || "待確認") + "</small></td><td class='hide-s'>" + esc(r.freq || "待確認") + "</td><td>" + esc(r.note) + "</td></tr>";
   }
-  var JOB_HEAD = function (name) { return [["", ""], [name, ""], ["頻率", ""], ["狀況", ""]]; };
-  // latest.json 還是舊版（沒有 freq）時，用 jobs.json 依 id 補上頻率、做法、重試
-  function fill(rows, jobs) {
-    return (rows || []).map(function (r) {
-      if (r.freq || !jobs || /檔案時間/.test(r.label)) return r;
-      var j = jobs[r.id];
-      if (!j) return r;
+  var JOB_HEAD = function (name) { return [["", ""], [name, ""], ["頻率", "hide-s"], ["狀況", ""]]; };
+  // latest.json 還是舊版（沒有 freq、少了新工作）時，用 jobs.json 補：依 id 補頻率／做法／重試；
+  // jobs.json 有、latest.json 沒有的工作照 jobs.json 的順序補一列灰點「下次每日準備後更新」。
+  function fill(rows, jobs, groups) {
+    rows = (rows || []).map(function (r) {
+      if (r.id === "sec-feed" && /檔案時間/.test(r.label || "")) { var c = {}; for (var k0 in r) c[k0] = r[k0]; c.id = "sec-feed-file"; r = c; }   // 舊版把檔案時間列也叫 sec-feed
+      var j = jobs && jobs[r.id];
+      if (r.freq || !j) return r;
       var o = {}; for (var k in r) o[k] = r[k];
       o.freq = j.freq; o.method = j.method; o.retry = j.retry;
       return o;
     });
+    if (!jobs) return rows;
+    var have = {}; rows.forEach(function (r) { have[r.id] = r; });
+    var out = [], used = {};
+    Object.keys(jobs).forEach(function (id) {
+      var j = jobs[id]; if (groups.indexOf(j.group) < 0) return;
+      used[id] = 1;
+      out.push(have[id] || { id: id, label: j.label, light: "gray", note: "下次每日準備後更新", freq: j.freq, method: j.method, retry: j.retry });
+    });
+    return out.concat(rows.filter(function (r) { return !used[r.id]; }));
   }
   function render(S, J) {
-    var jobs = null, ondJobs = [];
-    if (J && J.jobs) { jobs = {}; J.jobs.forEach(function (j) { jobs[j.id] = j; if (j.group === "ondemand") ondJobs.push(j); }); }
-    S.actions = fill(S.actions, jobs); S.routines = fill(S.routines, jobs);
-    var ond = (S.ondemand && S.ondemand.length) ? fill(S.ondemand, jobs) : ondJobs.map(function (j) {
-      return { id: j.id, label: j.label, light: "gray", note: "下次每日準備後更新", freq: j.freq, method: j.method, retry: j.retry };
-    });
+    var jobs = null;
+    if (J && J.jobs) { jobs = {}; J.jobs.forEach(function (j) { jobs[j.id] = j; }); }
+    S.actions = fill(S.actions, jobs, ["actions", "check"]); S.routines = fill(S.routines, jobs, ["routine"]);
+    var ond = fill(S.ondemand, jobs, ["ondemand"]);
     $("stSub").textContent = "資料產生時間（台北）：" + tpe(S.generated);
     var all = S.actions.concat(S.routines), red = all.filter(function (r) { return r.light === "red"; }).length + S.companies.filter(function (r) { return r.light === "red"; }).length;
     var yel = all.filter(function (r) { return r.light === "yellow"; }).length;

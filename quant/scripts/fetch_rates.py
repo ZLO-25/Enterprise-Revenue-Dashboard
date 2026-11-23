@@ -27,10 +27,17 @@ SINCE = "1998-01-01"          # 顯示從 2000 年起，多留兩年才知道 20
 UA = "Mozilla/5.0 (rates-weekly; +https://github.com/ZLO-25/Enterprise-Revenue-Dashboard)"
 
 
-def http_get(url, timeout=60):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read().decode("utf-8-sig", errors="replace")
+def http_get(url, timeout=60, tries=3):
+    """抓文字網址（FRED、央行）。網路錯誤最多試 tries 次（失敗後等 2、4 秒）；最後一次還失敗就把錯誤丟出去。"""
+    for i in range(1, tries + 1):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read().decode("utf-8-sig", errors="replace")
+        except Exception:  # noqa: BLE001
+            if i >= tries:
+                raise
+            time.sleep(2 * i)
 
 
 def parse_fred_csv(text):

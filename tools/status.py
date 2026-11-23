@@ -6,9 +6,9 @@
 工作清單只有一份：data/status/jobs.json（Claude 維護；每個工作的 freq 頻率、method 做法、retry 重試、group 分類）。
   group=actions   排程的 GitHub workflow（在 main）→ 輸出 actions，依 kind 判斷多久沒成功算紅燈
   group=routine   Claude 排程（daily、news、trend、mcap）→ 輸出 routines
+  group=check     不是 workflow 的檢查列（sec-feed-file：SEC 清單檔案時間；macro-data：總經資料內容）→ 輸出在 actions
   group=ondemand  不定期工作（ci、bs-fetch、rd-twse、sec-raw、tw-raw）→ 輸出 ondemand，只顯示最近一次執行，燈號固定 gray
-每一列都帶 group／freq／method／retry。「SEC 清單檔案時間」「總經資料內容」兩列不是 workflow，說明文字寫在本檔。
-新增 workflow 或 Claude 排程要同時登記到 jobs.json，tools/tests/test_jobs.py 會擋。
+每一列都帶 group／freq／method／retry。新增 workflow 或 Claude 排程要同時登記到 jobs.json，tools/tests/test_jobs.py 會擋。
 GitHub API 查詢失敗時最多試 3 次（等 2、4 秒）。輸出 version 2（新增 ondemand、group／freq／method／retry）。
 用法：
   python3 tools/status.py              算完寫 data/status/latest.json，印摘要；有紅燈也不報錯（issue 由 workflow 開）
@@ -86,6 +86,11 @@ def jobs_of(group):
     return [j for j in (jload("data", "status", "jobs.json", default={}) or {}).get("jobs", []) if j.get("group") == group]
 
 
+def check_job(i):
+    """group=check：不是 workflow 的檢查列（SEC 清單檔案時間、總經資料內容）；jobs.json 沒有就回「待確認」。"""
+    return next((j for j in jobs_of("check") if j["id"] == i), {"group": "check", "label": i, "freq": "待確認", "method": "待確認", "retry": "待確認"})
+
+
 def info(j):
     """每一列都帶的說明欄位（頻率、做法、重試、分類）。"""
     return {"group": j["group"], "freq": j["freq"], "method": j["method"], "retry": j["retry"]}
@@ -114,16 +119,8 @@ def actions_block(now, use_api):
         ok = parse(feed["fetched"])
         light, note = eval_run_age("daily", ok, None, now)
         at = next((n + 1 for n, r in enumerate(rows) if r["id"] == "sec-feed"), 1)
-        rows.insert(at, {"id": "sec-feed-file", "label": "SEC 新申報清單（檔案時間）", "kind": "daily", "light": light, "note": note, "lastOk": feed["fetched"], **SEC_FILE_INFO})
+        rows.insert(at, {"id": "sec-feed-file", "label": check_job("sec-feed-file")["label"], "kind": "daily", "light": light, "note": note, "lastOk": feed["fetched"], **info(check_job("sec-feed-file"))})
     return rows
-
-
-SEC_FILE_INFO = {"group": "actions", "freq": "隨 sec-feed 與每日準備更新（讀檔案內的 fetched 時間）",
-                 "method": "不是 workflow：讀 data/sec-feed.json 的 fetched 時間，超過 36 小時（週日、週一、週二多給 48 小時）判紅燈",
-                 "retry": "不重試（只是檢查）；抓取的重試看 sec-feed 與每日準備"}
-MACRO_DATA_INFO = {"group": "actions", "freq": "隨 macro-weekly 更新（讀 data/macro/latest.json 的更新時間）",
-                   "method": "不是 workflow：檢查資料檔內容；超過 10 天沒更新或一半以上序列抓不到判紅燈，有序列停更、這次抓不到或外部連結 404 判黃燈",
-                   "retry": "不重試（只是檢查）；抓取的重試看 macro-weekly"}
 
 
 def ondemand_block(now, use_api):
@@ -154,7 +151,8 @@ def macro_row(doc, now):
       紅：資料檔超過 10 天沒更新（排程每週兩次＋每天被叫醒一次，10 天沒動代表壞了），或一半以上的序列抓不到
       黃：有序列太久沒有新資料（來源停更、改代號）、有序列這次抓不到、有外部連結 404
     """
-    row = {"id": "macro-data", "label": "總經資料（內容檢查：停更、抓不到、連結失效）", "kind": "weekly", "light": "yellow", "note": "還沒有資料檔", **MACRO_DATA_INFO}
+    cj = check_job("macro-data")
+    row = {"id": "macro-data", "label": cj["label"], "kind": "weekly", "light": "yellow", "note": "還沒有資料檔", **info(cj)}
     if not doc or not doc.get("updated"):
         return row
     at = dt.datetime.strptime(doc["updated"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=dt.timezone.utc)

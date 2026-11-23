@@ -33,7 +33,7 @@ jobs:
       - name: ① SEC 新申報清單
         id: sec
         continue-on-error: true
-        run: tools/retry.sh 3 30 python3 tools/sec_feed.py
+        run: tools/retry.sh 3 15 python3 tools/sec_feed.py
       - name: ①b SEC 收件匣（新財報新聞稿預抓、XBRL 核對表、資產負債表提案；失敗不擋後面）
         continue-on-error: true
         timeout-minutes: 6
@@ -41,7 +41,7 @@ jobs:
       - name: ② 分析師預估快照（失敗不擋後面）
         id: cons
         continue-on-error: true
-        run: tools/retry.sh 3 30 python3 tools/consensus.py
+        run: tools/retry.sh 3 15 python3 tools/consensus.py
       - name: ③ 提交 SEC 清單與預估快照
         run: |
           git config user.name "prep-bot"

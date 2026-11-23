@@ -26,13 +26,13 @@ class JobsRegistry(unittest.TestCase):
         for j in JOBS:
             for k in ("freq", "method", "retry", "label"):
                 self.assertTrue((j.get(k) or "").strip(), f"{j['id']} 的 {k} 是空的")
-            self.assertIn(j["group"], ("actions", "routine", "ondemand"), j["id"])
+            self.assertIn(j["group"], ("actions", "routine", "ondemand", "check"), j["id"])
             self.assertIn(j.get("kind"), ("daily", "weekly", "monthly", None), j["id"])
             if j["group"] == "ondemand":
                 self.assertIsNone(j["kind"], j["id"])
             else:
                 self.assertIsNotNone(j["kind"], j["id"])
-            if j["group"] == "routine":
+            if j["group"] in ("routine", "check"):   # Claude 排程與「檢查列」不是 workflow
                 self.assertIsNone(j.get("workflow"), j["id"])
             else:
                 self.assertTrue(j.get("workflow"), j["id"])
@@ -40,7 +40,7 @@ class JobsRegistry(unittest.TestCase):
     def test_required_ids(self):
         ids = {j["id"] for j in JOBS}
         for i in ("daily-prep", "sec-feed", "consensus-daily", "prices-daily", "futures-daily", "quant-prices", "mcap-weekly", "rates-weekly",
-                  "macro-weekly", "prices-monthly", "ci", "bs-fetch", "rd-twse", "sec-raw", "tw-raw", "daily", "news", "trend", "mcap"):
+                  "macro-weekly", "prices-monthly", "sec-feed-file", "macro-data", "ci", "bs-fetch", "rd-twse", "sec-raw", "tw-raw", "daily", "news", "trend", "mcap"):
             self.assertIn(i, ids)
 
     def test_routine_triggers_match_daily_brief(self):
