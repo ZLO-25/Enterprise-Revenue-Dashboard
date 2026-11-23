@@ -8,7 +8,7 @@
 #   ③ 頁面打開時直接讀 data/daily/<代號>.json，所以不必重建網站
 #   ⑥ ETF（data/etf/config.json）：tools/etf_update.py 抓收盤價→ data/etf/daily/，每 7 天抓一次持股與費用率 → data/etf/latest.json（ETF 頁直接讀）
 #   ⑤ 同一個 job 接著更新個股日 K（tools/kbar_update.py：Yahoo OHLCV → 與上面的每日收盤核對 → 加密 → data/kbar/，密碼同期貨 FUTURES_PASSWORD）
-#   ⑦ VIX（恐慌指數）收盤：tools/vix_update.py 抓 Cboe 官方每日檔與 Yahoo ^VIX，用比較新的那個、互相核對 → data/market/vix.json（首頁「市場情緒」直接讀）
+#   ⑦ VIX（恐慌指數）收盤：tools/vix_update.py 抓 Cboe 官方每日檔與 Yahoo ^VIX，用比較新的那個、互相核對 → data/market/vix.json（首頁「市場情緒」直接讀）＋ data/market/vix-history.json（全部歷史收盤與 20 日平均，首頁「走勢圖」讀；歷史只增不減）
 #   ④ 財報季度、論點卡有更新（push 到 data/*.json、data/thesis/、data/prices/）→ 不上網，只用現有收盤價重算一次
 name: prices-daily
 on:

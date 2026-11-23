@@ -133,6 +133,11 @@ table.co-tbl { font-size: 0.84rem; }
 .td-mood .mz{font-weight:600}.td-mood .mz.tense{color:var(--bad-text)}.td-mood .td-tag.tense{border-color:var(--bad-text);color:var(--bad-text);font-weight:600}
 .td-mood .ms{font-size:.8rem;color:var(--muted);margin-top:2px}.td-mood .ms a{color:inherit;text-decoration:underline}
 .td-mood svg{flex:none;width:84px;height:20px;color:var(--muted);align-self:center}
+.td-mood .vx-tg{font:inherit;font-size:.78rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:1px 10px;cursor:pointer}.td-mood .vx-tg:hover{color:var(--ink)}
+.vx-panel{margin-top:8px}.vx-panel[hidden]{display:none}.vx-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}.vx-bar .seg{flex-wrap:wrap;max-width:100%}
+.vx-panel .chartbox{height:260px;margin-top:6px}.vx-panel .legend{font-size:.76rem}.vx-panel .vx-cap{font-size:.8rem;color:var(--muted);margin-top:6px}.vx-panel .vx-cap a{color:inherit;text-decoration:underline}
+.vx-panel .vx-miss{font-size:.8rem;color:var(--bad-text);margin:6px 0 0}
+@media (max-width:600px){.vx-panel .chartbox{height:220px}}
 </style>
 
 <main class="wrap" style="padding-top:8px">
@@ -489,6 +494,97 @@ applyFilter();
     if (r.more) li.push(`<li class="td-more">還有 ${r.more} 則 → <a href="${CL}">行事曆</a>／<a href="${SL}">系統健康</a></li>`);
     $('#tdList').innerHTML = li.join('');
   });
+  /* VIX 走勢圖：展開時才抓 market/vix-history.json（全部歷史收盤＋20 日平均，tools/vix_update.py 在 Actions 算好，這裡只畫）。
+     檔案還沒產生（合併後要等下一次每日更新）或抓不到：顯示說明，並改畫 vix.json 的 points（約一年，沒有平均線）。 */
+  function vixTrend(v, zs) {
+    const tg = $('#vxTg'), panel = $('#vxPanel'); if (!tg || !panel) return;
+    let H = null, chart = null, rng = '1y', loaded = false, miss = false;
+    const MAXPTS = 2500;
+    const cut = (to, months) => { const d = new Date(to + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() - months); return d.toISOString().slice(0, 10); };
+    /* 只為了畫圖而抽樣（資料檔不動）：超過 MAXPTS 點時，每 k 點分一組，每組保留「最高收盤」那一點與最後一點，
+       所以 2008、2020 的尖峰不會被抽掉；兩點都留，時間順序不變。 */
+    const thin = (rows) => {
+      if (rows.length <= MAXPTS) return rows;
+      const k = Math.ceil(rows.length / (MAXPTS / 2)), out = [];
+      for (let i = 0; i < rows.length; i += k) {
+        const g = rows.slice(i, i + k); let m = g[0];
+        g.forEach(r => { if (r[1] > m[1]) m = r; });
+        const last = g[g.length - 1];
+        if (m !== last) out.push(m);
+        out.push(last);
+      }
+      return out;
+    };
+    const rowsFor = () => {
+      const all = H.points, months = { '3m': 3, '1y': 12, '5y': 60 }[rng];
+      const c = months ? cut(H.to, months) : '';
+      return thin(all.filter(r => r[0] > c));
+    };
+    const paintShell = () => {
+      const fy = H.from.slice(0, 4);
+      const R = [['3m', '3個月'], ['1y', '1年']].concat(miss ? [] : [['5y', '5年'], ['all', `全部（${fy} 起）`]]);
+      panel.innerHTML = `<div class="vx-bar"><div class="seg" id="vxSeg" role="group" aria-label="走勢圖期間">${R.map(r => `<button type="button" data-r="${r[0]}" aria-pressed="${r[0] === rng}">${r[1]}</button>`).join('')}</div><div class="legend" id="vxLg"></div></div>` +
+        (miss ? `<p class="vx-miss">走勢資料還沒產生（下一次每日更新後就會有）。先用首頁資料畫最近約一年的收盤，沒有 20 日平均。</p>` : '') +
+        `<div class="chartbox"><canvas id="vxCv" role="img" aria-label="VIX 收盤與 20 日平均走勢圖"></canvas></div>` +
+        `<div class="vx-cap" id="vxCap"></div>`;
+      $('#vxSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; rng = b.dataset.r; panel.querySelectorAll('#vxSeg button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+    };
+    const draw = () => {
+      if (!H || !window.Chart) return;
+      if (chart) { chart.destroy(); chart = null; }
+      const rows = rowsFor(), c1 = T('--s1'), c2 = T('--s2');
+      const hasMa = rows.some(r => r[2] != null);
+      legend('#vxLg', [{ t: '收盤', c: c1, line: 1 }].concat(hasMa ? [{ t: '20 日平均（虛線）', c: c2, line: 1 }] : []));
+      $('#vxCap').innerHTML = `資料：${esc(H.from)} ～ ${esc(H.to)}（${H.points.length} 筆）；來源：<a href="${esc(H.sourceUrl || '#')}" target="_blank" rel="noopener">${esc(H.source || '')}</a>；每天更新一次收盤值。<br>` +
+        `<span class="tag-src tag-v" title="教學：本站的說明，不是買賣訊號">教學</span> 看趨勢：收盤在 20 日平均之上而且平均往上 → 緊張在升溫；跌回平均之下 → 在降溫。這是情緒，不是買賣訊號。`;
+      Chart.defaults.font.family = 'IBM Plex Sans, Noto Sans TC, system-ui, sans-serif';
+      Chart.defaults.color = T('--tick');
+      const med = typeof v.med10 === 'number' ? v.med10 : null;
+      const refs = [{ y: zs.calm, t: `${zs.calm} 平靜（教學）`, c: T('--tick'), dash: [4, 4] }, { y: zs.tense, t: `${zs.tense} 很緊張（教學）`, c: T('--bad-text'), dash: [4, 4] }]
+        .concat(med != null ? [{ y: med, t: `十年中位數 ${med.toFixed(1)}`, c: T('--axis'), dash: [2, 3] }] : []);
+      /* 水平參考線＋小標籤（不另外引入函式庫）；標籤畫在線的上方、靠左 */
+      const refPlugin = { id: 'vxRefs', afterDatasetsDraw(ch) {
+        const { ctx, chartArea: a, scales: { y } } = ch; ctx.save();
+        ctx.font = '600 10px IBM Plex Sans, Noto Sans TC, system-ui, sans-serif'; ctx.textBaseline = 'bottom';
+        refs.forEach(r => { const py = y.getPixelForValue(r.y); if (py < a.top || py > a.bottom) return;
+          ctx.strokeStyle = r.c; ctx.fillStyle = r.c; ctx.lineWidth = 1; ctx.setLineDash(r.dash);
+          ctx.beginPath(); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillText(r.t, a.left + 4, py - 2); });
+        ctx.restore(); } };
+      const years = rows.length > 1 && (Date.parse(rows[rows.length - 1][0]) - Date.parse(rows[0][0])) / 864e5 > 800;
+      chart = new Chart($('#vxCv'), { type: 'line', plugins: [refPlugin],
+        data: { labels: rows.map(r => r[0]), datasets: [
+          line({ label: '收盤', data: rows.map(r => r[1]), borderColor: c1, borderWidth: rows.length > 600 ? 1.2 : 1.8, tension: 0 }),
+          line({ label: '20 日平均', data: rows.map(r => r[2]), borderColor: c2, borderWidth: 1.2, borderDash: [5, 3], tension: 0, hidden: !hasMa })] },
+        options: baseOpts({ scales: {
+          y: yAxis({ suggestedMin: 8, suggestedMax: zs.tense + 3 }),
+          x: xAxis({}, { maxTicksLimit: innerWidth < 600 ? 5 : 8, callback(val) { const l = String(this.getLabelForValue(val)); return years ? l.slice(0, 4) : l.slice(2, 7); } }) },
+          plugins: { ...baseOpts().plugins, endLabels: false, tooltip: { ...baseOpts().plugins.tooltip, callbacks: {
+            title: (it) => it.length ? it[0].label : '',
+            label: (c) => c.raw == null ? null : `${c.dataset.label}　${Number(c.raw).toFixed(2)}` } } } }) });
+    };
+    const open = async () => {
+      if (!loaded) {
+        loaded = true; panel.innerHTML = '<p class="vx-cap">載入中…</p>';
+        const h = await get('market/vix-history.json');
+        if (h && Array.isArray(h.points) && h.points.length > 20 && h.from && h.to) H = h;
+        else {
+          miss = true;
+          const pp = v.points || [];
+          H = { points: pp.map(p => [p[0], p[1], null]), from: pp.length ? pp[0][0] : '', to: pp.length ? pp[pp.length - 1][0] : '', source: v.source, sourceUrl: v.sourceUrl };
+        }
+        if (!H.points.length) { panel.innerHTML = '<p class="vx-miss">走勢資料還沒產生（下一次每日更新後就會有）。</p>'; return; }
+        paintShell();
+      }
+      draw();
+    };
+    tg.addEventListener('click', () => {
+      const show = panel.hidden;
+      panel.hidden = !show; tg.setAttribute('aria-expanded', String(show)); tg.textContent = show ? '收合 ▴' : '走勢圖 ▾';
+      if (show) open(); else if (chart) { chart.destroy(); chart = null; }
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (!panel.hidden && H) draw(); });
+  }
   /* 市場情緒：VIX 每日收盤（data/market/vix.json，只由 GitHub Actions 的 prices-daily 寫；數字都在 tools/vix_update.py 算好，這裡只畫） */
   get('market/vix.json').then(v => {
     if (!v || !v.last || typeof v.last.c !== 'number') return;
@@ -507,10 +603,13 @@ applyFilter();
     el.innerHTML = `<div class="mm"><span class="td-tag ${v.zone === 'tense' ? 'tense' : ''}">市場情緒</span><span>VIX（恐慌指數）<b>${v.last.c.toFixed(2)}</b></span>` +
       `<span class="mz ${esc(v.zone || '')}">${Z[v.zone] || ''}</span><span>${EVCAL.mdw(v.last.d)} 收盤${chg}</span>` +
       (typeof v.pct10 === 'number' ? `<span>十年位置：第 ${v.pct10} 百分位</span>` : '') + spark + x +
+      `<button type="button" class="vx-tg" id="vxTg" aria-expanded="false" aria-controls="vxPanel">走勢圖 ▾</button>` +
       `<a href="${SL.replace(/status\/$/, 'macro/')}#now">總經儀表板 →</a><a href="${SL.replace(/status\/$/, '')}#vol">歷次股災回顧 →</a></div>` +
       `<div class="ms"><span class="tag-src tag-v" title="教學：本站的說明，不是買賣訊號">教學</span> ${zs.calm} 以下通常算平靜，${zs.tense} 以上代表市場很緊張。恐慌來得快、去得也快：它是情緒，不是景氣轉折的證據，先回頭看就業與消費有沒有跟著變差。` +
-      `每天更新一次收盤值${old ? '（<b>資料可能過時</b>，最新只到 ' + esc(v.last.d) + '）' : ''}；來源：<a href="${esc(v.sourceUrl || '#')}" target="_blank" rel="noopener">${esc(v.source || '')}</a>。</div>`;
+      `每天更新一次收盤值${old ? '（<b>資料可能過時</b>，最新只到 ' + esc(v.last.d) + '）' : ''}；來源：<a href="${esc(v.sourceUrl || '#')}" target="_blank" rel="noopener">${esc(v.source || '')}</a>。</div>` +
+      `<div class="vx-panel" id="vxPanel" hidden></div>`;
     el.hidden = false;
+    vixTrend(v, zs);
   });
 })();
 FUT.home(document.getElementById('futures'), '{{FUT_BASE}}', '{{FUT_LINK}}');
