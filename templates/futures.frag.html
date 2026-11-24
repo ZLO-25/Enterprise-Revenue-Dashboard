@@ -69,7 +69,7 @@
             <div class="fut-leg" id="futLeg"></div>
             <div class="fut-chart" id="futChart"></div>
             <div class="fut-lines" id="futLines"></div>
-            <p class="how">圖下方小三角「扣N」＝ MA N 下一根會扣掉的那根 K 棒；上方灰點「換月」＝期貨的換月日。可以拖曳、用滾輪或雙指縮放；最下面是 KD（虛線 20、80）。<br>水平線：按「水平線」再點圖放線（或游標移到價位按 Alt+H）；按住線可上下拖曳；點一下線可換顏色、虛實線、寫備註或刪除（Delete 鍵）。線記在這台裝置，日／週／月 K 共用，個股頁的 K 棒也看得到。</p>
+            <p class="how">圖下方小三角「扣N」＝ MA N 下一根會扣掉的那根 K 棒；上方灰點「換月」＝期貨的換月日。可以拖曳、用滾輪或雙指縮放；最下面是 KD（虛線 20、80）。<br>水平線：按「水平線」再點圖放線（或游標移到價位按 Alt+H）；按住線可上下拖曳；點一下線可換顏色、虛實線、寫備註或刪除（Delete 鍵）。線記在這台裝置，日／週／月 K 共用，個股頁的 K 棒也看得到。<br>到價提醒：按橘色的「🔔 提醒」再點圖上的價位（或游標移到價位按 Alt+A）；當天最高／最低價碰到就通知，詳見<a href="../alerts/">到價提醒</a>頁。</p>
           </div>
         </section>
 
@@ -94,6 +94,10 @@
 {{COMMON_JS}}
 {{FUTURES_JS}}
 {{KBAR_JS}}
+{{ALERTS_JS}}
+ALERTS.init({ base: '../data/alerts/', kbar: '{{KB_BASE}}', fut: '{{FUT_BASE}}', link: '../alerts/', watch: '' });
+ALERTS.setItems({{AL_ITEMS}});
 KB.init({ base: '{{KB_BASE}}', futBase: '{{FUT_BASE}}', companies: {{KB_COMPANIES}}, link: '{{HOME}}' });
+ALERTS.banner();
 KB.watch(document.querySelector('main'));
 </script>

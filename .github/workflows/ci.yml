@@ -47,8 +47,10 @@ jobs:
           node --test quant/tests/view-mode.test.mjs
           node --test quant/tests/engine-phase2.test.mjs
           node --test tools/tests/today.test.js
+          node --test tools/tests/worker_core.test.mjs
+          node --test tools/tests/alerts_js.test.js
       - name: JavaScript 語法檢查
-        run: for f in assets/*.js quant/js/*.js; do node --check "$f" || exit 1; done
+        run: for f in assets/*.js quant/js/*.js worker/*.js; do node --check "$f" || exit 1; done
       - name: 瀏覽器冒煙測試（首頁、個股頁、市值排名、系統健康、量化回測 #dca／#monthly／#vol、舊檔混新檔自動復原）
         run: |
           pip install --quiet playwright
@@ -62,3 +64,7 @@ jobs:
           PW_MM="$(python3 -c 'import importlib.metadata as m; print(".".join(m.version("playwright").split(".")[:2]))')"
           npm install --no-save --prefix "$RUNNER_TEMP/pw" "playwright@~$PW_MM.0" || npm install --no-save --prefix "$RUNNER_TEMP/pw" playwright
           NODE_PATH="$RUNNER_TEMP/pw/node_modules" node tools/tests/kbar_browser.cjs
+      - name: 瀏覽器測試（到價提醒：鈴鐺線、提醒頁、提醒條；合成資料與假的 Worker，不碰 data/）
+        run: |
+          export PW_CHROMIUM="$(python3 -c 'from playwright.sync_api import sync_playwright as s; p = s().start(); print(p.chromium.executable_path); p.stop()')"
+          NODE_PATH="$RUNNER_TEMP/pw/node_modules" node tools/tests/alerts_browser.cjs

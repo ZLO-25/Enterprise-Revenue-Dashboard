@@ -49,6 +49,11 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 - 合併後刪除該 PR 的分支（PR 頁面可 Restore branch）。保留清單：`sec-raw`、`tw-raw`（Actions 的原始資料）、`rollback/*`、`shadow/*`、`pr-shots-*`。注意：這個雲端環境的 proxy 不允許刪分支，要請 ZL 在 GitHub 刪，或把 repo 設定「合併後自動刪除 head 分支」打開。
 - 單元測試放在 `tools/tests/`（`python3 -m unittest discover -s tools/tests`）；新增邏輯要附測試。
 
+## 到價提醒（alerts）
+- 說明在 [`docs/ALERTS.md`](docs/ALERTS.md)。`data/alerts/rules.enc.json` **只由 Cloudflare Worker（`worker/`）寫入**，`data/alerts/state.enc.json` **只由 GitHub Actions（alerts-daily，`tools/alerts.py`）寫入**，皆為加密檔，Claude 不手改、不手建、不在本機產生；`data/alerts/config.json`（小幫手網址）由 alerts-worker-deploy 寫。
+- Actions log 不可印代號、價格、金鑰（公開 repo）；ntfy 內容不可含價格。Gmail 每天寄每日行情報告（含提醒），ntfy／Telegram 只在有到價時發。
+- 新增通知管道或改信件內容要同步改 `tools/tests/test_alerts.py`；到價判斷改了要同時改 `tools/alerts.py` 與 `assets/alerts.js`，共用案例在 `tools/tests/alerts_cases.json`。
+
 ## 每日準備與系統健康
 - GitHub 排程固定晚 4～6 小時、每個工作一天只跑 1～3 次（實測 2026-11），加備援班沒用。每日檢查用 `python3 tools/daily.py brief --wait-prep` 手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、叫醒股價與期貨、算健康狀態）並等它做完。
 - SEC 收件匣：`tools/sec_inbox.py`（只由 Actions 的 daily-prep 跑）寫 `data/inbox/`（新聞稿文字＋XBRL 核對表）並重算 `data/bs-raw/`；只是「準備」與「核對」，不自動改 `data/<代號>.json`。

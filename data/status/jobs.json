@@ -69,6 +69,17 @@
    "retry": "同一班內還沒到最新（結束碼 75）就等 10 分鐘再試，最多 3 次；其他錯誤不重試；3 次都沒到交給下一班（15 分鐘後）；台北 22:00 以後的最後一次仍失敗標紅燈；程式內讀網址另外最多試 3 次"
   },
   {
+   "id": "alerts-daily",
+   "group": "actions",
+   "label": "到價提醒與每日行情報告",
+   "workflow": "alerts-daily.yml",
+   "branch": "main",
+   "kind": "daily",
+   "freq": "台北每天 08:00（Cloudflare Worker 的排程用 workflow_dispatch 準時叫醒；Worker 還沒部署前沒有這一班）；備援：GitHub 排程 UTC 00:30、02:00（台北 08:30、10:00，GitHub 常晚 4～6 小時）；state 的 lastSent 保證台北同一天只發一次",
+   "method": "跑 tools/alerts.py：讀加密的提醒規則與 K 棒（data/alerts、data/kbar、data/futures）→ Yahoo 補最近已收盤的日 K → 判斷到價（當天最高／最低碰到）→ 更新 data/alerts/state.enc.json 並提交；Gmail 每天寄每日行情報告，ntfy、Telegram 只在有到價中的提醒時發，有設 secret 的管道才發；手動執行勾 test 只發測試訊息",
+   "retry": "整支程式最多試 3 次（失敗後等 15、30 秒；全部管道都失敗才算失敗，部分管道失敗不重試以免重複通知）；補價失敗只印數量、改用檔案裡的 K 棒；提交推送最多 5 次；全部管道都失敗或推送失敗標紅燈"
+  },
+  {
    "id": "quant-prices",
    "group": "actions",
    "label": "回測用股價",
@@ -155,6 +166,17 @@
    "freq": "不定期：只有手動觸發（新增公司或補欄位時）",
    "method": "手動觸發，依 mode 跑 tools/bs_fetch.py 讀 SEC XBRL；build 與 balance 模式把提案寫到 data/bs-raw 並提交",
    "retry": "整支沒有重試，失敗就手動再跑一次；程式內讀網址遇到 HTTP 錯誤最多試 3 次（404 視為沒有資料）；提交推送最多 3 次"
+  },
+  {
+   "id": "alerts-worker-deploy",
+   "group": "ondemand",
+   "label": "到價提醒小幫手部署（Cloudflare Worker）",
+   "workflow": "alerts-worker-deploy.yml",
+   "branch": "main",
+   "kind": null,
+   "freq": "不定期：手動，或 worker/ 底下的檔案 push 到 main 時；少了任何一個 secret 就印「還沒設定」並成功結束",
+   "method": "用 FUTURES_PASSWORD 推導 ALERT_KEY → npx wrangler@3.99.0 deploy → wrangler secret put（ALERT_KEY、GH_TOKEN）→ 把 workers.dev 網址寫進 data/alerts/config.json 並提交（有變才提交）",
+   "retry": "沒有重試；失敗要看 log 修好再手動跑；提交推送最多 5 次"
   },
   {
    "id": "rd-twse",

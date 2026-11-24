@@ -1,0 +1,6 @@
+{
+  "name": "erd-alerts-worker",
+  "private": true,
+  "type": "module",
+  "description": "到價提醒的 Cloudflare Worker（說明見 docs/ALERTS.md）。type=module 讓 node --test 能直接 import core.js；部署用 wrangler 打包。"
+}

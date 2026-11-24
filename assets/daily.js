@@ -33,6 +33,19 @@ const DAILY = (() => {
     };
     next();
   }));
+  /* 到價提醒（assets/alerts.js）：指到這站的資料夾，並讓這檔的提醒用公司名稱顯示 */
+  const initAlerts = (K) => { if (typeof ALERTS === 'undefined' || !K.alerts) return; ALERTS.init({ base: K.alerts.base, kbar: K.base, fut: K.futBase, link: K.alerts.link, watch: K.link }); ALERTS.setNames({ [K.code]: K.name }); };
+  /* K 棒區塊標題列的「已到價」紅點：只有這台裝置解鎖過（localStorage 有金鑰）才載入 alerts.js 去看；沒解鎖不多抓任何東西 */
+  let alP = null;   // alerts.js 只載入一次（標題紅點與 K 棒展開都會要它）；載入失敗就當作沒有到價提醒功能，不影響 K 棒
+  const loadAlerts = (K) => alP || (alP = new Promise((res) => {
+    if (typeof ALERTS !== 'undefined' || !K.alerts) return res();
+    const sc = document.createElement('script'); sc.src = K.alerts.js; sc.onload = () => res(); sc.onerror = () => res(); document.head.appendChild(sc);
+  }));
+  const markAlerts = (K, el) => {
+    let has = false; try { has = !!localStorage.getItem('erd-futures-key-v1'); } catch (e) { }
+    if (!has || !K.alerts || !el) return;
+    loadAlerts(K).then(() => { if (typeof ALERTS === 'undefined') return; initAlerts(K); ALERTS.mark(K.code, el); });
+  };
   const RANGES = [1, 3, 5];
   const cutoff = (d, n) => { const t = new Date(d + 'T00:00:00Z'); t.setUTCFullYear(t.getUTCFullYear() - n); return t.toISOString().slice(0, 10); };
 
@@ -85,7 +98,7 @@ const DAILY = (() => {
       const box = sec.querySelector('#dyKB'); if (!box || box._kb || box._loading) return;
       const start = () => {
         if (box._kb || box._loading) return; box._loading = true;
-        loadKB(D.kbar).then(() => { KB.init({ base: D.kbar.base, futBase: D.kbar.futBase, link: D.kbar.link }); box._kb = KB.stock(box, { code: D.kbar.code, name: D.kbar.name, ticker: D.kbar.ticker, link: D.kbar.link }); })
+        loadKB(D.kbar).then(() => loadAlerts(D.kbar)).then(() => { KB.init({ base: D.kbar.base, futBase: D.kbar.futBase, link: D.kbar.link }); initAlerts(D.kbar); box._kb = KB.stock(box, { code: D.kbar.code, name: D.kbar.name, ticker: D.kbar.ticker, link: D.kbar.link }); })
           .catch((e) => { box.innerHTML = `<p class="fut-note">K 棒載入失敗（${esc(e.message || e)}）。可以改到<a href="${esc(D.kbar.link)}?s=${esc(D.kbar.code)}">看盤頁</a>看。</p>`; })
           .finally(() => { box._loading = false; });
       };
@@ -115,7 +128,7 @@ const DAILY = (() => {
       kbOpen = open; kbTg.setAttribute('aria-expanded', String(open)); kbTg.querySelector('.kb-bar-r').textContent = open ? '收合' : '展開'; kbTg.querySelector('.kb-bar-ic').textContent = open ? '▾' : '▸';
       const box = sec.querySelector('#dyKB'); box.hidden = !open;
       if (open) { if (box._kb) box._kb.reload(); else showKB(now); }
-      else { const c = box.querySelector('.fut-chart'); if (c) { if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = ''; } }   // 收合就釋放圖，再展開重建（不會出現兩張）
+      else { const c = box.querySelector('.fut-chart'); if (c) { if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); if (c._alOff) c._alOff(); c.innerHTML = ''; } }   // 收合就釋放圖，再展開重建（不會出現兩張）
     };
     if (kbTg) kbTg.addEventListener('click', () => { const v = !kbOpen; try { localStorage.setItem(KB_OPEN_LS, v ? '1' : '0'); } catch (e) { } setKB(v, true); });
     sec.querySelectorAll('#dyK button').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.k === k)));
@@ -123,6 +136,7 @@ const DAILY = (() => {
     sec.querySelector('#dyR').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; range = +b.dataset.r; sec.querySelectorAll('#dyR button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
     draw();
     if (kbTg) setKB(kbOpen, false);
+    if (kbTg && D.kbar) markAlerts(D.kbar, kbTg.querySelector('.kb-bar-l'));
     if (!sec.__re) {
       sec.__re = true;
       let t; const re = () => { clearTimeout(t); t = setTimeout(draw, 60); };

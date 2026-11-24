@@ -273,7 +273,7 @@ const KB = (() => {
       card._seq = (card._seq || 0) + 1;
       const box = card.querySelector('.kb-cbox');
       if (card._chart) { try { card._chart.remove(); } catch (e) { } card._chart = null; }
-      if (box._linesOff) box._linesOff();
+      if (box._linesOff) box._linesOff(); if (box._alOff) box._alOff();
       box.innerHTML = '';
     }
     const releaseAll = () => cardsEl.querySelectorAll('.kb-card').forEach(release);
@@ -334,7 +334,7 @@ const KB = (() => {
         if (it && $('#kbApp').scrollIntoView) $('#kbApp').scrollIntoView({ block: 'start' });
       } else {
         seq++; d = null;
-        const c = els.chart; if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); c.innerHTML = '';
+        const c = els.chart; if (c._kbChart) { try { c._kbChart.remove(); } catch (e) { } c._kbChart = null; } if (c._linesOff) c._linesOff(); if (c._alOff) c._alOff(); c.innerHTML = '';
         $('#kbApp').hidden = true; gridEl.hidden = false;
         if (how === 'push') history.pushState({ kb: 'grid' }, '', gUrl()); else if (how !== 'none') rep(gUrl());
         renderGrid();

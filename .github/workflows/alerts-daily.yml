@@ -1,0 +1,65 @@
+# 到價提醒＋每日行情報告（不經過 Claude，不花 token）
+#
+#   ① 準時：Cloudflare Worker 的排程每天台北 08:00（UTC 00:00）用 workflow_dispatch 叫醒本工作
+#      （GitHub 自己的排程固定晚 4～6 小時，08:00 只能靠 Worker 準時叫醒；Worker 還沒部署時就只剩下面的備援班）
+#   ② 備援：GitHub 排程 UTC 00:30、02:00（台北 08:30、10:00）；state.lastSent 保證台北同一天只發一次
+#   ③ tools/alerts.py：讀加密的提醒規則與 K 棒 → Yahoo 補最近已收盤的日 K → 判斷到價 → 更新 data/alerts/state.enc.json
+#      → Gmail 每天寄每日行情報告；ntfy、Telegram 只在有到價中的提醒時發（有設 secret 的管道才發）
+#   ④ 手動執行並勾 test：每個已設定的管道各發一則測試訊息，不改紀錄
+#   log 只印數量與管道結果，不印代號、價格、金鑰（公開 repo 的 log 誰都看得到）
+name: alerts-daily
+on:
+  schedule:
+    - cron: "30 0 * * *"
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "true＝只發測試訊息到每個已設定的管道（不改紀錄）"
+        required: false
+        default: "false"
+permissions:
+  contents: write
+concurrency:
+  group: alerts-daily
+  cancel-in-progress: false
+jobs:
+  alerts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安裝套件
+        run: pip install --quiet cryptography yfinance
+      - name: 判斷到價並發送通知
+        env:
+          FUTURES_PASSWORD: ${{ secrets.FUTURES_PASSWORD }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TEST: ${{ github.event.inputs.test }}
+        run: |
+          ARGS=""
+          if [ "$TEST" = "true" ]; then ARGS="--test"; fi
+          tools/retry.sh 3 15 python3 tools/alerts.py $ARGS
+      - name: 有變動才提交（到價紀錄）
+        if: always() && github.event.inputs.test != 'true'
+        run: |
+          git config user.name "alerts-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p data/alerts && git add data/alerts/state.enc.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -q -m "到價提醒紀錄更新"
+          # 同時有別的工作先提交了：以這一班的新檔為準（rebase 時 -X theirs＝保留這一班的提交）
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase -q -X theirs origin main && git push -q; then ok=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          if [ $ok -ne 1 ]; then echo "推送失敗（重試 5 次）"; exit 1; fi

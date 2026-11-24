@@ -1,0 +1,14 @@
+# 到價提醒小幫手（Cloudflare Worker）。部署：.github/workflows/alerts-worker-deploy.yml（npx wrangler@3.99.0 deploy）。
+# 機密（ALERT_KEY、GH_TOKEN）不寫在這裡：由部署 workflow 用 wrangler secret put 從 GitHub secrets 灌進去。
+name = "erd-alerts"
+main = "alerts.js"
+compatibility_date = "2024-12-01"
+workers_dev = true
+
+[vars]
+REPO = "ZLO-25/Enterprise-Revenue-Dashboard"
+ORIGIN = "https://zlo-25.github.io"
+
+# 台北 08:00（UTC 00:00）叫醒 GitHub Actions 的 alerts-daily（GitHub 自己的排程固定晚 4～6 小時，準時要靠這裡）
+[triggers]
+crons = ["0 0 * * *"]

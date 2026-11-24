@@ -1,0 +1,81 @@
+# 部署到價提醒小幫手（Cloudflare Worker，worker/）。
+#   觸發：手動，或 push 到 main 且 worker/** 有改。
+#   需要 4 個 secrets：CLOUDFLARE_API_TOKEN、CLOUDFLARE_ACCOUNT_ID、ALERTS_GH_TOKEN、FUTURES_PASSWORD。
+#   缺任何一個：印「還沒設定：<名稱>」然後成功結束（不紅燈，免得設定完成前每次 push 都紅）。
+#   做法：用 FUTURES_PASSWORD 推導 ALERT_KEY（不印出）→ npx wrangler@3.99.0 deploy → wrangler secret put（從 stdin 灌）
+#        → 把 workers.dev 網址寫進 data/alerts/config.json（網站前端靠它找到小幫手；有變才提交）
+#   log 不印金鑰、token。
+name: alerts-worker-deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "worker/**"
+      - ".github/workflows/alerts-worker-deploy.yml"
+permissions:
+  contents: write
+concurrency:
+  group: alerts-worker-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      ALERTS_GH_TOKEN: ${{ secrets.ALERTS_GH_TOKEN }}
+      FUTURES_PASSWORD: ${{ secrets.FUTURES_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: 檢查 secrets
+        id: gate
+        run: |
+          missing=0
+          for n in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID ALERTS_GH_TOKEN FUTURES_PASSWORD; do
+            if [ -z "${!n}" ]; then echo "還沒設定：$n"; missing=1; fi
+          done
+          if [ "$missing" = "1" ]; then echo "ready=false" >> "$GITHUB_OUTPUT"; echo "缺少上面的 secrets，略過部署（設定方法見 docs/ALERTS.md）"; else echo "ready=true" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.ready == 'true'
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.ready == 'true'
+        with:
+          node-version: "20"
+      - name: 部署 Worker 並設定機密
+        if: steps.gate.outputs.ready == 'true'
+        working-directory: worker
+        run: |
+          pip install --quiet cryptography
+          ALERT_KEY="$(python3 ../tools/alerts.py --derive-key)"
+          echo "::add-mask::$ALERT_KEY"
+          npx --yes wrangler@3.99.0 deploy 2>&1 | tee ../deploy.log
+          printf '%s' "$ALERT_KEY" | npx --yes wrangler@3.99.0 secret put ALERT_KEY > /dev/null
+          printf '%s' "$ALERTS_GH_TOKEN" | npx --yes wrangler@3.99.0 secret put GH_TOKEN > /dev/null
+          echo "機密已設定（ALERT_KEY、GH_TOKEN）"
+      - name: 寫入 data/alerts/config.json
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          url="$(grep -o 'https://[A-Za-z0-9.-]*\.workers\.dev' deploy.log | head -1 || true)"
+          rm -f deploy.log
+          if [ -z "$url" ]; then echo "找不到 workers.dev 網址（Cloudflare 帳號要先開一次 Workers 設好子網域）"; exit 1; fi
+          python3 - "$url" <<'PY'
+          import json, sys
+          json.dump({"worker": sys.argv[1]}, open("data/alerts/config.json", "w"), ensure_ascii=False)
+          open("data/alerts/config.json", "a").write("\n")
+          PY
+          git config user.name "alerts-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/alerts/config.json
+          if git diff --cached --quiet; then echo "config.json 沒有變更"; exit 0; fi
+          git commit -q -m "到價提醒小幫手網址更新"
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase -q -X theirs origin main && git push -q; then ok=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          if [ $ok -ne 1 ]; then echo "推送失敗（重試 5 次）"; exit 1; fi
