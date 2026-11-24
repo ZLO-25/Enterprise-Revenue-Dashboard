@@ -54,7 +54,7 @@ def write(text, *p):
 # 首頁只讀這幾個欄位（用 Proxy 記錄首頁所有互動實際讀到的欄位得出；做法見 tools/perf/README.md）。
 # 其餘（health、notes、annual、milestones、thesis、summary、sources…）只有個股頁用，不放進首頁，首頁因此小一半。
 # 新增首頁功能若要讀別的欄位，把欄位名加進來（companies.json site.homeSlim=false 可整個關掉瘦身）。
-HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr", "analysis", "buffett")
+HOME_KEYS = ("asOf", "quarters", "events", "valuation", "profile", "segments", "monthly", "pltr", "analysis", "buffett", "dpe")
 # 巴菲特＋蒙格指標在首頁只帶精簡欄位（記分板「盈餘殖利率減公債」欄與「選擇權」小標）；十年成績單、月序列等只放個股頁
 HOME_BUFFETT_EY = ("ey", "pe", "m", "spread", "why", "bondWhy")
 # 公司分析在首頁只帶精簡欄位（展開列的「結論＋重點」）；全文 full 很大，只放個股頁，首頁用連結過去
@@ -351,6 +351,9 @@ def main():
             dd = json.load(open(dp, encoding="utf8"))
             data["daily"] = DAILY.compute(HEALTH.normq(data, c.get("schema")), data["quarters"], dd, prices, data["valuation"],
                                           data.get("thesis") if (data.get("thesis") or {}).get("status") == "approved" else None)
+            # 首頁「本益比（今日）」欄的備援值（頁面打開時另外讀 data/daily/_pe.json，取比較新的）；形狀同 prices_daily.pe_summary
+            L = (data["daily"] or {}).get("latest") or {}
+            data["dpe"] = {"d": L["d"], "pe": L.get("pe"), "why": (L.get("why") or {}).get("pe"), "q": L.get("q"), "fetched": dd.get("fetched")} if L.get("d") else None
         ap = os.path.join(ROOT, "data", "analysis", c["code"] + ".json")
         if os.path.exists(ap):
             # 公司分析（觀點）：個股頁標題下方的「結論＋重點」，more 展開全文。首頁展開列只帶精簡版（HOME_ANALYSIS）
