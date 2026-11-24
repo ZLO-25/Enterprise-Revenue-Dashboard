@@ -1,0 +1,57 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+</style>
+
+<!-- 到價提醒頁：設定與清單。資料加密（與看盤同一個密碼）；邏輯在 assets/alerts.js，說明見 docs/ALERTS.md。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="{{HOME}}">← 所有公司</a>
+    <a href="#alAddSec">新增提醒</a>
+    <a href="#alLists">我的提醒</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">Price Alerts</div>
+    <h1>🔔 到價提醒</h1>
+    <p class="lede">設好價格或百分比，標的的<b>當天最高價或最低價碰到</b>就算到價（不是只看收盤）。到價後，每天台北 08:00 會通知你（ntfy、Gmail、Telegram 有設定的才發），直到你在這裡按「關閉提醒」。<b>這一頁只有解鎖過的裝置看得到、改得動</b>（與看盤同一個密碼）。</p>
+  </header>
+
+  <div id="alStatus" class="al-st" aria-live="polite">讀取中…</div>
+  <div id="alLock" hidden></div>
+
+  <div id="alBody">
+    <section class="al-add" id="alAddSec" aria-labelledby="alAddH">
+      <h2 id="alAddH">新增提醒</h2>
+      <form id="alForm" class="al-form" autocomplete="off">
+        <div class="al-f">
+          <label for="alFind">標的（可輸入名稱或代號篩選）</label>
+          <input id="alFind" type="search" placeholder="搜尋：例如 nvda、台積電、黃金" aria-label="搜尋標的">
+          <select id="alPick" aria-label="標的"><option value="">選擇標的…</option></select>
+          <span id="alLast" class="al-hint" aria-live="polite"></span>
+        </div>
+        <div class="al-f"><span>設定方式</span><span class="seg" role="group" aria-label="設定方式"><button type="button" data-t="price" aria-pressed="true">價格</button><button type="button" data-t="pct" aria-pressed="false">％（離最新收盤）</button></span>
+          <label for="alVal" id="alVL">目標價</label><input id="alVal" type="number" inputmode="decimal" step="any" placeholder="例如 182.5">
+          <span id="alPrev" class="al-hint" aria-live="polite"></span></div>
+        <div class="al-f"><span>方向</span><span class="seg" role="group" aria-label="方向"><button type="button" data-d="auto" aria-pressed="true">自動</button><button type="button" data-d="up" aria-pressed="false">漲破</button><button type="button" data-d="down" aria-pressed="false">跌破</button></span>
+          <span class="al-hint">自動：目標在最新收盤上方＝漲破、下方＝跌破</span></div>
+        <div class="al-f"><label for="alNote">備註（選填，最多 40 字）</label><input id="alNote" type="text" maxlength="40" placeholder="例如：財報前再看一次"></div>
+        <div class="al-f"><button type="submit" class="go" id="alAdd" disabled>新增提醒</button><span id="alHint" class="al-hint"></span></div>
+      </form>
+    </section>
+    <div id="alLists"></div>
+  </div>
+  <p class="disclaimer-box">到價提醒只是提醒，不構成投資建議。價格來自 Yahoo 日線（已依股票分割調整、不含股利），延遲資料，只供研究；最高／最低價以日 K 為準，不含盤中即時價。</p>
+</main>
+
+<script>
+{{COMMON_JS}}
+{{FUTURES_JS}}
+{{ALERTS_JS}}
+ALERTS.init({ base: '../data/alerts/', kbar: '../data/kbar/', fut: '{{FUT_BASE}}', link: '', watch: '../futures/' });
+ALERTS.page(document.querySelector('main'), { items: {{AL_ITEMS}} });
+</script>

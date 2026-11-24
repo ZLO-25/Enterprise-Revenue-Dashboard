@@ -16,6 +16,7 @@
   {{HOME}}         回首頁的連結
   {{FUTURES_JS}}   assets/futures.js（指數期貨：解密、指標、首頁小卡、K 棒頁）
   {{KBAR_JS}}      assets/kbar.js（看盤頁：個股＋期貨；個股頁的 K 棒檢視由 daily.js 延遲載入同一支檔）
+  {{ALERTS_JS}}    assets/alerts.js（到價提醒：看盤頁與 alerts/ 頁內嵌；首頁與個股頁改用 <script src>）；{{AL_ITEMS}} 可設提醒的標的清單（公司、ETF、期貨）
   {{FUT_BASE}}     加密期貨資料的資料夾網址；{{FUT_LINK}} K 棒頁網址；{{LWC}} Lightweight Charts（首頁與 K 棒頁）
   首頁另有 {{COMPANIES}}、{{DATASETS}}、{{SITE_TITLE}}、{{REPO}}
 新增公司只要補 companies.json、data/<code>.json 與 companies/<code>/SOURCES.md；資料符合 v1 就用 templates/generic.frag.html，不必改本檔。
@@ -190,6 +191,10 @@ def page(title, desc, frag, rel="", kind=None, code=""):
             # 首頁兩個平行視圖：原主站整包放進 #main-dashboard-view（display:contents，排版不受影響）
             frag = ('<div id="main-dashboard-view">\n' + frag + '\n</div>\n'
                     '<div id="quant-dca-view" hidden></div>')
+    if kind == "home":
+        # 首頁只要紅色提醒條：用外部 script（defer）載入 alerts.js，沒解鎖的裝置不會多抓任何資料
+        tail += (f'\n<script>window.ERD_ALERTS={{"base":"data/alerts/","kbar":"data/kbar/","fut":"data/futures/","link":"alerts/","watch":"futures/","banner":true}}</script>'
+                 f'<script src="{rel}assets/alerts.js?v={asset_ver("assets", "alerts.js")}" defer></script>')
     return ('<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">'
             f"<title>{title}</title><meta name=\"description\" content=\"{desc}\">"
             '<meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">'
@@ -300,10 +305,12 @@ def build_combined(cfg, companies, datasets, theme, common):
 
 LONGTERM = ""
 FUTJS = ""
+KBARJS = ""
+ALERTSJS = ""
 
 
 def main():
-    global LONGTERM, FUTJS, KBARJS, SIDEBAR, PRERENDER
+    global LONGTERM, FUTJS, KBARJS, ALERTSJS, SIDEBAR, PRERENDER
     PRERENDER = False
     cfg = json.loads(read("companies.json"))
     PRERENDER = bool(cfg["site"].get("prerender"))
@@ -324,6 +331,7 @@ def main():
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
     FUTJS = read("assets", "futures.js")
     KBARJS = read("assets", "kbar.js")
+    ALERTSJS = read("assets", "alerts.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
     datasets = {}
@@ -372,7 +380,8 @@ def main():
             rel = "../" * depth
             data["kbar"] = {"lwc": rel + "assets/vendor/lightweight-charts.standalone.production.js",
                             "js": [rel + "assets/futures.js?v=" + asset_ver("assets", "futures.js"), rel + "assets/kbar.js?v=" + asset_ver("assets", "kbar.js")],
-                            "base": rel + "data/kbar/", "futBase": rel + "data/futures/", "link": rel + "futures/", "code": c["code"], "name": c["name"], "ticker": c.get("ticker", "")}
+                            "base": rel + "data/kbar/", "futBase": rel + "data/futures/", "link": rel + "futures/", "code": c["code"], "name": c["name"], "ticker": c.get("ticker", ""),
+                            "alerts": {"js": rel + "assets/alerts.js?v=" + asset_ver("assets", "alerts.js"), "base": rel + "data/alerts/", "link": rel + "alerts/"}}
         site_frag = build("../" * depth, LOCAL_CHART.format(rel="../" * depth))
         ysym = (c.get("price") or {}).get("yahoo")
         if SIDEBAR is not None and ysym in QUANT_SYMS:
@@ -409,11 +418,22 @@ def main():
     etf_cfg = json.load(open(os.path.join(ROOT, "data", "etf", "config.json"), encoding="utf8"))
     kb_cos += [{"code": e["code"], "name": e.get("zh") or e["name"], "ticker": e["ticker"], "sector": "ETF", "href": "../etf/#" + e["code"]}
                for e in etf_cfg["etfs"]]   # ETF 放最後一組；K 棒由 kbar_update.py 一併產生（核對用 data/etf/daily）
-    ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS), ("{{KBAR_JS}}", KBARJS),
+    # 可設提醒的標的（看盤頁與 alerts/ 頁共用）：公司、ETF、期貨；dp＝價格小數位（韓元 0）
+    al_items = [{"code": c["code"], "name": c["name"], "ticker": c.get("ticker", "") or c["code"].upper(), "kind": "stock", "dp": 0 if c["price"]["yahoo"].endswith(".KS") else 2}
+                for c in companies if (c.get("price") or {}).get("yahoo")]
+    al_items += [{"code": e["code"], "name": e.get("zh") or e["name"], "ticker": e["ticker"], "kind": "etf", "dp": 2} for e in etf_cfg["etfs"]]
+    al_items += [{"code": "ym", "name": "小道瓊", "ticker": "YM", "kind": "fut", "dp": 0}, {"code": "nq", "name": "小那指", "ticker": "NQ", "kind": "fut", "dp": 2},
+                 {"code": "tx", "name": "大台指", "ticker": "TX", "kind": "fut", "dp": 0}]
+    ft = fill(read("templates", "futures.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS), ("{{KBAR_JS}}", KBARJS), ("{{ALERTS_JS}}", ALERTSJS), ("{{AL_ITEMS}}", js_json(al_items)),
               ("{{LWC}}", '<script src="../assets/vendor/lightweight-charts.standalone.production.js"></script>'),
               ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/"), ("{{KB_BASE}}", "../data/kbar/"), ("{{KB_COMPANIES}}", js_json(kb_cos))])
     write(page("看盤 K 棒", "指數期貨與追蹤中個股的日 K、週 K、月 K，搭配均線、扣抵值、KD 與成交量；資料加密，解鎖後顯示。", ft, "../", "futures"), "futures", "index.html")
     print("futures/index.html（看盤 K 棒頁）")
+    # 到價提醒頁（提醒資料 data/alerts/*.enc.json 加密，頁面執行時才讀；Worker 與 Actions 寫入，所以改提醒不必重建網站）
+    at = fill(read("templates", "alerts.frag.html"), [("{{THEME}}", theme), ("{{COMMON_JS}}", common), ("{{FUTURES_JS}}", FUTJS), ("{{ALERTS_JS}}", ALERTSJS),
+              ("{{HOME}}", "../"), ("{{FUT_BASE}}", "../data/futures/"), ("{{AL_ITEMS}}", js_json(al_items))])
+    write(page("到價提醒", "設定個股、ETF、期貨的到價提醒：當天最高價或最低價碰到就通知；解鎖後才看得到。", at, "../", "alerts"), "alerts", "index.html")
+    print("alerts/index.html（到價提醒頁）")
     # 市值排名頁（資料 data/mcap/latest.json 由 Actions 每週寫入；頁面執行時才讀，所以每週更新不必重建網站）
     mt = fill(read("templates", "mcap.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MCAP_BASE}}", "../data/mcap/")])
     write(page("市值排名", "全球公司、美國公司、全球資產（黃金、白銀、比特幣、公司）市值前 30 名，每週更新。", mt, "../", "mcap"), "mcap", "index.html")

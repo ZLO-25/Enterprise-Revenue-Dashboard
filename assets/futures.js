@@ -166,11 +166,15 @@ const FUT = (() => {
   const tool = { armed: false, subs: new Set() };
   function arm(v) { tool.armed = v; tool.subs.forEach(f => f(v)); }
   const TOOL_SVG = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1.5 8h13"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>';
-  const toolBtn = () => `<div class="seg" role="group" aria-label="畫線"><button type="button" class="fut-tool" aria-pressed="false" title="水平線（快速鍵 Alt+H：在游標位置放線）">${TOOL_SVG}水平線</button></div>`;
+  const toolBtn = () => `<div class="seg" role="group" aria-label="畫線"><button type="button" class="fut-tool" aria-pressed="false" title="水平線（快速鍵 Alt+H：在游標位置放線）">${TOOL_SVG}水平線</button>${typeof ALERTS !== 'undefined' ? ALERTS.btn() : ''}</div>`;   // 到價提醒（assets/alerts.js）的「🔔 提醒」按鈕跟水平線並排
   function wireTool(root) {
     const sync = (v) => root.querySelectorAll('.fut-tool').forEach(b => { b.setAttribute('aria-pressed', String(v)); b.lastChild.textContent = v ? '點圖放線…' : '水平線'; });
     tool.subs.add(sync); sync(tool.armed);
     root.addEventListener('click', (e) => { if (e.target.closest('.fut-tool')) arm(!tool.armed); });
+    if (typeof ALERTS !== 'undefined') {   // 到價提醒：頁面上寫死的水平線按鈕旁補上「🔔 提醒」，並接上它的點擊與互斥
+      root.querySelectorAll('.seg > .fut-tool').forEach(b => { if (!b.parentElement.querySelector('.al-tool')) b.insertAdjacentHTML('afterend', ALERTS.btn()); });
+      ALERTS.wire(root);
+    }
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && tool.armed) arm(false); });
 
@@ -244,7 +248,7 @@ const FUT = (() => {
       }
       const L = hit(pt, touch);
       if (!L) { if (sel) { sel = null; sync(); } return; }
-      e.stopPropagation(); e.preventDefault();                      // 不讓圖表跟著平移
+      e.stopImmediatePropagation(); e.stopPropagation(); e.preventDefault();   // 不讓圖表跟著平移；也不讓同一個容器上的鈴鐺線（alerts.js）再處理這一下
       drag = { id: L.id, p: L.p, y0: pt.y, moved: false, pid: e.pointerId }; box.setPointerCapture(e.pointerId);
       sel = L.id; sync();
     };
@@ -360,6 +364,7 @@ const FUT = (() => {
       /* 首頁小圖：滑鼠滾輪／雙指縮放、按住拖曳平移；手機上下滑動仍是捲動頁面 */
       if (o.compact) chart.applyOptions({ handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: false, vertTouchDrag: false }, handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: false, axisDoubleClickReset: true }, crosshair: { mode: 0, horzLine: { visible: false, labelVisible: false }, vertLine: { labelVisible: true } } });
       attachLines(chart, candle, box, d, q, !!o.readonly);
+      if (typeof ALERTS !== 'undefined') ALERTS.attach(chart, candle, box, d, q, !!o.readonly);   // 到價提醒的鈴鐺線（沒載入 alerts.js 的頁面不受影響）
       return chart;
   }
 
@@ -515,5 +520,5 @@ const FUT = (() => {
 
   return { CODES, SYMS: CODES, DP, unlock, lock, load, meta, aggregate, study, sma, kd, deduct, summary, periodDone, home, page, MAS, Lines,
     // 以下給 assets/kbar.js（看盤頁、個股頁 K 棒）使用
-    chartInto, axisDp, axisTicks, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
+    arm, tool, chartInto, axisDp, axisTicks, toBars, lockForm, linesList, wireTool, toolBtn, keyFromStore, decrypt, fmt, dp, dstr, esc, fresh, badge, srcFut, MA_COLOR, cache, getJSON };
 })();

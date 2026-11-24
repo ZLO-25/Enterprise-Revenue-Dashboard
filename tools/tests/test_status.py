@@ -124,7 +124,7 @@ class OndemandAndMcap(unittest.TestCase):
     def test_ondemand_gray_never_alerts(self):
         S.fetch_runs = lambda repo, wf, tok, branch=None, tries=3: [{"conclusion": "failure", "updated_at": "2026-11-20T00:00:00Z"}]
         rows = S.ondemand_block(self.NOW, True)
-        self.assertEqual({r["id"] for r in rows}, {"ci", "bs-fetch", "rd-twse", "sec-raw", "tw-raw"})
+        self.assertEqual({r["id"] for r in rows}, {"ci", "bs-fetch", "rd-twse", "sec-raw", "tw-raw", "alerts-worker-deploy"})
         self.assertTrue(all(r["light"] == "gray" and r["group"] == "ondemand" and r["freq"] and r["retry"] for r in rows))
         self.assertIn("11/20 08:00 失敗", rows[0]["note"])
         ci = next(r for r in rows if r["id"] == "ci")
