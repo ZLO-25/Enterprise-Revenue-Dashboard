@@ -92,6 +92,8 @@ for code, cik in want:
         ex=[n for n in items if re.search(r"ex.?99.?0?1", n, re.I) and n.lower().endswith((".htm",".html",".txt"))]
         if not ex: ex=[n for n in items if re.search(r"99", n) and n.lower().endswith((".htm",".html")) and "index" not in n]
         if not ex: ex=[n for n in items if re.search(r"earning|release|pressrel", n, re.I) and n.lower().endswith((".htm",".html")) and "index" not in n]
+        if not ex: ex=[n for n in items if re.match(r"ex_\d+\.htm$", n, re.I)]  # AXTI 2025 起的申報代理用 ex_123456.htm
+        if not ex and r.get("primaryDocument") in items: ex=[r["primaryDocument"]]  # 沒有附件：數字寫在 8-K 本文（AXTI 2026-04-20）
         if not ex: print("no ex99", code, acc, items); continue
         b=get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/{ex[0]}", raw=True)
         if b:
