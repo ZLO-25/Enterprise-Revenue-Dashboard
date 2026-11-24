@@ -1,1112 +1,1112 @@
 {
-  "site": {
-    "title": "企業財報追蹤板",
-    "pagesUrl": "https://zlo-25.github.io/Enterprise-Revenue-Dashboard/",
-    "repo": "ZLO-25/Enterprise-Revenue-Dashboard",
-    "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-    "sidebar": true,
-    "perf": true,
-    "prerender": true,
-    "homeSlim": true,
-    "rates": true
+ "site": {
+  "title": "企業財報追蹤板",
+  "pagesUrl": "https://zlo-25.github.io/Enterprise-Revenue-Dashboard/",
+  "repo": "ZLO-25/Enterprise-Revenue-Dashboard",
+  "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+  "sidebar": true,
+  "perf": true,
+  "prerender": true,
+  "homeSlim": true,
+  "rates": true
+ },
+ "companies": [
+  {
+   "code": "tsmc",
+   "name": "台積電",
+   "nameEn": "TSMC",
+   "ticker": "2330",
+   "exchange": "TWSE 2330 · NYSE TSM",
+   "sector": "半導體",
+   "currency": "TWD",
+   "frequency": "monthly+quarterly",
+   "path": "tsmc/",
+   "schema": "tsmc-legacy",
+   "template": "tsmc",
+   "title": "台積電財報追蹤板",
+   "description": "台積電（2330）2015 年以來月營收、季報、資本支出、製程結構、技術里程碑與建廠時程追蹤。",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "primarySource": {
+    "n": "台積電投資人關係（月營收、季報）",
+    "url": "https://investor.tsmc.com/english/quarterly-results"
+   },
+   "price": {
+    "yahoo": "2330.TW",
+    "from": "2015-01",
+    "currency": "TWD",
+    "twse": "2330"
+   },
+   "tz": "TW"
   },
-  "companies": [
-    {
-      "code": "tsmc",
-      "name": "台積電",
-      "nameEn": "TSMC",
-      "ticker": "2330",
-      "exchange": "TWSE 2330 · NYSE TSM",
-      "sector": "半導體",
-      "currency": "TWD",
-      "frequency": "monthly+quarterly",
-      "path": "tsmc/",
-      "schema": "tsmc-legacy",
-      "template": "tsmc",
-      "title": "台積電財報追蹤板",
-      "description": "台積電（2330）2015 年以來月營收、季報、資本支出、製程結構、技術里程碑與建廠時程追蹤。",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "primarySource": {
-        "n": "台積電投資人關係（月營收、季報）",
-        "url": "https://investor.tsmc.com/english/quarterly-results"
-      },
-      "price": {
-        "yahoo": "2330.TW",
-        "from": "2015-01",
-        "currency": "TWD",
-        "twse": "2330"
-      },
-      "tz": "TW"
-    },
-    {
-      "code": "pltr",
-      "name": "Palantir",
-      "nameEn": "Palantir Technologies",
-      "ticker": "PLTR",
-      "exchange": "Nasdaq PLTR",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "pltr/",
-      "schema": "v1",
-      "template": "pltr",
-      "title": "Palantir 財報追蹤板",
-      "description": "Palantir（PLTR）上市以來每季營收、政府與商業拆分、獲利、現金流、合約與客戶指標、財測與重要事件追蹤。",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1321655"
-      },
-      "price": {
-        "yahoo": "PLTR",
-        "from": "2020-09",
-        "currency": "USD"
-      },
-      "cik": "0001321655",
-      "tz": "US"
-    },
-    {
-      "code": "nvda",
-      "name": "輝達",
-      "nameEn": "NVIDIA",
-      "ticker": "NVDA",
-      "exchange": "Nasdaq NVDA",
-      "sector": "半導體",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "nvda/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "輝達財報追蹤板",
-      "description": "輝達（NVDA）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1045810"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "NVDA",
-        "from": "2009-02",
-        "currency": "USD"
-      },
-      "cik": "0001045810",
-      "tz": "US"
-    },
-    {
-      "code": "tsla",
-      "name": "特斯拉",
-      "nameEn": "Tesla",
-      "ticker": "TSLA",
-      "exchange": "Nasdaq TSLA",
-      "sector": "電動車與太空",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "tsla/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "特斯拉財報追蹤板",
-      "description": "特斯拉（TSLA）2010 年以來每季營收、利潤率、EPS、現金流，汽車／能源／服務拆分、交車與儲能、重要事件追蹤。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1318605"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "TSLA",
-        "from": "2010-06",
-        "currency": "USD"
-      },
-      "cik": "0001318605",
-      "tz": "US"
-    },
-    {
-      "code": "anet",
-      "name": "Arista",
-      "nameEn": "Arista Networks",
-      "ticker": "ANET",
-      "exchange": "NYSE ANET",
-      "sector": "硬體與網通",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "anet/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "Arista 財報追蹤板",
-      "description": "Arista Networks（ANET）2014 年上市以來每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1596532"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "ANET",
-        "from": "2014-06",
-        "currency": "USD"
-      },
-      "cik": "0001596532",
-      "tz": "US"
-    },
-    {
-      "code": "spcx",
-      "name": "SpaceX",
-      "nameEn": "Space Exploration Technologies",
-      "ticker": "SPCX",
-      "exchange": "Nasdaq SPCX",
-      "sector": "電動車與太空",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "spcx/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "SpaceX 財報追蹤板",
-      "description": "SpaceX（SPCX）2026 年上市後每季營收、三大部門、獲利、資本支出、Starlink 與發射指標、重要事件追蹤。",
-      "primarySource": {
-        "n": "SpaceX 財報新聞稿與 SEC EDGAR（10-Q、8-K）",
-        "url": "https://ir.spacex.com/"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "SPCX",
-        "from": "2026-06",
-        "currency": "USD"
-      },
-      "cik": "0001181412",
-      "tz": "US"
-    },
-    {
-      "code": "samsung",
-      "name": "三星電子",
-      "nameEn": "Samsung Electronics",
-      "ticker": "005930",
-      "exchange": "KRX 005930",
-      "sector": "半導體",
-      "currency": "KRW",
-      "frequency": "quarterly",
-      "path": "samsung/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "三星電子財報追蹤板",
-      "description": "三星電子（KRX 005930）2018 年以來每季營收、利潤率、EPS、現金流（K-IFRS 合併、百萬韓元）、初步業績與重要事件追蹤。",
-      "primarySource": {
-        "n": "三星電子投資人關係（法說會簡報，K-IFRS 合併）",
-        "url": "https://www.samsung.com/global/ir/financial-information/earnings-release/"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "005930.KS",
-        "from": "2018-01",
-        "currency": "KRW"
-      },
-      "tz": "KR"
-    },
-    {
-      "code": "delta",
-      "name": "台達電",
-      "nameEn": "Delta Electronics",
-      "ticker": "2308",
-      "exchange": "TWSE 2308",
-      "sector": "硬體與網通",
-      "currency": "TWD",
-      "frequency": "quarterly",
-      "path": "delta/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "台達電財報追蹤板",
-      "description": "台達電（2308）2019 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
-      "primarySource": {
-        "n": "台達電投資人關係：合併財務報告與法說會簡報",
-        "url": "https://filecenter.deltaww.com/ir/download/financial_report/Q32026_chi_Consolidated%20Financial%20Report.pdf"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "2308.TW",
-        "from": "2019-01",
-        "currency": "TWD",
-        "twse": "2308"
-      },
-      "tz": "TW"
-    },
-    {
-      "code": "msft",
-      "name": "微軟",
-      "nameEn": "Microsoft",
-      "ticker": "MSFT",
-      "exchange": "Nasdaq MSFT",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "msft/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "微軟財報追蹤板",
-      "description": "微軟（MSFT）FY2009（2008 年）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤（會計年度 7 月至隔年 6 月）。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=789019"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "MSFT",
-        "from": "2008-07",
-        "currency": "USD"
-      },
-      "cik": "0000789019",
-      "tz": "US"
-    },
-    {
-      "code": "mu",
-      "name": "美光",
-      "nameEn": "Micron Technology",
-      "ticker": "MU",
-      "exchange": "Nasdaq MU",
-      "sector": "半導體",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "mu/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "美光財報追蹤板",
-      "description": "美光（MU）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤（會計年度約 9 月初結束）。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=723125"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "MU",
-        "from": "2009-09",
-        "currency": "USD"
-      },
-      "cik": "0000723125",
-      "tz": "US"
-    },
-    {
-      "code": "amzn",
-      "name": "亞馬遜",
-      "nameEn": "Amazon",
-      "ticker": "AMZN",
-      "exchange": "Nasdaq AMZN",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "amzn/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "亞馬遜財報追蹤板",
-      "description": "亞馬遜（AMZN）2009 年以來每季營收、利潤率、EPS、現金流、資本支出、財測與重要事件追蹤。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1018724"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "AMZN",
-        "from": "2009-01",
-        "currency": "USD"
-      },
-      "cik": "0001018724",
-      "tz": "US"
-    },
-    {
-      "code": "aapl",
-      "name": "蘋果",
-      "nameEn": "Apple",
-      "ticker": "AAPL",
-      "exchange": "Nasdaq AAPL",
-      "sector": "硬體與網通",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "aapl/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "蘋果財報追蹤板",
-      "description": "蘋果（AAPL）FY2009（2008 年 10 月）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤。",
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=320193"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "price": {
-        "yahoo": "AAPL",
-        "from": "2008-10",
-        "currency": "USD"
-      },
-      "cik": "0000320193",
-      "tz": "US"
-    },
-    {
-      "code": "anthropic",
-      "name": "Anthropic",
-      "nameEn": "Anthropic, PBC",
-      "ticker": "ANT",
-      "exchange": "Nasdaq ANT",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "anthropic/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "Anthropic財報追蹤板",
-      "description": "Anthropic（ANT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "primarySource": {
-        "n": "SEC EDGAR（S-1、10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357"
-      },
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": false,
-      "ipoWatch": true,
-      "cik": "0002130357",
-      "price": null,
-      "tz": "US"
-    },
-    {
-      "code": "meta",
-      "name": "Meta",
-      "nameEn": "Meta Platforms",
-      "ticker": "META",
-      "exchange": "Nasdaq META",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "meta/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "Meta財報追蹤板",
-      "description": "Meta（META）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "META",
-        "from": "2012-05",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1326801"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001326801"
-    },
-    {
-      "code": "avgo",
-      "name": "博通",
-      "nameEn": "Broadcom",
-      "ticker": "AVGO",
-      "exchange": "Nasdaq AVGO",
-      "sector": "半導體",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "avgo/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "博通財報追蹤板",
-      "description": "博通（AVGO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "AVGO",
-        "from": "2017-11",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1730168"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001730168"
-    },
-    {
-      "code": "mrvl",
-      "name": "邁威爾",
-      "nameEn": "Marvell Technology",
-      "ticker": "MRVL",
-      "exchange": "Nasdaq MRVL",
-      "sector": "半導體",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "mrvl/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "邁威爾財報追蹤板",
-      "description": "邁威爾（MRVL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "MRVL",
-        "from": "2009-05",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1835632"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001835632"
-    },
-    {
-      "code": "amd",
-      "name": "超微",
-      "nameEn": "Advanced Micro Devices",
-      "ticker": "AMD",
-      "exchange": "Nasdaq AMD",
-      "sector": "半導體",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "amd/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "超微財報追蹤板",
-      "description": "超微（AMD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "AMD",
-        "from": "2009-03",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=2488"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000002488"
-    },
-    {
-      "code": "crwd",
-      "name": "CrowdStrike",
-      "nameEn": "CrowdStrike Holdings",
-      "ticker": "CRWD",
-      "exchange": "Nasdaq CRWD",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "crwd/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "CrowdStrike財報追蹤板",
-      "description": "CrowdStrike（CRWD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "CRWD",
-        "from": "2019-06",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1535527"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001535527"
-    },
-    {
-      "code": "panw",
-      "name": "Palo Alto Networks",
-      "nameEn": "Palo Alto Networks",
-      "ticker": "PANW",
-      "exchange": "Nasdaq PANW",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "panw/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "Palo Alto Networks財報追蹤板",
-      "description": "Palo Alto Networks（PANW）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "PANW",
-        "from": "2012-07",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1327567"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001327567"
-    },
-    {
-      "code": "rklb",
-      "name": "火箭實驗室",
-      "nameEn": "Rocket Lab",
-      "ticker": "RKLB",
-      "exchange": "Nasdaq RKLB",
-      "sector": "電動車與太空",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "rklb/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "火箭實驗室財報追蹤板",
-      "description": "火箭實驗室（RKLB）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "RKLB",
-        "from": "2021-08",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1819994"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001819994"
-    },
-    {
-      "code": "gev",
-      "name": "GE Vernova",
-      "nameEn": "GE Vernova",
-      "ticker": "GEV",
-      "exchange": "NYSE GEV",
-      "sector": "能源與電力",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "gev/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "GE Vernova財報追蹤板",
-      "description": "GE Vernova（GEV）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "GEV",
-        "from": "2024-04",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1996810"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001996810"
-    },
-    {
-      "code": "googl",
-      "name": "Google",
-      "nameEn": "Alphabet",
-      "ticker": "GOOGL",
-      "exchange": "Nasdaq GOOGL · GOOG",
-      "sector": "軟體與網路服務",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "googl/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "Google財報追蹤板",
-      "description": "Google（GOOGL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "GOOGL",
-        "from": "2009-03",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=1652044"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001652044"
-    },
-    {
-      "code": "csco",
-      "name": "思科",
-      "nameEn": "Cisco Systems",
-      "ticker": "CSCO",
-      "exchange": "Nasdaq CSCO",
-      "sector": "硬體與網通",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "csco/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "思科財報追蹤板",
-      "description": "思科（CSCO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "CSCO",
-        "from": "2009-10",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（10-Q、10-K、8-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=858877"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000858877"
-    },
-    {
-      "code": "asml",
-      "name": "艾司摩爾",
-      "nameEn": "ASML Holding",
-      "ticker": "ASML",
-      "exchange": "Euronext Amsterdam ASML · Nasdaq ASML",
-      "sector": "半導體",
-      "currency": "EUR",
-      "frequency": "quarterly",
-      "path": "asml/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "艾司摩爾財報追蹤板",
-      "description": "艾司摩爾（ASML）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "ASML.AS",
-        "from": "2009-03",
-        "currency": "EUR"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR（20-F、6-K）",
-        "url": "https://www.sec.gov/edgar/browse/?CIK=937966"
-      },
-      "tz": "EU",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000937966"
-    },
-    {
-      "code": "allring",
-      "name": "萬潤",
-      "nameEn": "All Ring Tech",
-      "ticker": "6187",
-      "exchange": "TPEx 6187",
-      "sector": "半導體",
-      "currency": "TWD",
-      "frequency": "quarterly",
-      "path": "allring/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "萬潤財報追蹤板",
-      "description": "萬潤（6187，上櫃）2013 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
-      "price": {
-        "yahoo": "6187.TWO",
-        "from": "2013-01",
-        "currency": "TWD",
-        "tpex": "6187"
-      },
-      "primarySource": {
-        "n": "公開資訊觀測站：萬潤 IFRS 合併財務報告（t164sb01）",
-        "url": "https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=6187&SYEAR=2026&SSEASON=3&REPORT_ID=C"
-      },
-      "tz": "TW",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
-    },
-    {
-      "code": "gd",
-      "name": "通用動力",
-      "nameEn": "General Dynamics",
-      "ticker": "GD",
-      "exchange": "NYSE GD",
-      "sector": "國防與航太",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "gd/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "通用動力財報追蹤板",
-      "description": "通用動力（GD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "GD",
-        "from": "2009-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040533"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000040533"
-    },
-    {
-      "code": "lmt",
-      "name": "洛克希德馬丁",
-      "nameEn": "Lockheed Martin",
-      "ticker": "LMT",
-      "exchange": "NYSE LMT",
-      "sector": "國防與航太",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "lmt/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "洛克希德馬丁財報追蹤板",
-      "description": "洛克希德馬丁（LMT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "LMT",
-        "from": "2009-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000936468"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000936468"
-    },
-    {
-      "code": "ceg",
-      "name": "星座能源",
-      "nameEn": "Constellation Energy",
-      "ticker": "CEG",
-      "exchange": "Nasdaq CEG",
-      "sector": "能源與電力",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "ceg/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "星座能源財報追蹤板",
-      "description": "星座能源（CEG）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "CEG",
-        "from": "2022-02",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001868275"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001868275"
-    },
-    {
-      "code": "lhx",
-      "name": "L3哈里斯",
-      "nameEn": "L3Harris Technologies",
-      "ticker": "LHX",
-      "exchange": "NYSE LHX",
-      "sector": "國防與航太",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "lhx/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "L3哈里斯財報追蹤板",
-      "description": "L3哈里斯（LHX）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "LHX",
-        "from": "2020-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000202058"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000202058"
-    },
-    {
-      "code": "rtx",
-      "name": "雷神技術",
-      "nameEn": "RTX Corporation",
-      "ticker": "RTX",
-      "exchange": "NYSE RTX",
-      "sector": "國防與航太",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "rtx/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "雷神技術財報追蹤板",
-      "description": "雷神技術（RTX）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "RTX",
-        "from": "2021-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000101829"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000101829"
-    },
-    {
-      "code": "etn",
-      "name": "伊頓",
-      "nameEn": "Eaton",
-      "ticker": "ETN",
-      "exchange": "NYSE ETN",
-      "sector": "能源與電力",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "etn/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "伊頓財報追蹤板",
-      "description": "伊頓（ETN）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "ETN",
-        "from": "2009-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001551182"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001551182"
-    },
-    {
-      "code": "bwxt",
-      "name": "BWX科技",
-      "nameEn": "BWX Technologies",
-      "ticker": "BWXT",
-      "exchange": "NYSE BWXT",
-      "sector": "能源與電力",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "bwxt/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "BWX科技財報追蹤板",
-      "description": "BWX科技（BWXT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "BWXT",
-        "from": "2016-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001486957"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0001486957"
-    },
-    {
-      "code": "xom",
-      "name": "埃克森美孚",
-      "nameEn": "ExxonMobil",
-      "ticker": "XOM",
-      "exchange": "NYSE XOM",
-      "sector": "能源與電力",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "xom/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "埃克森美孚財報追蹤板",
-      "description": "埃克森美孚（XOM）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "XOM",
-        "from": "2018-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002115436"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0002115436",
-      "cikPrev": [
-        "0000034088"
-      ]
-    },
-    {
-      "code": "ge",
-      "name": "奇異航太",
-      "nameEn": "GE Aerospace",
-      "ticker": "GE",
-      "exchange": "NYSE GE",
-      "sector": "國防與航太",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "ge/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "奇異航太財報追蹤板",
-      "description": "奇異航太（GE）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "GE",
-        "from": "2024-01",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040545"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
-      "cik": "0000040545"
-    },
-    {
-      "code": "yageo",
-      "name": "國巨",
-      "nameEn": "Yageo",
-      "ticker": "2327",
-      "exchange": "TWSE 2327",
-      "sector": "硬體與網通",
-      "currency": "TWD",
-      "frequency": "quarterly",
-      "path": "yageo/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "國巨財報追蹤板",
-      "description": "國巨（2327）2013 年以來每季營收、利潤率、基本 EPS（換成今天的股數基準）、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
-      "price": {
-        "yahoo": "2327.TW",
-        "from": "2013-01",
-        "currency": "TWD",
-        "twse": "2327",
-        "adj": [
-          {
-            "ex": "2013-09-05",
-            "r": 0.7
-          },
-          {
-            "ex": "2014-09-29",
-            "r": 0.302569
-          },
-          {
-            "ex": "2016-08-03",
-            "r": 0.800454
-          },
-          {
-            "ex": "2017-08-07",
-            "r": 0.6987845
-          },
-          {
-            "ex": "2018-07-09",
-            "r": 1.198117
-          },
-          {
-            "ex": "2022-10-20",
-            "r": 0.795925
-          },
-          {
-            "ex": "2024-08-15",
-            "r": 1.1948365
-          },
-          {
-            "ex": "2025-08-14",
-            "r": 4.0
-          }
-        ]
-      },
-      "primarySource": {
-        "n": "公開資訊觀測站：國巨 IFRS 合併財務報告（t164sb01）",
-        "url": "https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=2327&SYEAR=2026&SSEASON=3&REPORT_ID=C"
-      },
-      "tz": "TW",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true
-    },
-    {
-      "code": "lite",
-      "name": "朗美通",
-      "nameEn": "Lumentum",
-      "ticker": "LITE",
-      "exchange": "Nasdaq LITE",
-      "sector": "硬體與網通",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "lite/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "朗美通財報追蹤板",
-      "description": "朗美通（LITE）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "LITE",
-        "from": "2015-08",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001633978"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": false,
-      "cik": "0001633978"
-    },
-    {
-      "code": "cohr",
-      "name": "高意",
-      "nameEn": "Coherent",
-      "ticker": "COHR",
-      "exchange": "NYSE COHR",
-      "sector": "硬體與網通",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "cohr/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "高意財報追蹤板",
-      "description": "高意（COHR）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "COHR",
-        "from": "2014-09",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000820318"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": false,
-      "cik": "0000820318"
-    },
-    {
-      "code": "fn",
-      "name": "Fabrinet",
-      "nameEn": "Fabrinet",
-      "ticker": "FN",
-      "exchange": "NYSE FN",
-      "sector": "硬體與網通",
-      "currency": "USD",
-      "frequency": "quarterly",
-      "path": "fn/",
-      "schema": "v1",
-      "template": "generic",
-      "title": "Fabrinet財報追蹤板",
-      "description": "Fabrinet（FN）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
-      "price": {
-        "yahoo": "FN",
-        "from": "2011-09",
-        "currency": "USD"
-      },
-      "primarySource": {
-        "n": "SEC EDGAR",
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001408710"
-      },
-      "tz": "US",
-      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": false,
-      "cik": "0001408710"
-    }
-  ]
+  {
+   "code": "pltr",
+   "name": "Palantir",
+   "nameEn": "Palantir Technologies",
+   "ticker": "PLTR",
+   "exchange": "Nasdaq PLTR",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "pltr/",
+   "schema": "v1",
+   "template": "pltr",
+   "title": "Palantir 財報追蹤板",
+   "description": "Palantir（PLTR）上市以來每季營收、政府與商業拆分、獲利、現金流、合約與客戶指標、財測與重要事件追蹤。",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1321655"
+   },
+   "price": {
+    "yahoo": "PLTR",
+    "from": "2020-09",
+    "currency": "USD"
+   },
+   "cik": "0001321655",
+   "tz": "US"
+  },
+  {
+   "code": "nvda",
+   "name": "輝達",
+   "nameEn": "NVIDIA",
+   "ticker": "NVDA",
+   "exchange": "Nasdaq NVDA",
+   "sector": "半導體",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "nvda/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "輝達財報追蹤板",
+   "description": "輝達（NVDA）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1045810"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "NVDA",
+    "from": "2009-02",
+    "currency": "USD"
+   },
+   "cik": "0001045810",
+   "tz": "US"
+  },
+  {
+   "code": "tsla",
+   "name": "特斯拉",
+   "nameEn": "Tesla",
+   "ticker": "TSLA",
+   "exchange": "Nasdaq TSLA",
+   "sector": "電動車與太空",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "tsla/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "特斯拉財報追蹤板",
+   "description": "特斯拉（TSLA）2010 年以來每季營收、利潤率、EPS、現金流，汽車／能源／服務拆分、交車與儲能、重要事件追蹤。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1318605"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "TSLA",
+    "from": "2010-06",
+    "currency": "USD"
+   },
+   "cik": "0001318605",
+   "tz": "US"
+  },
+  {
+   "code": "anet",
+   "name": "Arista",
+   "nameEn": "Arista Networks",
+   "ticker": "ANET",
+   "exchange": "NYSE ANET",
+   "sector": "硬體與網通",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "anet/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "Arista 財報追蹤板",
+   "description": "Arista Networks（ANET）2014 年上市以來每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1596532"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "ANET",
+    "from": "2014-06",
+    "currency": "USD"
+   },
+   "cik": "0001596532",
+   "tz": "US"
+  },
+  {
+   "code": "spcx",
+   "name": "SpaceX",
+   "nameEn": "Space Exploration Technologies",
+   "ticker": "SPCX",
+   "exchange": "Nasdaq SPCX",
+   "sector": "電動車與太空",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "spcx/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "SpaceX 財報追蹤板",
+   "description": "SpaceX（SPCX）2026 年上市後每季營收、三大部門、獲利、資本支出、Starlink 與發射指標、重要事件追蹤。",
+   "primarySource": {
+    "n": "SpaceX 財報新聞稿與 SEC EDGAR（10-Q、8-K）",
+    "url": "https://ir.spacex.com/"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "SPCX",
+    "from": "2026-06",
+    "currency": "USD"
+   },
+   "cik": "0001181412",
+   "tz": "US"
+  },
+  {
+   "code": "samsung",
+   "name": "三星電子",
+   "nameEn": "Samsung Electronics",
+   "ticker": "005930",
+   "exchange": "KRX 005930",
+   "sector": "半導體",
+   "currency": "KRW",
+   "frequency": "quarterly",
+   "path": "samsung/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "三星電子財報追蹤板",
+   "description": "三星電子（KRX 005930）2018 年以來每季營收、利潤率、EPS、現金流（K-IFRS 合併、百萬韓元）、初步業績與重要事件追蹤。",
+   "primarySource": {
+    "n": "三星電子投資人關係（法說會簡報，K-IFRS 合併）",
+    "url": "https://www.samsung.com/global/ir/financial-information/earnings-release/"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "005930.KS",
+    "from": "2018-01",
+    "currency": "KRW"
+   },
+   "tz": "KR"
+  },
+  {
+   "code": "delta",
+   "name": "台達電",
+   "nameEn": "Delta Electronics",
+   "ticker": "2308",
+   "exchange": "TWSE 2308",
+   "sector": "硬體與網通",
+   "currency": "TWD",
+   "frequency": "quarterly",
+   "path": "delta/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "台達電財報追蹤板",
+   "description": "台達電（2308）2019 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
+   "primarySource": {
+    "n": "台達電投資人關係：合併財務報告與法說會簡報",
+    "url": "https://filecenter.deltaww.com/ir/download/financial_report/Q32026_chi_Consolidated%20Financial%20Report.pdf"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "2308.TW",
+    "from": "2019-01",
+    "currency": "TWD",
+    "twse": "2308"
+   },
+   "tz": "TW"
+  },
+  {
+   "code": "msft",
+   "name": "微軟",
+   "nameEn": "Microsoft",
+   "ticker": "MSFT",
+   "exchange": "Nasdaq MSFT",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "msft/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "微軟財報追蹤板",
+   "description": "微軟（MSFT）FY2009（2008 年）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤（會計年度 7 月至隔年 6 月）。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=789019"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "MSFT",
+    "from": "2008-07",
+    "currency": "USD"
+   },
+   "cik": "0000789019",
+   "tz": "US"
+  },
+  {
+   "code": "mu",
+   "name": "美光",
+   "nameEn": "Micron Technology",
+   "ticker": "MU",
+   "exchange": "Nasdaq MU",
+   "sector": "半導體",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "mu/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "美光財報追蹤板",
+   "description": "美光（MU）FY2010（2009 年）以來每季營收、利潤率、EPS、現金流、股利、財測與重要事件追蹤（會計年度約 9 月初結束）。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=723125"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "MU",
+    "from": "2009-09",
+    "currency": "USD"
+   },
+   "cik": "0000723125",
+   "tz": "US"
+  },
+  {
+   "code": "amzn",
+   "name": "亞馬遜",
+   "nameEn": "Amazon",
+   "ticker": "AMZN",
+   "exchange": "Nasdaq AMZN",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "amzn/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "亞馬遜財報追蹤板",
+   "description": "亞馬遜（AMZN）2009 年以來每季營收、利潤率、EPS、現金流、資本支出、財測與重要事件追蹤。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1018724"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "AMZN",
+    "from": "2009-01",
+    "currency": "USD"
+   },
+   "cik": "0001018724",
+   "tz": "US"
+  },
+  {
+   "code": "aapl",
+   "name": "蘋果",
+   "nameEn": "Apple",
+   "ticker": "AAPL",
+   "exchange": "Nasdaq AAPL",
+   "sector": "硬體與網通",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "aapl/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "蘋果財報追蹤板",
+   "description": "蘋果（AAPL）FY2009（2008 年 10 月）以來每季營收、利潤率、EPS、現金流、股利與重要事件追蹤。",
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=320193"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "price": {
+    "yahoo": "AAPL",
+    "from": "2008-10",
+    "currency": "USD"
+   },
+   "cik": "0000320193",
+   "tz": "US"
+  },
+  {
+   "code": "anthropic",
+   "name": "Anthropic",
+   "nameEn": "Anthropic, PBC",
+   "ticker": "ANT",
+   "exchange": "Nasdaq ANT",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "anthropic/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "Anthropic財報追蹤板",
+   "description": "Anthropic（ANT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "primarySource": {
+    "n": "SEC EDGAR（S-1、10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357"
+   },
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": false,
+   "ipoWatch": true,
+   "cik": "0002130357",
+   "price": null,
+   "tz": "US"
+  },
+  {
+   "code": "meta",
+   "name": "Meta",
+   "nameEn": "Meta Platforms",
+   "ticker": "META",
+   "exchange": "Nasdaq META",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "meta/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "Meta財報追蹤板",
+   "description": "Meta（META）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "META",
+    "from": "2012-05",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1326801"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001326801"
+  },
+  {
+   "code": "avgo",
+   "name": "博通",
+   "nameEn": "Broadcom",
+   "ticker": "AVGO",
+   "exchange": "Nasdaq AVGO",
+   "sector": "半導體",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "avgo/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "博通財報追蹤板",
+   "description": "博通（AVGO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "AVGO",
+    "from": "2017-11",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1730168"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001730168"
+  },
+  {
+   "code": "mrvl",
+   "name": "邁威爾",
+   "nameEn": "Marvell Technology",
+   "ticker": "MRVL",
+   "exchange": "Nasdaq MRVL",
+   "sector": "半導體",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "mrvl/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "邁威爾財報追蹤板",
+   "description": "邁威爾（MRVL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "MRVL",
+    "from": "2009-05",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1835632"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001835632"
+  },
+  {
+   "code": "amd",
+   "name": "超微",
+   "nameEn": "Advanced Micro Devices",
+   "ticker": "AMD",
+   "exchange": "Nasdaq AMD",
+   "sector": "半導體",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "amd/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "超微財報追蹤板",
+   "description": "超微（AMD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "AMD",
+    "from": "2009-03",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=2488"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000002488"
+  },
+  {
+   "code": "crwd",
+   "name": "CrowdStrike",
+   "nameEn": "CrowdStrike Holdings",
+   "ticker": "CRWD",
+   "exchange": "Nasdaq CRWD",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "crwd/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "CrowdStrike財報追蹤板",
+   "description": "CrowdStrike（CRWD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "CRWD",
+    "from": "2019-06",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1535527"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001535527"
+  },
+  {
+   "code": "panw",
+   "name": "Palo Alto Networks",
+   "nameEn": "Palo Alto Networks",
+   "ticker": "PANW",
+   "exchange": "Nasdaq PANW",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "panw/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "Palo Alto Networks財報追蹤板",
+   "description": "Palo Alto Networks（PANW）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "PANW",
+    "from": "2012-07",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1327567"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001327567"
+  },
+  {
+   "code": "rklb",
+   "name": "火箭實驗室",
+   "nameEn": "Rocket Lab",
+   "ticker": "RKLB",
+   "exchange": "Nasdaq RKLB",
+   "sector": "電動車與太空",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "rklb/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "火箭實驗室財報追蹤板",
+   "description": "火箭實驗室（RKLB）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "RKLB",
+    "from": "2021-08",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1819994"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001819994"
+  },
+  {
+   "code": "gev",
+   "name": "GE Vernova",
+   "nameEn": "GE Vernova",
+   "ticker": "GEV",
+   "exchange": "NYSE GEV",
+   "sector": "能源與電力",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "gev/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "GE Vernova財報追蹤板",
+   "description": "GE Vernova（GEV）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "GEV",
+    "from": "2024-04",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1996810"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001996810"
+  },
+  {
+   "code": "googl",
+   "name": "Google",
+   "nameEn": "Alphabet",
+   "ticker": "GOOGL",
+   "exchange": "Nasdaq GOOGL · GOOG",
+   "sector": "軟體與網路服務",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "googl/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "Google財報追蹤板",
+   "description": "Google（GOOGL）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "GOOGL",
+    "from": "2009-03",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=1652044"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001652044"
+  },
+  {
+   "code": "csco",
+   "name": "思科",
+   "nameEn": "Cisco Systems",
+   "ticker": "CSCO",
+   "exchange": "Nasdaq CSCO",
+   "sector": "硬體與網通",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "csco/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "思科財報追蹤板",
+   "description": "思科（CSCO）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "CSCO",
+    "from": "2009-10",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（10-Q、10-K、8-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=858877"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000858877"
+  },
+  {
+   "code": "asml",
+   "name": "艾司摩爾",
+   "nameEn": "ASML Holding",
+   "ticker": "ASML",
+   "exchange": "Euronext Amsterdam ASML · Nasdaq ASML",
+   "sector": "半導體",
+   "currency": "EUR",
+   "frequency": "quarterly",
+   "path": "asml/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "艾司摩爾財報追蹤板",
+   "description": "艾司摩爾（ASML）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "ASML.AS",
+    "from": "2009-03",
+    "currency": "EUR"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR（20-F、6-K）",
+    "url": "https://www.sec.gov/edgar/browse/?CIK=937966"
+   },
+   "tz": "EU",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000937966"
+  },
+  {
+   "code": "allring",
+   "name": "萬潤",
+   "nameEn": "All Ring Tech",
+   "ticker": "6187",
+   "exchange": "TPEx 6187",
+   "sector": "半導體",
+   "currency": "TWD",
+   "frequency": "quarterly",
+   "path": "allring/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "萬潤財報追蹤板",
+   "description": "萬潤（6187，上櫃）2013 年以來每季營收、利潤率、基本 EPS、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
+   "price": {
+    "yahoo": "6187.TWO",
+    "from": "2013-01",
+    "currency": "TWD",
+    "tpex": "6187"
+   },
+   "primarySource": {
+    "n": "公開資訊觀測站：萬潤 IFRS 合併財務報告（t164sb01）",
+    "url": "https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=6187&SYEAR=2026&SSEASON=3&REPORT_ID=C"
+   },
+   "tz": "TW",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true
+  },
+  {
+   "code": "gd",
+   "name": "通用動力",
+   "nameEn": "General Dynamics",
+   "ticker": "GD",
+   "exchange": "NYSE GD",
+   "sector": "國防與航太",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "gd/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "通用動力財報追蹤板",
+   "description": "通用動力（GD）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "GD",
+    "from": "2009-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040533"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000040533"
+  },
+  {
+   "code": "lmt",
+   "name": "洛克希德馬丁",
+   "nameEn": "Lockheed Martin",
+   "ticker": "LMT",
+   "exchange": "NYSE LMT",
+   "sector": "國防與航太",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "lmt/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "洛克希德馬丁財報追蹤板",
+   "description": "洛克希德馬丁（LMT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "LMT",
+    "from": "2009-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000936468"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000936468"
+  },
+  {
+   "code": "ceg",
+   "name": "星座能源",
+   "nameEn": "Constellation Energy",
+   "ticker": "CEG",
+   "exchange": "Nasdaq CEG",
+   "sector": "能源與電力",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "ceg/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "星座能源財報追蹤板",
+   "description": "星座能源（CEG）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "CEG",
+    "from": "2022-02",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001868275"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001868275"
+  },
+  {
+   "code": "lhx",
+   "name": "L3哈里斯",
+   "nameEn": "L3Harris Technologies",
+   "ticker": "LHX",
+   "exchange": "NYSE LHX",
+   "sector": "國防與航太",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "lhx/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "L3哈里斯財報追蹤板",
+   "description": "L3哈里斯（LHX）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "LHX",
+    "from": "2020-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000202058"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000202058"
+  },
+  {
+   "code": "rtx",
+   "name": "雷神技術",
+   "nameEn": "RTX Corporation",
+   "ticker": "RTX",
+   "exchange": "NYSE RTX",
+   "sector": "國防與航太",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "rtx/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "雷神技術財報追蹤板",
+   "description": "雷神技術（RTX）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "RTX",
+    "from": "2021-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000101829"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000101829"
+  },
+  {
+   "code": "etn",
+   "name": "伊頓",
+   "nameEn": "Eaton",
+   "ticker": "ETN",
+   "exchange": "NYSE ETN",
+   "sector": "能源與電力",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "etn/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "伊頓財報追蹤板",
+   "description": "伊頓（ETN）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "ETN",
+    "from": "2009-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001551182"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001551182"
+  },
+  {
+   "code": "bwxt",
+   "name": "BWX科技",
+   "nameEn": "BWX Technologies",
+   "ticker": "BWXT",
+   "exchange": "NYSE BWXT",
+   "sector": "能源與電力",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "bwxt/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "BWX科技財報追蹤板",
+   "description": "BWX科技（BWXT）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "BWXT",
+    "from": "2016-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001486957"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001486957"
+  },
+  {
+   "code": "xom",
+   "name": "埃克森美孚",
+   "nameEn": "ExxonMobil",
+   "ticker": "XOM",
+   "exchange": "NYSE XOM",
+   "sector": "能源與電力",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "xom/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "埃克森美孚財報追蹤板",
+   "description": "埃克森美孚（XOM）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "XOM",
+    "from": "2018-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002115436"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0002115436",
+   "cikPrev": [
+    "0000034088"
+   ]
+  },
+  {
+   "code": "ge",
+   "name": "奇異航太",
+   "nameEn": "GE Aerospace",
+   "ticker": "GE",
+   "exchange": "NYSE GE",
+   "sector": "國防與航太",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "ge/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "奇異航太財報追蹤板",
+   "description": "奇異航太（GE）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "GE",
+    "from": "2024-01",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040545"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000040545"
+  },
+  {
+   "code": "yageo",
+   "name": "國巨",
+   "nameEn": "Yageo",
+   "ticker": "2327",
+   "exchange": "TWSE 2327",
+   "sector": "硬體與網通",
+   "currency": "TWD",
+   "frequency": "quarterly",
+   "path": "yageo/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "國巨財報追蹤板",
+   "description": "國巨（2327）2013 年以來每季營收、利潤率、基本 EPS（換成今天的股數基準）、現金流（IFRS 合併、百萬元新台幣）與重要事件追蹤。",
+   "price": {
+    "yahoo": "2327.TW",
+    "from": "2013-01",
+    "currency": "TWD",
+    "twse": "2327",
+    "adj": [
+     {
+      "ex": "2013-09-05",
+      "r": 0.7
+     },
+     {
+      "ex": "2014-09-29",
+      "r": 0.302569
+     },
+     {
+      "ex": "2016-08-03",
+      "r": 0.800454
+     },
+     {
+      "ex": "2017-08-07",
+      "r": 0.6987845
+     },
+     {
+      "ex": "2018-07-09",
+      "r": 1.198117
+     },
+     {
+      "ex": "2022-10-20",
+      "r": 0.795925
+     },
+     {
+      "ex": "2024-08-15",
+      "r": 1.1948365
+     },
+     {
+      "ex": "2025-08-14",
+      "r": 4.0
+     }
+    ]
+   },
+   "primarySource": {
+    "n": "公開資訊觀測站：國巨 IFRS 合併財務報告（t164sb01）",
+    "url": "https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=2327&SYEAR=2026&SSEASON=3&REPORT_ID=C"
+   },
+   "tz": "TW",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true
+  },
+  {
+   "code": "lite",
+   "name": "朗美通",
+   "nameEn": "Lumentum",
+   "ticker": "LITE",
+   "exchange": "Nasdaq LITE",
+   "sector": "硬體與網通",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "lite/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "朗美通財報追蹤板",
+   "description": "朗美通（LITE）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "LITE",
+    "from": "2015-08",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001633978"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001633978"
+  },
+  {
+   "code": "cohr",
+   "name": "高意",
+   "nameEn": "Coherent",
+   "ticker": "COHR",
+   "exchange": "NYSE COHR",
+   "sector": "硬體與網通",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "cohr/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "高意財報追蹤板",
+   "description": "高意（COHR）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "COHR",
+    "from": "2014-09",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000820318"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0000820318"
+  },
+  {
+   "code": "fn",
+   "name": "Fabrinet",
+   "nameEn": "Fabrinet",
+   "ticker": "FN",
+   "exchange": "NYSE FN",
+   "sector": "硬體與網通",
+   "currency": "USD",
+   "frequency": "quarterly",
+   "path": "fn/",
+   "schema": "v1",
+   "template": "generic",
+   "title": "Fabrinet財報追蹤板",
+   "description": "Fabrinet（FN）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+   "price": {
+    "yahoo": "FN",
+    "from": "2011-09",
+    "currency": "USD"
+   },
+   "primarySource": {
+    "n": "SEC EDGAR",
+    "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001408710"
+   },
+   "tz": "US",
+   "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+   "enabled": true,
+   "cik": "0001408710"
+  }
+ ]
 }
