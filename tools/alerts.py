@@ -214,18 +214,61 @@ def yahoo_fetch(sym, start):
     return [(ts.date(), float(r["Open"]), float(r["High"]), float(r["Low"]), float(r["Close"]), r.get("Volume")) for ts, r in df.iterrows()]
 
 
-def topup(item, bars, now_utc, fetch=yahoo_fetch):
-    """回傳要補在 bars 後面的新 K 棒（t > 最後一根、t ≤ 已收盤的最新交易日、o/h/l/c 都是有限數字）。沒有 Yahoo 代號回 []。丟錯＝補價失敗。"""
+def yahoo_quote(sym):
+    """Yahoo 的即時／當日報價欄位（日線 Close 收盤後常有幾小時是 NaN，這裡的 info 比較快更新）。
+    只回傳 dict，不印任何東西（公開 repo 的 log 不能有價格或代號）。測試用假的取代。"""
+    import yfinance as yf
+    return dict(yf.Ticker(sym).info or {})
+
+
+def quote_fill(item, ds, o, h, l, c, now_utc, quote=yahoo_quote):
+    """日線某天的 o/h/l/c 有 NaN 時，用 info 補：c＝regularMarketPrice、h／l＝regularMarketDayHigh／DayLow、o 缺就用 regularMarketOpen。
+    只在報價時間的當地日期＝該日、且已過收盤時間才接受（沒收盤的盤中價不能當收盤）。補不齊回 None。完全不記錄任何內容。"""
+    import prices_daily as PD
+    try:
+        q = quote(item["yahoo"]) or {}
+        ts = q.get("regularMarketTime")
+        if not num(ts):
+            return None
+        if item["kind"] == "fut":
+            import futures_update as FU
+            when = dt.datetime.fromtimestamp(ts, dt.timezone.utc).astimezone(FU.CT)
+            done = when.hour * 60 + when.minute >= 16 * 60 + 15
+        else:
+            tz, hh, mm = PD.exch(item["yahoo"])
+            when = dt.datetime.fromtimestamp(ts, dt.timezone.utc).astimezone(ZoneInfo(tz))
+            done = when.hour * 60 + when.minute >= hh * 60 + mm
+        if when.date().isoformat() != ds or not done:
+            return None
+        pick = lambda cur, *keys: cur if num(cur) else next((q[k] for k in keys if num(q.get(k))), None)  # noqa: E731
+        c2 = pick(c, "regularMarketPrice")
+        h2 = pick(h, "regularMarketDayHigh")
+        l2 = pick(l, "regularMarketDayLow")
+        o2 = pick(o, "regularMarketOpen", "open")
+        return (o2, h2, l2, c2) if all(num(x) for x in (o2, h2, l2, c2)) else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def topup(item, bars, now_utc, fetch=yahoo_fetch, quote=yahoo_quote):
+    """回傳要補在 bars 後面的新 K 棒（t > 最後一根、t ≤ 已收盤的最新交易日、o/h/l/c 都是有限數字）。沒有 Yahoo 代號回 []。丟錯＝補價失敗。
+    只有「最新那一天」的欄位是 NaN 時才用 quote_fill 補；補不齊就丟掉（寧缺勿錯）。"""
     if not item.get("yahoo"):
         return []
     last = bars[-1][0] if bars else "1990-01-01"
     start = (dt.date.fromisoformat(last) - dt.timedelta(days=3)).isoformat()
     limit = closed_through(item, now_utc)
+    rows = [(d.isoformat() if hasattr(d, "isoformat") else str(d), o, h, l, c, v) for d, o, h, l, c, v in fetch(item["yahoo"], start)]
+    newest = max((r[0] for r in rows if last < r[0] <= limit), default=None)
     out = []
-    for d, o, h, l, c, v in fetch(item["yahoo"], start):
-        ds = d.isoformat() if hasattr(d, "isoformat") else str(d)
-        if ds <= last or ds > limit or not all(num(x) for x in (o, h, l, c)):
+    for ds, o, h, l, c, v in rows:
+        if ds <= last or ds > limit:
             continue
+        if not all(num(x) for x in (o, h, l, c)):
+            f = quote_fill(item, ds, o, h, l, c, now_utc, quote) if ds == newest else None
+            if not f:
+                continue
+            o, h, l, c = f
         out.append([ds, round(o, 4), round(h, 4), round(l, 4), round(c, 4), int(v) if num(v) and v else None])
     return out
 
@@ -509,7 +552,7 @@ def configured(env):
     return ch
 
 
-def deliver(plan, env, state):
+def deliver(plan, env, state, on_ok=None):
     """plan：{"ntfy": (title, msg) | None, "Gmail": (subj, text, html) | None, "Telegram": text | None}。
     回傳 {管道: True/False}（只含有設定且 plan 有內容的）。log 只印成功／失敗與錯誤類型。"""
     res = {}
@@ -528,14 +571,19 @@ def deliver(plan, env, state):
                 send_telegram(env["TELEGRAM_BOT_TOKEN"], chat, plan[name])
             res[name] = True
             log(f"  {name}：成功")
+            if on_ok and sum(res.values()) == 1:
+                on_ok(res)      # 第一個成功就先記下「今天已發」，後面的管道出任何事都不會重發
         except SendError as e:
             res[name] = False
             log(f"  {name}：失敗（{e}）")
+        except Exception as e:  # noqa: BLE001
+            res[name] = False
+            log(f"  {name}：失敗（{type(e).__name__}）")
     return res
 
 
 # ---------- 主流程 ----------
-def run(paths=None, env=None, now_utc=None, fetch=yahoo_fetch, test=False):
+def run(paths=None, env=None, now_utc=None, fetch=yahoo_fetch, test=False, quote=yahoo_quote):
     """回傳結束碼。paths／env／now_utc／fetch 都可換成測試用的。"""
     paths = paths or Paths()
     env = os.environ if env is None else env
@@ -579,7 +627,7 @@ def run(paths=None, env=None, now_utc=None, fetch=yahoo_fetch, test=False):
     for it in items:
         bars, hist_ok = load_bars(it, key, paths)
         try:
-            add = topup(it, bars, now_utc, fetch)
+            add = topup(it, bars, now_utc, fetch, quote)
             if add:
                 bars = bars + add
         except Exception:  # noqa: BLE001
@@ -617,14 +665,28 @@ def run(paths=None, env=None, now_utc=None, fetch=yahoo_fetch, test=False):
     if not todo:
         log("今天沒有可發的管道（沒設定管道，或沒有到價且沒設定 Gmail）")
         return 0
-    res = deliver(plan, env, state)
-    if not any(res.values()):
+    sent_at = now_utc.isoformat(timespec="seconds")
+
+    def mark(res):
+        state["lastSent"] = today_s
+        state["sent"] = (state["sent"] + [{"d": today_s, "t": sent_at, "n": len(hit_l), "ch": [k for k, v in res.items() if v]}])[-KEEP_SENT:]
+        write_json(paths.state, enc(state, key))
+
+    try:
+        res = deliver(plan, env, state, on_ok=mark)
+    except Exception:  # noqa: BLE001
+        res = {}
+        log("發送過程出了意外（已發出的不會重發）")
+    if not state.get("lastSent") == today_s:
         log("全部管道都失敗")
         write_json(paths.state, enc(state, key))
         return 1
-    state["lastSent"] = today_s
-    state["sent"] = (state["sent"] + [{"d": today_s, "t": now_utc.isoformat(timespec="seconds"), "n": len(hit_l), "ch": [k for k, v in res.items() if v]}])[-KEEP_SENT:]
-    write_json(paths.state, enc(state, key))
+    try:
+        # 補上後續管道的結果（Telegram chat id 也在 state 裡）
+        state["sent"][-1]["ch"] = [k for k, v in res.items() if v] or state["sent"][-1]["ch"]
+        write_json(paths.state, enc(state, key))
+    except Exception:  # noqa: BLE001
+        pass
     return 0
 
 

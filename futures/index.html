@@ -2005,7 +2005,7 @@ const ALERTS = (() => {
 .al-dot{display:inline-flex;align-items:center;gap:4px;margin-left:10px;padding:1px 8px;border-radius:999px;background:var(--al-red);color:#fff;font-size:.78rem;font-weight:700}
 .al-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
 .al-codelist{margin-top:10px}.al-codelist h3{font-size:.95rem;margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}.al-codelist h3 a{font-size:.85rem;font-weight:500}
-.al-banner{position:sticky;top:calc(env(safe-area-inset-top,0px) + 56px);z-index:30;display:flex;align-items:center;gap:10px;margin:0 0 -20px;padding:10px 14px;background:var(--al-red);color:#fff;border-radius:10px;font-size:.95rem;font-weight:600;box-sizing:border-box}
+.al-banner{position:static;display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:10px 14px;background:var(--al-red);color:#fff;border-radius:10px;font-size:.95rem;font-weight:600;box-sizing:border-box}
 .al-banner[hidden]{display:none}.al-banner a{color:#fff;text-decoration:underline;white-space:nowrap}.al-banner .t{flex:1;min-width:0;overflow-wrap:anywhere}
 .al-banner button{flex:none;font:inherit;color:#fff;background:rgba(255,255,255,.18);border:0;border-radius:8px;min-width:40px;min-height:40px;cursor:pointer;font-size:1rem}
 @media (max-width:640px){.al-banner{font-size:.88rem;padding:8px 10px}}
@@ -2331,6 +2331,7 @@ const ALERTS = (() => {
     const st = { type: 'price', dir: 'auto', item: null, last: null, seq: 0 };
     S.open = S.open || { hit: true, on: true, off: false };
     S.edit = null;
+    const tpe = (iso) => { try { const d = new Date(iso); if (isNaN(d)) return null; const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Taipei', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(d).map((x) => [x.type, x.value])); return `${p.month}/${p.day} ${p.hour}:${p.minute}（台北）`; } catch (e) { return null; } };
     function statusBar() {
       const b = $('#alStatus'); if (!b) return;
       const w = S.worker ? (S.locked ? '<span>解鎖後才會連線</span>' : S.fromWorker ? '<span class="ok">✓ 已連線</span>' : S.loaded ? '<span class="bad">讀不到小幫手，改讀網站上的檔案（可能慢幾分鐘）</span>' : '<span>連線中…</span>')
@@ -2338,8 +2339,8 @@ const ALERTS = (() => {
       const sent = S.state && S.state.sent && S.state.sent[S.state.sent.length - 1];
       b.innerHTML = `<span>到價小幫手：<b>${w}</b></span>` +
         `<span>通知管道：<b>${sent ? esc(sent.ch.join('、')) : '尚無紀錄'}</b>${sent ? '' : '（每天台北 08:00 會發到你設定好的管道）'}</span>` +
-        `<span>最近一次通知：<b>${sent ? dstr(sent.d) : '—'}</b></span>` +
-        (S.state && S.state.asOf ? `<span>到價判斷更新：<b>${esc(S.state.asOf.replace('T', ' ').slice(0, 16))} UTC</b></span>` : '') +
+        `<span>最近一次通知：<b>${sent ? esc((sent.t && tpe(sent.t)) || dstr(sent.d)) : '—'}</b></span>` +
+        (S.state && S.state.asOf ? `<span>到價判斷更新：<b>${esc(tpe(S.state.asOf) || S.state.asOf.replace('T', ' ').slice(0, 16) + ' UTC')}</b></span>` : '') +
         (S.err ? `<span class="bad">${esc(S.err)}</span>` : '');
     }
     const grp = (key, title, arr, extra) => `<details class="al-grp ${key}"${key === 'hit' ? ' id="hit"' : ''} data-k="${key}"${S.open[key] ? ' open' : ''}><summary>${title}<span class="n">${arr.length} 條</span></summary>${extra || ''}` +

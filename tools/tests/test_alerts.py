@@ -199,8 +199,41 @@ class Topup(unittest.TestCase):
     def test_nan_rows_skipped_and_tx_not_fetched(self):
         it = {"code": "aaa", "kind": "stock", "yahoo": "AAA"}
         nan = float("nan")
-        self.assertEqual(A.topup(it, [], NOW, lambda s, d: [(dt.date(2026, 11, 23), nan, nan, nan, nan, None)]), [])
+        self.assertEqual(A.topup(it, [], NOW, lambda s, d: [(dt.date(2026, 11, 23), nan, nan, nan, nan, None)], lambda s: {}), [])
         self.assertEqual(A.topup({"code": "tx", "kind": "fut", "yahoo": None}, [], NOW, lambda s, d: 1 / 0), [])
+
+    def test_nan_last_day_filled_from_quote(self):
+        it = {"code": "aaa", "kind": "stock", "yahoo": "AAA"}
+        nan = float("nan")
+        raw = [(dt.date(2026, 11, 23), 5, 7, 4, 6, 10), (dt.date(2026, 11, 24), nan, nan, nan, nan, None)]
+        # 美東 11/23 16:30 = UTC 21:30
+        ts = dt.datetime(2026, 11, 23, 21, 30, tzinfo=dt.timezone.utc).timestamp()
+        q = {"regularMarketTime": ts, "regularMarketPrice": 6.5, "regularMarketDayHigh": 7.5, "regularMarketDayLow": 4.5, "regularMarketOpen": 5.5}
+        fetched = []
+        add = A.topup(it, [], NOW, lambda s, d: [(dt.date(2026, 11, 23), nan, 7.0, 4.0, nan, 10)], lambda s: fetched.append(s) or q)
+        self.assertEqual(add, [["2026-11-23", 5.5, 7.0, 4.0, 6.5, 10]])      # 有值的欄位保留，只補 NaN
+        self.assertEqual(fetched, ["AAA"])
+        # 完整的列不去查報價
+        fetched.clear()
+        A.topup(it, [], NOW, lambda s, d: raw[:1], lambda s: fetched.append(s) or q)
+        self.assertEqual(fetched, [])
+
+    def test_quote_from_other_date_or_before_close_rejected(self):
+        it = {"code": "aaa", "kind": "stock", "yahoo": "AAA"}
+        nan = float("nan")
+        row = lambda s, d: [(dt.date(2026, 11, 23), nan, nan, nan, nan, None)]   # noqa: E731
+        mk = lambda y, m, d, h: {"regularMarketTime": dt.datetime(y, m, d, h, 0, tzinfo=dt.timezone.utc).timestamp(), "regularMarketPrice": 6, "regularMarketDayHigh": 7, "regularMarketDayLow": 4, "regularMarketOpen": 5}  # noqa: E731
+        self.assertEqual(A.topup(it, [], NOW, row, lambda s: mk(2026, 11, 20, 21)), [])   # 報價是別天的
+        self.assertEqual(A.topup(it, [], NOW, row, lambda s: mk(2026, 11, 23, 19)), [])   # 美東 14:00 盤中價
+        self.assertEqual(len(A.topup(it, [], NOW, row, lambda s: mk(2026, 11, 23, 21))), 1)
+
+    def test_still_nan_dropped_and_quote_errors_swallowed(self):
+        it = {"code": "aaa", "kind": "stock", "yahoo": "AAA"}
+        nan = float("nan")
+        row = lambda s, d: [(dt.date(2026, 11, 23), nan, nan, nan, nan, None)]   # noqa: E731
+        ts = dt.datetime(2026, 11, 23, 21, 30, tzinfo=dt.timezone.utc).timestamp()
+        self.assertEqual(A.topup(it, [], NOW, row, lambda s: {"regularMarketTime": ts, "regularMarketPrice": nan}), [])
+        self.assertEqual(A.topup(it, [], NOW, row, lambda s: 1 / 0), [])
 
     def test_topup_failure_does_not_fail_run(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -267,6 +300,31 @@ class RunFlow(unittest.TestCase):
                 run(paths, ENV_ALL, now=NOW + dt.timedelta(days=1))              # 隔天又發
                 self.assertGreater(len(f.calls), n)
             self.assertEqual(read_state(paths)["lastSent"], "2026-11-25")
+
+    def test_exception_after_send_still_marks_sent_once(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_root(tmp)
+            put_rules(paths, [rule(p=105.0, since="2026-10-01")])
+            with Fake() as f:
+                http = A.http_post
+
+                def bad(url, data, headers=None, timeout=30):
+                    if "getUpdates" in url:
+                        f.calls.append(("Telegram", url, data))
+                        return 200, "<<not json>>"          # 非 SendError 的意外
+                    return http(url, data, headers, timeout)
+                A.http_post = bad
+                try:
+                    rc, out = run(paths, ENV_ALL)
+                    self.assertEqual(rc, 0)
+                    self.assertEqual(read_state(paths)["lastSent"], "2026-11-24")
+                    self.assertEqual(sorted(f.names()), ["Gmail", "ntfy"])
+                    n = len(f.calls)
+                    rc, out = run(paths, ENV_ALL, now=NOW + dt.timedelta(hours=1))
+                    self.assertEqual((rc, len(f.calls)), (0, n))     # 同一天不重發
+                finally:
+                    A.http_post = http
+            self.assertNotIn("not json", out)
 
     def test_gmail_daily_even_without_hits_others_only_on_hits(self):
         with tempfile.TemporaryDirectory() as tmp:

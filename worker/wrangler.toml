@@ -2,7 +2,7 @@
 # 機密（ALERT_KEY、GH_TOKEN）不寫在這裡：由部署 workflow 用 wrangler secret put 從 GitHub secrets 灌進去。
 name = "erd-alerts"
 main = "alerts.js"
-compatibility_date = "2026-11-01"
+compatibility_date = "2024-12-01"
 workers_dev = true
 
 [vars]

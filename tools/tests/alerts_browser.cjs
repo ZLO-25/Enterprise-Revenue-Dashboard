@@ -133,6 +133,9 @@ async function watchFlow(browser) {
   ok(await page.evaluate(() => document.querySelector('.al-codelist') && document.querySelector('.al-codelist').textContent.includes('全部提醒')), '圖下方有「這檔的提醒」清單與「全部提醒 →」');
   await page.evaluate(() => { const c = document.getElementById('futChart'); window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 150, behavior: 'instant' }); }); await frames(page);
   await shot(page, 'watch-lines-light.png');
+  ok(await page.evaluate(() => { const b = document.querySelector('.al-banner'), n = b.nextElementSibling; return getComputedStyle(b).position !== 'sticky' && (!n || n.getBoundingClientRect().top >= b.getBoundingClientRect().bottom - 1); }), '提醒條在正常排版流程中，不蓋住下面的內容');
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await frames(page);
+  await shot(page, 'watch-banner-top-light.png');
   // 放一條新線
   await page.click('.al-tool');
   ok(await page.evaluate(() => document.querySelector('.al-tool').getAttribute('aria-pressed') === 'true'), '按鈴鐺進入放線狀態');
@@ -223,6 +226,8 @@ async function watchFlow(browser) {
   ok(await until(page, () => document.getElementById('futChart')._alDbg && document.getElementById('futChart')._alDbg.lines() >= 3), '深色模式重畫後鈴鐺線還在');
   await page.evaluate(() => { const c = document.getElementById('futChart'); window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 150, behavior: 'instant' }); }); await frames(page);
   await shot(page, 'watch-lines-dark.png');
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await frames(page);
+  await shot(page, 'watch-banner-top-dark.png');
   await page.emulateMedia({ colorScheme: 'light' });
   ok(errs.length === 0, '第 2 段錯誤：' + errs.join(' | '));
   await ctx.close();
@@ -260,6 +265,8 @@ async function otherPages(browser) {
   await page.waitForSelector('#dyKToggle'); await page.click('#dyKToggle');
   ok(await until(page, () => document.querySelector('#dyKB .al-tool') != null && document.querySelector('#dyKB .fut-chart')._alDbg && document.querySelector('#dyKB .fut-chart')._alDbg.lines() === 3, null, 20000), '個股頁 K 棒：有「🔔 提醒」按鈕與 3 條鈴鐺線');
   ok(await page.evaluate(() => document.querySelector('#dyKB .al-codelist') != null), '個股頁 K 棒：有「這檔的提醒」清單');
+  await page.evaluate(() => document.getElementById('dyKToggle').scrollIntoView({ block: 'start', behavior: 'instant' })); await frames(page);
+  await shot(page, 'company-kbar-hit-light.png');
   ok(errs.length === 0, '第 3 段錯誤：' + errs.join(' | '));
   await ctx.close();
   // 沒解鎖的新環境：個股頁完全不載入 alerts.js
@@ -367,6 +374,9 @@ async function phoneWatch(browser) {
   ok(tb.l && tb.r && tb.hs.every((h) => h >= 40), '手機：工具列在圖內、按鈕輸入框 ≥ 40px：' + JSON.stringify(tb));
   ok((await overflow(page)) <= 1, '手機放線後沒有水平捲動');
   await shot(page, 'watch-phone-390-light.png');
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await frames(page);
+  ok(await page.evaluate(() => { const b = document.querySelector('.al-banner'), n = b.nextElementSibling; return !n || n.getBoundingClientRect().top >= b.getBoundingClientRect().bottom - 1; }), '手機：提醒條不蓋住下面的內容');
+  await shot(page, 'watch-banner-top-phone-390-light.png');
   const id = await page.evaluate(() => document.getElementById('futChart')._alDbg.sel());
   await page.click('.al-tb [data-act="del"]');
   ok(await until(page, () => ALERTS.get('nvda').length === 3), '手機：刪除');
