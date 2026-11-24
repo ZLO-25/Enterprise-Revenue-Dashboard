@@ -1,0 +1,302 @@
+SOURCE https://www.sec.gov/Archives/edgar/data/820318/000117184319000624/exh_991.htm
+
+EX-99.1
+2
+exh_991.htm
+PRESS RELEASE
+EdgarFiling
+EXHIBIT 99.1
+II-VI Incorporated Reports Q2 Fiscal 2019 Results Including Record Revenues, Bookings and Order Backlog
+ Record bookings and backlog continue to signal strong core marketsRevenues increased 22% compared to Q2FY18GAAP EPS of $0.44 increased 13% excluding Tax Reform from Q2 FY18; Adjusted EPS of $0.71 increased 34% compared to Q2FY18 Operating income increased 22% compared to Q2FY18, 48% increase on an adjusted basis compared to Q2FY18 
+PITTSBURGH, Jan. 31, 2019 (GLOBE NEWSWIRE) -- II-VI Incorporated (Nasdaq:IIVI) ("II-VI" or the "Company") today reported results for its fiscal second quarter ended December 31, 2018. 
+“We delivered solid operating performance during the quarter. We achieved record bookings of $377 million, record revenue of $343 million and grew our backlog to $513 million. The optical communications market was very strong, we launched our GaN on SiC device development to address the accelerating 5G market, and we booked several large orders for SiC substrates from customers servicing the growing electric vehicle market. We believe all of these drivers will remain strong. During the quarter, we announced our exciting plan to acquire Finisar, and we began our integration planning. Additionally, the U.S. HSR waiting period recently expired and we received clearance from the German competition authority. In the meantime, we remain intensely focused on cost control and operating performance. During the quarter, we generated $69 million in cash flow from operations and repaid $60 million of outstanding debt.” 
+Table 1
+$ Millions, except per share amounts, % and Book to Bill
+(Unaudited)
+Three Months Ended | Six Months Ended
+Dec 31, | Sept 30, | Dec 31, | Dec 31, | Dec 31,
+2018 | 2018 | 2017 | 2018 | 2017
+Revenues | $ | 342.9 | $ | 314.4 | $ | 281.5 | $ | 657.3 | $ | 543.0
+Operating income | $ | 39.6 | $ | 37.2 | $ | 32.5 | $ | 76.8 | $ | 62.3
+Adjusted operating income (1) | $ | 48.2 | $ | 39.1 | $ | 32.5 | $ | 87.3 | $ | 62.3
+Net earnings | $ | 28.7 | $ | 26.1 | $ | 9.6 | $ | 54.9 | $ | 30.7
+Adjusted net earnings (1) | $ | 46.3 | $ | 36.8 | $ | 34.7 | $ | 83.2 | $ | 65.2
+Diluted earnings per share | $ | 0.44 | $ | 0.40 | $ | 0.15 | $ | 0.83 | $ | 0.47
+Adjusted diluted earnings per share (1) | $ | 0.71 | $ | 0.56 | $ | 0.53 | $ | 1.26 | $ | 1.00
+Other Selected Financial Metrics
+Book to Bill (2) | 1.10 | 1.04 | 1.05 | 1.07 | 1.01
+Gross margin | 38.4% | 39.4% | 38.9% | 38.9% | 39.7%
+Operating margin | 11.5% | 11.8% | 11.5% | 11.7% | 11.5%
+Adjusted operating margin (1) | 14.1% | 12.4% | 11.5% | 13.3% | 11.5%
+Return on sales | 8.4% | 8.3% | 3.4% | 8.3% | 5.7%
+Adjusted return on sales (1) | 13.5% | 11.7% | 12.3% | 12.7% | 12.0%
+(1) Excludes certain non-GAAP adjustments for share-based compensation, acquired amortization expense, certain one-time transaction expense and the impact of the Tax Cuts and Jobs Act. See Table 4 for Reconciliation of Operating Income to Adjusted Operating Income. See Tables 7 and 8 for Reconciliation of Reported Net Earnings to Adjusted Net Earnings. 
+(2) Book to Bill is calculated by dividing orders the Company expects to convert to revenue within the next twelve months by revenues recognized during the period. 
+Outlook 
+The outlook for the third fiscal quarter ending March 31, 2019 is revenues of $335 million to $343 million and earnings per diluted share of $0.36 to $0.42 including $0.06 to $0.09 per share of transaction costs for our transactions and collaborations recently announced. On an adjusted basis, earnings per diluted share is estimated at $0.60 to $0.69 which includes $0.12 for share based compensation, $0.06 for amortization expense, and $0.06 to $0.09 for transaction costs. This is all at prevailing exchange rates. 
+Comparable results for the quarter ended March 31, 2018 were revenues of $294.7 million and diluted earnings per share of $0.45. The $0.45 diluted earnings per share for the quarter ended March 31, 2018 included $0.09 of income relating to the Tax Cuts and Jobs Act. On an adjusted basis excluding the tax adjustment, earnings per share was $0.36. As discussed in more detail below, actual results may differ from these forecasts due to various factors including, but not limited to, changes in product demand, competition and general economic conditions. 
+Segment Information 
+Operating income is defined as earnings before income taxes, interest expense and other expense or income, net. 
+Table 2
+Segment Book to Bill, Revenues, Operating Income and Margins
+$ Millions, except % and Book to Bill
+(Unaudited)
+Three Months Ended | Six Months Ended
+Dec 31, | Sept 30, | Dec 31, | Dec 31, | Dec 31,
+2018 | 2018 | 2017 | 2018 | 2017
+Book to Bill:
+II-VI Laser Solutions | 0.94 | 0.98 | 1.09 | 0.96 | 1.09
+II-VI Photonics | 1.04 | 1.09 | 0.99 | 1.06 | 0.89
+II-VI Performance Products | 1.42 | 1.04 | 1.09 | 1.24 | 1.11
+Total Book to Bill | 1.10 | 1.04 | 1.05 | 1.07 | 1.01
+Revenues:
+II-VI Laser Solutions | $ | 105.6 | $ | 106.2 | $ | 105.0 | $ | 211.8 | $ | 193.0
+II-VI Photonics | 159.7 | 135.1 | 115.3 | 294.8 | 231.2
+II-VI Performance Products | 77.6 | 73.1 | 61.2 | 150.7 | 118.8
+Total Revenues | $ | 342.9 | $ | 314.4 | $ | 281.5 | $ | 657.3 | $ | 543.0
+Operating Income:
+II-VI Laser Solutions | $ | 12.2 | $ | 12.3 | $ | 9.5 | $ | 24.5 | $ | 12.1
+Adjusted II-VI Photonics | $ | 24.6 | $ | 17.8 | $ | 16.2 | $ | 42.4 | $ | 35.6
+Acquired business's one-time expenses | (1.5) | (1.9) | - | (3.4) | -
+II-VI Photonics | $ | 23.1 | $ | 15.9 | $ | 16.2 | $ | 39.0 | $ | 35.6
+II-VI Performance Products | $ | 11.4 | $ | 9.0 | $ | 6.8 | $ | 20.4 | $ | 14.6
+Transaction expenses related to pending acquisition | (7.1) | - | - | (7.1) | -
+Total Operating Income | $ | 39.6 | $ | 37.2 | $ | 32.5 | $ | 76.8 | $ | 62.3
+Adjusted Operating Income | $ | 48.2 | $ | 39.1 | $ | 32.5 | $ | 87.3 | $ | 62.3
+Operating Margin:
+II-VI Laser Solutions | 11.6% | 11.6% | 9.0% | 11.6% | 6.3%
+Adjusted II-VI Photonics | 15.4% | 13.2% | 14.1% | 14.4% | 15.4%
+II-VI Photonics | 14.5% | 11.8% | 14.1% | 13.2% | 15.4%
+II-VI Performance Products | 14.7% | 12.3% | 11.1% | 13.5% | 12.3%
+Total Operating Margin | 11.5% | 11.8% | 11.5% | 11.7% | 11.5%
+Total Adjusted Operating Margin | 14.1% | 12.4% | 11.5% | 13.3% | 11.5%
+Table 3 is a reconciliation of Adjusted Operating Income reported in this press release to reported Net Earnings. 
+Table 3
+Reconciliation of Operating Income to Net Earnings
+$ Millions
+(Unaudited) | Three Months Ended | Six Months Ended
+Dec 31, | Sept 30, | Dec 31, | Dec 31, | Dec 31,
+2018 | 2018 | 2017 | 2018 | 2017
+Adjusted operating income | $ | 48.2 | $ | 39.1 | $ | 32.5 | $ | 87.3 | $ | 62.3
+Acquired business's one-time expenses | 1.5 | 1.9 | - | 3.4 | -
+Transaction expenses related to pending acquisition | 7.1 | - | - | 7.1 | -
+Operating income | $ | 39.6 | $ | 37.2 | $ | 32.5 | $ | 76.8 | $ | 62.3
+Interest expense | 5.6 | 5.6 | 4.7 | 11.2 | 8.3
+Other expense (income), net | (0.7) | (0.7) | (2.0) | (1.4) | (2.7)
+Income taxes | 6.0 | 6.2 | 20.2 | 12.2 | 26.0
+Net Earnings | $ | 28.7 | $ | 26.1 | $ | 9.6 | $ | 54.8 | $ | 30.7
+Table 4 is a reconciliation of Operating Income reported in this press release to Adjusted EBITDA. 
+Table 4
+Reconciliation of Operating Income to EBITDA
+$ Millions
+(Unaudited) | Three Months Ended | Six Months Ended
+Dec 31, | Sept 30, | Dec 31, | Dec 31, | Dec 31,
+2018 | 2018 | 2017 | 2018 | 2017
+Operating income | $ | 39.6 | $ | 37.2 | $ | 32.5 | $ | 76.8 | $ | 62.3
+Depreciation and amortization | 22.3 | 22.2 | 19.4 | 44.5 | 38.3
+Other income (expense), net | 0.7 | 0.7 | 2.0 | 1.4 | 2.7
+Acquired business's one-time expenses | 1.5 | 1.9 | - | 3.4 | -
+Transaction expenses related to pending acquisition | 7.1 | - | - | 7.1 | -
+Adjusted EBITDA | $ | 71.2 | $ | 62.0 | $ | 53.9 | $ | 133.2 | $ | 103.3
+Table 5 is a reconciliation of EBITDA reported in this press release to reported Net Earnings. 
+Table 5
+Reconciliation of EBITDA to Net Earnings
+$ Millions
+(Unaudited) | Three Months Ended | Six Months Ended
+Dec 31, | Sept 30, | Dec 31, | Dec 31, | Dec 31,
+2018 | 2018 | 2017 | 2018 | 2017
+Adjusted EBITDA (5) | $ | 71.2 | $ | 62.0 | $ | 53.9 | $ | 133.2 | $ | 103.3
+Adjusted EBITDA margin (3)(4) | 20.8% | 19.7% | 19.1% | 20.3% | 19.0%
+Acquired business's one-time expenses | $ | (1.5) | $ | (1.9) | $ | - | $ | (3.4) | $ | -
+Transaction expenses related to pending acquisition | (7.1) | - | - | (7.1) | -
+EBITDA (3) | $ | 62.6 | $ | 60.1 | $ | 53.9 | $ | 122.7 | $ | 103.3
+EBITDA margin (4) | 18.3% | 19.1% | 19.1% | 18.7% | 19.0%
+Interest expense | $ | 5.6 | $ | 5.6 | $ | 4.7 | $ | 11.2 | $ | 8.3
+Depreciation and amortization | 22.3 | 22.2 | 19.4 | 44.5 | 38.3
+Income taxes | 6.0 | 6.2 | 20.2 | 12.2 | 26.0
+Net Earnings | $ | 28.7 | $ | 26.1 | $ | 9.6 | $ | 54.8 | $ | 30.7
+(3) EBITDA is defined as earnings before interest, income taxes, depreciation and amortization. 
+(4) EBITDA margin is defined as earnings before interest, incomes taxes, depreciation and amortization divided by revenues. 
+(5) Adjusted EBITDA excludes non-GAAP adjustments for certain one-time transaction expenses. 
+Table 6 is a table of other selected financial information. 
+Table 6
+$ Millions, except share information
+(Unaudited) | Three Months Ended | Six Months Ended
+Dec 31, | Sept 30, | Dec 31, | Dec 31, | Dec 31,
+2018 | 2018 | 2017 | 2018 | 2017
+Share-based compensation expense, pre-tax | $ | 5.0 | $ | 5.3 | $ | 5.4 | $ | 10.3 | $ | 11.7
+Cash paid for shares repurchased | $ | - | $ | - | $ | - | $ | - | $ | 49.9
+Shares repurchased | - | - | - | - | 1,414,900
+Conference Call & Webcast Information 
+The Company will host a conference call at 9:00 a.m. Eastern Time on January 31, 2019 to discuss these results. 
+To join the call and replay: If you wish to participate in the conference call, please dial (877) 316-5288. When you call please provide your name and company affiliation. The teleconference will be recorded and a replay will be available to interested parties who are unable to attend the live call. This service will be available up to 11:59 p.m. Eastern Time on Friday, February 8, 2019 by dialing (855) 859-2056 for domestic calls and (404) 537-3406 for international calls and entering the ID # 2997114. 
+To join the webcast: The conference call will be broadcast live over the internet and can be accessed by all interested parties from the Company's website at www.ii-vi.com as well as at https://tinyurl.com/y724yno4. A replay of the webcast will be available for two weeks following the call. 
+Use of Non-GAAP Financial Measures 
+The Company has disclosed financial measurements in this press release that present financial information considered to be non-GAAP financial measures. These measurements are not a substitute for GAAP measurements, although the Company's management uses these measurements as an aid in monitoring the Company's on-going financial performance. The adjusted non-GAAP net earnings and the adjusted non-GAAP earnings per share measure the earnings of the Company, excluding non-recurring or unusual items that are considered by the management to be outside the Company’s standard operation and excluding certain non-cash items. EBITDA is an adjusted non-GAAP financial measurement that is considered by management to be useful in measuring the profitability between companies within the industry by reflecting operating results of the Company excluding non-operating factors. There are limitations associated with the use of non-GAAP financial measures, including that such measures may not be entirely comparable to similarly titled measures used by other companies, due to potential differences among calculation methodologies. Thus, there can be no assurance that items excluded from the non-GAAP financial measures will not occur in the future, or that there could be cash costs associated with items excluded from the non-GAAP financial measures. The Company compensates for these limitations by using these non-GAAP financial measures as supplements to GAAP financial measures and by providing the reconciliations of the non-GAAP financial measures to their most comparable GAAP financial measures. Investors should consider adjusted measures in addition to, and not as a substitute for, or superior to, financial performance measures prepared in accordance with GAAP. 
+About II-VI Incorporated 
+II-VI Incorporated, a global leader in engineered materials and optoelectronic components, is a vertically integrated manufacturing company that develops innovative products for diversified applications in the industrial, optical communications, military, life sciences, semiconductor equipment, and consumer markets. Headquartered in Saxonburg, Pennsylvania, the Company has research and development, manufacturing, sales, service, and distribution facilities worldwide. The Company produces a wide variety of application-specific photonic and electronic materials and components, and deploys them in various forms, including integrated with advanced software to enable our customers. For more information, please visit us at www.ii-vi.com. 
+Forward-looking Statements 
+This communication contains “forward-looking statements” within the meaning of the federal securities laws, including Section 27A of the Securities Act of 1933, as amended, and Section 21E of the Securities Exchange Act of 1934, as amended. In this context, forward-looking statements often address expected future business and financial performance and financial condition, and often contain words such as “expect,” “anticipate,” “intend,” “plan,” “believe,” “seek,” “see,” “will,” “would,” “target,” similar expressions, and variations or negatives of these words. Forward-looking statements by their nature address matters that are, to different degrees, uncertain, such as statements about the consummation of the proposed transaction and the anticipated benefits thereof. These and other forward-looking statements are not guarantees of future results and are subject to risks, uncertainties and assumptions that could cause actual results to differ materially from those expressed in any forward-looking statements, including the failure to consummate the proposed transaction or to make any filing or take other action required to consummate such transaction in a timely matter or at all, are not guarantees of future results and are subject to risks, uncertainties and assumptions that could cause actual results to differ materially from those expressed in any forward-looking statements. Important factors that may cause such a difference include, but are not limited to: (i) the ability of II-VI and Finisar Corporation (“Finisar”) to complete their proposed transaction on the anticipated terms and timing or at all, (ii) the ability of the parties to satisfy the conditions to the closing of the proposed transaction, including obtaining required regulatory approvals, (iii) potential litigation relating to the proposed transaction, which could be instituted against II-VI, Finisar or their respective directors, (iv) potential adverse reactions or changes to business relationships resulting from the announcement or completion of the transaction, (v) the triggering of any third party contracts containing consent and/or other similar provisions, (vi) any negative effects of the announcement of the transaction on the market price of Finisar’s common stock and/or negative effects of the announcement or commencement of the transaction on the market price of II-VI’s common stock, (vii) uncertainty as to the long-term value of II-VI’s common stock, and thus the value of the II-VI shares to be issued in the transaction, (viii) any unexpected impacts from unforeseen liabilities, future capital expenditures, revenues, expenses, earnings, synergies, economic performance, indebtedness, financial condition and losses on the future prospects, business and management strategies for the management, expansion and growth of the combined company’s operations after the consummation of the transaction and on the other conditions to the completion of the merger, (ix) inherent risks, costs and uncertainties associated with integrating the businesses successfully and achieving all or any of the anticipated synergies, (x) potential disruptions from the proposed transaction that may harm II-VI’s or Finisar’s respective businesses, including current plans and operations, (xi) the ability of II-VI and Finisar to retain and hire key personnel, (xii) adverse legal and regulatory developments or determinations or adverse changes in, or interpretations of, U.S. or foreign laws, rules or regulations, that could delay or prevent completion of the proposed transaction or cause the terms of the proposed transaction to be modified, (xiii) the ability of II-VI to obtain or consummate financing or refinancing related to the transaction upon acceptable terms or at all, (xiv) economic uncertainty due to monetary or trade policy, political or other issues in the United States or internationally, (xv) any unexpected fluctuations or weakness in the U.S. and global economies, (xvi) changes in U.S. corporate tax laws as a result of the Tax Cuts and Jobs Act of 2017 and any future legislation, (xvii) foreign currency effects on II-VI’s and Finisar’s respective businesses, (xviii) competitive developments including pricing pressures, the level of orders that are received and can be shipped in a quarter, changes or fluctuations in customer order patterns, and seasonality, (xix) changes in utilization of II-VI or Finisar’s manufacturing capacity and II-VI’s ability to effectively manage and expand its production levels, (xx) disruptions in II-VI’s business or the businesses of its customers or suppliers due to natural disasters, terrorist activity, armed conflict, war, worldwide oil prices and supply, public health concerns or disruptions in the transportation system, and (xxi) the responses by the respective managements of II-VI and Finisar to any of the aforementioned factors. Additional risks are described under the heading “Risk Factors” in II-VI’s Annual Report on Form 10-K for the year ended June 30, 2018, filed with the U.S. Securities and Exchange Commission (the “SEC”) on August 28, 2018 and in Finisar’s Annual Report on Form 10-K for the year ended April 29, 2018 filed with the SEC on June 15, 2018. 
+These risks, as well as other risks associated with the proposed transaction, will be more fully discussed in the joint proxy statement/prospectus that will be included in the registration statement on Form S-4 that will be filed with the SEC in connection with the proposed transaction (the “Form S-4”). While the list of factors discussed above is, and the list of factors to be presented in the Form S-4 are, considered representative, no such list should be considered to be a complete statement of all potential risks and uncertainties. Unlisted factors may present significant additional obstacles to the realization of forward looking statements. Neither II-VI nor Finisar assumes any obligation to publicly provide revisions or updates to any forward looking statements, whether as a result of new information, future developments or otherwise, should circumstances change, except as otherwise required by securities and other applicable laws. 
+II-VI Incorporated and Subsidiaries
+Condensed Consolidated Statements of Earnings (Unaudited)
+($000 except per share data)
+Three Months Ended
+December 31, | September 30, | December 31,
+2018 | 2018 | 2017
+Revenues | $ | 342,839 | $ | 314,433 | $ | 281,470
+Costs, Expenses & Other Expense (Income)
+Cost of goods sold | 211,333 | 190,526 | 172,075
+Internal research and development | 33,764 | 33,171 | 27,779
+Selling, general and administrative | 58,136 | 53,523 | 49,130
+Interest expense | 5,580 | 5,584 | 4,644
+Other expense (income), net | (701 | ) | (713 | ) | (2,026 | )
+Total Costs, Expenses, & Other Expense (Income) | 308,112 | 282,091 | 251,602
+Earnings Before Income Taxes | 34,727 | 32,342 | 29,868
+Income Taxes | 6,025 | 6,193 | 20,272
+Net Earnings | $ | 28,702 | $ | 26,149 | $ | 9,596
+Diluted Earnings Per Share | $ | 0.44 | $ | 0.40 | $ | 0.15
+Basic Earnings Per Share | $ | 0.45 | $ | 0.41 | $ | 0.15
+Average Shares Outstanding - Diluted | 65,673 | 66,158 | 65,038
+Average Shares Outstanding - Basic | 63,588 | 63,420 | 62,302
+II-VI Incorporated and Subsidiaries
+Condensed Consolidated Statements of Earnings (Unaudited)
+($000 except per share data)
+Six Months Ended
+December 31, | December 31,
+2018 | 2017
+Revenues | $ | 657,272 | $ | 542,973
+Costs, Expenses & Other Expense (Income)
+Cost of goods sold | 401,859 | 327,605
+Internal research and development | 66,935 | 53,354
+Selling, general and administrative | 111,659 | 99,754
+Interest expense | 11,164 | 8,289
+Other expense (income), net | (1,414) | (2,796)
+Total Costs, Expenses, & Other Expense (Income) | 590,203 | 486,206
+Earnings Before Income Taxes | 67,069 | 56,767
+Income Taxes | 12,218 | 26,030
+Net Earnings | $ | 54,851 | $ | 30,737
+Diluted Earnings Per Share | $ | 0.83 | $ | 0.47
+Basic Earnings Per Share | $ | 0.86 | $ | 0.49
+Average Shares Outstanding - Diluted | 65,916 | 65,161
+Average Shares Outstanding - Basic | 63,504 | 62,523
+II-VI Incorporated and Subsidiaries
+Condensed Consolidated Balance Sheets (Unaudited)
+($000)
+December 31, | June 30,
+2018 | 2018
+Assets
+Current Assets
+Cash and cash equivalents | $ | 230,256 | $ | 247,038
+Accounts receivable | 227,006 | 215,032
+Inventories | 291,099 | 248,268
+Prepaid and refundable income taxes | 8,107 | 7,845
+Prepaid and other current assets | 35,757 | 43,654
+Total Current Assets | 792,225 | 761,837
+Property, plant & equipment, net | 559,519 | 524,890
+Goodwill | 298,250 | 270,678
+Other intangible assets, net | 138,995 | 125,069
+Investments | 76,441 | 69,215
+Deferred income taxes | 3,314 | 2,046
+Other assets | 8,390 | 7,926
+Total Assets | $ | 1,877,134 | $ | 1,761,661
+Liabilities and Shareholders’ Equity
+Current Liabilities
+Current portion of long-term debt | $ | 20,000 | $ | 20,000
+Accounts payable | 114,049 | 89,774
+Accruals and other current liabilities | 115,976 | 126,693
+Total Current Liabilities | 250,025 | 236,467
+Long-term debt | 460,457 | 419,013
+Deferred income taxes | 28,078 | 27,241
+Other liabilities | 65,401 | 54,629
+Total Liabilities | 803,961 | 737,350
+Total Shareholders' Equity | 1,073,173 | 1,024,311
+Total Liabilities and Shareholders’ Equity | $ | 1,877,134 | $ | 1,761,661
+II-VI Incorporated and Subsidiaries
+Condensed Consolidated Statements of Cash Flows (Unaudited)
+($000)
+Six Months Ended
+December 31,
+2018 | 2017
+Cash Flows from Operating Activities
+Net cash provided by operating activities | $ | 88,206 | $ | 59,669
+Cash Flows from Investing Activities
+Additions to property, plant & equipment | (74,368 | ) | (77,623 | )
+Purchases of businesses | (54,229 | ) | (80,965 | )
+Purchases of equity investments | (4,480 | ) | (51,491 | )
+Other investing activities | 116 | 145
+Net cash used in investing activities | (132,961 | ) | (209,934 | )
+Cash Flows from Financing Activities
+Proceeds from issuance
+Proceeds from issuance of 0.25% convertible senior notes due 2022 | - | 345,000
+Proceeds from borrowings under Credit Facility | 120,000 | 100,000
+Payments on borrowings under Credit Facility | (85,000 | ) | (262,000 | )
+Proceeds from exercises of stock options | 6,222 | 6,784
+Payments on earnout arrangement | (3,540 | ) | -
+Payments in satisfaction of employees' minimum tax obligations | (6,350 | ) | (3,608 | )
+Purchases of treasury stock | - | (49,875 | )
+Debt issuance costs | - | (10,061 | )
+Net cash provided by financing activities | 31,332 | 126,240
+Effect of exchange rate changes on cash and cash equivalents | (3,359 | ) | 6,593
+Net decrease in cash and cash equivalents | (16,782 | ) | (17,432 | )
+Cash and Cash Equivalents at Beginning of Period | 247,038 | 271,888
+Cash and Cash Equivalents at End of Period | $ | 230,256 | $ | 254,456
+Table 7
+Reconciliation of Selected Non-GAAP Financial Measurements
+($ Millions, except per share amounts)
+(Unaudited)
+Three Months Ended
+Dec 31, | Sept 30, | Dec 31,
+2018 | 2018 | 2017
+Reported Net Earnings | $ | 28.7 | $ | 26.1 | $ | 9.6
+Add back special items:
+Share-based compensation expense in COGS | 0.5 | 1.0 | 0.9
+Share-based compensation expense in SG&A | 4.5 | 4.3 | 4.6
+Amortization expense | 4.1 | 3.7 | 3.8
+Acquired business's one-time expenses | 1.5 | 1.9 | -
+Transaction expenses related to pending acquisition | 7.1 | - | -
+Impact of the "Tax Cuts and Jobs Act" | - | - | 15.8
+Income tax impact on one-time items | (0.1) | (0.2) | -
+Adjusted Net Earnings | $ | 46.3 | $ | 36.8 | $ | 34.7
+Per share data:
+Reported Earnings:
+Earnings - Diluted Earnings Per Share | $ | 0.44 | $ | 0.40 | $ | 0.15
+Earnings - Basic Earnings Per Share | $ | 0.45 | $ | 0.41 | $ | 0.15
+Per share, After-Tax Impact of Adjustments on:
+Adjustments - Diluted Earnings Per Share | $ | 0.27 | $ | 0.16 | $ | 0.39
+Adjustments - Basic Earnings Per Share | $ | 0.28 | $ | 0.17 | $ | 0.40
+Adjusted Earnings:
+Adjusted Earnings - Diluted Earnings Per Share | $ | 0.71 | $ | 0.56 | $ | 0.53
+Adjusted Earnings - Basic Earnings Per Share | $ | 0.73 | $ | 0.58 | $ | 0.56
+Table 8
+Reconciliation of Selected Non-GAAP Financial Measurements
+($ Millions, except per share amounts)
+(Unaudited)
+Six Months Ended
+Dec 31, | Dec 31,
+2018 | 2017
+Reported Net Earnings | $ | 54.9 | $ | 30.7
+Add back special items:
+Share-based compensation expense in COGS | 1.5 | 1.9
+Share-based compensation expense in SG&A | 8.8 | 9.8
+Amortization expense | 7.8 | 7.4
+Acquired business's one-time expenses | 3.4 | -
+Transaction expenses related to pending acquisition | 7.1 | -
+Impact of the "Tax Cuts and Jobs Act" | - | 15.8
+Income tax impact on one-time items | (0.3) | (0.4)
+Adjusted Net Earnings | $ | 83.2 | $ | 65.2
+Per share data:
+Reported Earnings:
+Earnings - Diluted Earnings Per Share | $ | 0.83 | $ | 0.47
+Earnings - Basic Earnings Per Share | $ | 0.86 | $ | 0.49
+Per share, After-Tax Impact of Adjustments on:
+Adjustments - Diluted Earnings Per Share | $ | 0.43 | $ | 0.53
+Adjustments - Basic Earnings Per Share | $ | 0.45 | $ | 0.55
+Adjusted Earnings:
+Adjusted Earnings - Diluted Earnings Per Share | $ | 1.26 | $ | 1.00
+Adjusted Earnings - Basic Earnings Per Share | $ | 1.31 | $ | 1.04
+CONTACT:
+Mark Lourie
+Director, Corporate Communications
+Mark.lourie@ii-vi.com
+www.ii-vi.com 
