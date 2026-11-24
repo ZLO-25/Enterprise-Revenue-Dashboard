@@ -623,7 +623,7 @@ async function phase3(browser, base) {
   await page.mouse.move(1, 1);
   // 首頁水平線拖曳
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
-  const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center', behavior: 'instant' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
   await frames(page);
   const hb2 = await page.evaluate(() => { const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
   await page.mouse.move(hb2.x, hb2.y); await page.mouse.move(hb2.x + 2, hb2.y + 1); await page.keyboard.press('Alt+h');
