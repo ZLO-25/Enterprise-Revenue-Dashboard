@@ -8,17 +8,17 @@
   "anet.pe": "rich",
   "delta.pe": "rich",
   "msft.pe": "cheap",
-  "mu.evS": "normal",
+  "mu.evS": "cheap",
   "amzn.pe": "cheap",
   "aapl.pe": "rich",
   "meta.pe": "cheap",
   "avgo.pe": "normal",
-  "mrvl.evS": "normal",
+  "mrvl.evS": "cheap",
   "amd.evS": "rich",
   "panw.evS": "normal",
   "gev.evS": "cheap",
   "googl.evS": "normal",
-  "csco.evS": "rich",
+  "csco.evS": "normal",
   "asml.pe": "normal",
   "allring.pe": "rich"
  },
@@ -181,6 +181,36 @@
    "kind": "rich",
    "now": 32.6,
    "thr": 26,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-24",
+   "code": "mu",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "cheap",
+   "now": 4.82,
+   "thr": 5.7,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-24",
+   "code": "mrvl",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "cheap",
+   "now": 12.32,
+   "thr": 14.5,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-24",
+   "code": "csco",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "back",
+   "now": 5.74,
+   "thr": 5.1,
    "op": "<="
   }
  ]
