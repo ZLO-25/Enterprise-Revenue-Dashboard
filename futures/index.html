@@ -1432,7 +1432,7 @@ const KB = (() => {
   /* ====================== 個股頁的 K 棒檢視 ====================== */
   /* el：放 K 棒的容器；o：{code, name, ticker, link（看盤頁網址，不含 ?s=）} */
   function stock(el, o) {
-    const st = { p: 'D', mas: new Set(MAS), vol: true };
+    const st = { p: 'W', mas: new Set(MAS), vol: true };   // 個股頁預設週 K（看盤頁仍預設日 K）
     el.classList.add('kb-embed');
     el.innerHTML = `<div class="kb-lockbox" hidden></div><div class="kb-ebody" hidden>
       <div class="fut-ctrl">

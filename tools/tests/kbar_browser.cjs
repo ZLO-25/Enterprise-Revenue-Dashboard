@@ -424,9 +424,10 @@ async function companyPages(browser, base, w, scheme) {
     await until(page, () => document.querySelector('#dyKB .kb-ebody:not([hidden]) canvas'), null, 15000); await frames(page);
     ok(await page.evaluate(() => document.querySelectorAll('#dyKB').length === 1 && !document.getElementById('dyKB').hidden && document.getElementById('dyKToggle').getAttribute('aria-expanded') === 'true' && document.querySelectorAll('#dyKB .tv-lightweight-charts').length === 1), code + ' 第二次 render 後 K 棒仍展開、只有 1 個區塊 1 張圖');
     ok(/看盤頁開啟/.test(await page.textContent('#dyKB')) && (await page.getAttribute('#dyKB a.go', 'href')).includes('futures/?s=' + code), code + ' 在看盤頁開啟連結');
-    await page.click('#dyKB [data-p="W"]'); await until(page, () => document.querySelector('#dyKB [data-p="W"]').getAttribute('aria-pressed') === 'true' && document.querySelector('#dyKB canvas'));
-    ok(await page.evaluate(() => document.querySelector('#dyKB [data-p="W"]').getAttribute('aria-pressed') === 'true'), code + ' 切週 K');
-    await page.click('#dyKB [data-p="D"]'); await until(page, () => document.querySelector('#dyKB [data-p="D"]').getAttribute('aria-pressed') === 'true' && document.querySelector('#dyKB canvas')); await frames(page);
+    ok(await page.evaluate(() => document.querySelector('#dyKB [data-p="W"]').getAttribute('aria-pressed') === 'true'), code + ' 預設週 K');
+    await page.click('#dyKB [data-p="D"]'); await until(page, () => document.querySelector('#dyKB [data-p="D"]').getAttribute('aria-pressed') === 'true' && document.querySelector('#dyKB canvas'));
+    ok(await page.evaluate(() => document.querySelector('#dyKB [data-p="D"]').getAttribute('aria-pressed') === 'true'), code + ' 切日 K');
+    await page.click('#dyKB [data-p="W"]'); await until(page, () => document.querySelector('#dyKB [data-p="W"]').getAttribute('aria-pressed') === 'true' && document.querySelector('#dyKB canvas')); await frames(page);
     ok((await nCharts(page)) === 1, code + ' 切週期後仍只有 1 張圖');
     ok((await overflow(page)) <= 1, `${code} 整頁水平捲動 ${await overflow(page)}px`);
     if (code === 'nvda') await shot(page, `stock-${w}-${scheme}.png`, '#today');
