@@ -146,6 +146,17 @@ def diff_points(a, b):
     return [(d, v - bm[d[:7]]) for d, v in a if d[:7] in bm]
 
 
+def combo_points(parts):
+    """幾條 FRED 序列加權相加（例如 淨流動性＝聯準會資產 − 逆回購×1000 − 財政部帳戶）。parts＝[(原始序列, 倍數)]。
+    每條先降成每月最後一筆，只算「每一條那個月都有值」的月份（不補）；日期用第一條那一筆的真正日期。"""
+    ms = [({d[:7]: (d, v) for d, v in month_last(pts)}, mult) for pts, mult in parts]
+    out = []
+    for ym in sorted(ms[0][0]):
+        if all(ym in m for m, _ in ms):
+            out.append((ms[0][0][ym][0], sum(m[ym][1] * k for m, k in ms)))
+    return out
+
+
 def transform(raw, show):
     """原始序列 → (頻率, 要畫的序列, 降到每月後的原始序列)。每日／每週一律先降成每月最後一筆。"""
     freq = detect_freq(raw)
@@ -711,9 +722,20 @@ def build_doc(cfg, prev, fetch=None, tw_fetch=None, link_check=None, now=None):
         key = spec["key"]
         if spec.get("diff"):
             continue
-        label = spec["fred"] if spec.get("fred") else f"{spec['ratio']['num']} ÷ {spec['ratio']['den']}"
+        if spec.get("fred"):
+            label = spec["fred"]
+        elif spec.get("combo"):
+            label = " ".join(("+ " if k > 0 else "− ") + f + ("" if abs(k) == 1 else f"×{abs(k):g}") for f, k in spec["combo"]).lstrip("+ ")
+        else:
+            label = f"{spec['ratio']['num']} ÷ {spec['ratio']['den']}"
         try:
-            if spec.get("ratio"):
+            if spec.get("combo"):
+                raw = combo_points([(raw_of(f), k) for f, k in spec["combo"]])
+                if len(raw) < 24:
+                    raise ValueError("幾條序列對得上的月份太少")
+                series[key] = dict(build_series(spec, raw, since, light, hist), fred=label, url=FRED_PAGE.format(id=spec["combo"][0][0]),
+                                   formula="FRED " + label + "（每條取每月最後一筆，同一個月才相加減）", parts=[f for f, _ in spec["combo"]])
+            elif spec.get("ratio"):
                 r = spec["ratio"]
                 raw = ratio_points(raw_of(r["num"]), raw_of(r["den"]), r.get("mult", 1.0))
                 if not raw:

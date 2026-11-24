@@ -61,7 +61,7 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 - 系統健康：`python3 tools/status.py` → `data/status/latest.json`（只由 Actions 寫，網站「系統健康」頁讀它）；紅燈才開 issue。估值門檻被穿越的訊號：`tools/signals.py` → `data/daily/_signals.json`（只由 Actions 寫）。
 
 ## 總經儀表板（macro/）
-- 說明在 [`docs/MACRO.md`](docs/MACRO.md)。指標清單、四階段對照表、外部連結在 `data/macro/config.json`（Claude 維護）；`data/macro/latest.json` **只由 GitHub Actions（macro-weekly，`tools/macro_fetch.py`）寫入**，Claude 不手填、不修改。daily-prep 平日每天叫醒它一次，18 小時內沒抓過就重抓（2026-11-22 起，日資料才不會落後好幾天）。
+- 說明在 [`docs/MACRO.md`](docs/MACRO.md)。指標清單、四階段對照表、外部連結在 `data/macro/config.json`（Claude 維護）；`data/macro/latest.json` **只由 GitHub Actions（macro-weekly，`tools/macro_fetch.py`）寫入**，Claude 不手填、不修改；美元・利率・通膨對照圖的 `data/macro/overlay.json` 同樣只由 macro-weekly（`tools/macro_overlay.py`）寫。daily-prep 平日每天叫醒它一次，18 小時內沒抓過就重抓（2026-11-22 起，日資料才不會落後好幾天）。
 - 愛榭克（Izaax）的判讀來自書摘、他本人的公開文章、分享會聽眾筆記與讀書筆記（他部落格要登入的文章沒有讀、不引用）：頁面標「整理，不是原話」，不可用引號假裝引述、不可補來源裡沒有的門檻。每一則「他怎麼想」（`concepts`）都要指到 `about.sources` 的出處；本站自己的說明標「教學」。這一頁不判定現在是哪個景氣階段。
 - 觀念提醒（`reminders`）成立與否、警訊計數、基期、停更與連結失效，全部只在 `tools/macro_fetch.py` 算（Actions 跑），頁面只畫。方向燈門檻在 `config.json` 的 `light`。長期運作的檢修表在 `docs/MACRO.md`。
 - 「AI 資本支出鏈」由 `tools/capex_chain.py` 在建置時用各公司財報加總，不存檔；缺一家就留空標待確認。

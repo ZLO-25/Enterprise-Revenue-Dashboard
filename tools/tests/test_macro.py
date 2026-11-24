@@ -284,6 +284,11 @@ class DerivedTest(unittest.TestCase):
         # 第一季取 3 月那筆；第二季只有 4 月；第三季 num 沒資料 → 不算；第四季分母是 0 → 不算
         self.assertEqual(M.ratio_points(num, den, 0.5), [("2025-01-01", 7.5), ("2025-04-01", 5.0)])
 
+    def test_combo_only_months_where_all_exist(self):
+        a = [("2026-01-07", 10.0), ("2026-01-28", 12.0), ("2026-02-25", 13.0), ("2026-03-25", 14.0)]
+        b = [("2026-01-30", 1.0), ("2026-03-31", 2.0)]
+        self.assertEqual(M.combo_points([(a, 1), (b, -1000)]), [("2026-01-28", 12.0 - 1000.0), ("2026-03-25", 14.0 - 2000.0)])
+
     def test_diff_only_where_both_exist(self):
         a, b = monthly([5, 6, 7], 2025, 1), monthly([1, 1], 2025, 2)
         self.assertEqual(M.diff_points(a, b), [("2025-02-01", 5.0), ("2025-03-01", 6.0)])
@@ -432,6 +437,8 @@ class BuildDocTest(unittest.TestCase):
         self.assertTrue(set(doc["reminders"]) <= {r["id"] for r in cfg["reminders"]})
         self.assertIn("formula", doc["series"]["mcapgdp"])
         self.assertEqual(doc["series"]["gsgap"]["parts"], ["rpceg", "rpces"])
+        self.assertEqual(doc["series"]["netliq"]["parts"], ["WALCL", "RRPONTSYD", "WTREGEN"])
+        self.assertEqual(doc["series"]["realpol"]["parts"], ["fedfunds", "corepce"])
 
     def test_one_failure_keeps_old_data_and_marks_pending(self):
         cfg = {"groups": [{"id": "g", "series": [
@@ -461,7 +468,9 @@ class ConfigTest(unittest.TestCase):
             for s in g["series"]:
                 self.assertNotIn(s["key"], keys, "key 重複：" + s["key"])
                 keys.add(s["key"]); specs[s["key"]] = s
-                self.assertEqual(sum(1 for f in ("fred", "ratio", "diff") if s.get(f)), 1, f"{s['key']} 要剛好有 fred／ratio／diff 其中一個")
+                self.assertEqual(sum(1 for f in ("fred", "ratio", "diff", "combo") if s.get(f)), 1, f"{s['key']} 要剛好有 fred／ratio／diff／combo 其中一個")
+                for f, k in s.get("combo", []):
+                    self.assertTrue(f and isinstance(k, (int, float)) and k != 0, s["key"])
                 if s.get("fred"):
                     self.assertNotIn((s["fred"], s["show"]), freds, "同一個 FRED 代號用同一種算法出現兩次：" + s["fred"])
                     freds.add((s["fred"], s["show"]))

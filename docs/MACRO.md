@@ -195,3 +195,24 @@ ZL 要求：一打開就看到所有關注中的指標，每個都有參考基�
   4. 都沒有：寫「沒有固定門檻：看十年位置與方向燈」，**不自己發明門檻**。
 - **小走勢圖的截斷**：中位數 ± 6 倍 MAD×1.4826 以外的極端值（例如 2020 年疫情）頂到邊，圖下標「極端值已截斷」；最新一筆一定在圖內。滑過圖會顯示那一筆的日期與原始數值。
 - 想把某個指標放進總覽：在 `config.json` 設 `"core": true`；想加基準線：加 `ref`。
+
+## 美元・利率・通膨對照圖（總覽區下方，2026-11-24）
+
+ZL 想在網站上看到和 TradingView 一樣的疊圖（DXY 日 K＋FEDFUNDS＋CPI 年增率，原油與 SPY 隱藏）。
+
+```
+Yahoo：DX-Y.NYB（開高低收）、SPY（收盤） ─┐
+FRED：FEDFUNDS、DFEDTAR／L／U、CPIAUCSL、   ├─ tools/macro_overlay.py（macro-weekly 同一班，在 macro_fetch 之後）
+      DCOILWTICO、DGS2、DFII10              ─┘        │
+                                                      ▼
+                                   data/macro/overlay.json（只由 Actions 寫）
+                                                      ▼
+                         macro/ 的 #dxr 區（assets/macro_overlay.js，捲到才載入 Lightweight Charts 與資料）
+```
+
+- 為什麼另一個檔：latest.json 的日資料只留每月最後一筆（算方向燈用），K 棒要每天的資料。
+- 左軸美元指數 K 棒；右軸 %（有效利率、CPI 年增率、目標區間上下限虛線、2 年期、實質利率）；原油、SPY 各用自己看不見的軸。預設顯示前三條，勾選記在 localStorage `erd-mxo-on`，期間 `erd-mxo-range`（預設 3 年）。
+- 美東 17:15 之前當天的 K 棒不收；開高低收不合理的 K 棒進 `pending`；DXY、SPY 只有 Yahoo 一個來源，頁面標「單一來源」。抓失敗沿用舊檔，不讓 macro-weekly 失敗。
+- 頁面只畫不算；CPI 年增率用 `macro_fetch.to_yoy`（同一個算法）。測試：`tools/tests/test_macro_overlay.py`。
+
+同一次也在指標清單加了 7 條（通膨、利率與聯準會那一組）：`fedfunds`（FEDFUNDS）、`dgs2`、`dfii10`、`t5yifr`、`realpol`（diff：fedfunds − corepce）、`wages`（CES0500000003 年增率）、`netliq`（新的 `combo` 類型：WALCL − RRPONTSYD×1000 − WTREGEN，每月最後一筆、三條同月才算）。它們不是書裡的指標，`book` 寫「教學」。
