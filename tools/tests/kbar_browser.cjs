@@ -625,7 +625,11 @@ async function phase3(browser, base) {
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
   const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
   await frames(page);
+  // 首頁上方的區塊（依當天資料）可能在捲動之後才長高，把圖推出視窗：再捲一次、等版面穩定後才量位置
+  await page.evaluate(() => document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center' }));
+  await frames(page);
   const hb2 = await page.evaluate(() => { const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  ok(hb2.y > 0 && hb2.y < (await page.evaluate(() => innerHeight)), '首頁 YM 圖在視窗內：y=' + Math.round(hb2.y));
   await page.mouse.move(hb2.x, hb2.y); await page.mouse.move(hb2.x + 2, hb2.y + 1); await page.keyboard.press('Alt+h');
   ok(await until(page, () => FUT.Lines.get('ym').length === 1), '首頁 YM 可放水平線');
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
