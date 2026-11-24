@@ -1023,6 +1023,90 @@
       "tz": "TW",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true
+    },
+    {
+      "code": "lite",
+      "name": "朗美通",
+      "nameEn": "Lumentum",
+      "ticker": "LITE",
+      "exchange": "Nasdaq LITE",
+      "sector": "硬體與網通",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "lite/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "朗美通財報追蹤板",
+      "description": "朗美通（LITE）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "LITE",
+        "from": "2015-08",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001633978"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0001633978"
+    },
+    {
+      "code": "cohr",
+      "name": "高意",
+      "nameEn": "Coherent",
+      "ticker": "COHR",
+      "exchange": "NYSE COHR",
+      "sector": "硬體與網通",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "cohr/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "高意財報追蹤板",
+      "description": "高意（COHR）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "COHR",
+        "from": "2014-09",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000820318"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0000820318"
+    },
+    {
+      "code": "fn",
+      "name": "Fabrinet",
+      "nameEn": "Fabrinet",
+      "ticker": "FN",
+      "exchange": "NYSE FN",
+      "sector": "硬體與網通",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "fn/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "Fabrinet財報追蹤板",
+      "description": "Fabrinet（FN）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "FN",
+        "from": "2011-09",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001408710"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": false,
+      "cik": "0001408710"
     }
   ]
 }
