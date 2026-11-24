@@ -623,10 +623,8 @@ async function phase3(browser, base) {
   await page.mouse.move(1, 1);
   // 首頁水平線拖曳
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
-  const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
-  await frames(page);
-  // 首頁上方的區塊（依當天資料）可能在捲動之後才長高，把圖推出視窗：再捲一次、等版面穩定後才量位置
-  await page.evaluate(() => document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center' }));
+  const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center', behavior: 'instant' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  // 網站開了 scroll-behavior: smooth：不用 instant 的話，兩個畫格後還在捲，量到的位置會隨首頁長度（每天資料不同）跑出視窗
   await frames(page);
   const hb2 = await page.evaluate(() => { const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
   ok(hb2.y > 0 && hb2.y < (await page.evaluate(() => innerHeight)), '首頁 YM 圖在視窗內：y=' + Math.round(hb2.y));
