@@ -17,7 +17,7 @@
 ## 本益比與股價（新增）
 - 股價檔 `data/prices/<代號>.json` **只由 GitHub Actions（prices-monthly）寫入**，Claude 不手填、不修改。本益比與預估本益比**不存檔、不手填**，由 `tools/pe.py` 在建置時算出。
 - 每個季度都要有 `rd`（那一季 EPS 第一次公開的日期）與 `rdB`；讀不到填 `null` 並在 `notes.unavailable` 寫「待確認：<季度> 的財報公布日（rd）：原因」，不可用季度結束後幾天推算。
-- 每日收盤價 `data/daily/<代號>.json` **只由 GitHub Actions（prices-daily）寫入**（每天多班、含重試；財報季度更新 push 後會自動重算）。裡面的每日本益比、市值、P/S、EV/Sales、距估值門檻都是 `tools/daily_calc.py` 的公式算的，Claude 不手填、不重算、不需要觸發。
+- 每日收盤價 `data/daily/<代號>.json` **只由 GitHub Actions（prices-daily）寫入**（每天多班、含重試；財報季度更新 push 後會自動重算）。裡面的每日本益比、市值、P/S、EV/Sales、距估值門檻都是 `tools/daily_calc.py` 的公式算的，Claude 不手填、不重算、不需要觸發。首頁「本益比（今日）」欄讀的摘要 `data/daily/_pe.json` 也只由 prices-daily 寫（抄各檔 calc.latest；讀不到時用建置時的值）。
 - 個股 K 棒 `data/kbar/` **只由 GitHub Actions（prices-daily，`tools/kbar_update.py`）寫入**，AES 加密（密碼與期貨共用 `FUTURES_PASSWORD`），Claude 不手改、不手填、不在本機產生。
 - ETF（`etf/` 頁，[`docs/ETF.md`](docs/ETF.md)）：清單 `data/etf/config.json` 由 Claude 維護；`data/etf/latest.json`、`data/etf/daily/` **只由 GitHub Actions（prices-daily 的 `tools/etf_update.py`）寫入**。
 - VIX（恐慌指數）每日收盤 `data/market/vix.json` **只由 GitHub Actions（prices-daily 的 `tools/vix_update.py`）寫入**（Cboe 官方每日檔與 Yahoo ^VIX 取較新者、互相核對）；首頁「市場情緒」那一行直接讀它，區間說明標「教學」。全部歷史收盤與 20 日平均的 `data/market/vix-history.json`（走勢圖用，歷史只增不減）同樣只由 Actions 寫，Claude 不手填、不修改。總經儀表板的 VIX 另外來自 FRED，用來算方向燈。
