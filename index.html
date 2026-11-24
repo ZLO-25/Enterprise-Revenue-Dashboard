@@ -1731,6 +1731,19 @@ const PEV = (() => {
       pct: s.pct10 == null ? '—' : s.pct10 + '%', med5: x1(s.med5) + (noisy(s.med5) ? '（參考性低）' : ''), med10: x1(s.med10) + (noisy(s.med10) ? '（參考性低）' : ''), latestPe: noisy(last.pe) ? null : last.pe, priceM: s.priceM, priceD: last.d };
   }
 
+  /* 「今日本益比」一行（放在最新本益比數字下方、月底收盤價上方）。
+     數字直接用「今日股價與估值」（assets/daily.js）同一份資料 X＝data/daily/<代號>.json 的 calc，前端不重算；
+     公式和月底本益比一樣（收盤價 ÷ 那天為止已公布的近四季 EPS），只差在用的是哪一天的收盤價。
+     DAILY.render() 讀到較新的檔時會呼叫 PEV.today(X) 更新這一行。 */
+  function todayHTML(X) {
+    const L = X && X.latest;
+    if (!L || !L.d) return '今日本益比：<b>—</b>（尚未收錄每日股價）';
+    const W = L.why || {};
+    const v = L.pe != null ? (noisy(L.pe) ? `<b title="${tip(L.pe)}">不適用</b>` : `<b>${x1(L.pe)}</b>`) : `<b>${WHY[W.pe] || '—'}</b>`;
+    return `今日本益比：${v}<small>（${ym(L.d.slice(5))} 收盤${L.q ? '，EPS 到 ' + L.q : ''}）</small>`;
+  }
+  function today(X) { const el = document.getElementById('peToday'); if (el) el.innerHTML = todayHTML(X); }
+
   /* 公司頁整節 */
   function mount(D) {
     const sec = document.getElementById('pe'); if (!sec) return;
@@ -1747,7 +1760,7 @@ const PEV = (() => {
     <div class="sec-head"><span class="sec-tag">每月一筆 · ${ym(M[0].m)} – ${ym(last.m)}</span><h2>本益比（每月）</h2>
       <p class="sub">市場用幾倍的價格買這家公司的一年獲利。每個月底算一次，用「當時已經公布」的最近四季 EPS，所以是當時投資人真的看得到的數字。</p></div>
     <div class="kpis pe-kpis">
-      <div class="kpi"><span class="label">最新本益比（${ym(last.m)} 月底）</span><span class="value">${last.pe != null ? x1(last.pe) : `<small>${WHY[last.why] || '—'}</small>`}</span><span class="delta">月底收盤價 ${f2(last.c)} ${cur}</span></div>
+      <div class="kpi"><span class="label">最新本益比（${ym(last.m)} 月底）</span><span class="value">${last.pe != null ? x1(last.pe) : `<small>${WHY[last.why] || '—'}</small>`}</span><span class="delta"><span class="pe-today" id="peToday">${todayHTML(D.daily)}</span><br>月底收盤價 ${f2(last.c)} ${cur}</span></div>
       <div class="kpi"><span class="label">近 5 年中位數</span><span class="value">${x1(s.med5)}</span><span class="delta">${s.med5 == null ? '有本益比的月份不足 12 個' : '只用有本益比的月份'}</span></div>
       <div class="kpi"><span class="label">近 10 年中位數</span><span class="value">${x1(s.med10)}</span><span class="delta">${s.med10 == null ? '有本益比的月份不足 12 個' : ''}</span></div>
       <div class="kpi"><span class="label">目前在近 10 年的位置</span><span class="value">${s.pct10 == null ? '—' : s.pct10 + '<small>百分位</small>'}</span><span class="delta">${s.pct10 == null ? '有本益比的月份少於 24 個月，不算百分位' : s.pct10 + '% 的月份比現在便宜（本益比較低）'}</span></div>
@@ -1759,7 +1772,7 @@ const PEV = (() => {
       <p class="how" id="peHow"></p>
       <div class="legend" id="peLg"></div>
       <div class="chartbox"><canvas id="cPE" aria-label="每月本益比"></canvas></div>
-      <p class="how pe-note">${COPY} 虧損期間圖上留白；本益比超過 ${CAP} 倍的點貼在圖的頂端，滑鼠移上去看實際值。股價用「分割調整後、不含股利調整」的收盤價，才跟網站已換算成今天股數的 EPS 對得上。</p>
+      <p class="how pe-note">${COPY} 「今日本益比」用同一個公式，只是把月底收盤價換成最新一個交易日的收盤價（數字取自本頁「今日股價與估值」）；月底之後才公布的財報，今日本益比會先用上，所以兩者的 EPS 期間可能不同（看括號裡「EPS 到」哪一季）。虧損期間圖上留白；本益比超過 ${CAP} 倍的點貼在圖的頂端，滑鼠移上去看實際值。股價用「分割調整後、不含股利調整」的收盤價，才跟網站已換算成今天股數的 EPS 對得上。</p>
       <p class="how pe-note"><b>預估本益比</b> ＝ 月底收盤價 ÷ 未來 12 個月預估 EPS（分析師平均預估，按今年度剩餘天數在「今年度」與「下年度」之間加權）。它是<b>分析師預估</b>、不是財報數字，美股多為調整後（non-GAAP）EPS，通常比公認會計準則高，所以和歷史本益比<b>不能直接相減</b>；歷史只能從 2026-11 月底開始逐月累積，不回填。</p>
     </div>
     <details class="card wide pe-det"><summary>每月本益比數據表（${M.length} 個月）</summary>
@@ -1813,7 +1826,7 @@ const PEV = (() => {
     if (sl) sl.insertAdjacentHTML('beforeend', `<li>股價：Yahoo Finance 日線 Close（已依股票分割調整、不含股利調整；每月由 GitHub Actions 抓取，台股另與證交所收盤價交叉核對）。財報公布日（rd）與 EPS 見各公司 SOURCES.md。預估本益比使用 Yahoo Finance 的分析師 EPS 預估（非財報數字）。</li>`);
     if (!hasPE) sec.querySelector('#peHow').innerHTML += ' 目前還沒有任何一個月算得出本益比。';
   }
-  return { mount, brief, WHY, CAP, x1, xp, tip, noisy, ym };
+  return { mount, today, brief, WHY, CAP, x1, xp, tip, noisy, ym };
 })();
 
 /* 個股頁「今日股價與估值」：每個交易日收盤後由 GitHub Actions（prices-daily）抓收盤價，tools/daily_calc.py 用公式算好。
@@ -1947,6 +1960,7 @@ const DAILY = (() => {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', re);
       new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     }
+    if (typeof PEV !== 'undefined' && PEV.today) PEV.today(X);   // 同步「本益比（每月）」卡片裡的「今日本益比」那一行
     sec.hidden = false;
     const nav = document.getElementById('secnav');
     if (nav && !nav.querySelector('a[href="#today"]')) { const o = nav.querySelector('a[href="#overview"]'); if (o) o.insertAdjacentHTML('afterend', '<a href="#today">今日股價</a>'); }
