@@ -1133,7 +1133,7 @@
       },
       "tz": "US",
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
-      "enabled": true,
+      "enabled": false,
       "cik": "0001051627"
     }
   ]
