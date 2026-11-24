@@ -1107,6 +1107,34 @@
       "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
       "enabled": true,
       "cik": "0001408710"
+    },
+    {
+      "code": "axti",
+      "name": "AXT",
+      "nameEn": "AXT, Inc.",
+      "ticker": "AXTI",
+      "exchange": "Nasdaq AXTI",
+      "sector": "半導體",
+      "currency": "USD",
+      "frequency": "quarterly",
+      "path": "axti/",
+      "schema": "v1",
+      "template": "generic",
+      "title": "AXT財報追蹤板",
+      "description": "AXT（AXTI）每季營收、利潤率、EPS、現金流、財測與重要事件追蹤。",
+      "price": {
+        "yahoo": "AXTI",
+        "from": "2012-01",
+        "currency": "USD"
+      },
+      "primarySource": {
+        "n": "SEC EDGAR",
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001051627"
+      },
+      "tz": "US",
+      "artifact": "https://claude.ai/artifact/CY6SJ1sY6vZa2nrhpQg7Gn",
+      "enabled": true,
+      "cik": "0001051627"
     }
   ]
 }
