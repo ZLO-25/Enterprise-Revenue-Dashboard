@@ -6,7 +6,7 @@
   "pltr.pe": "rich",
   "nvda.pe": "cheap",
   "anet.pe": "rich",
-  "delta.pe": "normal",
+  "delta.pe": "rich",
   "msft.pe": "cheap",
   "mu.evS": "normal",
   "amzn.pe": "cheap",
@@ -171,6 +171,16 @@
    "kind": "rich",
    "now": 5.91,
    "thr": 5.1,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-24",
+   "code": "delta",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "rich",
+   "now": 32.6,
+   "thr": 26,
    "op": "<="
   }
  ]
