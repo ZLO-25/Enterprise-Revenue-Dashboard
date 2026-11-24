@@ -624,8 +624,10 @@ async function phase3(browser, base) {
   // 首頁水平線拖曳
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
   const hb = await page.evaluate(() => { document.querySelector('#futHome [data-code="ym"] .fut-mini').scrollIntoView({ block: 'center', behavior: 'instant' }); const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  // 網站開了 scroll-behavior: smooth：不用 instant 的話，兩個畫格後還在捲，量到的位置會隨首頁長度（每天資料不同）跑出視窗
   await frames(page);
   const hb2 = await page.evaluate(() => { const r = document.querySelector('#futHome [data-code="ym"] .fut-mini').getBoundingClientRect(); return { x: r.left + r.width * 0.4, y: r.top + r.height * 0.35 }; });
+  ok(hb2.y > 0 && hb2.y < (await page.evaluate(() => innerHeight)), '首頁 YM 圖在視窗內：y=' + Math.round(hb2.y));
   await page.mouse.move(hb2.x, hb2.y); await page.mouse.move(hb2.x + 2, hb2.y + 1); await page.keyboard.press('Alt+h');
   ok(await until(page, () => FUT.Lines.get('ym').length === 1), '首頁 YM 可放水平線');
   await page.evaluate(() => localStorage.removeItem('erd-futures-lines-v1'));
