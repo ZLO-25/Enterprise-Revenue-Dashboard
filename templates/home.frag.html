@@ -82,9 +82,16 @@ table.co-tbl { font-size: 0.84rem; }
   .co-tbl td.gs { border-left: 0; }
   .pf { grid-template-columns: minmax(0, 1fr); }
 }
+/* 1100～1279px 全部欄位同時顯示：欄距與公司欄收窄一點，表格才不會比畫面寬（不要左右平移） */
+@media (min-width: 1100px) and (max-width: 1279.98px) {
+  .co-tbl td, .co-tbl thead th { padding-inline: 6px; }
+  .co-tbl td.nm { min-width: 11rem; }
+}
 @media (max-width: 560px) {
   table.co-tbl { font-size: 0.8rem; }
   .co-tbl td.nm { min-width: 0; }
+  .co-tbl .nm a { white-space: nowrap; }   /* 公司名不拆成兩行（估值組有 4 欄時公司欄變窄） */
+  .co-tbl td.g-val small { white-space: normal; }
   .co-tbl td, .co-tbl thead th { padding-inline: 5px; }
   .co-tbl .nx-col { display: none; }
 }
@@ -310,6 +317,17 @@ const nextTxt = (s) => s.s.next ? s.s.next.date.replace(/-/g, '/') + (s.s.next.e
 const num = (v) => v == null || !isFinite(v) ? null : v;
 const pctCell = (v) => v == null || !isFinite(v) ? '—' : pc(v);
 const spCell = (v) => v == null || !isFinite(v) ? '—' : `<span class="${cls(v)}">${sp(v)}</span>`;
+/* 本益比（今日）：建置時的 D.dpe，頁面打開後讀 data/daily/_pe.json（Actions 每天更新），比較新的才換掉；前端不重算 */
+let DPE_LIVE = {};
+const DPE = (s) => { const a = s.D.dpe, b = DPE_LIVE[s.c.code]; if (!b) return a; if (!a) return b; return (b.d > a.d || (b.d === a.d && (b.fetched || '') >= (a.fetched || ''))) ? b : a; };
+const DPE_WHY = { loss: '虧損，不適用', short: '累積未滿四季', missing: '待確認' };
+const dpeCell = (t) => {
+  if (!t) return '<small title="尚未收錄每日股價">—</small>';
+  const when = `${t.d.slice(5).replace('-', '/')} 收盤${t.q ? '，EPS 到 ' + t.q : ''}`;
+  if (t.pe == null) return `<small title="${when}">${DPE_WHY[t.why] || '—'}</small>`;
+  if (PEV.noisy(t.pe)) return `<small title="${PEV.tip(t.pe)}（${when}）">不適用</small>`;
+  return `<span title="${when}">${PEV.x1(t.pe)}</span>`;
+};
 const COLS = [
   { g: 'q', k: 'yoy', t: '營收年增<br>（單季）', v: s => num(s.s.yoy), h: s => spCell(s.s.yoy) },
   { g: 'q', k: 'gm', t: '毛利率', v: s => num(s.s.gm), h: s => pctCell(s.s.gm) },
@@ -320,6 +338,7 @@ const COLS = [
   { g: 'lt', k: 'nm', t: '淨利率<br>（近四季）', v: s => num(s.M.ttmNm), h: s => pctCell(s.M.ttmNm) },
   { g: 'lt', k: 'fcf', t: '自由現金<br>流率', v: s => num(s.M.ttmFcfM), h: s => pctCell(s.M.ttmFcfM) },
   { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => s.P.has && s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<small title="${s.P.peTip}">${s.P.pe}</small>` : `<small>${s.P.pe}</small>`) },
+  { g: 'val', k: 'peT', t: '本益比<br>（今日）', d: '最新一個交易日收盤價 ÷ 那天為止已公布的近四季 EPS，和個股頁「今日股價與估值」同一個數字；公式同「本益比（月底）」，只換成最新收盤價。美股、台股收盤日可能不同，滑鼠移到數字上看日期。點一下排序', v: s => { const t = DPE(s); return t && !PEV.noisy(t.pe) ? num(t.pe) : null; }, h: s => dpeCell(DPE(s)) },
   { g: 'val', k: 'ey', t: '盈餘殖利率<br>減公債', d: '盈餘殖利率（100 ÷ 本益比）減十年期公債殖利率，單位是百分點。台股用台灣公債、美股用美國公債；歐元、韓元公司網站沒有該國公債資料，不算。不是買賣訊號。點一下排序', v: s => { const e = s.D.buffett && s.D.buffett.ey; return e && e.spread != null ? e.spread : null; }, h: s => { const e = s.D.buffett && s.D.buffett.ey; if (!e) return '<small>—</small>'; if (e.spread != null) return `<span class="${cls(e.spread)}">${e.spread > 0 ? '+' : e.spread < 0 ? '−' : ''}${Math.abs(e.spread).toFixed(1)}</span>`; return `<small title="${e.why ? '本益比不可用（虧損或超過 200 倍）' : '網站沒有該國公債資料'}">${e.why ? '不適用' : '無公債資料'}</small>`; } },
   { g: 'val', k: 'pct', t: '10 年<br>百分位', v: s => { const x = parseFloat(s.P.pct); return isFinite(x) ? x : null; }, h: s => s.P.pct },
 ];
@@ -411,6 +430,12 @@ function renderTbl() {
   tblEl.innerHTML = head + '<tbody>' + body + '</tbody>';
 }
 renderTbl();
+if (window.fetch) fetch('{{FUT_BASE}}'.replace(/futures\/$/, '') + 'daily/_pe.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(F => {
+  if (!F || !F.co) return;
+  const before = S.map(s => DPE(s));
+  DPE_LIVE = F.co;
+  if (S.some((s, i) => DPE(s) !== before[i])) renderTbl();
+}).catch(() => {});
 
 /* ---------- 產業分頁籤＋搜尋 ----------
    分頁籤由 companies.json 的 sector 自動產生（依第一次出現的順序），新產業會自動多一個分頁。

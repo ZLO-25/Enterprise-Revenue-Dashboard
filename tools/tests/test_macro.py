@@ -538,6 +538,21 @@ class ConfigTest(unittest.TestCase):
             self.assertTrue(g["term"] and g["text"])
         self.assertGreaterEqual(len(cfg["howto"]), 3)
 
+    def test_glance_refs(self):
+        """總覽區的參考線（ref）：每一條要有說明與出處類別，數值要是數字（或 lo3＝三年低點），不可以沒有來源類別。"""
+        cfg = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))
+        allspec = [s for g in cfg["groups"] for s in g["series"]] + cfg["tw"]["series"]
+        n = 0
+        for s in allspec:
+            for r in s.get("ref", []):
+                n += 1
+                self.assertTrue(r.get("t") and r.get("k"), s["key"])
+                self.assertIn(r["k"], ("指數定義", "官方目標", "教學", "整理，不是原話"), s["key"])
+                self.assertEqual(sum(1 for f in ("v", "lo3") if f in r), 1, f"{s['key']} 的 ref 要剛好有 v 或 lo3")
+                if "v" in r:
+                    self.assertIsInstance(r["v"], (int, float))
+        self.assertGreater(n, 0)
+
 
 if __name__ == "__main__":
     unittest.main()

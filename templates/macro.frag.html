@@ -3,9 +3,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
 {{THEME}}
-:root{--mx-good:#1f8a4c;--mx-bad:#c63b3b;--mx-flat:#8a8880;--mx-band:rgba(60,60,55,.10)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10)}}
-:root[data-theme="dark"]{--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10)}
+:root{--mx-good:#1f8a4c;--mx-bad:#c63b3b;--mx-flat:#8a8880;--mx-band:rgba(60,60,55,.10);--mx-ref:#b07a00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10);--mx-ref:#e0b44a}}
+:root[data-theme="dark"]{--mx-good:#4cc27a;--mx-bad:#f08080;--mx-flat:#8f8d85;--mx-band:rgba(255,255,255,.10);--mx-ref:#e0b44a}
 .mx-tag{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface);white-space:nowrap;vertical-align:1px}
 .mx-chain{display:flex;flex-wrap:wrap;gap:8px 4px;align-items:stretch}
 .mx-box{flex:1 1 132px;min-width:132px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;align-content:start}
@@ -98,6 +98,49 @@ tr.row[aria-expanded="true"] .mx-name button::before{transform:rotate(90deg)}
 .mx-big{font-family:var(--font-data);font-size:1.6rem;font-weight:600}
 .mx-dead{color:var(--mx-bad);font-size:.78rem}
 main.wrap>section,main.wrap>header,.card>*{min-width:0}
+/* ---- 總覽區（#glance）：一格一個指標 */
+.gl-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:14px}
+.gl-s{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none;color:var(--ink)}
+a.gl-s:hover{border-color:var(--accent)}
+.gl-s .k{font-size:.76rem;color:var(--muted);font-weight:600}
+.gl-s .v{font-family:var(--font-data);font-size:1.5rem;font-weight:600;line-height:1.2}
+.gl-s .v small{font-size:.8rem;color:var(--ink-2);font-weight:400;margin-left:4px}
+.gl-s .d{font-size:.78rem;color:var(--ink-2)}
+.gl-stack{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--grid);margin:4px 0 2px}
+.gl-stack i{display:block;height:100%}
+.gl-bar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:4px 0 12px;font-size:.8rem;color:var(--muted)}
+.gl-bar .grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.gl-bar button{font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:4px 12px;border-radius:999px;cursor:pointer}
+.gl-bar button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
+.gl-leg{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
+.gl-leg i{display:inline-block;width:16px;height:0;border-top:1.5px dashed var(--mx-ref);vertical-align:middle;margin-right:4px}
+.gl-leg i.band{height:9px;border:0;background:var(--mx-band)}
+.gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.gl-t{position:relative;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--mx-flat);border-radius:12px;padding:10px 12px 10px;display:grid;gap:5px;align-content:start;text-decoration:none;color:var(--ink);cursor:pointer}
+.gl-t:hover,.gl-t:focus-visible{border-color:var(--accent);outline:none}
+.gl-t.worse{border-top-color:var(--mx-bad)} .gl-t.better{border-top-color:var(--mx-good)} .gl-t.none{border-top-color:var(--line)}
+.gl-h{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:.72rem;color:var(--muted)}
+.gl-h .g{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl-nm{font-size:.88rem;font-weight:600;line-height:1.35}
+.gl-v{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px}
+.gl-v b{font-family:var(--font-data);font-size:1.35rem;font-weight:600}
+.gl-v span{font-size:.78rem;color:var(--ink-2)}
+.gl-v small{font-family:var(--font-data);font-size:.72rem;color:var(--muted);margin-left:auto}
+.gl-sp{display:block;width:100%;overflow:visible}
+.gl-sp .hv{opacity:0}
+.gl-ax{display:flex;justify-content:space-between;font-family:var(--font-data);font-size:.66rem;color:var(--muted);margin-top:-2px}
+.gl-ref{font-size:.76rem;color:var(--ink-2);display:grid;gap:2px}
+.gl-ref .on{color:var(--mx-bad);font-weight:600}
+.gl-ref .ok{color:var(--muted)}
+.gl-cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;border-top:1px solid var(--line);padding-top:6px;font-size:.72rem;color:var(--muted)}
+.gl-cmp b{display:block;font-family:var(--font-data);font-size:.8rem;color:var(--ink);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl-pos{display:block;position:relative;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--grid),var(--axis));margin-top:5px}
+.gl-pos i{position:absolute;top:-3px;width:3px;height:11px;border-radius:2px;background:var(--ink);transform:translateX(-1.5px)}
+.gl-tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--page);font-family:var(--font-data);font-size:.74rem;padding:4px 8px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-120%)}
+.gl-more{margin-top:12px;font-size:.84rem}
+details.mx-intro{margin-top:10px}
+details.mx-intro>summary{cursor:pointer;font-size:.86rem;color:var(--ink-2);font-weight:600}
+details.mx-intro .note{margin-top:8px}
 @media (max-width:760px){
   .mx-det .grid{grid-template-columns:minmax(0,1fr)}
   .mx-tbl .hide-s{display:none}
@@ -122,6 +165,10 @@ main.wrap>section,main.wrap>header,.card>*{min-width:0}
   .mx-chk tr{border-top:1px solid var(--line);padding:6px 0}
   .mx-chk td{border:0;padding:2px 0}
   .mx-chart{height:220px}
+  .gl-sum{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .gl-s{padding:10px 11px}
+  .gl-s .v{font-size:1.25rem}
+  .gl-grid{grid-template-columns:minmax(0,1fr)}
 }
 </style>
 
@@ -130,7 +177,8 @@ main.wrap>section,main.wrap>header,.card>*{min-width:0}
 <div class="secnav" role="navigation" aria-label="章節">
   <div class="scroller">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
-    <a href="#now">現況與提醒</a>
+    <a href="#glance">總覽</a>
+    <a href="#now">提醒與換燈</a>
     <a href="#think">他怎麼想</a>
     <a href="#score">警訊計數</a>
     <a href="#phase">四個階段</a>
@@ -149,12 +197,25 @@ main.wrap>section,main.wrap>header,.card>*{min-width:0}
     <h1>總經儀表板</h1>
     <p class="lede">個股頁回答「這家公司好不好、貴不貴」；這一頁回答「現在整體景氣在循環的哪一段」。指標清單照愛榭克（Izaax）公開談過的美國經濟數據整理，排成一條因果鏈：就業 → 所得與消費 → 訂單與投資 → 庫存 → 信用 → 通膨與利率 → 成長與獲利，再接到股市位置與台灣。</p>
     <div class="meta-row"><span id="mxSub">讀取中…</span></div>
+    <details class="mx-intro"><summary>關於來源與怎麼用（點開）</summary>
     <p class="note" id="mxAbout"></p>
-    <p class="note"><b>怎麼用：</b>每週看一次就夠，照頁面下方「教學」的六個步驟走，五分鐘看完。總經是背景，不是用來猜下週漲跌的。書裡的做法是多數時間都持有股票，只有在榮景期尾聲才分階段降低持股。這一頁只把數據與書裡的判讀並排，<b>不替你判定現在是哪個階段</b>；判斷留給你。</p>
+    <p class="note"><b>怎麼用：</b>每週看一次就夠，先看最上面的「總覽」，再照頁面下方「教學」的步驟走，五分鐘看完。總經是背景，不是用來猜下週漲跌的。書裡的做法是多數時間都持有股票，只有在榮景期尾聲才分階段降低持股。這一頁只把數據與書裡的判讀並排，<b>不替你判定現在是哪個階段</b>；判斷留給你。</p>
+    </details>
   </header>
 
+  <section id="glance">
+    <div class="sec-head"><h2>總覽：關注中的指標</h2><p class="sub"><span class="mx-tag">書面＋公式</span> 一格一個指標：最新值、參考基準（虛線）、過去走勢（灰底是美國衰退期間），下面三格是和半年前、一年前比，以及現在落在十年裡的哪個位置。上緣顏色是方向燈（紅＝明顯轉差、綠＝明顯轉好、灰＝持平）。點任何一格，跳到那個指標的大圖與判讀。</p></div>
+    <div class="gl-sum" id="glSum"></div>
+    <div class="gl-bar" id="glBar">
+      <span class="grp" role="group" aria-label="要看哪些指標"><button type="button" data-gf="core" aria-pressed="true">核心</button><button type="button" data-gf="lit" aria-pressed="false">只看有亮燈</button><button type="button" data-gf="all" aria-pressed="false">全部</button></span>
+      <span class="grp" role="group" aria-label="走勢圖期間"><span>走勢</span><button type="button" data-gy="3" aria-pressed="false">3 年</button><button type="button" data-gy="10" aria-pressed="true">10 年</button><button type="button" data-gy="20" aria-pressed="false">20 年</button></span>
+      <span class="gl-leg"><span><i></i>參考基準</span><span><i class="band"></i>美國衰退期間</span><span id="glN"></span></span>
+    </div>
+    <div class="gl-grid" id="glGrid"><p class="mx-warn">讀取中…</p></div>
+  </section>
+
   <section id="now">
-    <div class="sec-head"><h2>一眼看現況</h2><p class="sub"><span class="mx-tag">公式</span> 每個圓點是一個指標的「方向燈」：最近半年的變動，和它自己過去十年平常的半年變動相比，明顯往好的方向走是綠色、明顯往壞的方向走是紅色、差不多就是灰色。空心圓是沒有固定好壞方向的指標（例如利率、油價）。算法在頁尾。</p></div>
+    <div class="sec-head"><h2>觀念提醒與換燈</h2><p class="sub"><span class="mx-tag">公式</span> 每個圓點是一個指標的「方向燈」：最近半年的變動，和它自己過去十年平常的半年變動相比，明顯往好的方向走是綠色、明顯往壞的方向走是紅色、差不多就是灰色。空心圓是沒有固定好壞方向的指標（例如利率、油價）。算法在頁尾。</p></div>
     <div class="mx-rem" id="mxRemind"></div>
     <div class="mx-chain" id="mxChain"></div>
     <div class="mx-moves" id="mxMoves"></div>
@@ -569,6 +630,168 @@ main.wrap>section,main.wrap>header,.card>*{min-width:0}
     var a = CFG.about || {};
     $("mxAbout").innerHTML = "<b>關於來源：</b>" + esc(a.who || "") + esc(a.basis || "") + '完整出處在頁尾的<a href="#sources">來源表</a>。門檻與投資比例請以原書為準。';
   }
+  // ---- 總覽區（#glance）：一格一個指標。數字全部來自 latest.json（Actions 算好），這裡只挑出來排版：
+  //      最新值、參考基準（config 的 ref、觀念提醒的 lt／gt 門檻、年增率的 0、台灣燈號分數範圍）、過去走勢、半年前／一年前、十年位置
+  var GL = { f: "core", y: 10 }, GORDER = [], GNAME = {}, GPTS = {};
+  try { var gsv = JSON.parse(localStorage.getItem("mxGlance") || "{}"); if (/^(core|lit|all)$/.test(gsv.f)) GL.f = gsv.f; if ([3, 10, 20].indexOf(gsv.y) >= 0) GL.y = gsv.y; } catch (e) {}
+  function glSave() { try { localStorage.setItem("mxGlance", JSON.stringify(GL)); } catch (e) {} }
+  CFG.groups.forEach(function (g) { g.series.forEach(function (s) { GORDER.push(s.key); GNAME[s.key] = g.name.replace(/（.*?）/g, ""); }); });
+  ((CFG.tw || {}).series || []).forEach(function (s) { GORDER.push(s.key); GNAME[s.key] = "台灣"; });
+  function yearAgo(s) {
+    var last = s.stats.lastDate, t = String(+last.slice(0, 4) - 1) + last.slice(4), hit = null;
+    if (s.points.length && s.points[0][0] > t) return null;
+    for (var i = s.points.length - 1; i >= 0; i--) if (s.points[i][0] <= t) { hit = s.points[i]; break; }
+    return hit;
+  }
+  // 參考基準：每一條回傳 {v（原始單位，可省略）, t（說明）, k（出處類別）, st（成立／未成立，可省略）}
+  function refsOf(key) {
+    var spec = SPEC[key], s = series(key), st = s && s.stats, out = [];
+    (spec.ref || []).forEach(function (r) {
+      if (r.lo3) { if (st && st.lo3 != null) out.push({ v: st.lo3, t: r.t, k: r.k, note: "三年低點 " + val(spec, st.lo3) + "（" + when(s.freq, st.lo3Date) + "）" + (st.fromLo3 != null ? "，現在比它高 " + st.fromLo3.toFixed(1) + "%" : "") }); }
+      else out.push({ v: r.v, t: r.t, k: r.k });
+    });
+    var fired = DATA.reminders || [];
+    (CFG.reminders || []).forEach(function (r) {
+      var on = fired.indexOf(r.id) >= 0;
+      (function walk(c) {
+        if (!c || typeof c !== "object") return;
+        if (Array.isArray(c)) { c.forEach(walk); return; }
+        if (c.key === key) {
+          if (c.lt != null) out.push({ v: c.lt, t: "低於 " + val(spec, c.lt) + "：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.gt != null) out.push({ v: c.gt, t: "高於 " + val(spec, c.gt) + "：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.pctHi != null) out.push({ pct: c.pctHi, t: "十年位置 ≥ " + c.pctHi + "%：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.pctLo != null) out.push({ pct: c.pctLo, t: "十年位置 ≤ " + c.pctLo + "%：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.baseHi != null) out.push({ t: "去年同期基期 ≥ 第 " + c.baseHi + " 百分位：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.baseLo != null) out.push({ t: "去年同期基期 ≤ 第 " + c.baseLo + " 百分位：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.downRun != null) out.push({ t: "連續下降 " + c.downRun + " 期以上：" + r.title, k: "觀念提醒門檻", st: on });
+          if (c.upRun != null) out.push({ t: "連續上升 " + c.upRun + " 期以上：" + r.title, k: "觀念提醒門檻", st: on });
+        }
+        ["all", "any"].forEach(function (k) { if (c[k]) walk(c[k]); });
+        if (c.not) walk(c.not);
+      })(r.when);
+    });
+    if (key === "twscore") {
+      var rg = (DATA.tw || {}).scoreRanges || {};
+      if (rg["紅"]) out.push({ v: rg["紅"][0], t: rg["紅"][0] + " 分以上是紅燈（官方檔近十年實際出現過的分數）", k: "公式" });
+      if (rg["藍"]) out.push({ v: rg["藍"][1], t: rg["藍"][1] + " 分以下是藍燈", k: "公式" });
+    }
+    if (spec.show !== "level" && !out.some(function (r) { return r.v === 0; })) out.push({ v: 0, t: "0＝和去年同期一樣", k: "教學", soft: 1 });
+    return out;
+  }
+  // 小格子比大圖更容易被 2020 年那種極端值壓扁：用中位數 ± 6 倍「平常離散程度」（MAD×1.4826）定範圍，超出的頂到邊並在圖下註明；
+  // 範圍一定包含最新一筆。大圖展開後仍可看完整範圍。
+  function glClip(vals) {
+    var n = vals.length; if (n < 20) return null;
+    var v = vals.slice().sort(function (a, b) { return a - b; }), med = v[Math.floor(n / 2)];
+    var dev = vals.map(function (x) { return Math.abs(x - med); }).sort(function (a, b) { return a - b; }), sd = dev[Math.floor(n / 2)] * 1.4826;
+    if (!(sd > 0)) return null;
+    var last = vals[n - 1], lo = Math.min(med - 6 * sd, last), hi = Math.max(med + 6 * sd, last);
+    return v[0] < lo || v[n - 1] > hi ? { min: Math.max(lo, v[0]), max: Math.min(hi, v[n - 1]) } : null;
+  }
+  function glSpark(key, s, refs, W) {
+    var sc = SPEC[key].scale || 1, pts = s.points, H = 62, P = 3;
+    if (GL.y) { var cut = String(+s.stats.lastDate.slice(0, 4) - GL.y) + s.stats.lastDate.slice(4); pts = pts.filter(function (p) { return p[0] >= cut; }); }
+    if (pts.length < 3) return { svg: '<p class="mx-warn">資料太短，畫不出走勢。</p>', a: "", b: "" };
+    var T = function (d) { return Date.parse(d.length === 7 ? d + "-01" : d); };
+    var vs = pts.map(function (p) { return p[1] * sc; }), cl = glClip(vs);
+    if (cl) vs = vs.map(function (v) { return Math.max(cl.min, Math.min(cl.max, v)); });
+    var lo = Math.min.apply(null, vs), hi = Math.max.apply(null, vs);
+    var lines = refs.filter(function (r) { return r.v != null; });
+    lines.forEach(function (r) { var v = r.v * sc, span = (hi - lo) || Math.abs(hi) || 1; if (v >= lo - span * 0.6 && v <= hi + span * 0.6) { lo = Math.min(lo, v); hi = Math.max(hi, v); r.drawn = 1; } else r.drawn = 0; });
+    var sp = (hi - lo) || 1, t0 = T(pts[0][0]), t1 = T(pts[pts.length - 1][0]), ts = (t1 - t0) || 1;
+    var X = function (t) { return P + (t - t0) / ts * (W - 2 * P); }, Y = function (v) { return H - P - (v - lo) / sp * (H - 2 * P); };
+    var band = "";
+    if (SPEC[key].group !== "tw") (DATA.recessions || []).forEach(function (r) {
+      var a = T(r[0] + "-01"), b = T(r[1] + "-28"); if (b < t0 || a > t1) return;
+      var x0 = X(Math.max(a, t0)), x1 = X(Math.min(b, t1)); band += '<rect x="' + x0.toFixed(1) + '" y="0" width="' + Math.max(1.5, x1 - x0).toFixed(1) + '" height="' + H + '" fill="var(--mx-band)"/>';
+    });
+    var rl = lines.filter(function (r) { return r.drawn; }).map(function (r) { var y = Y(r.v * sc).toFixed(1); return '<line x1="0" x2="' + W + '" y1="' + y + '" y2="' + y + '" stroke="' + (r.soft ? "var(--axis)" : "var(--mx-ref)") + '" stroke-width="1.2" stroke-dasharray="4 3"/>'; }).join("");
+    var d = pts.map(function (p, i) { return (i ? "L" : "M") + X(T(p[0])).toFixed(1) + " " + Y(vs[i]).toFixed(1); }).join("");
+    var lx = X(t1), ly = Y(vs[vs.length - 1]);
+    GPTS[key] = { pts: pts, t: pts.map(function (p) { return T(p[0]); }), X: X, Y: Y, vs: vs, sc: sc };
+    return { svg: '<svg class="gl-sp" data-k="' + key + '" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(SPEC[key].name) + "，最近 " + GL.y + ' 年走勢">' + band + rl +
+      '<path d="' + d + '" fill="none" stroke="var(--s1)" stroke-width="1.6" stroke-linejoin="round"/><circle class="hv" r="3" cx="-9" cy="-9" fill="var(--ink)"/><circle cx="' + lx.toFixed(1) + '" cy="' + ly.toFixed(1) + '" r="3" fill="var(--s1)" stroke="var(--surface)" stroke-width="1.5"/></svg>',
+      a: when(s.freq, pts[0][0]), b: when(s.freq, pts[pts.length - 1][0]), clip: !!cl };
+  }
+  function glTile(key, W) {
+    var spec = SPEC[key], s = series(key), l = lightOf(key);
+    var head = '<div class="gl-h"><span class="g">' + esc(GNAME[key]) + (spec.core ? " ★" : "") + "</span>" + pill(l) + "</div>";
+    if (!s || !s.stats) return '<div class="gl-t none">' + head + '<div class="gl-nm">' + esc(spec.name) + '</div><p class="mx-warn">待確認：這次沒有抓到資料。</p></div>';
+    var st = s.stats, refs = refsOf(key), sp = glSpark(key, s, refs, W), ya = yearAgo(s), k = kindLabel(spec);
+    var rtxt = refs.filter(function (r) { return !r.soft || refs.length === 1; }).map(function (r) {
+      var cmp = r.v != null && r.st == null ? (st.last > r.v ? "　現在高於" : st.last < r.v ? "　現在低於" : "　現在剛好等於") : "";
+      return "<span>• " + esc(r.t) + (r.note ? "（" + esc(r.note) + "）" : "") + ' <span class="mx-tag">' + esc(r.k) + "</span>" + (r.st != null ? (r.st ? ' <span class="on">提醒成立</span>' : ' <span class="ok">未成立</span>') : cmp ? '<span class="ok">' + cmp + "</span>" : "") + (r.v != null && r.drawn === 0 ? ' <span class="ok">（離走勢太遠，圖上沒畫）</span>' : "") + "</span>";
+    }).join("");
+    if (!rtxt) rtxt = '<span class="ok">沒有固定門檻：看十年位置與方向燈。</span>';
+    var pos = st.pct10 == null ? "—" : st.pct10 + "%";
+    var pctMarks = refs.filter(function (r) { return r.pct != null; }).map(function (r) { return '<i style="left:' + r.pct + '%;background:var(--mx-ref);width:2px;opacity:.9" title="提醒門檻 ' + r.pct + '%"></i>'; }).join("");
+    var tip = "半年變動是平常幅度的 " + (st.z == null ? "—" : (st.z > 0 ? "+" : st.z < 0 ? "−" : "") + Math.abs(st.z).toFixed(1)) + " 倍（超過 " + THR + " 倍才亮燈）";
+    return '<a class="gl-t ' + (l === "missing" ? "none" : l) + '" href="#r-' + key + '" data-jump="' + key + '" title="' + esc(tip) + '">' + head +
+      '<div class="gl-nm">' + esc(spec.name) + (STALE[key] ? ' <span class="mx-tag" title="資料太久沒有更新">停更？</span>' : "") + "</div>" +
+      '<div class="gl-v"><b>' + num(spec, st.last) + "</b><span>" + esc(unit(spec) === "%" ? "%" : unit(spec)) + (k && unit(spec) === "%" ? "（" + k + "）" : "") + "</span><small>" + when(s.freq, st.lastDate) + "</small></div>" +
+      "<div>" + sp.svg + '<div class="gl-ax"><span>' + sp.a + "</span>" + (sp.clip ? '<span title="極端值（例如 2020 年疫情）頂到圖框邊，點進去看完整範圍">極端值已截斷</span>' : "") + "<span>" + sp.b + "</span></div></div>" +
+      '<div class="gl-ref">' + rtxt + "</div>" +
+      '<div class="gl-cmp"><span>半年前<b>' + num(spec, st.prev) + "</b>" + when(s.freq, st.prevDate) + "</span><span>一年前<b>" + (ya ? num(spec, ya[1]) : "—") + "</b>" + (ya ? when(s.freq, ya[0]) : "資料不足") + "</span>" +
+      '<span title="過去十年裡，有多少比例的時間比現在低或一樣（100%＝十年最高）">十年位置<b>' + pos + '</b><span class="gl-pos">' + pctMarks + (st.pct10 == null ? "" : '<i style="left:' + st.pct10 + '%"></i>') + "</span></span></div></a>";
+  }
+  function glKeys() {
+    return GORDER.filter(function (k) {
+      if (!SPEC[k]) return false;
+      if (GL.f === "core") return !!SPEC[k].core;
+      if (GL.f === "lit") { var l = lightOf(k); return l === "worse" || l === "better"; }
+      return true;
+    });
+  }
+  function renderGlance() {
+    var grid = $("glGrid"); if (!grid || !DATA) return;
+    var keys = glKeys(), W = Math.max(180, Math.floor((grid.clientWidth >= 520 ? (grid.firstElementChild && grid.firstElementChild.classList.contains("gl-t") ? grid.firstElementChild.clientWidth : 260) : grid.clientWidth) - 26));
+    grid.innerHTML = keys.length ? keys.map(function (k) { return glTile(k, W); }).join("") : '<p class="mx-warn">目前沒有亮燈的指標。</p>';
+    // 第一次畫的時候還不知道格子多寬：量到之後再畫一次，走勢圖才會剛好填滿
+    var first = grid.querySelector(".gl-t"), real = first ? first.clientWidth - 26 : W;
+    if (first && Math.abs(real - W) > 4) grid.innerHTML = keys.map(function (k) { return glTile(k, real); }).join("");
+    [].forEach.call($("glBar").querySelectorAll("button"), function (b) { var f = b.getAttribute("data-gf"), y = b.getAttribute("data-gy"); b.setAttribute("aria-pressed", String(f ? f === GL.f : +y === GL.y)); });
+    var nCore = GORDER.filter(function (k) { return SPEC[k].core; }).length;
+    $("glN").textContent = "顯示 " + keys.length + " 個（核心 " + nCore + "／全部 " + GORDER.length + "）";
+  }
+  function renderSummary() {
+    var c = { worse: 0, better: 0, flat: 0, none: 0, missing: 0 };
+    GORDER.forEach(function (k) { c[lightOf(k)]++; });
+    var tot = GORDER.length, seg = function (n, v) { return n ? '<i style="width:' + (n / tot * 100).toFixed(1) + "%;background:var(" + v + ')"></i>' : ""; };
+    var sc = DATA.score, h = [];
+    if (sc && sc.boom) {
+      var R = ((sc.table || {}).recessions || []).filter(function (r) { return r.preMax != null; });
+      h.push('<a class="gl-s" href="#score"><span class="k">警訊計數（七大指標同時轉差）</span><span class="v">' + sc.boom[sc.boom.length - 1] + "<small>／" + sc.items + " 項</small></span><span class=\"d\">" +
+        (R.length ? "對照：過去 " + R.length + " 次衰退前 12 個月最多亮 " + R.map(function (r) { return r.preMax; }).join("、") + " 項" : "回算期間內沒有衰退可對照") + "</span></a>");
+    }
+    h.push('<a class="gl-s" href="#now"><span class="k">方向燈（全部 ' + tot + " 個指標）</span><span class=\"v\" style=\"color:var(--mx-bad)\">" + c.worse + '<small>個轉差</small></span><span class="gl-stack" role="img" aria-label="轉差 ' + c.worse + "、轉好 " + c.better + "、持平 " + c.flat + "、不亮燈 " + (c.none + c.missing) + '">' +
+      seg(c.worse, "--mx-bad") + seg(c.better, "--mx-good") + seg(c.flat, "--mx-flat") + '</span><span class="d">轉好 ' + c.better + "　持平 " + c.flat + "　不亮燈 " + (c.none + c.missing) + "</span></a>");
+    var fired = (DATA.reminders || []).map(function (id) { return (CFG.reminders || []).filter(function (r) { return r.id === id; })[0]; }).filter(Boolean);
+    var watch = fired.filter(function (r) { return r.level === "watch"; });
+    h.push('<a class="gl-s" href="#now"><span class="k">觀念提醒（條件成立）</span><span class="v">' + fired.length + "<small>則" + (watch.length ? "，其中留意 " + watch.length : "") + '</small></span><span class="d">' + (fired.length ? esc((watch[0] || fired[0]).title) : "這週沒有，通常代表不需要做任何事") + "</span></a>");
+    var tw = DATA.tw || {};
+    if (tw.light && tw.series && tw.series.twscore) h.push('<a class="gl-s" href="#tw"><span class="k">台灣景氣燈號（國發會）</span><span class="v"><span class="mx-dot" style="width:14px;height:14px;vertical-align:1px;background:' + (TWC[tw.light.name] || "#999") + '"></span> ' + esc(tw.light.name) + "燈<small>" + num(SPEC.twscore, tw.series.twscore.stats.last) + ' 分</small></span><span class="d">' + esc(tw.light.date.replace("-", "/")) + " 的資料</span></a>");
+    var stl = ((DATA.health || {}).stale || []).length, un = (DATA.unavailable || []).length;
+    h.push('<a class="gl-s" href="#sources"><span class="k">資料狀態</span><span class="v" style="font-size:1.1rem">' + (stl || un ? "待確認 " + (stl + un) + " 項" : "全部正常") + '</span><span class="d">' + esc($("mxSub").textContent.replace("　自動更新", "")) + (stl ? "；停更 " + stl + " 條" : "") + (un ? "；抓不到 " + un + " 條" : "") + "</span></a>");
+    $("glSum").innerHTML = h.join("");
+  }
+  var tipEl = null, glDot = null;
+  function glHover(e) {
+    var svg = e.target.closest && e.target.closest("svg.gl-sp"), g = svg && GPTS[svg.getAttribute("data-k")];
+    if (glDot && (!g || glDot.ownerSVGElement !== svg)) { glDot.style.opacity = 0; glDot = null; }
+    if (!g) { if (tipEl) tipEl.hidden = true; return; }
+    var r = svg.getBoundingClientRect(), x = (e.clientX - r.left) * (svg.viewBox.baseVal.width / r.width), best = 0, bd = 1e9;
+    for (var i = 0; i < g.t.length; i++) { var dx = Math.abs(g.X(g.t[i]) - x); if (dx < bd) { bd = dx; best = i; } }
+    var k = svg.getAttribute("data-k"), spec = SPEC[k], p = g.pts[best], c = svg.querySelector(".hv");
+    c.style.opacity = 1; glDot = c; c.setAttribute("cx", g.X(g.t[best]).toFixed(1)); c.setAttribute("cy", g.Y(g.vs[best]).toFixed(1));
+    if (!tipEl) { tipEl = document.createElement("div"); tipEl.className = "gl-tip"; document.body.appendChild(tipEl); }
+    tipEl.hidden = false; tipEl.textContent = when(series(k).freq, p[0]) + "　" + val(spec, p[1]);
+    tipEl.style.left = (r.left + g.X(g.t[best]) * r.width / svg.viewBox.baseVal.width) + "px"; tipEl.style.top = r.top + "px";
+  }
+  document.addEventListener("mousemove", glHover);
+  document.addEventListener("scroll", function () { if (tipEl) tipEl.hidden = true; }, { passive: true });
+  var glW = 0, glTimer = 0;
+  window.addEventListener("resize", function () { var g = $("glGrid"); if (!g || !DATA || Math.abs(g.clientWidth - glW) < 20) return; glW = g.clientWidth; clearTimeout(glTimer); glTimer = setTimeout(renderGlance, 150); });
+
   function render(D) {
     DATA = D;
     var t = new Date(D.updated.replace(" UTC", "Z").replace(" ", "T"));
@@ -576,6 +799,7 @@ main.wrap>section,main.wrap>header,.card>*{min-width:0}
     THR = (D.light || {}).threshold || 1;
     ((D.health || {}).stale || []).forEach(function (x) { STALE[x.key] = x; });
     ((D.links || {}).dead || []).forEach(function (u) { DEAD[u] = 1; });
+    try { renderSummary(); renderGlance(); glW = $("glGrid").clientWidth; } catch (e) { console.error(e); $("glGrid").innerHTML = '<p class="mx-warn">待確認：總覽這次畫不出來（' + esc(e.message) + "）。下方各區仍可使用。</p>"; }
     renderNow(); renderThink(); renderPhase(); renderGroups(); renderTw(); renderLinks();
     try { renderScore(); } catch (e) { console.error(e); }
     var un = D.unavailable || [];
@@ -598,6 +822,8 @@ main.wrap>section,main.wrap>header,.card>*{min-width:0}
   }
 
   document.addEventListener("click", function (e) {
+    var gb = e.target.closest && e.target.closest("#glBar button");
+    if (gb) { if (gb.hasAttribute("data-gf")) GL.f = gb.getAttribute("data-gf"); else GL.y = +gb.getAttribute("data-gy"); glSave(); renderGlance(); return; }
     var fb = e.target.closest && e.target.closest("#mxFlt button");
     if (fb) { setFilter(fb.getAttribute("data-f")); return; }
     var j = e.target.closest && e.target.closest("[data-jump]");

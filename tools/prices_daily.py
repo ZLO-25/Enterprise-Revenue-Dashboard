@@ -180,6 +180,27 @@ def track_signals(code, L):
         log("估值訊號：" + signals.text(ev))
 
 
+def pe_summary(files):
+    """首頁「本益比（今日）」欄用的小檔 data/daily/_pe.json：每家公司只留最新一天的本益比（不重算，直接抄 calc.latest）。
+    files＝{代號: data/daily/<代號>.json 的內容}；沒有 calc 的公司略過。"""
+    co = {}
+    for code, dd in sorted(files.items()):
+        L = ((dd or {}).get("calc") or {}).get("latest") or {}
+        if not L.get("d"):
+            continue
+        co[code] = {"d": L["d"], "pe": L.get("pe"), "why": (L.get("why") or {}).get("pe"), "q": L.get("q"), "fetched": dd.get("fetched")}
+    return {"note": "由 tools/prices_daily.py 寫入；數字抄自各公司 data/daily/<代號>.json 的 calc.latest", "co": co}
+
+
+def write_summary():
+    path = os.path.join(ROOT, "data", "daily", "_pe.json")
+    out = pe_summary({c["code"]: jload(dfile(c["code"])) for c in companies()})
+    if jload(path) != out:
+        with open(path, "w", encoding="utf8") as f:
+            json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+        log(f"首頁本益比摘要：{len(out['co'])} 家")
+
+
 def main():
     a = sys.argv[1:]
     only = a[a.index("--company") + 1] if "--company" in a else None
@@ -226,6 +247,7 @@ def main():
         L = (calc or {}).get("latest") or {}
         track_signals(code, L)
         log(f"[{code}] {L.get('d')} 收 {L.get('c')}  本益比 {L.get('pe')}  市值 {L.get('mcap')}" + (f"  {daily['check']['note']}" if daily.get("check") else ""))
+    write_summary()
     return rc
 
 

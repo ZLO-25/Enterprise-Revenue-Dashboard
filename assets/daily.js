@@ -143,6 +143,7 @@ const DAILY = (() => {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', re);
       new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     }
+    if (typeof PEV !== 'undefined' && PEV.today) PEV.today(X);   // 同步「本益比（每月）」卡片裡的「今日本益比」那一行
     sec.hidden = false;
     const nav = document.getElementById('secnav');
     if (nav && !nav.querySelector('a[href="#today"]')) { const o = nav.querySelector('a[href="#overview"]'); if (o) o.insertAdjacentHTML('afterend', '<a href="#today">今日股價</a>'); }
