@@ -98,6 +98,20 @@ tr.row[aria-expanded="true"] .mx-name button::before{transform:rotate(90deg)}
 .mx-big{font-family:var(--font-data);font-size:1.6rem;font-weight:600}
 .mx-dead{color:var(--mx-bad);font-size:.78rem}
 main.wrap>section,main.wrap>header,.card>*{min-width:0}
+/* ---- 美元・利率・通膨對照圖（#dxr，assets/macro_overlay.js） */
+.dx-bar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 8px;font-size:.8rem;color:var(--muted)}
+.dx-bar .grp{display:flex;gap:4px 10px;flex-wrap:wrap;align-items:center}
+.dx-bar button{font:inherit;font-size:.8rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:4px 12px;border-radius:999px;cursor:pointer}
+.dx-bar button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
+.dx-tg label{display:inline-flex;align-items:center;gap:5px;cursor:pointer;color:var(--ink-2);white-space:nowrap}
+.dx-tg label.off{opacity:.5;cursor:default}
+.dx-tg i,.dx-leg i{display:inline-block;width:12px;height:3px;border-radius:2px;vertical-align:middle;margin-right:4px}
+.dx-leg{display:flex;flex-wrap:wrap;gap:2px 14px;font-family:var(--font-data);font-size:.8rem;color:var(--ink-2);min-height:1.4em;margin-bottom:6px}
+.dx-leg .d{color:var(--ink);font-weight:600}
+.dx-leg small{color:var(--muted)}
+.dx-chart{position:relative;height:min(70vh,560px);min-height:360px}
+.dx-note{font-size:.8rem;color:var(--ink-2);margin-top:10px;line-height:1.6}
+@media (max-width:640px){.dx-chart{height:420px;min-height:0}}
 /* ---- 總覽區（#glance）：一格一個指標 */
 .gl-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:14px}
 .gl-s{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none;color:var(--ink)}
@@ -178,6 +192,7 @@ details.mx-intro .note{margin-top:8px}
   <div class="scroller">
     <a class="homelink" href="{{HOME}}">← 所有公司</a>
     <a href="#glance">總覽</a>
+    <a href="#dxr">美元・利率・通膨</a>
     <a href="#now">提醒與換燈</a>
     <a href="#think">他怎麼想</a>
     <a href="#score">警訊計數</a>
@@ -212,6 +227,23 @@ details.mx-intro .note{margin-top:8px}
       <span class="gl-leg"><span><i></i>參考基準</span><span><i class="band"></i>美國衰退期間</span><span id="glN"></span></span>
     </div>
     <div class="gl-grid" id="glGrid"><p class="mx-warn">讀取中…</p></div>
+  </section>
+
+  <section id="dxr" data-mxo>
+    <div class="sec-head"><h2>美元・利率・通膨對照圖</h2><p class="sub"><span class="mx-tag">書面＋公式</span> 和 TradingView 一樣把三件事疊在一起看：左軸是美元指數（DXY）每日 K 棒，右軸是利率與通膨（%）。原油、SPY、2 年期公債、實質利率預設隱藏，打勾才顯示（原油、SPY 各用自己看不見的軸，只看形狀）。滑鼠移到圖上，上面那一行會顯示那一天的數字。</p></div>
+    <div class="card wide">
+      <div class="dx-bar"></div>
+      <div class="dx-leg" aria-live="polite"></div>
+      <div class="dx-chart"><p class="mx-warn" style="padding:16px">讀取中…</p></div>
+      <p class="dx-note"></p>
+      <details class="mx-intro" style="margin-top:8px"><summary>這張圖怎麼看（教學，點開）</summary>
+<pre class="mx-pre">升息期   ：利率 ↑ → 美元常走強 → 幾季之後通膨 ↓
+停在高檔 ：利率平、通膨慢慢降 → 看 2 年期公債有沒有先往下（市場開始押降息）
+降息期   ：利率 ↓ → 美元常轉弱 → 原油、股市常受惠
+要小心   ：降息之後通膨又往上 → 看總經頁的「通膨預期（5 年後的 5 年）」有沒有跟著升</pre>
+      <p class="note"><span class="mx-tag">教學</span> 上面是常見的順序，不是每次都照這樣走：美元也受其他國家的利率與避險需求影響。利率與 CPI 是每月一筆（線在月與月之間是直線連起來的），美元是每天一根。CPI 年增率是本頁用「和去年同月比」算的。</p>
+      </details>
+    </div>
   </section>
 
   <section id="now">
@@ -321,6 +353,10 @@ details.mx-intro .note{margin-top:8px}
 </main>
 
 {{CHARTJS}}
+<script src="{{MXO_JS}}"></script>
+<script>
+(function () { var el = document.querySelector("[data-mxo]"); if (el && window.MXO) window.MXO.init(el, { base: "{{MACRO_BASE}}", lwc: "{{MXO_LWC}}" }); })();
+</script>
 <script>
 (function () {
   "use strict";

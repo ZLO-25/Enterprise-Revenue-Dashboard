@@ -120,7 +120,7 @@
    "branch": "main",
    "kind": "weekly",
    "freq": "台北週六 06:23、09:53，週日 09:53，週三 06:23、11:53；每日準備平日每天叫醒（18 小時內抓過就跳過）；macro_fetch.py 或 config.json 改動 push 時也跑",
-   "method": "先跑單元測試，再用 tools/macro_fetch.py 抓 FRED 與國發會資料，順便檢查停更序列、外部連結 404、觀念提醒條件，寫 data/macro/latest.json 並提交",
+   "method": "先跑單元測試，再用 tools/macro_fetch.py 抓 FRED 與國發會資料，順便檢查停更序列、外部連結 404、觀念提醒條件，寫 data/macro/latest.json；再用 tools/macro_overlay.py 抓美元・利率・通膨對照圖（Yahoo DXY／SPY＋FRED）寫 data/macro/overlay.json（失敗沿用舊檔，不讓整班失敗），一起提交",
    "retry": "靠備援班次與每日準備每天叫醒；程式內讀每個網址最多試 3 次，最後仍失敗由內容檢查標出（不整支重跑）；提交推送最多 3 次（各等 15 秒）"
   },
   {

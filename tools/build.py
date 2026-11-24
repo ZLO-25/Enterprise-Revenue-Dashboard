@@ -455,7 +455,9 @@ def main():
     import capex_chain as CHAIN   # AI 資本支出鏈：用上面已讀好的各公司財報加總（建置時算，不存檔）
     chain = CHAIN.compute(mc["chain"], companies, datasets)
     mx = fill(read("templates", "macro.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MACRO_BASE}}", "../data/macro/"),
-              ("{{MACRO_CFG}}", js_json(mc)), ("{{CAPEX_CHAIN}}", js_json(chain)), ("{{CHARTJS}}", LOCAL_CHART.format(rel="../"))])
+              ("{{MACRO_CFG}}", js_json(mc)), ("{{CAPEX_CHAIN}}", js_json(chain)), ("{{CHARTJS}}", LOCAL_CHART.format(rel="../")),
+              ("{{MXO_JS}}", "../assets/macro_overlay.js?v=" + asset_ver("assets", "macro_overlay.js")),
+              ("{{MXO_LWC}}", "../assets/vendor/lightweight-charts.standalone.production.js")])
     write(page("總經儀表板", "照愛榭克（Izaax）景氣循環框架整理的美國與台灣總體經濟指標：就業、消費、投資、庫存、信用、通膨與利率，每週自動更新。", mx, "../", "macro"), "macro", "index.html")
     print("macro/index.html（總經儀表板）")
     # 財報行事曆頁：事件來自各公司 events[]（建置時內嵌；「今天」與分週在瀏覽時用台北日期算，所以不需要另外排程）

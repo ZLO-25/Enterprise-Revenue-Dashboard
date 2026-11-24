@@ -7,7 +7,8 @@
 #   抓的時候順便做三件「長期運作」的事（結果寫在 latest.json，系統健康頁會亮燈）：
 #     哪條序列太久沒有新資料（來源停更、改代號）、外部連結有沒有 404、觀念提醒的條件有沒有成立
 #   資料：美國＝FRED（聖路易聯準銀行，免金鑰）；台灣＝國發會景氣指標查詢系統
-#   只會 git add data/macro/latest.json，不會動到其他任何檔案。
+#   同一班也更新「美元・利率・通膨對照圖」：tools/macro_overlay.py → data/macro/overlay.json（DXY、SPY 來自 Yahoo，其餘 FRED）
+#   只會 git add data/macro/latest.json、data/macro/overlay.json，不會動到其他任何檔案。
 name: macro-weekly
 on:
   schedule:
@@ -19,6 +20,7 @@ on:
   push:
     paths:
       - "tools/macro_fetch.py"
+      - "tools/macro_overlay.py"
       - "data/macro/config.json"
       - ".github/workflows/macro-weekly.yml"
   workflow_dispatch:
@@ -46,7 +48,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: 單元測試（年增率、方向燈、衰退期間）
-        run: python3 -m unittest discover -s tools/tests -p 'test_macro.py'
+        run: python3 -m unittest discover -s tools/tests -p 'test_macro*.py'
       - name: 試探來源
         if: ${{ inputs.probe }}
         run: python3 tools/macro_fetch.py --probe
@@ -59,12 +61,18 @@ jobs:
       - name: 下載總經資料
         if: ${{ !inputs.probe && steps.need.outputs.stale == 'true' }}
         run: python3 tools/macro_fetch.py
+      - name: 下載對照圖資料（美元、利率、通膨）
+        if: ${{ !inputs.probe && steps.need.outputs.stale == 'true' }}
+        run: |
+          pip install --quiet yfinance
+          tools/retry.sh 2 30 python3 tools/macro_overlay.py || echo "::warning::對照圖資料這次沒更新（沿用舊檔），不影響總經儀表板"
       - name: 有變動才提交
         if: ${{ !inputs.probe && steps.need.outputs.stale == 'true' }}
         run: |
           git config user.name "macro-weekly-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/macro/latest.json
+          [ -f data/macro/overlay.json ] && git add data/macro/overlay.json
           if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
           git commit -q -m "總經儀表板資料自動更新 $(date -u +%Y-%m-%d)"
           for i in 1 2 3; do
