@@ -123,14 +123,14 @@ const BUFFETT = (() => {
     const items = risks.map(r => `<li>${esc(r)}<br><span class="bm-q">看到什麼數字，代表它正在發生？</span></li>`).join('');
     return card('bmInv', '反過來想：它會怎麼死', ask('這件事會怎麼失敗？先想清楚，然後避開。') +
       view('・反過來想', '我們常常先問：這門生意會怎麼死？想清楚了，就知道要避開什麼、要盯哪個數字。') +
-      (items ? `<h4>論點卡列出的風險</h4><ul class="sum-list bm-risk">${items}</ul>` : '<p class="bm-why">這家公司的論點卡還沒有上線，沒有風險清單可以接。</p>') +
+      (items ? `<h4>論點卡列出的風險${T.status !== 'approved' ? '（草稿・待 ZL 確認）' : ''}</h4><ul class="sum-list bm-risk">${items}</ul>` : '<p class="bm-why">這家公司的論點卡還沒有上線，沒有風險清單可以接。</p>') +
       self(['對手可以用什麼方法，把我們的客戶搶走？', '有沒有新技術，會讓它的產品變得不重要？', '管理層會不會把賺來的錢，花在不該花的地方（亂併購、亂擴張）？']));
   }
 
   function mount(secEl, N) {
     const D = N.D;
     if (!secEl || !D || document.getElementById('buffett')) return;
-    const B = D.buffett, type = (D.thesis && D.thesis.type) || (B && B.type) || null;
+    const B = D.buffett, type = (D.thesis && D.thesis.status === 'approved' && D.thesis.type) || (B && B.type) || null;
     const opt = type === 'option' ? `<p class="note bm-opt">這家公司還沒有穩定獲利，這裡的檢查多半算不出來。這類投資是買一個可能性，金額要小到全部虧掉也不影響生活。（意譯）</p>` : '';
     const sec = document.createElement('section'); sec.id = 'buffett';
     sec.innerHTML = `<div class="sec-head"><span class="sec-tag">價值投資</span><h2>巴菲特＋蒙格檢查表 ${tag('v')}</h2>

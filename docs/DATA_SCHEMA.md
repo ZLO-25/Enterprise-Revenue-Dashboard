@@ -250,7 +250,7 @@ data/<代號>.json ──► assets/adapters.js（轉接層：各種格式 → �
 `{"code","snapshots":[{date,period,epsAvg,epsLow,epsHigh,epsN,epsBasis,revAvg,revLow,revHigh,revN,cur}]}`。`tools/consensus.py` 每週二至六 07:40（台北，`consensus-daily.yml`）在「財報公布日前 14 天內」存一張；公布日（台北時間）當天早上為止。營收是原幣「元」（不是百萬）。舊快照不改、不補、不用今天的預估填過去。公司還沒公布但資料沒更新、或已有更新的 8-K Item 2.02 時不拍。分析師少於 3 位照存，頁面標「預估人數少」。已實測 Yahoo 有當季（`0q`）預估。
 
 ## 論點卡 data/thesis/<代號>.json
-- `status`：`draft`（Claude 草稿，不上線）／`approved`（ZL 確認後才上線）。`build.py` 只注入 approved；approved 的每個 `metrics[].by` 必須是 `"ZL"`（validate 會擋）。
+- `status`：`draft`（Claude 草稿；2026-11-25 起也放進頁面，標「草稿・待 ZL 確認」）／`approved`（ZL 確認）。巴菲特檢查表、每日估值門檻、估值訊號、每日回報燈號只用 approved；approved 的每個 `metrics[].by` 必須是 `"ZL"`（validate 會擋）。
 - 欄位：`oneLiner`、`metrics[{k,name,op,thr,group,role,note,by}]`（k 為 tools/thesis.py 認得的指標）、`warnWhen`（季度警示）、`breakWhen`（論點破了，結構性）、`risks[]`、`history[]`。
 - `role`：`core`（預設）／`aux`（輔助觀察，成長要配上報酬率才有價值）。aux 燈號照算照顯示，但論點破了、今天該看什麼、每日摘要的「體質轉差」只看 core；lights-log 的 `g` 欄 aux 記為 `aux`。
 - `warnWhen`＝黃燈先觀察，不是賣出理由；`breakWhen`＝結構性條件（ROE 連續下滑、毛利率三年累計下滑超過 5 個百分點等），才需要重新考慮持有。頁面另外顯示程式算的「結構檢查」三項事實（`buffett.structure`）。

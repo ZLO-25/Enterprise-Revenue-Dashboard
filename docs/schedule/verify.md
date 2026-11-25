@@ -8,4 +8,4 @@
 - 完成：`python3 tools/daily.py set <代號> verified`（回到 waiting）。10-Q 還沒出來就維持 completed，**不算失敗、不加 try**，但超過 45 天仍沒有，回報提醒。
 
 ## 論點卡（有 approved 的公司才做）
-每日 ③ 核對後執行 `python3 tools/thesis.py`：燈號由綠轉黃／紅，或觸及 `breakWhen`，要寫進每日回報「⑤ 未完成」一段（置頂標明）。**只有核心體質（biz，`role` 為 core）燈號轉差才置頂；估值（val）與輔助（aux）轉差只放附錄**（brief ⑧ 已分開兩行）。回報的論點卡段落分「體質核心／輔助／估值」三組。黃燈是季度警示，先觀察，不是賣出理由；只有結構性變化（`breakWhen`：ROE 連續下滑、毛利率三年累計下滑等）才寫建議。`status:"draft"` 的不上線、不改燈號，只能由 ZL 確認後改 approved。
+每日 ③ 核對後執行 `python3 tools/thesis.py`：燈號由綠轉黃／紅，或觸及 `breakWhen`，要寫進每日回報「⑤ 未完成」一段（置頂標明）。**只有核心體質（biz，`role` 為 core）燈號轉差才置頂；估值（val）與輔助（aux）轉差只放附錄**（brief ⑧ 已分開兩行）。回報的論點卡段落分「體質核心／輔助／估值」三組。黃燈是季度警示，先觀察，不是賣出理由；只有結構性變化（`breakWhen`：ROE 連續下滑、毛利率三年累計下滑等）才寫建議。`status:"draft"` 的頁面會顯示（標草稿），但不進每日回報燈號、不改門檻，只能由 ZL 確認後改 approved。
