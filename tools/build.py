@@ -344,11 +344,12 @@ def main():
         tp = os.path.join(ROOT, "data", "thesis", c["code"] + ".json")
         if os.path.exists(tp):
             th = json.load(open(tp, encoding="utf8"))
-            if th.get("status") == "approved":          # 草稿永遠不上線，使用者確認（approved）後才放進頁面
-                th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
-                data["thesis"] = th
+            # 草稿也上線（ZL 2026-11-25），頁面標「草稿・待 ZL 確認」；但巴菲特檢查表、每日估值門檻、訊號、每日燈號只用 approved
+            th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
+            data["thesis"] = th
+        th_ok = data.get("thesis") if (data.get("thesis") or {}).get("status") == "approved" else None
         try:
-            data["buffett"] = BUFFETT.compute(c, data, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"], prices, BUFFETT.load_rates(), BUFFETT.load_index_prices(), data.get("thesis"))
+            data["buffett"] = BUFFETT.compute(c, data, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"], prices, BUFFETT.load_rates(), BUFFETT.load_index_prices(), th_ok)
         except Exception as e:  # noqa: BLE001  算不出來就不顯示檢查表，不讓整個建置失敗；訊息留在輸出
             print(f"{c['code']}: buffett 指標計算失敗 {type(e).__name__}: {e}")
             data["buffett"] = None
@@ -358,7 +359,7 @@ def main():
             # 頁面打開時另外讀 dailyUrl 的最新檔，取比較新的（所以每天更新收盤價不必重建網站）
             dd = json.load(open(dp, encoding="utf8"))
             data["daily"] = DAILY.compute(HEALTH.normq(data, c.get("schema")), data["quarters"], dd, prices, data["valuation"],
-                                          data.get("thesis") if (data.get("thesis") or {}).get("status") == "approved" else None)
+                                          th_ok)
             # 首頁「本益比（今日）」欄的備援值（頁面打開時另外讀 data/daily/_pe.json，取比較新的）；形狀同 prices_daily.pe_summary
             L = (data["daily"] or {}).get("latest") or {}
             data["dpe"] = {"d": L["d"], "pe": L.get("pe"), "why": (L.get("why") or {}).get("pe"), "q": L.get("q"), "fetched": dd.get("fetched")} if L.get("d") else None
