@@ -193,7 +193,7 @@ def check_bs(code, D, err):
 
 
 def check_thesis(code, D, err, cfg_c=None):
-    """data/thesis/<代號>.json：草稿可以先放著（不上線）；approved 必須是使用者確認過的，指標 key 要是程式算得出來的。"""
+    """data/thesis/<代號>.json：草稿也會上線（頁面標「草稿・待 ZL 確認」）；approved 必須是使用者確認過的，指標 key 要是程式算得出來的。"""
     p = os.path.join(ROOT, "data", "thesis", code + ".json")
     if not os.path.exists(p):
         return
