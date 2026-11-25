@@ -1,0 +1,19 @@
+{
+ "code": "avgo",
+ "snapshots": [
+  {
+   "date": "2026-11-25",
+   "period": "4Q26",
+   "epsAvg": 3.83018,
+   "epsLow": 3.53,
+   "epsHigh": 3.92,
+   "epsN": 41,
+   "epsBasis": "normalized",
+   "revAvg": 34903482540.0,
+   "revLow": 34743200000.0,
+   "revHigh": 35591502020.0,
+   "revN": 39,
+   "cur": "USD"
+  }
+ ]
+}
