@@ -19,7 +19,7 @@
   "gev.evS": "cheap",
   "googl.evS": "normal",
   "csco.evS": "normal",
-  "asml.pe": "normal",
+  "asml.pe": "cheap",
   "allring.pe": "rich"
  },
  "events": [
@@ -211,6 +211,16 @@
    "kind": "back",
    "now": 5.74,
    "thr": 5.1,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-25",
+   "code": "asml",
+   "k": "pe",
+   "name": "本益比（近四季 EPS）",
+   "kind": "cheap",
+   "now": 32.3,
+   "thr": 40,
    "op": "<="
   }
  ]
