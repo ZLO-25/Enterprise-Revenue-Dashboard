@@ -8,7 +8,7 @@
   role：core（預設）＝論點的核心指標；aux＝輔助觀察（成長要配上報酬率才有價值）。aux 燈號照算、照顯示，但「論點破了」判斷、今天該看什麼、每日摘要的「體質轉差」只看 core。
   type：compounder 穩健複利（需要十年紀錄，規則見 tools/buffett.py 的 record.tenYearOk）、growth 高成長、cyclical 循環股、turnaround 轉機／早期、option 選擇權（還沒有穩定獲利，買的是一個可能性）。
   warnWhen（季度警示）與 breakWhen（結構性條件）是兩層：前者黃燈先觀察，後者才是重新考慮持有的理由。
-  **status 不是 approved 的一律不上線**（build.py 只注入 approved；草稿只存在這個檔案，等使用者確認）。
+  **status 不是 approved 的是草稿**：2026-11-25 起也放進頁面（標「草稿・待 ZL 確認」），但每日回報燈號、估值訊號、巴菲特檢查表只用 approved。
 可用的指標 key（來源都是網站已有數字，對應 tools/health.py 與 assets/longterm.js 的定義）：
   revYoy 營收年增（近四季） epsYoy EPS 年增（近四季） gm 毛利率（近四季） om 營業利益率（近四季） fcfRate 自由現金流率（近四季）
   revYoyQ 單季營收年增 gmQchg 單季毛利率減前一季（百分點）
@@ -216,7 +216,7 @@ def main():
     rows, red = [], []
     for c, th in load_all():
         if th.get("status") != "approved":
-            rows.append(f"  {c['code']}：草稿（{th.get('updated')}），等使用者確認，不上線")
+            rows.append(f"  {c['code']}：草稿（{th.get('updated')}），頁面標草稿，等使用者確認")
             continue
         D, val, hl, Q = context(c["code"])
         L = lights(th, Q, val, hl)
