@@ -28,6 +28,7 @@ YEARS = (1, 3, 5, 10)
 CURRENCY_BOND = {"TWD": "tw_10y", "USD": "us_10y"}
 CURRENCY_INDEX = {"USD": ("_GSPC", "標普 500 價格指數（S&P 500，不含股息）"), "TWD": ("_TWII", "臺灣加權股價指數（不含股息）")}
 CURRENCY_TOTAL_INDEX = {"USD": ("SPY", "標普 500 ETF（SPY，含股息再投入）"), "TWD": ("0050.TW", "元大台灣 50（0050，含股息再投入）")}
+CURRENCY_BENCH_ETF = {"USD": "etf_voo", "TWD": "etf_0050"}
 _RATES = None
 
 
@@ -71,6 +72,30 @@ def load_total_index_prices(root=None):
             out[cur] = {"symbol": d.get("symbol") or sym, "name": name, "dates": d["dates"], "close": d["close"]}
         except Exception:  # noqa: BLE001
             pass
+    return out
+
+
+def load_etf_benchmarks(root=None):
+    p = os.path.join(root or ROOT, "data", "etf", "latest.json")
+    try:
+        d = json.load(open(p, encoding="utf8"))
+    except Exception:  # noqa: BLE001
+        return {}
+    by_code = {e.get("code"): e for e in (d.get("etfs") or []) if e.get("code")}
+    out = {}
+    for cur, code in CURRENCY_BENCH_ETF.items():
+        e = by_code.get(code)
+        pe = (e or {}).get("pe") or {}
+        if pe.get("v") is not None and not pe.get("noisy"):
+            out[cur] = {
+                "code": code,
+                "ticker": e.get("ticker"),
+                "name": e.get("zh") or e.get("name"),
+                "pe": pe["v"],
+                "ey": pe.get("ey"),
+                "spread": pe.get("spread"),
+                "asOf": pe.get("asOf"),
+            }
     return out
 
 
@@ -614,15 +639,18 @@ def idx_close(ix, d):
     return ix["close"][k]
 
 
-def calc_vs_index(cur, prices, index_prices, adj_stock=None, total_index=None):
+def calc_vs_index(cur, prices, index_prices, adj_stock=None, total_index=None, bench_etf=None):
     tix = (total_index or {}).get(cur)
     use_total = bool(
         adj_stock and adj_stock.get("dates") and adj_stock.get("close")
         and tix and tix.get("dates") and tix.get("close")
     )
+    be = (bench_etf or {}).get(cur)
     if use_total:
         out = {"index": tix.get("name"), "mode": "total", "rows": [], "why": None,
                "note": "兩邊都用還原權息收盤價（含股息再投入；ETF 價格已反映內扣費用）"}
+        if be:
+            out["benchPe"] = be
         mon = [x for x in ((prices or {}).get("monthly") or []) if x.get("c") is not None]
         if not mon:
             out["why"] = "noprice"; return out
@@ -650,6 +678,8 @@ def calc_vs_index(cur, prices, index_prices, adj_stock=None, total_index=None):
     note = ("這檔尚未收錄還原權息日線，暫用不含股利的價格報酬對照（配息股與台股會低估長期總報酬）"
             if total_index else "兩邊都不含股利（股價用分割調整、不含股利調整的收盤價）")
     out = {"index": None, "mode": "price", "rows": [], "why": None, "note": note}
+    if be:
+        out["benchPe"] = be
     ix = (index_prices or {}).get(cur)
     if cur not in CURRENCY_INDEX or not ix:
         out["why"] = "noidx"; return out
@@ -808,7 +838,7 @@ def calc_record(Q, rows, hq, summ):
     return out
 
 
-def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thesis, total_index_prices=None, adj_stock=None):
+def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thesis, total_index_prices=None, adj_stock=None, etf_benchmarks=None):
     if not Q:
         return None
     cur = (code_cfg or {}).get("currency") or (valuation or {}).get("currency")
@@ -821,14 +851,14 @@ def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thes
     if not pts:      # 還不到四季：只給能算的（盈餘殖利率、對指數、類型資格）
         empty = {"summary": None, "buyback": None, "retained": None, "quality": None, "structure": None}
         return dict({"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": [], "implied": calc_implied(ey, []), "normPe": calc_norm_pe([], valuation),
-                     "vsIndex": calc_vs_index(cur, prices, index_prices, adj_stock, total_index_prices), "record": calc_record(Q, [], hq, None), "owner": calc_owner(Q, mc, ey, health), "short": True}, **empty)
+                     "vsIndex": calc_vs_index(cur, prices, index_prices, adj_stock, total_index_prices, etf_benchmarks), "record": calc_record(Q, [], hq, None), "owner": calc_owner(Q, mc, ey, health), "short": True}, **empty)
     rows = ten_year(Q, health, pts)
     summ = summarize(rows, hq)
     bb = calc_buyback(Q, valuation, pts, fye, mc)
     qual = calc_quality(Q, rows, pts, summ)
     return {"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": rows, "summary": summ,
             "buyback": bb, "retained": calc_retained(Q, valuation, mc, D),
-            "vsIndex": calc_vs_index(cur, prices, index_prices, adj_stock, total_index_prices),
+            "vsIndex": calc_vs_index(cur, prices, index_prices, adj_stock, total_index_prices, etf_benchmarks),
             "implied": calc_implied(ey, rows, bb, qual, mc, Q), "normPe": calc_norm_pe(rows, valuation),
             "quality": qual, "structure": calc_structure(rows, summ, thesis), "record": calc_record(Q, rows, hq, summ),
             "owner": calc_owner(Q, mc, ey, health)}
@@ -838,7 +868,8 @@ def for_company(c, D, valuation, health, prices, thesis=None):
     """build.py 與 thesis.py review 用：載入公債與指數檔後呼叫 compute()。"""
     ysym = ((c or {}).get("price") or {}).get("yahoo")
     return compute(c, D, H.normq(D, c.get("schema")), valuation, health, prices, load_rates(), load_index_prices(), thesis,
-                   total_index_prices=load_total_index_prices(), adj_stock=load_quant_stock_price(ysym))
+                   total_index_prices=load_total_index_prices(), adj_stock=load_quant_stock_price(ysym),
+                   etf_benchmarks=load_etf_benchmarks())
 
 
 if __name__ == "__main__":

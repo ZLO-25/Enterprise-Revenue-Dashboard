@@ -165,7 +165,7 @@ def tw_code(sym):
     return None
 
 
-def parse_holdings(items, smap, cos_by_code, r1y_of, tw_names=None):
+def parse_holdings(items, smap, cos_by_code, r1y_of, tw_names=None, pe_of=None):
     """items：[(symbol, name, weight 0~1)]。回傳 (rows, sum%, flag)。權重怪（負數、>1、合計 >105%）→ flag 待確認。"""
     rows, flag = [], None
     for sym, name, w in items:
@@ -187,11 +187,55 @@ def parse_holdings(items, smap, cos_by_code, r1y_of, tw_names=None):
             r = r1y_of(code)
             if r:
                 row["r1y"], row["r1yD"] = r
+            if pe_of:
+                p = pe_of(code)
+                if p and p[0] is not None:
+                    row["pe"], row["peD"] = p
         rows.append(row)
     s = round(sum(r["w"] for r in rows), 2)
     if s > 105:
         flag = f"待確認：前十大權重合計 {s}%，超過 100%"
     return rows, s, flag
+
+
+def _bond_rate(currency, rates):
+    if not rates or not currency:
+        return None
+    import buffett as BUF
+    key = BUF.CURRENCY_BOND.get(currency)
+    if not key:
+        return None
+    bs = BUF.bond_of(rates, key)
+    if bs:
+        return round(float(bs["points"][-1][1]), 2)
+    v = rates.get(key)
+    return round(float(v), 2) if isinstance(v, (int, float)) else None
+
+
+def parse_pe(raw_pe, kind=None, currency=None, rates=None):
+    """ETF 本益比（Yahoo trailingPE）。回傳 {v, ey, bond?, spread?, noisy?, na?, flag?, src?}。"""
+    if kind == "commodity":
+        return {"v": None, "na": "商品／期貨不適用"}
+    if raw_pe is None or raw_pe != raw_pe:
+        return {"v": None, "src": FUND_SRC, "flag": "待確認：Yahoo 沒有這檔的本益比，請看發行商頁面"}
+    try:
+        val = float(raw_pe)
+    except (TypeError, ValueError):
+        return {"v": None, "src": FUND_SRC, "flag": "待確認：Yahoo 沒有這檔的本益比，請看發行商頁面"}
+    if val != val or abs(val) == float("inf"):
+        return {"v": None, "src": FUND_SRC, "flag": "待確認：Yahoo 沒有這檔的本益比，請看發行商頁面"}
+    if val <= 0:
+        return {"v": None, "src": FUND_SRC, "flag": "待確認：本益比非正數，先不採用"}
+    if val > 200:
+        return {"v": round(val, 1), "noisy": True, "src": FUND_SRC, "flag": "本益比超過 200 倍，參考性低"}
+    v = round(val, 1)
+    ey = round(100.0 / v, 2)
+    out = {"v": v, "ey": ey, "src": FUND_SRC}
+    bond = _bond_rate(currency, rates)
+    if bond is not None:
+        out["bond"] = bond
+        out["spread"] = round(ey - bond, 2)
+    return out
 
 
 def expense(fund_ops, info):
@@ -220,12 +264,25 @@ def r1y_from_daily(code, ddir=None):
     return None if v is None else (v, r["last"]["d"])
 
 
+def load_pe_map(ddir=None):
+    d = jload(os.path.join(ddir or os.path.join(ROOT, "data", "daily"), "_pe.json"), {}) or {}
+    return d.get("co") if isinstance(d.get("co"), dict) else {}
+
+
+def pe_from_daily(code, pe_map=None):
+    m = load_pe_map() if pe_map is None else pe_map
+    rec = (m or {}).get(code)
+    if not rec or rec.get("pe") is None:
+        return None
+    return (rec["pe"], rec.get("d"))
+
+
 # ---------- 網路（只有這一段上網） ----------
 def fetch_fund(sym):
-    """回傳 dict(items, er_ops, er_info, aum, aumCur)；任何一段讀不到就是 None。"""
+    """回傳 dict(items, er_ops, er_info, aum, pe)；任何一段讀不到就是 None。"""
     import yfinance as yf
     t = yf.Ticker(sym)
-    out = {"items": None, "er_ops": None, "er_info": None, "aum": None}
+    out = {"items": None, "er_ops": None, "er_info": None, "aum": None, "pe": None}
     try:
         fd = t.funds_data
         th = fd.top_holdings
@@ -246,6 +303,7 @@ def fetch_fund(sym):
         info = t.info or {}
         out["er_info"] = info.get("netExpenseRatio")
         out["aum"] = info.get("totalAssets")
+        out["pe"] = info.get("trailingPE")
     except Exception as e:  # noqa: BLE001
         log(f"   {sym} 報價資訊讀取失敗：{type(e).__name__}")
     return out
@@ -274,7 +332,7 @@ def fetch_tw_names():
 
 
 # ---------- 主流程 ----------
-def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of, tw_names=None):
+def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of, tw_names=None, pe_of=None, rates=None):
     """組 latest.json 的一檔。fund_new＝這次抓到的基金資料（沒抓就 None），fund_prev＝上次 latest 的那一檔。"""
     R = returns((daily or {}).get("rows"))
     links = {"issuer": e.get("issuerUrl"), "yahoo": ("https://tw.stock.yahoo.com/quote/" + e["yahoo"]) if e.get("twse")
@@ -282,10 +340,13 @@ def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of,
     if e.get("twse"):
         links["twse"] = "https://www.twse.com.tw/zh/ETFortune/etfInfo/" + e["twse"]
     out = {k: e.get(k) for k in ("code", "ticker", "name", "zh", "group", "currency", "issuer", "index", "why", "from", "kind")}
+    if e.get("cyclical"):
+        out["cyclical"] = True
     out.update(links=links, last=R["last"], ret=R["ret"], base=R["base"], check=(daily or {}).get("check"))
     prev = fund_prev or {}
+    hist = copy.deepcopy(prev.get("peHist") or [])
     if fund_new is not None:
-        rows, s, flag = parse_holdings(fund_new.get("items") or [], smap, cos_by_code, r1y_of, tw_names)
+        rows, s, flag = parse_holdings(fund_new.get("items") or [], smap, cos_by_code, r1y_of, tw_names, pe_of)
         if e.get("kind") == "commodity":
             out["holdings"] = {"asOf": today, "rows": [], "note": e.get("holdingsNote") or "持有實物或期貨，沒有股票持股。"}
         elif rows:
@@ -302,17 +363,36 @@ def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of,
         out["er"] = er
         a = fund_new.get("aum")
         out["aum"] = {"v": a, "asOf": today, "src": FUND_SRC} if a else prev.get("aum")
+        pe = parse_pe(fund_new.get("pe"), e.get("kind"), e.get("currency"), rates)
+        if pe.get("v") is None and not pe.get("na") and (prev.get("pe") or {}).get("v") is not None:
+            pe = dict(prev["pe"], stale="這次沒抓到，沿用 " + prev["pe"].get("asOf", "?") + " 的資料")
+        else:
+            pe["asOf"] = today
+        out["pe"] = pe
     else:
         for k in ("holdings", "er", "aum"):
             if prev.get(k) is not None:
                 out[k] = copy.deepcopy(prev[k])   # 不改到舊檔的物件，否則「有沒有變動」的比較會失靈
         if e.get("kind") == "commodity" and not (out.get("holdings") or {}).get("note"):
             out["holdings"] = {"rows": [], "note": e.get("holdingsNote") or "持有實物或期貨，沒有股票持股。"}
+        if e.get("kind") == "commodity":
+            out["pe"] = {"v": None, "na": "商品／期貨不適用"}
+        elif prev.get("pe") is not None:
+            out["pe"] = copy.deepcopy(prev["pe"])
+            if out["pe"].get("v") is not None and not out["pe"].get("noisy") and rates:
+                bond = _bond_rate(e.get("currency"), rates)
+                if bond is not None:
+                    ey = out["pe"].get("ey")
+                    if ey is None:
+                        ey = round(100.0 / out["pe"]["v"], 2)
+                        out["pe"]["ey"] = ey
+                    out["pe"]["bond"] = bond
+                    out["pe"]["spread"] = round(ey - bond, 2)
         for r in ((out.get("holdings") or {}).get("rows") or []):     # 中文簡稱：名單更新後也補上
             zh = (tw_names or {}).get(tw_code(r.get("sym")))
             if zh:
                 r["zh"] = zh
-        # 持股對應本站公司、1 年報酬對照：每天重算（持股名單本身每週才抓；新增公司或代號對應後馬上生效）
+        # 持股對應本站公司、1 年報酬與本益比對照：每天重算（持股名單本身每週才抓；新增公司或代號對應後馬上生效）
         for r in ((out.get("holdings") or {}).get("rows") or []):
             code = smap.get(str(r.get("sym") or "").upper())
             for k in ("code", "href", "co"):
@@ -324,12 +404,26 @@ def build_entry(e, daily, fund_prev, fund_new, today, smap, cos_by_code, r1y_of,
                 r.pop("r1y", None), r.pop("r1yD", None)
                 if v:
                     r["r1y"], r["r1yD"] = v
+                r.pop("pe", None), r.pop("peD", None)
+                if pe_of:
+                    p = pe_of(r["code"])
+                    if p and p[0] is not None:
+                        r["pe"], r["peD"] = p
+    if (out.get("pe") or {}).get("v") is not None and not out["pe"].get("noisy") and not out["pe"].get("stale") and e.get("kind") != "commodity":
+        m = today[:7]
+        hist = [x for x in hist if x.get("m") != m]
+        hist.append({"m": m, "d": today, "pe": out["pe"]["v"]})
+        hist.sort(key=lambda x: x["m"])
+    if hist:
+        out["peHist"] = hist
     return out
 
 
-def due(prev_entry, today, every):
+def due(prev_entry, today, every, kind=None):
     h = (prev_entry or {}).get("holdings") or {}
     if not h.get("asOf") or h.get("stale"):
+        return True
+    if kind != "commodity" and not (prev_entry or {}).get("pe"):
         return True
     return (dt.date.fromisoformat(today) - dt.date.fromisoformat(h["asOf"])).days >= every
 
@@ -344,6 +438,7 @@ def main(argv=None):
     only = a[a.index("--only") + 1] if "--only" in a else None
     etfs = [e for e in cfg["etfs"] if not only or e["code"] == only]
     import prices_daily as PD
+    import buffett as BUF
     if "--stale-check" in a:
         today = dt.datetime.now(ZoneInfo("Asia/Taipei")).date()
         late = []
@@ -360,13 +455,16 @@ def main(argv=None):
     cos = jload(os.path.join(ROOT, "companies.json"))["companies"]
     smap = symbol_map(cos, cfg.get("aliases"))
     cos_by_code = {c["code"]: c for c in cos if c.get("enabled") is not False}
+    rates = BUF.load_rates(ROOT)
+    pe_map = load_pe_map()
+    pe_of = lambda c: pe_from_daily(c, pe_map)
     latest_path = os.path.join(EDIR, "latest.json")
     old = jload(latest_path, {}) or {}
     prev_by = {x["code"]: x for x in old.get("etfs") or []}
     rc, entries = 0, []
     names_path = os.path.join(EDIR, "twnames.json")
     tw = jload(names_path, {}) or {}
-    need_names = not recalc and any(e in etfs and (force_h or due(prev_by.get(e["code"]), today, cfg.get("holdingsEveryDays", 7)))
+    need_names = not recalc and any(e in etfs and (force_h or due(prev_by.get(e["code"]), today, cfg.get("holdingsEveryDays", 7), kind=e.get("kind")))
                                     for e in cfg["etfs"]) or (not recalc and not tw.get("names"))
     if need_names:
         got = fetch_tw_names()
@@ -398,14 +496,14 @@ def main(argv=None):
                 log(f"[{code}] 收盤價失敗：{str(ex)[:120]}；保留舊檔")
                 rc = 1
         fund = None
-        if e in etfs and not recalc and (force_h or due(prev_by.get(code), today, cfg.get("holdingsEveryDays", 7))):
+        if e in etfs and not recalc and (force_h or due(prev_by.get(code), today, cfg.get("holdingsEveryDays", 7), kind=e.get("kind"))):
             try:
                 fund = fetch_fund(e["yahoo"])
                 n = len(fund.get("items") or [])
-                log(f"[{code}] 基金資料：持股 {n} 筆、費用率{'有' if fund.get('er_ops') is not None or fund.get('er_info') is not None else '沒有'}")
+                log(f"[{code}] 基金資料：持股 {n} 筆、費用率{'有' if fund.get('er_ops') is not None or fund.get('er_info') is not None else '沒有'}、本益比{'有' if fund.get('pe') is not None else '沒有'}")
             except Exception as ex:  # noqa: BLE001
                 log(f"[{code}] 基金資料失敗：{type(ex).__name__}；沿用上次")
-        entries.append(build_entry(e, daily, prev_by.get(code), fund, today, smap, cos_by_code, r1y_from_daily, tw_names))
+        entries.append(build_entry(e, daily, prev_by.get(code), fund, today, smap, cos_by_code, r1y_from_daily, tw_names, pe_of=pe_of, rates=rates))
     out = {"groups": cfg["groups"], "source": SOURCE, "fundSource": FUND_SRC, "twNamesSrc": TW_NAMES_SRC if tw_names else None, "etfs": entries}
     if {k: v for k, v in old.items() if k != "updated"} != out:
         out = dict(out, updated=dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"))

@@ -62,6 +62,16 @@
 .ef-stats em{display:block;font-style:normal;font-size:.7rem;color:var(--muted);font-family:var(--font-data)}
 .ef-note{font-size:.85rem;color:var(--ink-2);background:var(--wash);border-radius:8px;padding:8px 10px;margin-top:10px}
 @media (max-width:640px){.ef-row{flex-wrap:nowrap}.ef-row .ef-chips{flex:1 1 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;min-width:0}.ef-lab{flex:none}.ef-row .ef-chips::-webkit-scrollbar{display:none}.ef-chips button{flex:none;padding:4px 9px;font-size:.8rem}.ef-custom{flex-wrap:wrap}.ef-scl-note{display:none}}
+.ef-pebar{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0 4px;display:grid;gap:8px;min-width:0}
+.ef-pebar[hidden]{display:none}
+.ef-perow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;min-width:0}
+.ef-pelab{font-size:.76rem;color:var(--muted);font-weight:600;white-space:nowrap}
+.ef-pepills{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.ef-pepill{display:inline-flex;align-items:baseline;gap:5px;font-size:.8rem;color:var(--ink-2);background:var(--page);border:1px solid var(--line);border-radius:999px;padding:3px 9px;text-decoration:none;white-space:nowrap;max-width:100%}
+.ef-pepill:hover{border-color:var(--accent);color:var(--ink)}
+.ef-pepill b{font-family:var(--font-data);font-weight:600;color:var(--ink)}
+.ef-pepill small{font-size:.7rem;color:var(--muted)}
+@media (max-width:640px){.ef-pebar{padding:8px 10px}.ef-pepills{flex:1 1 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.ef-pepills::-webkit-scrollbar{display:none}.ef-pepill{flex:none}}
 </style>
 
 <!-- ETF 頁：資料 data/etf/latest.json 與 data/etf/daily/<代號>.json 由 GitHub Actions（prices-daily 的 tools/etf_update.py）寫入，本頁只讀不算。 -->
@@ -77,7 +87,7 @@
   <header class="masthead" id="top">
     <div class="eyebrow">ETF Tracker</div>
     <h1>ETF 追蹤</h1>
-    <p class="lede">用「一籃子」看市場：大盤、國防與航太、半導體、記憶體、黃金與 AI 金屬。每個交易日收盤後自動更新價格與報酬（上市以來的完整歷史）；前十大持股與費用率每週更新一次。持股若是本站有追蹤的公司，可以直接點進公司頁，並對照那家公司自己的 1 年報酬。</p>
+    <p class="lede">用「一籃子」看市場：大盤、國防與航太、半導體、記憶體、黃金與 AI 金屬。每個交易日收盤後自動更新價格與報酬（上市以來的完整歷史）；前十大持股、費用率與本益比每週更新一次。持股若是本站有追蹤的公司，可以直接點進公司頁，並對照那家公司自己的 1 年報酬與本益比。</p>
     <div class="meta-row"><span id="efSub">讀取中…</span></div>
   </header>
 
@@ -89,6 +99,7 @@
       <div class="ef-row ef-custom" id="efCustom" hidden><span class="ef-lab">自訂</span>
         <label>從 <input type="date" id="efFrom"></label><label>到 <input type="date" id="efTo"></label><small id="efCustomNote"></small></div>
     </div>
+    <div class="ef-pebar" id="efPeBar" hidden></div>
     <div id="efBody"></div>
     <p class="note">比較圖：同一主題的 ETF 從期間第一天都當作 0%，看之後漲跌多少（價格報酬，不含配息；各自以掛牌貨幣計）。上市比期間起點晚的 ETF 從它第一個交易日開始畫。滑鼠移到圖上（手機用手指按住滑動）可看每一天的數字。</p>
   </section>
@@ -99,9 +110,11 @@
       <li><b>收盤價</b>：Yahoo Finance 日線收盤（已依分割調整、<b>不含配息</b>），從上市第一天起。台股 ETF 的最新一天另對證交所官方收盤價，差超過 0.5% 那天不採用。</li>
       <li><b>報酬</b>：用收盤價算的價格報酬。配息多的 ETF（例如 0050、00891）實際拿到的報酬會比這裡高。3 年以上另列年化。上市不滿期間就留空，不用較短期間代替。</li>
       <li><b>前十大持股、費用率、資產規模</b>：Yahoo Finance 的基金資料（第三方整理，<b>未對發行商原始檔</b>），每 7 天更新。要確認請點卡片上的發行商或證交所連結。讀不到的標「待確認」。</li>
+      <li><b>ETF 本益比與估值</b>：取自 Yahoo Finance 基金資料的加權過去 12 個月本益比（第三方整理，<b>未對發行商原始檔</b>），每 7 天更新；並自動換算盈餘殖利率（100 ÷ 本益比）與對照同幣別 10 年期公債利差。超過 200 倍標「不適用」。實物與期貨商品 ETF（黃金、白銀、白金、鈀金、銅期貨）沒有股票持股與盈餘，本益比不適用。</li>
+      <li><b>ETF 本益比月度快照</b>：自上線起逐月留存當月快照（<b>不回填</b>），僅作長期估值參考。記憶體（DRAM）、銅礦股（COPX）等循環型主題須留意景氣高峰時獲利最高、本益比看起來最低的「假便宜陷阱」。</li>
       <li><b>台股持股名稱</b>：用證交所、櫃買中心公開資料的公司簡稱（跟持股一起每週更新）；讀不到才顯示英文名稱。</li>
       <li><b>黃金與金屬 ETF</b>：多數持有實物金屬或期貨，沒有股票持股，卡片上會寫明。COPX 是銅礦公司的股票。</li>
-      <li><b>持股對照</b>：持股是本站有追蹤的公司 → 顯示那家公司自己的 1 年報酬（本站每日收盤價），可以看「ETF 漲，是不是靠這幾家」。</li>
+      <li><b>持股對照</b>：持股是本站有追蹤的公司 → 顯示那家公司自己的 1 年報酬與最新本益比（本站每日收盤價與最近四季 EPS），可以看「ETF 漲，是不是靠這幾家」與估值位置。</li>
       <li><b>為什麼追這檔</b>：每張卡片上的說明是<b>觀點</b>（Claude 的整理），不是發行商的文字。</li>
       <li>ETF 不放進「市值排名」頁：ETF 持有的就是榜上的公司，放進去會重複計算。</li>
       <li>本頁是個人研究整理，不構成投資建議。</li>
@@ -138,6 +151,39 @@
 
   // ---------- 卡片 ----------
   function stat(lab, v, a) { return "<div><small>" + lab + "</small><b>" + pct(v) + "</b>" + (a != null ? "<em>年化 " + a.toFixed(1) + "%</em>" : "") + "</div>"; }
+  function peKv(e) {
+    var pe = e.pe;
+    if (pe && pe.na) return "<span>本益比 <small>" + esc(pe.na) + "</small></span>";
+    if (pe && pe.v != null) {
+      var val = pe.noisy ? "不適用" : pe.v.toFixed(1) + "×";
+      var ey = (!pe.noisy && pe.ey != null) ? " <small>（盈餘殖利率 " + pe.ey.toFixed(2) + "%" +
+        (pe.spread != null ? "，對公債 " + (pe.spread > 0 ? "+" : "−") + Math.abs(pe.spread).toFixed(2) + "pp" : "") + "）</small>" : "";
+      var cyc = e.cyclical ? " <span class='ef-flag' title='循環產業在景氣高峰時獲利最高、本益比看起來最低（假便宜陷阱）'>循環注意</span>" : "";
+      return "<span>本益比 <b>" + val + "</b>" + ey + cyc + flag(pe.flag) + (pe.stale ? " <small>" + esc(pe.stale) + "</small>" : "") + "</span>";
+    }
+    return "<span>本益比 <b>—</b>" + flag(pe && pe.flag) + "</span>";
+  }
+  function peBar() {
+    var bar = document.getElementById("efPeBar");
+    if (!bar || !D || !D.etfs) return;
+    var ok = function (e) { return e.pe && e.pe.v != null && !e.pe.noisy && e.kind !== "commodity"; };
+    var anchors = D.etfs.filter(function (e) { return e.group === "大盤" && ok(e); });
+    var themes = D.etfs.filter(function (e) { return e.group !== "大盤" && ok(e); }).sort(function (a, b) { return b.pe.v - a.pe.v; });
+    if (!anchors.length && !themes.length) { bar.hidden = true; bar.innerHTML = ""; return; }
+    var pill = function (e) {
+      var tip = (e.zh || e.name) + "：本益比 " + e.pe.v.toFixed(1) + " 倍" +
+        (e.pe.ey != null ? "，盈餘殖利率 " + e.pe.ey.toFixed(2) + "%" : "") +
+        (e.pe.spread != null ? "，對公債 " + (e.pe.spread > 0 ? "+" : "−") + Math.abs(e.pe.spread).toFixed(2) + " 個百分點" : "") +
+        (e.cyclical ? "（循環型主題，留意景氣高峰假便宜陷阱）" : "");
+      return "<a class='ef-pepill' href='#" + esc(e.code) + "' data-jump='" + esc(e.code) + "' title='" + esc(tip) + "'>" +
+        esc(e.ticker) + " <b>" + e.pe.v.toFixed(1) + "×</b>" + (e.cyclical ? "<small>（循環）</small>" : "") + "</a>";
+    };
+    var html = "";
+    if (anchors.length) html += "<div class='ef-perow'><span class='ef-pelab'>大盤估值錨點</span><div class='ef-pepills'>" + anchors.map(pill).join("") + "</div></div>";
+    if (themes.length) html += "<div class='ef-perow'><span class='ef-pelab'>主題估值對照</span><div class='ef-pepills'>" + themes.map(pill).join("") + "</div></div>";
+    bar.innerHTML = html;
+    bar.hidden = false;
+  }
   function card(e, i) {
     var R = e.ret || {}, h = e.holdings || {}, er = e.er || {}, L = e.links || {};
     var s = "<article class='ef-card' id='" + esc(e.code) + "' style='--c:" + color(i) + "'>" +
@@ -147,18 +193,25 @@
         "<span>收盤 <b>" + (e.last ? num(e.last.c) : "—") + "</b> <small>" + esc(e.currency) + (e.last ? "・" + esc(e.last.d) : "") + "</small>" + (e.check && e.check.ok === false ? flag(e.check.note) : "") + "</span>" +
         "<span>費用率 <b>" + (er.pct == null ? "—" : er.pct.toFixed(2) + "%") + "</b>" + flag(er.flag) + (er.stale ? " <small>" + esc(er.stale) + "</small>" : "") + "</span>" +
         "<span>資產規模 <b>" + aum(e.aum, e.currency) + "</b></span>" +
+        peKv(e) +
       "</div>" +
       "<div class='ef-stats'>" + stat("1 個月", R.m1) + stat("3 個月", R.m3) + stat("今年", R.ytd) + stat("1 年", R.y1) +
         stat("3 年", R.y3, R.y3a) + stat("5 年", R.y5, R.y5a) + stat("10 年", R.y10, R.y10a) +
         stat("上市以來" + (e.base && e.base.all ? "<br>" + esc(e.base.all.slice(0, 7)) + " 起" : ""), R.all, R.alla) + "</div>";
+    if (e.peHist && e.peHist.length) {
+      s += "<p class='ef-sub'>本益比月度快照（逐月累積、不回填）：" +
+        e.peHist.slice(-6).map(function (x) { return esc(x.m) + " " + x.pe.toFixed(1) + "×"; }).join(" · ") + "</p>";
+    }
     var rows = h.rows || [];
     if (rows.length) {
       var mx = Math.max.apply(null, rows.map(function (r) { return r.w; }));
-      s += "<div class='ef-scroll'><table class='ef-tbl ef-hold'><thead><tr><th>前十大持股</th><th class='n'>權重</th><th class='n'>那家公司 1 年</th></tr></thead><tbody>" +
+      s += "<div class='ef-scroll'><table class='ef-tbl ef-hold'><thead><tr><th>前十大持股</th><th class='n'>權重</th><th class='n hide-s'>個股本益比</th><th class='n'>那家公司 1 年</th></tr></thead><tbody>" +
         rows.map(function (r) {
           var label = r.co || r.zh || r.name || r.sym;
           var nm = r.href ? "<a href='" + esc("../" + r.href) + "'>" + esc(label) + "</a>" : esc(label);
+          var peCell = r.pe != null ? (r.pe > 200 ? "<small title='本益比超過 200 倍，參考性低'>不適用</small>" : r.pe.toFixed(1) + "×") : "<small>—</small>";
           return "<tr><td>" + nm + " <small>" + esc(r.sym) + "</small><div class='ef-w' style='width:" + Math.max(3, r.w / mx * 100).toFixed(0) + "%'></div></td><td class='n'>" + r.w.toFixed(2) + "%</td>" +
+            "<td class='n hide-s'>" + peCell + "</td>" +
             "<td class='n'>" + (r.code ? (r.r1y == null ? "<small>—</small>" : pct(r.r1y) + "<br><small class='r1yd'>至 " + esc(r.r1yD) + "</small>") : "<small class='hide-s'>本站未追蹤</small>") + "</td></tr>";
         }).join("") + "</tbody></table></div>" +
         "<p class='ef-sub'>前十大合計 " + (h.sum == null ? "—" : h.sum.toFixed(1)) + "%・持股資料 " + esc(h.asOf) + "（" + esc(h.src) + "）" + flag(h.flag) + (h.stale ? "・" + esc(h.stale) : "") + "。對照：這檔 ETF 1 年 " + pct(R.y1) + "</p>";
@@ -258,6 +311,7 @@
     chips(document.getElementById("efRange"), RANGES, ST.r, "r");
     document.querySelectorAll("#efScale [data-s]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === ST.s)); });
     document.getElementById("efCustom").hidden = ST.r !== "custom";
+    peBar();
     var show = ST.g === "all" ? groups : [ST.g];
     var body = document.getElementById("efBody");
     body.innerHTML = show.map(function (g, k) {
@@ -273,6 +327,16 @@
     save();
   }
 
+  document.getElementById("efPeBar").addEventListener("click", function (ev) {
+    var a = ev.target.closest("[data-jump]"); if (!a || !D) return;
+    var code = a.getAttribute("data-jump");
+    var hit = D.etfs.filter(function (e) { return e.code === code; })[0];
+    if (!hit) return;
+    ev.preventDefault();
+    if (ST.g !== "all" && ST.g !== hit.group) { ST.g = hit.group; render(); }
+    var el = document.getElementById(code);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   document.getElementById("efGroups").addEventListener("click", function (ev) { var b = ev.target.closest("[data-g]"); if (!b || !D) return; ST.g = b.getAttribute("data-g"); render(); });
   document.getElementById("efRange").addEventListener("click", function (ev) {
     var b = ev.target.closest("[data-r]"); if (!b || !D) return; ST.r = b.getAttribute("data-r");

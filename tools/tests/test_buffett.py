@@ -559,6 +559,15 @@ class VsIndex(unittest.TestCase):
         self.assertEqual(B.idx_close(self.mk()["USD"], "2025-12-31"), 220.0)
         self.assertIsNone(B.idx_close(self.mk()["USD"], "2026-03-31"))      # 超過 5 天沒有資料
 
+    def test_bench_pe_attached(self):
+        pr = {"monthly": [{"m": "2024-12", "d": "2024-12-31", "c": 40.0}, {"m": "2025-12", "d": "2025-12-31", "c": 50.0}]}
+        bench = {"USD": {"code": "etf_voo", "ticker": "VOO", "name": "先鋒標普 500", "pe": 22.3, "ey": 4.48, "spread": -0.5, "asOf": "2026-11-26"}}
+        v = B.calc_vs_index("USD", pr, self.mk(), bench_etf=bench)
+        self.assertEqual(v["benchPe"]["ticker"], "VOO")
+        self.assertEqual(v["benchPe"]["pe"], 22.3)
+        v_tw = B.calc_vs_index("TWD", pr, self.mk(), bench_etf=bench)
+        self.assertNotIn("benchPe", v_tw)
+
 
 class NormPe(unittest.TestCase):
     def test_avg(self):

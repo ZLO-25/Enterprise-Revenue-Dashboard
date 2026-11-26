@@ -160,9 +160,16 @@ const BUFFETT = (() => {
       `<div class="bm-nums">${n('價格隱含的成長（每年）', `<b>${pc(g['15'])}</b>（十年後本益比 15 倍）／<b>${pc(g['20'])}</b>（20 倍）`,
         `假設（原樣寫出）：${esc(String(I.assume.text).replace(/^假設：/, ''))}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}${shNote ? '。' + shNote : ''}`, impTodayEl)}</div>`;
     const vr = (V.rows || []);
-    const vs = V.why ? `<div class="bm-nums">${n('不買它、買指數呢', why(V.why), '')}</div>` :
+    const benchPeHTML = (bp) => {
+      if (!bp || !num(bp.pe)) return '';
+      const eyTxt = num(bp.ey) ? `（盈餘殖利率 ${bp.ey.toFixed(2)}%，Yahoo 基金資料・<a href="../etf/#${esc(bp.code)}">ETF 追蹤 →</a>）` : `（Yahoo 基金資料・<a href="../etf/#${esc(bp.code)}">ETF 追蹤 →</a>）`;
+      return `大盤估值尺：${esc(bp.name)}（${esc(bp.ticker)}）目前本益比 <b>${bp.pe.toFixed(1)} 倍</b>${eyTxt}`;
+    };
+    const bpHtml = benchPeHTML(V.benchPe);
+    const bpEl = `<p class="how" id="bmBenchPe"${bpHtml ? '' : ' hidden'}>${bpHtml}</p>`;
+    const vs = V.why ? `<div class="bm-nums">${n('不買它、買指數呢', why(V.why), '')}</div>${bpEl}` :
       `<h4>不買它、買指數呢（${esc(V.index)}）</h4>${table(['期間', '這支股價', '指數', '差（百分點）'], vr.map(r => [r.years + ' 年', cell(r.stock, v => sg(v) + '%', r.why), cell(r.index, v => sg(v) + '%', r.why), cell(r.diff, v => sg(v), r.why)]))}
-      <p class="how">${esc(V.note)}。月底對月底；缺起點就留白。</p>${view('・機會成本', '每個投資都要跟我們最好的替代選擇比。對多數人來說，定期買指數就已經很好。')}`;
+      <p class="how">${esc(V.note)}。月底對月底；缺起點就留白。</p>${bpEl}${view('・機會成本', '每個投資都要跟我們最好的替代選擇比。對多數人來說，定期買指數就已經很好。')}`;
     const np = NP.normPe == null ? `${why(NP.why || 'short')}` :
       (NP.noisy ? `<b>不適用</b>（公式值 ${NP.normPe.toFixed(1)} 倍，十年平均 EPS 接近零；收盤價 ${NP.close} ÷ 十年平均 EPS ${NP.avgEps}，${NP.n} 個年度點）` : `<b>${x1(NP.normPe)}</b>（收盤價 ${NP.close} ÷ 十年平均 EPS ${NP.avgEps}，${NP.n} 個年度點）`);
     const npBlock = `<div class="bm-nums">${n('十年平均獲利本益比', np, '最新月底收盤價 ÷ 年度點近四季 EPS 的平均（至少 5 個年度點，平均要大於 0）')}</div>`;
@@ -211,6 +218,18 @@ const BUFFETT = (() => {
       const a = document.createElement('a'); a.href = '#buffett'; a.textContent = '檢查表';
       const t = nav.querySelector('a[href="#thesis"]'), lt = nav.querySelector('a[href="#longterm"]');
       t ? t.after(a) : lt ? nav.insertBefore(a, lt) : nav.appendChild(a);
+    }
+    const benchCode = B && (B.currency === 'USD' ? 'etf_voo' : B.currency === 'TWD' ? 'etf_0050' : null);
+    if (benchCode && window.fetch && D.dailyUrl && !/^https?:/i.test(D.dailyUrl)) {
+      fetch('../data/etf/latest.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(ed => {
+        const etf = (ed && ed.etfs || []).find(x => x.code === benchCode);
+        const pe = etf && etf.pe;
+        const el = document.getElementById('bmBenchPe');
+        if (!el || !pe || !num(pe.v) || pe.noisy) return;
+        const eyTxt = num(pe.ey) ? `（盈餘殖利率 ${pe.ey.toFixed(2)}%，Yahoo 基金資料・<a href="../etf/#${esc(benchCode)}">ETF 追蹤 →</a>）` : `（Yahoo 基金資料・<a href="../etf/#${esc(benchCode)}">ETF 追蹤 →</a>）`;
+        el.innerHTML = `大盤估值尺：${esc(etf.zh || etf.name)}（${esc(etf.ticker)}）目前本益比 <b>${pe.v.toFixed(1)} 倍</b>${eyTxt}`;
+        el.hidden = false;
+      }).catch(() => {});
     }
   }
   /* 指標小辭典的新名詞（三個版型共用：generic、tsmc、pltr 的小辭典 concat 這份）。觀念是意譯，不是原話。 */
