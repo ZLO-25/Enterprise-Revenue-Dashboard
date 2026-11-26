@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26 04:15 UTC",
+ "updated": "2026-11-26 16:29 UTC",
  "source": "Yahoo Finance（透過 yfinance，Adj Close 還原權息價）",
  "groups": [
   {
@@ -182,7 +182,7 @@
      "file": "prices/0050.TW.json",
      "currency": "TWD",
      "start": "2009-01-02",
-     "end": "2026-11-26",
+     "end": "2026-11-25",
      "rows": 4380
     },
     {
@@ -192,7 +192,7 @@
      "file": "prices/006208.TW.json",
      "currency": "TWD",
      "start": "2012-06-22",
-     "end": "2026-11-26",
+     "end": "2026-11-25",
      "rows": 3520
     },
     {
@@ -202,8 +202,8 @@
      "file": "prices/_TWII.json",
      "currency": "TWD",
      "start": "1997-07-02",
-     "end": "2026-11-26",
-     "rows": 7205
+     "end": "2026-11-25",
+     "rows": 7204
     },
     {
      "symbol": "2330.TW",
@@ -212,8 +212,8 @@
      "file": "prices/2330.TW.json",
      "currency": "TWD",
      "start": "2000-01-04",
-     "end": "2026-11-26",
-     "rows": 6687
+     "end": "2026-11-25",
+     "rows": 6686
     },
     {
      "symbol": "2317.TW",
@@ -222,8 +222,8 @@
      "file": "prices/2317.TW.json",
      "currency": "TWD",
      "start": "1993-01-05",
-     "end": "2026-11-26",
-     "rows": 8512
+     "end": "2026-11-25",
+     "rows": 8511
     },
     {
      "symbol": "2454.TW",
@@ -232,8 +232,8 @@
      "file": "prices/2454.TW.json",
      "currency": "TWD",
      "start": "2001-07-23",
-     "end": "2026-11-26",
-     "rows": 6283
+     "end": "2026-11-25",
+     "rows": 6282
     },
     {
      "symbol": "00631L.TW",
@@ -242,8 +242,18 @@
      "file": "prices/00631L.TW.json",
      "currency": "TWD",
      "start": "2014-10-23",
-     "end": "2026-11-26",
+     "end": "2026-11-25",
      "rows": 2948
+    },
+    {
+     "symbol": "2327.TW",
+     "name": "國巨",
+     "note": "新台幣計價",
+     "file": "prices/2327.TW.json",
+     "currency": "TWD",
+     "start": "2000-01-04",
+     "end": "2026-11-25",
+     "rows": 6686
     }
    ]
   },
@@ -257,8 +267,8 @@
      "file": "prices/0005.HK.json",
      "currency": "HKD",
      "start": "2000-01-03",
-     "end": "2026-11-26",
-     "rows": 6706
+     "end": "2026-11-25",
+     "rows": 6705
     },
     {
      "symbol": "2800.HK",
@@ -267,7 +277,7 @@
      "file": "prices/2800.HK.json",
      "currency": "HKD",
      "start": "2008-01-02",
-     "end": "2026-11-26",
+     "end": "2026-11-25",
      "rows": 4657
     }
    ]
@@ -355,6 +365,123 @@
      "start": "1997-10-09",
      "end": "2026-11-25",
      "rows": 7328
+    },
+    {
+     "symbol": "GD",
+     "name": "通用動力",
+     "file": "prices/GD.json",
+     "currency": "USD",
+     "start": "1962-01-02",
+     "end": "2026-11-25",
+     "rows": 16335
+    },
+    {
+     "symbol": "LMT",
+     "name": "洛克希德馬丁",
+     "file": "prices/LMT.json",
+     "currency": "USD",
+     "start": "1962-01-02",
+     "end": "2026-11-25",
+     "rows": 16334
+    },
+    {
+     "symbol": "CEG",
+     "name": "星座能源",
+     "file": "prices/CEG.json",
+     "currency": "USD",
+     "start": "2022-01-19",
+     "end": "2026-11-25",
+     "rows": 1219
+    },
+    {
+     "symbol": "LHX",
+     "name": "L3哈里斯",
+     "file": "prices/LHX.json",
+     "currency": "USD",
+     "start": "1981-12-31",
+     "end": "2026-11-25",
+     "rows": 11317
+    },
+    {
+     "symbol": "RTX",
+     "name": "雷神技術",
+     "file": "prices/RTX.json",
+     "currency": "USD",
+     "start": "1962-04-02",
+     "end": "2026-11-25",
+     "rows": 16272
+    },
+    {
+     "symbol": "ETN",
+     "name": "伊頓",
+     "file": "prices/ETN.json",
+     "currency": "USD",
+     "start": "1972-06-01",
+     "end": "2026-11-25",
+     "rows": 13736
+    },
+    {
+     "symbol": "BWXT",
+     "name": "BWX科技",
+     "file": "prices/BWXT.json",
+     "currency": "USD",
+     "start": "2010-08-02",
+     "end": "2026-11-25",
+     "rows": 4106
+    },
+    {
+     "symbol": "XOM",
+     "name": "埃克森美孚",
+     "file": "prices/XOM.json",
+     "currency": "USD",
+     "start": "1962-01-02",
+     "end": "2026-11-25",
+     "rows": 16335
+    },
+    {
+     "symbol": "GE",
+     "name": "奇異航太",
+     "file": "prices/GE.json",
+     "currency": "USD",
+     "start": "1962-01-02",
+     "end": "2026-11-25",
+     "rows": 16335
+    },
+    {
+     "symbol": "LITE",
+     "name": "朗美通",
+     "file": "prices/LITE.json",
+     "currency": "USD",
+     "start": "2015-07-23",
+     "end": "2026-11-25",
+     "rows": 2854
+    },
+    {
+     "symbol": "COHR",
+     "name": "高意",
+     "file": "prices/COHR.json",
+     "currency": "USD",
+     "start": "1987-10-02",
+     "end": "2026-11-25",
+     "rows": 9862
+    },
+    {
+     "symbol": "FN",
+     "name": "Fabrinet",
+     "file": "prices/FN.json",
+     "currency": "USD",
+     "start": "2010-06-25",
+     "end": "2026-11-25",
+     "rows": 4131
+    },
+    {
+     "symbol": "AXTI",
+     "name": "AXT",
+     "file": "prices/AXTI.json",
+     "currency": "USD",
+     "start": "1998-05-21",
+     "end": "2026-11-25",
+     "rows": 7174
     }
    ]
   },
@@ -369,7 +496,7 @@
      "currency": "USD",
      "start": "2014-09-17",
      "end": "2026-11-26",
-     "rows": 4453
+     "rows": 4454
     },
     {
      "symbol": "ETH-USD",
@@ -379,7 +506,7 @@
      "currency": "USD",
      "start": "2017-11-09",
      "end": "2026-11-26",
-     "rows": 3304
+     "rows": 3305
     }
    ]
   },
@@ -419,8 +546,8 @@
      "file": "prices/005930.KS.json",
      "currency": "KRW",
      "start": "2000-01-04",
-     "end": "2026-11-26",
-     "rows": 6723
+     "end": "2026-11-25",
+     "rows": 6722
     },
     {
      "symbol": "2308.TW",
@@ -428,8 +555,8 @@
      "file": "prices/2308.TW.json",
      "currency": "TWD",
      "start": "2000-01-04",
-     "end": "2026-11-26",
-     "rows": 6687
+     "end": "2026-11-25",
+     "rows": 6686
     },
     {
      "symbol": "MU",
@@ -518,8 +645,8 @@
      "file": "prices/ASML.AS.json",
      "currency": "EUR",
      "start": "1998-07-20",
-     "end": "2026-11-24",
-     "rows": 7296
+     "end": "2026-11-26",
+     "rows": 7298
     },
     {
      "symbol": "6187.TWO",
@@ -527,8 +654,8 @@
      "file": "prices/6187.TWO.json",
      "currency": "TWD",
      "start": "2007-12-31",
-     "end": "2026-11-26",
-     "rows": 4631
+     "end": "2026-11-25",
+     "rows": 4630
     }
    ]
   }

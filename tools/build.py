@@ -81,8 +81,11 @@ def home_data(datasets, slim):
             h["analysis"] = {k: v for k, v in h["analysis"].items() if k in HOME_ANALYSIS}
         if h.get("buffett"):   # 同樣另外縮成精簡版（複製，不改到個股頁共用的 datasets）
             b = h["buffett"]
-            h["buffett"] = {"type": b.get("type"), "ey": dict({k: v for k, v in b["ey"].items() if k in HOME_BUFFETT_EY},
-                                                              bond=(b["ey"].get("bond") or {}).get("v"), ref=(b["ey"].get("ref") or {}).get("v"), currency=b["ey"].get("currency"))}
+            np = b.get("normPe") or {}
+            h["buffett"] = {"type": b.get("type"),
+                            "normPe": {"normPe": np.get("normPe"), "noisy": np.get("noisy")},
+                            "ey": dict({k: v for k, v in b["ey"].items() if k in HOME_BUFFETT_EY},
+                                       bond=(b["ey"].get("bond") or {}).get("v"), ref=(b["ey"].get("ref") or {}).get("v"), currency=b["ey"].get("currency"))}
         out[c] = h
     assert not any("full" in (h.get("analysis") or {}) for h in out.values()), "首頁不能帶分析全文 analysis.full"
     return out
@@ -334,6 +337,9 @@ def main():
     ALERTSJS = read("assets", "alerts.js")
     pages_url = cfg["site"]["pagesUrl"]
     companies = [c for c in cfg["companies"] if c.get("enabled")]
+    rates_cache = BUFFETT.load_rates(ROOT)
+    idx_cache = BUFFETT.load_index_prices(ROOT)
+    tidx_cache = BUFFETT.load_total_index_prices(ROOT)
     datasets = {}
     for c in companies:
         data = json.loads(read("data", c["code"] + ".json"))
@@ -348,8 +354,11 @@ def main():
             th["lights"] = THESIS.lights(th, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"])
             data["thesis"] = th
         th_ok = data.get("thesis") if (data.get("thesis") or {}).get("status") == "approved" else None
+        ysym = (c.get("price") or {}).get("yahoo")
+        adj_stock = BUFFETT.load_quant_stock_price(ysym, ROOT) if ysym else None
         try:
-            data["buffett"] = BUFFETT.compute(c, data, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"], prices, BUFFETT.load_rates(), BUFFETT.load_index_prices(), th_ok)
+            data["buffett"] = BUFFETT.compute(c, data, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"], prices, rates_cache, idx_cache, th_ok,
+                                              total_index_prices=tidx_cache, adj_stock=adj_stock)
         except Exception as e:  # noqa: BLE001  算不出來就不顯示檢查表，不讓整個建置失敗；訊息留在輸出
             print(f"{c['code']}: buffett 指標計算失敗 {type(e).__name__}: {e}")
             data["buffett"] = None
@@ -359,7 +368,7 @@ def main():
             # 頁面打開時另外讀 dailyUrl 的最新檔，取比較新的（所以每天更新收盤價不必重建網站）
             dd = json.load(open(dp, encoding="utf8"))
             data["daily"] = DAILY.compute(HEALTH.normq(data, c.get("schema")), data["quarters"], dd, prices, data["valuation"],
-                                          th_ok)
+                                          th_ok, rates=rates_cache)
             # 首頁「本益比（今日）」欄的備援值（頁面打開時另外讀 data/daily/_pe.json，取比較新的）；形狀同 prices_daily.pe_summary
             L = (data["daily"] or {}).get("latest") or {}
             data["dpe"] = {"d": L["d"], "pe": L.get("pe"), "why": (L.get("why") or {}).get("pe"), "q": L.get("q"), "fetched": dd.get("fetched")} if L.get("d") else None
@@ -461,6 +470,19 @@ def main():
               ("{{MXO_LWC}}", "../assets/vendor/lightweight-charts.standalone.production.js")])
     write(page("總經儀表板", "照愛榭克（Izaax）景氣循環框架整理的美國與台灣總體經濟指標：就業、消費、投資、庫存、信用、通膨與利率，每週自動更新。", mx, "../", "macro"), "macro", "index.html")
     print("macro/index.html（總經儀表板）")
+    # 世界科技趨勢月報頁（讀 reports/trend/*_世界趨勢.md 與 LEDGER.md，建置時內嵌）
+    trend_dir = os.path.join(ROOT, "reports", "trend")
+    trend_issues = []
+    if os.path.isdir(trend_dir):
+        for fn in sorted((x for x in os.listdir(trend_dir) if x.endswith("_世界趨勢.md")), reverse=True):
+            issue_id = fn.replace("_世界趨勢.md", "")
+            trend_issues.append({"id": issue_id, "md": read("reports", "trend", fn)})
+    ledger_path = os.path.join(trend_dir, "LEDGER.md")
+    trend_ledger = read("reports", "trend", "LEDGER.md") if os.path.exists(ledger_path) else ""
+    tr = fill(read("templates", "trend.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"),
+              ("{{TREND_DATA}}", js_json({"issues": trend_issues, "ledger": trend_ledger}))])
+    write(page("世界科技趨勢月報", "每月追蹤 AI 算力供需、應用變現、半導體週期、能源電力與監管地緣，並附預測帳本逐月對帳。", tr, "../", "trend"), "trend", "index.html")
+    print("trend/index.html（世界科技趨勢月報）")
     # 財報行事曆頁：事件來自各公司 events[]（建置時內嵌；「今天」與分週在瀏覽時用台北日期算，所以不需要另外排程）
     cal_ev, cal_recent = [], []
     for c in companies:

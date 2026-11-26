@@ -6,7 +6,7 @@ import functools, http.server, os, re, sys, threading
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/etf/", "/status/", "/calendar/", "/futures/", "/macro/"]
+PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/etf/", "/status/", "/calendar/", "/futures/", "/macro/", "/trend/"]
 COMPANY_PAGES = ("/tsmc/", "/nvda/", "/pltr/")   # 個股頁（含舊版型台積電、PLTR）必須有巴菲特＋蒙格檢查表 #buffett
 IGNORE = ("Failed to load resource", "net::ERR", "fonts.googleapis", "fonts.gstatic")
 
@@ -190,6 +190,11 @@ def main():
                             errs.append(f"系統健康頁 #{tid} 缺少頻率／做法／重試欄位")
                     if not pg.query_selector("#ondemand .st-dot.gray"):
                         errs.append("系統健康頁沒有「不定期工作」區塊的灰點")
+                if path == "/trend/":
+                    if not pg.query_selector("#trBody .tr-card"):
+                        errs.append("世界趨勢月報頁沒有 #trBody .tr-card")
+                    if not pg.query_selector("#trLedger table"):
+                        errs.append("世界趨勢月報頁沒有 #trLedger table")
                 if w == 390 and over > 2:
                     errs.append(f"手機版有橫向捲動（多 {over}px）")
                 if shots:

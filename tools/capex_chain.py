@@ -40,21 +40,44 @@ def yoy(now, before):
 
 
 def company_rows(Q, fye):
-    """每季：{label, end（季末月份）, capex, rev, revYoy}"""
+    """每季：{label, end（季末月份）, capex, rev, revYoy, gm, gmPrev}"""
     by = {q["q"]: q for q in Q}
     out = []
-    for q in Q:
+    for idx, q in enumerate(Q):
         p = by.get(prev_year(q["q"]))
+        prev_q = Q[idx - 1] if idx > 0 else None
         out.append({"q": q["q"], "end": B.end_month(q["q"], fye), "capex": q.get("capex"), "rev": q.get("rev"),
-                    "revYoy": yoy(q.get("rev"), p.get("rev") if p else None)})
+                    "revYoy": yoy(q.get("rev"), p.get("rev") if p else None),
+                    "gm": q.get("gm"), "gmPrev": prev_q.get("gm") if prev_q else None})
     return out
 
 
+def _supplier_specs(chain):
+    """從 chain['tiers'] 或 chain['suppliers'] 取得 (代號, 層級名稱) 清單。"""
+    tiers = chain.get("tiers")
+    if tiers:
+        specs = []
+        seen = set()
+        for t in tiers:
+            tname = t.get("name") or ""
+            for code in t.get("codes", []):
+                if code not in seen:
+                    specs.append((code, tname))
+                    seen.add(code)
+        for code in chain.get("suppliers", []):
+            if code not in seen:
+                specs.append((code, ""))
+                seen.add(code)
+        return specs
+    return [(code, "") for code in chain.get("suppliers", [])]
+
+
 def compute(chain, companies, datasets, since="2015Q1"):
-    """chain = {"buyers":[代號…], "suppliers":[代號…]}；companies = companies.json 的公司清單；datasets = {代號: data}。"""
+    """chain = {"buyers":[代號…], "suppliers":[代號…], "tiers":[{name, codes}…]?}；companies = companies.json 的公司清單；datasets = {代號: data}。"""
     C = {c["code"]: c for c in companies}
+    sup_specs = _supplier_specs(chain)
     rows_of, missing = {}, []
-    for code in chain["buyers"] + chain["suppliers"]:
+    for code in list(chain["buyers"]) + [s for s, _ in sup_specs]:
         if code not in C or code not in datasets:
             missing.append(f"待確認：{code} 不在網站追蹤清單裡，資本支出鏈沒有算進去")
             continue
@@ -91,20 +114,35 @@ def compute(chain, companies, datasets, since="2015Q1"):
             lack = [C[b]["name"] for b in buyers if r["capex"][b] is None]
             missing.append(f"待確認：{r['cq']} 的合計：{'、'.join(lack)} 這一季的資本支出還沒有（尚未公布或財報沒有這一欄）")
     sup = []
-    for s in chain["suppliers"]:
+    for s, tier_name in sup_specs:
         if s not in rows_of:
             continue
-        pts = [{"q": r["q"], "end": r["end"], "rev": r["rev"], "yoy": r["revYoy"]} for r in rows_of[s] if r["end"] >= since[:4] + "-01"]
-        sup.append({"code": s, "name": C[s]["name"], "path": C[s]["path"], "currency": C[s].get("currency", ""), "points": pts})
-    return {"buyers": [{"code": b, "name": C[b]["name"], "path": C[b]["path"]} for b in buyers], "rows": rows, "suppliers": sup, "missing": missing}
+        all_pts = rows_of[s]
+        pts = [{"q": r["q"], "end": r["end"], "rev": r["rev"], "yoy": r["revYoy"]} for r in all_pts if r["end"] >= since[:4] + "-01"]
+        last_r = all_pts[-1] if all_pts else None
+        gm = round(last_r["gm"], 1) if last_r and last_r.get("gm") is not None else None
+        gm_prev = last_r.get("gmPrev") if last_r else None
+        gm_qchg = round(gm - gm_prev, 1) if (gm is not None and gm_prev is not None) else None
+        sup.append({"code": s, "name": C[s]["name"], "path": C[s]["path"], "currency": C[s].get("currency", ""),
+                    "tier": tier_name, "gm": gm, "gmQchg": gm_qchg, "points": pts})
+    tiers_out = []
+    if chain.get("tiers"):
+        by_code = {x["code"]: x for x in sup}
+        for t in chain["tiers"]:
+            tname = t.get("name") or ""
+            items = [by_code[c] for c in t.get("codes", []) if c in by_code]
+            tiers_out.append({"name": tname, "suppliers": items})
+    return {"buyers": [{"code": b, "name": C[b]["name"], "path": C[b]["path"]} for b in buyers],
+            "rows": rows, "suppliers": sup, "tiers": tiers_out, "missing": missing}
 
 
 def load():
     cfg = json.load(open(os.path.join(ROOT, "companies.json"), encoding="utf8"))
     chain = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))["chain"]
     cos = [c for c in cfg["companies"] if c.get("enabled")]
+    sup_codes = [s for s, _ in _supplier_specs(chain)]
     data = {}
-    for code in chain["buyers"] + chain["suppliers"]:
+    for code in list(chain["buyers"]) + sup_codes:
         p = os.path.join(ROOT, "data", code + ".json")
         if os.path.exists(p) and any(c["code"] == code for c in cos):
             data[code] = json.load(open(p, encoding="utf8"))

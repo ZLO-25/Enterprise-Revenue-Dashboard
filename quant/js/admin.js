@@ -16,7 +16,7 @@
 //   密碼本身不會存在任何地方。
 // ============================================================
 
-import { ADMIN } from "./config.js?v=dc4a96da";
+import { ADMIN } from "./config.js?v=915dd773";
 export const REPO = ADMIN.repo;   // [主站] 由 config.js 決定
 const KEY_PATH = ADMIN.keyUrl;   // [主站]
 const TICKERS_PATH = ADMIN.tickersPath;   // [主站]

@@ -5,7 +5,8 @@
 const BUFFETT = (() => {
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const WHY = { missing: '欄位待確認', neg: '分母不是正數或虧損', short: '資料不夠長', noprice: '沒有股價資料', loss: '虧損或本益比不可用', noisy: '本益比超過 200 倍，近四季 EPS 接近零', norates: '讀不到公債資料',
-    nobond: '網站沒有該國公債資料', noidx: '網站沒有不含股息的同幣別指數資料', nodps: '本站沒有收錄每股股利', nosbc: '股票酬勞（sbc）欄位待確認：這家公司的來源不是 SEC 申報檔，尚未從年報讀取', none: '沒有資料' };
+    nobond: '網站沒有該國公債資料', noidx: '網站沒有不含股息的同幣別指數資料', nodps: '本站沒有收錄每股股利', cash_rich: '現金大於股東權益＋有息負債（輕資產／超額現金體質，本業稅後營業利益為正）',
+    nosbc: '股票酬勞（sbc）欄位待確認：尚未收錄單季股票酬勞資料（非 SEC XBRL 申報或尚待合併）', none: '沒有資料' };
   const num = (v) => v != null && isFinite(v);
   const why = (c) => `<span class="bm-why">算不出來：${esc(WHY[c] || WHY.none)}</span>`;
   const pc = (v, d = 1) => num(v) ? v.toFixed(d) + '%' : '—';
@@ -14,7 +15,7 @@ const BUFFETT = (() => {
   const TYPE = { compounder: '穩健複利', growth: '高成長', cyclical: '循環股', turnaround: '轉機／早期', option: '選擇權' };
   const tag = (t) => (typeof SUM !== 'undefined' ? SUM.tag(t) : '');
   const f = (t) => `<small class="bm-f">怎麼算：${t}</small>`;
-  const n = (label, val, formula) => `<div class="bm-n"><span class="bm-nl">${label}</span><b class="bm-nv">${val}</b>${formula ? f(formula) : ''}</div>`;
+  const n = (label, val, formula, extraHtml = '') => `<div class="bm-n"><span class="bm-nl">${label}</span><b class="bm-nv">${val}</b>${extraHtml}${formula ? f(formula) : ''}</div>`;
   const view = (concept, text) => `<p class="bm-view"><span class="bm-vt">他們怎麼看（巴菲特＋蒙格口吻，意譯，不是原話）${concept}</span>${text}</p>`;
   const ask = (q) => `<p class="bm-ask">他們問：${q}</p>`;
   const self = (items) => `<div class="bm-self"><b>問自己</b><ul>${items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;
@@ -66,55 +67,120 @@ const BUFFETT = (() => {
     const rows = (BB.rows || []).filter(r => num(r.buyback) && r.buyback > 0);
     const cnt = (w) => rows.filter(r => r.where === w).length, tagged = rows.filter(r => r.where).length;
     const wh = tagged ? `偏貴時買 ${cnt('偏貴時買')} 年、接近平常 ${cnt('接近平常')} 年、偏便宜時買 ${cnt('偏便宜時買')} 年` : (rows.length ? why('short') : '這段期間沒有回購（回購金額為 0 或待確認）');
-    const rat = RT.ratio == null ? why(RT.why || 'missing') : `${RT.ratio.toFixed(2)} 元${RT.ratio >= 1 ? '' : '（不到 1 元）'}`;
+    let rat;
+    if (RT.ratio == null) {
+      rat = why(RT.why || 'missing');
+    } else if (RT.tinyBase) {
+      rat = `倍數失真（${RT.ratio.toFixed(1)} 元，保留盈餘基期極小）`;
+    } else {
+      rat = `${RT.ratio.toFixed(2)} 元${RT.ratio >= 1 ? '' : '（不到 1 元）'}`;
+    }
+    const dilWarn = RT.dilutedWarn ? `（留意：期間流通股數增加 +${RT.shChg5.toFixed(1)}%，總市值增加包含發新股或併購換股；改看每股基礎為 ${RT.perShareRatio != null ? RT.perShareRatio.toFixed(2) + ' 元' : '算不出來'}）` : '';
+    const tinyNote = RT.tinyBase ? '（近 20 季累計保留盈餘不到現在市值的 0.5%，分母太小導致倍數失真，不應單憑倍數解讀。）' : '';
+    const lagNote = RT.lag1Q ? `（${esc(RT.note || '改用前一完整季')}）` : '';
+    const netBbVal = BB.netBuybackYield == null ? (BB.buybackYield == null ? why((BB.why || {}).buybackYield || 'missing') : why((OW && OW.why && OW.why.sbcRev) || 'nosbc')) :
+      `${pc(BB.netBuybackYield, 2)}${BB.sbcOffsetOnly ? '（回購未超過股票酬勞，實質未減少稀釋）' : ''}`;
     const nums = `<div class="bm-nums">
-      ${n('回購買在什麼價位', wh, '每個年度點：那 12 個月的月底平均本益比，對比現在的近 5 年本益比中位數；高於 1.1 倍算偏貴，低於 0.9 倍算偏便宜（只看有回購的年度）')}
+      ${n('回購買在什麼價位', wh, '每個年度點：那 12 個月的月底平均本益比，對比基準中位數（5 年內對照目前近 5 年中位數、5 年以前對照當時前 5 年中位數）；高於 1.1 倍算偏貴，低於 0.9 倍算偏便宜（只看有回購的年度）')}
       ${n('流通股數五年變化', BB.shChg5 == null ? why((BB.why || {}).shChg5 || 'missing') : pc(BB.shChg5), '最新一季期末流通股數 ÷ 五年前同一點 − 1；負數代表股數變少')}
       ${n('近四季回購占市值', BB.buybackYield == null ? why((BB.why || {}).buybackYield || 'missing') : pc(BB.buybackYield, 2), '近四季回購金額 ÷ 最新月底市值')}
-      ${n('每留下 1 元盈餘，創造幾元市值', rat, '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）。股利開始以前的空白季度當 0（見下方算式）')}
+      ${n('近四季淨回購占市值（回購 − 股票酬勞）', netBbVal, '（近四季回購金額 − 近四季股票酬勞）÷ 最新月底市值；正數才代表回購真的有減少流通股數，不是只拿去抵銷員工配股')}
+      ${n('每留下 1 元盈餘，創造幾元市值', rat, '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）。股利開始以前的空白季度當 0（見下方算式）' + tinyNote + dilWarn + lagNote)}
       ${OW ? n('股票酬勞占營收（近四季）', OW.sbcRev == null ? why((OW.why || {}).sbcRev || 'missing') : `<b>${pc(OW.sbcRev)}</b>${OW.sbcRev5med == null ? '' : `（近五年中位數 ${pc(OW.sbcRev5med)}）`}`, `近四季股票酬勞費用 ÷ 近四季營收${OW.q && OW.sbcRev != null ? `（${esc(OW.q)}）` : ''}。股票酬勞是真實的費用，等於用股東的股份付薪水（意譯）`) : ''}
     </div>`;
-    const bbRows = (BB.rows || []).slice().reverse().map(r => [esc(r.q), cell(r.buyback, v => LT.f0(v), 'missing'), cell(r.avgPe, v => v.toFixed(1), 'short'), r.where ? esc(r.where) : '—', esc(r.from + ' 至 ' + r.to)]);
+    const bbRows = (BB.rows || []).slice().reverse().map(r => [esc(r.q), cell(r.buyback, v => LT.f0(v), 'missing'), cell(r.avgPe, v => v.toFixed(1), 'short'), r.med5 != null ? r.med5.toFixed(1) + (r.refKind ? ` <small>${esc(r.refKind)}</small>` : '') : '—', r.where ? esc(r.where) : '—', esc(r.from + ' 至 ' + r.to)]);
+    const psLine = RT.perShareRatio != null ? `每股基礎對照：每股股價五年變化 ÷ 近 20 季累計每股保留盈餘 ＝ <b>${RT.perShareRatio.toFixed(2)} 元</b>（可排除發新股或併購換股造成的市值灌水）。` : '';
+    const bb20Line = RT.buyback20 != null ? `近 20 季累計回購金額約 ${LT.f0(RT.buyback20)}。` : '';
     const ret = RT.kept == null ? `<p>${why(RT.why || 'missing')}${RT.note ? '　' + esc(RT.note) : ''}</p>` :
-      `<p class="how">保留盈餘測試（${esc(RT.m0 || '')} 到 ${esc(RT.mNow || '')}，五年）：近 20 季淨利 ${LT.f0(RT.ni20)} − 近 20 季股利 ${LT.f0(RT.div20)}${RT.noDiv ? '（這家公司沒有配息紀錄，股利當 0）' : ''}${RT.preDivQ ? `（${RT.preDivQ} 季以前尚未配息，股利當 0）` : ''} ＝ 留下 <b>${LT.f0(RT.kept)}</b>；
-      市值 ${LT.f0(RT.mcapNow)} − 五年前 ${RT.mcap0 == null ? '（算不出來）' : LT.f0(RT.mcap0)} ＝ 增加 <b>${RT.mcapChg == null ? '—' : LT.f0(RT.mcapChg)}</b>；相除 ＝ ${RT.ratio == null ? why(RT.why || 'missing') : '<b>' + RT.ratio.toFixed(2) + '</b>'}。金額單位同本頁財報（百萬）。市值 ＝ 月底收盤價 × 當時已公布的期末股數。</p>`;
-    const tbl = `<details class="bm-det"><summary>回購成績單與保留盈餘算式</summary>${table(['年度點（近四季至）', '近四季回購金額', '那 12 個月平均本益比', '回購買在', '月份區間'], bbRows)}
-      <p class="how">月份區間：以該季名目期末日的所在月份為終點往前數 12 個月（期末日在 15 日以後算當月，14 日以前算前一個月）；有本益比的月份少於 6 個就留白；本益比超過 200 倍的月份不納入平均。回購金額為 0 不標。對照的中位數是：${BB.rows && BB.rows[0] && num(BB.rows[0].med5) ? BB.rows[0].med5.toFixed(1) + ' 倍（目前的近 5 年中位數，每一年共用同一個）' : '算不出來'}。</p>${ret}</details>`;
+      `<p class="how">保留盈餘測試（${esc(RT.m0 || '')} 到 ${esc(RT.mNow || '')}，五年${RT.windowQ ? '，季度 ' + esc(RT.windowQ) : ''}）：近 20 季淨利 ${LT.f0(RT.ni20)} − 近 20 季股利 ${LT.f0(RT.div20)}${RT.noDiv ? '（這家公司沒有配息紀錄，股利當 0）' : ''}${RT.preDivQ ? `（${RT.preDivQ} 季以前尚未配息，股利當 0）` : ''} ＝ 留下 <b>${LT.f0(RT.kept)}</b>；
+      市值 ${LT.f0(RT.mcapNow)} − 五年前 ${RT.mcap0 == null ? '（算不出來）' : LT.f0(RT.mcap0)} ＝ 增加 <b>${RT.mcapChg == null ? '—' : LT.f0(RT.mcapChg)}</b>；相除 ＝ ${RT.ratio == null ? why(RT.why || 'missing') : (RT.tinyBase ? `<b>${RT.ratio.toFixed(1)}（基期極小，倍數失真）</b>` : '<b>' + RT.ratio.toFixed(2) + '</b>')}。${psLine}${bb20Line}金額單位同本頁財報（百萬）。市值 ＝ 月底收盤價 × 當時已公布的期末股數。${RT.note ? esc(RT.note) : ''}</p>`;
+    const tbl = `<details class="bm-det"><summary>回購成績單與保留盈餘算式</summary>${table(['年度點（近四季至）', '近四季回購金額', '那 12 個月平均本益比', '基準中位數', '回購買在', '月份區間'], bbRows)}
+      <p class="how">月份區間：以該季名目期末日的所在月份為終點往前數 12 個月（期末日在 15 日以後算當月，14 日以前算前一個月）；有本益比的月份少於 6 個就留白；本益比超過 200 倍的月份不納入平均。回購金額為 0 不標。基準中位數在近 5 年內用目前的近 5 年中位數，5 年以前若當時有滿 24 個月資料則改用當時前 5 年中位數。</p>${ret}</details>`;
     return card('bmG3', '③ 管理層會用錢嗎', ask('賺來的錢，管理層怎麼用？') +
       view('・資本配置、一元測試', '管理層最重要的工作，是決定賺來的錢怎麼用。回購只有在價格低於價值時，才對股東有利。我們也問：每留下一元盈餘，長期有沒有多出至少一元的市值？') +
-      nums + self(['這幾年的回購，是在股價便宜時買，還是不管價格照買？', '留在公司裡的錢，有沒有變成更多的市值？']) + tbl);
+      nums + self([
+        '這幾年的回購，是在股價便宜時買，還是不管價格照買？',
+        '留在公司裡的錢，有沒有變成更多的市值？',
+        '創辦人或管理層自己持有多少股票？跟一般股東是不是坐在同一條船上？',
+        '高管獎金綁的是什麼指標？（綁營收或調整後盈餘容易亂併購、忽略配股稀釋；綁投入資本報酬率或每股自由現金流才對齊長期股東）',
+      ]) + tbl);
+  }
+
+  function eyLiveHTML(X, E) {
+    const L = X && X.latest;
+    if (!L || !L.d || L.ey == null) return '';
+    const d = L.d.slice(5).replace('-', '/');
+    if (L.eySpread != null && L.bond != null) {
+      return `今日（${esc(d)} 收盤，本益比 ${L.pe} 倍）：盈餘殖利率 <b>${L.ey.toFixed(2)}%</b> 對公債 <b>${L.bond.toFixed(2)}%</b> ＝ 差 <b class="${L.eySpread >= 0 ? 'up' : 'down'}">${sg(L.eySpread, 2)}</b> 個百分點`;
+    }
+    return `今日（${esc(d)} 收盤，本益比 ${L.pe} 倍）：盈餘殖利率 <b>${L.ey.toFixed(2)}%</b>`;
+  }
+
+  function impLiveHTML(X) {
+    const L = X && X.latest;
+    if (!L || !L.d || !L.impliedG || L.impliedG['15'] == null) return '';
+    const d = L.d.slice(5).replace('-', '/');
+    return `今日（${esc(d)} 收盤，本益比 ${L.pe} 倍）：隱含年成長 <b>${pc(L.impliedG['15'])}</b>（15 倍）／<b>${pc(L.impliedG['20'])}</b>（20 倍）`;
   }
 
   /* ④ 價格有安全邊際嗎 */
-  function gate4(B, type) {
+  function gate4(B, type, D) {
     const E = B.ey, I = B.implied, V = B.vsIndex, NP = B.normPe, cyc = type === 'cyclical';
+    const daily = D && D.daily;
     let main;
     if (E.ey == null) main = why(E.why || 'loss');
     else if (E.bond) main = `盈餘殖利率 <b>${E.ey.toFixed(2)}%</b> 對 ${esc(E.bond.name)} <b>${E.bond.v.toFixed(2)}%</b> ＝ 差 <b class="${E.spread >= 0 ? 'up' : 'down'}">${sg(E.spread, 2)}</b> 個百分點`;
     else main = `盈餘殖利率 <b>${E.ey.toFixed(2)}%</b>；${why(E.bondWhy || 'nobond')}${E.ref ? `。參考：${esc(E.refNote)}，${E.ref.v.toFixed(2)}%（${esc(E.ref.d)}）` : ''}`;
-    const meaning = E.spread == null ? '' : (E.spread >= 0 ? '盈餘殖利率不輸公債：承擔股票風險，至少有一點額外補償。' : '盈餘殖利率低於公債：這個差距，要靠公司未來的成長補上。');
-    const eyNum = `<div class="bm-nums">${n('盈餘殖利率對公債', main, E.ey == null ? '盈餘殖利率 ＝ 100 ÷ 本益比' : `盈餘殖利率 ＝ 100 ÷ 本益比（${E.pe} 倍，${esc(E.m)} 月底）；公債取最新一點${E.bond ? `（${esc(E.bond.d)}，${esc(E.bond.src || '')}）` : ''}。${meaning}`)}</div>`;
+    const meaning = cyc
+      ? '留意：這是循環股，景氣高峰時近四季 EPS 最高、本益比看起來最低（假便宜陷阱），請以上方的「十年平均獲利本益比」為主。'
+      : (E.spread == null ? '' : (E.spread >= 0 ? '盈餘殖利率不輸公債：承擔股票風險，至少有一點額外補償。' : '盈餘殖利率低於公債：這個差距，要靠公司未來的成長補上。'));
+    const eyLive = eyLiveHTML(daily, E);
+    const eyTodayEl = `<small class="bm-today" id="bmEyToday"${eyLive ? '' : ' hidden'}>${eyLive}</small>`;
+    const eyNum = `<div class="bm-nums">${n('盈餘殖利率對公債', main, E.ey == null ? '盈餘殖利率 ＝ 100 ÷ 本益比' : `盈餘殖利率 ＝ 100 ÷ 本益比（${E.pe} 倍，${esc(E.m)} 月底）；公債取最新一點${E.bond ? `（${esc(E.bond.d)}，${esc(E.bond.src || '')}）` : ''}。${meaning}`, eyTodayEl)}</div>`;
     const OW = B.owner || {}, W = OW.why || {};
     let oeMain;
     if (OW.oeYield == null) oeMain = why(W.oeYield || 'missing');
     else if (OW.bond) oeMain = `<b>${OW.oeYield.toFixed(2)}%</b> 對 ${esc(OW.bond.name)} <b>${OW.bond.v.toFixed(2)}%</b> ＝ 差 <b class="${OW.oeSpread >= 0 ? 'up' : 'down'}">${sg(OW.oeSpread, 2)}</b> 個百分點`;
     else oeMain = `<b>${OW.oeYield.toFixed(2)}%</b>；${why(W.oeSpread || 'nobond')}`;
-    const oeNum = `<div class="bm-nums">${n('扣股票酬勞後的自由現金流殖利率', oeMain, '（近四季自由現金流 − 近四季股票酬勞）÷ 最新月底市值。這是業主盈餘的近似：財報沒有拆維持性與成長性資本支出，所以把全部資本支出都扣掉。' + (OW.fcfSbcRate == null ? '' : `近四季扣酬勞後現金流占營收 ${pc(OW.fcfSbcRate)}（未扣酬勞 ${pc(OW.fcfRate)}）。`) + '公債取最新一點')}</div>`;
+    const decomp = (OW.ocfSbcRate != null && OW.capexRev != null && OW.fcfSbcRate != null)
+      ? `現金流拆解：扣酬勞營業現金流占營收 ${pc(OW.ocfSbcRate)} − 資本支出占營收 ${pc(OW.capexRev)}${OW.capexRev5med == null ? '' : `（近五年中位數 ${pc(OW.capexRev5med)}）`} ＝ 扣酬勞自由現金流占營收 ${pc(OW.fcfSbcRate)}。`
+      : (OW.fcfSbcRate == null ? '' : `近四季扣酬勞後現金流占營收 ${pc(OW.fcfSbcRate)}（未扣酬勞 ${pc(OW.fcfRate)}）。`);
+    const heavyNote = OW.heavyCapex
+      ? `<p class="note"><span class="src-tag src-v" title="觀點：Claude 的判斷，不是事實">觀點</span> 目前處於高資本支出擴張期（資本支出占營收明顯高於常態，但本業扣酬勞營業現金流為正且 ROIC 達 15% 以上）：自由現金流暫時偏低主因是擴張投資而非本業失血，請對照總經頁「AI 資本支出鏈」追蹤投資能否轉為營收與報酬率。</p>`
+      : '';
+    const oeNum = `<div class="bm-nums">${n('扣股票酬勞後的自由現金流殖利率', oeMain, '（近四季自由現金流 − 近四季股票酬勞）÷ 最新月底市值。這是業主盈餘的近似：財報沒有拆維持性與成長性資本支出，所以把全部資本支出都扣掉。' + decomp + '公債取最新一點')}</div>${heavyNote}`;
     const g = I.g || {};
-    const imp = !(I.g && num(g['15'])) ? `<div class="bm-nums">${n('價格隱含的成長', why(I.why || 'loss'), '')}</div>` :
+    const impLive = impLiveHTML(daily);
+    const impTodayEl = `<small class="bm-today" id="bmImpToday"${impLive ? '' : ' hidden'}>${impLive}</small>`;
+    const shParts = `近四季現金股利${I.divYield != null ? `（${pc(I.divYield, 2)}）` : ''}＋扣股票酬勞後淨回購${I.netBbYield != null ? `（${pc(I.netBbYield, 2)}）` : ''}`;
+    const shNote = I.shYield == null ? '' : (I.shYield > 0
+      ? `註：上式未計股利與回購；這家公司${shParts}約占市值 +${I.shYield.toFixed(2)}%，若未來能維持同水準正向回饋，達成 10% 年報酬所需的實質成長率可相應下修。`
+      : `註：上式未計股利與回購；這家公司${shParts}合計為 ${sg(I.shYield, 2)}%（員工股票酬勞大於或抵銷股利＋回購，未提供正回饋，需留意稀釋壓力）。`);
+    const imp = !(I.g && num(g['15'])) ? `<div class="bm-nums">${n('價格隱含的成長', why(I.why || 'loss'), '', impTodayEl)}</div>` :
       `<div class="bm-nums">${n('價格隱含的成長（每年）', `<b>${pc(g['15'])}</b>（十年後本益比 15 倍）／<b>${pc(g['20'])}</b>（20 倍）`,
-        `假設（原樣寫出）：${esc(String(I.assume.text).replace(/^假設：/, ''))}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}`)}</div>`;
+        `假設（原樣寫出）：${esc(String(I.assume.text).replace(/^假設：/, ''))}。g ＝ ((本益比 × 1.1<sup>10</sup>) ÷ 終點本益比)<sup>1/10</sup> − 1。對照：公司近五年 EPS 年化成長 ${I.epsCagr5 == null ? '算不出來（兩端要大於 0）' : pc(I.epsCagr5)}${shNote ? '。' + shNote : ''}`, impTodayEl)}</div>`;
     const vr = (V.rows || []);
     const vs = V.why ? `<div class="bm-nums">${n('不買它、買指數呢', why(V.why), '')}</div>` :
       `<h4>不買它、買指數呢（${esc(V.index)}）</h4>${table(['期間', '這支股價', '指數', '差（百分點）'], vr.map(r => [r.years + ' 年', cell(r.stock, v => sg(v) + '%', r.why), cell(r.index, v => sg(v) + '%', r.why), cell(r.diff, v => sg(v), r.why)]))}
       <p class="how">${esc(V.note)}。月底對月底；缺起點就留白。</p>${view('・機會成本', '每個投資都要跟我們最好的替代選擇比。對多數人來說，定期買指數就已經很好。')}`;
-    const np = NP.normPe == null ? `${why(NP.why || 'short')}` : `<b>${x1(NP.normPe)}</b>（收盤價 ${NP.close} ÷ 十年平均 EPS ${NP.avgEps}，${NP.n} 個年度點）`;
+    const np = NP.normPe == null ? `${why(NP.why || 'short')}` :
+      (NP.noisy ? `<b>不適用</b>（公式值 ${NP.normPe.toFixed(1)} 倍，十年平均 EPS 接近零；收盤價 ${NP.close} ÷ 十年平均 EPS ${NP.avgEps}，${NP.n} 個年度點）` : `<b>${x1(NP.normPe)}</b>（收盤價 ${NP.close} ÷ 十年平均 EPS ${NP.avgEps}，${NP.n} 個年度點）`);
     const npBlock = `<div class="bm-nums">${n('十年平均獲利本益比', np, '最新月底收盤價 ÷ 年度點近四季 EPS 的平均（至少 5 個年度點，平均要大於 0）')}</div>`;
+    const cycTop = cyc ? `<div class="bm-cyc">${view('・循環看整輪', '循環生意要看整個景氣循環的平均獲利，不看高峰那一年。')}</div>${npBlock}` : '';
+    const cycDet = cyc ? '' : `<details class="bm-det"><summary>其他常看：十年平均獲利本益比（循環股才是主角）</summary>${npBlock}</details>`;
     return card('bmG4', '④ 價格有安全邊際嗎', ask('現在這個價格，有留給我犯錯的空間嗎？') +
       view('・安全邊際、利率是地心引力', '我們用明顯低於價值的價格買，留下犯錯的空間。利率越高，所有資產的價值就被拉得越低，所以股票要跟公債比。') +
-      eyNum + oeNum + imp + (cyc ? `<div class="bm-cyc">${view('・循環看整輪', '循環生意要看整個景氣循環的平均獲利，不看高峰那一年。')}</div>${npBlock}` : '') + vs +
-      (cyc ? '' : `<details class="bm-det"><summary>其他常看：十年平均獲利本益比（循環股才是主角）</summary>${npBlock}</details>`) +
+      cycTop + eyNum + oeNum + imp + vs + cycDet +
       self(['如果我的判斷錯一半，這個價格還能讓我不虧本嗎？', '價格已經假設了什麼？我相信那個假設嗎？']));
+  }
+
+  function today(X) {
+    const L = X && X.latest;
+    if (L && L.pe != null && L.ey == null) return;   // 舊快取檔還沒帶 ey/impliedG 時保留建置時已有的顯示，不要清空
+    const eyEl = document.getElementById('bmEyToday');
+    if (eyEl) { const h = eyLiveHTML(X, null); eyEl.innerHTML = h; eyEl.hidden = !h; }
+    const impEl = document.getElementById('bmImpToday');
+    if (impEl) { const h = impLiveHTML(X); impEl.innerHTML = h; impEl.hidden = !h; }
   }
 
   /* 反過來想：它會怎麼死 */
@@ -135,7 +201,7 @@ const BUFFETT = (() => {
     const sec = document.createElement('section'); sec.id = 'buffett';
     sec.innerHTML = `<div class="sec-head"><span class="sec-tag">價值投資</span><h2>巴菲特＋蒙格檢查表 ${tag('v')}</h2>
       <p class="sub">觀念（意譯，不是原話）；數字由程式用本站資料算，不手填。四關加一個反向問題。${type ? `目前類型：${esc(TYPE[type] || type)}。` : ''}</p></div>
-      ${opt}<div class="bm-grid">${gate1(D)}${B ? gate2(B) : ''}${B ? gate3(B) : ''}${B ? gate4(B, type) : ''}${invert(D)}</div>
+      ${opt}<div class="bm-grid">${gate1(D)}${B ? gate2(B) : ''}${B ? gate3(B) : ''}${B ? gate4(B, type, D) : ''}${invert(D)}</div>
       ${B ? '' : '<p class="bm-why">第 ②③④ 關算不出來：這家公司沒有可用的財務資料。</p>'}
       <p class="how">每個數字下面的小字是算法；算不出來的地方寫明原因，不是空白。盈餘殖利率對公債、價格隱含的成長是分析工具，不是買賣訊號。</p>`;
     const th = document.getElementById('thesis');
@@ -150,12 +216,12 @@ const BUFFETT = (() => {
   /* 指標小辭典的新名詞（三個版型共用：generic、tsmc、pltr 的小辭典 concat 這份）。觀念是意譯，不是原話。 */
   const GLOSS = [
     ['盈餘殖利率', 'Earnings yield', '本益比倒過來看：用現在的股價買進，每 100 元一年分到多少盈餘。拿來跟十年期公債殖利率比。', '100 ÷ 本益比（%）'],
-    ['業主盈餘', 'Owner earnings', '觀念（巴菲特＋蒙格，意譯）：真正屬於股東的錢，是賺到的現金扣掉維持生意必須花的錢；股票酬勞也是真實費用。財報沒有拆維持性資本支出，本站目前用自由現金流當近似，還沒扣股票酬勞。', '營業現金流 − 維持生意必須的資本支出'],
+    ['業主盈餘', 'Owner earnings', '觀念（巴菲特＋蒙格，意譯）：真正屬於股東的錢，是賺到的現金扣掉維持生意必須花的錢；股票酬勞也是真實費用。財報沒有拆維持性與成長性資本支出，本站以「自由現金流 − 股票酬勞」作為保守近似（把全部資本支出與股票酬勞都扣掉）。', '營業現金流 − 維持生意必須的資本支出 − 股票酬勞（本站近似：自由現金流 − 股票酬勞）'],
     ['保留盈餘測試', 'Retained earnings test', '觀念（意譯）：公司每留下 1 元盈餘（沒發成股利的部分），長期應該至少創造 1 元市值。', '（現在市值 − 五年前市值）÷（近 20 季淨利 − 近 20 季股利）'],
     ['安全邊際', 'Margin of safety', '觀念（意譯）：用明顯低於價值的價格買，留下犯錯的空間。本站不算「價值」，用盈餘殖利率對公債、價格隱含的成長幫忙判斷。', '沒有單一公式'],
     ['能力圈', 'Circle of competence', '觀念（意譯）：只投資自己看得懂的生意；看不懂就放進「太難」那一堆，不丟臉。', '沒有公式：檢查表第 ① 關的提問'],
     ['十年平均獲利本益比', 'Normalized P/E', '循環股看整個景氣循環的平均獲利，不看高峰那一年。用它比單看本益比更不容易在景氣高峰買貴。', '最新月底收盤價 ÷ 年度點近四季 EPS 的平均（至少 5 點）'],
     ['價格隱含的成長', 'Implied growth', '倒過來算：照現在的本益比，公司每年要成長多少，十年後買進的人才有 10% 年報酬。假設十年後本益比 15 倍、不計股利與回購。', '((本益比 × 1.1^10) ÷ 15)^(1/10) − 1'],
   ];
-  return { mount, WHY, GLOSS };
+  return { mount, today, WHY, GLOSS };
 })();

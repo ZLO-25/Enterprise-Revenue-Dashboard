@@ -50,5 +50,20 @@ class StoryLine(unittest.TestCase):
         self.assertIn("缺", daily.story_line({}))
 
 
+class DailyValuationSync(unittest.TestCase):
+    def test_daily_ey_spread_and_implied_g(self):
+        import daily_calc as DC
+        Q = [{"q": f"{i + 1}Q25", "eps": 1.0, "rd": f"2025-{3 * i + 2:02d}-01", "rev": 100.0, "ocf": 30.0, "capex": 10.0,
+              "shOut": 10.0, "debt": 50.0, "cash": 150.0} for i in range(4)]
+        rows = [["2026-01-05", 40.0]]  # PE = 10.0 -> EY = 10.0%
+        rates = {"series": {"us_10y": {"points": [["2026-01-05", 4.0]]}}}
+        L = DC.latest(Q, Q, rows, valuation={"currency": "USD"}, rates=rates)
+        self.assertEqual(L["ey"], 10.0)
+        self.assertEqual(L["bond"], 4.0)
+        self.assertEqual(L["eySpread"], 6.0)
+        self.assertIsNotNone(L["impliedG"]["15"])
+        self.assertIsNotNone(L["impliedG"]["20"])
+
+
 if __name__ == "__main__":
     unittest.main()

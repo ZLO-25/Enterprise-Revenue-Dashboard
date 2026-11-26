@@ -1,0 +1,714 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><title>世界科技趨勢月報</title><meta name="description" content="每月追蹤 AI 算力供需、應用變現、半導體週期、能源電力與監管地緣，並附預測帳本逐月對帳。"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png"><link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/sidebar.css?v=bb07c09a"><script>try{if(localStorage.getItem("erd.sidebar.open")==="1"&&matchMedia("(min-width:1280px)").matches)document.documentElement.classList.add("sb-push","sb-open")}catch(e){}</script></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: report column (max 1180px) — sticky section nav, KPI strip, then one section per metric family; charts sit two-up on wide screens, one-up on phones. */
+:root {
+  --page: #f3f3ef;
+  --surface: #fcfcfb;
+  --ink: #121211;
+  --ink-2: #4f4e4a;
+  --muted: #6c6a64;
+  --tick: #898781;
+  --grid: #e4e3dc;
+  --axis: #c3c2b7;
+  --line: rgba(11, 11, 11, 0.10);
+  --wash: rgba(42, 120, 214, 0.08);
+  --accent: #1c5cab;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --neg: #e34948;
+  --pos-soft: #86b6ef;
+  --n7: #86b6ef; --n5: #3987e5; --n3: #1c5cab; --n2: #0d366b;
+  --good-text: #006300;
+  --bad-text: #b42f2f;
+  --chip-bg: #e8f0fb; --chip-ink: #184f95;
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cjk: "Noto Sans TC", "IBM Plex Sans", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step-0: 0.875rem; --step-1: 1rem; --step-2: 1.25rem; --step-3: 1.6rem; --step-4: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+    --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+    --accent: #6da7ec;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --neg: #e66767; --pos-soft: #5598e7;
+    --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+    --good-text: #3fbf3f; --bad-text: #f08080;
+    --chip-bg: #16304f; --chip-ink: #b7d3f6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0f0f0e; --surface: #1a1a19; --ink: #f6f6f3; --ink-2: #c3c2b7; --muted: #a3a197; --tick: #8f8d85;
+  --grid: #2c2c2a; --axis: #3d3d3a; --line: rgba(255, 255, 255, 0.10); --wash: rgba(57, 135, 229, 0.12);
+  --accent: #6da7ec;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --neg: #e66767; --pos-soft: #5598e7;
+  --n7: #184f95; --n5: #2a78d6; --n3: #6da7ec; --n2: #b7d3f6;
+  --good-text: #3fbf3f; --bad-text: #f08080;
+  --chip-bg: #16304f; --chip-ink: #b7d3f6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-1);
+  line-height: 1.6;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 40px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; font-family: var(--font-ui); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* header */
+.masthead { display: grid; gap: 14px; padding-top: 28px; }
+.eyebrow { font-family: var(--font-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.masthead h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.masthead h1 .code { font-family: var(--font-data); font-weight: 500; font-size: 0.55em; color: var(--muted); letter-spacing: 0; margin-left: 0.4em; vertical-align: 0.2em; }
+.lede { color: var(--ink-2); max-width: 68ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step-0); color: var(--muted); font-family: var(--font-data); }
+.meta-row b { color: var(--ink); font-weight: 500; }
+
+/* nav */
+.secnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--page); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+.secnav .scroller { max-width: 1180px; margin-inline: auto; display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.secnav .scroller::-webkit-scrollbar { display: none; }
+.secnav a { flex: none; text-decoration: none; color: var(--ink-2); font-size: var(--step-0); padding: 6px 12px; border-radius: 999px; }
+.secnav a:hover { background: var(--wash); color: var(--ink); }
+.secnav a.on { background: var(--chip-bg); color: var(--chip-ink); }
+/* 公司頁：寬螢幕（≥1200px）把章節目錄從頂端橫條改成右側固定欄。
+   左邊留給全站側邊欄（App Shell），右邊放「本頁章節」，兩者不打架：
+   ┌────────┬──────────────────────────┬──────────┐
+   │ 全站選單 │ 內容（圖表、表格）           │ 本頁章節   │
+   │ (可收合) │                          │ 跟著畫面   │
+   └────────┴──────────────────────────┴──────────┘
+   窄螢幕維持原本的頂端橫條。 */
+@media (min-width: 1200px) {
+  .pg { display: grid; grid-template-columns: minmax(0, 1fr) 168px; column-gap: 40px; max-width: 1320px; margin-inline: auto; }
+  .pg > .wrap { grid-column: 1; grid-row: 1; max-width: none; margin: 0; min-width: 0; }
+  .pg > .secnav { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px);
+    margin: 32px 0 0; padding: 0; border: 0; background: none; max-height: calc(100vh - 40px); overflow-y: auto; scrollbar-width: thin; }
+  .pg > .secnav .scroller { display: grid; gap: 1px; padding: 0; overflow: visible; border-left: 1px solid var(--line); }
+  .pg > .secnav .scroller::before { content: "本頁章節"; padding: 0 0 8px 14px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; color: var(--muted); }
+  .pg > .secnav a { margin-left: -1px; padding: 5px 10px 5px 13px; border-left: 2px solid transparent; border-radius: 0 6px 6px 0; font-size: 0.86rem; line-height: 1.35; }
+  .pg > .secnav a.homelink { margin-bottom: 6px; }
+  .pg > .secnav a.on { border-left-color: var(--accent); background: var(--wash); color: var(--ink); font-weight: 600; }
+  .pg section { scroll-margin-top: 20px; }
+}
+/* ≥1280px 且全站側邊欄收合時，左上角有一顆浮動的 ☰ 按鈕：內容左邊至少留 56px，不被它蓋住 */
+@media (min-width: 1280px) { html.sb-push:not(.sb-open) .pg { padding-left: max(0px, calc(40px - (100vw - 1352px) / 2)); } }
+
+/* cadence strip */
+.cadence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.cadence > div { padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cadence > div + div { border-left: 1px solid var(--line); }
+.cadence .when { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.cadence .what { font-weight: 600; }
+.cadence .which { font-size: var(--step-0); color: var(--ink-2); }
+@media (max-width: 720px) {
+  .cadence { grid-template-columns: minmax(0, 1fr); }
+  .cadence > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi:last-child { grid-column: 1 / -1; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.kpi .label { font-size: 0.8rem; color: var(--muted); }
+.kpi .value { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1; }
+.kpi .value small { font-size: 0.55em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.kpi .delta { font-size: 0.8rem; color: var(--ink-2); font-family: var(--font-data); }
+.up { color: var(--good-text); }
+.down { color: var(--bad-text); }
+.chip { justify-self: start; font-size: 0.7rem; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); }
+
+/* sections */
+section { display: grid; gap: 18px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+.sec-head .sub { color: var(--ink-2); max-width: 72ch; font-size: 0.95rem; }
+.sec-tag { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+.card.wide { grid-column: 1 / -1; }
+.card h3 { font-size: 1.02rem; font-weight: 600; }
+.card .how { font-size: 0.88rem; color: var(--ink-2); }
+.card .how b { color: var(--ink); font-weight: 600; }
+.chartbox { position: relative; height: 300px; width: 100%; }
+.chartbox.short { height: 190px; }
+.chartbox.tall { height: 340px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.legend i.ln { height: 3px; border-radius: 2px; width: 16px; }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls .lab { font-size: 0.8rem; color: var(--muted); margin-right: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 0.82rem; border: 0; background: transparent; color: var(--ink-2); padding: 6px 12px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+
+/* waterfall */
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 7.5rem; gap: 12px; align-items: center; font-size: 0.86rem; }
+.wf-row .nm { color: var(--ink-2); min-width: 0; }
+.wf-row.total .nm { color: var(--ink); font-weight: 600; }
+.wf-track { position: relative; height: 18px; }
+.wf-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px solid var(--axis); }
+.wf-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; }
+.wf-row .v { text-align: right; font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.8rem; }
+.wf-row .v em { font-style: normal; color: var(--muted); display: block; font-size: 0.72rem; }
+@media (max-width: 560px) {
+  .wf-row { grid-template-columns: minmax(0, 1fr) 6.5rem; }
+  .wf-row .wf-track { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* notes */
+.note { font-size: 0.86rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.callout { background: var(--wash); border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 6px; }
+.callout b { color: var(--ink); }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+th { font-weight: 600; color: var(--ink-2); background: var(--surface); position: sticky; top: 0; font-family: var(--font-cjk); }
+td { font-family: var(--font-data); color: var(--ink); }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td .y { display: block; font-size: 0.68rem; }
+td.tot { font-weight: 500; background: var(--wash); }
+.tbl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.btn { font: inherit; font-size: 0.82rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--wash); }
+.copied { font-size: 0.8rem; color: var(--good-text); }
+
+/* glossary */
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+@media (max-width: 760px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.gloss { margin: 0; }
+.gloss .item { padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.gloss dt { font-weight: 600; }
+.gloss dt code { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.gloss dd { margin: 0; font-size: 0.9rem; color: var(--ink-2); }
+.gloss dd .f { font-family: var(--font-data); font-size: 0.8rem; color: var(--ink); background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+.sources { font-size: 0.86rem; color: var(--ink-2); display: grid; gap: 8px; }
+.sources ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+footer { font-size: 0.78rem; color: var(--muted); }
+
+/* timelines */
+.gantt-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px 12px 4px; }
+.gantt { min-width: 780px; display: grid; }
+.g-row { display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; border-bottom: 1px solid var(--grid); }
+.g-row:last-child { border-bottom: 0; }
+.g-row .nm { font-size: 0.84rem; line-height: 1.3; min-width: 0; }
+.g-row .nm small { display: block; color: var(--muted); font-size: 0.7rem; }
+.g-track { position: relative; height: 28px; }
+.g-axis .g-track { height: 22px; }
+.g-tick { position: absolute; top: 2px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.7rem; color: var(--tick); }
+.g-grid { position: absolute; top: -6px; bottom: -6px; border-left: 1px solid var(--grid); }
+.g-today { position: absolute; top: -6px; bottom: -6px; border-left: 1.5px dashed var(--s8); }
+.g-line { position: absolute; top: 13px; height: 2px; background: var(--axis); }
+.g-line.plan { background: repeating-linear-gradient(90deg, var(--axis) 0 4px, transparent 4px 8px); }
+.g-mk { position: absolute; top: 7px; width: 14px; height: 14px; margin-left: -7px; background: var(--c); border: 2px solid var(--c); cursor: pointer; padding: 0; }
+.g-mk.plan { background: var(--surface); }
+.g-mk.k-a { transform: rotate(45deg) scale(0.82); }
+.g-mk.k-g { border-radius: 2px; }
+.g-mk.k-c { clip-path: polygon(50% 0, 100% 100%, 0 100%); border: 0; }
+.g-mk.k-c.plan { opacity: 0.45; }
+.g-mk.k-m { border-radius: 50%; }
+.g-mk.unc { border-style: dashed; background: var(--surface); opacity: 0.8; }
+.g-mk.k-c.unc { opacity: 0.35; }
+.core-chip { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 0 6px; margin-right: 6px; border-radius: 999px; background: var(--chip-bg); color: var(--chip-ink); vertical-align: 1px; white-space: nowrap; }
+.story-line { margin: 0 0 10px; font-size: 0.9rem; color: var(--ink-2); }
+.unc-chip { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0 6px; margin-left: 6px; border-radius: 999px; border: 1px dashed var(--s4); color: var(--ink-2); vertical-align: 1px; white-space: nowrap; }
+.g-mk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.g-info { font-size: 0.86rem; color: var(--ink-2); min-height: 1.6em; }
+.g-info b { color: var(--ink); }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8rem; color: var(--ink-2); align-items: center; }
+.g-key span { display: inline-flex; align-items: center; gap: 6px; }
+.g-key .g-mk { position: static; margin: 0; cursor: default; }
+.st-plan { color: var(--muted); }
+td.txt, th.txt { text-align: left; white-space: normal; min-width: 16rem; font-family: var(--font-cjk); }
+td.src a { font-family: var(--font-cjk); font-size: 0.75rem; }
+
+/* shared site chrome */
+.homelink { font-weight: 600; color: var(--accent) !important; }
+.disclaimer { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+
+/* long-term view + freshness (assets/longterm.js) */
+.lt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .lt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .lt-grid { grid-template-columns: minmax(0, 1fr); } }
+.kpi.lt { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label label" "value spark" "delta delta" "chip chip"; align-items: end; }
+.kpi.lt .label { grid-area: label; } .kpi.lt .value { grid-area: value; } .kpi.lt .delta { grid-area: delta; } .kpi.lt .chip { grid-area: chip; }
+.kpi.lt .spark { grid-area: spark; justify-self: end; overflow: visible; }
+.lt-how { font-size: 0.88rem; color: var(--ink-2); max-width: 80ch; }
+.lt-how b { color: var(--ink); }
+.fresh { display: inline-block; font-family: var(--font-data); font-size: 0.72rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); vertical-align: middle; }
+.fresh-fresh { color: var(--good-text); border-color: color-mix(in srgb, var(--good-text) 40%, transparent); }
+.fresh-aging { color: #9a6700; border-color: rgba(154, 103, 0, 0.4); }
+.fresh-overdue { color: var(--bad-text); border-color: color-mix(in srgb, var(--bad-text) 40%, transparent); }
+.disclaimer-box { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; max-width: 90ch; line-height: 1.6; }
+
+/* 指數期貨（assets/futures.js）：K 棒用台灣習慣，紅漲綠跌 */
+:root { --kup: #d23a3a; --kdn: #138a52; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --kup: #f06a6a; --kdn: #2fbf7f; } }
+:root[data-theme="dark"] { --kup: #f06a6a; --kdn: #2fbf7f; }
+.kup { color: var(--kup); } .kdn { color: var(--kdn); }
+.fut-head .fut-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fut-toggle { font: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 5px 14px; border-radius: 999px; cursor: pointer; }
+.fut-toggle:hover { color: var(--ink); }
+#futHome { display: grid; gap: 12px; }
+#futHome[hidden] { display: none; }
+.fut-mini { position: relative; width: 100%; height: 360px; }
+.fut-co .co-top h2 { font-size: var(--step-2); }
+.fut-co .fut-px small { font-size: 0.75rem; color: var(--muted); font-family: var(--font-ui); }
+.fut-cards .fut-wide { grid-column: 1 / -1; }   /* 大台指：放在兩張美國期貨底下，整列寬 */
+.fut-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
+.fut-co .fut-px { display: flex; align-items: baseline; gap: 12px; font-family: var(--font-data); }
+.fut-co .fut-px b { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.fut-co .fut-px span { font-size: 0.95rem; font-weight: 500; }
+.fut-spark { width: 100%; height: 44px; display: block; }
+.fut-co.locked { opacity: 0.85; }
+.fut-note { font-size: 0.86rem; color: var(--muted); }
+.fut-lock { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; background: var(--surface); border: 1px dashed var(--axis); border-radius: 12px; padding: 14px 16px; }
+.fut-lock svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.fut-lock .t { font-size: 0.88rem; color: var(--ink-2); flex: 1 1 220px; }
+.fut-lock input[type=password] { font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--page); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; flex: 1 1 180px; max-width: 260px; }
+.fut-lock button { border: 0; cursor: pointer; }
+.fut-lock .err { font-size: 0.82rem; color: var(--bad-text); width: 100%; }
+.fut-lock .err:empty { display: none; }
+#futLock { margin-top: -16px; }
+.fut-ctrl { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.fut-ctrl .seg button i, .fut-leg i, .fut-ma-tbl i.dot { display: inline-block; width: 18px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.fut-ctrl .seg button[aria-pressed="false"] i { opacity: 0.35; }
+.fut-leg { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--font-data); font-size: 0.92rem; color: var(--ink-2); min-height: 2.6em; }
+.fut-leg .d { color: var(--ink); font-weight: 500; }
+.fut-leg b { font-weight: 500; color: var(--ink); }
+.fut-chart { position: relative; width: 100%; height: min(80vh, 820px); min-height: 460px; }
+.fut-ma-tbl td, .fut-ma-tbl th { text-align: right; }
+.fut-ma-tbl td:first-child, .fut-ma-tbl th:first-child, .fut-ma-tbl .txt { text-align: left; font-family: var(--font-cjk); }
+.fut-src { display: grid; gap: 6px; padding-left: 1.2em; font-size: 0.88rem; color: var(--ink-2); max-width: 90ch; }
+.fut-src .pend { color: var(--bad-text); }
+@media (max-width: 640px) { .fut-chart { height: 70vh; min-height: 380px; } }
+#futBody:not([hidden]) { display: grid; gap: 40px; }
+.fut-src details summary { cursor: pointer; }
+.fut-src details ul { margin-top: 6px; padding-left: 1.2em; display: grid; gap: 2px; font-size: 0.82rem; }
+
+#futHome .fut-mini { cursor: zoom-in; }
+.fut-hint { font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 640px) { .fut-leg { font-size: 0.82rem; gap: 2px 12px; } .fut-ctrl .seg button i, .fut-leg i { width: 14px; height: 3px; } }
+/* 水平線工具（assets/futures.js attachLines） */
+.fut-tool svg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 4px; }
+.fut-tool[aria-pressed="true"] { outline: 2px solid var(--s1); outline-offset: -2px; }
+.fut-drawing, .fut-drawing * { cursor: crosshair !important; }
+.fut-onl, .fut-onl * { cursor: ns-resize !important; }
+.fut-ltb { position: absolute; left: 8px; z-index: 5; display: flex; gap: 4px; align-items: center; padding: 4px 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+.fut-ltb[hidden] { display: none; }
+.fut-ltb .sw { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; padding: 0; cursor: pointer; }
+.fut-ltb .sw[aria-pressed="true"] { border-color: var(--ink); }
+.fut-ltb .tx, .fut-lines .tx { font: inherit; font-size: 0.8rem; color: var(--ink-2); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+.fut-ltb .tx:hover, .fut-lines .tx:hover { color: var(--ink); }
+.fut-ltb .del, .fut-lines [data-del], .fut-lines [data-clear] { color: var(--bad-text); }
+.fut-lines { margin-top: 10px; font-size: 0.9rem; width: fit-content; max-width: 100%; overflow-x: auto; }
+.fut-lines-head { gap: 16px; }
+.fut-lines-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.fut-lines-tbl { width: 100%; border-collapse: collapse; font-family: var(--font-data); }
+.fut-lines-tbl th, .fut-lines-tbl td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--line); }
+.fut-lines-tbl th.txt, .fut-lines-tbl td.txt { text-align: left; font-family: var(--font-cjk); }
+.fut-lines-tbl i.dot { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+/* 看盤 K 棒頁（assets/kbar.js、templates/futures.frag.html）與個股頁的 K 棒檢視（kb- 開頭）。
+   寬螢幕（≥900px）：左清單固定、可獨立捲動；窄螢幕：清單收成面板，用「商品清單」按鈕展開；整頁不可出現水平捲動 */
+.kb-app { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0; }
+.kb-main { min-width: 0; display: grid; gap: 28px; }
+.kb-main > div { min-width: 0; }
+.kb-side { min-width: 0; }
+.kb-tog { width: 100%; display: flex; align-items: center; gap: 8px; font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; text-align: left; }
+.kb-tog span { color: var(--muted); } .kb-tog b { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .kb-tog i { font-style: normal; color: var(--muted); }
+.kb-panel { display: none; margin-top: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; max-height: 60vh; overflow: auto; }
+.kb-open .kb-panel { display: block; }
+.kb-sum { font-size: 0.86rem; color: var(--ink-2); margin-bottom: 8px; }
+.kb-sum b { font-family: var(--font-data); font-weight: 600; } .kb-sum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-sortbar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.8rem; color: var(--muted); }
+.kb-grp { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); padding: 10px 6px 4px; border-top: 1px solid var(--line); margin-top: 4px; }
+.kb-grp:first-child { border-top: 0; margin-top: 0; padding-top: 2px; }
+.kb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; width: 100%; font: inherit; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 8px; padding: 6px 8px; cursor: pointer; }
+/* 滑過的底色（--wash）和選取的底色（--chip-bg）幾乎一樣：選取列另加左側色條；觸控裝置點完不留滑過的底色 */
+@media (hover: hover) { .kb-row:hover { background: var(--wash); } }
+.kb-row[aria-selected="true"] { background: var(--chip-bg); color: var(--chip-ink); box-shadow: inset 3px 0 0 var(--accent); }
+.kb-row .n { font-size: 0.92rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-row .ch { font-family: var(--font-data); font-size: 0.88rem; font-weight: 500; text-align: right; color: var(--muted); }
+.kb-row .ch.kup { color: var(--kup); } .kb-row .ch.kdn { color: var(--kdn); }
+.kb-row .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-row .px { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); text-align: right; }
+.kb-row[aria-selected="true"] .c, .kb-row[aria-selected="true"] .px { color: inherit; opacity: 0.8; }
+.kb-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
+.kb-ttl { min-width: 0; flex: 1 1 260px; } .kb-ttl h2 { font-size: var(--step-2); }
+.kb-sub { font-size: 0.84rem; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; }
+.kb-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.kb-step { font: inherit; font-size: 0.82rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+.kb-step:hover { color: var(--ink); }
+.kb-nav .go[hidden] { display: none; }
+.kb-embed .fut-chart, .kb-dy .fut-chart { height: 480px; min-height: 0; }
+.kb-foot { margin-top: 8px; }
+/* 個股頁：K 棒收合區塊 */
+.kb-sec { margin: 14px 0 16px; }
+.kb-sec .kb-dy { margin-top: 10px; }
+.kb-sec .kb-dy[hidden] { display: none; }
+/* 看盤頁：總覽牆 */
+.kb-app[hidden], .kb-grid[hidden], .kb-lockbox[hidden] { display: none; }
+.kb-views { display: grid; gap: 14px; min-width: 0; }   /* 「總覽｜單檔」切換緊貼下方的內容（main.wrap 的 40px 間距只留在頁首與這一塊之間） */
+.kb-modebar { margin: 0; }
+.kb-grid { display: grid; gap: 12px; min-width: 0; }
+.kb-gsum { font-size: 0.9rem; color: var(--ink-2); }
+.kb-gsum b { font-family: var(--font-data); font-weight: 600; } .kb-gsum small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.kb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kb-chip { font: inherit; font-size: 0.84rem; color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.kb-chip span { margin-left: 6px; font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); }
+.kb-chip[aria-pressed="true"] { background: var(--chip-bg); color: var(--chip-ink); border-color: var(--accent); }
+.kb-chip[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
+.kb-gctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.kb-gsort { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
+.kb-cards { --kb-min: 600px; --kb-h: 390px; --kb-hkd: 510px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--kb-min)), 1fr)); gap: 12px; min-width: 0; }
+.kb-cards[data-size="s"] { --kb-min: 340px; --kb-h: 220px; --kb-hkd: 320px; }
+.kb-cards[data-size="m"] { --kb-min: 450px; --kb-h: 320px; --kb-hkd: 430px; }
+.kb-cards[data-size="l"] { --kb-min: 680px; --kb-h: 460px; --kb-hkd: 600px; }
+@media (max-width: 639px) { .kb-cards { grid-template-columns: minmax(0, 1fr); } }
+.kb-gh { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
+.kb-gh:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.kb-card { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 4px; }
+.kb-ch { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.kb-ct { font: inherit; font-size: 1rem; font-weight: 700; color: var(--ink); background: transparent; border: 0; padding: 0; cursor: pointer; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-ct:hover { text-decoration: underline; }
+.kb-ch .c { font-family: var(--font-data); font-size: 0.74rem; color: var(--muted); flex: none; }
+.kb-cpx { margin-left: auto; display: flex; align-items: baseline; gap: 8px; font-family: var(--font-data); flex: none; }
+.kb-cpx b { font-size: 1.05rem; font-weight: 600; color: var(--ink); } .kb-cpx .ch { font-size: 0.88rem; font-weight: 500; color: var(--muted); }
+.kb-cpx .ch.kup { color: var(--kup); } .kb-cpx .ch.kdn { color: var(--kdn); }
+.kb-cm { font-size: 0.74rem; color: var(--muted); min-height: 1.2em; overflow-wrap: anywhere; }
+.kb-cm .pend { color: var(--bad-text); }
+.kb-cbox { position: relative; width: 100%; height: var(--kb-h, 320px); min-width: 0; overflow: hidden; }
+.kb-kd .kb-cbox { height: var(--kb-hkd, 430px); }
+@media (max-width: 639px) { .kb-cbox { height: min(var(--kb-h, 320px), 60vh); } .kb-kd .kb-cbox { height: min(var(--kb-hkd, 430px), 60vh); } }
+.kb-empty { font-size: 0.84rem; color: var(--muted); padding: 24px 4px; text-align: center; }
+.kb-cf { display: flex; justify-content: flex-end; }
+.kb-more { font: inherit; font-size: 0.8rem; color: var(--accent); background: transparent; border: 0; padding: 2px 0; cursor: pointer; }
+.kb-more:hover { text-decoration: underline; }
+.seg a { display: inline-flex; align-items: center; font-size: 0.82rem; color: var(--ink-2); padding: 6px 12px; text-decoration: none; border-left: 1px solid var(--line); }
+.seg a:hover { color: var(--ink); }
+@media (max-width: 640px) { .kb-embed .fut-chart, .kb-dy .fut-chart { height: 420px; } }
+@media (min-width: 900px) {
+  .kb-app { grid-template-columns: 272px minmax(0, 1fr); gap: 20px; }
+  .kb-side { position: sticky; top: 12px; max-height: calc(100vh - 24px); display: flex; flex-direction: column; }
+  .kb-tog { display: none; }
+  .kb-panel { display: flex; flex-direction: column; margin-top: 0; max-height: none; min-height: 0; overflow: hidden; }
+  .kb-list { overflow-y: auto; min-height: 0; scrollbar-width: thin; }
+}
+
+/* 每季一頁摘要（assets/summary.js）：四種來源標籤＋成績單 */
+.src-tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 0.05em; white-space: nowrap; }
+.src-w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
+.src-o { background: rgba(235, 104, 52, 0.12); color: var(--s2); border-color: rgba(235, 104, 52, 0.4); }
+.src-e { background: rgba(74, 58, 167, 0.12); color: var(--s7); border-color: rgba(74, 58, 167, 0.4); }
+.src-v { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.src-m { background: rgba(237, 161, 0, 0.12); color: var(--s4); border-color: rgba(237, 161, 0, 0.4); }
+/* 公司分析（assets/analysis.js）：標題下方的結論卡，more 展開全文 */
+#analysis { margin-top: 8px; }
+.an-card, .an-full { min-width: 0; max-width: 100%; }
+.an-card > * { min-width: 0; }
+.an-full .tbl-wrap, .an-pre { max-width: 100%; }
+.an-card h3 { font-size: 1rem; margin: 16px 0 6px; }
+.an-full { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+.an-full h3, .an-full h4 { margin: 18px 0 6px; } .an-full h4 { font-size: 0.95rem; }
+.an-full p { margin: 6px 0; overflow-wrap: anywhere; }
+.an-pre { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.78rem; line-height: 1.45; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; }
+.an-more { margin-top: 14px; font: inherit; font-size: 0.86rem; font-weight: 600; border: 1px solid var(--line); background: transparent; color: var(--ink); padding: 6px 14px; border-radius: 999px; cursor: pointer; }
+.an-more:hover { background: var(--chip-bg); }
+.sum-card h3 { font-size: 1rem; margin: 18px 0 6px; }
+.sum-head { font-size: 1.05rem; font-weight: 600; margin: 0 0 6px; }
+.sum-list { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.sum-list li { overflow-wrap: anywhere; }
+.sum-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.sum-tbl th, .sum-tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.sum-tbl td small { display: block; color: var(--muted); font-size: 0.75rem; }
+.sum-tbl thead th { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+.src-link { font-size: 0.8rem; }
+.chip-warn { background: rgba(237, 161, 0, 0.18); color: var(--s4); }
+.chip-up { background: rgba(27, 175, 122, 0.16); color: var(--s3); }
+.chip-down { background: rgba(227, 73, 72, 0.16); color: var(--s8); }
+.sum-card details { margin-top: 14px; }
+.tbl-wrap { overflow-x: auto; }
+
+/* 體質總覽（assets/health.js） */
+.h-tbl .h-row { cursor: pointer; }
+.h-tbl .h-row:hover { background: var(--wash); }
+.h-tbl .h-row:focus-visible { outline: 2px solid var(--s1); outline-offset: -2px; }
+.h-tbl .h-grp { font-weight: 600; color: var(--ink-2); vertical-align: top; white-space: nowrap; border-right: 1px solid var(--line); }
+.h-tbl .h-name { min-width: 11em; }
+.h-tbl .h-spark { width: 130px; }
+.h-tbl td.muted { color: var(--muted); }
+.h-tbl .h-chart td { background: var(--page); }
+.h-tbl .h-row::after { content: none; }
+
+/* 論點卡燈號（assets/thesis.js） */
+.light { display: inline-block; min-width: 2.2em; text-align: center; font-size: 0.75rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; }
+.light-g { background: rgba(27, 175, 122, 0.18); color: var(--s3); }
+.light-y { background: rgba(237, 161, 0, 0.2); color: var(--s4); }
+.light-r { background: rgba(227, 73, 72, 0.18); color: var(--s8); }
+.light-n { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.sum-tbl th small { display: block; font-weight: 400; color: var(--muted); font-size: 0.75rem; }
+.sum-tbl th small { white-space: normal; overflow-wrap: anywhere; min-width: 12em; }
+.note li, ul.note { overflow-wrap: anywhere; }
+
+/* 巴菲特＋蒙格檢查表（assets/buffett.js） */
+.bm-grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .bm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bm-grid > #bmInv { grid-column: 1 / -1; } }
+.bm-card { min-width: 0; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--surface); }
+.bm-card > * { min-width: 0; max-width: 100%; }
+.bm-card h3 { margin: 0 0 6px; font-size: 1.02rem; }
+.bm-card h4 { margin: 12px 0 4px; font-size: 0.9rem; }
+.bm-ask { margin: 0 0 10px; font-weight: 600; }
+.bm-view { margin: 10px 0; font-size: 0.9rem; color: var(--ink-2); border-left: 2px solid var(--axis); padding-left: 12px; }
+.bm-vt { display: block; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+.bm-nums { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 8px 0; }
+.bm-n { display: grid; gap: 2px; align-content: start; min-width: 0; overflow-wrap: anywhere; }
+.bm-nl { font-size: 0.78rem; color: var(--muted); }
+.bm-nv { font-size: 1.05rem; font-weight: 600; }
+.bm-f { display: block; font-size: 0.74rem; color: var(--muted); font-weight: 400; line-height: 1.45; }
+.bm-why { color: var(--muted); font-size: 0.82rem; font-weight: 400; }
+.bm-self { margin-top: 10px; font-size: 0.9rem; }
+.bm-self ul { margin: 4px 0 0; padding-left: 1.2em; display: grid; gap: 3px; }
+.bm-det { margin-top: 10px; }
+.bm-det summary { cursor: pointer; font-size: 0.88rem; color: var(--ink-2); }
+.bm-tbl th, .bm-tbl td { white-space: nowrap; font-size: 0.82rem; padding: 6px 8px; }
+.bm-q { color: var(--muted); font-size: 0.82rem; }
+.bm-opt { margin: 0 0 12px; }
+.bm-card .up { color: var(--good-text); } .bm-card .down { color: var(--bad-text); }
+.bm-card .how, #buffett > .how { font-size: 0.82rem; color: var(--ink-2); line-height: 1.55; }
+.bm-card .how b { color: var(--ink); font-weight: 600; }
+.flow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.5; background: var(--chip-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 12px 0; }
+.co-warn { color: var(--ink-2); }
+
+/* 看盤頁加寬（只有看盤頁；其他頁不變）：主內容與章節導覽同寬 */
+.wrap.wrap-watch { max-width: min(1880px, 100vw - 32px); }
+.secnav-watch .scroller { max-width: min(1880px, 100vw - 32px); }
+/* ≥1280px 且全站側邊欄收合時，左上角浮動的 ☰ 按鈕（left 10px、寬 40px）會蓋住加寬後貼邊的「← 所有公司」：導覽列左側讓出按鈕的位置（畫面夠寬、本來就有留白時不加） */
+@media (min-width: 1280px) { html.sb-push:not(.sb-open) .secnav-watch .scroller { padding-left: max(0px, calc(42px - max(0px, (100vw - 1912px) / 2))); } }
+
+/* 個股頁 K 棒開合橫條：整條都是按鈕，一眼看得到 */
+.kb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; box-sizing: border-box; font: inherit; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--chip-bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin-bottom: 4px; cursor: pointer; text-align: left; text-decoration: none; }
+.kb-bar:hover { border-color: var(--accent); }
+.kb-bar-l { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.kb-bar-ic { color: var(--accent); width: 1em; flex: none; }
+.kb-bar-r { flex: none; font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+@media (max-width: 480px) { .kb-bar { font-size: 0.88rem; padding: 8px 10px; } .kb-bar-r { font-size: 0.78rem; } }
+
+.tr-ctrl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.tr-body { display: grid; gap: 18px; }
+.tr-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 12px; min-width: 0; }
+.tr-card h2 { font-size: var(--step-2); margin-top: 2px; }
+.tr-card h3 { font-size: 1.02rem; margin: 10px 0 2px; color: var(--ink); }
+.tr-card p { color: var(--ink-2); line-height: 1.7; overflow-wrap: anywhere; }
+.tr-card p b { color: var(--ink); font-weight: 600; }
+.tr-card blockquote { margin: 0; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--wash); border-radius: 0 8px 8px 0; color: var(--ink-2); font-size: 0.92rem; display: grid; gap: 4px; }
+.tr-card ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; color: var(--ink-2); line-height: 1.65; }
+.tr-card ul li b { color: var(--ink); font-weight: 600; }
+.tr-pre { font-family: var(--font-data); font-size: 0.8rem; line-height: 1.48; white-space: pre; overflow-x: auto; background: var(--chip-bg); color: var(--ink); border-radius: 8px; padding: 12px 14px; margin: 4px 0; }
+.tr-tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.tr-tbl th, .tr-tbl td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.tr-tbl thead th { font-size: 0.78rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.tr-tag { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 1px; white-space: nowrap; }
+.tr-tag.w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
+.tr-tag.m { background: rgba(237, 161, 0, 0.14); color: var(--s4); border-color: rgba(237, 161, 0, 0.45); }
+.tr-tag.v { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.tr-tag.q { background: rgba(227, 73, 72, 0.12); color: var(--bad-text); border-color: rgba(227, 73, 72, 0.35); }
+.tr-hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+.tr-empty { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 640px) { .tr-card { padding: 14px; } .tr-tbl th, .tr-tbl td { padding: 6px 7px; font-size: 0.82rem; } }
+</style>
+
+<div class="secnav" role="navigation" aria-label="章節"><div class="scroller">
+  <a class="homelink" href="../">← 所有公司</a>
+  <a href="#report">趨勢月報</a>
+  <a href="#ledger">預測帳本</a>
+</div></div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">World Tech Trend · Monthly Report</div>
+    <h1>世界科技趨勢月報</h1>
+    <p class="lede">每月追蹤 AI 算力供需、應用變現、半導體週期、能源電力與監管地緣。每個數字可追到公司申報文件，媒體消息一律標「待確定」，趨勢推論一律標「觀點」，並把預測記進帳本逐月對帳。</p>
+    <div class="meta-row"><span id="trMeta">讀取中…</span></div>
+  </header>
+
+  <section id="report">
+    <div class="tr-ctrl" id="trCtrl" hidden>
+      <span>選擇期數：</span>
+      <div class="seg" id="trIssues" role="group" aria-label="月報期數"></div>
+    </div>
+    <div class="tr-body" id="trBody"></div>
+  </section>
+
+  <section id="ledger">
+    <div class="sec-head">
+      <h2>預測帳本（只加不刪・逐月對帳）</h2>
+      <p class="sub">每期月報新增的方向與時程預測都記在這裡，到期後用財報或研究機構資料檢驗對錯，校正信心。</p>
+    </div>
+    <div class="tr-card" id="trLedger"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  const D = {"issues":[{"id":"2026-11","md":"# 世界科技趨勢 2026-11\n\n本期要回答的問題：AI 的錢還在加速往「算力」流嗎？這筆錢有沒有在應用端收得回來？哪些追蹤公司站在錢流經的路上？\n\n> 這是第一期，沒有上期月報可對帳；預測帳本從本期開始。\n> 來源標記：**書面**＝公司申報／公告（本站 data/*.json 已核對的季報數字，或 SEC 6-K）｜**媒體**＝新聞或研究機構報導，屬「待確定」｜**觀點**＝Claude 判斷。\n> 搜尋期間約 2026-10-13 ～ 2026-11-17。\n\n## 本期 3 件大事\n\n| 事件 | 為什麼重要 | 影響哪幾家追蹤公司 ↑↓ | 來源 |\n|---|---|---|---|\n| 四大雲端 2026 年 7–9 月資本支出合計 2,019 億美元，比去年同期 973 億美元多 108%（MSFT 393.7 億、GOOGL 513.6 億、AMZN 772.6 億、META 339.4 億） | 一年內翻倍，而且沒有放慢；GOOGL、AMZN、META 當季自由現金流已轉負 | NVDA↑ AVGO↑ TSMC↑ ANET↑ MU↑ 三星↑ MRVL↑；GOOGL↓ AMZN↓ META↓（現金流） | 書面（各公司 10-Q，本站資料） |\n| 記憶體超級週期：MU 2026 年 6–8 月季毛利率 86.8%（一年前 44.7%）、三星 3Q26 營業利益率 55.0%；TrendForce 預估 4Q26 DRAM 合約價再漲約 20%（前兩季約 +80%、+40%） | 記憶體從「景氣循環股」變成 AI 最賺錢的環節之一，也讓買家成本上升 | MU↑ 三星↑；AAPL↓（毛利率壓力）、雲端四家↓（每單位算力更貴） | 書面（MU、三星財報）；漲價預估為媒體 [TrendForce 2026-10-20](https://www.trendforce.com/news/2026-10-20/news-dram-prices-seen-rising-20-qoq-in-4q26-despite-slower-gains-ai-demand-tight-supply-support-outlook/) |\n| 台積電 10 月營收約 新台幣 5,868.9 億元，月增 14.7%、年增 59.7%；1–10 月累計年增 43.3% | 四季財報之後，第一筆「第四季」的硬數字，說明晶圓需求沒有在 3Q 見頂 | TSMC↑ NVDA↑ AVGO↑ AMD↑ ASML↑ | 書面 [TSMC 6-K 2026-11-10](https://www.sec.gov/Archives/edgar/data/0001046179/000104617926000796/tsm-revenue20261110.htm) |\n\n## 主題追蹤\n\n（第一期：沒有「上期判斷」，以下寫的是「本期判斷」，下期起對照。）\n\n### ① AI 算力供需\n新證據：雲端四家資本支出占營收比：MSFT 42.7%、GOOGL 40.3%、AMZN 38.3%、META 52.5%（書面）。供應端同步放大：NVDA 2Q27 營收年增 105.9%、AVGO 3Q26 年增 85.5%、ANET 年增 58.5%（書面）。GPU 交期與算力租價：待確認（本期搜尋沒有讀到可靠數字）。\n\n```\n雲端客戶付費 ──► 雲端營收 +12~25%（AMZN 12.1%、GOOGL 24.7%、MSFT 18.8%）\n                     │\n                     ▼  花得比收得快\n            資本支出 +108%（2,019 億美元/季）\n                     │\n     ┌───────────────┼────────────────┐\n     ▼               ▼                ▼\n  GPU/ASIC        網通交換器       記憶體\n  NVDA AVGO AMD   ANET CSCO MRVL   MU 三星\n     │\n     ▼\n  晶圓代工＋設備：TSMC ASML\n```\n本期判斷（觀點）：需求端還在加速，「賣鏟子的」營收成長全面快過買鏟子的；風險不在需求，而在買方現金流（三家已轉負）。\n\n### ② AI 應用變現\n新證據：PLTR 3Q26 營收年增 95.9%、MSFT 年增 18.8%（書面）。模型公司營收（OpenAI、Anthropic 年化營收）只有媒體報導，且多數早於本期窗口：待確定。\n本期判斷（觀點）：軟體端有贏家（PLTR），但整體雲端營收成長（12–25%）遠低於資本支出成長（108%）。這個「剪刀差」是本期最重要的觀察指標。\n\n### ③ 半導體週期\n新證據：TSMC 3Q26 營收年增 50.9%、10 月年增 59.7%；ASML 3Q26 營收年增 55.2%、毛利率 57.4%；三星 3Q26 營收年增 126.8%（書面）。ASML 新接訂單：待確認（本站未收錄該欄）。\n\n```\nAI 加速器需求 ─► HBM 吃掉 DRAM 產能 ─► 一般 DRAM 也缺貨 ─► 合約價連漲\n                                                          │\n                 ┌────────────────────────────────────────┤\n                 ▼                                        ▼\n       MU / 三星 毛利率創高                 手機/PC/雲端 買料成本上升\n       （86.8% / 營益率 55.0%）             AAPL 4Q26 毛利率 47.9%，前一季 50.1%\n```\n本期判斷（觀點）：記憶體是週期最上緣。歷史上記憶體高峰後 4–6 季常見新產能開出與降價，但本期漲幅已從 +80% → +40% → +20%（媒體）收斂，屬「仍在漲、漲得變慢」。\n\n### ④ 能源與電力\n新證據：GEV 3Q26 營收年增 26.8%、毛利率 24.6%（一年前 19.0%）、當季自由現金流 54.1 億美元（書面）。在手訂單總額與燃氣渦輪排程：媒體標題寫「積壓 1,970 億美元」但本期未能讀到原文，待確定。資料中心用電量：待確認。\n本期判斷（觀點）：電力設備是算力擴張的瓶頸之一，GEV 的毛利率改善代表有議價力，而不是只有量。\n\n### ⑤ 監管與地緣\n新證據：本期窗口內沒有找到新的出口管制或關稅落地消息。搜到的 25% 半導體 232 關稅是 2026-01 的舊聞（媒體，超出窗口，不採用為本期證據）。\n本期判斷：待確認。下期需要專門再搜一次。\n\n### ⑥ 本月最大的一件事（不在上面五類）\n待確認：本期搜尋只拿到新聞彙整頁，沒有找到可確認的單一事件。\n\n## 真趨勢五問（本期最熱主題：AI 資本支出）\n\n| 問題 | 回答（觀點） |\n|---|---|\n| 定義能否收窄？ | 可以：「雲端四家為訓練＋推論買的資料中心硬體」，每季可用 10-Q 的資本支出驗證 |\n| 使用頻率／時間成本？ | 推論需求每天都在用（程式助理、搜尋），屬「極致便利」路線 → 偏主流 |\n| 巨頭怎麼下注、合理嗎？ | 四家同時把營收的 38–53% 投進去；合理性取決於雲端營收能否跟上，說得通 ≠ 會成功 |\n| 生產力立刻可見？ | 部分可見：PLTR、MSFT 營收加速；全面性證據不足 |\n| 終端誰付錢、價值流向誰？ | 目前價值主要流向供應鏈（NVDA、MU、TSMC 毛利率創高），買方還在付學費。真趨勢也可能是壞投資 |\n\n## 預測帳本對帳\n第一期，沒有到期項目。✓ 0／✗ 0／部分 0／未到期 0。\n\n## 本期新預測（詳見 [LEDGER.md](LEDGER.md)）\n\n**方向**\n- T2611-1：雲端四家 2026 年 10–12 月資本支出合計仍高於 7–9 月（2,019 億美元）。\n- T2611-2：TSMC 4Q26 營收年增率高於 40%。\n- T2611-3：DRAM 合約價季漲幅繼續收斂（1Q27 低於 4Q26）。\n- T2611-4：GEV 4Q26 毛利率高於一年前（21.2%）。\n\n**時程**\n- T2611-1、T2611-2、T2611-4：2027 年 2 月前公布的財報檢驗。\n- T2611-3：2027 年 3 月前的研究機構季報（媒體）檢驗。\n\n**信心**\n- T2611-1 高、T2611-2 高（10 月已年增 59.7%）、T2611-3 低（記憶體價格屬資產價格類，照校正表標低）、T2611-4 中。\n\n## 對追蹤公司的含意（只列有變化的）\n- **NVDA、AVGO**：需求證據最直接（營收年增 106%、86%）。觀點：買方現金流轉負是唯一的上方天花板。\n- **MU、三星**：毛利率在歷史最高區。觀點：要開始看「新增產能」而不是「價格」。\n- **TSMC**：10 月營收證實 4Q 仍強。\n- **GOOGL、AMZN、META**：營收成長健康，但自由現金流轉負（GOOGL −90.7 億、AMZN −348.4 億、META −11.6 億美元，書面）。觀點：下兩季看資本支出指引是否再上修。\n- **AAPL**：毛利率由 50.1% 降到 47.9%（書面）；原因是否為記憶體成本：待確認（需讀法說會逐字稿）。\n- **GEV**：毛利率年增 5.6 個百分點，電力瓶頸受益者。\n\n## 待確認／待確定清單\n- 待確認：GPU／ASIC 交期、算力租價（本期無可靠來源）。\n- 待確認：雲端四家 10 月財報後的 2026 全年資本支出最新指引（只讀到 2026-04 的舊指引，不採用）。\n- 待確認：ASML 3Q26 新接訂單金額（本站未收錄）。\n- 待確認：資料中心用電量最新數字。\n- 待確認：本期窗口內的出口管制、關稅新進展；本月最大事件。\n- 待確認：AAPL 毛利率下降原因（需逐字稿）。\n- 待確定：GEV 在手訂單 1,970 億美元（媒體標題，原文未讀到）。\n- 待確定：OpenAI、Anthropic 年化營收（媒體，且早於窗口）。\n- 待確定：TrendForce 4Q26 DRAM 合約價 +20% 預估（研究機構轉述媒體）。\n\n---\n非投資建議。數字來源為公司申報與本站已核對資料；趨勢判斷為 Claude 觀點。\n"}],"ledger":"# 世界趨勢預測帳本\n\n由每月排程（docs/TREND_PROMPT.md）維護：只加不刪，結果欄逐月更新。\n\n| 編號 | 立帳月 | 預測 | 時間點 | 信心 | 校正依據 | 檢驗方式 | 結果 | 對帳月 | 錯在哪 |\n|---|---|---|---|---|---|---|---|---|---|\n| T2611-1 | 2026-11 | 雲端四家（MSFT、GOOGL、AMZN、META）2026 年 10–12 月資本支出合計高於 7–9 月的 2,019 億美元 | 2027-02 財報 | 高 | 「AI 基礎設施量級」：作者式數字當下限，只預測方向不預測量級 | 四家 10-Q/10-K 現金流量表資本支出加總 | 未到期 | | |\n| T2611-2 | 2026-11 | TSMC 4Q26 營收（新台幣）年增率高於 40% | 2027-01 財報 | 高 | 「AI 基礎設施量級」：門檻取低於 10 月實績（59.7%）的下限 | TSMC 4Q26 財報／6-K 月營收 | 未到期 | | |\n| T2611-3 | 2026-11 | DRAM 合約價季漲幅繼續收斂：1Q27 漲幅低於 4Q26 | 2027-03 | 低 | 「不熟領域、資產價格」：標低信心 | 研究機構（TrendForce）季度報價（媒體，待確定）＋MU/三星財報的平均售價說明 | 未到期 | | |\n| T2611-4 | 2026-11 | GEV 4Q26 毛利率高於一年前的 21.2% | 2027-02 財報 | 中 | 無直接對應列，不打折 | GEV 4Q26 財報 | 未到期 | | |\n"};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  function inline(text) {
+    let h = esc(text);
+    h = h.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`);
+    h = h.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+    h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
+    h = h.replace(/(^|[\s（(：，、])(書面)(?=[\s）)：，、。；]|$)/g, '$1<span class="tr-tag w">書面</span>');
+    h = h.replace(/(^|[\s（(：，、])(媒體)(?=[\s）)：，、。；]|$)/g, '$1<span class="tr-tag m">媒體</span>');
+    h = h.replace(/(^|[\s（(：，、])(觀點)(?=[\s）)：，、。；]|$)/g, '$1<span class="tr-tag v">觀點</span>');
+    h = h.replace(/(待確認|待確定)(?=[:：]|[\s）)，、。；]|$)/g, '<span class="tr-tag q">$1</span>');
+    return h;
+  }
+
+  function splitRow(line) {
+    return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim());
+  }
+
+  function mdToHtml(md, wrapCards) {
+    const lines = String(md || "").replace(/\r\n/g, "\n").split("\n");
+    const blocks = [];
+    let cur = [];
+    const flushCard = () => {
+      if (!cur.length) return;
+      blocks.push(renderLines(cur));
+      cur = [];
+    };
+    if (wrapCards) {
+      for (let i = 0; i < lines.length; i++) {
+        if (/^##\s+/.test(lines[i])) {
+          flushCard();
+        }
+        cur.push(lines[i]);
+      }
+      flushCard();
+      return blocks.filter(Boolean).map(b => `<div class="tr-card">${b}</div>`).join("");
+    }
+    return renderLines(lines);
+  }
+
+  function renderLines(lines) {
+    let out = "";
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+      if (!line.trim()) { i++; continue; }
+      if (/^```/.test(line.trim())) {
+        i++;
+        const code = [];
+        while (i < lines.length && !/^```/.test(lines[i].trim())) { code.push(lines[i]); i++; }
+        if (i < lines.length) i++;
+        out += `<pre class="tr-pre">${esc(code.join("\n"))}</pre>`;
+        continue;
+      }
+      if (/^---+$/.test(line.trim())) { out += '<hr class="tr-hr">'; i++; continue; }
+      const h1 = line.match(/^#\s+(.+)/);
+      if (h1) { out += `<h1>${inline(h1[1])}</h1>`; i++; continue; }
+      const h2 = line.match(/^##\s+(.+)/);
+      if (h2) { out += `<h2>${inline(h2[1])}</h2>`; i++; continue; }
+      const h3 = line.match(/^###\s+(.+)/);
+      if (h3) { out += `<h3>${inline(h3[1])}</h3>`; i++; continue; }
+      if (/^>\s*/.test(line)) {
+        const bq = [];
+        while (i < lines.length && /^>\s*/.test(lines[i])) { bq.push(lines[i].replace(/^>\s*/, "")); i++; }
+        out += `<blockquote>${bq.map(x => `<p>${inline(x)}</p>`).join("")}</blockquote>`;
+        continue;
+      }
+      if (/^\|/.test(line.trim())) {
+        const tbl = [];
+        while (i < lines.length && /^\|/.test(lines[i].trim())) { tbl.push(lines[i]); i++; }
+        if (tbl.length >= 2 && /^[\s|:-]+$/.test(tbl[1].trim())) {
+          const head = splitRow(tbl[0]);
+          const body = tbl.slice(2).map(splitRow);
+          out += `<div class="tbl-wrap"><table class="tr-tbl"><thead><tr>${head.map(c => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>${body.map(r => `<tr>${r.map(c => `<td>${inline(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+        } else {
+          out += tbl.map(x => `<p>${inline(x)}</p>`).join("");
+        }
+        continue;
+      }
+      if (/^[-*]\s+/.test(line)) {
+        const ul = [];
+        while (i < lines.length && /^[-*]\s+/.test(lines[i])) { ul.push(lines[i].replace(/^[-*]\s+/, "")); i++; }
+        out += `<ul>${ul.map(x => `<li>${inline(x)}</li>`).join("")}</ul>`;
+        continue;
+      }
+      const para = [];
+      while (i < lines.length && lines[i].trim() && !/^(#{1,3}\s+|>\s*|```|[-*]\s+|\||---+$)/.test(lines[i].trim())) {
+        para.push(lines[i].trim());
+        i++;
+      }
+      out += `<p>${inline(para.join(" "))}</p>`;
+    }
+    return out;
+  }
+
+  const issues = D.issues || [];
+  let active = issues.length ? issues[0].id : null;
+  function showIssue(id) {
+    active = id;
+    const item = issues.find(x => x.id === id) || issues[0];
+    if (!item) {
+      $("trBody").innerHTML = '<div class="tr-card"><p class="tr-empty">目前還沒有世界科技趨勢月報。</p></div>';
+      return;
+    }
+    $("trMeta").innerHTML = `<span>最新期別 <b>${esc(issues[0].id)}</b></span><span>共收錄 <b>${issues.length}</b> 期月報</span>`;
+    $("trBody").innerHTML = mdToHtml(item.md, true);
+    $("trIssues").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === active)));
+  }
+
+  if (issues.length > 1) {
+    $("trCtrl").hidden = false;
+    $("trIssues").innerHTML = issues.map(x => `<button type="button" data-id="${esc(x.id)}" aria-pressed="${x.id === active}">${esc(x.id)}</button>`).join("");
+    $("trIssues").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b) showIssue(b.dataset.id);
+    });
+  }
+  showIssue(active);
+
+  if (D.ledger) {
+    const ledgerLines = D.ledger.replace(/\r\n/g, "\n").split("\n").filter(l => !/^#\s+/.test(l));
+    $("trLedger").innerHTML = mdToHtml(ledgerLines.join("\n"), false);
+  } else {
+    $("trLedger").innerHTML = '<p class="tr-empty">待確認：找不到預測帳本（reports/trend/LEDGER.md）。</p>';
+  }
+})();
+</script>
+
+<script id="sb-cfg" type="application/json">{"title":"企業財報追蹤板","qv":"915dd773","early":true,"rates":true,"companies":[{"code":"tsmc","name":"台積電","ticker":"2330","sector":"半導體","path":"tsmc/"},{"code":"pltr","name":"Palantir","ticker":"PLTR","sector":"軟體與網路服務","path":"pltr/"},{"code":"nvda","name":"輝達","ticker":"NVDA","sector":"半導體","path":"nvda/"},{"code":"tsla","name":"特斯拉","ticker":"TSLA","sector":"電動車與太空","path":"tsla/"},{"code":"anet","name":"Arista","ticker":"ANET","sector":"硬體與網通","path":"anet/"},{"code":"spcx","name":"SpaceX","ticker":"SPCX","sector":"電動車與太空","path":"spcx/"},{"code":"samsung","name":"三星電子","ticker":"005930","sector":"半導體","path":"samsung/"},{"code":"delta","name":"台達電","ticker":"2308","sector":"硬體與網通","path":"delta/"},{"code":"msft","name":"微軟","ticker":"MSFT","sector":"軟體與網路服務","path":"msft/"},{"code":"mu","name":"美光","ticker":"MU","sector":"半導體","path":"mu/"},{"code":"amzn","name":"亞馬遜","ticker":"AMZN","sector":"軟體與網路服務","path":"amzn/"},{"code":"aapl","name":"蘋果","ticker":"AAPL","sector":"硬體與網通","path":"aapl/"},{"code":"meta","name":"Meta","ticker":"META","sector":"軟體與網路服務","path":"meta/"},{"code":"avgo","name":"博通","ticker":"AVGO","sector":"半導體","path":"avgo/"},{"code":"mrvl","name":"邁威爾","ticker":"MRVL","sector":"半導體","path":"mrvl/"},{"code":"amd","name":"超微","ticker":"AMD","sector":"半導體","path":"amd/"},{"code":"crwd","name":"CrowdStrike","ticker":"CRWD","sector":"軟體與網路服務","path":"crwd/"},{"code":"panw","name":"Palo Alto Networks","ticker":"PANW","sector":"軟體與網路服務","path":"panw/"},{"code":"rklb","name":"火箭實驗室","ticker":"RKLB","sector":"電動車與太空","path":"rklb/"},{"code":"gev","name":"GE Vernova","ticker":"GEV","sector":"能源與電力","path":"gev/"},{"code":"googl","name":"Google","ticker":"GOOGL","sector":"軟體與網路服務","path":"googl/"},{"code":"csco","name":"思科","ticker":"CSCO","sector":"硬體與網通","path":"csco/"},{"code":"asml","name":"艾司摩爾","ticker":"ASML","sector":"半導體","path":"asml/"},{"code":"allring","name":"萬潤","ticker":"6187","sector":"半導體","path":"allring/"},{"code":"gd","name":"通用動力","ticker":"GD","sector":"國防與航太","path":"gd/"},{"code":"lmt","name":"洛克希德馬丁","ticker":"LMT","sector":"國防與航太","path":"lmt/"},{"code":"ceg","name":"星座能源","ticker":"CEG","sector":"能源與電力","path":"ceg/"},{"code":"lhx","name":"L3哈里斯","ticker":"LHX","sector":"國防與航太","path":"lhx/"},{"code":"rtx","name":"雷神技術","ticker":"RTX","sector":"國防與航太","path":"rtx/"},{"code":"etn","name":"伊頓","ticker":"ETN","sector":"能源與電力","path":"etn/"},{"code":"bwxt","name":"BWX科技","ticker":"BWXT","sector":"能源與電力","path":"bwxt/"},{"code":"xom","name":"埃克森美孚","ticker":"XOM","sector":"能源與電力","path":"xom/"},{"code":"ge","name":"奇異航太","ticker":"GE","sector":"國防與航太","path":"ge/"},{"code":"yageo","name":"國巨","ticker":"2327","sector":"硬體與網通","path":"yageo/"},{"code":"lite","name":"朗美通","ticker":"LITE","sector":"硬體與網通","path":"lite/"},{"code":"cohr","name":"高意","ticker":"COHR","sector":"硬體與網通","path":"cohr/"},{"code":"fn","name":"Fabrinet","ticker":"FN","sector":"硬體與網通","path":"fn/"},{"code":"axti","name":"AXT","ticker":"AXTI","sector":"半導體","path":"axti/"}],"root":"../","page":"trend","code":""}</script><script src="../assets/sidebar.js?v=7e2cfa8b"></script>
+</body></html>

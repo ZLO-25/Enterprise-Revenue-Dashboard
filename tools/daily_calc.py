@@ -62,8 +62,9 @@ def series(quarters, rows):
     return out
 
 
-def latest(Q, quarters, rows, prices=None, valuation=None, thesis=None):
+def latest(Q, quarters, rows, prices=None, valuation=None, thesis=None, rates=None):
     """最新一個交易日的所有數字。Q＝normq 後的季度（金額單位百萬），quarters＝原始季度（pe.py 用）。"""
+    import buffett as BUF
     have = [x for x in rows if x[1] is not None]
     if not have:
         return None
@@ -95,6 +96,21 @@ def latest(Q, quarters, rows, prices=None, valuation=None, thesis=None):
     L["med5"] = med5
     L["vsMed5"] = r((L["pe"] / med5 - 1) * 100, 1) if L["pe"] is not None and med5 else None
     L["peNoisy"] = PE.pe_noisy(L["pe"])   # 超過 PE.PE_REF_MAX：頁面顯示「不適用」（資料值不變）
+    # 今日盈餘殖利率、對公債利差與隱含成長率（同步巴菲特＋蒙格檢查表第 4 關）
+    L["ey"] = L["bond"] = L["eySpread"] = L["impliedG"] = None
+    if L["pe"] is not None and L["pe"] > 0 and not L["peNoisy"]:
+        L["ey"] = round(100 / L["pe"], 2)
+        L["impliedG"] = {
+            "15": round(BUF.implied_g(L["pe"], 15) * 100, 1),
+            "20": round(BUF.implied_g(L["pe"], 20) * 100, 1),
+        }
+        cur = (valuation or {}).get("currency") or (prices or {}).get("currency")
+        rs = rates if rates is not None else BUF.load_rates()
+        bkey = BUF.CURRENCY_BOND.get(cur)
+        bs = BUF.bond_of(rs, bkey) if (rs and bkey) else None
+        if bs:
+            L["bond"] = bs["points"][-1][1]
+            L["eySpread"] = round(L["ey"] - L["bond"], 2)
     # 預估本益比（分析師預估，最新一筆有數字的月底快照）
     L["fpe"] = L["ntm"] = L["fSnap"] = None
     fs = [f for f in (prices or {}).get("forward", []) if not f.get("why")]
@@ -164,12 +180,12 @@ def latest(Q, quarters, rows, prices=None, valuation=None, thesis=None):
     return L
 
 
-def compute(Q, quarters, daily, prices=None, valuation=None, thesis=None):
+def compute(Q, quarters, daily, prices=None, valuation=None, thesis=None, rates=None):
     """回傳 {d, c, …latest, series:[[d,c,pe]]}；沒有每日股價檔時回傳 None。"""
     if not daily or not daily.get("rows"):
         return None
     rows = daily["rows"]
-    L = latest(Q, quarters, rows, prices, valuation, thesis)
+    L = latest(Q, quarters, rows, prices, valuation, thesis, rates=rates)
     if L is None:
         return None
     return {"symbol": daily.get("symbol"), "currency": daily.get("currency"), "fetched": daily.get("fetched"), "check": daily.get("check"),
