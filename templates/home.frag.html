@@ -101,7 +101,13 @@ table.co-tbl { font-size: 0.84rem; }
 .score th, .score td { text-align: right; }
 .score th:first-child, .score td:first-child { text-align: left; }
 .score td.lbl { font-family: var(--font-cjk); color: var(--ink-2); font-size: 0.78rem; white-space: normal; min-width: 11rem; }
-.score tr.exp td { font-family: var(--font-cjk); color: var(--muted); font-size: 0.74rem; white-space: normal; border-bottom: 0; padding-top: 0; }
+/* 指標說明：預設隱藏，滑鼠移到指標名稱上（或手機點一下）才用小視窗浮現 */
+.score td.lbl.has-tip { cursor: help; }
+.score td.lbl.has-tip:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: -2px; }
+.score .tip-i { display: inline-block; margin-left: 4px; color: var(--muted); font-size: 0.7rem; font-family: var(--font-ui); vertical-align: 1px; }
+.score td.lbl.tip-on, .score td.lbl.has-tip:hover { color: var(--ink); }
+.score-tip { position: fixed; z-index: 60; max-width: min(320px, calc(100vw - 24px)); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); font-family: var(--font-cjk); font-size: 0.8rem; line-height: 1.55; box-shadow: 0 6px 20px rgba(0,0,0,0.18); pointer-events: none; }
+.score-tip[hidden] { display: none; }
 .guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
 .guide .card { gap: 6px; }
 .guide .card b { font-size: 0.95rem; }
@@ -186,7 +192,7 @@ table.co-tbl { font-size: 0.84rem; }
   <section id="score">
     <div class="sec-head">
       <h2>長期體質記分板</h2>
-      <p class="sub">各家公司的貨幣與規模不同，所以只比「比率」與「成長率」，不比金額。全部用近四季（TTM）計算，把季節性拉平；每一列下面的小字說明怎麼讀。</p>
+      <p class="sub">各家公司的貨幣與規模不同，所以只比「比率」與「成長率」，不比金額。全部用近四季（TTM）計算，把季節性拉平；把滑鼠移到指標名稱上（手機點一下）就會看到怎麼讀。</p>
     </div>
     <div class="tbl-wrap"><table id="scoreTbl" class="score"></table></div>
   </section>
@@ -662,7 +668,35 @@ const ROWS = [
   ['資料年數', s => `${s.M.years} 年`, '這個板收錄了幾年的季度資料；年數越長，長期指標越可靠。'],
 ];
 $('#scoreTbl').innerHTML = `<thead><tr><th>指標</th>${S.map(s => `<th>${s.c.name}</th>`).join('')}</tr></thead><tbody>` +
-  ROWS.map(r => `<tr><td class="lbl">${r[0]}</td>${S.map(s => `<td>${r[1](s)}</td>`).join('')}</tr><tr class="exp"><td colspan="${S.length + 1}">${r[2]}</td></tr>`).join('') + '</tbody>';
+  ROWS.map((r, i) => `<tr><td class="lbl has-tip" tabindex="0" data-tip="${i}" aria-describedby="scoreTip">${r[0]}<span class="tip-i" aria-hidden="true">ⓘ</span></td>${S.map(s => `<td>${r[1](s)}</td>`).join('')}</tr>`).join('') + '</tbody>';
+/* 指標說明小視窗：滑鼠移入顯示、移開消失；鍵盤 Tab 到也會顯示；觸控裝置（沒有滑鼠）點一下顯示、再點或點別處收起 */
+(() => {
+  const tbl = $('#scoreTbl'), tipEl = document.createElement('div');
+  tipEl.className = 'score-tip'; tipEl.id = 'scoreTip'; tipEl.setAttribute('role', 'tooltip'); tipEl.hidden = true;
+  document.body.appendChild(tipEl);
+  let cur = null, shownAt = 0;
+  const show = (td) => {
+    if (cur) cur.classList.remove('tip-on');
+    shownAt = Date.now();
+    cur = td; td.classList.add('tip-on');
+    tipEl.textContent = ROWS[+td.dataset.tip][2]; tipEl.hidden = false;
+    const r = td.getBoundingClientRect(), t = tipEl.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+    const left = Math.max(12, Math.min(r.left, vw - t.width - 12));
+    const top = r.bottom + 6 + t.height > window.innerHeight - 8 ? r.top - t.height - 6 : r.bottom + 6;
+    tipEl.style.left = left + 'px'; tipEl.style.top = Math.max(8, top) + 'px';
+  };
+  const hide = () => { if (cur) cur.classList.remove('tip-on'); cur = null; tipEl.hidden = true; };
+  const cell = (e) => e.target.closest && e.target.closest('td.has-tip');
+  tbl.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse') { const td = cell(e); if (td && td !== cur) show(td); } });
+  tbl.addEventListener('pointerout', (e) => { if (e.pointerType === 'mouse') { const td = cell(e); if (td && !td.contains(e.relatedTarget)) hide(); } });
+  tbl.addEventListener('click', (e) => { const td = cell(e); if (!td) return; if (e.pointerType === 'mouse') return; td === cur && Date.now() - shownAt > 350 ? hide() : show(td); });  /* 點一下時 focus 會先觸發顯示，所以剛顯示的不要馬上收起 */
+  tbl.addEventListener('focusin', (e) => { const td = cell(e); if (td) show(td); });
+  tbl.addEventListener('focusout', hide);
+  tbl.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+  document.addEventListener('pointerdown', (e) => { if (cur && !cell(e)) hide(); });
+  window.addEventListener('scroll', hide, { passive: true });
+  tbl.parentElement.addEventListener('scroll', hide, { passive: true });
+})();
 
 /* ---------- 新鮮度表 ---------- */
 $('#freshTbl').innerHTML = `<thead><tr><th>公司</th><th>資料截至</th><th>狀態</th><th>最新一季</th><th>下一個公布日</th><th class="txt">內容</th><th class="txt">主要來源</th><th>公布頻率</th><th>股價截至</th><th title="近期＝最近兩季（現在該處理）／近三年／歷史（多半補不回來）">待確認<br><small>近期／近三年／歷史</small></th></tr></thead><tbody>` +
