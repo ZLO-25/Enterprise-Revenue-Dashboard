@@ -340,6 +340,7 @@ def main():
     rates_cache = BUFFETT.load_rates(ROOT)
     idx_cache = BUFFETT.load_index_prices(ROOT)
     tidx_cache = BUFFETT.load_total_index_prices(ROOT)
+    etf_bench_cache = BUFFETT.load_etf_benchmarks(ROOT)
     datasets = {}
     for c in companies:
         data = json.loads(read("data", c["code"] + ".json"))
@@ -358,7 +359,7 @@ def main():
         adj_stock = BUFFETT.load_quant_stock_price(ysym, ROOT) if ysym else None
         try:
             data["buffett"] = BUFFETT.compute(c, data, HEALTH.normq(data, c.get("schema")), data["valuation"], data["health"], prices, rates_cache, idx_cache, th_ok,
-                                              total_index_prices=tidx_cache, adj_stock=adj_stock)
+                                              total_index_prices=tidx_cache, adj_stock=adj_stock, etf_benchmarks=etf_bench_cache)
         except Exception as e:  # noqa: BLE001  算不出來就不顯示檢查表，不讓整個建置失敗；訊息留在輸出
             print(f"{c['code']}: buffett 指標計算失敗 {type(e).__name__}: {e}")
             data["buffett"] = None

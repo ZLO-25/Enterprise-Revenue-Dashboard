@@ -129,8 +129,8 @@ class Entry(unittest.TestCase):
 
     def test_due(self):
         self.assertTrue(E.due(None, "2026-11-20", 7))
-        self.assertFalse(E.due({"holdings": {"asOf": "2026-11-15"}}, "2026-11-20", 7))
-        self.assertTrue(E.due({"holdings": {"asOf": "2026-11-13"}}, "2026-11-20", 7))
+        self.assertFalse(E.due({"holdings": {"asOf": "2026-11-15"}, "pe": {"v": 20.0}}, "2026-11-20", 7))
+        self.assertTrue(E.due({"holdings": {"asOf": "2026-11-13"}, "pe": {"v": 20.0}}, "2026-11-20", 7))
 
 
 class KbarIncludesEtf(unittest.TestCase):
@@ -197,9 +197,11 @@ class Remap(unittest.TestCase):
         e = {"code": "etf_x", "ticker": "X", "name": "X", "group": "g", "yahoo": "X", "currency": "USD", "issuer": "i", "why": "w"}
         prev = {"holdings": {"asOf": "2026-11-20", "rows": [{"sym": "005930.KQ", "name": "Samsung", "w": 19.0}]}}
         by = {"samsung": {"code": "samsung", "name": "三星電子", "path": "samsung/"}}
-        out = E.build_entry(e, None, prev, None, "2026-11-21", {"005930.KQ": "samsung"}, by, lambda c: (10.0, "2026-11-20"))
+        out = E.build_entry(e, None, prev, None, "2026-11-21", {"005930.KQ": "samsung"}, by, lambda c: (10.0, "2026-11-20"),
+                            pe_of=lambda c: (5.3, "2026-11-21") if c == "samsung" else None)
         r = out["holdings"]["rows"][0]
         self.assertEqual((r["code"], r["co"], r["r1y"]), ("samsung", "三星電子", 10.0))
+        self.assertEqual((r["pe"], r["peD"]), (5.3, "2026-11-21"))
 
     def test_remap_does_not_mutate_prev(self):
         e = {"code": "etf_x", "ticker": "X", "name": "X", "group": "g", "yahoo": "X", "currency": "USD", "issuer": "i", "why": "w"}
@@ -207,3 +209,74 @@ class Remap(unittest.TestCase):
         by = {"samsung": {"code": "samsung", "name": "三星電子", "path": "samsung/"}}
         E.build_entry(e, None, prev, None, "2026-11-21", {"005930.KQ": "samsung"}, by, lambda c: None)
         self.assertNotIn("code", prev["holdings"]["rows"][0])   # 舊資料不變，才比得出「有變動」
+
+
+class EtfPe(unittest.TestCase):
+    rates = {"series": {"us_10y": {"points": [["2026-11-19", 4.1]]}, "tw_10y": {"points": [["2026-11-20", 1.9]]}}}
+    e = {"code": "etf_x", "ticker": "X", "name": "X", "group": "半導體", "yahoo": "X", "currency": "USD", "issuer": "i", "why": "w"}
+
+    def test_parse_pe_cases(self):
+        # 正常股票型 + 公債利差（USD）
+        p = E.parse_pe(25.0, currency="USD", rates=self.rates)
+        self.assertEqual((p["v"], p["ey"], p["bond"], p["spread"]), (25.0, 4.0, 4.1, -0.1))
+        self.assertNotIn("noisy", p)
+        # TWD
+        p_tw = E.parse_pe(20.0, currency="TWD", rates=self.rates)
+        self.assertEqual((p_tw["v"], p_tw["ey"], p_tw["bond"], p_tw["spread"]), (20.0, 5.0, 1.9, 3.1))
+        # 沒有公債利率
+        p_nb = E.parse_pe(20.0, currency="EUR", rates=self.rates)
+        self.assertEqual((p_nb["v"], p_nb["ey"]), (20.0, 5.0))
+        self.assertNotIn("bond", p_nb)
+        # 商品不適用
+        self.assertEqual(E.parse_pe(15.0, kind="commodity"), {"v": None, "na": "商品／期貨不適用"})
+        # 超過 200 倍
+        p_noisy = E.parse_pe(250.34, currency="USD", rates=self.rates)
+        self.assertTrue(p_noisy["noisy"])
+        self.assertEqual(p_noisy["v"], 250.3)
+        self.assertIn("200", p_noisy["flag"])
+        # 非正數 / 缺失 / NaN
+        self.assertIsNone(E.parse_pe(0)["v"])
+        self.assertIn("非正數", E.parse_pe(-5.0)["flag"])
+        self.assertIn("沒有這檔的本益比", E.parse_pe(None)["flag"])
+        self.assertIn("沒有這檔的本益比", E.parse_pe(float("nan"))["flag"])
+
+    def test_monthly_pe_hist_accumulation_and_no_backfill(self):
+        # 第一個月新增
+        out1 = E.build_entry(dict(self.e, cyclical=True), None, None, {"items": None, "pe": 20.0}, "2026-11-26", {}, {}, lambda c: None, rates=self.rates)
+        self.assertTrue(out1["cyclical"])
+        self.assertEqual(out1["pe"]["v"], 20.0)
+        self.assertEqual(out1["peHist"], [{"m": "2026-11", "d": "2026-11-26", "pe": 20.0}])
+        # 同月更新應覆蓋同月項目，不重複新增
+        out2 = E.build_entry(self.e, None, out1, {"items": None, "pe": 22.5}, "2026-11-28", {}, {}, lambda c: None, rates=self.rates)
+        self.assertEqual(out2["peHist"], [{"m": "2026-11", "d": "2026-11-28", "pe": 22.5}])
+        # 跨月累加（不回填更早月份）
+        out3 = E.build_entry(self.e, None, out2, {"items": None, "pe": 25.0}, "2026-12-05", {}, {}, lambda c: None, rates=self.rates)
+        self.assertEqual(out3["peHist"], [{"m": "2026-11", "d": "2026-11-28", "pe": 22.5}, {"m": "2026-12", "d": "2026-12-05", "pe": 25.0}])
+        # 沒抓到 pe 時沿用 stale，不寫入當月新快照
+        out4 = E.build_entry(self.e, None, out3, {"items": None, "pe": None}, "2027-01-05", {}, {}, lambda c: None, rates=self.rates)
+        self.assertIn("沿用", out4["pe"]["stale"])
+        self.assertEqual(len(out4["peHist"]), 2)
+        # fund_new is None 時重算公債利差，不改動 prev
+        new_rates = {"series": {"us_10y": {"points": [["2026-12-10", 4.5]]}}}
+        out5 = E.build_entry(self.e, None, out3, None, "2026-12-10", {}, {}, lambda c: None, rates=new_rates)
+        self.assertEqual(out5["pe"]["bond"], 4.5)
+        self.assertEqual(out5["pe"]["spread"], round(4.0 - 4.5, 2))
+        self.assertEqual(out3["pe"]["bond"], 4.1)
+
+    def test_due_triggers_on_missing_pe_for_equity_only(self):
+        # 持股在 7 天內，但缺 pe → 股票型 ETF 應觸發更新；commodity 不觸發
+        recent_no_pe = {"holdings": {"asOf": "2026-11-25"}}
+        self.assertTrue(E.due(recent_no_pe, "2026-11-26", 7))
+        self.assertFalse(E.due(recent_no_pe, "2026-11-26", 7, kind="commodity"))
+        recent_with_pe = {"holdings": {"asOf": "2026-11-25"}, "pe": {"v": 20.0}}
+        self.assertFalse(E.due(recent_with_pe, "2026-11-26", 7))
+
+    def test_holdings_pe_attachment(self):
+        smap = {"NVDA": "nvda", "MU": "mu"}
+        by = {"nvda": {"code": "nvda", "name": "輝達", "path": "nvda/"}, "mu": {"code": "mu", "name": "美光", "path": "mu/"}}
+        pe_map = {"nvda": {"pe": 16.0, "d": "2026-11-25"}}
+        rows, _, _ = E.parse_holdings([("NVDA", "NVIDIA", 0.5), ("MU", "Micron", 0.3), ("INTC", "Intel", 0.2)],
+                                      smap, by, lambda c: None, pe_of=lambda c: E.pe_from_daily(c, pe_map))
+        self.assertEqual((rows[0]["pe"], rows[0]["peD"]), (16.0, "2026-11-25"))
+        self.assertNotIn("pe", rows[1])
+        self.assertNotIn("pe", rows[2])

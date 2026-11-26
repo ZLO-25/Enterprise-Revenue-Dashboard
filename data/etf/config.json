@@ -145,6 +145,7 @@
    "yahoo": "DRAM",
    "currency": "USD",
    "from": "2026-04",
+   "cyclical": true,
    "issuer": "Roundhill Investments",
    "issuerUrl": "https://www.roundhillinvestments.com/etf/dram/",
    "why": "純記憶體 ETF（2026 年 4 月才掛牌，歷史很短），可對照站上的 MU、三星。"
@@ -242,6 +243,7 @@
    "group": "黃金與 AI 金屬",
    "yahoo": "COPX",
    "currency": "USD",
+   "cyclical": true,
    "issuer": "Global X",
    "issuerUrl": "https://www.globalxetfs.com/funds/copx",
    "why": "銅礦公司的一籃子：銅價上漲時通常漲得比銅價本身更多，也跌得更多。"
