@@ -123,6 +123,11 @@
           "symbol": "00631L.TW",
           "name": "0050正二",
           "note": "新台幣計價"
+        },
+        {
+          "symbol": "2327.TW",
+          "name": "國巨",
+          "note": "新台幣計價"
         }
       ]
     },
@@ -179,6 +184,58 @@
         {
           "symbol": "TSM",
           "name": "台積電 ADR"
+        },
+        {
+          "symbol": "GD",
+          "name": "通用動力"
+        },
+        {
+          "symbol": "LMT",
+          "name": "洛克希德馬丁"
+        },
+        {
+          "symbol": "CEG",
+          "name": "星座能源"
+        },
+        {
+          "symbol": "LHX",
+          "name": "L3哈里斯"
+        },
+        {
+          "symbol": "RTX",
+          "name": "雷神技術"
+        },
+        {
+          "symbol": "ETN",
+          "name": "伊頓"
+        },
+        {
+          "symbol": "BWXT",
+          "name": "BWX科技"
+        },
+        {
+          "symbol": "XOM",
+          "name": "埃克森美孚"
+        },
+        {
+          "symbol": "GE",
+          "name": "奇異航太"
+        },
+        {
+          "symbol": "LITE",
+          "name": "朗美通"
+        },
+        {
+          "symbol": "COHR",
+          "name": "高意"
+        },
+        {
+          "symbol": "FN",
+          "name": "Fabrinet"
+        },
+        {
+          "symbol": "AXTI",
+          "name": "AXT"
         }
       ]
     },

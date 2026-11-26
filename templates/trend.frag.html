@@ -1,0 +1,192 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+.tr-ctrl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.tr-body { display: grid; gap: 18px; }
+.tr-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 12px; min-width: 0; }
+.tr-card h2 { font-size: var(--step-2); margin-top: 2px; }
+.tr-card h3 { font-size: 1.02rem; margin: 10px 0 2px; color: var(--ink); }
+.tr-card p { color: var(--ink-2); line-height: 1.7; overflow-wrap: anywhere; }
+.tr-card p b { color: var(--ink); font-weight: 600; }
+.tr-card blockquote { margin: 0; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--wash); border-radius: 0 8px 8px 0; color: var(--ink-2); font-size: 0.92rem; display: grid; gap: 4px; }
+.tr-card ul { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; color: var(--ink-2); line-height: 1.65; }
+.tr-card ul li b { color: var(--ink); font-weight: 600; }
+.tr-pre { font-family: var(--font-data); font-size: 0.8rem; line-height: 1.48; white-space: pre; overflow-x: auto; background: var(--chip-bg); color: var(--ink); border-radius: 8px; padding: 12px 14px; margin: 4px 0; }
+.tr-tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.tr-tbl th, .tr-tbl td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.tr-tbl thead th { font-size: 0.78rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.tr-tag { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 1px 7px; border-radius: 999px; border: 1px solid transparent; vertical-align: 1px; white-space: nowrap; }
+.tr-tag.w { background: rgba(42, 120, 214, 0.12); color: var(--s1); border-color: rgba(42, 120, 214, 0.35); }
+.tr-tag.m { background: rgba(237, 161, 0, 0.14); color: var(--s4); border-color: rgba(237, 161, 0, 0.45); }
+.tr-tag.v { background: transparent; color: var(--muted); border: 1px dashed var(--muted); }
+.tr-tag.q { background: rgba(227, 73, 72, 0.12); color: var(--bad-text); border-color: rgba(227, 73, 72, 0.35); }
+.tr-hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+.tr-empty { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 640px) { .tr-card { padding: 14px; } .tr-tbl th, .tr-tbl td { padding: 6px 7px; font-size: 0.82rem; } }
+</style>
+
+<div class="secnav" role="navigation" aria-label="章節"><div class="scroller">
+  <a class="homelink" href="{{HOME}}">← 所有公司</a>
+  <a href="#report">趨勢月報</a>
+  <a href="#ledger">預測帳本</a>
+</div></div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">World Tech Trend · Monthly Report</div>
+    <h1>世界科技趨勢月報</h1>
+    <p class="lede">每月追蹤 AI 算力供需、應用變現、半導體週期、能源電力與監管地緣。每個數字可追到公司申報文件，媒體消息一律標「待確定」，趨勢推論一律標「觀點」，並把預測記進帳本逐月對帳。</p>
+    <div class="meta-row"><span id="trMeta">讀取中…</span></div>
+  </header>
+
+  <section id="report">
+    <div class="tr-ctrl" id="trCtrl" hidden>
+      <span>選擇期數：</span>
+      <div class="seg" id="trIssues" role="group" aria-label="月報期數"></div>
+    </div>
+    <div class="tr-body" id="trBody"></div>
+  </section>
+
+  <section id="ledger">
+    <div class="sec-head">
+      <h2>預測帳本（只加不刪・逐月對帳）</h2>
+      <p class="sub">每期月報新增的方向與時程預測都記在這裡，到期後用財報或研究機構資料檢驗對錯，校正信心。</p>
+    </div>
+    <div class="tr-card" id="trLedger"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  const D = {{TREND_DATA}};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  function inline(text) {
+    let h = esc(text);
+    h = h.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`);
+    h = h.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+    h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
+    h = h.replace(/(^|[\s（(：，、])(書面)(?=[\s）)：，、。；]|$)/g, '$1<span class="tr-tag w">書面</span>');
+    h = h.replace(/(^|[\s（(：，、])(媒體)(?=[\s）)：，、。；]|$)/g, '$1<span class="tr-tag m">媒體</span>');
+    h = h.replace(/(^|[\s（(：，、])(觀點)(?=[\s）)：，、。；]|$)/g, '$1<span class="tr-tag v">觀點</span>');
+    h = h.replace(/(待確認|待確定)(?=[:：]|[\s）)，、。；]|$)/g, '<span class="tr-tag q">$1</span>');
+    return h;
+  }
+
+  function splitRow(line) {
+    return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim());
+  }
+
+  function mdToHtml(md, wrapCards) {
+    const lines = String(md || "").replace(/\r\n/g, "\n").split("\n");
+    const blocks = [];
+    let cur = [];
+    const flushCard = () => {
+      if (!cur.length) return;
+      blocks.push(renderLines(cur));
+      cur = [];
+    };
+    if (wrapCards) {
+      for (let i = 0; i < lines.length; i++) {
+        if (/^##\s+/.test(lines[i])) {
+          flushCard();
+        }
+        cur.push(lines[i]);
+      }
+      flushCard();
+      return blocks.filter(Boolean).map(b => `<div class="tr-card">${b}</div>`).join("");
+    }
+    return renderLines(lines);
+  }
+
+  function renderLines(lines) {
+    let out = "";
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+      if (!line.trim()) { i++; continue; }
+      if (/^```/.test(line.trim())) {
+        i++;
+        const code = [];
+        while (i < lines.length && !/^```/.test(lines[i].trim())) { code.push(lines[i]); i++; }
+        if (i < lines.length) i++;
+        out += `<pre class="tr-pre">${esc(code.join("\n"))}</pre>`;
+        continue;
+      }
+      if (/^---+$/.test(line.trim())) { out += '<hr class="tr-hr">'; i++; continue; }
+      const h1 = line.match(/^#\s+(.+)/);
+      if (h1) { out += `<h1>${inline(h1[1])}</h1>`; i++; continue; }
+      const h2 = line.match(/^##\s+(.+)/);
+      if (h2) { out += `<h2>${inline(h2[1])}</h2>`; i++; continue; }
+      const h3 = line.match(/^###\s+(.+)/);
+      if (h3) { out += `<h3>${inline(h3[1])}</h3>`; i++; continue; }
+      if (/^>\s*/.test(line)) {
+        const bq = [];
+        while (i < lines.length && /^>\s*/.test(lines[i])) { bq.push(lines[i].replace(/^>\s*/, "")); i++; }
+        out += `<blockquote>${bq.map(x => `<p>${inline(x)}</p>`).join("")}</blockquote>`;
+        continue;
+      }
+      if (/^\|/.test(line.trim())) {
+        const tbl = [];
+        while (i < lines.length && /^\|/.test(lines[i].trim())) { tbl.push(lines[i]); i++; }
+        if (tbl.length >= 2 && /^[\s|:-]+$/.test(tbl[1].trim())) {
+          const head = splitRow(tbl[0]);
+          const body = tbl.slice(2).map(splitRow);
+          out += `<div class="tbl-wrap"><table class="tr-tbl"><thead><tr>${head.map(c => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>${body.map(r => `<tr>${r.map(c => `<td>${inline(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+        } else {
+          out += tbl.map(x => `<p>${inline(x)}</p>`).join("");
+        }
+        continue;
+      }
+      if (/^[-*]\s+/.test(line)) {
+        const ul = [];
+        while (i < lines.length && /^[-*]\s+/.test(lines[i])) { ul.push(lines[i].replace(/^[-*]\s+/, "")); i++; }
+        out += `<ul>${ul.map(x => `<li>${inline(x)}</li>`).join("")}</ul>`;
+        continue;
+      }
+      const para = [];
+      while (i < lines.length && lines[i].trim() && !/^(#{1,3}\s+|>\s*|```|[-*]\s+|\||---+$)/.test(lines[i].trim())) {
+        para.push(lines[i].trim());
+        i++;
+      }
+      out += `<p>${inline(para.join(" "))}</p>`;
+    }
+    return out;
+  }
+
+  const issues = D.issues || [];
+  let active = issues.length ? issues[0].id : null;
+  function showIssue(id) {
+    active = id;
+    const item = issues.find(x => x.id === id) || issues[0];
+    if (!item) {
+      $("trBody").innerHTML = '<div class="tr-card"><p class="tr-empty">目前還沒有世界科技趨勢月報。</p></div>';
+      return;
+    }
+    $("trMeta").innerHTML = `<span>最新期別 <b>${esc(issues[0].id)}</b></span><span>共收錄 <b>${issues.length}</b> 期月報</span>`;
+    $("trBody").innerHTML = mdToHtml(item.md, true);
+    $("trIssues").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === active)));
+  }
+
+  if (issues.length > 1) {
+    $("trCtrl").hidden = false;
+    $("trIssues").innerHTML = issues.map(x => `<button type="button" data-id="${esc(x.id)}" aria-pressed="${x.id === active}">${esc(x.id)}</button>`).join("");
+    $("trIssues").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b) showIssue(b.dataset.id);
+    });
+  }
+  showIssue(active);
+
+  if (D.ledger) {
+    const ledgerLines = D.ledger.replace(/\r\n/g, "\n").split("\n").filter(l => !/^#\s+/.test(l));
+    $("trLedger").innerHTML = mdToHtml(ledgerLines.join("\n"), false);
+  } else {
+    $("trLedger").innerHTML = '<p class="tr-empty">待確認：找不到預測帳本（reports/trend/LEDGER.md）。</p>';
+  }
+})();
+</script>

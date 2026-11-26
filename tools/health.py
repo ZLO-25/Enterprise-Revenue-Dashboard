@@ -75,7 +75,10 @@ def quarterly(Q):
         elif not (0 <= tax / pt <= 1):
             W["roic"] = "tax"
         elif (i0 + i1) / 2 <= 0:
-            W["roic"] = "neg"
+            if op * (1 - tax / pt) > 0 and q.get("cash") is not None and q.get("equity") is not None and q.get("debt") is not None and q["cash"] > q["equity"] + q["debt"]:
+                W["roic"] = "cash_rich"
+            else:
+                W["roic"] = "neg"
         else:
             row["roic"] = r(op * (1 - tax / pt) / ((i0 + i1) / 2) * 100, 1)
         # 稀釋股數年增

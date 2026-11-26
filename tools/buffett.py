@@ -27,6 +27,7 @@ EXIT_PES = (15, 20)              # 假設十年後本益比
 YEARS = (1, 3, 5, 10)
 CURRENCY_BOND = {"TWD": "tw_10y", "USD": "us_10y"}
 CURRENCY_INDEX = {"USD": ("_GSPC", "標普 500 價格指數（S&P 500，不含股息）"), "TWD": ("_TWII", "臺灣加權股價指數（不含股息）")}
+CURRENCY_TOTAL_INDEX = {"USD": ("SPY", "標普 500 ETF（SPY，含股息再投入）"), "TWD": ("0050.TW", "元大台灣 50（0050，含股息再投入）")}
 _RATES = None
 
 
@@ -59,6 +60,29 @@ def load_index_prices(root=None):
         except Exception:  # noqa: BLE001
             pass
     return out
+
+
+def load_total_index_prices(root=None):
+    out = {}
+    for cur, (sym, name) in CURRENCY_TOTAL_INDEX.items():
+        p = os.path.join(root or ROOT, "quant", "data", "prices", sym.replace("^", "_") + ".json")
+        try:
+            d = json.load(open(p, encoding="utf8"))
+            out[cur] = {"symbol": d.get("symbol") or sym, "name": name, "dates": d["dates"], "close": d["close"]}
+        except Exception:  # noqa: BLE001
+            pass
+    return out
+
+
+def load_quant_stock_price(yahoo_sym, root=None):
+    if not yahoo_sym:
+        return None
+    p = os.path.join(root or ROOT, "quant", "data", "prices", yahoo_sym.replace("^", "_") + ".json")
+    try:
+        d = json.load(open(p, encoding="utf8"))
+        return {"symbol": d.get("symbol") or yahoo_sym, "dates": d["dates"], "close": d["close"]}
+    except Exception:  # noqa: BLE001
+        return None
 
 
 # ---------- 月份與年度點 ----------
@@ -300,43 +324,64 @@ def summarize(rows, hq):
 # ---------- 3. 資本配置成績單 ----------
 def calc_buyback(Q, val, pts, fye, mcap):
     med = ((val or {}).get("stats") or {}).get("med5")
-    pe_by_m = {x["m"]: x["pe"] for x in (val or {}).get("monthly", []) if x.get("pe") is not None and x["pe"] > 0 and not PE.pe_noisy(x["pe"])}
+    mon = (val or {}).get("monthly") or []
+    last_m = mon[-1]["m"] if mon else None
+    pe_by_m = {x["m"]: x["pe"] for x in mon if x.get("pe") is not None and x["pe"] > 0 and not PE.pe_noisy(x["pe"])}
     rows = []
     for i in pts:
         bb = H.s4(Q, i, "buyback")
         months = window_months(Q[i]["q"], fye)
         v = [pe_by_m[m] for m in months if m in pe_by_m]
         avg = sum(v) / len(v) if len(v) >= 6 else None
+        ref_med = med
+        ref_kind = "目前近5年中位"
+        if last_m and months[-1] <= shift(last_m, -60):
+            roll = [pe_by_m[shift(months[-1], -k)] for k in range(60) if shift(months[-1], -k) in pe_by_m]
+            if len(roll) >= 24:
+                ref_med = statistics.median(roll)
+                ref_kind = "當時近5年中位"
         where = None
-        if bb and avg is not None and med:
-            where = "偏貴時買" if avg > med * 1.1 else ("偏便宜時買" if avg < med * 0.9 else "接近平常")
-        rows.append({"q": Q[i]["q"], "buyback": r(bb, 1), "avgPe": r(avg, 1), "nMonths": len(v), "med5": med, "where": where, "from": months[0], "to": months[-1]})
-    out = {"rows": rows, "shChg5": None, "buybackYield": None, "why": {}}
+        if bb and avg is not None and ref_med:
+            where = "偏貴時買" if avg > ref_med * 1.1 else ("偏便宜時買" if avg < ref_med * 0.9 else "接近平常")
+        rows.append({"q": Q[i]["q"], "buyback": r(bb, 1), "avgPe": r(avg, 1), "nMonths": len(v), "med5": r(ref_med, 1), "refKind": ref_kind, "where": where, "from": months[0], "to": months[-1]})
+    out = {"rows": rows, "shChg5": None, "buybackYield": None, "netBuyback": None, "netBuybackYield": None, "sbcOffsetOnly": False, "why": {}}
     if len(pts) >= 6 and Q[pts[-1]].get("shOut") and Q[pts[-6]].get("shOut"):
         out["shChg5"] = r((Q[pts[-1]]["shOut"] / Q[pts[-6]]["shOut"] - 1) * 100, 1)
     else:
         out["why"]["shChg5"] = "short" if len(pts) < 6 else "missing"
     bb = H.s4(Q, pts[-1], "buyback") if pts else None
+    sbc4 = H.s4(Q, pts[-1], "sbc") if pts else None
     if bb is None or mcap[0] is None:
         out["why"]["buybackYield"] = mcap[2] or "missing"
     elif mcap[0] > 0:
         out["buybackYield"] = r(bb / mcap[0] * 100, 2)
+    if bb is not None and sbc4 is not None:
+        out["netBuyback"] = r(bb - sbc4, 1)
+        out["sbcOffsetOnly"] = (bb > 0 and bb <= sbc4)
+        if mcap[0] and mcap[0] > 0:
+            out["netBuybackYield"] = r((bb - sbc4) / mcap[0] * 100, 2)
     return out
 
 
 # ---------- 4. 保留盈餘測試 ----------
-def div_unrecorded(D):
-    """每股股利全部是 null，但 notes.unavailable 有寫「每股股利」：公司有配息、只是本站沒收錄（例：台達電、萬潤、三星）。
-    這種情況不能把股利當 0（會高估留下的盈餘），保留盈餘測試算不出來。"""
-    n = (D or {}).get("notes")
-    u = n.get("unavailable") if isinstance(n, dict) else []
-    return any(isinstance(x, str) and ("股利" in x or "dps" in x) for x in (u or []))
-
-
 def div_lines(D):
     n = (D or {}).get("notes")
     u = n.get("unavailable") if isinstance(n, dict) else []
     return [x for x in (u or []) if isinstance(x, str) and ("股利" in x or "dps" in x)]
+
+
+def div_unrecorded(D):
+    """每股股利全部是 null，但 notes.unavailable 明寫公司有配息只是本站未收錄（例：台達電、萬潤、三星）。
+    「沒有發放／從未發放／不配息／從未配息／尚無配息」或「不是缺資料」（且沒有寫未收錄／不收錄／暫不收錄／全部留空）視為真正不配息。"""
+    no_div_words = ("沒有發放", "從未發放", "不配息", "從未配息", "尚無配息")
+    rec_words = ("未收錄", "不收錄", "暫不收錄", "全部留空")
+    for x in div_lines(D):
+        if any(w in x for w in rec_words):
+            return True
+        if any(w in x for w in no_div_words) or "不是缺資料" in x:
+            continue
+        return True
+    return False
 
 
 def div_flagged_unrecorded(D):
@@ -344,12 +389,13 @@ def div_flagged_unrecorded(D):
     return any(any(w in x for w in ("未收錄", "不收錄", "暫不收錄", "全部留空")) and "不是缺資料" not in x for x in div_lines(D))
 
 
-def calc_retained(Q, val, mcap, D=None):
-    out = {"kept": None, "ni20": None, "div20": None, "noDiv": False, "preDivQ": 0, "mcapNow": r(mcap[0], 0), "mcap0": None, "mcapChg": None, "ratio": None, "m0": None, "mNow": None, "why": None, "note": None}
-    n = len(Q)
-    if n < 20:
-        out["why"] = "short"; return out
-    idx = range(n - 20, n)
+def _retained_window(Q, val, mcap, D, end):
+    """在 Q[end-20 : end] 窗口試算保留盈餘測試；end == len(Q) 使用最新 mcap，end == len(Q)-1 時可退回前一完整季對應月底。"""
+    out = {"kept": None, "ni20": None, "div20": None, "noDiv": False, "preDivQ": 0, "mcapNow": r(mcap[0], 0), "mcap0": None, "mcapChg": None, "ratio": None,
+           "m0": None, "mNow": None, "why": None, "note": None,
+           "shChg5": None, "dilutedWarn": False, "tinyBase": False, "perShareRatio": None, "buyback20": None,
+           "windowQ": f"{Q[end - 20]['q']}～{Q[end - 1]['q']}", "lag1Q": end < len(Q)}
+    idx = range(end - 20, end)
     ni = [Q[i].get("ni") for i in idx]
     if any(x is None for x in ni):
         out["why"] = "missing"; return out
@@ -363,8 +409,8 @@ def calc_retained(Q, val, mcap, D=None):
         dv = [divq(Q, i) for i in idx]
         dps = [Q[i].get("dps") for i in idx]
         first = next((k for k, x in enumerate(dps) if x is not None), None)
-        gaps = [] if first is None else [Q[n - 20 + k]["q"] for k in range(first, 20) if dps[k] is None]
-        nosh = [Q[n - 20 + k]["q"] for k in range(20) if dps[k] is not None and Q[n - 20 + k].get("shOut") is None]
+        gaps = [] if first is None else [Q[end - 20 + k]["q"] for k in range(first, 20) if dps[k] is None]
+        nosh = [Q[end - 20 + k]["q"] for k in range(20) if dps[k] is not None and Q[end - 20 + k].get("shOut") is None]
         if first is None or gaps or nosh:
             out["why"] = "missing"; out["ni20"] = r(out["ni20"], 0)
             out["note"] = ("近 20 季的每股股利都沒有值，不補" if first is None else
@@ -372,8 +418,6 @@ def calc_retained(Q, val, mcap, D=None):
                             f"有 {len(nosh)} 季的期末流通股數待確認（{'、'.join(nosh) if len(nosh) <= 4 else nosh[0] + '～' + nosh[-1]}），股利總額算不出來，不補"))
             return out
         if first > 0:
-            # 第一個有值的股利之前連續空白：資料格式定義「不配息 → null」，視為當時還沒開始配息、當 0。
-            # 例外：資料說明明寫股利未收錄，或那幾季被列在「待確認」裡（那是缺資料，不是沒配息）→ 算不出來。
             lead = [Q[i]["q"] for i in list(idx)[:first]]
             lines = div_lines(D)
             if div_flagged_unrecorded(D) or any(q in x and "待確認" in x for q in lead for x in lines):
@@ -382,22 +426,73 @@ def calc_retained(Q, val, mcap, D=None):
         out["div20"] = sum(x for x in dv if x is not None)
     out["kept"] = out["ni20"] - out["div20"]
     mon = (val or {}).get("monthly") or []
-    if not mon or mcap[0] is None:
+    if not mon:
         out["why"] = mcap[2] or "noprice"; return out
-    now = mon[-1]
-    m0 = shift(now["m"], -60)
+    row_now = mon[-1]
+    c_now = mcap
+    if end < len(Q):
+        # 退回一季：找最後一個「已公布季度 <= end - 1」的月份（或沿用最新月如果它的 pub_idx 剛好就是 end - 1）
+        c_now = mcap_at(Q, row_now)
+        if c_now[0] is None or c_now[1] != end - 1:
+            hit = None
+            for mr in reversed(mon):
+                mc_r = mcap_at(Q, mr)
+                if mc_r[0] is not None and mc_r[1] is not None and mc_r[1] <= end - 1:
+                    hit = (mr, mc_r)
+                    break
+            if hit is None:
+                out["why"] = "missing"; return out
+            row_now, c_now = hit
+    elif c_now[0] is None:
+        out["why"] = c_now[2] or "noprice"; return out
+    out["mcapNow"] = r(c_now[0], 0)
+    m0 = shift(row_now["m"], -60)
     row0 = next((x for x in mon if x["m"] == m0), None)
     c0 = mcap_at(Q, row0)
-    out["mNow"], out["m0"] = now["m"], m0
+    out["mNow"], out["m0"] = row_now["m"], m0
     if c0[0] is None:
         out["why"] = "missing" if c0[2] == "missing" else "short"; return out
     out["mcap0"] = r(c0[0], 0)
-    out["mcapChg"] = r(mcap[0] - c0[0], 0)
+    out["mcapChg"] = r(c_now[0] - c0[0], 0)
+    # 伴隨防呆與每股基礎指標
+    j0, j1 = c0[1], c_now[1]
+    if j0 is not None and j1 is not None and Q[j0].get("shOut") and Q[j1].get("shOut"):
+        sh_chg = (Q[j1]["shOut"] / Q[j0]["shOut"] - 1) * 100
+        out["shChg5"] = r(sh_chg, 1)
+        out["dilutedWarn"] = sh_chg > 10.0
+    eps_ok = all(Q[i].get("eps") is not None for i in idx)
+    if eps_ok and row0 and row0.get("c") and row_now.get("c"):
+        kept_ps = sum(Q[i]["eps"] - (Q[i].get("dps") or 0.0) for i in idx)
+        if kept_ps > 0.05 * row0["c"]:
+            out["perShareRatio"] = r((row_now["c"] - row0["c"]) / kept_ps, 2)
+    bbs = [Q[i].get("buyback") for i in idx]
+    if all(b is not None for b in bbs):
+        out["buyback20"] = r(sum(bbs), 0)
+    elif any(b is not None and b > 0 for b in bbs):
+        out["buyback20"] = r(sum(b for b in bbs if b is not None), 0)
     if out["kept"] <= 0:
         out["why"] = "neg"
     else:
         out["ratio"] = r(out["mcapChg"] / out["kept"], 2)
+        if (c_now[0] and out["kept"] < c_now[0] * 0.005) or abs(out["ratio"]) > 100:
+            out["tinyBase"] = True
     out["ni20"], out["div20"], out["kept"] = r(out["ni20"], 0), r(out["div20"], 0), r(out["kept"], 0)
+    return out
+
+
+def calc_retained(Q, val, mcap, D=None):
+    n = len(Q)
+    if n < 20:
+        return {"kept": None, "ni20": None, "div20": None, "noDiv": False, "preDivQ": 0, "mcapNow": r(mcap[0], 0), "mcap0": None, "mcapChg": None, "ratio": None,
+                "m0": None, "mNow": None, "why": "short", "note": None,
+                "shChg5": None, "dilutedWarn": False, "tinyBase": False, "perShareRatio": None, "buyback20": None, "windowQ": None, "lag1Q": False}
+    out = _retained_window(Q, val, mcap, D, n)
+    # 若最新一季剛發快報（缺 dps 或 shOut 尚未出 10-Q），且退回一季後有 20 季完整資料，則改用退一季窗口
+    if out["why"] == "missing" and n >= 21 and (Q[-1].get("dps") is None or Q[-1].get("shOut") is None):
+        prev = _retained_window(Q, val, mcap, D, n - 1)
+        if prev["why"] != "missing":
+            prev["note"] = (prev.get("note") + "；" if prev.get("note") else "") + f"最新一季 {Q[-1]['q']} 尚缺 10-Q 股利或股數，暫改截至 {Q[n - 2]['q']}"
+            return prev
     return out
 
 
@@ -419,10 +514,11 @@ def sbc_series(Q):
     return out
 
 
-def calc_owner(Q, mcap, ey):
+def calc_owner(Q, mcap, ey, health=None):
     """扣股票酬勞後的自由現金流（業主盈餘的近似；財報沒有拆維持性與成長性資本支出，所以只是近似）。
     市值與 TTM 用同一個「當時已公布的季度」（mcap[1]，同 health 的自由現金流殖利率）。"""
     out = {"q": None, "sbc4": None, "rev4": None, "fcf4": None, "fcfRate": None, "sbcRev": None, "fcfSbc": None, "fcfSbcRate": None, "oeYield": None, "bond": None, "oeSpread": None,
+           "ocfRate": None, "ocfSbcRate": None, "capexRev": None, "capexRev5med": None, "heavyCapex": False,
            "sbcRev5med": None, "n5": 0, "series": [], "have": sum(1 for q in Q if q.get("sbc") is not None), "why": {}, "approx": "近似：財報沒有分維持性與成長性資本支出，這裡把全部資本支出都扣掉"}
     if not Q:
         return out
@@ -440,10 +536,24 @@ def calc_owner(Q, mcap, ey):
     out["n5"] = len(med)
     if len(med) >= SBC_MIN:
         out["sbcRev5med"] = r(statistics.median(med), 2)
+    # 資本支出占營收與營業現金流拆解（即使沒有 sbc 欄位也可算 ocfRate / capexRev / capexRev5med）
+    rv, oc, cp = (H.s4(Q, last, k) for k in ("rev", "ocf", "capex"))
+    if rv is not None and rv > 0:
+        if oc is not None:
+            out["ocfRate"] = r(oc / rv * 100, 2)
+        if cp is not None:
+            out["capexRev"] = r(cp / rv * 100, 2)
+    cap_ser = []
+    for k_idx in range(max(0, len(Q) - SBC_YEARS), len(Q)):
+        r_k, c_k = H.s4(Q, k_idx, "rev"), H.s4(Q, k_idx, "capex")
+        if r_k is not None and r_k > 0 and c_k is not None:
+            cap_ser.append(c_k / r_k * 100)
+    if len(cap_ser) >= SBC_MIN:
+        out["capexRev5med"] = r(statistics.median(cap_ser), 2)
     if out["have"] == 0:
         W["sbcRev"] = W["fcfSbc"] = W["fcfSbcRate"] = W["oeYield"] = W["oeSpread"] = "nosbc"
         return out
-    sb, rv, oc, cp = (H.s4(Q, last, k) for k in ("sbc", "rev", "ocf", "capex"))
+    sb = H.s4(Q, last, "sbc")
     out["sbcRev"], out["fcfSbcRate"] = ser[last][1], ser[last][2]
     if rv is None or rv <= 0:
         W["sbcRev"] = W["fcfSbcRate"] = "neg" if rv is not None else "missing"
@@ -456,7 +566,19 @@ def calc_owner(Q, mcap, ey):
         out["fcf4"] = r(oc - cp, 1)
     if None not in (sb, oc, cp):
         out["fcfSbc"] = r(oc - cp - sb, 1)
+    if rv and rv > 0 and None not in (oc, sb):
+        out["ocfSbcRate"] = r((oc - sb) / rv * 100, 2)
     out["fcfRate"] = None if out["fcf4"] is None or not rv or rv <= 0 else r(out["fcf4"] / rv * 100, 2)
+    hq = (health or {}).get("quarterly") or []
+    roic_now = hq[last].get("roic") if last < len(hq) else None
+    out["heavyCapex"] = bool(
+        out["capexRev"] is not None
+        and out["capexRev"] >= 20.0
+        and (out["capexRev5med"] is None or out["capexRev"] - out["capexRev5med"] >= 5.0)
+        and out["fcfSbcRate"] is not None and out["fcfSbcRate"] < 20.0
+        and out["ocfSbcRate"] is not None and out["ocfSbcRate"] > 10.0
+        and roic_now is not None and roic_now >= 15.0
+    )
     # 殖利率：用市值對應的已公布季度
     j = mcap[1]
     if mcap[0] is None or j is None:
@@ -492,8 +614,42 @@ def idx_close(ix, d):
     return ix["close"][k]
 
 
-def calc_vs_index(cur, prices, index_prices):
-    out = {"index": None, "rows": [], "why": None, "note": "兩邊都不含股利（股價用分割調整、不含股利調整的收盤價）"}
+def calc_vs_index(cur, prices, index_prices, adj_stock=None, total_index=None):
+    tix = (total_index or {}).get(cur)
+    use_total = bool(
+        adj_stock and adj_stock.get("dates") and adj_stock.get("close")
+        and tix and tix.get("dates") and tix.get("close")
+    )
+    if use_total:
+        out = {"index": tix.get("name"), "mode": "total", "rows": [], "why": None,
+               "note": "兩邊都用還原權息收盤價（含股息再投入；ETF 價格已反映內扣費用）"}
+        mon = [x for x in ((prices or {}).get("monthly") or []) if x.get("c") is not None]
+        if not mon:
+            out["why"] = "noprice"; return out
+        by = {x["m"]: x for x in mon}
+        last = mon[-1]
+        s_last = idx_close(adj_stock, last["d"])
+        i_last = idx_close(tix, last["d"])
+        for n in YEARS:
+            row = {"years": n, "stock": None, "index": None, "diff": None, "from": shift(last["m"], -12 * n), "to": last["m"], "why": None}
+            a = by.get(row["from"])
+            if a is None:
+                row["why"] = "short"
+            else:
+                s0 = idx_close(adj_stock, a["d"])
+                i0 = idx_close(tix, a["d"])
+                if s0 is None or s_last is None or i0 is None or i_last is None or s0 <= 0 or i0 <= 0:
+                    row["why"] = "noidx"
+                else:
+                    row["stock"] = r((s_last / s0 - 1) * 100, 1)
+                    row["index"] = r((i_last / i0 - 1) * 100, 1)
+                    row["diff"] = r(row["stock"] - row["index"], 1)
+            out["rows"].append(row)
+        return out
+
+    note = ("這檔尚未收錄還原權息日線，暫用不含股利的價格報酬對照（配息股與台股會低估長期總報酬）"
+            if total_index else "兩邊都不含股利（股價用分割調整、不含股利調整的收盤價）")
+    out = {"index": None, "mode": "price", "rows": [], "why": None, "note": note}
     ix = (index_prices or {}).get(cur)
     if cur not in CURRENCY_INDEX or not ix:
         out["why"] = "noidx"; return out
@@ -525,8 +681,9 @@ def implied_g(pe, exit_pe):
     return ((pe * (1 + REQ / 100) ** 10) / exit_pe) ** 0.1 - 1
 
 
-def calc_implied(ey, rows):
-    out = {"assume": {"exitPe": list(EXIT_PES), "years": 10, "req": REQ, "text": "假設：十年後本益比回到 15 倍（另算 20 倍）、不計股利與回購、要求年報酬 10%"}, "pe": ey["pe"], "g": {}, "epsCagr5": None, "why": None}
+def calc_implied(ey, rows, buyback=None, quality=None, mcap=None, Q=None):
+    out = {"assume": {"exitPe": list(EXIT_PES), "years": 10, "req": REQ, "text": "假設：十年後本益比回到 15 倍（另算 20 倍）、不計股利與回購、要求年報酬 10%"},
+           "pe": ey["pe"], "g": {}, "epsCagr5": None, "divYield": None, "netBbYield": None, "shYield": None, "why": None}
     if ey["pe"] is None:
         out["why"] = ey["why"] or "loss"
     else:
@@ -535,12 +692,34 @@ def calc_implied(ey, rows):
     e = [x["eps"] for x in rows]
     if len(e) >= 6 and e[-1] is not None and e[-6] is not None and e[-1] > 0 and e[-6] > 0:
         out["epsCagr5"] = r(((e[-1] / e[-6]) ** (1 / 5) - 1) * 100, 1)
+    if Q is not None and mcap and mcap[0] and mcap[0] > 0:
+        j = mcap[1]
+        has_dps = any(q.get("dps") is not None for q in Q)
+        if not has_dps:
+            if (quality or {}).get("why", {}).get("payout") == "nodps":
+                out["divYield"] = 0.0
+        elif j is not None and j >= 3:
+            dv = [divq(Q, k) for k in range(j - 3, j + 1)]
+            if None not in dv:
+                out["divYield"] = r(sum(dv) / mcap[0] * 100, 2)
+    if buyback:
+        if buyback.get("netBuybackYield") is not None:
+            out["netBbYield"] = buyback["netBuybackYield"]
+        elif buyback.get("buybackYield") is not None and Q and sum(1 for q in Q if q.get("sbc") is not None) > 0:
+            # 只有 sbc 全為 0 時才用 buybackYield 當淨回購；若缺 sbc 則不補
+            j = mcap[1] if mcap else None
+            if j is not None and H.s4(Q, j, "sbc") == 0:
+                out["netBbYield"] = buyback["buybackYield"]
+    if out["divYield"] is not None and out["netBbYield"] is not None:
+        out["shYield"] = r(out["divYield"] + out["netBbYield"], 2)
+    elif out["divYield"] is not None and buyback and buyback.get("buybackYield") == 0:
+        out["shYield"] = out["divYield"]
     return out
 
 
 # ---------- 7. 十年平均獲利本益比 ----------
 def calc_norm_pe(rows, val):
-    out = {"normPe": None, "avgEps": None, "n": 0, "close": None, "m": None, "why": None}
+    out = {"normPe": None, "avgEps": None, "n": 0, "close": None, "m": None, "noisy": False, "why": None}
     mon = (val or {}).get("monthly") or []
     if not mon or mon[-1].get("c") is None:
         out["why"] = "noprice"; return out
@@ -553,6 +732,7 @@ def calc_norm_pe(rows, val):
     if avg <= 0:
         out["why"] = "neg"; return out
     out["normPe"] = r(mon[-1]["c"] / avg, 1)
+    out["noisy"] = PE.pe_noisy(out["normPe"])
     return out
 
 
@@ -628,7 +808,7 @@ def calc_record(Q, rows, hq, summ):
     return out
 
 
-def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thesis):
+def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thesis, total_index_prices=None, adj_stock=None):
     if not Q:
         return None
     cur = (code_cfg or {}).get("currency") or (valuation or {}).get("currency")
@@ -641,19 +821,24 @@ def compute(code_cfg, D, Q, valuation, health, prices, rates, index_prices, thes
     if not pts:      # 還不到四季：只給能算的（盈餘殖利率、對指數、類型資格）
         empty = {"summary": None, "buyback": None, "retained": None, "quality": None, "structure": None}
         return dict({"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": [], "implied": calc_implied(ey, []), "normPe": calc_norm_pe([], valuation),
-                     "vsIndex": calc_vs_index(cur, prices, index_prices), "record": calc_record(Q, [], hq, None), "owner": calc_owner(Q, mc, ey), "short": True}, **empty)
+                     "vsIndex": calc_vs_index(cur, prices, index_prices, adj_stock, total_index_prices), "record": calc_record(Q, [], hq, None), "owner": calc_owner(Q, mc, ey, health), "short": True}, **empty)
     rows = ten_year(Q, health, pts)
     summ = summarize(rows, hq)
+    bb = calc_buyback(Q, valuation, pts, fye, mc)
+    qual = calc_quality(Q, rows, pts, summ)
     return {"type": (thesis or {}).get("type"), "currency": cur, "ey": ey, "tenYear": rows, "summary": summ,
-            "buyback": calc_buyback(Q, valuation, pts, fye, mc), "retained": calc_retained(Q, valuation, mc, D),
-            "vsIndex": calc_vs_index(cur, prices, index_prices), "implied": calc_implied(ey, rows), "normPe": calc_norm_pe(rows, valuation),
-            "quality": calc_quality(Q, rows, pts, summ), "structure": calc_structure(rows, summ, thesis), "record": calc_record(Q, rows, hq, summ),
-            "owner": calc_owner(Q, mc, ey)}
+            "buyback": bb, "retained": calc_retained(Q, valuation, mc, D),
+            "vsIndex": calc_vs_index(cur, prices, index_prices, adj_stock, total_index_prices),
+            "implied": calc_implied(ey, rows, bb, qual, mc, Q), "normPe": calc_norm_pe(rows, valuation),
+            "quality": qual, "structure": calc_structure(rows, summ, thesis), "record": calc_record(Q, rows, hq, summ),
+            "owner": calc_owner(Q, mc, ey, health)}
 
 
 def for_company(c, D, valuation, health, prices, thesis=None):
     """build.py 與 thesis.py review 用：載入公債與指數檔後呼叫 compute()。"""
-    return compute(c, D, H.normq(D, c.get("schema")), valuation, health, prices, load_rates(), load_index_prices(), thesis)
+    ysym = ((c or {}).get("price") or {}).get("yahoo")
+    return compute(c, D, H.normq(D, c.get("schema")), valuation, health, prices, load_rates(), load_index_prices(), thesis,
+                   total_index_prices=load_total_index_prices(), adj_stock=load_quant_stock_price(ysym))
 
 
 if __name__ == "__main__":
@@ -664,3 +849,4 @@ if __name__ == "__main__":
         pf = os.path.join(ROOT, "data", "prices", code + ".json")
         pr = json.load(open(pf, encoding="utf8")) if os.path.exists(pf) else None
         print(json.dumps(for_company(c, D, val, hl, pr), ensure_ascii=False, indent=1)[:6000])
+

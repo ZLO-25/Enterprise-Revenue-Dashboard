@@ -157,7 +157,7 @@ table.co-tbl { font-size: 0.84rem; }
   <header class="masthead" id="top">
     <div class="eyebrow">Enterprise Revenue Dashboard</div>
     <h1>{{SITE_TITLE}}</h1>
-    <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，每月 12 日早上自動更新。</p>
+    <p class="lede">用同一套版型追蹤多家公司的營收與財報，並以<b>長期投資人</b>的角度整理：不只看最新一季，也看近四季加總、幾年下來的年化成長、利潤率有沒有越來越好、賺到的是不是真現金。資料來自公司公告與 SEC 等公開文件，週二至週六早上自動檢查更新（股價與總經依排程自動同步）。</p>
     <div class="meta-row" id="metaRow"></div>
   </header>
 
@@ -178,7 +178,7 @@ table.co-tbl { font-size: 0.84rem; }
   </section>
 
   <section id="companies">
-    <div class="sec-head"><h2>公司</h2><p class="sub co-warn" id="coWarn"></p><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點、護城河與分析結論（「全部展開」一次打開目前列出的公司），點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
+    <div class="sec-head"><h2>公司</h2><div class="sub co-warn" id="coWarn"></div><p class="sub">一行一家公司，方便直接比較。<b>點欄位名稱可以排序</b>（再點一次反過來）；點公司名稱前的 ▸ 展開主力產品、解決的痛點、護城河與分析結論（「全部展開」一次打開目前列出的公司），點名稱進入該公司追蹤板。各家幣別不同，所以表格只放百分比與倍數，金額在展開列裡。</p></div>
     <div class="co-tools">
       <div class="sec-tabs" id="secTabs" role="tablist" aria-label="產業"></div>
       <label class="co-search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5" stroke-linecap="round"/></svg><input id="coQ" type="search" autocomplete="off" placeholder="搜尋名稱或代號，如 台積電、NVDA" aria-label="搜尋公司名稱或代號"></label>
@@ -310,7 +310,27 @@ const S = COMPANIES.map(c => { const N = normalize(DATA[c.code], c); return { c,
 const latest = S.map(s => s.D.asOf).sort().pop();
 $('#metaRow').innerHTML = `<span>追蹤公司 <b>${S.length}</b> 家</span><span>資料最新到 <b>${latest.replace(/-/g, '/')}</b></span><span>週二至週六 08:30（台北）每日檢查更新</span>`;
 const TECH_SEC = ['半導體', '軟體與網路服務', '硬體與網通'];   // 由 companies.json 的 sector 算家數，不寫死「全部」
-$('#coWarn').innerHTML = `這 ${S.length} 家公司裡，有 ${S.filter(s => TECH_SEC.includes(s.c.sector)).length} 家屬於${TECH_SEC.join('、')}，景氣反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）`;
+const DRIVER_MAP = {
+  tsmc: 'AI 資料中心算力與硬體', nvda: 'AI 資料中心算力與硬體', avgo: 'AI 資料中心算力與硬體', amd: 'AI 資料中心算力與硬體', mrvl: 'AI 資料中心算力與硬體',
+  mu: 'AI 資料中心算力與硬體', samsung: 'AI 資料中心算力與硬體', asml: 'AI 資料中心算力與硬體', allring: 'AI 資料中心算力與硬體', axti: 'AI 資料中心算力與硬體',
+  anet: 'AI 資料中心算力與硬體', csco: 'AI 資料中心算力與硬體', lite: 'AI 資料中心算力與硬體', cohr: 'AI 資料中心算力與硬體', fn: 'AI 資料中心算力與硬體',
+  delta: 'AI 資料中心算力與硬體', yageo: 'AI 資料中心算力與硬體', pltr: 'AI 資料中心算力與硬體',
+  msft: 'AI 雲端大廠（資本支出買方）', amzn: 'AI 雲端大廠（資本支出買方）', googl: 'AI 雲端大廠（資本支出買方）', meta: 'AI 雲端大廠（資本支出買方）',
+  gev: 'AI 電力與能源基建', ceg: 'AI 電力與能源基建', etn: 'AI 電力與能源基建', bwxt: 'AI 電力與能源基建',
+  gd: '國防與航太', lmt: '國防與航太', lhx: '國防與航太', rtx: '國防與航太', ge: '國防與航太', rklb: '國防與航太', spcx: '國防與航太',
+  aapl: '終端消費與資安軟體', tsla: '終端消費與資安軟體', crwd: '終端消費與資安軟體', panw: '終端消費與資安軟體',
+  xom: '傳統能源',
+};
+const DRIVER_ORDER = ['AI 資料中心算力與硬體', 'AI 雲端大廠（資本支出買方）', 'AI 電力與能源基建', '國防與航太', '終端消費與資安軟體', '傳統能源'];
+const AI_CAPEX_DRIVERS = new Set(['AI 資料中心算力與硬體', 'AI 雲端大廠（資本支出買方）', 'AI 電力與能源基建']);
+const driverOf = (c) => DRIVER_MAP[c.code] || (c.sector === '國防與航太' ? '國防與航太' : c.sector === '能源與電力' ? 'AI 電力與能源基建' : '終端消費與資安軟體');
+const drvGroups = {};
+S.forEach(s => { const d = driverOf(s.c); (drvGroups[d] = drvGroups[d] || []).push(s.c.name); });
+const aiLinkedCount = S.filter(s => AI_CAPEX_DRIVERS.has(driverOf(s.c))).length;
+const drvListHtml = [...new Set([...DRIVER_ORDER, ...Object.keys(drvGroups)])].filter(d => drvGroups[d] && drvGroups[d].length).map(d =>
+  `<li><b>${d}（${drvGroups[d].length} 家）</b>：${drvGroups[d].join('、')}</li>`).join('');
+$('#coWarn').innerHTML = `這 ${S.length} 家公司裡，${TECH_SEC.join('、')}占 ${S.filter(s => TECH_SEC.includes(s.c.sector)).length} 家；若跨產業依核心驅動因子計算，共有 <b>${aiLinkedCount}</b> 家高度連動「AI 資本支出與資料中心建設」，景氣或資本支出反轉時容易一起下跌。分散不是買很多檔，而是買彼此不相關的生意。（意譯，觀點）` +
+  `<details style="margin-top:6px"><summary style="cursor:pointer;font-size:.82rem;color:var(--ink-2)">展開看六大驅動因子分組明細（${S.length} 家）</summary><ul style="margin:6px 0 0;padding-left:1.2em;display:grid;gap:3px;font-size:.8rem">${drvListHtml}</ul></details>`;
 $('#footer').textContent = `整理：${latest.replace(/-/g, '/')}`;
 $('#disclaimer').textContent = LT.DISCLAIMER;
 $('#howtoLink').href = REPO + '/blob/main/docs/ADDING_A_COMPANY.md';
@@ -334,6 +354,13 @@ const dpeCell = (t) => {
   if (PEV.noisy(t.pe)) return `<small title="${PEV.tip(t.pe)}（${when}）">不適用</small>`;
   return `<span title="${when}">${PEV.x1(t.pe)}</span>`;
 };
+const cycNote = (s) => {
+  const b = s.D.buffett;
+  if (!b || b.type !== 'cyclical') return '';
+  const np = b.normPe;
+  const npTxt = !np || np.normPe == null ? '—' : (np.noisy ? '不適用' : np.normPe.toFixed(1) + '×');
+  return `<small class="cyc-note" title="循環股在景氣高峰時近四季獲利最高、本益比看起來最低；請對照十年平均獲利本益比">循環·10年均 ${npTxt}</small>`;
+};
 const COLS = [
   { g: 'q', k: 'yoy', t: '營收年增<br>（單季）', v: s => num(s.s.yoy), h: s => spCell(s.s.yoy) },
   { g: 'q', k: 'gm', t: '毛利率', v: s => num(s.s.gm), h: s => pctCell(s.s.gm) },
@@ -343,9 +370,9 @@ const COLS = [
   { g: 'lt', k: 'cagr5', t: '5 年<br>年化成長', v: s => num(s.M.cagr5), h: s => pctCell(s.M.cagr5) },
   { g: 'lt', k: 'nm', t: '淨利率<br>（近四季）', v: s => num(s.M.ttmNm), h: s => pctCell(s.M.ttmNm) },
   { g: 'lt', k: 'fcf', t: '自由現金<br>流率', v: s => num(s.M.ttmFcfM), h: s => pctCell(s.M.ttmFcfM) },
-  { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => s.P.has && s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<small title="${s.P.peTip}">${s.P.pe}</small>` : `<small>${s.P.pe}</small>`) },
+  { g: 'val', k: 'pe', t: '本益比<br>（月底）', v: s => s.P.has ? num(s.P.latestPe) : null, h: s => (s.P.has && s.P.latestPe != null ? s.P.pe : (s.P.peNoisy ? `<small title="${s.P.peTip}">${s.P.pe}</small>` : `<small>${s.P.pe}</small>`)) + cycNote(s) },
   { g: 'val', k: 'peT', t: '本益比<br>（今日）', d: '最新一個交易日收盤價 ÷ 那天為止已公布的近四季 EPS，和個股頁「今日股價與估值」同一個數字；公式同「本益比（月底）」，只換成最新收盤價。美股、台股收盤日可能不同，滑鼠移到數字上看日期。點一下排序', v: s => { const t = DPE(s); return t && !PEV.noisy(t.pe) ? num(t.pe) : null; }, h: s => dpeCell(DPE(s)) },
-  { g: 'val', k: 'ey', t: '盈餘殖利率<br>減公債', d: '盈餘殖利率（100 ÷ 本益比）減十年期公債殖利率，單位是百分點。台股用台灣公債、美股用美國公債；歐元、韓元公司網站沒有該國公債資料，不算。不是買賣訊號。點一下排序', v: s => { const e = s.D.buffett && s.D.buffett.ey; return e && e.spread != null ? e.spread : null; }, h: s => { const e = s.D.buffett && s.D.buffett.ey; if (!e) return '<small>—</small>'; if (e.spread != null) return `<span class="${cls(e.spread)}">${e.spread > 0 ? '+' : e.spread < 0 ? '−' : ''}${Math.abs(e.spread).toFixed(1)}</span>`; return `<small title="${e.why ? '本益比不可用（虧損或超過 200 倍）' : '網站沒有該國公債資料'}">${e.why ? '不適用' : '無公債資料'}</small>`; } },
+  { g: 'val', k: 'ey', t: '盈餘殖利率<br>減公債', d: '盈餘殖利率（100 ÷ 本益比）減十年期公債殖利率，單位是百分點。台股用台灣公債、美股用美國公債；歐元、韓元公司網站沒有該國公債資料，不算。不是買賣訊號。點一下排序', v: s => { const e = s.D.buffett && s.D.buffett.ey; return e && e.spread != null ? e.spread : null; }, h: s => { const e = s.D.buffett && s.D.buffett.ey; const base = !e ? '<small>—</small>' : (e.spread != null ? `<span class="${cls(e.spread)}">${e.spread > 0 ? '+' : e.spread < 0 ? '−' : ''}${Math.abs(e.spread).toFixed(1)}</span>` : `<small title="${e.why ? '本益比不可用（虧損或超過 200 倍）' : '網站沒有該國公債資料'}">${e.why ? '不適用' : '無公債資料'}</small>`); return base + cycNote(s); } },
   { g: 'val', k: 'pct', t: '10 年<br>百分位', v: s => { const x = parseFloat(s.P.pct); return isFinite(x) ? x : null; }, h: s => s.P.pct },
 ];
 const GRP = { q: '最新一季', lt: '長期（近四季、幾年）', val: '估值' };

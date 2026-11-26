@@ -2,10 +2,11 @@
    資料：N.Q（標準季度序列）、LT.metrics、D.valuation（本益比）、D.health（tools/health.py 算出的新指標）。這裡只做「畫」與中位數、百分位。
    算不出來的格子顯示原因（不是空白）。由 LT.render() 呼叫 HEALTH.mount()。 */
 const HEALTH = (() => {
-  const WHY = { missing: '欄位待確認', nosbc: '股票酬勞欄位待確認（來源不是 SEC 申報檔，尚未從年報讀取）', neg: '分母不是正數', tax: '有效稅率不合理', loss: '稅前虧損或預估成長 ≤ 0，不適用', nopx: '沒有分析師預估', price: '股價待確認', short: '已公布未滿四季', none: '沒有資料', noidx: '沒有資料', nobond: '網站沒有該國公債資料', norates: '讀不到公債資料', noisy: '本益比超過 200 倍', nodps: '本站沒有收錄每股股利' };
+  const WHY = { missing: '欄位待確認', nosbc: '股票酬勞（sbc）欄位待確認：尚未收錄單季股票酬勞資料（非 SEC XBRL 申報或尚待合併）', neg: '分母不是正數', tax: '有效稅率不合理', loss: '稅前虧損或預估成長 ≤ 0，不適用', nopx: '沒有分析師預估', price: '股價待確認', short: '已公布未滿四季', none: '沒有資料', noidx: '沒有資料', nobond: '網站沒有該國公債資料', norates: '讀不到公債資料', noisy: '本益比超過 200 倍', nodps: '本站沒有收錄每股股利', cash_rich: '現金大於股東權益＋有息負債（輕資產／超額現金體質，本業稅後營業利益為正）' };
   const num = (v) => v != null && isFinite(v);
   const TIPS = {"ROE": "報酬率是我們先問的問題：股東投入一塊錢，一年能賺回多少。長期穩定在 15% 以上，才像有護城河。", "營收年增（近四季）": "成長只有在投入資本的報酬率高的時候，才創造價值。先看報酬率，再看長得多快。", "EPS 年增（近四季）": "每股盈餘長得快，也要問報酬率有沒有跟著撐住。成長要配上高報酬率才值錢。", "毛利率（近四季）": "好生意有對手搶不走的優勢，常表現在長期穩定的高毛利率。看方向，也看穩不穩。", "營業利益率（近四季）": "長期穩定的高利潤率，是護城河留下的痕跡。突然變薄要問為什麼。", "自由現金流率（近四季）": "真正屬於股東的錢，是賺到的現金扣掉維持生意必須花的錢。這一列還沒扣股票酬勞；股票酬勞是真實費用，扣掉之後的版本在「巴菲特常看」那一組（扣股票酬勞後的自由現金流率）。沒有酬勞資料的公司，那一列會寫明算不出來的原因。", "ROIC": "投入的每一塊錢能賺回多少，是我們最先問的問題。長期高而且穩，才是護城河的證據。", "近四季回購金額": "管理層最重要的工作是決定賺來的錢怎麼用。回購只有在價格低於價值時，才對股東有利。", "稀釋股數年增": "股票酬勞是真實費用。股數一直變多，等於老股東被稀釋；回購讓股數變少才是好事。", "本益比": "用明顯低於價值的價格買，留下犯錯的空間。利率越高，所有資產的價值被拉得越低，所以也要跟公債比。", "自由現金流殖利率": "股票要跟公債比。利率越高，同樣的現金流值得付的價格越低。", "企業價值對營收（EV/Sales）": "營收不是獲利。這個指標只適合還沒有穩定獲利的公司或循環股，穩定獲利的公司請看本益比。", "預估本益比": "這是分析師預估，不是財報數字。他們不靠預估做決定。", "本益成長比（PEG）": "這是分析師預估，不是財報數字。他們不靠預估做決定。"};
-  const ROE_TIP = 'ROE 很高也可能是因為大量回購讓股東權益變小，不一定代表生意變強。蘋果就是例子。要和報酬率的其他指標、自由現金流一起看。';
+  const ROE_TIP = 'ROE 很高也可能是因為大量回購或槓桿讓股東權益變小，不一定代表生意變強。蘋果就是例子。要和 ROIC、自由現金流一起看。';
+  const GOODWILL_TIP = '連續併購的公司，收購溢價會記成資產負債表上的「商譽」、墊高投入資本與股東權益分母，使帳面 ROIC／ROE 偏低；評估管理層併購成績看帳面 ROIC，評估本業產品力請同時對照毛利率與自由現金流率。';
   function stat(series, step) {
     const v = series.filter(p => num(p[1])); if (!v.length || series[series.length - 1][1] == null) return { now: null };
     const now = series[series.length - 1][1];
@@ -85,7 +86,20 @@ const HEALTH = (() => {
       if (r.now == null) return `<td colspan="3" class="muted">—　<small>${WHY[r.why] || WHY.none}</small></td>`;
       return `<td>${r.f(r.now)}<small>${r.nowLabel}</small></td><td>${r.med == null || r.nostat ? '—' : r.f(r.med)}</td><td>${r.pct == null || r.nostat ? '—' : '第 ' + r.pct + ' 百分位'}</td>`;
     };
-    const tipOf = (r) => { const t = (r.tip || TIPS[r.n] || '') + (r.n === 'ROE' && num(r.now) && r.now > 100 ? ' ' + ROE_TIP : ''); return t ? `<p class="how h-tip">${typeof SUM !== 'undefined' ? SUM.tag('v') + ' ' : ''}<b>他們怎麼看（巴菲特＋蒙格，意譯，不是原話）</b>　${t}</p>` : ''; };
+    const M = LT.metrics(N), D = N.D;
+    const roicRow = R.find(x => x.n === 'ROIC'), latestRoic = roicRow ? roicRow.now : null;
+    const shChg5 = D.buffett && D.buffett.buyback ? D.buffett.buyback.shChg5 : null;
+    const gmNow = M.gmNow;
+    const tipOf = (r) => {
+      let t = r.tip || TIPS[r.n] || '';
+      if (r.n === 'ROE' && num(r.now) && (r.now > 100 || (r.now >= 30 && num(latestRoic) && r.now > latestRoic * 2))) {
+        t += (t ? ' ' : '') + ROE_TIP;
+      }
+      if ((r.n === 'ROIC' || r.n === 'ROE') && num(shChg5) && shChg5 > 10 && num(r.now) && r.now < 15 && num(gmNow) && gmNow >= 45) {
+        t += (t ? ' ' : '') + GOODWILL_TIP;
+      }
+      return t ? `<p class="how h-tip">${typeof SUM !== 'undefined' ? SUM.tag('v') + ' ' : ''}<b>他們怎麼看（巴菲特＋蒙格，意譯，不是原話）</b>　${t}</p>` : '';
+    };
     const build = (gs) => { let body = '';
       gs.forEach(g => R.filter(r => r.g === g).forEach((r, i, a) => {
         const id = 'h' + R.indexOf(r);

@@ -343,6 +343,83 @@ class Retained(unittest.TestCase):
         self.assertTrue(out["noDiv"])
         self.assertEqual(out["ratio"], 10.0)
 
+    def test_non_dividend_notes_are_noDiv(self):
+        Q = mkQ(24)
+        set_rd(Q)
+        val = self.val()
+        mc = B.mcap_at(Q, val["monthly"][-1])
+        for note in (
+            "每股股利：亞馬遜沒有發放現金股利，XBRL 也沒有每股股利概念，留空（不是缺資料）",
+            "每股股利：Arista 沒有發放現金股利（全部為 null）",
+            "每股股利：本公司從未配息",
+            "每股股利：尚無配息紀錄（不是缺資料）",
+        ):
+            out = B.calc_retained(Q, val, mc, {"notes": {"unavailable": [note]}})
+            self.assertTrue(out["noDiv"], note)
+            self.assertEqual(out["div20"], 0.0, note)
+            self.assertEqual(out["ratio"], 10.0, note)
+        for note in (
+            "每股股利：三星每季配息，但簡報沒有列每股股利，本頁暫不收錄（全部 null）",
+            "每股股利：台達電一年配一次現金股利，不是每季配息，本頁 dps 欄位全部留空",
+        ):
+            out = B.calc_retained(Q, val, mc, {"notes": {"unavailable": [note]}})
+            self.assertEqual(out["why"], "nodps", note)
+
+    def test_flash_quarter_lag_1q_fallback(self):
+        # 25 季：前 24 季完整配息，第 25 季（1Q16）剛發快報 dps/shOut=None
+        Q = mkQ(25, dps=lambda i: None if i == 24 else 0.05, ni=10.0)
+        Q[24]["shOut"] = None
+        set_rd(Q)
+        val = {"currency": "USD", "stats": {}, "monthly": [
+            {"m": "2010-12", "d": "2010-12-30", "c": 10.0, "pe": 5},
+            {"m": "2011-03", "d": "2011-03-28", "c": 10.0, "pe": 5},
+            {"m": "2015-12", "d": "2015-12-30", "c": 20.0, "pe": 5},
+            {"m": "2016-03", "d": "2016-03-28", "c": 30.0, "pe": 5},
+        ]}
+        mc = B.mcap_at(Q, val["monthly"][-1])
+        out = B.calc_retained(Q, val, mc)
+        self.assertTrue(out["lag1Q"])
+        self.assertEqual(out["windowQ"], f"{Q[4]['q']}～{Q[23]['q']}")
+        self.assertIsNotNone(out["ratio"])
+
+    def test_plan_a_guardrails_tiny_base_and_dilution(self):
+        # 極小基期：kept 只有 1，mcapNow=3000 → tinyBase=True
+        Q = mkQ(24, ni=0.05, eps=0.01, shOut=lambda i: 100.0 if i < 12 else 150.0)
+        set_rd(Q)
+        val = self.val()
+        out = B.calc_retained(Q, val, B.mcap_at(Q, val["monthly"][-1]))
+        self.assertTrue(out["tinyBase"])
+        self.assertTrue(out["dilutedWarn"])
+        self.assertEqual(out["shChg5"], 50.0)
+        # 正常股數大幅增加但有明顯每股保留盈餘 → perShareRatio 有值
+        Q2 = mkQ(24, ni=10.0, eps=0.1, shOut=lambda i: 100.0 if i < 12 else 120.0)
+        set_rd(Q2)
+        out2 = B.calc_retained(Q2, val, B.mcap_at(Q2, val["monthly"][-1]))
+        self.assertTrue(out2["dilutedWarn"])
+        self.assertAlmostEqual(out2["perShareRatio"], (30.0 - 10.0) / (20 * 0.1), places=2)
+
+
+class BuybackExtra(unittest.TestCase):
+    def test_rolling_med5_and_net_buyback(self):
+        # 10 年（120 個月）：前 60 個月 PE=10，後 60 個月 PE=30 → med5(最近)=30；但 60 個月以前那一點的基準應是當時前 5 年中位 10
+        Q = mkQ(44, buyback=10.0, sbc=12.0)
+        mon = []
+        for k in range(120):
+            m = B.shift("2011-01", k)
+            pe = 10.0 if k < 60 else 30.0
+            mon.append({"m": m, "d": m + "-28", "c": pe, "eps4": 1.0, "pe": pe, "why": None})
+        val = {"currency": "USD", "monthly": mon, "stats": {"med5": 30.0}}
+        pts = B.points(Q)
+        out = B.calc_buyback(Q, val, pts, "12-31", (1000.0, pts[-1], None))
+        self.assertEqual(out["netBuyback"], -8.0)     # buyback4=40, sbc4=48 → -8
+        self.assertEqual(out["netBuybackYield"], -0.8)
+        self.assertTrue(out["sbcOffsetOnly"])
+        # 找 4Q15（2015-01..2015-12），其結束月 2015-12 <= 2020-12 - 60 個月
+        r_old = next(r for r in out["rows"] if r["q"] == "4Q15")
+        self.assertEqual(r_old["refKind"], "當時近5年中位")
+        self.assertEqual(r_old["med5"], 10.0)
+        self.assertEqual(out["rows"][-1]["refKind"], "目前近5年中位")
+
 
 class OwnerEarnings(unittest.TestCase):
     def test_sbc_series_and_owner(self):
@@ -361,6 +438,31 @@ class OwnerEarnings(unittest.TestCase):
         self.assertEqual(o["oeYield"], round(32 / 1000 * 100, 2))      # 市值 10 × 100 股 = 1000
         self.assertEqual(o["oeSpread"], round(3.2 - 4.0, 2))           # 公債 4.0
         self.assertEqual(o["sbcRev5med"], 2.0)
+        self.assertEqual(o["ocfSbcRate"], round((60 - 8) / 400 * 100, 2))
+        self.assertEqual(o["capexRev"], 5.0)
+        self.assertFalse(o["heavyCapex"])
+
+    def test_heavy_capex_expansion(self):
+        # 正例（AMZN/MSFT/GOOGL 型）：capexRev=35%（遠高於 5 年中位 5%）、fcfSbcRate=3%（<20%）、ocfSbcRate=38%（>10%）、ROIC>=15%
+        Q = mkQ(24, sbc=2.0, ocf=40.0, capex=lambda i: 35.0 if i >= 20 else 5.0)
+        set_rd(Q)
+        hl = H.compute(Q, None, None)
+        val = {"currency": "USD", "stats": {}, "monthly": [{"m": "2016-03", "d": "2016-03-28", "c": 10.0, "pe": 20}]}
+        o = B.calc_owner(Q, B.mcap_at(Q, val["monthly"][-1]), B.calc_ey("USD", val, RATES_NOW), health=hl)
+        self.assertTrue(o["heavyCapex"])
+        self.assertGreaterEqual(o["capexRev"], 20.0)
+        # 反例 1（TSMC/MU 型常態高資本支出）：capexRev=30% 但未顯著高於 5 年中位 35%，且 fcfSbcRate 仍高
+        Q2 = mkQ(24, sbc=2.0, ocf=65.0, capex=lambda i: 30.0 if i >= 20 else 35.0)
+        set_rd(Q2)
+        hl2 = H.compute(Q2, None, None)
+        o2 = B.calc_owner(Q2, B.mcap_at(Q2, val["monthly"][-1]), B.calc_ey("USD", val, RATES_NOW), health=hl2)
+        self.assertFalse(o2["heavyCapex"])
+        # 反例 2：即使資本支出升溫，但 fcfSbcRate >= 20% 仍不觸發
+        Q3 = mkQ(24, sbc=2.0, ocf=60.0, capex=lambda i: 25.0 if i >= 20 else 5.0)
+        set_rd(Q3)
+        hl3 = H.compute(Q3, None, None)
+        o3 = B.calc_owner(Q3, B.mcap_at(Q3, val["monthly"][-1]), B.calc_ey("USD", val, RATES_NOW), health=hl3)
+        self.assertFalse(o3["heavyCapex"])
 
     def test_no_sbc_column_values(self):
         Q = mkQ(24)                                                     # 沒有 sbc 欄位
@@ -425,8 +527,23 @@ class VsIndex(unittest.TestCase):
         self.assertEqual(r1["stock"], 25.0)
         self.assertEqual(r1["index"], 10.0)
         self.assertEqual(r1["diff"], 15.0)
+        self.assertEqual(v["mode"], "price")
         self.assertIsNone(v["rows"][1]["stock"])               # 2022-12 沒有股價
         self.assertEqual(v["rows"][1]["why"], "short")
+
+    def test_total_return_mode_and_fallback(self):
+        pr = {"monthly": [{"m": "2024-12", "d": "2024-12-31", "c": 40.0}, {"m": "2025-12", "d": "2025-12-31", "c": 50.0}]}
+        adj = {"dates": ["2024-12-30", "2025-12-30"], "close": [40.0, 52.0]}
+        tix = {"USD": {"name": "SPY", "dates": ["2024-12-30", "2025-12-30"], "close": [100.0, 112.0]}}
+        v = B.calc_vs_index("USD", pr, self.mk(), adj_stock=adj, total_index=tix)
+        self.assertEqual(v["mode"], "total")
+        self.assertEqual(v["rows"][0]["stock"], 30.0)
+        self.assertEqual(v["rows"][0]["index"], 12.0)
+        self.assertEqual(v["rows"][0]["diff"], 18.0)
+        # 沒附個股還原日線時退回價格報酬並註明
+        v2 = B.calc_vs_index("USD", pr, self.mk(), adj_stock=None, total_index=tix)
+        self.assertEqual(v2["mode"], "price")
+        self.assertIn("尚未收錄還原權息日線", v2["note"])
 
     def test_other_currency_null(self):
         for cur in ("EUR", "KRW"):
@@ -450,6 +567,14 @@ class NormPe(unittest.TestCase):
         o = B.calc_norm_pe(rows, mkVal(Q, c=40.0))
         self.assertEqual(o["avgEps"], 4.0)
         self.assertEqual(o["normPe"], 10.0)
+        self.assertFalse(o["noisy"])
+
+    def test_noisy_flag(self):
+        Q = mkQ(24, eps=0.01)
+        rows = B.ten_year(Q, None, B.points(Q))
+        o = B.calc_norm_pe(rows, mkVal(Q, c=10.0))
+        self.assertTrue(o["noisy"])
+        self.assertGreater(o["normPe"], 200)
 
     def test_short_and_neg(self):
         Q = mkQ(12)
@@ -458,15 +583,27 @@ class NormPe(unittest.TestCase):
         self.assertEqual(B.calc_norm_pe(B.ten_year(Q, None, B.points(Q)), mkVal(Q))["why"], "neg")
 
 
+class CashRichRoic(unittest.TestCase):
+    def test_cash_rich_vs_neg_ic(self):
+        # cash=300 > equity=200 + debt=20 → IC < 0；op*(1-tax/pt) > 0 → cash_rich
+        Q = mkQ(8, cash=300.0, equity=200.0, debt=20.0, opInc=20.0, pretax=12.0, tax=2.0)
+        hl = H.quarterly(Q)
+        self.assertEqual(hl[-1]["why"]["roic"], "cash_rich")
+        # 若現金小於等於權益+負債且 IC<=0，維持 neg
+        Q2 = mkQ(8, cash=5.0, equity=-20.0, debt=25.0, opInc=20.0, pretax=12.0, tax=2.0)  # IC = -20+25-5 = 0, cash=5 == equity+debt=5
+        self.assertEqual(H.quarterly(Q2)[-1]["why"]["roic"], "neg")
+
+
 class Compute(unittest.TestCase):
     def test_smoke(self):
-        Q = mkQ(44, dps=0.1)
+        Q = mkQ(44, dps=0.1, sbc=1.0, buyback=5.0)
         D = {"quarters": Q}
         out = B.compute({"currency": "USD"}, D, Q, mkVal(Q), None, None, RATES, {}, {"type": "growth"})
         for k in ("ey", "tenYear", "summary", "buyback", "retained", "vsIndex", "implied", "normPe", "quality", "structure", "record"):
             self.assertIn(k, out)
         self.assertEqual(out["type"], "growth")
         self.assertEqual(out["quality"]["payout"], round(4 * 0.1 * 100 / 40.0 * 100, 0))
+        self.assertIsNotNone(out["implied"]["shYield"])
         self.assertIsNone(out["record"]["tenYearOk"])        # health 沒給 → ROE 完全沒有值
         self.assertIsNone(B.compute({}, {"quarters": []}, [], None, None, None, None, {}, None))
 

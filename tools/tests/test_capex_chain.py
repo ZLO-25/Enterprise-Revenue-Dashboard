@@ -78,9 +78,23 @@ class ComputeTest(unittest.TestCase):
         self.assertEqual(out["rows"], [])
         self.assertTrue(any("不能和其他買方加總" in m for m in out["missing"]))
 
+    def test_tiers_and_gm_qchg(self):
+        self.ds["s"]["quarters"][0]["gm"] = 60.0
+        self.ds["s"]["quarters"][1]["gm"] = 62.5
+        chain = {"buyers": ["a", "b"], "tiers": [{"name": "① AI 算力晶片", "codes": ["s"]}]}
+        out = C.compute(chain, self.cos, self.ds, since="2025Q1")
+        self.assertEqual(len(out["tiers"]), 1)
+        self.assertEqual(out["tiers"][0]["name"], "① AI 算力晶片")
+        s = out["suppliers"][0]
+        self.assertEqual(s["tier"], "① AI 算力晶片")
+        self.assertEqual(s["gm"], 62.5)
+        self.assertEqual(s["gmQchg"], 2.5)
+        self.assertEqual(s["points"][-1], {"q": "3Q27", "end": "2026-10", "rev": 600, "yoy": 100.0})
+
     def test_real_site_data(self):
         out = C.load()
         self.assertEqual([b["code"] for b in out["buyers"]], ["msft", "amzn", "googl", "meta"])
+        self.assertEqual(len(out["tiers"]), 5)
         full = [r for r in out["rows"] if r["total"] is not None]
         self.assertGreater(len(full), 20)
         for r in full:

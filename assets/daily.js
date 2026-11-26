@@ -144,6 +144,7 @@ const DAILY = (() => {
       new MutationObserver(re).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     }
     if (typeof PEV !== 'undefined' && PEV.today) PEV.today(X);   // 同步「本益比（每月）」卡片裡的「今日本益比」那一行
+    if (typeof BUFFETT !== 'undefined' && BUFFETT.today) BUFFETT.today(X);   // 同步檢查表第 4 關的今日盈餘殖利率對公債與隱含成長
     sec.hidden = false;
     const nav = document.getElementById('secnav');
     if (nav && !nav.querySelector('a[href="#today"]')) { const o = nav.querySelector('a[href="#overview"]'); if (o) o.insertAdjacentHTML('afterend', '<a href="#today">今日股價</a>'); }
