@@ -158,20 +158,20 @@ details.mx-intro .note{margin-top:8px}
 @media (max-width:760px){
   .mx-det .grid{grid-template-columns:minmax(0,1fr)}
   .mx-tbl .hide-s{display:none}
-  .mx-tbl:not(.mx-plain),.mx-tbl:not(.mx-plain) tbody{display:block}
-  .mx-tbl:not(.mx-plain) tr:first-child:not(.row){display:none}
+  .mx-tbl:not(.mx-plain):not(.mx-capex-tbl),.mx-tbl:not(.mx-plain):not(.mx-capex-tbl) tbody{display:block}
+  .mx-tbl:not(.mx-plain):not(.mx-capex-tbl) tr:first-child:not(.row){display:none}
   .mx-plain th,.mx-plain td{padding:7px 5px;font-size:.84rem}
-  .mx-tbl tr.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:10px 10px;border-bottom:1px solid var(--line)}
-  .mx-tbl tr.row td{border:0;padding:0;background:none!important}
-  .mx-tbl tr.row td:nth-child(1){grid-column:2;grid-row:1;width:auto;justify-self:end}
-  .mx-tbl tr.row td:nth-child(2){grid-column:1;grid-row:1}
-  .mx-tbl tr.row td:nth-child(3){grid-column:1;grid-row:2;text-align:left}
-  .mx-tbl tr.row td:nth-child(4){grid-column:2;grid-row:2}
-  .mx-tbl tr.row td br{display:none}
-  .mx-tbl tr.row td small{margin-left:6px}
-  .mx-tbl tr.mx-det,.mx-tbl tr.mx-det td{display:block}
-  .mx-tbl tr.mx-det[hidden]{display:none}
-  .mx-tbl:not(.mx-plain) tr:not(.row):not(.mx-det):not(:first-child){display:block;padding:10px}
+  .mx-tbl:not(.mx-capex-tbl) tr.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:10px 10px;border-bottom:1px solid var(--line)}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td{border:0;padding:0;background:none!important}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td:nth-child(1){grid-column:2;grid-row:1;width:auto;justify-self:end}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td:nth-child(2){grid-column:1;grid-row:1}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td:nth-child(3){grid-column:1;grid-row:2;text-align:left}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td:nth-child(4){grid-column:2;grid-row:2}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td br{display:none}
+  .mx-tbl:not(.mx-capex-tbl) tr.row td small{margin-left:6px}
+  .mx-tbl:not(.mx-capex-tbl) tr.mx-det,.mx-tbl:not(.mx-capex-tbl) tr.mx-det td{display:block}
+  .mx-tbl:not(.mx-capex-tbl) tr.mx-det[hidden]{display:none}
+  .mx-tbl:not(.mx-plain):not(.mx-capex-tbl) tr:not(.row):not(.mx-det):not(:first-child){display:block;padding:10px}
   .mx-arrow{display:none}
   .mx-box{flex-basis:calc(50% - 4px);min-width:0}
   .mx-chk td:first-child{width:auto}
@@ -183,6 +183,55 @@ details.mx-intro .note{margin-top:8px}
   .gl-s{padding:10px 11px}
   .gl-s .v{font-size:1.25rem}
   .gl-grid{grid-template-columns:minmax(0,1fr)}
+}
+/* ---- AI 資本支出鏈上下游公司表與展開抽屜（.mx-capex-tbl） */
+.mx-capex-tbl tr.row td:first-child{width:auto;min-width:9em}
+.mx-capex-tbl tr.cx-grp th{background:var(--wash);text-align:left;font-size:.82rem;color:var(--ink);font-weight:600}
+.mx-capex-tbl tr.cx-static td{color:var(--ink-2)}
+.mx-capex-tbl tr.cx-static .cx-note{font-size:.82rem;color:var(--muted)}
+.mx-capex-tbl .cx-name-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
+.mx-capex-tbl .cx-name-wrap a{font-weight:600;text-decoration:none}
+.mx-capex-tbl .cx-name-wrap a:hover{text-decoration:underline}
+.mx-capex-tbl .cx-tog{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--ink)}
+.mx-capex-tbl .cx-tog:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mx-capex-tbl .cx-tog::before{content:"▸";display:inline-block;width:1em;color:var(--muted);transition:transform .15s}
+.mx-capex-tbl tr.row[aria-expanded="true"] .cx-tog::before{transform:rotate(90deg)}
+.cx-cap-main{font-weight:600}
+.cx-cap-sub{display:block;font-size:.74rem;color:var(--muted);font-family:var(--font-data);margin-top:2px}
+.cx-g-pill{display:inline-block;font-size:.7rem;font-weight:600;padding:0 6px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);background:var(--page);margin-right:4px;vertical-align:1px}
+.cx-g-line{display:block;font-size:.74rem;color:var(--ink-2);margin-top:3px;font-family:var(--font-ui);white-space:normal}
+.cx-g-note{color:var(--muted)}
+.mx-capex-tbl tr.cx-det > td{background:var(--surface);padding:14px 12px 18px}
+.cx-det-box{display:grid;gap:12px;min-width:0}
+.cx-det-head{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.cx-det-title{font-size:.9rem;font-weight:600;color:var(--ink)}
+.cx-det-title small{font-weight:400;color:var(--muted);margin-left:6px;font-size:.78rem}
+.cx-det-meta{font-size:.82rem;color:var(--ink-2)}
+.cx-chart-wrap{background:var(--page);border:1px solid var(--line);border-radius:8px;padding:10px 10px 6px;min-width:0}
+.cx-chart-cap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:.74rem;color:var(--muted);margin-top:4px}
+.cx-chart-svg{display:block;width:100%;height:auto;overflow:visible}
+.cx-bar{transition:opacity .12s}
+.cx-bar:hover,.cx-bar:focus{opacity:.82;outline:none}
+.cx-hist-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.cx-hist-tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.cx-hist-tbl th,.cx-hist-tbl td{padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.cx-hist-tbl tr:last-child td{border-bottom:0}
+@media (max-width:760px){
+  .mx-capex-tbl,.mx-capex-tbl tbody{display:block;width:100%}
+  .mx-capex-tbl tr:first-child:not(.row):not(.cx-grp){display:none}
+  .mx-capex-tbl tr.cx-grp{display:block}
+  .mx-capex-tbl tr.cx-grp th{display:block;width:100%;box-sizing:border-box;padding:8px 10px}
+  .mx-capex-tbl tr.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px;padding:12px 10px;border-bottom:1px solid var(--line);box-sizing:border-box;width:100%}
+  .mx-capex-tbl tr.row td{border:0;padding:0;background:none!important;text-align:left!important;min-width:0}
+  .mx-capex-tbl tr.row td:first-child{grid-column:1 / -1;width:auto;min-width:0}
+  .mx-capex-tbl tr.row td.cx-cap{grid-column:1 / -1;background:var(--page)!important;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .mx-capex-tbl tr.row td[data-lbl]::before{content:attr(data-lbl);display:block;font-size:.7rem;font-family:var(--font-ui);color:var(--muted);font-weight:500;margin-bottom:2px}
+  .mx-capex-tbl tr.cx-static{display:block;padding:12px 10px;border-bottom:1px solid var(--line);width:100%;box-sizing:border-box}
+  .mx-capex-tbl tr.cx-static td{display:block;border:0;padding:2px 0;width:auto;min-width:0;text-align:left!important;white-space:normal}
+  .mx-capex-tbl tr.cx-det{display:block;width:100%;box-sizing:border-box}
+  .mx-capex-tbl tr.cx-det[hidden]{display:none}
+  .mx-capex-tbl tr.cx-det > td{display:block;width:100%;box-sizing:border-box;min-width:0;padding:10px 8px 14px}
+  .cx-hist-tbl th,.cx-hist-tbl td{padding:5px 6px;font-size:.76rem;white-space:nowrap}
 }
 </style>
 
@@ -293,8 +342,12 @@ details.mx-intro .note{margin-top:8px}
       <div class="tbl-wrap"><table class="mx-tbl mx-plain" id="mxChainTbl"></table></div>
     </div>
     <div class="card wide">
-      <h3>下游：賣方最新一季的營收年增率</h3>
-      <div class="tbl-wrap"><table class="mx-tbl mx-plain" id="mxSupTbl"></table></div>
+      <h3>買方：四大雲端與新興 AI 算力／模型買方資本支出</h3>
+      <div class="tbl-wrap"><table class="mx-tbl mx-capex-tbl" id="mxBuyTbl"></table></div>
+    </div>
+    <div class="card wide">
+      <h3>下游：賣方五層供應鏈最新資本支出與營收／毛利</h3>
+      <div class="tbl-wrap"><table class="mx-tbl mx-capex-tbl" id="mxSupTbl"></table></div>
       <p class="mx-warn" id="mxChainRead"></p>
       <ul class="note" id="mxChainMiss" hidden></ul>
     </div>
@@ -630,6 +683,167 @@ details.mx-intro .note{margin-top:8px}
   }
   // ---- AI 資本支出鏈（數字在建置時由 tools/capex_chain.py 從各公司財報加總，這裡只畫）
   function pct(v) { return v == null ? "—" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + "%"; }
+  function fmtNumHalfUp(val, decimals) {
+    var f = Math.pow(10, decimals);
+    var x = Math.round((val + (val >= 0 ? 1 : -1) * 1e-12) * f) / f;
+    if (x === 0) x = 0;
+    return x.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
+  function fmtCapex(valMillions, currency) {
+    if (valMillions == null || isNaN(valMillions)) return "—";
+    var v = Number(valMillions), av = Math.abs(v), cur = String(currency || "USD").toUpperCase();
+    if (cur === "TWD") {
+      if (av >= 1e6) return "NT$" + fmtNumHalfUp(v / 1e6, 2) + " 兆";
+      if (av >= 100) {
+        var u = v / 100, au = Math.abs(u), dp = au >= 1000 ? 0 : (au >= 10 ? 1 : 2);
+        return "NT$" + fmtNumHalfUp(u, dp) + " 億";
+      }
+      return "NT$" + fmtNumHalfUp(v, av >= 10 ? 1 : 2) + " 百萬";
+    }
+    if (cur === "KRW") {
+      if (av >= 1e6) return "₩" + fmtNumHalfUp(v / 1e6, 2) + " 兆";
+      return "₩" + fmtNumHalfUp(v / 100, 0) + " 億";
+    }
+    if (cur === "EUR") {
+      if (av >= 100) { var eu = v / 100; return "€" + fmtNumHalfUp(eu, Math.abs(eu) >= 10 ? 1 : 2) + " 億"; }
+      return "€" + fmtNumHalfUp(v, av >= 10 ? 1 : 2) + " 百萬";
+    }
+    if (av >= 100) { var us = v / 100; return "$" + fmtNumHalfUp(us, Math.abs(us) >= 10 ? 1 : 2) + " 億"; }
+    return "$" + fmtNumHalfUp(v, av >= 10 ? 1 : 2) + " 百萬";
+  }
+  var CX_ENT = {}, CX_VIEW = {};
+  function cxCapCellHtml(x, tdAttrs) {
+    var c = x.capex;
+    if (!c) return "<td " + tdAttrs + ">—</td>";
+    var main = fmtCapex(c.latest, x.currency);
+    var subs = [];
+    if (c.latestYoy != null) subs.push("年增 " + pct(c.latestYoy));
+    if (c.latestPctRev != null) subs.push("占營收 " + c.latestPctRev.toFixed(1) + "%");
+    if (c.ttm != null) subs.push("近4Q " + fmtCapex(c.ttm, x.currency));
+    else if (c.ttmWhy === "short") subs.push("近4Q 未滿4季");
+    else if (c.ttmWhy === "gap") subs.push("近4Q 缺季");
+    var gHtml = "";
+    if (c.guidance) {
+      var g = c.guidance;
+      var src = g.src && g.src.url ? ' <a href="' + esc(g.src.url) + '" target="_blank" rel="noopener">' + esc((g.src.speaker || "") + "・" + (g.src.n || "來源")) + "</a>" : "";
+      var note = g.note ? ' <span class="cx-g-note">（' + esc(g.note) + "）</span>" : "";
+      gHtml = '<span class="cx-g-line"><span class="cx-g-pill">' + esc(g.tag || "財測") + "</span>" + esc(g.text) + note + src + "</span>";
+    }
+    return "<td " + tdAttrs + '><span class="cx-cap-main">' + esc(main) + "</span>" +
+      (subs.length ? '<span class="cx-cap-sub">' + esc(subs.join(" · ")) + "</span>" : "") + gHtml + "</td>";
+  }
+  function cxNameCellHtml(x, hasDet) {
+    var nameEl = x.path ? '<a href="{{HOME}}' + esc(x.path) + '">' + esc(x.name) + "</a>" : "<span>" + esc(x.name) + "</span>";
+    if (!hasDet) return '<td><div class="cx-name-wrap"><b>' + nameEl + "</b></div></td>";
+    return '<td><div class="cx-name-wrap"><button type="button" class="cx-tog" aria-expanded="false" aria-controls="cxd-' + esc(x.code) + '">展開</button>' + nameEl + "</div></td>";
+  }
+  function renderCxChart(code) {
+    var wrap = $("cxc-" + code), ent = CX_ENT[code];
+    if (!wrap || !ent) return;
+    var hist = ent.history || [], cr = CX_VIEW[code] != null ? CX_VIEW[code] : 20;
+    var pts = cr > 0 ? hist.slice(-cr) : hist.slice();
+    if (!pts.length) { wrap.innerHTML = '<p class="mx-warn">尚無單季資本支出歷史資料。</p>'; return; }
+    var mob = window.innerWidth <= 760;
+    var W = Math.max(mob ? 280 : 480, Math.floor(wrap.clientWidth || (mob ? 320 : 680)));
+    var H = mob ? 130 : 150;
+    var padL = 8, padR = 8, padT = 14, padB = 22;
+    var cw = W - padL - padR, ch = H - padT - padB;
+    var vals = pts.map(function (h) { return h.capex; }).filter(function (v) { return v != null && v >= 0; });
+    var maxV = vals.length ? Math.max.apply(null, vals) : 0;
+    if (!(maxV > 0)) maxV = 1;
+    var lastValidIdx = -1;
+    for (var i = pts.length - 1; i >= 0; i--) { if (pts[i].capex != null) { lastValidIdx = i; break; } }
+    var n = pts.length, step = cw / n;
+    var bw = Math.max(2, Math.min(28, step * 0.68));
+    var gapH = Math.max(6, Math.round(ch * 0.14));
+    var baseLine = '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + (padT + ch).toFixed(1) + '" y2="' + (padT + ch).toFixed(1) + '" stroke="var(--axis)" stroke-width="1"/>';
+    var bars = pts.map(function (h, idx) {
+      var cx = padL + (idx + 0.5) * step;
+      var x = (cx - bw / 2).toFixed(1);
+      var endFmt = h.end ? h.end.replace("-", "/") : "";
+      if (h.capex == null) {
+        var gy = (padT + ch - gapH).toFixed(1);
+        var gtip = h.q + "（" + endFmt + "） · 單季 未揭露";
+        return '<rect class="cx-bar" x="' + x + '" y="' + gy + '" width="' + bw.toFixed(1) + '" height="' + gapH + '" rx="1.5" fill="transparent" stroke="var(--axis)" stroke-width="1" stroke-dasharray="2 2" tabindex="0" style="cursor:pointer" data-tip="' + esc(gtip) + '"/>';
+      }
+      var bh = Math.max(2, (Math.max(0, h.capex) / maxV) * ch);
+      var y = (padT + ch - bh).toFixed(1);
+      var fill = idx === lastValidIdx ? "var(--s2)" : "var(--s1)";
+      var tip = h.q + "（" + endFmt + "） · 單季 " + fmtCapex(h.capex, ent.currency) +
+        (h.yoy != null ? " · 年增 " + pct(h.yoy) : "") +
+        (h.pctRev != null ? " · 占營收 " + h.pctRev.toFixed(1) + "%" : "");
+      return '<rect class="cx-bar" x="' + x + '" y="' + y + '" width="' + bw.toFixed(1) + '" height="' + bh.toFixed(1) + '" rx="1.5" fill="' + fill + '" tabindex="0" style="cursor:pointer" data-tip="' + esc(tip) + '"/>';
+    }).join("");
+    var tickIdxs = n === 1 ? [0] : n <= 5 ? pts.map(function (_, i) { return i; }) : [0, Math.floor((n - 1) / 2), n - 1];
+    var seenTick = {};
+    var yTick = H - 5;
+    var xTicks = tickIdxs.filter(function (i) { if (seenTick[i]) return false; seenTick[i] = 1; return true; }).map(function (i) {
+      var cx = padL + (i + 0.5) * step;
+      var tx = cx, anchor = "middle";
+      if (cx - 18 < padL) { tx = padL; anchor = "start"; }
+      else if (cx + 18 > W - padR) { tx = W - padR; anchor = "end"; }
+      return '<text x="' + tx.toFixed(1) + '" y="' + yTick + '" text-anchor="' + anchor + '" fill="var(--tick)" font-size="10" font-family="var(--font-data)">' + esc(pts[i].q) + "</text>";
+    }).join("");
+    var maxLbl = '<text x="' + padL + '" y="10" fill="var(--muted)" font-size="10" font-family="var(--font-data)">高點 ' + esc(fmtCapex(maxV, ent.currency)) + "</text>";
+    wrap.innerHTML = '<svg class="cx-chart-svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(ent.name) + ' 單季資本支出長條圖">' +
+      maxLbl + baseLine + bars + xTicks + "</svg>";
+  }
+  function cxDetailHtml(code) {
+    var ent = CX_ENT[code];
+    if (!ent) return "";
+    var hist = ent.history || [], cr = CX_VIEW[code] != null ? CX_VIEW[code] : 20;
+    var pts = cr > 0 ? hist.slice(-cr) : hist.slice();
+    var c = ent.capex || {};
+    var metaParts = [];
+    if (c.latestQ) metaParts.push("最新 " + c.latestQ + "：" + fmtCapex(c.latest, ent.currency));
+    if (c.ttm != null) metaParts.push("近 4Q 合計：" + fmtCapex(c.ttm, ent.currency) + (c.ttmYoy != null ? "（年增 " + pct(c.ttmYoy) + "）" : ""));
+    else if (c.ttmWhy === "short") metaParts.push("近 4Q 合計：未滿 4 季");
+    else if (c.ttmWhy === "gap") metaParts.push("近 4Q 合計：近 4 季含未揭露或跳季，不推估");
+    if (ent.note) metaParts.push(ent.note);
+    var ranges = [["8", "近 8 季"], ["20", "近 20 季"], ["0", "全部（" + hist.length + " 季）"]];
+    var rowsHtml = pts.slice().reverse().map(function (h) {
+      var capStr = fmtCapex(h.capex, ent.currency);
+      var ttmStr = h.ttm != null ? fmtCapex(h.ttm, ent.currency) : (h.ttmWhy === "short" ? "未滿4季" : h.ttmWhy === "gap" ? "缺季" : "—");
+      return "<tr><td>" + esc(h.q) + "</td><td>" + esc(h.end ? h.end.replace("-", "/") : "—") + "</td>" +
+        '<td class="n">' + esc(capStr) + '</td><td class="n">' + esc(pct(h.yoy)) + '</td>' +
+        '<td class="n">' + (h.pctRev == null ? "—" : h.pctRev.toFixed(1) + "%") + '</td><td class="n">' + esc(ttmStr) + "</td></tr>";
+    }).join("");
+    return '<div class="cx-det-box">' +
+      '<div class="cx-det-head">' +
+        '<div class="cx-det-title">' + esc(ent.name) + ' 歷季單季資本支出<small>' + esc(ent.currency || "USD") + " 計價（左舊 → 右新，橘色為最新一季）</small></div>" +
+        '<div class="mx-rg" data-cx="' + esc(code) + '">' +
+          ranges.map(function (r) { return '<button type="button" data-cr="' + r[0] + '" aria-pressed="' + String(+r[0] === cr) + '">' + esc(r[1]) + "</button>"; }).join("") +
+        "</div>" +
+      "</div>" +
+      (metaParts.length ? '<div class="cx-det-meta">' + esc(metaParts.join(" ｜ ")) + "</div>" : "") +
+      '<div class="cx-chart-wrap"><div id="cxc-' + esc(code) + '"></div>' +
+        '<div class="cx-chart-cap"><span>實心長條＝已揭露單季資本支出；底部虛線空框＝當季未揭露（不補 0）</span><span>共顯示 ' + pts.length + " / " + hist.length + " 季</span></div>" +
+      "</div>" +
+      '<div class="cx-hist-wrap"><table class="mx-tbl mx-plain cx-hist-tbl">' +
+        '<tr><th>財報季別</th><th>季末月份</th><th class="n">單季資本支出</th><th class="n">年增率</th><th class="n">占營收比重</th><th class="n">近 4Q 合計</th></tr>' +
+        rowsHtml +
+      "</table></div>" +
+    "</div>";
+  }
+  function renderCxDetail(code) {
+    var d = $("cxd-" + code);
+    if (!d) return;
+    d.firstChild.innerHTML = cxDetailHtml(code);
+    renderCxChart(code);
+  }
+  function toggleCx(code) {
+    var r = $("cxr-" + code), d = $("cxd-" + code);
+    if (!r || !d) return;
+    var open = r.getAttribute("aria-expanded") !== "true";
+    r.setAttribute("aria-expanded", String(open));
+    var btn = r.querySelector(".cx-tog");
+    if (btn) btn.setAttribute("aria-expanded", String(open));
+    d.hidden = !open;
+    if (open) {
+      if (CX_VIEW[code] == null) CX_VIEW[code] = 20;
+      renderCxDetail(code);
+    }
+  }
   function renderChain() {
     var ch = CFG.chain || {}, R = (CHAIN && CHAIN.rows) || [], B = (CHAIN && CHAIN.buyers) || [];
     $("mxChainLead").innerHTML = '<span class="mx-tag">書面＋公式</span> ' + esc(ch.lead || "") + "數字來自各公司財報（現金流量表的資本支出），這裡只做加總；會計年度不同的公司（微軟）用季末月份對到同一個日曆季。";
@@ -637,6 +851,31 @@ details.mx-intro .note{margin-top:8px}
     var last = R.slice(-8).reverse(), yi = function (v) { return v == null ? "—" : (v / 100).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }); };
     $("mxChainTbl").innerHTML = "<tr><th>日曆季</th>" + B.map(function (b) { return '<th class="n hide-s"><a href="{{HOME}}' + esc(b.path) + '">' + esc(b.name) + "</a></th>"; }).join("") + '<th class="n">合計（億美元）</th><th class="n">年增率</th><th class="n">占四家營收</th></tr>' +
       last.map(function (r) { return "<tr><td class='n' style='text-align:left'>" + r.cq.replace("Q", " Q") + "</td>" + B.map(function (b) { return '<td class="n hide-s">' + yi(r.capex[b.code]) + "</td>"; }).join("") + '<td class="n"><b>' + yi(r.total) + '</b></td><td class="n">' + pct(r.yoy) + '</td><td class="n">' + (r.pctRev == null ? "—" : r.pctRev.toFixed(1) + "%") + "</td></tr>"; }).join("");
+    CX_ENT = {};
+    var buyCards = (CHAIN && CHAIN.buyerCards) || [], emCards = (CHAIN && CHAIN.emergingBuyers) || [];
+    var buyRow = function (x) {
+      CX_ENT[x.code] = x;
+      if (x.status === "pending_ipo" || !x.history || !x.history.length) {
+        return '<tr class="cx-static"><td><div class="cx-name-wrap"><b>' + esc(x.name) + '</b> <span class="mx-tag">待首季揭露</span></div></td>' +
+          '<td colspan="4" class="cx-note">' + esc(x.statusText || x.note || "待首份季報揭露單季資本支出後自動帶入") + "</td></tr>";
+      }
+      var c = x.capex || {};
+      var yoyStr = c.latestYoy != null ? pct(c.latestYoy) : "—";
+      var pctStr = c.latestPctRev != null ? c.latestPctRev.toFixed(1) + "%" : "—";
+      var ttmStr = c.ttm != null ? fmtCapex(c.ttm, x.currency) : (c.ttmWhy === "short" ? "未滿4季" : c.ttmWhy === "gap" ? "缺季" : "—");
+      return '<tr class="row" id="cxr-' + esc(x.code) + '" data-cx="' + esc(x.code) + '" aria-expanded="false">' +
+        cxNameCellHtml(x, true) +
+        '<td class="n" data-lbl="最新一季">' + esc(c.latestQ || "—") + "<br><small>季末 " + esc((c.latestEnd || "").replace("-", "/")) + "</small></td>" +
+        cxCapCellHtml(x, 'class="n cx-cap" data-lbl="單季資本支出／財測"') +
+        '<td class="n" data-lbl="年增率 / 占營收">' + esc(yoyStr) + "<br><small>占營收 " + esc(pctStr) + "</small></td>" +
+        '<td class="n hide-s" data-lbl="近 4Q 合計">' + esc(ttmStr) + (c.ttmYoy != null ? "<br><small>年增 " + esc(pct(c.ttmYoy)) + "</small>" : "") + "</td>" +
+        "</tr>" +
+        '<tr class="mx-det cx-det" id="cxd-' + esc(x.code) + '" hidden><td colspan="5"></td></tr>';
+    };
+    var buyBody = "";
+    if (buyCards.length) buyBody += '<tr class="cx-grp"><th colspan="5">四大雲端大廠（計入上方日曆季合計）</th></tr>' + buyCards.map(buyRow).join("");
+    if (emCards.length) buyBody += '<tr class="cx-grp"><th colspan="5">新興 AI 算力／模型買方（獨立觀測，不計入四家歷史合計）</th></tr>' + emCards.map(buyRow).join("");
+    $("mxBuyTbl").innerHTML = '<tr><th>公司</th><th class="n">最新一季</th><th class="n">單季資本支出／財測</th><th class="n">年增率 / 占營收</th><th class="n hide-s">近 4Q 合計</th></tr>' + buyBody;
     var S = (CHAIN.suppliers || []).filter(function (x) { return x.points.length; });
     var fmtGm = function (x) {
       if (x.gm == null) return "—";
@@ -644,20 +883,30 @@ details.mx-intro .note{margin-top:8px}
       return x.gm.toFixed(1) + "%" + d;
     };
     var supRow = function (x) {
+      CX_ENT[x.code] = x;
       var p = x.points.slice(-3).reverse();
-      return '<tr><td><a href="{{HOME}}' + esc(x.path) + '"><b>' + esc(x.name) + "</b></a></td><td class='n'>" + esc(p[0].q) + "<br><small>季末 " + esc(p[0].end.replace("-", "/")) + "</small></td><td class='n'><b>" + pct(p[0].yoy) + "</b></td><td class='n'>" + fmtGm(x) + "</td><td class='n hide-s'>" + (p[1] ? pct(p[1].yoy) : "—") + "</td><td class='n hide-s'>" + (p[2] ? pct(p[2].yoy) : "—") + "</td></tr>";
+      var hasHist = !!(x.history && x.history.length);
+      return '<tr class="row" id="cxr-' + esc(x.code) + '" data-cx="' + esc(x.code) + '" aria-expanded="false">' +
+        cxNameCellHtml(x, hasHist) +
+        '<td class="n" data-lbl="最新一季">' + esc(p[0].q) + "<br><small>季末 " + esc(p[0].end.replace("-", "/")) + "</small></td>" +
+        cxCapCellHtml(x, 'class="n cx-cap" data-lbl="資本支出"') +
+        '<td class="n" data-lbl="營收年增率"><b>' + pct(p[0].yoy) + "</b></td>" +
+        '<td class="n" data-lbl="最新毛利率">' + fmtGm(x) + "</td>" +
+        '<td class="n hide-s" data-lbl="前兩季營收年增">' + (p[1] ? pct(p[1].yoy) : "—") + "<br><small>前2Q " + (p[2] ? pct(p[2].yoy) : "—") + "</small></td>" +
+        "</tr>" +
+        '<tr class="mx-det cx-det" id="cxd-' + esc(x.code) + '" hidden><td colspan="6"></td></tr>';
     };
     var hasTiers = S.some(function (x) { return x.tier; }), bodyHtml = "";
     if (hasTiers) {
       var seenT = [], byT = {};
       S.forEach(function (x) { var t = x.tier || "其他"; if (!byT[t]) { byT[t] = []; seenT.push(t); } byT[t].push(x); });
       bodyHtml = seenT.map(function (t) {
-        return '<tr style="background:var(--wash)"><th colspan="6" style="text-align:left;font-size:.82rem;color:var(--ink)">' + esc(t) + "</th></tr>" + byT[t].map(supRow).join("");
+        return '<tr class="cx-grp"><th colspan="6">' + esc(t) + "</th></tr>" + byT[t].map(supRow).join("");
       }).join("");
     } else {
       bodyHtml = S.map(supRow).join("");
     }
-    $("mxSupTbl").innerHTML = '<tr><th>公司</th><th class="n">最新一季</th><th class="n">營收年增率</th><th class="n">最新毛利率（季增減）</th><th class="n hide-s">前一季</th><th class="n hide-s">前兩季</th></tr>' + bodyHtml;
+    $("mxSupTbl").innerHTML = '<tr><th>公司</th><th class="n">最新一季</th><th class="n">資本支出</th><th class="n">營收年增率</th><th class="n">最新毛利率（季增減）</th><th class="n hide-s">前兩季營收年增</th></tr>' + bodyHtml;
     $("mxChainRead").innerHTML = '<span class="mx-tag">觀點</span> ' + esc(ch.read || "") + "各家季末月份不同（輝達與博通的季末在 1、4、7、10 月前後），所以賣方不和買方硬對在同一季。";
     var miss = CHAIN.missing || [];
     $("mxChainMiss").hidden = !miss.length; $("mxChainMiss").innerHTML = miss.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("");
@@ -827,7 +1076,23 @@ details.mx-intro .note{margin-top:8px}
     $("glSum").innerHTML = h.join("");
   }
   var tipEl = null, glDot = null;
+  function showCxBarTip(bar) {
+    var tip = bar && bar.getAttribute("data-tip");
+    if (!tip) return false;
+    var r = bar.getBoundingClientRect();
+    if (!tipEl) { tipEl = document.createElement("div"); tipEl.className = "gl-tip"; document.body.appendChild(tipEl); }
+    tipEl.hidden = false;
+    tipEl.textContent = tip;
+    tipEl.style.left = Math.max(80, Math.min(window.innerWidth - 80, r.left + r.width / 2)) + "px";
+    tipEl.style.top = r.top + "px";
+    return true;
+  }
   function glHover(e) {
+    var bar = e.target.closest && e.target.closest(".cx-bar");
+    if (bar && showCxBarTip(bar)) {
+      if (glDot) { glDot.style.opacity = 0; glDot = null; }
+      return;
+    }
     var svg = e.target.closest && e.target.closest("svg.gl-sp"), g = svg && GPTS[svg.getAttribute("data-k")];
     if (glDot && (!g || glDot.ownerSVGElement !== svg)) { glDot.style.opacity = 0; glDot = null; }
     if (!g) { if (tipEl) tipEl.hidden = true; return; }
@@ -840,9 +1105,28 @@ details.mx-intro .note{margin-top:8px}
     tipEl.style.left = (r.left + g.X(g.t[best]) * r.width / svg.viewBox.baseVal.width) + "px"; tipEl.style.top = r.top + "px";
   }
   document.addEventListener("mousemove", glHover);
+  document.addEventListener("focusin", function (e) {
+    var bar = e.target.closest && e.target.closest(".cx-bar");
+    if (bar) showCxBarTip(bar);
+  });
+  document.addEventListener("focusout", function (e) {
+    if (e.target.closest && e.target.closest(".cx-bar") && tipEl) tipEl.hidden = true;
+  });
+  document.addEventListener("mouseleave", function () { if (tipEl) tipEl.hidden = true; }, true);
   document.addEventListener("scroll", function () { if (tipEl) tipEl.hidden = true; }, { passive: true });
-  var glW = 0, glTimer = 0;
-  window.addEventListener("resize", function () { var g = $("glGrid"); if (!g || !DATA || Math.abs(g.clientWidth - glW) < 20) return; glW = g.clientWidth; clearTimeout(glTimer); glTimer = setTimeout(renderGlance, 150); });
+  var glW = 0, glTimer = 0, cxTimer = 0;
+  window.addEventListener("resize", function () {
+    clearTimeout(cxTimer);
+    cxTimer = setTimeout(function () {
+      document.querySelectorAll('.mx-capex-tbl tr.row[aria-expanded="true"]').forEach(function (tr) {
+        var code = tr.getAttribute("data-cx");
+        if (code) renderCxChart(code);
+      });
+    }, 120);
+    var g = $("glGrid");
+    if (!g || !DATA || Math.abs(g.clientWidth - glW) < 20) return;
+    glW = g.clientWidth; clearTimeout(glTimer); glTimer = setTimeout(renderGlance, 150);
+  });
 
   function render(D) {
     DATA = D;
@@ -880,6 +1164,13 @@ details.mx-intro .note{margin-top:8px}
     if (fb) { setFilter(fb.getAttribute("data-f")); return; }
     var j = e.target.closest && e.target.closest("[data-jump]");
     if (j) { e.preventDefault(); jump(j.getAttribute("data-jump")); return; }
+    var cb = e.target.closest && e.target.closest(".mx-rg[data-cx] button");
+    if (cb) {
+      var cc = cb.parentNode.getAttribute("data-cx");
+      CX_VIEW[cc] = +cb.getAttribute("data-cr");
+      renderCxDetail(cc);
+      return;
+    }
     var b = e.target.closest && e.target.closest(".mx-rg button");
     if (b) {
       var k = b.parentNode.getAttribute("data-key");
@@ -888,7 +1179,12 @@ details.mx-intro .note{margin-top:8px}
       draw(k, +b.getAttribute("data-y")); return;
     }
     var r = e.target.closest && e.target.closest("tr.row");
-    if (r) toggle(r.getAttribute("data-key"));
+    if (r) {
+      if (e.target.closest && e.target.closest("a")) return;
+      var cxCode = r.getAttribute("data-cx");
+      if (cxCode) { toggleCx(cxCode); return; }
+      toggle(r.getAttribute("data-key"));
+    }
   });
   renderLinks(); renderLearn();
   try { renderThink(); } catch (e) { console.error(e); }

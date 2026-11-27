@@ -195,6 +195,32 @@ def main():
                         errs.append("世界趨勢月報頁沒有 #trBody .tr-card")
                     if not pg.query_selector("#trLedger table"):
                         errs.append("世界趨勢月報頁沒有 #trLedger table")
+                if path == "/macro/":
+                    buy_txt = pg.text_content("#mxBuyTbl") or ""
+                    sup_txt = pg.text_content("#mxSupTbl") or ""
+                    if "SpaceX" not in buy_txt or "Anthropic" not in buy_txt:
+                        errs.append("總經頁 #mxBuyTbl 缺少 SpaceX 或 Anthropic")
+                    if not sup_txt or "台積電" not in sup_txt:
+                        errs.append("總經頁 #mxSupTbl 沒有渲染供應鏈資料")
+                    if pg.query_selector("#mxBuyTbl a[href*='anthropic']"):
+                        errs.append("總經頁 #mxBuyTbl 不應產生指向 anthropic/ 的死連結")
+                    for cx_code in ("meta", "tsmc"):
+                        pg.click(f"#cxr-{cx_code}", timeout=5000)
+                        pg.wait_for_timeout(200)
+                        det_vis = pg.evaluate(f"() => !document.getElementById('cxd-{cx_code}').hidden && !!document.querySelector('#cxc-{cx_code} svg')")
+                        if not det_vis:
+                            errs.append(f"總經頁展開 {cx_code} 資本支出抽屜失敗或缺少 SVG 長條圖")
+                    # 切換範圍鈕（近 8 季 / 近 20 季 / 全部）確認明細表列數隨之改變
+                    cnt20 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
+                    pg.click("#cxd-meta button[data-cr='8']", timeout=5000)
+                    pg.wait_for_timeout(150)
+                    cnt8 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
+                    pg.click("#cxd-meta button[data-cr='0']", timeout=5000)
+                    pg.wait_for_timeout(150)
+                    cnt_all = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
+                    if not (cnt8 < cnt20 < cnt_all):
+                        errs.append(f"總經頁資本支出明細範圍切換異常：8季={cnt8}, 20季={cnt20}, 全部={cnt_all}")
+                    over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                 if w == 390 and over > 2:
                     errs.append(f"手機版有橫向捲動（多 {over}px）")
                 if shots:

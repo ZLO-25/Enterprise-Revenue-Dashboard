@@ -464,7 +464,14 @@ def main():
     mc = json.load(open(os.path.join(ROOT, "data", "macro", "config.json"), encoding="utf8"))
     mc.pop("note", None)
     import capex_chain as CHAIN   # AI 資本支出鏈：用上面已讀好的各公司財報加總（建置時算，不存檔）
-    chain = CHAIN.compute(mc["chain"], companies, datasets)
+    chain_ds = dict(datasets)
+    for eb in (mc.get("chain") or {}).get("emergingBuyers", []):
+        code = eb.get("code") if isinstance(eb, dict) else eb
+        if code and code not in chain_ds:
+            ep = os.path.join(ROOT, "data", code + ".json")
+            if os.path.exists(ep):
+                chain_ds[code] = json.load(open(ep, encoding="utf8"))
+    chain = CHAIN.compute(mc["chain"], cfg["companies"], chain_ds)
     mx = fill(read("templates", "macro.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{MACRO_BASE}}", "../data/macro/"),
               ("{{MACRO_CFG}}", js_json(mc)), ("{{CAPEX_CHAIN}}", js_json(chain)), ("{{CHARTJS}}", LOCAL_CHART.format(rel="../")),
               ("{{MXO_JS}}", "../assets/macro_overlay.js?v=" + asset_ver("assets", "macro_overlay.js")),
