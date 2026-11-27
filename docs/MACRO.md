@@ -160,7 +160,7 @@ tools/status.py（daily-prep 每天跑）→ 系統健康頁「總經資料」
 | 改顯示單位（千人 → 萬人） | 同一條的 `scale`、`showUnit`、`showDigits`（存檔仍是原始單位） |
 | 改四階段對照表 | `phases[].checks`（`keys` 必須是存在的指標） |
 | 加外部連結 | `links[]` |
-| 改資本支出鏈的公司 | `chain.buyers`／`chain.suppliers`（買方的季末必須在 3／6／9／12 月） |
+| 改資本支出鏈的公司 | `chain.buyers`／`chain.emergingBuyers`／`chain.suppliers`／`chain.tiers`（主買方的季末必須在 3／6／9／12 月；新興買方獨立觀測不計入合計） |
 | 檢查連結有沒有失效、台灣檔案格式 | 平常每次抓取都會自動檢查（結果在頁尾與系統健康頁）；要看細節就手動執行 macro-weekly，勾 probe |
 | 加一則思考邏輯／提醒／名詞 | `concepts[]`（要有 `srcs`）、`reminders[]`（要指到 `concept`）、`glossary[]` |
 | 改哪些算核心指標 | 那一條的 `core: true` |
@@ -216,3 +216,14 @@ FRED：FEDFUNDS、DFEDTAR／L／U、CPIAUCSL、   ├─ tools/macro_overlay.py�
 - 頁面只畫不算；CPI 年增率用 `macro_fetch.to_yoy`（同一個算法）。測試：`tools/tests/test_macro_overlay.py`。
 
 同一次也在指標清單加了 7 條（通膨、利率與聯準會那一組）：`fedfunds`（FEDFUNDS）、`dgs2`、`dfii10`、`t5yifr`、`realpol`（diff：fedfunds − corepce）、`wages`（CES0500000003 年增率）、`netliq`（新的 `combo` 類型：WALCL − RRPONTSYD×1000 − WTREGEN，每月最後一筆、三條同月才算）。它們不是書裡的指標，`book` 寫「教學」。
+
+## AI 資本支出鏈擴充（`#chain`，2026-11-27）
+
+在既有的「四大雲端大廠日曆季合計」與「五層供應鏈」之外，將上下游 25 家公司（4 家主買方＋2 家新興 AI 買方＋19 家賣方）的單季資本支出、年增率、近 4Q 滾動合計、資本密集度與全年財測／口頭展望全部拉進 `tools/capex_chain.py` 於建置時算出：
+
+- **主買方與新興買方分開計數**：`chain.buyers`（微軟、亞馬遜、Google、Meta）維持日曆季加總；`chain.emergingBuyers`（如 SpaceX、Anthropic）獨立觀測、不計入四家歷史合計。未啟用公司（`enabled: false`，如 `anthropic`）只由 `tools/build.py` 專供 `CHAIN.compute` 讀取，不進首頁／個股頁建置；若尚無有效季度則輸出 `status: "pending_ipo"` 且 `path: ""`（不產生死連結、不進 `missing`），待啟用與季報揭露後自動轉為可展開列。
+- **有效季度與嚴格近 4Q 檢查**：先濾掉 `rev` 與 `capex` 皆為 `null` 的佔位空殼季；計算近 4Q 滾動合計（`ttm`）時必須 4 季 `capex` 皆非 `null` 且季序 `qnum()` 嚴格相鄰（差 1），否則標 `ttm: null` 並註明 `short`（未滿 4 季）或 `gap`（缺值／跳季）。
+- **多幣別動態換算（`fmt_capex`）**：經 `health.normq()` 統一為原幣百萬元後，依 USD／TWD／KRW／EUR 各別量級自動轉為「百萬／億／兆」，Python 與前端共用一致門檻。
+- **三層財測／展望擷取（`extract_capex_guidance`）**：依序讀書面 `capexBudget`（如台積電十億美元）→ 書面 `guidance.items`（並自動比對 `guidanceHistory` 補上原預估）→ `summary` 電話會議口頭展望（僅限 `tag == "o"` 且同時具合法 `src.url` 與 `src.speaker`，並排除收購金額上限與過去式單季回顧）。
+- **展開抽屜與手機版 RWD**：買方與賣方列表（`.mx-capex-tbl`）任一公司列皆可點擊展開，內含可切換 `近 8 季 / 近 20 季 / 全部` 的內嵌 SVG 長條圖（缺值季畫虛線空框、不補 0）與 6 欄歷史明細表；手機版改為雙欄卡片式 Grid，展開抽屜時不產生橫向溢位。
+
