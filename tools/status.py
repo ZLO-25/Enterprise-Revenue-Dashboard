@@ -198,15 +198,8 @@ def routines_block(today):
         rows.append(row("trend", "red", f"{ym} 還沒產出"))
     else:
         rows.append(row("trend", "green", "本月已產出或還沒到時間"))
-    # 市值檢查（Claude）：資料由 Actions 的 mcap-weekly 負責，Claude 版之後會停用，所以最多黃燈，不紅
-    T = jload("data", "token-usage.json", default={"runs": []}) or {"runs": []}
-    ds = [r["date"] for r in T.get("runs", []) if r.get("routine") == "mcap"]
-    if not ds:
-        rows.append(row("mcap", "yellow", "token 紀錄裡沒有市值檢查的紀錄"))
-    else:
-        d = max(ds)
-        n = (today - dt.date.fromisoformat(d)).days
-        rows.append(row("mcap", "yellow" if n > 9 else "green", f"上次 {d}（{n} 天前）" + ("；資料由 mcap-weekly 負責，Claude 版之後會停用" if n > 9 else "")))
+    # 市值檢查（Claude）：2026-11-27 ZL 決定停用，檢查改由 Actions 的 mcap-weekly 跑 mcap_check.py（有問題開 issue），固定灰燈
+    rows.append(row("mcap", "gray", "已停用（2026-11-27）：改由 mcap-weekly 抓完自己檢查，有問題才開 issue"))
     return rows
 
 

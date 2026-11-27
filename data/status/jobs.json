@@ -255,9 +255,9 @@
    "branch": null,
    "kind": "weekly",
    "trigger": "trig_01SuEB3Lf7BWQJYeprTSC2Yp",
-   "freq": "每週六 07:00",
-   "method": "Claude 排程照 docs/MCAP_WEEKLY_PROMPT.md：跑 python3 tools/mcap_check.py 檢查 Actions 抓好的市值排名並回報；Claude 版之後會停用",
-   "retry": "Claude 排程本身沒有重試；資料由 mcap-weekly 的 8 班備援負責"
+   "freq": "已停用（2026-11-27）",
+   "method": "停用：檢查改由 mcap-weekly 抓完跑 tools/mcap_check.py，有問題才開 GitHub issue；Claude 只在 issue 出現時照 docs/MCAP_WEEKLY_PROMPT.md 處理",
+   "retry": "不適用；資料由 mcap-weekly 的 8 班備援負責"
   }
  ]
 }

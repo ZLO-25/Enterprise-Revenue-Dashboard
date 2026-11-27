@@ -149,8 +149,9 @@ class OndemandAndMcap(unittest.TestCase):
         m = next(r for r in rows if r["id"] == "mcap")
         self.assertNotEqual(m["light"], "red")
         self.assertEqual(m["group"], "routine")
-        far = S.routines_block(dt.date(2027, 6, 1))   # 太久沒有紀錄：黃燈、不紅
-        self.assertEqual(next(r for r in far if r["id"] == "mcap")["light"], "yellow")
+        self.assertEqual(m["light"], "gray")          # 2026-11-27 起停用：固定灰燈
+        far = S.routines_block(dt.date(2027, 6, 1))   # 很久沒有紀錄也不變黃、不紅
+        self.assertEqual(next(r for r in far if r["id"] == "mcap")["light"], "gray")
 
 
 if __name__ == "__main__":
