@@ -345,6 +345,31 @@
      "costUsd": 1.1847
     }
    }
+  },
+  {
+   "date": "2026-11-27",
+   "routine": "daily",
+   "session": "session_01JFJ5rbeKCpysTCtbgydD1r",
+   "model": "claude-opus-5-5",
+   "input": 16,
+   "cacheRead": 824366,
+   "cacheWrite": 71561,
+   "output": 1648,
+   "turns": 9,
+   "subagentFiles": 0,
+   "costUsd": 0.43,
+   "exact": false,
+   "src": "transcript",
+   "models": {
+    "claude-opus-5-5": {
+     "input": 16,
+     "cacheRead": 824366,
+     "cacheWrite": 71561,
+     "output": 1648,
+     "turns": 9,
+     "costUsd": 0.4303
+    }
+   }
   }
  ]
 }
