@@ -189,12 +189,12 @@ details.mx-intro .note{margin-top:8px}
 .mx-capex-tbl tr.cx-grp th{background:var(--wash);text-align:left;font-size:.82rem;color:var(--ink);font-weight:600}
 .mx-capex-tbl tr.cx-static td{color:var(--ink-2)}
 .mx-capex-tbl tr.cx-static .cx-note{font-size:.82rem;color:var(--muted)}
-.mx-capex-tbl .cx-name-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
+.mx-capex-tbl .cx-name-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:2px 3px}
 .mx-capex-tbl .cx-name-wrap a{font-weight:600;text-decoration:none}
 .mx-capex-tbl .cx-name-wrap a:hover{text-decoration:underline}
-.mx-capex-tbl .cx-tog{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--ink)}
+.mx-capex-tbl .cx-tog{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:1.1em;height:1.2em;color:var(--muted)}
 .mx-capex-tbl .cx-tog:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
-.mx-capex-tbl .cx-tog::before{content:"▸";display:inline-block;width:1em;color:var(--muted);transition:transform .15s}
+.mx-capex-tbl .cx-tog::before{content:"▸";display:inline-block;line-height:1;transition:transform .15s}
 .mx-capex-tbl tr.row[aria-expanded="true"] .cx-tog::before{transform:rotate(90deg)}
 .cx-cap-main{font-weight:600}
 .cx-cap-sub{display:block;font-size:.74rem;color:var(--muted);font-family:var(--font-data);margin-top:2px}
@@ -735,7 +735,7 @@ details.mx-intro .note{margin-top:8px}
   function cxNameCellHtml(x, hasDet) {
     var nameEl = x.path ? '<a href="{{HOME}}' + esc(x.path) + '">' + esc(x.name) + "</a>" : "<span>" + esc(x.name) + "</span>";
     if (!hasDet) return '<td><div class="cx-name-wrap"><b>' + nameEl + "</b></div></td>";
-    return '<td><div class="cx-name-wrap"><button type="button" class="cx-tog" aria-expanded="false" aria-controls="cxd-' + esc(x.code) + '">展開</button>' + nameEl + "</div></td>";
+    return '<td><div class="cx-name-wrap"><button type="button" class="cx-tog" aria-expanded="false" aria-controls="cxd-' + esc(x.code) + '" aria-label="' + esc(x.name) + ' 歷季資本支出"></button>' + nameEl + "</div></td>";
   }
   function renderCxChart(code) {
     var wrap = $("cxc-" + code), ent = CX_ENT[code];
