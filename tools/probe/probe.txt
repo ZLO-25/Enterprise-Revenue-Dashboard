@@ -1,0 +1,71 @@
+berkshire 0001067983 BERKSHIRE HATHAWAY INC ->
+  ('2026-11-16', '13F-HR', '2026-09-30', '0001193125-26-463399', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-14', '13F-HR', '2026-06-30', '0001193125-26-352200', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-15', '13F-HR', '2026-03-31', '0001193125-26-226661', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-17', '13F-HR', '2025-12-31', '0001193125-26-054580', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-11-14', '13F-HR', '2025-09-30', '0001193125-25-282901', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-14', '13F-HR/A', '2025-03-31', '0000950123-25-008361', 'xslForm13F_X02/primary_doc.xml')
+himalaya 0001709323 Himalaya Capital Management LLC ->
+  ('2026-11-16', '13F-HR', '2026-09-30', '0002043585-26-000030', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-14', '13F-HR', '2026-06-30', '0002043585-26-000022', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-15', '13F-HR', '2026-03-31', '0002043585-26-000013', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-19', '13F-HR/A', '2025-12-31', '0002043585-26-000012', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-17', '13F-HR', '2025-12-31', '0002043585-26-000011', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-11-12', '13F-HR', '2025-09-30', '0002043585-25-000015', 'xslForm13F_X02/primary_doc.xml')
+hh 0001759760 H&H International Investment, LLC ->
+  ('2026-11-16', '13F-HR', '2026-09-30', '0001759760-26-000008', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-14', '13F-HR', '2026-06-30', '0001759760-26-000007', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-19', '13F-HR', '2026-03-31', '0001759760-26-000005', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-17', '13F-HR', '2025-12-31', '0001759760-26-000001', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-11-14', '13F-HR', '2025-09-30', '0001759760-25-000002', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-14', '13F-HR', '2025-06-30', '0001085146-25-005091', 'xslForm13F_X02/primary_doc.xml')
+dailyjournal 0000783412 DAILY JOURNAL CORP ->
+  ('2026-11-02', '13F-HR', '2026-09-30', '0001437749-26-034429', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-07-16', '13F-HR', '2026-06-30', '0001437749-26-023711', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-04-15', '13F-HR', '2026-03-31', '0001437749-26-012379', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-01-13', '13F-HR', '2025-12-31', '0001437749-26-001178', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-10-14', '13F-HR/A', '2025-09-30', '0001437749-25-030873', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-10-08', '13F-HR', '2025-09-30', '0001437749-25-030667', 'xslForm13F_X02/primary_doc.xml')
+akre 0001112520 AKRE CAPITAL MANAGEMENT LLC ->
+  ('2026-11-13', '13F-HR', '2026-09-30', '0001112520-26-000022', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-14', '13F-HR', '2026-06-30', '0001112520-26-000014', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-14', '13F-HR', '2026-03-31', '0001112520-26-000009', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-13', '13F-HR', '2025-12-31', '0001112520-26-000008', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-11-13', '13F-HR', '2025-09-30', '0001112520-25-000029', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-14', '13F-HR', '2025-06-30', '0001112520-25-000019', 'xslForm13F_X02/primary_doc.xml')
+fundsmith 0001569205 Fundsmith LLP ->
+  ('2026-11-16', '13F-HR', '2026-09-30', '0001569205-26-000014', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-14', '13F-HR', '2026-06-30', '0001569205-26-000012', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-15', '13F-HR', '2026-03-31', '0001569205-26-000005', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-17', '13F-HR', '2025-12-31', '0001569205-26-000002', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-11-14', '13F-HR', '2025-09-30', '0001569205-25-000004', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-14', '13F-HR', '2025-06-30', '0001801547-25-000008', 'xslForm13F_X02/primary_doc.xml')
+markel 0001096343 MARKEL GROUP INC. ->
+  ('2026-10-30', '13F-HR', '2026-09-30', '0001096343-26-000085', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-07-31', '13F-HR', '2026-06-30', '0001096343-26-000065', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-01', '13F-HR', '2026-03-31', '0001096343-26-000044', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-06', '13F-HR', '2025-12-31', '0001096343-26-000011', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-10-31', '13F-HR', '2025-09-30', '0001628280-25-047842', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-01', '13F-HR', '2025-06-30', '0001096343-25-000124', 'xslForm13F_X02/primary_doc.xml')
+baillie 0001088875 BAILLIE GIFFORD & CO ->
+  ('2026-11-09', '13F-HR', '2026-09-30', '0001088875-26-000074', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-06', '13F-HR', '2026-06-30', '0001088875-26-000057', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-08', '13F-HR', '2026-03-31', '0001088875-26-000037', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-01-23', '13F-HR', '2025-12-31', '0001088875-26-000002', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-10-31', '13F-HR', '2025-09-30', '0001088875-25-000079', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-06', '13F-HR', '2025-06-30', '0001088875-25-000057', 'xslForm13F_X02/primary_doc.xml')
+pershing 0001336528 Pershing Square Capital Management, L.P. ->
+  ('2026-11-16', '13F-NT', '2026-09-30', '0001172661-26-005462', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-08-14', '13F-NT', '2026-06-30', '0001172661-26-003777', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-05-15', '13F-HR', '2026-03-31', '0001172661-26-002336', 'xslForm13F_X02/primary_doc.xml')
+  ('2026-02-17', '13F-HR', '2025-12-31', '0001172661-26-001091', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-11-14', '13F-HR', '2025-09-30', '0001172661-25-005039', 'xslForm13F_X02/primary_doc.xml')
+  ('2025-08-14', '13F-HR', '2025-06-30', '0001172661-25-003509', 'xslForm13F_X02/primary_doc.xml')
+SEARCH himalaya capital: 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR/A [Amend]  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings | 0001709323 0001709323 0001709323
+SEARCH h&h international: 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR/A [Amend]  - Quarterly report filed by institutional managers, Holdings | 0001759760 0001759760 0001759760
+SEARCH akre capital: 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings | 0001112520 0001112520 0001112520
+SEARCH fundsmith: Fundsmith Equity Fund, L.P.; FUNDSMITH INVESTMENT SERVICES LTD.; Fundsmith LLP; Fundsmith Long/Short Master Fund; Company Search Feed | 0001520023 0001868537 0001569205 0001813932
+SEARCH baillie gifford: BAILLIE GIFFORD &amp; CO; BAILLIE GIFFORD OVERSEAS LTD; Company Search Feed | 0001088875 0001085972
+SEARCH pershing square capital: 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR/A [Amend]  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings | 0001336528 0001336528 0001336528
+SEARCH daily journal: 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR/A [Amend]  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings; 13F-HR  - Quarterly report filed by institutional managers, Holdings | 0000783412 0000783412 0000783412
+SEARCH markel: MARKEL GROUP INC.; Markel-Gayner Asset Management LLC; Company Search Feed | 0001096343 0001034180
