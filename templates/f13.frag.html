@@ -165,7 +165,8 @@
       h += "<p class='f13-note'><span class='f13-pend'>待確認</span> 本季改由 " + esc(by || "其他申報人") + " 申報（" + esc(q.form) + "），持股待確認，這裡不補數字。</p>";
     } else {
       if (q.confidential) h += "<p class='f13-note'><span class='f13-pend'>待確認</span> 申報檔標示有保密延後揭露的持股，這季清單不完整。</p>";
-      if (q.chgNote) h += "<p class='f13-note'>" + esc(q.chgNote) + "</p>";
+      if (q.chgNote) h += "<p class='f13-note'><span class='f13-pend'>待確認</span> " + esc(q.chgNote.replace(/^待確認：/, "")) + "</p>";
+      (q.notes || []).forEach(function (n) { h += "<p class='f13-note'><span class='f13-pend'>待確認</span> " + esc(n.replace(/^待確認：/, "")) + "</p>"; });
       h += tableHtml(q);
       if (q.more || q.full) h += "<div class='f13-ctl'><button type='button' data-all='" + esc(m.id) + "'>" + (ST.all[m.id] ? "只看前 10 大" : "看全部 " + (q.more ? q.count : LATEST.managers[m.id].count) + " 檔") + "</button></div>";
     }

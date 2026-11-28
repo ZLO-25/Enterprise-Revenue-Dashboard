@@ -304,6 +304,10 @@ def apply_changes(cur, prev):
         return
     ok = prev is not None and prev["holdingsKnown"] and prev["period"] == prev_quarter(cur["period"])
     cur["chgNote"] = None if ok else "待確認：上一季沒有可比較的 13F-HR（沒申報、只有 13F-NT，或季別不連續），本季變化不顯示"
+    fc, fp = (cur.get("filer") or {}), (prev.get("filer") or {}) if prev else {}
+    if ok and fc.get("cik") and fp.get("cik") and fc["cik"] != fp["cik"]:
+        cur["chgNote"] = f"申報人改變（{fp.get('name') or fp['cik']} → {fc.get('name') or fc['cik']}），和上一季不能直接比較，待確認"
+        return
     if not ok:
         return
     pm = {(h["cusip"], h["putCall"], h["type"]): h for h in prev["holdings"]}
@@ -361,10 +365,10 @@ def select_filings(per_cik, ciks):
 
 def build_manager(http, m, code_map):
     ciks = manager_ciks(m)
-    per_cik, sec_name = {}, ""
+    per_cik, sec_name, names = {}, "", {}
     for c in ciks:
         nm, fl = list_filings(http, c)
-        per_cik[c] = fl
+        per_cik[c], names[c] = fl, nm
         sec_name = sec_name or nm
     sel = select_filings(per_cik, ciks)
     if not sel:
@@ -374,6 +378,7 @@ def build_manager(http, m, code_map):
         use, fl, (via, nts), notes = sel[per]
         q = assemble(http, fl)
         q["notes"] = list(notes) + q.get("notes", [])
+        q["filer"] = {"cik": use, "name": names.get(use) or None}
         if via:
             q["via"] = {"cik": use, "form": q["form"], "name": None}
             if nts:

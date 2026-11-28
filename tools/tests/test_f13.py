@@ -193,6 +193,22 @@ class Pipeline(unittest.TestCase):
         self.assertTrue(any("以主 CIK" in n for n in q["notes"]))
 
 
+    def test_filer_change_no_chg(self):
+        h = FakeHttp()
+        cfg = {"id": "pershing", "ciks": ["0001336528", "0002026053"], "name": "x"}
+        h.add_sub("0001336528", "Pershing Square Capital Management, L.P.", [("13F-HR", "0006-26-000001", "2026-05-15", "2026-03-31"), ("13F-NT", "0006-26-000002", "2026-08-14", "2026-06-30")])
+        h.add_filing("0001336528", "0006-26-000001", "himalaya_q4__primary_doc.xml", "himalaya_q4__13fhciq425.xml")
+        h.add_filing("0001336528", "0006-26-000002", "pershing_nt__primary_doc.xml")
+        h.add_sub("0002026053", "PERSHING SQUARE INC.", [("13F-HR", "0006-26-000003", "2026-08-14", "2026-06-30")])
+        h.add_filing("0002026053", "0006-26-000003", "dj_amend__primary_doc.xml", "dj_amend__F13InfoTable_77922.xml", "t.xml")
+        q2, q1 = F.build_manager(h, cfg, {})["quarters"]
+        self.assertEqual(q2["filer"]["cik"], "0002026053")
+        self.assertEqual(q1["filer"]["cik"], "0001336528")
+        self.assertTrue(all(x["chg"] is None and x["prev"] is None for x in q2["holdings"]))
+        self.assertIn("申報人改變（Pershing Square Capital Management, L.P. → PERSHING SQUARE INC.）", q2["chgNote"])
+        self.assertIn("待確認", q2["chgNote"])
+
+
 class Aggregate(unittest.TestCase):
     def setUp(self):
         self.cfg = {"managers": [{"id": "berkshire", "cik": "0001067983", "name": "B"}], "groups": ["g"],
@@ -222,11 +238,11 @@ class Aggregate(unittest.TestCase):
         self.assertEqual(m["top10"][0]["value"], max(h["value"] for h in self.doc["quarters"][0]["holdings"]))
 
     def test_check_clean_and_unmapped(self):
-        err, todo = C.check_docs(self.cfg, self.docs)
+        err, todo, info = C.check_docs(self.cfg, self.docs)
         self.assertEqual(err, [])
         self.assertTrue(any("NVIDIA" in t for t in todo) is False)       # 持股裡沒有 NVIDIA
         cfg2 = json.loads(json.dumps(self.cfg)); cfg2["tracked"]["aapl"]["cusips"] = []
-        err, todo = C.check_docs(cfg2, self.docs)
+        err, todo, info = C.check_docs(cfg2, self.docs)
         self.assertTrue(any("037833100" in t and "不在" in t for t in todo))
 
     def test_check_errors(self):
@@ -234,9 +250,22 @@ class Aggregate(unittest.TestCase):
         d["quarters"][0]["sumValue"] += 10 ** 9
         d["quarters"][0]["rawRows"] = 88
         cfg2 = json.loads(json.dumps(self.cfg)); cfg2["tracked"]["aapl"]["issuerKeys"] = ["ORANGE INC"]
-        err, _ = C.check_docs(cfg2, {"berkshire": d})
+        err, _, _ = C.check_docs(cfg2, {"berkshire": d})
         self.assertEqual(len(err), 3)
         self.assertTrue(all(e.startswith("✗") for e in err))
+
+    def test_check_info_vs_todo(self):
+        d = json.loads(json.dumps(self.doc))
+        d["quarters"][0]["confidential"] = True
+        d["quarters"][0]["notes"] = ["待確認：2026-09-30 主 CIK 與接手申報人都有 13F-HR，以主 CIK x 為準", "待確認：找不到原始 13F-HR"]
+        cfg2 = json.loads(json.dumps(self.cfg)); cfg2["oddCusips"] = {"037833100": "怪 CUSIP"}; cfg2["tracked"]["aapl"]["cusips"] = []
+        err, todo, info = C.check_docs(cfg2, {"berkshire": d})
+        self.assertEqual(err, [])
+        self.assertEqual(len(todo), 1)                       # 只有「找不到原始」要處理；oddCusips 不報待確認
+        self.assertTrue(todo[0].startswith("待確認"))
+        self.assertTrue(all(i.startswith("ℹ 注意：") for i in info))
+        self.assertFalse(any(i.startswith("待確認") for i in info))
+        self.assertTrue(any("isConfidentialOmitted" in i for i in info) and any("以主 CIK" in i for i in info) and any("怪 CUSIP" in i for i in info))
 
     def test_key_match_boundary(self):
         self.assertTrue(C.key_match("AXT INC", "AXT INC"))

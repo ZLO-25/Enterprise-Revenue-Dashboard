@@ -3,7 +3,7 @@
 #   ① 每天台北 10:17（GitHub 常晚 4～6 小時；每天一班就是備援）＋手動觸發（force＝不管有沒有新申報都重抓）
 #   ② tools/f13_fetch.py --check：比對 SEC submissions 與 data/13f/<id>.json 記下的申報編號，沒有新的 → 結束
 #   ③ 有新的才抓：9 位經理人最近 8 季 → data/13f/（某位失敗不覆蓋他的舊檔、這次標紅燈）
-#   ④ 抓完跑 tools/f13_check.py（總值、列數、CUSIP 對照）；有 ✗ 或「待確認」→ 開（或留言）issue
+#   ④ 抓完跑 tools/f13_check.py（總值、列數、CUSIP 對照）；有 ✗ 或行首「待確認」（ℹ 注意不算）→ 開（或留言）issue
 #   頁面執行時才讀 data/13f，不需要重建網站。說明：docs/F13.md
 name: f13-quarterly
 on:
@@ -58,7 +58,7 @@ jobs:
           python3 tools/f13_check.py > check.txt; code=$?
           set -e
           { echo "## 13F 大師持股檢查 $(TZ=Asia/Taipei date +%Y-%m-%d)"; echo '```'; cat check.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          if [ "$code" = "0" ] && ! grep -q "待確認" check.txt; then echo "正常"; exit 0; fi
+          if [ "$code" = "0" ] && ! grep -q "^待確認" check.txt; then echo "正常"; exit 0; fi
           title="13F 大師持股檢查：有問題"
           n=$(gh issue list --state open --search "in:title 13F 大師持股檢查" --json number --jq '.[0].number')
           if [ -n "$n" ]; then

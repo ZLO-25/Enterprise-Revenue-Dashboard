@@ -93,25 +93,34 @@
  ],
  "tracked": {
   "tsmc": {
-   "cusips": [],
+   "cusips": [
+    "874039100"
+   ],
    "issuerKeys": [
-    "TAIWAN SEMICONDUCTOR"
+    "TAIWAN SEMICONDUCTOR",
+    "TSMC"
    ]
   },
   "pltr": {
-   "cusips": [],
+   "cusips": [
+    "69608A108"
+   ],
    "issuerKeys": [
     "PALANTIR TECHNOLOGIES"
    ]
   },
   "nvda": {
-   "cusips": [],
+   "cusips": [
+    "67066G104"
+   ],
    "issuerKeys": [
-    "NVIDIA CORP"
+    "NVIDIA"
    ]
   },
   "tsla": {
-   "cusips": [],
+   "cusips": [
+    "88160R101"
+   ],
    "issuerKeys": [
     "TESLA INC"
    ]
@@ -123,28 +132,35 @@
    ]
   },
   "spcx": {
-   "cusips": [],
+   "cusips": [
+    "84615Q103"
+   ],
    "issuerKeys": [
-    "SPACE EXPLORATION TECHNOLOGIES"
+    "SPACE EXPLORATION TECHN"
    ]
   },
   "msft": {
-   "cusips": [],
+   "cusips": [
+    "594918104"
+   ],
    "issuerKeys": [
-    "MICROSOFT CORP"
+    "MICROSOFT"
    ]
   },
   "mu": {
-   "cusips": [],
+   "cusips": [
+    "595112103"
+   ],
    "issuerKeys": [
     "MICRON TECHNOLOGY"
    ]
   },
   "amzn": {
-   "cusips": [],
+   "cusips": [
+    "023135106"
+   ],
    "issuerKeys": [
-    "AMAZON COM INC",
-    "AMAZON.COM INC"
+    "AMAZON"
    ]
   },
   "aapl": {
@@ -152,35 +168,45 @@
     "037833100"
    ],
    "issuerKeys": [
-    "APPLE INC"
+    "APPLE"
    ]
   },
   "meta": {
-   "cusips": [],
+   "cusips": [
+    "30303M102"
+   ],
    "issuerKeys": [
     "META PLATFORMS"
    ]
   },
   "avgo": {
-   "cusips": [],
+   "cusips": [
+    "11135F101"
+   ],
    "issuerKeys": [
     "BROADCOM INC"
    ]
   },
   "mrvl": {
-   "cusips": [],
+   "cusips": [
+    "573874104"
+   ],
    "issuerKeys": [
     "MARVELL TECHNOLOGY"
    ]
   },
   "amd": {
-   "cusips": [],
+   "cusips": [
+    "007903107"
+   ],
    "issuerKeys": [
     "ADVANCED MICRO DEVICES"
    ]
   },
   "crwd": {
-   "cusips": [],
+   "cusips": [
+    "22788C105"
+   ],
    "issuerKeys": [
     "CROWDSTRIKE"
    ]
@@ -192,13 +218,17 @@
    ]
   },
   "rklb": {
-   "cusips": [],
+   "cusips": [
+    "773121108"
+   ],
    "issuerKeys": [
     "ROCKET LAB"
    ]
   },
   "gev": {
-   "cusips": [],
+   "cusips": [
+    "36828A101"
+   ],
    "issuerKeys": [
     "GE VERNOVA"
    ]
@@ -213,25 +243,33 @@
    ]
   },
   "csco": {
-   "cusips": [],
+   "cusips": [
+    "17275R102"
+   ],
    "issuerKeys": [
-    "CISCO SYSTEMS"
+    "CISCO SYS"
    ]
   },
   "asml": {
-   "cusips": [],
+   "cusips": [
+    "N07059210"
+   ],
    "issuerKeys": [
     "ASML HOLDING"
    ]
   },
   "gd": {
-   "cusips": [],
+   "cusips": [
+    "369550108"
+   ],
    "issuerKeys": [
     "GENERAL DYNAMICS"
    ]
   },
   "lmt": {
-   "cusips": [],
+   "cusips": [
+    "539830109"
+   ],
    "issuerKeys": [
     "LOCKHEED MARTIN"
    ]
@@ -249,7 +287,9 @@
    ]
   },
   "rtx": {
-   "cusips": [],
+   "cusips": [
+    "75513E101"
+   ],
    "issuerKeys": [
     "RTX CORP",
     "RAYTHEON TECHNOLOGIES"
@@ -268,7 +308,9 @@
    ]
   },
   "xom": {
-   "cusips": [],
+   "cusips": [
+    "30231G102"
+   ],
    "issuerKeys": [
     "EXXON MOBIL"
    ]
@@ -280,19 +322,25 @@
    ]
   },
   "lite": {
-   "cusips": [],
+   "cusips": [
+    "55024U109"
+   ],
    "issuerKeys": [
     "LUMENTUM"
    ]
   },
   "cohr": {
-   "cusips": [],
+   "cusips": [
+    "19247G107"
+   ],
    "issuerKeys": [
     "COHERENT CORP"
    ]
   },
   "fn": {
-   "cusips": [],
+   "cusips": [
+    "G3323L100"
+   ],
    "issuerKeys": [
     "FABRINET"
    ]
@@ -309,5 +357,8 @@
   "delta": "台灣掛牌，13F 不涵蓋",
   "allring": "台灣掛牌，13F 不涵蓋",
   "yageo": "台灣掛牌，13F 不涵蓋"
+ },
+ "oddCusips": {
+  "755130000": "Markel 2024-12-31 申報的 RTX CORPORATION 寫成 CUSIP 755130000（其他季是 75513E101），不對應到 rtx，原文照列"
  }
 }

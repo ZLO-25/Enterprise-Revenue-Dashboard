@@ -4,10 +4,12 @@
       - 持股加總（sumValue）對申報檔自己寫的 tableValueTotal，差超過 0.5% 且超過 1 千元
       - 合併前列數對 tableEntryTotal
       - config 的 tracked CUSIP，其 nameOfIssuer 不含任何 issuerKeys
-  待確認： 開頭：要 Claude 看一眼（不影響 exit code，但 workflow 會開 issue）
+  待確認： 開頭：要 Claude 處理（不影響 exit code，但 workflow 會開 issue）
       - nameOfIssuer 含 issuerKeys，但 CUSIP 不在 tracked 對照表（Claude 確認是同一家後填入 config）
-      - 抓取時留下的 notes（修正版缺 amendmentType、兩個申報人都有 13F-HR、上一季不可比較…）
-      - 13F-NT 的季別（持股由誰申報）
+      - 抓取時留下的需處理 notes（修正版缺 amendmentType、找不到原始 13F-HR…）
+  ℹ 注意： 開頭：已知的資料事實，頁面上已經標出，不開 issue（不影響 exit code）
+      - 保密延後揭露（isConfidentialOmitted）、主申報人與接手申報人都有 13F-HR、13F-NT 持股改由他人申報、申報人改變／上一季不可比較
+      - config 的 oddCusips（已知的怪 CUSIP，原文照列、不對應本站公司）
 用法：python3 tools/f13_check.py
 """
 import json
@@ -29,8 +31,10 @@ def match_codes(name, tracked):
 
 
 def check_docs(cfg, docs):
-    """回傳 (errors, todo)。docs: {id: <id>.json 內容}。"""
-    err, todo = [], []
+    """回傳 (errors, todo, info)。docs: {id: <id>.json 內容}。"""
+    err, todo, info = [], [], []
+    odd = cfg.get("oddCusips") or {}
+    INFO_NOTES = ("以主 CIK",)
     tracked = cfg.get("tracked") or {}
     cusip_code = {c: code for code, t in tracked.items() for c in (t.get("cusips") or [])}
     unmapped = {}   # (cusip, name) -> {"codes": set, "who": {id: 最新季}}
@@ -42,12 +46,16 @@ def check_docs(cfg, docs):
         for q in d["quarters"]:
             tag = f"{m['id']} {q['period']}"
             for n in q.get("notes") or []:
-                todo.append(f"{n}（{tag}）" if n.startswith("待確認") else f"待確認：{tag} {n}")
+                body = n if n.startswith("待確認") else f"待確認：{tag} {n}"
+                if any(k in n for k in INFO_NOTES):
+                    info.append("ℹ 注意：" + body.replace("待確認：", "", 1) + f"（{tag}）")
+                else:
+                    todo.append(body)
             if q.get("chgNote"):
-                todo.append(f"{q['chgNote']}（{tag}）")
+                info.append(f"ℹ 注意：{tag} {q['chgNote']}")
             if not q["holdingsKnown"]:
                 by = "、".join(o["name"] for o in (q.get("notice") or {}).get("by") or []) or "未列名"
-                todo.append(f"待確認：{tag} 申報的是 {q['form']}，持股改由 {by} 申報，這季沒有持股數字")
+                info.append(f"ℹ 注意：{tag} 申報的是 {q['form']}，持股改由 {by} 申報，這季沒有持股數字")
                 continue
             tot, sm = q.get("totalValue"), q.get("sumValue")
             if tot is not None and sm is not None and abs(sm - tot) > max(tot * 0.005, 1000):
@@ -55,10 +63,13 @@ def check_docs(cfg, docs):
             if q.get("entries") is not None and q.get("rawRows") != q["entries"]:
                 err.append(f"✗ {tag} 列數 {q['rawRows']}（合併前）對不上 tableEntryTotal {q['entries']}")
             if q.get("confidential"):
-                todo.append(f"待確認：{tag} 申報檔標示有保密延後揭露的持股（isConfidentialOmitted），這季持股不完整")
+                info.append(f"ℹ 注意：{tag} 申報檔標示有保密延後揭露的持股（isConfidentialOmitted），這季持股不完整")
             for h in q["holdings"]:
                 code = cusip_code.get(h["cusip"])
                 hit = match_codes(h["name"], tracked)
+                if h["cusip"] in odd:
+                    info.append(f"ℹ 注意：CUSIP {h['cusip']}：{odd[h['cusip']]}")
+                    continue
                 if code:
                     keys = tracked[code].get("issuerKeys") or []
                     if keys and not any(key_match(h["name"], k) for k in keys):
@@ -70,7 +81,8 @@ def check_docs(cfg, docs):
     for (cusip, name), u in sorted(unmapped.items()):
         who = "、".join(f"{k}（{v}）" for k, v in sorted(u["who"].items()))
         todo.append(f"待確認：{who} 持有「{name}」CUSIP {cusip}，名稱像 {'/'.join(sorted(u['codes']))}，但不在 data/13f/config.json 的 tracked 對照表")
-    return err, todo
+    info = list(dict.fromkeys(info))
+    return err, todo, info
 
 
 def main():
@@ -85,10 +97,10 @@ def main():
     if not docs:
         print("data/13f 還沒有資料檔（尚未抓取）")
         return 0
-    err, todo = check_docs(cfg, docs)
-    for l in err + todo:
+    err, todo, info = check_docs(cfg, docs)
+    for l in err + todo + info:
         print(l)
-    print(f"檢查完成：{len(docs)} 位經理人，✗ {len(err)}、待確認 {len(todo)}")
+    print(f"檢查完成：{len(docs)} 位經理人，✗ {len(err)}、待確認 {len(todo)}、ℹ 注意 {len(info)}")
     return 1 if err else 0
 
 
