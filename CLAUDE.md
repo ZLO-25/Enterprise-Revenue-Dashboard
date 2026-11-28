@@ -41,7 +41,7 @@ python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不�
 python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘、股票酬勞與扣酬勞後現金流…）原始輸出
 python3 tools/bs_merge.py --only sbc <代號>…   # 把 data/bs-raw/ 的股票酬勞（sbc）單獨合併（SEC 抓取要用 GitHub Actions 的 bs-fetch，field 填 sbc；非 SEC 公司加 --no-source）
 python3 tools/f13_check.py     # 13F 資料檢查（總值、列數、CUSIP 對照；只讀 data/13f，Actions 抓完會跑）
-python3 tools/capex_chain.py    # AI 資本支出鏈：四家雲端大廠資本支出合計（日曆季）與賣方營收年增率，印最近 8 季
+python3 tools/capex_chain.py    # AI 資本支出鏈：四家雲端大廠資本支出合計（日曆季）與賣方營收年增率，印最近 8 季；另印每家與每層的 3／5／10 年資本支出趨勢（近 4Q 年化，單一計算處）
 python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # 台股股票酬勞：讀現金流量表「股份基礎給付酬勞成本」產生 data/bs-raw/ 提案，再跑上一行合併（報表沒列這一行不當成 0）
 ```
 

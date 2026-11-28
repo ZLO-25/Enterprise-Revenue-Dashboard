@@ -154,5 +154,29 @@ class OndemandAndMcap(unittest.TestCase):
         self.assertEqual(next(r for r in far if r["id"] == "mcap")["light"], "gray")
 
 
+class CapexLag(unittest.TestCase):
+    NOW = t("2026-11-28T00:00:00")
+
+    def test_lagging_listed(self):
+        ents = [
+            ("甲", [{"q": "2Q26", "rev": 1, "capex": 5, "rd": "2026-07-01"}, {"q": "3Q26", "rev": 2, "capex": None, "rd": "2026-10-20"}]),   # 39 天、缺
+            ("乙", [{"q": "3Q26", "rev": 2, "capex": 7, "rd": "2026-10-20"}]),                                                                # 有值
+            ("丙", [{"q": "3Q26", "rev": 2, "capex": None, "rd": "2026-11-20"}]),                                                              # 才 8 天
+            ("丁", [{"q": "3Q26", "rev": 2, "capex": None, "rd": None}]),                                                                      # rd 未知不判
+            ("戊", [{"q": "2Q26", "rev": 2, "capex": None, "rd": "2026-07-20"}, {"q": "3Q26", "rev": None, "capex": None, "rd": None}]),      # 最新有營收季是 2Q26
+        ]
+        self.assertEqual(S.capex_lagging(ents, self.NOW), ["甲 3Q26", "戊 2Q26"])
+
+    def test_boundary_21_days(self):
+        q = lambda rd: [("甲", [{"q": "3Q26", "rev": 1, "capex": None, "rd": rd}])]
+        self.assertEqual(S.capex_lagging(q("2026-11-07"), self.NOW), [])          # 剛好 21 天
+        self.assertEqual(S.capex_lagging(q("2026-11-06"), self.NOW), ["甲 3Q26"])  # 22 天
+
+    def test_row_never_red(self):
+        r = S.capex_row(self.NOW)
+        self.assertIn(r["light"], ("green", "yellow"))
+        self.assertEqual(r["id"], "capex-chain")
+
+
 if __name__ == "__main__":
     unittest.main()

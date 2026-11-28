@@ -152,6 +152,21 @@ a.gl-s:hover{border-color:var(--accent)}
 .gl-pos i{position:absolute;top:-3px;width:3px;height:11px;border-radius:2px;background:var(--ink);transform:translateX(-1.5px)}
 .gl-tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--page);font-family:var(--font-data);font-size:.74rem;padding:4px 8px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-120%)}
 .gl-more{margin-top:12px;font-size:.84rem}
+.mx-trend-wrap{overflow-x:auto;max-width:100%}
+.mx-trend{width:100%;border-collapse:collapse;font-size:.86rem}
+.mx-trend th,.mx-trend td{padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.mx-trend td.n,.mx-trend th.n{text-align:right;font-family:var(--font-data)}
+.mx-trend tr.tr-grp th{background:var(--wash);text-align:left;font-size:.82rem;color:var(--ink);font-weight:600;white-space:normal}
+.mx-trend tr.tr-grp th small{font-weight:400;color:var(--ink-2);font-family:var(--font-data);margin-left:6px}
+.mx-trend td small{display:block;color:var(--muted);font-size:.72rem}
+.mx-trend .tr-up{color:var(--mx-good);font-weight:600}
+.mx-trend .tr-dn{color:var(--mx-bad);font-weight:600}
+.mx-trend .tr-na{color:var(--muted);cursor:help;border-bottom:1px dotted var(--axis)}
+.mx-trend .tr-na:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.mx-trend svg.tr-sp{display:block;width:96px;height:26px;margin-left:auto}
+.mx-trend td.tr-name{white-space:normal;min-width:5.5em}
+.mx-trend td.tr-name a{font-weight:600;text-decoration:none}
+@media (max-width:760px){.mx-trend th,.mx-trend td{padding:6px 5px;font-size:.8rem}.mx-trend .hide-s,.mx-trend .tr-fq{display:none}.mx-trend td.tr-name{min-width:4.5em}}
 details.mx-intro{margin-top:10px}
 details.mx-intro>summary{cursor:pointer;font-size:.86rem;color:var(--ink-2);font-weight:600}
 details.mx-intro .note{margin-top:8px}
@@ -350,6 +365,11 @@ details.mx-intro .note{margin-top:8px}
       <div class="tbl-wrap"><table class="mx-tbl mx-capex-tbl" id="mxSupTbl"></table></div>
       <p class="mx-warn" id="mxChainRead"></p>
       <ul class="note" id="mxChainMiss" hidden></ul>
+    </div>
+    <div class="card wide" id="mxTrendCard">
+      <h3>資本支出 3／5／10 年趨勢</h3>
+      <p class="mx-warn"><span class="mx-tag">教學</span> 用「近 4 季合計」（拿掉季節性）跟 3、5、10 年前的近 4 季合計比，換算成每年平均成長率（年化）；每家用自己的幣別算，所以不同幣別不用換匯；資料不夠長的格子顯示 —，滑鼠移上去（手機點一下）看原因。每層的「中位數」是該層有資料的公司年化成長率取中位數，本站計算。</p>
+      <div class="mx-trend-wrap"><table class="mx-trend" id="mxTrendTbl"></table></div>
     </div>
   </section>
 
@@ -740,7 +760,7 @@ details.mx-intro .note{margin-top:8px}
   function renderCxChart(code) {
     var wrap = $("cxc-" + code), ent = CX_ENT[code];
     if (!wrap || !ent) return;
-    var hist = ent.history || [], cr = CX_VIEW[code] != null ? CX_VIEW[code] : 20;
+    var hist = ent.history || [], cr = CX_VIEW[code] != null ? CX_VIEW[code] : 12;
     var pts = cr > 0 ? hist.slice(-cr) : hist.slice();
     if (!pts.length) { wrap.innerHTML = '<p class="mx-warn">尚無單季資本支出歷史資料。</p>'; return; }
     var mob = window.innerWidth <= 760;
@@ -791,7 +811,7 @@ details.mx-intro .note{margin-top:8px}
   function cxDetailHtml(code) {
     var ent = CX_ENT[code];
     if (!ent) return "";
-    var hist = ent.history || [], cr = CX_VIEW[code] != null ? CX_VIEW[code] : 20;
+    var hist = ent.history || [], cr = CX_VIEW[code] != null ? CX_VIEW[code] : 12;
     var pts = cr > 0 ? hist.slice(-cr) : hist.slice();
     var c = ent.capex || {};
     var metaParts = [];
@@ -800,7 +820,7 @@ details.mx-intro .note{margin-top:8px}
     else if (c.ttmWhy === "short") metaParts.push("近 4Q 合計：未滿 4 季");
     else if (c.ttmWhy === "gap") metaParts.push("近 4Q 合計：近 4 季含未揭露或跳季，不推估");
     if (ent.note) metaParts.push(ent.note);
-    var ranges = [["8", "近 8 季"], ["20", "近 20 季"], ["0", "全部（" + hist.length + " 季）"]];
+    var ranges = [["12", "近 3 年（12 季）"], ["20", "近 5 年（20 季）"], ["40", "近 10 年（40 季）"], ["0", "全部（" + hist.length + " 季）"]];
     var rowsHtml = pts.slice().reverse().map(function (h) {
       var capStr = fmtCapex(h.capex, ent.currency);
       var ttmStr = h.ttm != null ? fmtCapex(h.ttm, ent.currency) : (h.ttmWhy === "short" ? "未滿4季" : h.ttmWhy === "gap" ? "缺季" : "—");
@@ -840,9 +860,57 @@ details.mx-intro .note{margin-top:8px}
     if (btn) btn.setAttribute("aria-expanded", String(open));
     d.hidden = !open;
     if (open) {
-      if (CX_VIEW[code] == null) CX_VIEW[code] = 20;
+      if (CX_VIEW[code] == null) CX_VIEW[code] = 12;
       renderCxDetail(code);
     }
+  }
+  function trSpark(spark) {
+    var W = 96, H = 26, P = 3, vs = (spark || []).map(function (p) { return p.ttm; }), ok = vs.filter(function (v) { return v != null; });
+    if (ok.length < 2) return '<span class="tr-na" style="border:0;cursor:default">—</span>';
+    var lo = Math.min.apply(null, ok), hi = Math.max.apply(null, ok), rg = hi > lo ? hi - lo : 1, n = vs.length;
+    var X = function (i) { return P + (n === 1 ? 0 : i * (W - 2 * P) / (n - 1)); }, Y = function (v) { return H - P - (v - lo) / rg * (H - 2 * P); };
+    var segs = [], cur = [];
+    vs.forEach(function (v, i) { if (v == null) { if (cur.length) segs.push(cur); cur = []; } else cur.push([X(i), Y(v)]); });
+    if (cur.length) segs.push(cur);
+    var body = segs.map(function (sg) {
+      if (sg.length === 1) return '<circle cx="' + sg[0][0].toFixed(1) + '" cy="' + sg[0][1].toFixed(1) + '" r="1.2" fill="var(--accent)"/>';
+      return '<polyline fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round" points="' + sg.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" ") + '"/>';
+    }).join("");
+    var li = vs.length - 1; while (li > 0 && vs[li] == null) li--;
+    var dot = '<circle cx="' + X(li).toFixed(1) + '" cy="' + Y(vs[li]).toFixed(1) + '" r="2" fill="var(--accent)"/>';
+    return '<svg class="tr-sp" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="近 4Q 資本支出走勢（最多 40 季）">' + body + dot + "</svg>";
+  }
+  function trCell(c) {
+    if (!c || c.cagr == null) {
+      var why = (c && c.why) || "待確認：沒有資料";
+      return '<td class="n"><span class="tr-na tr-tip" tabindex="0" role="button" data-tip="' + esc(why) + '" title="' + esc(why) + '" aria-label="— ' + esc(why) + '">—</span></td>';
+    }
+    var up = c.cagr >= 0;
+    return '<td class="n"><span class="' + (up ? "tr-up" : "tr-dn") + '">' + (up ? "+" : "−") + Math.abs(c.cagr).toFixed(1) + "%</span><small>×" + c.mult + '<span class="tr-fq">・自 ' + esc(c.fromQ) + "</span></small></td>";
+  }
+  function trRow(x, t, nameHtml, cur) {
+    t = t || {};
+    var cap = t.ttm == null ? '<span class="tr-na">—</span>' : esc(fmtCapex(t.ttm, cur)) + "<small>到 " + esc(t.asOf) + "</small>";
+    return '<tr><td class="tr-name">' + nameHtml + '</td><td class="n">' + cap + "</td>" + trCell(t.y3) + trCell(t.y5) + trCell(t.y10) + '<td class="n hide-s">' + trSpark(t.spark) + "</td></tr>";
+  }
+  function renderTrend() {
+    var el = $("mxTrendTbl"); if (!el || !CHAIN) return;
+    var link = function (x) { return x.path ? '<a href="{{HOME}}' + esc(x.path) + '">' + esc(x.name) + "</a>" : esc(x.name); };
+    var grp = function (txt, extra) { return '<tr class="tr-grp"><th colspan="6">' + esc(txt) + (extra ? "<small>" + esc(extra) + "</small>" : "") + "</th></tr>"; };
+    var h = '<tr><th>公司</th><th class="n">近 4Q 資本支出</th><th class="n">3 年年化</th><th class="n">5 年年化</th><th class="n">10 年年化</th><th class="n hide-s">10 年走勢</th></tr>';
+    if (CHAIN.buyerTrend) {
+      h += grp("雲端買方") + trRow(null, CHAIN.buyerTrend, "<b>四大雲端合計</b>（日曆季）", "USD");
+      (CHAIN.buyerCards || []).forEach(function (x) { h += trRow(x, x.trend, link(x), x.currency); });
+    }
+    var em = CHAIN.emergingBuyers || [];
+    if (em.length) { h += grp("新興 AI 買方"); em.forEach(function (x) { h += trRow(x, x.trend, link(x), x.currency); }); }
+    (CHAIN.tiers || []).forEach(function (t) {
+      var m = t.trendMedian || {}, f = function (k) { var c = m[k]; return c && c.median != null ? (c.median >= 0 ? "+" : "−") + Math.abs(c.median).toFixed(1) + "%" : "—"; };
+      var n = function (k) { return m[k] ? m[k].n : 0; }, of = m.y3 ? m.y3.of : 0;
+      h += grp(t.name, "中位數 3年 " + f("y3") + " · 5年 " + f("y5") + " · 10年 " + f("y10") + "（有資料 " + n("y3") + "／" + n("y5") + "／" + n("y10") + " 家，共 " + of + " 家）");
+      (t.suppliers || []).forEach(function (x) { h += trRow(x, x.trend, link(x), x.currency); });
+    });
+    el.innerHTML = h;
   }
   function renderChain() {
     var ch = CFG.chain || {}, R = (CHAIN && CHAIN.rows) || [], B = (CHAIN && CHAIN.buyers) || [];
@@ -908,6 +976,7 @@ details.mx-intro .note{margin-top:8px}
     }
     $("mxSupTbl").innerHTML = '<tr><th>公司</th><th class="n">最新一季</th><th class="n">資本支出</th><th class="n">營收年增率</th><th class="n">最新毛利率（季增減）</th><th class="n hide-s">前兩季營收年增</th></tr>' + bodyHtml;
     $("mxChainRead").innerHTML = '<span class="mx-tag">觀點</span> ' + esc(ch.read || "") + "各家季末月份不同（輝達與博通的季末在 1、4、7、10 月前後），所以賣方不和買方硬對在同一季。";
+    renderTrend();
     var miss = CHAIN.missing || [];
     $("mxChainMiss").hidden = !miss.length; $("mxChainMiss").innerHTML = miss.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("");
     if (!window.Chart) return;
@@ -1088,7 +1157,7 @@ details.mx-intro .note{margin-top:8px}
     return true;
   }
   function glHover(e) {
-    var bar = e.target.closest && e.target.closest(".cx-bar");
+    var bar = e.target.closest && e.target.closest(".cx-bar,.tr-tip");
     if (bar && showCxBarTip(bar)) {
       if (glDot) { glDot.style.opacity = 0; glDot = null; }
       return;
@@ -1106,11 +1175,11 @@ details.mx-intro .note{margin-top:8px}
   }
   document.addEventListener("mousemove", glHover);
   document.addEventListener("focusin", function (e) {
-    var bar = e.target.closest && e.target.closest(".cx-bar");
+    var bar = e.target.closest && e.target.closest(".cx-bar,.tr-tip");
     if (bar) showCxBarTip(bar);
   });
   document.addEventListener("focusout", function (e) {
-    if (e.target.closest && e.target.closest(".cx-bar") && tipEl) tipEl.hidden = true;
+    if (e.target.closest && e.target.closest(".cx-bar,.tr-tip") && tipEl) tipEl.hidden = true;
   });
   document.addEventListener("mouseleave", function () { if (tipEl) tipEl.hidden = true; }, true);
   document.addEventListener("scroll", function () { if (tipEl) tipEl.hidden = true; }, { passive: true });
@@ -1164,6 +1233,8 @@ details.mx-intro .note{margin-top:8px}
     if (fb) { setFilter(fb.getAttribute("data-f")); return; }
     var j = e.target.closest && e.target.closest("[data-jump]");
     if (j) { e.preventDefault(); jump(j.getAttribute("data-jump")); return; }
+    var tt = e.target.closest && e.target.closest(".tr-tip");
+    if (tt) { showCxBarTip(tt); return; }
     var cb = e.target.closest && e.target.closest(".mx-rg[data-cx] button");
     if (cb) {
       var cc = cb.parentNode.getAttribute("data-cx");
