@@ -283,16 +283,30 @@ def main():
                         det_vis = pg.evaluate(f"() => !document.getElementById('cxd-{cx_code}').hidden && !!document.querySelector('#cxc-{cx_code} svg')")
                         if not det_vis:
                             errs.append(f"總經頁展開 {cx_code} 資本支出抽屜失敗或缺少 SVG 長條圖")
-                    # 切換範圍鈕（近 8 季 / 近 20 季 / 全部）確認明細表列數隨之改變
-                    cnt20 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
-                    pg.click("#cxd-meta button[data-cr='8']", timeout=5000)
+                    # 切換範圍鈕（近 3 年 / 近 5 年 / 近 10 年 / 全部）確認明細表列數隨之改變（預設近 3 年）
+                    cnt12 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
+                    pg.click("#cxd-meta button[data-cr='20']", timeout=5000)
                     pg.wait_for_timeout(150)
-                    cnt8 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
+                    cnt20 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
+                    pg.click("#cxd-meta button[data-cr='40']", timeout=5000)
+                    pg.wait_for_timeout(150)
+                    cnt40 = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
                     pg.click("#cxd-meta button[data-cr='0']", timeout=5000)
                     pg.wait_for_timeout(150)
                     cnt_all = pg.evaluate("document.querySelectorAll('#cxd-meta .cx-hist-tbl tr').length")
-                    if not (cnt8 < cnt20 < cnt_all):
-                        errs.append(f"總經頁資本支出明細範圍切換異常：8季={cnt8}, 20季={cnt20}, 全部={cnt_all}")
+                    if not (cnt12 < cnt20 < cnt40 <= cnt_all):
+                        errs.append(f"總經頁資本支出明細範圍切換異常：3年={cnt12}, 5年={cnt20}, 10年={cnt40}, 全部={cnt_all}")
+                    trows = pg.evaluate("document.querySelectorAll('#mxTrendTbl tr').length")
+                    tna = pg.evaluate("document.querySelectorAll('#mxTrendTbl .tr-tip').length")
+                    if trows < 20 or "四大雲端合計" not in (pg.text_content("#mxTrendTbl") or ""):
+                        errs.append(f"總經頁資本支出趨勢表沒有渲染（列數 {trows}）")
+                    if tna:
+                        pg.evaluate("document.querySelector('#mxTrendTbl .tr-tip').scrollIntoView({block: 'center', behavior: 'instant'})")
+                        pg.wait_for_timeout(200)   # 頁面設了平滑捲動，一定要用 behavior instant（否則捲動事件會在點擊後收起提示）
+                        pg.click("#mxTrendTbl .tr-tip", timeout=5000)
+                        pg.wait_for_timeout(150)
+                        if not pg.evaluate("!!document.querySelector('.gl-tip') && !document.querySelector('.gl-tip').hidden && document.querySelector('.gl-tip').textContent.length > 3"):
+                            errs.append("總經頁趨勢表「—」點一下沒有顯示原因")
                     over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
                 if w == 390 and over > 2:
                     errs.append(f"手機版有橫向捲動（多 {over}px）")

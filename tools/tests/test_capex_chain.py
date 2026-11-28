@@ -326,5 +326,139 @@ class ComputeTest(unittest.TestCase):
         self.assertTrue(any(h["capex"] is None for h in by_s["axti"]["history"]))
 
 
+def _hist(start_year, n, fn, first_q=1, skip=()):
+    """產生 n 季的 history（只有 q、ttm）；fn(i) → ttm 或 None。"""
+    out, y, qn = [], start_year, first_q
+    for i in range(n):
+        if i not in skip:
+            out.append({"q": f"{qn}Q{y % 100:02d}", "ttm": fn(i)})
+        qn += 1
+        if qn == 5:
+            qn, y = 1, y + 1
+    return out
+
+
+class TrendTest(unittest.TestCase):
+    def test_cagr_exact(self):
+        # 每 4 季 ttm 翻倍：3 年 ×8、年化 100%
+        h = _hist(2014, 51, lambda i: 100 * 2 ** (i / 4))
+        t = C.trend_of(h)
+        self.assertEqual(t["asOf"], "3Q26")
+        self.assertEqual(t["y3"]["fromQ"], "3Q23")
+        self.assertEqual(t["y3"]["mult"], 8.0)
+        self.assertAlmostEqual(t["y3"]["cagr"], 100.0, places=1)
+        self.assertEqual(t["y10"]["fromQ"], "3Q16")
+        self.assertEqual(len(t["spark"]), 40)
+        self.assertEqual(t["spark"][-1]["q"], "3Q26")
+
+    def test_cagr_known_value(self):
+        h = _hist(2020, 21, lambda i: 100.0 if i < 8 else 200.0)   # 5 年前 100、現在 200
+        t = C.trend_of(h)
+        self.assertEqual(t["y5"]["mult"], 2.0)
+        self.assertEqual(t["y5"]["cagr"], round((2 ** (1 / 5) - 1) * 100, 1))
+        self.assertEqual(t["y5"]["cagr"], 14.9)
+
+    def test_too_short(self):
+        h = _hist(2022, 10, lambda i: 10.0 + i)
+        t = C.trend_of(h)
+        self.assertIsNone(t["y3"]["cagr"])
+        self.assertIn("不足 3 年", t["y3"]["why"])
+        self.assertIn("資料只有 10 季", t["y3"]["why"])
+        self.assertIn("不足 10 年", t["y10"]["why"])
+
+    def test_gap_at_then_point(self):
+        h = _hist(2020, 21, lambda i: 10.0 + i)
+        now = h[-1]
+        idx = [i for i, p in enumerate(h) if C.qnum(p["q"]) == C.qnum(now["q"]) - 12][0]
+        h[idx]["ttm"] = None
+        t = C.trend_of(h)
+        self.assertIsNone(t["y3"]["cagr"])
+        self.assertIn("有缺值", t["y3"]["why"])
+        self.assertEqual(t["y3"]["fromQ"], h[idx]["q"])
+        self.assertIsNotNone(t["y5"]["cagr"])
+
+    def test_missing_quarter_in_history(self):
+        h = _hist(2020, 21, lambda i: 10.0 + i)
+        h = [p for p in h if C.qnum(p["q"]) != C.qnum(h[-1]["q"]) - 12]
+        t = C.trend_of(h)
+        self.assertIsNone(t["y3"]["cagr"])
+        self.assertIsNotNone(t["y3"]["why"])
+
+    def test_latest_ttm_none_uses_last_valid(self):
+        h = _hist(2020, 20, lambda i: 10.0 + i)
+        h.append({"q": "1Q25", "ttm": None})
+        t = C.trend_of(h)
+        self.assertEqual(t["asOf"], "4Q24")
+        self.assertEqual(t["spark"][-1]["q"], "4Q24")
+
+    def test_no_ttm_at_all(self):
+        t = C.trend_of(_hist(2024, 5, lambda i: None))
+        self.assertIsNone(t["asOf"])
+        self.assertTrue(t["y3"]["why"].startswith("待確認："))
+        self.assertEqual(C.trend_of([])["spark"], [])
+
+    def test_non_positive(self):
+        h = _hist(2020, 21, lambda i: -5.0 if i < 8 else 20.0)
+        self.assertIsNone(C.trend_of(h)["y5"]["cagr"])
+
+    def test_spark_keeps_none_gaps(self):
+        h = _hist(2020, 12, lambda i: None if i < 3 else float(i))
+        sp = C.trend_of(h)["spark"]
+        self.assertIsNone(sp[0]["ttm"])
+        self.assertIsNotNone(sp[-1]["ttm"])
+
+    def test_fiscal_year_non_calendar(self):
+        # 輝達式 1／4／7／10 月結帳：季別用自己的 1Q27 標籤，不需要日曆季
+        rows = [(f"{q}Q{y}", 100.0 + 10 * (4 * (y - 20) + q), 1000.0) for y in range(20, 28) for q in range(1, 5)]
+        ds = {"nv": data("01-31", rows)}
+        out = C.compute({"buyers": [], "suppliers": ["nv"]}, [co("nv")], ds)
+        t = out["suppliers"][0]["trend"]
+        self.assertEqual(t["asOf"], "4Q27")
+        self.assertEqual(t["y3"]["fromQ"], "4Q24")
+        self.assertIsNotNone(t["y3"]["cagr"])
+        self.assertIn("不足 10 年", t["y10"]["why"])
+
+    def test_cqnum(self):
+        self.assertEqual(C.cqnum("2026Q3") - C.cqnum("2025Q4"), 3)
+        self.assertEqual(C.cqnum("2026Q1") - C.cqnum("2025Q4"), 1)
+
+    def test_buyer_total_trend(self):
+        rows = []
+        for y in range(2015, 2027):
+            for q in range(1, 5):
+                rows.append({"cq": f"{y}Q{q}", "total": 100.0 * 1.2 ** (y - 2015 + (q - 1) / 4)})
+        t = C.buyer_total_trend(rows)
+        self.assertEqual(t["asOf"], "2026Q4")
+        self.assertEqual(t["y3"]["fromQ"], "2023Q4")
+        self.assertAlmostEqual(t["y3"]["cagr"], 20.0, places=1)
+        self.assertAlmostEqual(t["y10"]["cagr"], 20.0, places=1)
+        self.assertIn("不足 10 年", C.buyer_total_trend(rows[-30:])["y10"]["why"])
+        # 缺一季 total → 含那一季的 ttm 為 None
+        rows[-1]["total"] = None
+        t2 = C.buyer_total_trend(rows)
+        self.assertEqual(t2["asOf"], "2026Q3")
+
+    def test_buyer_trend_not_truncated_by_since(self):
+        ds, cos = {}, []
+        for b in ("a", "b"):
+            rows = [(f"{q}Q{y % 100:02d}", 10.0, 100.0) for y in range(2010, 2027) for q in range(1, 5)]
+            ds[b] = data("12-31", rows)
+            cos.append(co(b))
+        out = C.compute({"buyers": ["a", "b"], "suppliers": []}, cos, ds, since="2024Q1")
+        self.assertEqual(out["rows"][0]["cq"], "2024Q1")
+        self.assertIsNotNone(out["buyerTrend"]["y10"]["cagr"])
+        self.assertEqual(out["buyerTrend"]["y10"]["cagr"], 0.0)
+
+    def test_tier_median_with_missing_members(self):
+        def tr(a, b, c):
+            return {k: {"cagr": v} for k, v in (("y3", a), ("y5", b), ("y10", c))}
+        m = C.tier_median([tr(10.0, None, None), tr(30.0, 5.0, None), tr(20.0, None, None), tr(None, None, None)])
+        self.assertEqual(m["y3"], {"median": 20.0, "n": 3, "of": 4})
+        self.assertEqual(m["y5"], {"median": 5.0, "n": 1, "of": 4})
+        self.assertEqual(m["y10"], {"median": None, "n": 0, "of": 4})
+        m2 = C.tier_median([tr(10.0, 1.0, 1.0), tr(20.0, 2.0, 2.0)])
+        self.assertEqual(m2["y3"]["median"], 15.0)
+
+
 if __name__ == "__main__":
     unittest.main()

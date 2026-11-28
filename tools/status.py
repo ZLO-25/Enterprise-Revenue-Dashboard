@@ -114,6 +114,7 @@ def actions_block(now, use_api):
         rows.append(row)
     rows.append(macro_row(jload("data", "macro", "latest.json", default=None), now))
     rows.append(f13_row(jload("data", "13f", "latest.json", default=None), now))
+    rows.append(capex_row(now))
     # SEC 清單用檔案時間判斷（由 daily-prep 寫入，比 workflow 紀錄更直接）。放在 sec-feed workflow 那列後面
     feed = jload("data", "sec-feed.json", default={}) or {}
     if feed.get("fetched"):
@@ -193,6 +194,49 @@ def macro_row(doc, now):
         row["light"], row["note"] = "yellow", "；".join(parts) + "。細節在總經儀表板頁尾"
     else:
         row["light"], row["note"] = "green", f"{age_d:.0f} 天前更新，{total} 條序列都正常"
+    return row
+
+
+def capex_lagging(entities, now, days=21):
+    """純判斷：entities = [(名稱, 季度列表)]；回傳 [「名稱 季別」…]。
+    每家取最新一季「有營收」的季度；那一季資本支出是 None，而且財報公布日 rd 早於 now 超過 days 天 → 算落後。
+    rd 讀不到（None）就無法判斷，不算落後（不用推算）。"""
+    out = []
+    for name, Q in entities:
+        last = next((q for q in reversed(Q or []) if q.get("rev") is not None), None)
+        if not last or last.get("capex") is not None or not last.get("rd"):
+            continue
+        try:
+            rd = dt.datetime.strptime(last["rd"], "%Y-%m-%d").replace(tzinfo=dt.timezone.utc)
+        except ValueError:
+            continue
+        if (now - rd).days > days:
+            out.append(f"{name} {last['q']}")
+    return out
+
+
+def capex_row(now):
+    """AI 資本支出鏈（macro 頁）的資料是否跟上財報：只讀各公司財報檔，不抓網路。資料落後只會黃燈（不是系統壞掉），不開紅燈。"""
+    cj = check_job("capex-chain")
+    row = {"id": "capex-chain", "label": cj["label"], "kind": "daily", "light": "yellow", "note": "尚未計算", **info(cj)}
+    try:
+        import capex_chain as CH
+        out = CH.load()
+        ents = [x for x in out["buyerCards"] + [e for e in out["emergingBuyers"] if e.get("enabled")] + out["suppliers"]]
+        pairs = []
+        for x in ents:
+            D = jload("data", x["code"] + ".json", default=None)
+            if D:
+                pairs.append((x["name"], D.get("quarters") or []))
+        lag = capex_lagging(pairs, now)
+        last_cq = next((r["cq"] for r in reversed(out["rows"]) if r["total"] is not None), "—")
+    except Exception as e:  # noqa: BLE001
+        row["note"] = f"資本支出鏈計算失敗：{type(e).__name__}: {e}"
+        return row
+    if lag:
+        row["note"] = f"{len(lag)} 家最新一季還沒有資本支出（公布超過 21 天）：{'、'.join(lag[:3])}{'…' if len(lag) > 3 else ''}"
+    else:
+        row["light"], row["note"] = "green", f"{len(pairs)} 家都有最新一季資本支出；四大合計到 {last_cq}"
     return row
 
 

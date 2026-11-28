@@ -157,6 +157,17 @@
    "retry": "不重試（只是檢查）；抓取的重試看 macro-weekly"
   },
   {
+   "id": "capex-chain",
+   "group": "check",
+   "label": "AI 資本支出鏈（內容檢查：最新一季資本支出有沒有跟上財報）",
+   "workflow": null,
+   "branch": null,
+   "kind": "daily",
+   "freq": "隨每日準備 daily-prep 的 status.py 計算（讀 data/<代號>.json，不抓網路）",
+   "method": "不是 workflow：每家取最新一季有營收的季度，資本支出是空的而且財報公布日（rd）超過 21 天，判黃燈並列出名稱；算不出鏈（程式錯誤）也是黃燈；資料落後不是系統壞掉，不判紅燈",
+   "retry": "不需重試（只讀檔案）；資料落後由每日排程看到黃燈後補，抓取失敗看 daily-prep"
+  },
+  {
    "id": "f13-data",
    "group": "check",
    "label": "13F 持股（最新一季的季別）",

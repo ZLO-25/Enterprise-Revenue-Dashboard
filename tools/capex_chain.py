@@ -58,6 +58,86 @@ def cal_quarter(end_month):
     return f"{y}Q{m // 3}" if m % 3 == 0 else None
 
 
+def cqnum(label):
+    """日曆季 '2026Q3' → 2026*4 + 2。"""
+    return int(label[:4]) * 4 + (int(label[5]) - 1)
+
+
+_TREND_YEARS = (3, 5, 10)
+
+
+def _trend_cell(points, now, n, num):
+    """points = [{q, ttm}]；num = 季別轉序號的函式。回傳 {cagr, mult, fromQ, why}。"""
+    target = num(now["q"]) - 4 * n
+    then = next((p for p in points if num(p["q"]) == target), None)
+    if then is None:
+        first = num(points[0]["q"]) if points else num(now["q"])
+        k = num(now["q"]) - first + 1
+        return {"cagr": None, "mult": None, "fromQ": None, "why": f"資料只有 {k} 季，不足 {n} 年"}
+    if then["ttm"] is None:
+        return {"cagr": None, "mult": None, "fromQ": then["q"], "why": f"{then['q']} 的近 4Q 有缺值，不算"}
+    if then["ttm"] <= 0 or now["ttm"] <= 0:
+        return {"cagr": None, "mult": None, "fromQ": then["q"], "why": f"{then['q']} 或最新的近 4Q 不是正數，不算成長率"}
+    ratio = now["ttm"] / then["ttm"]
+    return {"cagr": round((ratio ** (1 / n) - 1) * 100, 1), "mult": round(ratio, 2), "fromQ": then["q"], "why": None}
+
+
+def _trend_generic(points, num):
+    """points = [{q, ttm}]（時間順序）。用最後一個 ttm 非 None 的點當「現在」。"""
+    now = None
+    for p in reversed(points):
+        if p.get("ttm") is not None:
+            now = p
+            break
+    if now is None:
+        out = {"asOf": None, "ttm": None, "spark": []}
+        for n in _TREND_YEARS:
+            out[f"y{n}"] = {"cagr": None, "mult": None, "fromQ": None, "why": "待確認：沒有任何一季的近 4Q 資本支出可算"}
+        return out
+    out = {"asOf": now["q"], "ttm": now["ttm"]}
+    for n in _TREND_YEARS:
+        out[f"y{n}"] = _trend_cell(points, now, n, num)
+    upto = [p for p in points if num(p["q"]) <= num(now["q"])]
+    out["spark"] = [{"q": p["q"], "ttm": p["ttm"]} for p in upto[-40:]]
+    return out
+
+
+def trend_of(history, years=_TREND_YEARS):
+    """每家公司用自己的季別（會計季）算：近 4Q 對 3／5／10 年前的近 4Q 年化成長率。"""
+    return _trend_generic(history, qnum)
+
+
+def buyer_total_trend(rows):
+    """四大雲端合計（日曆季 total）的近 4Q 趨勢；4 個連續日曆季皆有值才算 ttm。"""
+    rows = sorted(rows, key=lambda r: cqnum(r["cq"]))
+    pts = []
+    for i, r in enumerate(rows):
+        ttm = None
+        if i >= 3:
+            w = rows[i - 3:i + 1]
+            if all(x["total"] is not None for x in w) and all(cqnum(w[k + 1]["cq"]) - cqnum(w[k]["cq"]) == 1 for k in range(3)):
+                ttm = round(sum(x["total"] for x in w), 1)
+        pts.append({"q": r["cq"], "ttm": ttm})
+    return _trend_generic(pts, cqnum)
+
+
+def _median(vals):
+    v = sorted(vals)
+    if not v:
+        return None
+    m = len(v) // 2
+    return v[m] if len(v) % 2 else round((v[m - 1] + v[m]) / 2, 1)
+
+
+def tier_median(items):
+    """items = 各公司 trend；每家用自己的幣別算 CAGR，這裡只取中位數，不加總。"""
+    out = {}
+    for n in _TREND_YEARS:
+        vals = [t[f"y{n}"]["cagr"] for t in items if t and t.get(f"y{n}") and t[f"y{n}"]["cagr"] is not None]
+        out[f"y{n}"] = {"median": _median(vals), "n": len(vals), "of": len(items)}
+    return out
+
+
 def yoy(now, before):
     if now is None or before is None or before <= 0:
         return None
@@ -401,6 +481,7 @@ def _build_entity(code, c_meta, D, valid_history, note="", allow_disabled=False)
         "status": status,
         "statusText": status_text,
         "capex": capex_obj,
+        "trend": trend_of(valid_history),
         "history": [
             {
                 "q": h["q"],
@@ -490,15 +571,17 @@ def compute(chain, companies, datasets, since="2015Q1"):
                 break
             cq.setdefault(k, {})[b] = r
     rows = []
+    full_rows = []   # 趨勢用：不截斷（10 年趨勢需要更早的季度）
     for k in sorted(cq):
-        if k < since:
-            continue
         got = cq[k]
         cap = {b: (got[b]["capex"] if b in got else None) for b in buyers}
         rev = {b: (got[b]["rev"] if b in got else None) for b in buyers}
         full = bool(buyers) and all(v is not None for v in cap.values())
         total = round(sum(cap.values()), 1) if full else None
         trev = sum(rev.values()) if full and all(v is not None for v in rev.values()) else None
+        full_rows.append({"cq": k, "total": total})
+        if k < since:
+            continue
         rows.append({"cq": k, "capex": cap, "total": total, "pctRev": round(total / trev * 100, 1) if total is not None and trev else None})
     by = {r["cq"]: r for r in rows}
     for r in rows:
@@ -546,6 +629,7 @@ def compute(chain, companies, datasets, since="2015Q1"):
             "gmQchg": gm_qchg,
             "points": pts,
             "capex": ent["capex"],
+            "trend": ent["trend"],
             "history": ent["history"],
         })
     tiers_out = []
@@ -554,12 +638,13 @@ def compute(chain, companies, datasets, since="2015Q1"):
         for t in chain["tiers"]:
             tname = t.get("name") or ""
             items = [by_code[c] for c in t.get("codes", []) if c in by_code]
-            tiers_out.append({"name": tname, "suppliers": items})
+            tiers_out.append({"name": tname, "suppliers": items, "trendMedian": tier_median([x["trend"] for x in items])})
     return {
         "buyers": [{"code": b, "name": C[b]["name"], "path": C[b]["path"]} for b in buyers],
         "buyerCards": buyer_cards,
         "emergingBuyers": emerging_cards,
         "rows": rows,
+        "buyerTrend": buyer_total_trend(full_rows),
         "suppliers": sup,
         "tiers": tiers_out,
         "missing": missing,
@@ -615,5 +700,22 @@ if __name__ == "__main__":
         p = s["points"][-1]
         cx = s.get("capex") or {}
         print(f"{s['name']}：{p['q']}（季末 {p['end']}）營收年增 {_fmt_pct(p['yoy'])} | 資本支出 {fmt_capex(cx.get('latest'), s['currency'])}（近4Q {fmt_capex(cx.get('ttm'), s['currency'])}）")
+    print("\n--- 資本支出趨勢（近4Q 對 3／5／10 年前的近4Q，年化）---")
+
+    def _tc(t, k):
+        c = t[k]
+        return "—" if c["cagr"] is None else f"{c['cagr']:+.1f}% ×{c['mult']}"
+
+    def _trow(name, t):
+        print(f"{name:<14s} 到 {t['asOf'] or '—':<7s} 3年 {_tc(t, 'y3'):<16s} 5年 {_tc(t, 'y5'):<16s} 10年 {_tc(t, 'y10')}")
+
+    _trow("四大雲端合計", out["buyerTrend"])
+    for b in out.get("buyerCards", []) + out.get("emergingBuyers", []):
+        _trow(b["name"], b["trend"])
+    for t in out["tiers"]:
+        m = t["trendMedian"]
+        print(f"[{t['name']}] 中位數 3年 {m['y3']['median']} · 5年 {m['y5']['median']} · 10年 {m['y10']['median']}（{m['y10']['n']}/{m['y10']['of']} 家有 10 年）")
+        for s in t["suppliers"]:
+            _trow("  " + s["name"], s["trend"])
     for m in out["missing"]:
         print(m)
