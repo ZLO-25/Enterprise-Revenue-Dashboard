@@ -1,25 +1,25 @@
 {
  "version": 2,
- "generated": "2026-11-27T09:51Z",
+ "generated": "2026-11-28T00:20Z",
  "actions": [
   {
    "id": "daily-prep",
    "label": "每日準備（SEC、預估、股價、期貨）",
    "kind": "daily",
    "light": "green",
-   "note": "5 小時前成功",
+   "note": "14 小時前成功",
    "group": "actions",
    "freq": "每日檢查開頭手動觸發（立刻跑）；排程是備援：台北週二～六 07:30 與 09:30（GitHub 常晚 4～6 小時）",
    "method": "依序跑 tools/sec_feed.py、tools/sec_inbox.py、tools/consensus.py 後提交 data/sec-feed.json、data/consensus、data/inbox、data/bs-raw；再用 gh 叫醒 prices-daily、futures-daily、macro-weekly；最後 tools/status.py 寫 data/status/latest.json，紅燈開 issue",
    "retry": "SEC 清單與預估快照各最多試 3 次（失敗後等 15、30 秒；因為每日檢查最多只等 240 秒）；SEC 收件匣沒有重試（6 分鐘逾時，失敗不擋後面）；叫醒三個 workflow 各最多試 3 次（等 10、20 秒），仍失敗只印訊息不中斷；提交推送最多 5 次；SEC 清單最終失敗會把這次標紅燈（GitHub 寄信）；另有 07:30、09:30 兩班排程備援",
-   "lastOk": "2026-11-27T05:14Z"
+   "lastOk": "2026-11-27T09:52Z"
   },
   {
    "id": "sec-feed",
    "label": "SEC 新申報清單",
    "kind": "daily",
    "light": "green",
-   "note": "5 小時前成功",
+   "note": "19 小時前成功",
    "group": "actions",
    "freq": "台北週二～六 07:05（GitHub 常晚 4～6 小時）；每日準備（daily-prep）也會自己跑同一支程式",
    "method": "GitHub 排程觸發，跑 tools/sec_feed.py 讀 SEC EDGAR 申報清單，寫 data/sec-feed.json；清單內容有變才提交",
@@ -32,7 +32,7 @@
    "kind": "daily",
    "light": "green",
    "note": "0 小時前成功",
-   "lastOk": "2026-11-27T09:51Z",
+   "lastOk": "2026-11-28T00:19Z",
    "group": "check",
    "freq": "隨 sec-feed 與每日準備更新（讀檔案內的 fetched 時間）",
    "method": "不是 workflow：讀 data/sec-feed.json 的 fetched 時間，超過 36 小時（週日、週一、週二多給 48 小時）判紅燈",
@@ -43,7 +43,7 @@
    "label": "分析師預估快照",
    "kind": "daily",
    "light": "green",
-   "note": "5 小時前成功",
+   "note": "19 小時前成功",
    "group": "actions",
    "freq": "台北週二～六 07:40（GitHub 常晚 4～6 小時）；每日準備（daily-prep）也會自己跑同一支程式",
    "method": "GitHub 排程觸發，跑 tools/consensus.py：財報公布前 14 天內的公司，用 yfinance 存一張當季預估快照到 data/consensus/<代號>.json；舊快照不改",
@@ -55,43 +55,43 @@
    "label": "每日收盤價與本益比",
    "kind": "daily",
    "light": "green",
-   "note": "5 小時前成功",
+   "note": "2 小時前成功",
    "group": "actions",
    "freq": "台北週二～六 06:12、06:47、07:22、07:57（美股）；週一～五 14:52、15:27、16:12、17:42、21:12（亞股，21:12 為最後一班）；財報或論點卡資料 push 到 main 時重算；每日準備每天叫醒",
    "method": "跑 tools/prices_daily.py 抓 Yahoo 日線、台股對證交所／櫃買核對、用 daily_calc.py 算本益比等，寫 data/daily；同一個 job 接著更新 ETF、VIX、個股 K 棒（加密）；有變動才提交",
    "retry": "沒有整支重跑；靠一天多班排程備援（每班收盤價沒變就不提交）；程式內抓 Yahoo 最多試 4 次；提交推送最多 5 次；台北 20:00 以後的班次做落後檢查，落後（美股超過 4 天、台韓股超過 12 天）標紅燈",
-   "lastOk": "2026-11-27T05:15Z"
+   "lastOk": "2026-11-27T21:58Z"
   },
   {
    "id": "futures-daily",
    "label": "指數期貨 K 棒",
    "kind": "daily",
    "light": "green",
-   "note": "2 小時前成功",
+   "note": "6 小時前成功",
    "group": "actions",
    "freq": "台北週二～六 07:07 到 22:52 每 15 分鐘一班（一天 64 班；GitHub 常漏跑或延後，實測只跑約一部分）；每日準備每天叫醒",
    "method": "先用 tools/futures_update.py --check 確認資料是否已到最新交易日，已最新就結束；落後才抓 Yahoo、核對、加密，寫 data/futures 並提交",
    "retry": "同一班內還沒到最新（結束碼 75）就等 10 分鐘再試，最多 3 次；其他錯誤不重試；3 次都沒到交給下一班（15 分鐘後）；台北 22:00 以後的最後一次仍失敗標紅燈；程式內讀網址另外最多試 3 次",
-   "lastOk": "2026-11-27T08:11Z"
+   "lastOk": "2026-11-27T18:17Z"
   },
   {
    "id": "alerts-daily",
    "label": "到價提醒與每日行情報告",
    "kind": "daily",
    "light": "green",
-   "note": "1 小時前成功",
+   "note": "14 小時前成功",
    "group": "actions",
    "freq": "台北每天 08:00（Cloudflare Worker 的排程用 workflow_dispatch 準時叫醒；Worker 還沒部署前沒有這一班）；備援：GitHub 排程 UTC 00:30、02:00（台北 08:30、10:00，GitHub 常晚 4～6 小時）；state 的 lastSent 保證台北同一天只發一次",
    "method": "跑 tools/alerts.py：讀加密的提醒規則與 K 棒（data/alerts、data/kbar、data/futures）→ Yahoo 補最近已收盤的日 K → 判斷到價（當天最高／最低碰到）→ 更新 data/alerts/state.enc.json 並提交；Gmail 每天寄每日行情報告，ntfy、Telegram 只在有到價中的提醒時發，有設 secret 的管道才發；手動執行勾 test 只發測試訊息",
    "retry": "整支程式最多試 3 次（失敗後等 15、30 秒；全部管道都失敗才算失敗，部分管道失敗不重試以免重複通知）；補價失敗只印數量、改用檔案裡的 K 棒；提交推送最多 5 次；全部管道都失敗或推送失敗標紅燈",
-   "lastOk": "2026-11-27T08:52Z"
+   "lastOk": "2026-11-27T10:32Z"
   },
   {
    "id": "quant-prices",
    "label": "回測用股價",
    "kind": "daily",
    "light": "green",
-   "note": "5 小時前成功",
+   "note": "20 小時前成功",
    "group": "actions",
    "freq": "台北週二～六 06:30；quant/tickers.json 或 quant/scripts 改動 push 到 main 時也跑；可手動觸發",
    "method": "先跑回測校正規則單元測試，再跑 quant/scripts/fetch_data.py 用 yfinance 下載價格，只寫 quant/data 並提交",
@@ -103,7 +103,7 @@
    "label": "市值排名",
    "kind": "weekly",
    "light": "green",
-   "note": "115 小時前成功",
+   "note": "129 小時前成功",
    "group": "actions",
    "freq": "台北週六 05:37、06:07、06:37、07:07、09:07、13:07，週日 09:07、15:07 共 8 班（GitHub 常晚 4～6 小時）；每班先確認這週是否已抓過，抓過就跳過",
    "method": "跑 tools/mcap_fetch.py 抓 companiesmarketcap（主）並用 Yahoo、CoinGecko、WGC 核對，寫 data/mcap/latest.json 並提交；抓完跑 tools/mcap_check.py，有問題才開 GitHub issue",
@@ -115,7 +115,7 @@
    "label": "升降息資料",
    "kind": "weekly",
    "light": "green",
-   "note": "89 小時前成功",
+   "note": "104 小時前成功",
    "group": "actions",
    "freq": "台北週一 06:17、08:47、13:47（GitHub 常晚 4～6 小時）；fetch_rates.py 改動 push 到 main 時也跑；可手動觸發；排程班 5 天內抓過就跳過",
    "method": "先跑週期切分與利率整理的單元測試，再跑 quant/scripts/fetch_rates.py（美國 FRED、台灣央行與櫃買中心），只寫 quant/data/rates.json 並提交",
@@ -127,19 +127,19 @@
    "label": "總經儀表板資料",
    "kind": "weekly",
    "light": "green",
-   "note": "5 小時前成功",
+   "note": "14 小時前成功",
    "group": "actions",
    "freq": "台北週六 06:23、09:53，週日 09:53，週三 06:23、11:53；每日準備平日每天叫醒（18 小時內抓過就跳過）；macro_fetch.py 或 config.json 改動 push 時也跑",
    "method": "先跑單元測試，再用 tools/macro_fetch.py 抓 FRED 與國發會資料，順便檢查停更序列、外部連結 404、觀念提醒條件，寫 data/macro/latest.json；再用 tools/macro_overlay.py 抓美元・利率・通膨對照圖（Yahoo DXY／SPY＋FRED）寫 data/macro/overlay.json（失敗沿用舊檔，不讓整班失敗），一起提交",
    "retry": "靠備援班次與每日準備每天叫醒；程式內讀每個網址最多試 3 次，最後仍失敗由內容檢查標出（不整支重跑）；提交推送最多 3 次（各等 15 秒）",
-   "lastOk": "2026-11-27T05:14Z"
+   "lastOk": "2026-11-27T09:52Z"
   },
   {
    "id": "prices-monthly",
    "label": "每月股價",
    "kind": "monthly",
    "light": "green",
-   "note": "74 小時前成功",
+   "note": "89 小時前成功",
    "group": "actions",
    "freq": "每月 1～6 日台北 08:23 各一班（GitHub 常晚 4～6 小時）；可手動觸發；已是最新就幾秒結束",
    "method": "tools/prices_update.py 抓上月月底收盤價與預估、核對後寫 data/prices 並提交，再跑 validate.py 與 build.py 重產網站並提交",
@@ -151,7 +151,7 @@
    "label": "總經資料（內容檢查：停更、抓不到、連結失效）",
    "kind": "weekly",
    "light": "green",
-   "note": "0 天前更新，76 條序列都正常",
+   "note": "1 天前更新，76 條序列都正常",
    "group": "check",
    "freq": "隨 macro-weekly 更新（讀 data/macro/latest.json 的更新時間）",
    "method": "不是 workflow：檢查資料檔內容；超過 10 天沒更新或一半以上序列抓不到判紅燈，有序列停更、這次抓不到或外部連結 404 判黃燈",
@@ -174,7 +174,7 @@
    "id": "news",
    "label": "每週新聞＋總經週報＋token",
    "light": "green",
-   "note": "上次 2026-11-22（5 天前）",
+   "note": "上次 2026-11-22（6 天前）",
    "group": "routine",
    "freq": "每週日 06:00",
    "method": "Claude 排程照 docs/WEEKLY_NEWS_PROMPT.md：整理過去一週的大新聞、總經一週摘要，並記錄 token 用量（data/token-usage.json）",
@@ -281,7 +281,7 @@
    "name": "台積電",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-26",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -302,7 +302,7 @@
    "name": "Palantir",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-01",
@@ -323,7 +323,7 @@
    "name": "輝達",
    "quarter": "3Q27",
    "stage": "completed",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-24",
@@ -344,7 +344,7 @@
    "name": "特斯拉",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-02",
@@ -365,7 +365,7 @@
    "name": "Arista",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-16",
@@ -386,7 +386,7 @@
    "name": "SpaceX",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -407,7 +407,7 @@
    "name": "三星電子",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-26",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-08",
@@ -428,7 +428,7 @@
    "name": "台達電",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-26",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -449,7 +449,7 @@
    "name": "微軟",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -470,7 +470,7 @@
    "name": "美光",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-17",
@@ -491,7 +491,7 @@
    "name": "亞馬遜",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-04",
@@ -512,7 +512,7 @@
    "name": "蘋果",
    "quarter": "4Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -533,7 +533,7 @@
    "name": "Meta",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -554,7 +554,7 @@
    "name": "博通",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-09",
@@ -575,7 +575,7 @@
    "name": "邁威爾",
    "quarter": "2Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-01",
@@ -596,7 +596,7 @@
    "name": "超微",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-02",
@@ -617,7 +617,7 @@
    "name": "CrowdStrike",
    "quarter": "2Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-01",
@@ -638,7 +638,7 @@
    "name": "Palo Alto Networks",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-17",
@@ -659,7 +659,7 @@
    "name": "火箭實驗室",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-25",
@@ -680,7 +680,7 @@
    "name": "GE Vernova",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -701,7 +701,7 @@
    "name": "Google",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-03",
@@ -722,7 +722,7 @@
    "name": "思科",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-10",
@@ -743,7 +743,7 @@
    "name": "艾司摩爾",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-26",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -764,7 +764,7 @@
    "name": "萬潤",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-26",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-10",
@@ -785,7 +785,7 @@
    "name": "通用動力",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-27",
@@ -806,7 +806,7 @@
    "name": "洛克希德馬丁",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-26",
@@ -827,7 +827,7 @@
    "name": "星座能源",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-23",
@@ -848,7 +848,7 @@
    "name": "L3哈里斯",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-28",
@@ -869,7 +869,7 @@
    "name": "雷神技術",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-26",
@@ -890,7 +890,7 @@
    "name": "伊頓",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-02",
@@ -911,7 +911,7 @@
    "name": "BWX科技",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-22",
@@ -932,7 +932,7 @@
    "name": "埃克森美孚",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-29",
@@ -953,7 +953,7 @@
    "name": "奇異航太",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-01-26",
@@ -974,7 +974,7 @@
    "name": "國巨",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-26",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2026-12-08",
@@ -995,7 +995,7 @@
    "name": "朗美通",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-02",
@@ -1016,7 +1016,7 @@
    "name": "高意",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-03",
@@ -1037,7 +1037,7 @@
    "name": "Fabrinet",
    "quarter": "1Q27",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-01",
@@ -1058,7 +1058,7 @@
    "name": "AXT",
    "quarter": "3Q26",
    "stage": "waiting",
-   "close": "2026-11-25",
+   "close": "2026-11-27",
    "priceMonth": "2026-10",
    "next": {
     "d": "2027-02-18",
@@ -1274,6 +1274,46 @@
    "kind": "cheap",
    "now": 32.3,
    "thr": 40,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-27",
+   "code": "mu",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "back",
+   "now": 4.96,
+   "thr": 5.7,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-27",
+   "code": "meta",
+   "k": "pe",
+   "name": "本益比",
+   "kind": "back",
+   "now": 21.4,
+   "thr": 24,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-27",
+   "code": "mrvl",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "back",
+   "now": 13.15,
+   "thr": 14.5,
+   "op": "<="
+  },
+  {
+   "d": "2026-11-27",
+   "code": "csco",
+   "k": "evS",
+   "name": "EV/Sales",
+   "kind": "rich",
+   "now": 5.92,
+   "thr": 5.1,
    "op": "<="
   }
  ],
