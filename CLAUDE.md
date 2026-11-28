@@ -40,6 +40,7 @@ python3 tools/daily.py trend-facts    # 世界趨勢月報的事實表（網站�
 python3 tools/company_brief.py <代號>  # 分析用的公司一頁摘要（不要整份讀 data/<代號>.json；含巴菲特＋蒙格檢查表摘要）
 python3 tools/buffett.py <代號>        # 檢查表指標（盈餘殖利率對公債、十年成績單、回購、保留盈餘、股票酬勞與扣酬勞後現金流…）原始輸出
 python3 tools/bs_merge.py --only sbc <代號>…   # 把 data/bs-raw/ 的股票酬勞（sbc）單獨合併（SEC 抓取要用 GitHub Actions 的 bs-fetch，field 填 sbc；非 SEC 公司加 --no-source）
+python3 tools/f13_check.py     # 13F 資料檢查（總值、列數、CUSIP 對照；只讀 data/13f，Actions 抓完會跑）
 python3 tools/capex_chain.py    # AI 資本支出鏈：四家雲端大廠資本支出合計（日曆季）與賣方營收年增率，印最近 8 季
 python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # 台股股票酬勞：讀現金流量表「股份基礎給付酬勞成本」產生 data/bs-raw/ 提案，再跑上一行合併（報表沒列這一行不當成 0）
 ```
@@ -53,6 +54,10 @@ python3 tools/tw_sbc.py <tw-raw 分支的 raw/<股票代號>/fs> <代號>   # �
 - 說明在 [`docs/ALERTS.md`](docs/ALERTS.md)。`data/alerts/rules.enc.json` **只由 Cloudflare Worker（`worker/`）寫入**，`data/alerts/state.enc.json` **只由 GitHub Actions（alerts-daily，`tools/alerts.py`）寫入**，皆為加密檔，Claude 不手改、不手建、不在本機產生；`data/alerts/config.json`（小幫手網址）由 alerts-worker-deploy 寫。
 - Actions log 不可印代號、價格、金鑰（公開 repo）；ntfy 內容不可含價格。Gmail 每天寄每日行情報告（含提醒），ntfy／Telegram 只在有到價時發。
 - 新增通知管道或改信件內容要同步改 `tools/tests/test_alerts.py`；到價判斷改了要同時改 `tools/alerts.py` 與 `assets/alerts.js`，共用案例在 `tools/tests/alerts_cases.json`。
+
+## 大師持股（13F）
+- 說明在 [`docs/F13.md`](docs/F13.md)。`data/13f/config.json`（經理人、tracked 的 CUSIP 對照）由 Claude 維護；`data/13f/<id>.json`、`latest.json`、`by-company.json` **只由 GitHub Actions（f13-quarterly，`tools/f13_fetch.py`）寫入**，Claude 不手填、不修改。
+- 13F 只是參考（落後最多 45 天、只有多單），不進論點卡、估值門檻與每日檢查。本站公司只認 config 的 CUSIP 對照，不用名稱猜；CUSIP 要看過申報原文確認才填。issue「13F 大師持股檢查：有問題」照 `docs/F13.md` 的「有問題時」處理。
 
 ## 每日準備與系統健康
 - GitHub 排程固定晚 4～6 小時、每個工作一天只跑 1～3 次（實測 2026-11），加備援班沒用。每日檢查用 `python3 tools/daily.py brief --wait-prep` 手動觸發 Actions 的 `daily-prep`（SEC 清單、預估快照、叫醒股價與期貨、算健康狀態）並等它做完。

@@ -113,6 +113,7 @@ def actions_block(now, use_api):
                 row["note"] = f"查詢失敗：{type(e).__name__}"
         rows.append(row)
     rows.append(macro_row(jload("data", "macro", "latest.json", default=None), now))
+    rows.append(f13_row(jload("data", "13f", "latest.json", default=None), now))
     # SEC 清單用檔案時間判斷（由 daily-prep 寫入，比 workflow 紀錄更直接）。放在 sec-feed workflow 那列後面
     feed = jload("data", "sec-feed.json", default={}) or {}
     if feed.get("fetched"):
@@ -144,6 +145,26 @@ def ondemand_block(now, use_api):
                 row["note"] = f"查詢失敗：{type(e).__name__}"
         rows.append(row)
     return rows
+
+
+def f13_row(doc, now):
+    """13F 大師持股：季資料，看「最新一季的季末離現在幾天」，不是檔案時間（一季沒新申報不算壞）。
+    季末後最多 45 天公開，所以正常情況下最新一季的季末最多約 135 天前；超過 140 天黃燈、155 天紅燈（排程多半壞了）。"""
+    cj = check_job("f13-data")
+    row = {"id": "f13-data", "label": cj["label"], "kind": "monthly", "light": "yellow", "note": "還沒有資料檔（f13-quarterly 尚未抓過）", **info(cj)}
+    ps = [m.get("period") for m in ((doc or {}).get("managers") or {}).values() if m.get("period")]
+    if not ps:
+        return row
+    newest = max(ps)
+    age = (now.date() - dt.date.fromisoformat(newest)).days
+    row["lastOk"] = doc.get("fetched")
+    if age > 155:
+        row["light"], row["note"] = "red", f"最新一季是 {newest}（{age} 天前），超過 155 天沒有新一季"
+    elif age > 140:
+        row["light"], row["note"] = "yellow", f"最新一季是 {newest}（{age} 天前），超過 140 天沒有新一季"
+    else:
+        row["light"], row["note"] = "green", f"最新一季 {newest}（{age} 天前）"
+    return row
 
 
 def macro_row(doc, now):

@@ -102,6 +102,17 @@
    "retry": "靠備援班次：這週沒抓到下一班再試（週六 6 班、週日 2 班）；程式內讀每個網址最多試 3 次；抓失敗不覆蓋舊檔並標紅燈；提交推送最多 3 次"
   },
   {
+   "id": "f13-quarterly",
+   "group": "actions",
+   "label": "13F 大師持股",
+   "workflow": "f13-quarterly.yml",
+   "branch": "main",
+   "kind": "daily",
+   "freq": "每天台北 10:17 一班（GitHub 常晚 4～6 小時）；先確認 SEC 有沒有新申報，沒有就約 10 秒結束",
+   "method": "tools/f13_fetch.py --check 比對 SEC 申報清單，有新申報才跑 tools/f13_fetch.py 抓 9 位經理人最近 8 季，寫 data/13f 並提交；抓完跑 tools/f13_check.py，有 ✗ 或待確認才開 GitHub issue",
+   "retry": "每天一班就是重試；程式內讀每個網址最多試 3 次（間隔 >= 0.15 秒）；某位抓失敗不覆蓋他的舊檔並標紅燈；提交推送最多 3 次"
+  },
+  {
    "id": "rates-weekly",
    "group": "actions",
    "label": "升降息資料",
@@ -144,6 +155,17 @@
    "freq": "隨 macro-weekly 更新（讀 data/macro/latest.json 的更新時間）",
    "method": "不是 workflow：檢查資料檔內容；超過 10 天沒更新或一半以上序列抓不到判紅燈，有序列停更、這次抓不到或外部連結 404 判黃燈",
    "retry": "不重試（只是檢查）；抓取的重試看 macro-weekly"
+  },
+  {
+   "id": "f13-data",
+   "group": "check",
+   "label": "13F 持股（最新一季的季別）",
+   "workflow": null,
+   "branch": null,
+   "kind": "monthly",
+   "freq": "隨 f13-quarterly 更新（讀 data/13f/latest.json 各經理人最新一季的季末日）",
+   "method": "不是 workflow：最新一季的季末離現在超過 140 天判黃燈、155 天判紅燈；13F 是季資料，一季沒有新申報不算壞",
+   "retry": "不重試（只是檢查）；抓取的重試看 f13-quarterly"
   },
   {
    "id": "ci",

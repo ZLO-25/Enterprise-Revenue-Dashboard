@@ -1,0 +1,69 @@
+# 13F 大師持股（不經過 Claude）：每天一班，先確認 SEC 有沒有新申報，沒有就約 10 秒結束
+#
+#   ① 每天台北 10:17（GitHub 常晚 4～6 小時；每天一班就是備援）＋手動觸發（force＝不管有沒有新申報都重抓）
+#   ② tools/f13_fetch.py --check：比對 SEC submissions 與 data/13f/<id>.json 記下的申報編號，沒有新的 → 結束
+#   ③ 有新的才抓：9 位經理人最近 8 季 → data/13f/（某位失敗不覆蓋他的舊檔、這次標紅燈）
+#   ④ 抓完跑 tools/f13_check.py（總值、列數、CUSIP 對照）；有 ✗ 或行首「待確認」（ℹ 注意不算）→ 開（或留言）issue
+#   頁面執行時才讀 data/13f，不需要重建網站。說明：docs/F13.md
+name: f13-quarterly
+on:
+  schedule:
+    - cron: "17 2 * * *"           # 台北 10:17
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "不管有沒有新申報都重抓"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: f13-quarterly
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 確認有沒有新申報
+        id: chk
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then echo "stale=true" >> "$GITHUB_OUTPUT"; else python3 tools/f13_fetch.py --check; fi
+      - uses: actions/setup-python@v5
+        if: steps.chk.outputs.stale == 'true'
+        with:
+          python-version: "3.12"
+      - name: 抓資料、寫檔
+        id: fetch
+        if: steps.chk.outputs.stale == 'true'
+        run: python3 tools/f13_fetch.py
+      - name: 有新資料才提交
+        if: always() && steps.chk.outputs.stale == 'true'
+        run: |
+          git config user.name "f13-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/13f
+          if git diff --cached --quiet; then echo "沒有變更"; exit 0; fi
+          git commit -m "13F 大師持股更新 $(TZ=Asia/Taipei date +%Y-%m-%d)"
+          for i in 1 2 3; do git pull --rebase -q origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break || sleep 5; done
+      - name: 檢查結果（正常寫 Summary；有問題開 issue）
+        if: always() && steps.chk.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git pull -q origin "${GITHUB_REF_NAME}" || true
+          set +e
+          python3 tools/f13_check.py > check.txt; code=$?
+          set -e
+          { echo "## 13F 大師持股檢查 $(TZ=Asia/Taipei date +%Y-%m-%d)"; echo '```'; cat check.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$code" = "0" ] && ! grep -q "^待確認" check.txt; then echo "正常"; exit 0; fi
+          title="13F 大師持股檢查：有問題"
+          n=$(gh issue list --state open --search "in:title 13F 大師持股檢查" --json number --jq '.[0].number')
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body-file check.txt
+          else
+            { echo "Actions 的 f13_check.py 結果（${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}）："; echo; echo '```'; cat check.txt; echo '```'; echo; echo "處理方式：請 Claude 照 docs/F13.md 的「有問題時」處理，處理完關閉這個 issue。"; } > body.md
+            gh issue create --title "$title" --body-file body.md
+          fi

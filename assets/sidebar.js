@@ -87,6 +87,7 @@
         '<a class="sb-item' + (PAGE === "trend" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "trend/") + '"><span class="sb-ico">🧭</span>世界趨勢月報</a>' +
         '<a class="sb-item' + (PAGE === "mcap" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "mcap/") + '"><span class="sb-ico">🏆</span>市值排名</a>' +
         '<a class="sb-item' + (PAGE === "etf" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "etf/") + '"><span class="sb-ico">📦</span>ETF 追蹤</a>' +
+        '<a class="sb-item' + (PAGE === "f13" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "13f/") + '"><span class="sb-ico">🧾</span>大師持股（13F）</a>' +
         '<a class="sb-item' + (PAGE === "status" ? ' sb-on" aria-current="page"' : '"') + ' href="' + esc(ROOT + "status/") + '"><span class="sb-ico">🩺</span>系統健康</a>' +
       "</div>" +
       '<div class="sb-group"><div class="sb-label">量化回測與配置</div>' +

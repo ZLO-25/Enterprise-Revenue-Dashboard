@@ -328,7 +328,7 @@ def main():
                                  for c in cfg["companies"] if c.get("enabled")]}
     theme = read("assets", "theme.css")
     common = read("assets", "common.js")
-    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "buffett.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js") + "\n" + read("assets", "today.js")
+    LONGTERM = read("assets", "adapters.js") + "\n" + read("assets", "longterm.js") + "\n" + read("assets", "summary.js") + "\n" + read("assets", "thesis.js") + "\n" + read("assets", "buffett.js") + "\n" + read("assets", "f13line.js") + "\n" + read("assets", "analysis.js") + "\n" + read("assets", "health.js") + "\n" + read("assets", "valuation.js") + "\n" + read("assets", "daily.js") + "\n" + read("assets", "today.js")
     if cfg["site"].get("perf"):
         # 效能開關（companies.json site.perf）：圖表延後到捲近才畫、關進場動畫。false 或沒有這個欄位 = 舊行為
         LONGTERM = "window.__PERF = true;\n" + LONGTERM
@@ -456,6 +456,12 @@ def main():
     et = fill(read("templates", "etf.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{ETF_BASE}}", "../data/etf/")])
     write(page("ETF 追蹤", "大盤、國防與航太、半導體、記憶體 ETF：每日收盤與報酬、費用率、前十大持股（連到本站追蹤的公司）。", et, "../", "etf"), "etf", "index.html")
     print("etf/index.html（ETF 追蹤頁）")
+
+    # 大師持股（13F）頁（data/13f/ 由 Actions 的 f13-quarterly 寫入；頁面執行時才讀，沒檔案顯示「資料尚未抓取」）
+    f13_cos = {c["code"]: {"name": c["name"], "path": c["path"]} for c in cfg["companies"] if c.get("enabled")}
+    f13 = fill(read("templates", "f13.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{F13_BASE}}", "../data/13f/"), ("{{F13_COS}}", js_json(f13_cos))])
+    write(page("大師持股（13F）", "長期投資人的 SEC 13F 持股與每季變化，對照本站追蹤的公司（參考用，落後最多 45 天）。", f13, "../", "f13"), "13f", "index.html")
+    print("13f/index.html（大師持股頁）")
     # 系統健康頁（資料 data/status/latest.json 由 daily-prep 每天寫入；頁面執行時才讀）
     st = fill(read("templates", "status.frag.html"), [("{{THEME}}", theme), ("{{HOME}}", "../"), ("{{STATUS_BASE}}", "../data/status/")])
     write(page("系統健康", "自動工作、Claude 排程與各公司資料有沒有過期；紅燈會開 GitHub issue。", st, "../", "status"), "status", "index.html")
