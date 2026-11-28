@@ -94,6 +94,11 @@
   "industry": "Semiconductors",
   "checked": "2026-11-16"
  },
+ "AZN": {
+  "sector": "Healthcare",
+  "industry": "Drug Manufacturers - General",
+  "checked": "2026-11-28"
+ },
  "BAC": {
   "sector": "Financial Services",
   "industry": "Banks - Diversified",
