@@ -1,0 +1,16 @@
+name: probe13f
+on:
+  push:
+    branches: [13f-holdings]
+    paths: [tools/probe/**]
+permissions:
+  contents: write
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cd tools/probe && python3 probe13f.py && cat probe.txt
+      - run: |
+          git config user.name probe; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/probe/probe.txt; git commit -m "probe result"; git push origin HEAD:13f-holdings
