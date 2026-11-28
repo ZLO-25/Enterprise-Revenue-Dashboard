@@ -1,0 +1,47 @@
+✗ fundsmith 2024-12-31 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2026-09-30 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2026-06-30 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2026-03-31 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2025-12-31 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2025-09-30 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2025-06-30 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2025-03-31 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+✗ baillie 2024-12-31 CUSIP 037833100 在對照表是 aapl，但申報的名稱是「Apple」，不含 issuerKeys
+待確認：berkshire 2025-03-31 申報檔標示有保密延後揭露的持股（isConfidentialOmitted），這季持股不完整
+待確認：2026-03-31 主 CIK 與接手申報人都有 13F-HR（0001336528, 0002026053），以主 CIK 0001336528 為準（pershing 2026-03-31）
+待確認：2025-12-31 主 CIK 與接手申報人都有 13F-HR（0001336528, 0002026053），以主 CIK 0001336528 為準（pershing 2025-12-31）
+待確認：2025-09-30 主 CIK 與接手申報人都有 13F-HR（0001336528, 0002026053），以主 CIK 0001336528 為準（pershing 2025-09-30）
+待確認：2025-06-30 主 CIK 與接手申報人都有 13F-HR（0001336528, 0002026053），以主 CIK 0001336528 為準（pershing 2025-06-30）
+待確認：pershing 2024-12-31 申報檔標示有保密延後揭露的持股（isConfidentialOmitted），這季持股不完整
+待確認：baillie（2026-09-30） 持有「Advanced Micro Devices Inc」CUSIP 007903107，名稱像 amd，但不在 data/13f/config.json 的 tracked 對照表
+待確認：berkshire（2026-03-31）、markel（2026-09-30）、pershing（2026-09-30） 持有「AMAZON COM INC」CUSIP 023135106，名稱像 amzn，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Broadcom Inc」CUSIP 11135F101，名稱像 avgo，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Cisco Systems」CUSIP 17275R102，名稱像 csco，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Coherent Corp」CUSIP 19247G107，名稱像 cohr，但不在 data/13f/config.json 的 tracked 對照表
+待確認：hh（2026-06-30） 持有「CROWDSTRIKE HLDGS INC」CUSIP 22788C105，名稱像 crwd，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「CrowdStrike Holdings」CUSIP 22788C105，名稱像 crwd，但不在 data/13f/config.json 的 tracked 對照表
+待確認：markel（2026-09-30） 持有「EXXON MOBIL CORP」CUSIP 30231G102，名稱像 xom，但不在 data/13f/config.json 的 tracked 對照表
+待確認：fundsmith（2026-09-30）、markel（2026-09-30）、pershing（2026-09-30） 持有「META PLATFORMS INC」CUSIP 30303M102，名稱像 meta，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Meta Platforms Inc」CUSIP 30303M102，名稱像 meta，但不在 data/13f/config.json 的 tracked 對照表
+待確認：fundsmith（2026-09-30） 持有「GE VERNOVA INC」CUSIP 36828A101，名稱像 gev，但不在 data/13f/config.json 的 tracked 對照表
+待確認：markel（2026-09-30） 持有「GENERAL DYNAMICS CORP」CUSIP 369550108，名稱像 gd，但不在 data/13f/config.json 的 tracked 對照表
+待確認：markel（2026-09-30） 持有「LOCKHEED MARTIN CORP」CUSIP 539830109，名稱像 lmt，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Lumentum Holdings」CUSIP 55024U109，名稱像 lite，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Marvell Technology Inc」CUSIP 573874104，名稱像 mrvl，但不在 data/13f/config.json 的 tracked 對照表
+待確認：fundsmith（2026-09-30）、hh（2026-09-30）、markel（2026-09-30）、pershing（2026-09-30） 持有「MICROSOFT CORP」CUSIP 594918104，名稱像 msft，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Micron Technology」CUSIP 595112103，名稱像 mu，但不在 data/13f/config.json 的 tracked 對照表
+待確認：hh（2026-09-30） 持有「NVIDIA CORPORATION」CUSIP 67066G104，名稱像 nvda，但不在 data/13f/config.json 的 tracked 對照表
+待確認：hh（2026-09-30） 持有「PALANTIR TECHNOLOGIES INC」CUSIP 69608A108，名稱像 pltr，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Palantir Technologies」CUSIP 69608A108，名稱像 pltr，但不在 data/13f/config.json 的 tracked 對照表
+待確認：markel（2024-12-31） 持有「RTX CORPORATION」CUSIP 755130000，名稱像 rtx，但不在 data/13f/config.json 的 tracked 對照表
+待確認：markel（2026-09-30） 持有「RTX CORPORATION」CUSIP 75513E101，名稱像 rtx，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Rocket Lab Corp」CUSIP 773121108，名稱像 rklb，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Space Exploration Technologies Corp」CUSIP 84615Q103，名稱像 spcx，但不在 data/13f/config.json 的 tracked 對照表
+待確認：fundsmith（2026-09-30）、hh（2026-06-30） 持有「TAIWAN SEMICONDUCTOR MANUFAC」CUSIP 874039100，名稱像 tsmc，但不在 data/13f/config.json 的 tracked 對照表
+待確認：hh（2025-12-31） 持有「TAIWAN SEMICONDUCTOR MFG LTD」CUSIP 874039100，名稱像 tsmc，但不在 data/13f/config.json 的 tracked 對照表
+待確認：hh（2026-09-30） 持有「TESLA INC」CUSIP 88160R101，名稱像 tsla，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Tesla Inc」CUSIP 88160R101，名稱像 tsla，但不在 data/13f/config.json 的 tracked 對照表
+待確認：baillie（2026-09-30） 持有「Fabrinet」CUSIP G3323L100，名稱像 fn，但不在 data/13f/config.json 的 tracked 對照表
+待確認：hh（2026-03-31） 持有「ASML HOLDING N V」CUSIP N07059210，名稱像 asml，但不在 data/13f/config.json 的 tracked 對照表
+檢查完成：9 位經理人，✗ 9、待確認 36
+exit=1
