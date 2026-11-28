@@ -1,0 +1,259 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+{{THEME}}
+.up{color:var(--good-text)}.dn{color:var(--bad-text)}
+.f13-warn{background:#fff1d6;color:#5c3900;border:1px solid #e9c77a;border-radius:10px;padding:10px 12px;font-size:.9rem;margin-top:12px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .f13-warn{background:#3a2a08;color:#f2c46b;border-color:#6b4d10}}
+:root[data-theme="dark"] .f13-warn{background:#3a2a08;color:#f2c46b;border-color:#6b4d10}
+.f13-empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:20px;margin-top:16px;color:var(--ink-2)}
+.f13-bar{background:var(--page);padding:10px 0;margin-bottom:6px;border-bottom:1px solid var(--line);min-width:0}
+.f13-chips{display:flex;flex-wrap:wrap;gap:6px}
+.f13-chips button{font:inherit;font-size:.84rem;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);padding:5px 11px;border-radius:999px;cursor:pointer}
+.f13-chips button small{opacity:.7;margin-left:3px;font-family:var(--font-data)}
+.f13-chips button[aria-pressed="true"]{background:var(--chip-bg);color:var(--chip-ink);border-color:transparent;font-weight:600}
+@media (max-width:640px){.f13-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.f13-chips::-webkit-scrollbar{display:none}.f13-chips button{flex:none}}
+.f13-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:16px;margin-top:16px}
+.f13-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.f13-card h3{margin:0;font-size:1.1rem;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.f13-card h3 small{font-weight:500;color:var(--muted);font-size:.82rem}
+.f13-why{font-size:.88rem;color:var(--ink-2);margin:6px 0 10px}
+.f13-tag{font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 6px;margin-left:4px;white-space:nowrap}
+.f13-kv{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.86rem;margin:6px 0}
+.f13-kv b{font-family:var(--font-data);font-weight:600}
+.f13-kv small{color:var(--muted)}
+.f13-ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0;font-size:.85rem}
+.f13-ctl select,.f13-ctl button{font:inherit;font-size:.85rem;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer;max-width:100%}
+.f13-scroll{overflow-x:auto;max-width:100%}
+.f13-tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:6px}
+.f13-tbl th,.f13-tbl td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.f13-tbl th{font-size:.76rem;color:var(--muted);font-weight:600}
+.f13-tbl td.n,.f13-tbl th.n{text-align:right;font-family:var(--font-data);white-space:nowrap}
+.f13-tbl td:first-child{overflow-wrap:anywhere}
+.f13-w{height:5px;border-radius:3px;background:var(--accent);margin-top:3px;opacity:.8;min-width:1px}
+.f13-star{color:var(--accent);text-decoration:none;font-weight:600}
+.f13-note{font-size:.84rem;color:var(--ink-2);background:var(--wash);border-radius:8px;padding:8px 10px;margin:8px 0}
+.f13-pend{display:inline-block;font-size:.75rem;padding:1px 6px;border-radius:999px;background:#fff1d6;color:#7a4b00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .f13-pend{background:#3a2a08;color:#f2c46b}}
+:root[data-theme="dark"] .f13-pend{background:#3a2a08;color:#f2c46b}
+.f13-links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;margin-top:10px}
+.f13-mx{border-collapse:collapse;font-size:.8rem;min-width:100%}
+.f13-mx th,.f13-mx td{padding:6px 7px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.f13-mx th{font-size:.72rem;color:var(--muted);font-weight:600;vertical-align:bottom}
+.f13-mx th small{display:block;font-weight:400;font-family:var(--font-data)}
+.f13-mx td:first-child,.f13-mx th:first-child{text-align:left;position:sticky;left:0;background:var(--page);z-index:1}
+.f13-mx td{font-family:var(--font-data)}
+.f13-mx td small{color:var(--muted)}
+#f13Matrix{margin-top:22px;min-width:0}
+@media (max-width:640px){.f13-card{padding:12px}.f13-tbl th,.f13-tbl td{padding:6px 4px}.f13-tbl{table-layout:fixed}.f13-tbl th.n,.f13-tbl td.n{width:5.4em;white-space:normal}.f13-tbl .hide-s{display:none}}
+</style>
+
+<!-- 大師持股頁：data/13f/*.json 由 GitHub Actions（f13-quarterly，tools/f13_fetch.py）寫入，本頁只讀不算。資料檔不存在就顯示「資料尚未抓取」。 -->
+<div class="secnav" role="navigation" aria-label="章節">
+  <div class="scroller">
+    <a class="homelink" href="{{HOME}}">← 所有公司</a>
+    <a href="#mgrs">經理人</a>
+    <a href="#f13Matrix">本站公司</a>
+    <a href="#sources">資料來源與口徑</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <header class="masthead" id="top">
+    <div class="eyebrow">13F Holdings</div>
+    <h1>大師持股（13F）</h1>
+    <p class="lede">美國大型投資機構每季要向 SEC 申報的持股清單（13F）。這裡追 9 位長期投資人的最新持股與每季變化，並對照本站追蹤的公司。資料全部來自 SEC 申報檔（書面），不是報價。</p>
+    <div class="f13-warn"><b>資料落後：</b>季末後最多 45 天才公開；只有多單；參考用，不是買賣訊號。</div>
+    <div class="meta-row"><span id="f13Sub">讀取中…</span></div>
+  </header>
+
+  <section id="mgrs">
+    <div class="f13-bar" id="f13Bar" hidden><div class="f13-chips" id="f13Groups" role="group" aria-label="組別"></div></div>
+    <div id="f13Body"><div class="f13-empty">讀取中…</div></div>
+  </section>
+
+  <div id="f13Matrix" hidden></div>
+
+  <section id="sources">
+    <div class="sec-head"><h2>資料來源與口徑</h2></div>
+    <ul class="fut-src">
+      <li><b>來源：書面（SEC 13F）</b>。每個數字都來自 SEC EDGAR 的申報檔（primary_doc.xml 與持股表 XML），由 GitHub Actions 抓取，名稱用申報檔的 nameOfIssuer 原文。</li>
+      <li><b>落後</b>：13F 在季末後最多 45 天才公開，看到的是季末那天的持股，不是現在。</li>
+      <li><b>只有多單、只有 13(f) 證券</b>：不含空單、現金、債券（多數）與美國以外掛牌的股票；可以申請保密延後揭露，申報檔標示時會寫在卡片上。</li>
+      <li><b>合併列</b>：同一檔證券（同 CUSIP）常被拆成多列（例如 Berkshire 依管理單位分列），本頁加總成一檔；占比＝市值 ÷ 該季總值。</li>
+      <li><b>本季變化</b>：比股數（不是比市值）；上一季沒有申報、只有 13F-NT 通知或季別不連續就不顯示（待確認）。出清＝上一季有、本季沒有。</li>
+      <li><b>修正版</b>：整份取代（RESTATEMENT）的修正版以修正版為準；只補列的（NEW HOLDINGS）加到原始上。</li>
+      <li><b>13F-NT</b>：主申報人只送通知、持股由別的申報人（例如母公司）申報時，卡片會寫明；沒有可對照的持股就不補數字。</li>
+      <li><b>本站公司對照</b>：只有 CUSIP 在 <code>data/13f/config.json</code> 的對照表裡的持股才算本站公司，不用名稱猜；對照表尚未確認的公司標「待確認」。</li>
+      <li><b>為什麼追這位</b>：卡片上的說明是<b>教學</b>（Claude 的整理），不是申報檔的內容。</li>
+      <li>本頁是個人研究整理，不構成投資建議。</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var BASE = "{{F13_BASE}}", COS = {{F13_COS}};
+  var CFG = null, LATEST = null, BYCO = null, DOCS = {};
+  var ST = { g: "all", q: {}, all: {} };
+  var CHG = { "new": "新增", add: "加碼", reduce: "減碼", exit: "出清", same: "不變" };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function money(v) { if (v == null) return "—"; var a = Math.abs(v); return "$" + (a >= 1e9 ? (v / 1e9).toFixed(2) + "B" : a >= 1e6 ? (v / 1e6).toFixed(1) + "M" : a >= 1e3 ? (v / 1e3).toFixed(0) + "K" : String(v)); }
+  function pc(x) { return x == null ? "—" : x.toFixed(x >= 10 ? 1 : 2) + "%"; }
+  function qlab(p) { return p ? p.slice(0, 4) + "Q" + Math.ceil(+p.slice(5, 7) / 3) : "—"; }
+  function chgHtml(chg, p, note) {
+    if (chg == null) return "<small title='" + esc(note || "") + "'>—</small>";
+    var t = CHG[chg];
+    if (chg === "add") return "<span class='up'>" + t + (p != null ? " +" + p.toFixed(1) + "%" : "") + "</span>";
+    if (chg === "reduce") return "<span class='dn'>" + t + (p != null ? " −" + Math.abs(p).toFixed(1) + "%" : "") + "</span>";
+    if (chg === "new") return "<span class='up'>" + t + "</span>";
+    if (chg === "exit") return "<span class='dn'>" + t + "</span>";
+    return "<small>" + t + "</small>";
+  }
+  function getJson(u) { return fetch(u, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  function mgrById(id) { return (CFG.managers || []).filter(function (m) { return m.id === id; })[0]; }
+
+  // 統一成卡片用的一季：{period, filed, form, ..., rows, count, more}
+  function fromLatest(L) {
+    return { period: L.period, filed: L.filed, form: L.form, url: L.url, amended: L.amended, holdingsKnown: L.holdingsKnown, via: L.via, notice: L.notice,
+      totalValue: L.totalValue, count: L.count, rows: L.top10 || [], more: L.count > (L.top10 || []).length };
+  }
+  function fromDoc(q) {
+    var hs = q.holdings || [];
+    return { period: q.period, filed: q.filed, form: q.form, url: q.url, amended: q.amended, amendments: q.amendments, holdingsKnown: q.holdingsKnown, via: q.via, notice: q.notice,
+      totalValue: q.totalValue, count: hs.filter(function (h) { return h.chg !== "exit"; }).length, rows: hs, chgNote: q.chgNote, notes: q.notes, confidential: q.confidential, full: true };
+  }
+  function pick(id) {
+    var L = LATEST.managers[id];
+    if (!L) return Promise.resolve(null);
+    var want = ST.q[id] || L.period;
+    if (want === L.period && !ST.all[id]) return Promise.resolve(fromLatest(L));
+    var go = function (d) { var q = (d.quarters || []).filter(function (x) { return x.period === want; })[0]; return q ? fromDoc(q) : fromLatest(L); };
+    if (DOCS[id]) return Promise.resolve(go(DOCS[id]));
+    return getJson(BASE + id + ".json").then(function (d) { DOCS[id] = d; return go(d); }).catch(function () { return fromLatest(L); });
+  }
+
+  function nameCell(h) {
+    var co = h.code && COS[h.code];
+    var nm = esc(h.name) + (h.cls ? " <small>" + esc(h.cls) + "</small>" : "") + (h.putCall ? " <small>" + esc(h.putCall) + "</small>" : "");
+    return co ? "<a class='f13-star' href='../" + esc(co.path) + "' title='本站有追蹤：" + esc(co.name) + "'>★</a> " + nm : nm;
+  }
+  function tableHtml(q) {
+    var rows = q.rows;
+    var mx = Math.max.apply(null, rows.map(function (h) { return h.pct || 0; }).concat([1]));
+    return "<div class='f13-scroll'><table class='f13-tbl'><thead><tr><th>名稱（★＝本站有追蹤）</th><th class='n'>占比</th><th class='n hide-s'>市值</th><th class='n'>本季變化</th></tr></thead><tbody>" +
+      rows.map(function (h) {
+        return "<tr><td>" + nameCell(h) + "</td><td class='n'>" + pc(h.pct) + "<div class='f13-w' style='width:" + Math.max(1, (h.pct || 0) / mx * 100).toFixed(0) + "%'></div></td><td class='n hide-s'>" + money(h.value) + "</td><td class='n'>" + chgHtml(h.chg, h.chgPct, q.chgNote) + "</td></tr>";
+      }).join("") + "</tbody></table></div>";
+  }
+
+  function cardHtml(m, q) {
+    var L = LATEST.managers[m.id];
+    var h = "<h3>" + esc(m.zh || m.name) + "<small>" + esc(m.person || "") + " · " + esc(m.group) + "</small></h3>" +
+      "<p class='f13-why'>" + esc(m.why || "") + " <span class='f13-tag'>教學</span></p>";
+    if (!L || !q) return h + "<p class='f13-note'><span class='f13-pend'>待確認</span> 還沒有這位的資料（SEC 名稱：" + esc(m.name) + "）。</p>";
+    var periods = L.periods || [L.period];
+    var sel = "<select data-q='" + esc(m.id) + "' aria-label='季別'>" + periods.map(function (p) { return "<option value='" + p + "'" + (p === q.period ? " selected" : "") + ">" + qlab(p) + "（" + p + "）</option>"; }).join("") + "</select>";
+    h += "<div class='f13-ctl'><label>季別 " + sel + "</label></div>";
+    h += "<div class='f13-kv'><span>報告期 <b>" + esc(q.period) + "</b></span><span>申報日 <b>" + esc(q.filed) + "</b></span><span>表格 <b>" + esc(q.form) + "</b>" + (q.amended ? " <small>（已套用修正版）</small>" : "") + "</span>" +
+      (q.holdingsKnown ? "<span>持股 <b>" + q.count + "</b> 檔</span><span>總值 <b>" + money(q.totalValue) + "</b></span>" : "") + "</div>";
+    if (q.via) h += "<p class='f13-note'>本季持股由接手申報人 <b>" + esc(q.via.name || ("CIK " + q.via.cik)) + "</b> 申報（13F-HR）" + (q.via.primaryNotice ? "；主申報人另送 <a href='" + esc(q.via.primaryNotice.url) + "' target='_blank' rel='noopener'>13F-NT</a>" : "") + "。</p>";
+    if (!q.holdingsKnown) {
+      var by = ((q.notice && q.notice.by) || []).map(function (o) { return o.name; }).join("、");
+      h += "<p class='f13-note'><span class='f13-pend'>待確認</span> 本季改由 " + esc(by || "其他申報人") + " 申報（" + esc(q.form) + "），持股待確認，這裡不補數字。</p>";
+    } else {
+      if (q.confidential) h += "<p class='f13-note'><span class='f13-pend'>待確認</span> 申報檔標示有保密延後揭露的持股，這季清單不完整。</p>";
+      if (q.chgNote) h += "<p class='f13-note'>" + esc(q.chgNote) + "</p>";
+      h += tableHtml(q);
+      if (q.more || q.full) h += "<div class='f13-ctl'><button type='button' data-all='" + esc(m.id) + "'>" + (ST.all[m.id] ? "只看前 10 大" : "看全部 " + (q.more ? q.count : LATEST.managers[m.id].count) + " 檔") + "</button></div>";
+    }
+    h += "<div class='f13-links'><a href='" + esc(q.url) + "' target='_blank' rel='noopener'>SEC 申報頁 ↗</a><span class='f13-tag'>書面（SEC 13F）</span></div>";
+    return h;
+  }
+
+  function renderCards() {
+    var ms = (CFG.managers || []).filter(function (m) { return ST.g === "all" || m.group === ST.g; });
+    var host = document.getElementById("f13Body");
+    host.innerHTML = "<div class='f13-grid'>" + ms.map(function (m) { return "<article class='f13-card' id='m-" + esc(m.id) + "'><div class='f13-in'></div></article>"; }).join("") + "</div>";
+    ms.forEach(function (m) { fillCard(m); });
+  }
+  function fillCard(m) {
+    var el = document.querySelector("#m-" + m.id + " .f13-in");
+    if (!el) return;
+    pick(m.id).then(function (q) { el.innerHTML = cardHtml(m, q); });
+  }
+
+  function renderGroups() {
+    var gs = CFG.groups || [];
+    var cnt = function (g) { return (CFG.managers || []).filter(function (m) { return g === "all" || m.group === g; }).length; };
+    var host = document.getElementById("f13Groups");
+    host.innerHTML = ["all"].concat(gs).map(function (g) { return "<button type='button' data-g='" + esc(g) + "' aria-pressed='" + (ST.g === g) + "'>" + (g === "all" ? "全部" : esc(g)) + "<small>" + cnt(g) + "</small></button>"; }).join("");
+    document.getElementById("f13Bar").hidden = false;
+  }
+
+  function renderMatrix() {
+    var host = document.getElementById("f13Matrix");
+    if (!BYCO) { host.hidden = true; return; }
+    var ms = CFG.managers || [], tr = CFG.tracked || {}, codes = Object.keys(tr).filter(function (c) { return COS[c]; });
+    var head = "<tr><th>公司</th>" + ms.map(function (m) { var L = LATEST.managers[m.id]; return "<th>" + esc(m.zh || m.name) + "<small>" + (L ? qlab(L.period) : "—") + "</small></th>"; }).join("") + "</tr>";
+    var body = codes.map(function (c) {
+      var e = (BYCO.companies || {})[c], co = COS[c];
+      var first = "<td><a href='../" + esc(co.path) + "'>" + esc(co.name) + "</a></td>";
+      if (!e || !e.cusipsKnown) return "<tr>" + first + "<td colspan='" + ms.length + "' style='text-align:left'><span class='f13-pend'>待確認</span> <small>CUSIP 對照尚未確認，這家公司的持有狀況不判斷</small></td></tr>";
+      var by = {};
+      (e.managers || []).forEach(function (x) { by[x.id] = x; });
+      return "<tr>" + first + ms.map(function (m) {
+        var L = LATEST.managers[m.id];
+        if (!L) return "<td><small>—</small></td>";
+        if (!L.holdingsKnown) return "<td><small title='13F-NT：持股由其他申報人申報'>NT</small></td>";
+        var x = by[m.id];
+        if (!x) return "<td></td>";
+        var sym = { "new": "<span class='up'>新</span>", add: "<span class='up'>▲</span>", reduce: "<span class='dn'>▼</span>", exit: "<span class='dn'>出</span>", same: "<small>＝</small>" }[x.chg] || "";
+        return "<td>" + (x.chg === "exit" ? "" : pc(x.pct)) + " " + sym + "</td>";
+      }).join("") + "</tr>";
+    }).join("");
+    var nc = BYCO.notCovered || {}, ncs = Object.keys(nc).filter(function (c) { return COS[c]; }).map(function (c) { return COS[c].name + "（" + nc[c] + "）"; });
+    host.innerHTML = "<div class='sec-head'><h2>本站公司 × 大師</h2><p class='sub'>格子＝該經理人最新一季的占比與變化（▲加碼 ▼減碼 ＝不變 新＝新增 出＝本季出清）；空白＝沒持有。NT＝本季只送通知。點公司名稱到公司頁。</p></div>" +
+      "<div class='f13-scroll'><table class='f13-mx'><thead>" + head + "</thead><tbody>" + body + "</tbody></table></div>" +
+      (ncs.length ? "<p class='note'>13F 不涵蓋：" + esc(ncs.join("、")) + "。</p>" : "");
+    host.hidden = false;
+  }
+
+  function wire() {
+    document.getElementById("f13Groups").addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-g]");
+      if (!b) return;
+      ST.g = b.getAttribute("data-g"); renderGroups(); renderCards();
+    });
+    document.getElementById("f13Body").addEventListener("change", function (e) {
+      var s = e.target.closest("select[data-q]");
+      if (!s) return;
+      var id = s.getAttribute("data-q"); ST.q[id] = s.value; fillCard(mgrById(id));
+    });
+    document.getElementById("f13Body").addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-all]");
+      if (!b) return;
+      var id = b.getAttribute("data-all"); ST.all[id] = !ST.all[id]; fillCard(mgrById(id));
+    });
+  }
+
+  function empty(msg) {
+    document.getElementById("f13Sub").textContent = "資料尚未抓取";
+    document.getElementById("f13Body").innerHTML = "<div class='f13-empty'><b>資料尚未抓取。</b><br>" + esc(msg) + "</div>";
+  }
+
+  getJson(BASE + "config.json").then(function (c) { CFG = c; return getJson(BASE + "latest.json"); }).then(function (l) {
+    LATEST = l;
+    return getJson(BASE + "by-company.json").catch(function () { return null; });
+  }).then(function (b) {
+    BYCO = b;
+    var ps = Object.keys(LATEST.managers || {}).map(function (k) { return LATEST.managers[k].period; }).sort();
+    document.getElementById("f13Sub").textContent = "最新一季 " + (ps.length ? qlab(ps[ps.length - 1]) : "—") + " · 抓取時間 " + (LATEST.fetched || "—") + " · 來源：書面（SEC 13F）";
+    renderGroups(); wire(); renderCards(); renderMatrix();
+  }, function () {
+    empty("data/13f 由 GitHub Actions（f13-quarterly）寫入，第一次執行後這裡才會有內容。");
+  });
+})();
+</script>

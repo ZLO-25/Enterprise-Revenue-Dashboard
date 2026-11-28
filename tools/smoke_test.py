@@ -6,7 +6,7 @@ import functools, http.server, os, re, sys, threading
 from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/etf/", "/status/", "/calendar/", "/futures/", "/macro/", "/trend/"]
+PAGES = ["/", "/tsmc/", "/nvda/", "/pltr/", "/mcap/", "/etf/", "/13f/", "/status/", "/calendar/", "/futures/", "/macro/", "/trend/"]
 COMPANY_PAGES = ("/tsmc/", "/nvda/", "/pltr/")   # 個股頁（含舊版型台積電、PLTR）必須有巴菲特＋蒙格檢查表 #buffett
 IGNORE = ("Failed to load resource", "net::ERR", "fonts.googleapis", "fonts.gstatic")
 
@@ -154,6 +154,75 @@ def stale_cache(b, base):
     return errs
 
 
+F13_FIX = {
+    "latest.json": {"fetched": "2026-11-28T00:00Z", "managers": {
+        "berkshire": {"period": "2026-09-30", "filed": "2026-11-14", "form": "13F-HR", "url": "https://www.sec.gov/x", "amended": False, "holdingsKnown": True, "count": 2, "totalValue": 3000000000,
+                      "periods": ["2026-09-30", "2026-06-30"], "top10": [
+                          {"cusip": "037833100", "name": "APPLE INC", "cls": "COM", "value": 2000000000, "shares": 10, "type": "SH", "putCall": "", "pct": 66.6667, "chg": "reduce", "chgPct": -4.5, "prev": 11, "code": "aapl"},
+                          {"cusip": "X", "name": "SOME VERY LONG ISSUER NAME HOLDINGS CORPORATION INTERNATIONAL", "cls": "COM", "value": 1000000000, "shares": 5, "type": "SH", "putCall": "", "pct": 33.3333, "chg": "new", "chgPct": None, "prev": 0, "code": None}]},
+        "pershing": {"period": "2026-09-30", "filed": "2026-11-16", "form": "13F-NT", "url": "https://www.sec.gov/y", "amended": False, "holdingsKnown": False, "count": 0, "totalValue": None,
+                     "notice": {"by": [{"name": "PERSHING SQUARE INC.", "cik": "1", "file": "028-25746"}]}, "periods": ["2026-09-30"], "top10": []}}},
+    "by-company.json": {"fetched": "x", "period": "2026-09-30", "latestByManager": {"berkshire": "2026-09-30", "pershing": "2026-09-30"}, "notCovered": {},
+                        "companies": {"aapl": {"cusipsKnown": True, "managers": [{"id": "berkshire", "period": "2026-09-30", "shares": 10, "value": 2000000000, "pct": 66.6667, "chg": "reduce", "chgPct": -4.5}]},
+                                      "nvda": {"cusipsKnown": False, "managers": []}}},
+}
+
+
+def f13_fixture(b, base):
+    """data/13f 沒有檔案時，用 route 攔截塞假資料（不寫進 repo）：卡片、NT 提示、對照表要畫出來，手機不可橫向捲動，不可有 JS 錯誤。"""
+    import json as _json
+    errs = []
+    for w, h in ((1280, 900), (390, 800)):
+        ctx = b.new_context(viewport={"width": w, "height": h})
+        pg = ctx.new_page()
+        pg.on("pageerror", lambda e: errs.append(f"例外：{e}"))
+        pg.on("console", lambda m: errs.append("console.error：" + m.text) if m.type == "error" and not any(x in m.text for x in IGNORE) else None)
+
+        def route(r):
+            name = r.request.url.split("/data/13f/")[-1].split("?")[0]
+            if name in F13_FIX:
+                return r.fulfill(body=_json.dumps(F13_FIX[name]), content_type="application/json")
+            if name == "config.json":
+                return r.continue_()
+            r.fulfill(status=404, body="")
+        ctx.route("**/data/13f/*", route)
+        pg.goto(base + "/13f/", wait_until="load")
+        try:
+            pg.wait_for_selector("#f13Body .f13-card table.f13-tbl", timeout=8000)
+            pg.wait_for_selector("#f13Matrix .f13-mx", timeout=8000)
+        except Exception as e:
+            errs.append(f"{w}px 沒有畫出卡片或對照表：{str(e).splitlines()[0]}")
+            ctx.close()
+            continue
+        txt = pg.text_content("#f13Body") or ""
+        if "持股待確認" not in txt:
+            errs.append(f"{w}px 13F-NT 卡片沒有「持股待確認」")
+        if not pg.query_selector("#f13Body a.f13-star[href='../aapl/']"):
+            errs.append(f"{w}px 本站公司沒有 ★ 連結")
+        mx = pg.text_content("#f13Matrix") or ""
+        if "待確認" not in mx or "66.7%" not in mx:
+            errs.append(f"{w}px 對照表內容不對：{mx[:80]}")
+        over = pg.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
+        if over > 2:
+            errs.append(f"{w}px 大師持股頁有橫向捲動（多 {over}px）")
+        for theme in ("dark", "light"):
+            pg.evaluate("t => document.documentElement.setAttribute('data-theme', t)", theme)
+            pg.wait_for_timeout(100)
+        if w == 390 and os.environ.get("F13_SHOT"):
+            pg.screenshot(path=os.environ["F13_SHOT"], full_page=True)
+        # 個股頁的 13F 參考一行（讀 by-company.json）
+        pg.goto(base + "/aapl/", wait_until="load")
+        try:
+            pg.wait_for_selector("#f13ref", timeout=8000)
+            t = pg.text_content("#f13ref") or ""
+            if "1 位大師持有" not in t or "減碼 1" not in t:
+                errs.append(f"{w}px 個股頁 13F 一行內容不對：{t[:80]}")
+        except Exception as e:
+            errs.append(f"{w}px 個股頁沒有 #f13ref：{str(e).splitlines()[0]}")
+        ctx.close()
+    return errs
+
+
 def main():
     shots = sys.argv[sys.argv.index("--shots") + 1] if "--shots" in sys.argv else None
     class Q(http.server.SimpleHTTPRequestHandler):
@@ -190,6 +259,10 @@ def main():
                             errs.append(f"系統健康頁 #{tid} 缺少頻率／做法／重試欄位")
                     if not pg.query_selector("#ondemand .st-dot.gray"):
                         errs.append("系統健康頁沒有「不定期工作」區塊的灰點")
+                if path == "/13f/":
+                    txt = pg.text_content("#f13Body") or ""
+                    if not os.path.exists(os.path.join(ROOT, "data", "13f", "latest.json")) and "資料尚未抓取" not in txt:
+                        errs.append("大師持股頁沒有資料檔時應顯示「資料尚未抓取」")
                 if path == "/trend/":
                     if not pg.query_selector("#trBody .tr-card"):
                         errs.append("世界趨勢月報頁沒有 #trBody .tr-card")
@@ -232,6 +305,9 @@ def main():
             quant(pg, base, w, errs)
             print(("✗" if errs else "✓"), w, "/#dca、#monthly、#vol（量化回測）", *errs)
             bad += bool(errs)
+        errs = f13_fixture(b, base)
+        print(("✗" if errs else "✓"), "大師持股頁（假資料）手機與桌機", *errs)
+        bad += bool(errs)
         errs = stale_cache(b, base)
         print(("✗" if errs else "✓"), "量化回測：舊檔混新檔（快取事故）自動復原", *errs)
         bad += bool(errs)
