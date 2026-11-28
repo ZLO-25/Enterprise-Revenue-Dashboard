@@ -1,0 +1,313 @@
+{
+ "_note": "Claude 維護。data/13f/<id>.json、latest.json、by-company.json 只由 GitHub Actions（f13-quarterly，tools/f13_fetch.py）寫入。tracked 的 cusips 空白＝尚未確認：抓取後 tools/f13_check.py 會依發行人名稱回報找到的 CUSIP，由 Claude 確認後填入；空白時頁面不會把任何持股算成本站公司。",
+ "groups": [
+  "價值/巴菲特派",
+  "品質成長派",
+  "成長派"
+ ],
+ "managers": [
+  {
+   "id": "berkshire",
+   "cik": "0001067983",
+   "name": "BERKSHIRE HATHAWAY INC",
+   "zh": "波克夏海瑟威",
+   "person": "巴菲特",
+   "group": "價值/巴菲特派",
+   "why": "巴菲特的控股公司，持股以集中、長期持有著稱；13F 只列美股多單，不含它整家持有的子公司。"
+  },
+  {
+   "id": "himalaya",
+   "cik": "0001709323",
+   "name": "Himalaya Capital Management LLC",
+   "zh": "喜馬拉雅資本",
+   "person": "李錄",
+   "group": "價值/巴菲特派",
+   "why": "李錄（蒙格長年的朋友）管理的價值型基金，持股集中。"
+  },
+  {
+   "id": "hh",
+   "cik": "0001759760",
+   "name": "H&H International Investment, LLC",
+   "zh": "H&H 國際投資",
+   "person": "段永平",
+   "group": "價值/巴菲特派",
+   "why": "段永平的投資公司，以長期持有少數公司著稱。"
+  },
+  {
+   "id": "dailyjournal",
+   "cik": "0000783412",
+   "name": "DAILY JOURNAL CORP",
+   "zh": "每日期刊",
+   "person": "蒙格舊部",
+   "group": "價值/巴菲特派",
+   "why": "蒙格曾任董事長的上市公司，用公司資金持有少數股票。"
+  },
+  {
+   "id": "akre",
+   "cik": "0001112520",
+   "name": "AKRE CAPITAL MANAGEMENT LLC",
+   "zh": "Akre 資本",
+   "person": "Chuck Akre",
+   "group": "品質成長派",
+   "why": "以「複利機器」框架挑選高品質公司、長期持有。"
+  },
+  {
+   "id": "fundsmith",
+   "cik": "0001569205",
+   "name": "Fundsmith LLP",
+   "zh": "Fundsmith",
+   "person": "Terry Smith",
+   "group": "品質成長派",
+   "why": "英國基金，原則是買高品質公司、不過度交易；13F 只列它持有的美國掛牌部位。"
+  },
+  {
+   "id": "markel",
+   "cik": "0001096343",
+   "name": "MARKEL GROUP INC.",
+   "zh": "Markel 集團",
+   "person": "Tom Gayner",
+   "group": "品質成長派",
+   "why": "保險公司，投資組合由 Gayner 管理，風格接近波克夏。"
+  },
+  {
+   "id": "baillie",
+   "cik": "0001088875",
+   "name": "BAILLIE GIFFORD & CO",
+   "zh": "百利基富",
+   "person": "Baillie Gifford",
+   "group": "成長派",
+   "why": "英國長期成長型基金，持股分散、偏重高成長公司。"
+  },
+  {
+   "id": "pershing",
+   "ciks": [
+    "0001336528",
+    "0002026053"
+   ],
+   "name": "Pershing Square Capital Management, L.P.",
+   "zh": "潘興廣場",
+   "person": "Bill Ackman",
+   "group": "成長派",
+   "why": "Ackman 的集中持股基金；近兩季主申報人改送 13F-NT，持股由接手申報人 PERSHING SQUARE INC. 申報。"
+  }
+ ],
+ "tracked": {
+  "tsmc": {
+   "cusips": [],
+   "issuerKeys": [
+    "TAIWAN SEMICONDUCTOR"
+   ]
+  },
+  "pltr": {
+   "cusips": [],
+   "issuerKeys": [
+    "PALANTIR TECHNOLOGIES"
+   ]
+  },
+  "nvda": {
+   "cusips": [],
+   "issuerKeys": [
+    "NVIDIA CORP"
+   ]
+  },
+  "tsla": {
+   "cusips": [],
+   "issuerKeys": [
+    "TESLA INC"
+   ]
+  },
+  "anet": {
+   "cusips": [],
+   "issuerKeys": [
+    "ARISTA NETWORKS"
+   ]
+  },
+  "spcx": {
+   "cusips": [],
+   "issuerKeys": [
+    "SPACE EXPLORATION TECHNOLOGIES"
+   ]
+  },
+  "msft": {
+   "cusips": [],
+   "issuerKeys": [
+    "MICROSOFT CORP"
+   ]
+  },
+  "mu": {
+   "cusips": [],
+   "issuerKeys": [
+    "MICRON TECHNOLOGY"
+   ]
+  },
+  "amzn": {
+   "cusips": [],
+   "issuerKeys": [
+    "AMAZON COM INC",
+    "AMAZON.COM INC"
+   ]
+  },
+  "aapl": {
+   "cusips": [
+    "037833100"
+   ],
+   "issuerKeys": [
+    "APPLE INC"
+   ]
+  },
+  "meta": {
+   "cusips": [],
+   "issuerKeys": [
+    "META PLATFORMS"
+   ]
+  },
+  "avgo": {
+   "cusips": [],
+   "issuerKeys": [
+    "BROADCOM INC"
+   ]
+  },
+  "mrvl": {
+   "cusips": [],
+   "issuerKeys": [
+    "MARVELL TECHNOLOGY"
+   ]
+  },
+  "amd": {
+   "cusips": [],
+   "issuerKeys": [
+    "ADVANCED MICRO DEVICES"
+   ]
+  },
+  "crwd": {
+   "cusips": [],
+   "issuerKeys": [
+    "CROWDSTRIKE"
+   ]
+  },
+  "panw": {
+   "cusips": [],
+   "issuerKeys": [
+    "PALO ALTO NETWORKS"
+   ]
+  },
+  "rklb": {
+   "cusips": [],
+   "issuerKeys": [
+    "ROCKET LAB"
+   ]
+  },
+  "gev": {
+   "cusips": [],
+   "issuerKeys": [
+    "GE VERNOVA"
+   ]
+  },
+  "googl": {
+   "cusips": [
+    "02079K305",
+    "02079K107"
+   ],
+   "issuerKeys": [
+    "ALPHABET INC"
+   ]
+  },
+  "csco": {
+   "cusips": [],
+   "issuerKeys": [
+    "CISCO SYSTEMS"
+   ]
+  },
+  "asml": {
+   "cusips": [],
+   "issuerKeys": [
+    "ASML HOLDING"
+   ]
+  },
+  "gd": {
+   "cusips": [],
+   "issuerKeys": [
+    "GENERAL DYNAMICS"
+   ]
+  },
+  "lmt": {
+   "cusips": [],
+   "issuerKeys": [
+    "LOCKHEED MARTIN"
+   ]
+  },
+  "ceg": {
+   "cusips": [],
+   "issuerKeys": [
+    "CONSTELLATION ENERGY"
+   ]
+  },
+  "lhx": {
+   "cusips": [],
+   "issuerKeys": [
+    "L3HARRIS"
+   ]
+  },
+  "rtx": {
+   "cusips": [],
+   "issuerKeys": [
+    "RTX CORP",
+    "RAYTHEON TECHNOLOGIES"
+   ]
+  },
+  "etn": {
+   "cusips": [],
+   "issuerKeys": [
+    "EATON CORP"
+   ]
+  },
+  "bwxt": {
+   "cusips": [],
+   "issuerKeys": [
+    "BWX TECHNOLOGIES"
+   ]
+  },
+  "xom": {
+   "cusips": [],
+   "issuerKeys": [
+    "EXXON MOBIL"
+   ]
+  },
+  "ge": {
+   "cusips": [],
+   "issuerKeys": [
+    "GE AEROSPACE"
+   ]
+  },
+  "lite": {
+   "cusips": [],
+   "issuerKeys": [
+    "LUMENTUM"
+   ]
+  },
+  "cohr": {
+   "cusips": [],
+   "issuerKeys": [
+    "COHERENT CORP"
+   ]
+  },
+  "fn": {
+   "cusips": [],
+   "issuerKeys": [
+    "FABRINET"
+   ]
+  },
+  "axti": {
+   "cusips": [],
+   "issuerKeys": [
+    "AXT INC"
+   ]
+  }
+ },
+ "notCovered": {
+  "samsung": "韓國掛牌，13F 不涵蓋",
+  "delta": "台灣掛牌，13F 不涵蓋",
+  "allring": "台灣掛牌，13F 不涵蓋",
+  "yageo": "台灣掛牌，13F 不涵蓋"
+ }
+}

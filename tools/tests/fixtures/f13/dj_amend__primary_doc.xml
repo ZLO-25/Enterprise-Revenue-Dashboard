@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edgarSubmission xmlns="http://www.sec.gov/edgar/thirteenffiler" xmlns:com="http://www.sec.gov/edgar/common">
+  <schemaVersion>X0202</schemaVersion>
+  <headerData>
+    <submissionType>13F-HR/A</submissionType>
+    <filerInfo>
+      <liveTestFlag>LIVE</liveTestFlag>
+      <filer>
+        <credentials>
+          <cik>0000783412</cik>
+          <ccc>XXXXXXXX</ccc>
+        </credentials>
+        <fileNumber>028-15782</fileNumber>
+      </filer>
+      <periodOfReport>09-30-2025</periodOfReport>
+    </filerInfo>
+  </headerData>
+  <formData>
+    <coverPage>
+      <reportCalendarOrQuarter>09-30-2025</reportCalendarOrQuarter>
+      <isAmendment>true</isAmendment>
+      <amendmentNo>1</amendmentNo>
+      <amendmentInfo>
+        <amendmentType>RESTATEMENT</amendmentType>
+      </amendmentInfo>
+      <filingManager>
+        <name>DAILY JOURNAL CORP</name>
+        <address>
+          <com:street1>915 EAST FIRST STREET</com:street1>
+          <com:city>LOS ANGELES</com:city>
+          <com:stateOrCountry>CA</com:stateOrCountry>
+          <com:zipCode>90012</com:zipCode>
+        </address>
+      </filingManager>
+      <reportType>13F HOLDINGS REPORT</reportType>
+      <form13FFileNumber>028-15782</form13FFileNumber>
+      <provideInfoForInstruction5>N</provideInfoForInstruction5>
+    </coverPage>
+    <signatureBlock>
+      <name>Tu To</name>
+      <title>Chief Financial Officer</title>
+      <phone>213-229-5300</phone>
+      <signature>/s/ Tu To</signature>
+      <city>Los Angeles</city>
+      <stateOrCountry>CA</stateOrCountry>
+      <signatureDate>10-10-2025</signatureDate>
+    </signatureBlock>
+    <summaryPage>
+      <otherIncludedManagersCount>0</otherIncludedManagersCount>
+      <tableEntryTotal>4</tableEntryTotal>
+      <tableValueTotal>262245445</tableValueTotal>
+      <isConfidentialOmitted>false</isConfidentialOmitted>
+    </summaryPage>
+  </formData>
+</edgarSubmission>
