@@ -301,8 +301,8 @@ def main():
                     if trows < 20 or "四大雲端合計" not in (pg.text_content("#mxTrendTbl") or ""):
                         errs.append(f"總經頁資本支出趨勢表沒有渲染（列數 {trows}）")
                     if tna:
-                        pg.evaluate("document.querySelector('#mxTrendTbl .tr-tip').scrollIntoView({block: 'center'})")
-                        pg.wait_for_timeout(500)   # 頁面是平滑捲動，捲完才點（捲動事件會收起提示）
+                        pg.evaluate("document.querySelector('#mxTrendTbl .tr-tip').scrollIntoView({block: 'center', behavior: 'instant'})")
+                        pg.wait_for_timeout(200)   # 頁面設了平滑捲動，一定要用 behavior instant（否則捲動事件會在點擊後收起提示）
                         pg.click("#mxTrendTbl .tr-tip", timeout=5000)
                         pg.wait_for_timeout(150)
                         if not pg.evaluate("!!document.querySelector('.gl-tip') && !document.querySelector('.gl-tip').hidden && document.querySelector('.gl-tip').textContent.length > 3"):
